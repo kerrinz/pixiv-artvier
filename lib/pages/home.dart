@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/request/api_app.dart';
-import 'package:pixgem/widgets/pic_list_gird_sliver.dart';
+import 'package:pixgem/widgets/illust_waterfall_gird_sliver.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -149,7 +149,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                 // 推荐列表
                 Selector(
                   builder: (BuildContext context, List<CommonIllust> artworkList, Widget? child) {
-                    return PicListGirdSliver(
+                    return IllustWaterfallGirdSliver(
                       // 普通网格布局（图片）
                       artworkList: artworkList,
                       onLazyLoad: () {

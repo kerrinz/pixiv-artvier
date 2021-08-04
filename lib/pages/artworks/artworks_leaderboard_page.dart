@@ -4,7 +4,6 @@ import 'package:pixgem/config/ranking_mode_constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/artworks/illusts_gird_page.dart';
 import 'package:pixgem/request/api_app.dart';
-import 'package:pixgem/widgets/pic_list_gird.dart';
 import 'package:provider/provider.dart';
 
 class ArtworksLeaderboardPage extends StatefulWidget {

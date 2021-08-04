@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/widgets/pic_list_gird.dart';
+import 'package:pixgem/widgets/illust_waterfall_gird.dart';
 
 class IllustGirdTabPage extends StatefulWidget {
   final List<CommonIllust>? illustList; // 插画（或漫画）列表
@@ -26,7 +26,7 @@ class IllustGirdTabPageState extends State<IllustGirdTabPage> with AutomaticKeep
       onRefresh: () async{
         await widget.onRefresh();
       },
-      child: PicListGird(
+      child: IllustWaterfallGird(
         artworkList: widget.illustList ?? [],
         onLazyLoad: widget.onLazyLoad,
       ),
