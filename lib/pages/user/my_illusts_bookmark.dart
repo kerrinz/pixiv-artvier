@@ -5,7 +5,7 @@ import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/user/user_bookmarks_illust.dart';
 import 'package:pixgem/request/api_app.dart';
 import 'package:pixgem/store/global.dart';
-import 'package:pixgem/widgets/pic_list_gird_sliver.dart';
+import 'package:pixgem/widgets/illust_waterfall_gird_sliver.dart';
 import 'package:provider/provider.dart';
 
 class MyIllustsBookmarkPage extends StatefulWidget {
@@ -45,7 +45,7 @@ class _MyIllustsBookmarkState extends State<MyIllustsBookmarkPage> {
                 },
                 child: Selector(
                   builder: (BuildContext context, List<CommonIllust> illusts, Widget? child) {
-                    return PicListGirdSliver(
+                    return IllustWaterfallGirdSliver(
                       // 普通网格布局（图片）
                       artworkList: illusts,
                       limit: 1000,

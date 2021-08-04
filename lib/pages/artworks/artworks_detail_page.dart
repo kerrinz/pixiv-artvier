@@ -65,8 +65,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                                 child: ChangeNotifierProvider(
                                   create: (BuildContext context) => _providerComments,
                                   child: Consumer(
-                                    builder:
-                                        (BuildContext context, _IllustCommentsProvider provider, Widget? child) {
+                                    builder: (BuildContext context, _IllustCommentsProvider provider, Widget? child) {
                                       if (provider.isLoading) return _buildLoading(context);
                                       return _buildComments(context, provider);
                                     },
@@ -122,32 +121,35 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 )),
           ],
         ),
-        floatingActionButton:
-            // 悬浮收藏按钮
-            FloatingActionButton(
-                onPressed: () {
-                  postBookmark().then((value) {
-                    Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                  }).onError((error, stackTrace) {
-                    Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                  });
-                },
-                backgroundColor: Colors.grey.shade50,
-                child: Selector(builder: (BuildContext context, bool isBookmarked, Widget? child) {
-                  if (isBookmarked)
-                    return Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: 28,
-                    );
-                  return Icon(
-                    Icons.favorite_border_outlined,
-                    color: Colors.grey,
-                    size: 28,
-                  );
-                }, selector: (context, _IllustDetailProvider provider) {
-                  return provider.isBookmarked;
-                })),
+        // 悬浮收藏按钮
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            postBookmark().then((value) {
+              Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+            }).onError((error, stackTrace) {
+              Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+            });
+          },
+          backgroundColor: Colors.grey.shade50,
+          child: Selector(
+            builder: (BuildContext context, bool isBookmarked, Widget? child) {
+              if (isBookmarked)
+                return Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                  size: 28,
+                );
+              return Icon(
+                Icons.favorite_border_outlined,
+                color: Colors.grey,
+                size: 28,
+              );
+            },
+            selector: (context, _IllustDetailProvider provider) {
+              return provider.isBookmarked;
+            },
+          ),
+        ),
       ),
     );
   }
