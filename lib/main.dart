@@ -8,7 +8,6 @@ import 'package:pixgem/pages/login/select_login_method_page.dart';
 import 'package:pixgem/pages/settings/setting_current_account.dart';
 import 'package:pixgem/pages/user/user_detail_page.dart';
 import 'package:pixgem/store/global.dart';
-import 'package:pixgem/widgets/my_drawer.dart';
 
 import 'pages/user/my_illusts_bookmark.dart';
 

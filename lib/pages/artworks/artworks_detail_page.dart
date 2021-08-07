@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
+import 'package:pixgem/model_response/user/perload_user_least_info.dart';
 import 'package:pixgem/pages/comments_page.dart';
 import 'package:pixgem/request/api_app.dart';
 import 'package:pixgem/widgets/comment.dart';
@@ -66,7 +68,12 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                                   create: (BuildContext context) => _providerComments,
                                   child: Consumer(
                                     builder: (BuildContext context, _IllustCommentsProvider provider, Widget? child) {
-                                      if (provider.isLoading) return _buildLoading(context);
+                                      if (provider.isLoading)
+                                        return Container(
+                                          alignment: Alignment.center,
+                                          padding: EdgeInsets.all(16),
+                                          child: _buildLoading(context),
+                                        );
                                       return _buildComments(context, provider);
                                     },
                                   ),
@@ -154,15 +161,6 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     );
   }
 
-  // 构建循环加载动画
-  Widget _buildLoading(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      alignment: Alignment.center,
-      child: SizedBox(width: 24.0, height: 24.0, child: CircularProgressIndicator(strokeWidth: 2.0)),
-    );
-  }
-
   // 构建预览大图
   Widget _buildPreviewImage(BuildContext context) {
     return Consumer(builder: (BuildContext context, _IllustDetailProvider provider, Widget? child) {
@@ -191,13 +189,37 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
           }
           Navigator.of(context).pushNamed("artworks_view", arguments: argument);
         },
-        child: Image.network(
-          widget.info.imageUrls.medium,
-          headers: {"Referer": _referer},
+        child: CachedNetworkImage(
+          imageUrl: widget.info.imageUrls.large,
+          httpHeaders: {"Referer": _referer},
+          errorWidget: (context, url, error) {
+            return LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return Container(
+                  alignment: Alignment.center,
+                  width: constraints.maxWidth,
+                  height: widget.info.height / widget.info.width * constraints.maxWidth,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text("CNM"),
+                  ),
+                );
+              },
+            );
+          },
           // 加载时显示loading图标
-          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-            if (loadingProgress == null) return child;
-            return _buildLoading(context);
+          progressIndicatorBuilder: (BuildContext context, String url, DownloadProgress process) {
+            // if (loadingProgress == null) return child;
+            return LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return Container(
+                  alignment: Alignment.center,
+                  width: constraints.maxWidth,
+                  height: widget.info.height / widget.info.width * constraints.maxWidth,
+                  child: _buildLoading(context),
+                );
+              },
+            );
           },
         ),
       );
@@ -220,7 +242,9 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 flex: 1,
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamed("user_detail", arguments: widget.info.user.id);
+                    Navigator.of(context).pushNamed("user_detail",
+                        arguments: PreloadUserLeastInfo(
+                            widget.info.user.id, widget.info.user.name, widget.info.user.profileImageUrls.medium));
                   },
                   child: Padding(
                     padding: EdgeInsets.all(4.0),
@@ -423,6 +447,11 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
         ),
       ],
     );
+  }
+
+  // 构建循环加载动画
+  Widget _buildLoading(BuildContext context) {
+    return SizedBox(width: 24.0, height: 24.0, child: CircularProgressIndicator(strokeWidth: 2.0));
   }
 
   /* 收藏或者取消收藏插画 */

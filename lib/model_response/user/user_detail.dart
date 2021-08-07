@@ -76,7 +76,7 @@ class Profile_image_urls extends Object {
 class Profile extends Object {
 
   @JsonKey(name: 'webpage')
-  String webpage;
+  String? webpage;
 
   @JsonKey(name: 'gender')
   String gender;
@@ -129,11 +129,17 @@ class Profile extends Object {
   @JsonKey(name: 'total_novel_series')
   int totalNovelSeries;
 
+  @JsonKey(name: 'background_image_url')
+  String? backgroundImageUrl;
+
   @JsonKey(name: 'twitter_account')
   String twitterAccount;
 
   @JsonKey(name: 'twitter_url')
-  String twitterUrl;
+  String? twitterUrl;
+
+  @JsonKey(name: 'pawoo_url')
+  String? pawooUrl;
 
   @JsonKey(name: 'is_premium')
   bool isPremium;
