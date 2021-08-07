@@ -58,7 +58,7 @@ Map<String, dynamic> _$Profile_image_urlsToJson(Profile_image_urls instance) =>
 
 Profile _$ProfileFromJson(Map<String, dynamic> json) {
   return Profile(
-    json['webpage'] as String,
+    json['webpage'] as String?,
     json['gender'] as String,
     json['birth'] as String,
     json['birth_day'] as String,
@@ -77,10 +77,12 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
     json['total_illust_series'] as int,
     json['total_novel_series'] as int,
     json['twitter_account'] as String,
-    json['twitter_url'] as String,
+    json['twitter_url'] as String?,
     json['is_premium'] as bool,
     json['is_using_custom_profile_image'] as bool,
-  );
+  )
+    ..backgroundImageUrl = json['background_image_url'] as String?
+    ..pawooUrl = json['pawoo_url'] as String?;
 }
 
 Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
@@ -102,8 +104,10 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'total_illust_bookmarks_public': instance.totalIllustBookmarksPublic,
       'total_illust_series': instance.totalIllustSeries,
       'total_novel_series': instance.totalNovelSeries,
+      'background_image_url': instance.backgroundImageUrl,
       'twitter_account': instance.twitterAccount,
       'twitter_url': instance.twitterUrl,
+      'pawoo_url': instance.pawooUrl,
       'is_premium': instance.isPremium,
       'is_using_custom_profile_image': instance.isUsingCustomProfileImage,
     };
