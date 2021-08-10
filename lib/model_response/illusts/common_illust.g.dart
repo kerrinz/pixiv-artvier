@@ -87,7 +87,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     json['account'] as String,
     Profile_image_urls.fromJson(
         json['profile_image_urls'] as Map<String, dynamic>),
-    json['is_followed'] as bool,
+    json['is_followed'] as bool?,
   );
 }
 

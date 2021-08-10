@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:pixgem/config/constants.dart';
+import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
 import 'package:pixgem/model_response/illusts/illust_ranking.dart';
 import 'package:pixgem/model_response/illusts/illust_recommended.dart';
@@ -106,7 +108,6 @@ class ApiApp {
     return IllustComments.fromJson(json.decode(res.data));
   }
 
-
   /* 获取插画排行榜
    * @mode RankingModeConstants
    */
@@ -137,6 +138,37 @@ class ApiApp {
     return IllustRanking.fromJson(json.decode(res.data));
   }
 
+  // 关注某个用户，可选公开或者私密
+  Future<bool> addFollowUser({required userId, String restrict = CONSTANTS.restrict_public}) async {
+    Response res = await dio.post<String>(
+      "/v1/user/follow/add",
+      data: {
+        "user_id": userId,
+        "restrict": restrict,
+      },
+      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+    );
+    if (res.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+  // 取消关注某个用户
+  Future<bool> deleteFollowUser({required userId}) async {
+    Response res = await dio.post<String>(
+      "/v1/user/follow/delete",
+      data: {
+        "user_id": userId,
+      },
+      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+    );
+    if (res.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
   /* 获取用户的详细资料 */
   Future<UserDetail> getUserDetail({required userId}) async {
     Response res = await dio.get<String>(
@@ -150,19 +182,41 @@ class ApiApp {
     return UserDetail.fromJson(json.decode(res.data));
   }
 
+  /* 获取用户的作品列表 */
+  Future<CommonIllustList> getUserIllusts({required userId, String type = CONSTANTS.type_illusts}) async {
+    Response res = await dio.get<String>(
+      "/v1/user/$type",
+      queryParameters: {
+        "user_id": userId,
+        "filter": "for_ios",
+      },
+      options: Options(responseType: ResponseType.json),
+    );
+    return CommonIllustList.fromJson(json.decode(res.data));
+  }
+
+  /* 通用：加载更多/获取下一页数据
+  *  取得的jsonMap数据还需要 T.fromJson()转换 */
+  Future<Map<String, dynamic>> getNextUrlData({required String nextUrl}) async {
+    Response res = await dio.get<String>(
+      nextUrl,
+      options: Options(responseType: ResponseType.json),
+    );
+    return json.decode(res.data);
+  }
+
   /* 获取用户收藏的插画列表
    */
-  Future<UserBookmarksIllust> getUserBookmarksIllust(
-      {required String userId, required String type, required int page}) async {
+  Future<CommonIllustList> getUserBookmarksIllust({required userId, String restrict = CONSTANTS.restrict_public}) async {
     Response res = await dio.get<String>(
       "/v1/user/bookmarks/illust",
       queryParameters: {
         "user_id": userId,
-        "restrict": "public",
+        "restrict": restrict,
       },
       options: Options(responseType: ResponseType.json),
     );
-    return UserBookmarksIllust.fromJson(json.decode(res.data));
+    return CommonIllustList.fromJson(json.decode(res.data));
   }
 
   /* 获取用户收藏的小说列表
