@@ -487,7 +487,7 @@ class _IllustDetailProvider with ChangeNotifier {
 
   void setData(CommonIllust newData) {
     isBookmarked = newData.isBookmarked;
-    isFollowedAuthor = newData.user.isFollowed;
+    isFollowedAuthor = newData.user.isFollowed ?? false;
     notifyListeners();
   }
 

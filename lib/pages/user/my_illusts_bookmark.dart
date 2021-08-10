@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/user/user_bookmarks_illust.dart';
 import 'package:pixgem/request/api_app.dart';
 import 'package:pixgem/store/global.dart';
@@ -71,13 +72,13 @@ class _MyIllustsBookmarkState extends State<MyIllustsBookmarkPage> {
   }
 
   refreshAndSetData() async {
-    UserBookmarksIllust bookmarks = await ApiApp().getUserBookmarksIllust(page: 1, userId: GlobalStore.currentAccount!.user.id, type: "illust");
+    CommonIllustList bookmarks = await ApiApp().getUserBookmarksIllust(userId: GlobalStore.currentAccount!.user.id);
     _provider.setBookmarksList(list: bookmarks.illusts); // [重置]收藏list
     _provider.setPage(page: 1); // 页码[重置]为1
   }
 
   requestMoreBookmarks() async {
-    UserBookmarksIllust bookmarks = await ApiApp().getUserBookmarksIllust(page: _provider.page + 1, userId: GlobalStore.currentAccount!.user.id, type: "illust");
+    CommonIllustList bookmarks = await ApiApp().getUserBookmarksIllust(userId: GlobalStore.currentAccount!.user.id);
     _provider.addAllBookmarks(list: bookmarks.illusts); // [重置]收藏list
     _provider.pageAdd(); // 页码 + 1
   }

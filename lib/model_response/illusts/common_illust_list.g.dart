@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_illusts.dart';
+part of 'common_illust_list.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserIllusts _$UserIllustsFromJson(Map<String, dynamic> json) {
-  return UserIllusts(
+CommonIllustList _$CommonIllustListFromJson(Map<String, dynamic> json) {
+  return CommonIllustList(
     (json['illusts'] as List<dynamic>)
         .map((e) => CommonIllust.fromJson(e as Map<String, dynamic>))
         .toList(),
@@ -15,7 +15,7 @@ UserIllusts _$UserIllustsFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$UserIllustsToJson(UserIllusts instance) =>
+Map<String, dynamic> _$CommonIllustListToJson(CommonIllustList instance) =>
     <String, dynamic>{
       'illusts': instance.illusts,
       'next_url': instance.nextUrl,

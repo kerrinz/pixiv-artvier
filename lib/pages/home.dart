@@ -323,7 +323,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   Future requestNextIllusts() async {
     // 获取更多作品
     var artworks = await ApiApp().getNextRecommendedIllust(nextUrl: _listProvider.nextUrl);
-    _listProvider.addAllArtworks(list: artworks.illusts); // 添加作品list
+    _listProvider.addNextArtworks(list: artworks.illusts); // 添加作品list
     _listProvider.setNextUrl(artworks.nextUrl); // 更新nextUrl
   }
 
@@ -358,7 +358,7 @@ class _ListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addAllArtworks({required List<CommonIllust> list}) {
+  void addNextArtworks({required List<CommonIllust> list}) {
     artworkList = [...artworkList, ...list];
     notifyListeners();
   }
