@@ -121,7 +121,7 @@ class User extends Object {
   Profile_image_urls profileImageUrls;
 
   @JsonKey(name: 'is_followed')
-  bool isFollowed;
+  bool? isFollowed;
 
   User(this.id,this.name,this.account,this.profileImageUrls,this.isFollowed,);
 

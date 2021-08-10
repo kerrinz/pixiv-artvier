@@ -6,6 +6,7 @@ class IllustGirdTabPage extends StatefulWidget {
   final List<CommonIllust>? illustList; // 插画（或漫画）列表
   final Function onLazyLoad; // 加载更多的函数
   final RefreshCallback onRefresh; // 刷新的函数
+  ScrollController? scrollController;
 
   @override
   State<StatefulWidget> createState() => IllustGirdTabPageState();
@@ -14,7 +15,7 @@ class IllustGirdTabPage extends StatefulWidget {
     Key? key,
     required this.onLazyLoad,
     required this.onRefresh,
-    required this.illustList,
+    required this.illustList, this.scrollController,
   }) : super(key: key);
 }
 
@@ -29,6 +30,7 @@ class IllustGirdTabPageState extends State<IllustGirdTabPage> with AutomaticKeep
       child: IllustWaterfallGird(
         artworkList: widget.illustList ?? [],
         onLazyLoad: widget.onLazyLoad,
+        scrollController: widget.scrollController,
       ),
     );
   }

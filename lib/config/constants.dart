@@ -3,6 +3,13 @@ class CONSTANTS {
   static const String mode_safe = "safe";
   static const String mode_r18 = "r18";
 
+  static const String type_illusts = "illusts";
+  static const String type_manga = "manga";
+
+  // 公开or私人
+  static const String restrict_public = "public";
+  static const String restrict_private = "private";
+
   static const String referer = "https://www.pixiv.net/";
   static const String referer_artworks_base = "https://www.pixiv.net/artworks/";
   static const String stamp_url_base = "https://s.pximg.net/common/images/stamp/generated-stamps/"; // 用于表情图片的显示
