@@ -28,11 +28,17 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
   ScrollController _scrollController = ScrollController();
   late TabController _tabController;
 
-  List<Tab> _tabs = [
+  static const List<Tab> _tabs = [
     Tab(text: "作品"),
     Tab(text: "收藏"),
     Tab(text: "其他信息"),
   ];
+  static const List _infoIcons = [
+    Icons.transgender,
+    Icons.home_filled,
+    Icons.location_on,
+    Icons.comment,
+  ]; // 用户信息简化列表的图标
   static const double coverHeight = 135; // 用户封面背景高度
 
   @override
@@ -252,13 +258,89 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                   illustList: illusts,
                 );
               }),
-              // 其他信息
-              Text("cnm"),
+              // tab——其他信息
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0, top: 16, right: 16, bottom: 8),
+                      child: Text(
+                        "个人介绍",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      child: Card(
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(8.0),
+                          child: Selector(
+                            builder: (BuildContext context, UserDetail? detail, Widget? child) {
+                              if (detail == null) {
+                                return _buildLoading(context);
+                              }
+                              return Text.rich(
+                                TextSpan(
+                                  text: detail.user.comment,
+                                ),
+                                textAlign: TextAlign.left,
+                              );
+                            },
+                            selector: (context, _UserDetailProvider provider) {
+                              return provider.userDetail;
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    // 用户信息，图标列表
+                    Selector(
+                      builder: (BuildContext context, UserDetail? detail, Widget? child) {
+                        if (detail == null) {
+                          return Center(child: _buildLoading(context));
+                        }
+                        Map<IconData, String> map = {
+                          Icons.transgender: detail.profile.gender == "" ? "unknown" : detail.profile.gender,
+                          Icons.home_filled: detail.profile.webpage ?? "unknown",
+                          Icons.location_on: detail.profile.region == "" ? "unknown" : detail.profile.region,
+                          Icons.comment: detail.profile.twitterUrl ?? "unknown",
+                        };
+                        return Container(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              var iconKey = map.keys.elementAt(index);
+                              return Row(
+                                children: [
+                                  Padding(padding: const EdgeInsets.all(16.0), child: Icon(iconKey)),
+                                  Expanded(flex: 1, child: Text(map[iconKey] ?? "unknown")),
+                                ],
+                              );
+                            },
+                            itemCount: map.length,
+                          ),
+                        );
+                      },
+                      selector: (context, _UserDetailProvider provider) {
+                        return provider.userDetail;
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  // 构建循环加载动画
+  Widget _buildLoading(BuildContext context) {
+    return SizedBox(width: 24.0, height: 24.0, child: CircularProgressIndicator(strokeWidth: 2.0));
   }
 
   // 构建关注按钮
@@ -286,9 +368,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
         },
         style: OutlinedButton.styleFrom(
           primary: isFollowed ? Theme.of(context).unselectedWidgetColor : Colors.white,
-          backgroundColor: isFollowed
-              ? Theme.of(context).bottomAppBarColor
-              : Theme.of(context).accentColor,
+          backgroundColor: isFollowed ? Theme.of(context).bottomAppBarColor : Theme.of(context).accentColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(32),
           ),
@@ -313,7 +393,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
   }
 
   Future refreshList(int tabIndex) async {
-    switch(tabIndex) {
+    switch (tabIndex) {
       case 0: // 获取作品列表
         CommonIllustList userIllusts = await ApiApp().getUserIllusts(userId: widget.leastInfo.id);
         _provider.setUserIllusts(userIllusts);
@@ -345,7 +425,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
     else
       isSucceed = await ApiApp().addFollowUser(userId: widget.leastInfo.id);
     if (isSucceed)
-      _provider.setFollowed(! _provider.isFollowedAuthor!);
+      _provider.setFollowed(!_provider.isFollowedAuthor!);
     else
       Future.error("Request follow failed!");
   }

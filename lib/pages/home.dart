@@ -33,150 +33,14 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // 内容主体
-        ChangeNotifierProvider(
-          create: (BuildContext context) => _listProvider,
-          child: RefreshIndicator(
-            // 下拉刷新
-            onRefresh: () async {
-              await refreshAndSetData().then((value) {
-                Fluttertoast.showToast(msg: "刷新成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-              }).catchError((onError) {
-                Fluttertoast.showToast(msg: "Error！刷新失败", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                print(onError);
-              }).whenComplete(() => _listProvider.setLoading(false));
-              // await saveAccount();
-            },
-
-            child: CustomScrollView(
-              slivers: [
-                SliverPadding(padding: EdgeInsets.only(top: kToolbarHeight + MediaQuery
-                    .of(context)
-                    .padding
-                    .top)),
-                // 排行榜头部
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 12, top: 4),
-                    child: Flex(
-                      direction: Axis.horizontal,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.leaderboard_rounded,
-                                color: Colors.amber,
-                                size: 24,
-                              ),
-                              Text(
-                                " 插画排行榜",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("artworks_leaderboard");
-                          },
-                          // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text("更多"),
-                              Icon(Icons.chevron_right),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // 排行榜卡片列表
-                Selector(
-                  builder: (BuildContext context, List<CommonIllust> rankingList, Widget? child) {
-                    return buildLeaderboardCardList(context, rankingList);
-                  },
-                  selector: (context, _ListProvider provider) {
-                    return provider.rankingList;
-                  },
-                ),
-                // 推荐头部
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 12, top: 4),
-                    child: Flex(
-                      direction: Axis.horizontal,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.favorite_rounded,
-                                color: Colors.deepOrange,
-                                size: 24,
-                              ),
-                              Text(
-                                " 为你推荐",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text("更多"),
-                              Icon(Icons.chevron_right),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // 推荐列表
-                Selector(
-                  builder: (BuildContext context, List<CommonIllust> artworkList, Widget? child) {
-                    return IllustWaterfallGirdSliver(
-                      // 普通网格布局（图片）
-                      artworkList: artworkList,
-                      onLazyLoad: () {
-                        // 不在加载中才能获取下一页的数据，以防重复获取同页数据
-                        if (!this._isLoadingMore) {
-                          this._isLoadingMore = true;
-                          requestNextIllusts().catchError((onError) {
-                            Fluttertoast.showToast(msg: "获取更多作品失败！", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                          }).whenComplete(() => this._isLoadingMore = false);
-                        }
-                      },
-                    );
-                  },
-                  selector: (context, _ListProvider provider) {
-                    return provider.artworkList;
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-        // appbar/toolbar
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: AppBar(
+    return NestedScrollView(
+      // controller: _scrollController,
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return [
+          SliverAppBar(
+            // pinned: true,
+            floating: true,
+            snap: true,
             title: Text(
               "Pixgem",
               style: TextStyle(fontSize: 18),
@@ -194,9 +58,141 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                 tooltip: "回到顶部",
               ),
             ],
+          )
+        ];
+      },
+      // 内容主体
+      body: ChangeNotifierProvider(
+        create: (BuildContext context) => _listProvider,
+        child: RefreshIndicator(
+          // 下拉刷新
+          onRefresh: () async {
+            await refreshAndSetData().then((value) {
+              Fluttertoast.showToast(msg: "刷新成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+            }).catchError((onError) {
+              Fluttertoast.showToast(msg: "Error！刷新失败", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+              print(onError);
+            }).whenComplete(() => _listProvider.setLoading(false));
+            // await saveAccount();
+          },
+          child: CustomScrollView(
+            // controller: _scrollController,
+            slivers: [
+              // 排行榜头部
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 12, top: 4),
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.leaderboard_rounded,
+                              color: Colors.amber,
+                              size: 24,
+                            ),
+                            Text(
+                              " 插画排行榜",
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed("artworks_leaderboard");
+                        },
+                        // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("更多"),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // 排行榜卡片列表
+              Selector(
+                builder: (BuildContext context, List<CommonIllust> rankingList, Widget? child) {
+                  return buildLeaderboardCardList(context, rankingList);
+                },
+                selector: (context, _ListProvider provider) {
+                  return provider.rankingList;
+                },
+              ),
+              // 推荐头部
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 12, top: 4),
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.favorite_rounded,
+                              color: Colors.deepOrange,
+                              size: 24,
+                            ),
+                            Text(
+                              " 为你推荐",
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("更多"),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // 推荐列表
+              Selector(
+                builder: (BuildContext context, List<CommonIllust> artworkList, Widget? child) {
+                  return IllustWaterfallGirdSliver(
+                    // 普通网格布局（图片）
+                    artworkList: artworkList,
+                    onLazyLoad: () {
+                      // 不在加载中才能获取下一页的数据，以防重复获取同页数据
+                      if (!this._isLoadingMore) {
+                        this._isLoadingMore = true;
+                        requestNextIllusts().catchError((onError) {
+                          Fluttertoast.showToast(msg: "获取更多作品失败！", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                        }).whenComplete(() => this._isLoadingMore = false);
+                      }
+                    },
+                  );
+                },
+                selector: (context, _ListProvider provider) {
+                  return provider.artworkList;
+                },
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 
@@ -313,7 +309,8 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   // 请求并设置数据，返回Future
   Future refreshAndSetData() async {
     var artworks = await ApiApp().getFirstRecommendedIllust();
-    _listProvider.setData(artworkList: artworks.illusts,
+    _listProvider.setData(
+        artworkList: artworks.illusts,
         rankingList: artworks.rankingIllusts, // 排行榜
         isLoading: false, // 停止加载
         nextUrl: artworks.nextUrl); // 下一组作品数据的访问地址
@@ -339,8 +336,11 @@ class _ListProvider with ChangeNotifier {
   late String nextUrl; // 加载更多的访问地址
   bool isLoading = true; // 是否正在加载中
 
-  void setData({required List<CommonIllust> artworkList, required List<
-      CommonIllust> rankingList, bool isLoading = false, required String nextUrl}) {
+  void setData(
+      {required List<CommonIllust> artworkList,
+      required List<CommonIllust> rankingList,
+      bool isLoading = false,
+      required String nextUrl}) {
     this.artworkList = artworkList;
     this.rankingList = rankingList;
     this.isLoading = isLoading;
