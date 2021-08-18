@@ -35,7 +35,10 @@ class AccountStore {
   // 添加或覆盖单个账号信息
   static Future updateAccountProfile(AccountProfile profile) async {
     Map<String, AccountProfile>? map = await getAllAccountsProfile();
-    if (map == null) return Future.error("allAccountsProfile no found!");
+    if (map == null) {
+      print("allAccountsProfile no found, create a new profile");
+      map = new Map();
+    }
     map[profile.user.id] = profile;
     return setAllAccountsProfile(map);
   }

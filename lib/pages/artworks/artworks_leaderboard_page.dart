@@ -43,7 +43,7 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
       create: (BuildContext context) => _provider,
       child: Scaffold(
         body: NestedScrollView(
-          controller: _scrollController,
+          // controller: _scrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             List<Widget> tabs = [];
             this._tabsMap.forEach((key, value) {
@@ -52,7 +52,7 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
             return [
               SliverAppBar(
                 pinned: true,
-                snap: false,
+                snap: true,
                 floating: true,
                 title: Text("排行榜"),
                 bottom: TabBar(
