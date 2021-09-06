@@ -56,7 +56,7 @@ class IllustWaterfallGirdSliverState extends State<IllustWaterfallGirdSliver> wi
         // crossAxisSpacing: 4,
         // mainAxisSpacing: 4,
         collectGarbage: (List<int> garbages) {
-          print('collect garbage : $garbages');
+          // print('collect garbage : $garbages');
           // 内存回收
           int end = garbages.last;
           for (int i = garbages.first; i <= end; i++) {

@@ -29,7 +29,7 @@ class IllustWaterfallGirdState extends State<IllustWaterfallGird> {
         // crossAxisSpacing: 4,
         // mainAxisSpacing: 4,
         collectGarbage: (List<int> garbages) {
-          print('collect garbage : $garbages');
+          // print('collect garbage : $garbages');
           garbages.forEach((index) {
             final provider = CachedNetworkImageProvider(
               widget.artworkList[index].imageUrls.medium,

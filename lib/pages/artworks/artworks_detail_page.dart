@@ -170,7 +170,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       //     height: 300,
       //     padding: const EdgeInsets.only(left: 0, right: 0, top: 72, bottom: 72),
       //     alignment: Alignment.center,
-      //     child: SizedBox(width: 24.0, height: 24.0, child: CircularProgressIndicator(strokeWidth: 2.0)),
+      //     child: _buildLoading(context),
       //   );
       // 取得数据后，加载图片
       return GestureDetector(
