@@ -6,6 +6,8 @@ import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
 import 'package:pixgem/model_response/illusts/illust_ranking.dart';
 import 'package:pixgem/model_response/illusts/illust_recommended.dart';
+import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
+import 'package:pixgem/model_response/illusts/illusts_search_result.dart';
 import 'package:pixgem/model_response/user/user_bookmarks_novel.dart';
 import 'package:pixgem/model_response/user/user_bookmarks_illust.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
@@ -43,7 +45,8 @@ class ApiApp {
   void init() {
     // 带上一些参数
     if (GlobalStore.currentAccount != null) {
-      dio.options.headers["authorization"] = "Bearer " + GlobalStore.currentAccount!.accessToken; // token
+      dio.options.headers["authorization"] =
+          "Bearer " + GlobalStore.currentAccount!.accessToken; // token
       dio.options.headers["accept-language"] = "zh-cn"; // 接口返回的语言
     }
     // 添加拦截器
@@ -54,7 +57,8 @@ class ApiApp {
   void updateToken() {
     // 带上一些参数
     if (GlobalStore.currentAccount != null) {
-      dio.options.headers["authorization"] = "Bearer " + GlobalStore.currentAccount!.accessToken; // token
+      dio.options.headers["authorization"] =
+          "Bearer " + GlobalStore.currentAccount!.accessToken; // token
     }
   }
 
@@ -75,7 +79,8 @@ class ApiApp {
 
   /* 获取下一页推荐插画（加载更多）
    */
-  Future<IllustRecommended> getNextRecommendedIllust({required String nextUrl}) async {
+  Future<IllustRecommended> getNextRecommendedIllust(
+      {required String nextUrl}) async {
     var time = OAuth.getXClientTime(new DateTime.now());
     Dio cacheDio = new Dio(BaseOptions(
       contentType: Headers.jsonContentType,
@@ -111,7 +116,8 @@ class ApiApp {
   /* 获取插画排行榜
    * @mode RankingModeConstants
    */
-  Future<IllustRanking> getIllustRanking({required String mode, int? offset, String? date}) async {
+  Future<IllustRanking> getIllustRanking(
+      {required String mode, int? offset, String? date}) async {
     var query = Map<String, dynamic>();
     query.addAll({
       "filter": "for_ios",
@@ -139,14 +145,17 @@ class ApiApp {
   }
 
   // 关注某个用户，可选公开或者私密
-  Future<bool> addFollowUser({required userId, String restrict = CONSTANTS.restrict_public}) async {
+  Future<bool> addFollowUser(
+      {required userId, String restrict = CONSTANTS.restrict_public}) async {
     Response res = await dio.post<String>(
       "/v1/user/follow/add",
       data: {
         "user_id": userId,
         "restrict": restrict,
       },
-      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+      options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+          responseType: ResponseType.json),
     );
     if (res.statusCode == 200) {
       return true;
@@ -161,7 +170,9 @@ class ApiApp {
       data: {
         "user_id": userId,
       },
-      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+      options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+          responseType: ResponseType.json),
     );
     if (res.statusCode == 200) {
       return true;
@@ -183,7 +194,8 @@ class ApiApp {
   }
 
   /* 获取用户的作品列表 */
-  Future<CommonIllustList> getUserIllusts({required userId, String type = CONSTANTS.type_illusts}) async {
+  Future<CommonIllustList> getUserIllusts(
+      {required userId, String type = CONSTANTS.type_illusts}) async {
     Response res = await dio.get<String>(
       "/v1/user/$type",
       queryParameters: {
@@ -207,7 +219,8 @@ class ApiApp {
 
   /* 获取用户收藏的插画列表
    */
-  Future<CommonIllustList> getUserBookmarksIllust({required userId, String restrict = CONSTANTS.restrict_public}) async {
+  Future<CommonIllustList> getUserBookmarksIllust(
+      {required userId, String restrict = CONSTANTS.restrict_public}) async {
     Response res = await dio.get<String>(
       "/v1/user/bookmarks/illust",
       queryParameters: {
@@ -238,7 +251,10 @@ class ApiApp {
    * @isPublic 是否公开
    * @illustId 插画id
    */
-  Future<bool> addIllustBookmark({required String illustId, bool isPublic = true, List<String>? tags}) async {
+  Future<bool> addIllustBookmark(
+      {required String illustId,
+      bool isPublic = true,
+      List<String>? tags}) async {
     var baseData = {
       'illust_id': illustId,
       "restrict": isPublic ? "public" : "private",
@@ -253,7 +269,9 @@ class ApiApp {
     Response res = await dio.post<String>(
       "/v2/illust/bookmark/add",
       data: formData,
-      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+      options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+          responseType: ResponseType.json),
     );
     if (res.statusCode == 200) {
       return true;
@@ -270,11 +288,50 @@ class ApiApp {
       data: {
         'illust_id': illustId,
       },
-      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+      options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+          responseType: ResponseType.json),
     );
     if (res.statusCode == 200) {
       return true;
     }
     return false;
+  }
+
+  /* 搜索的热门标签
+   */
+  Future<IllustTrendingTags> getTrendingTags() async {
+    Response res = await dio.get<String>(
+      "/v1/trending-tags/illust",
+      queryParameters: {
+        "filter": "for_ios",
+      },
+      options: Options(responseType: ResponseType.json),
+    );
+    return IllustTrendingTags.fromJson(json.decode(res.data));
+  }
+
+  /* 搜索插画
+   * @illustId 插画id
+   */
+  Future<IllustsSearchResult> searchIllust({
+    required String searchWord,
+    includeTranslatedTag = true,
+    sort = "date_desc",
+    searchTarget = "partial_match_for_tags",
+  }) async {
+    Response res = await dio.get<String>(
+      "/v1/search/illust",
+      queryParameters: {
+        "include_translated_tag_results": includeTranslatedTag,
+        "merge_plain_keyword_results": true,
+        "sort": sort,
+        "word": searchWord,
+        "search_target": searchTarget,
+        "filter": "for_ios",
+      },
+      options: Options(responseType: ResponseType.json),
+    );
+    return IllustsSearchResult.fromJson(json.decode(res.data));
   }
 }

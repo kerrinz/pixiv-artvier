@@ -5,6 +5,8 @@ import 'package:pixgem/pages/artworks/artworks_leaderboard_page.dart';
 import 'package:pixgem/pages/artworks/preview_artworks_page.dart';
 import 'package:pixgem/pages/home.dart';
 import 'package:pixgem/pages/login/select_login_method_page.dart';
+import 'package:pixgem/pages/search/search_home_tabpage.dart';
+import 'package:pixgem/pages/search/search_result_page.dart';
 import 'package:pixgem/pages/settings/setting_current_account.dart';
 import 'package:pixgem/pages/user/user_detail_page.dart';
 import 'package:pixgem/store/global.dart';
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
           "my_illusts_bookmark": (context) => MyIllustsBookmarkPage(),
           "user_detail": (context) => UserDetailPage(settings.arguments!),
           "setting_current_account": (context) => SettingCurrentAccountPage(),
+          "search_result": (context) => SearchResultPage(settings.arguments!),
         };
         WidgetBuilder builder = routes[settings.name]!;
         return MaterialPageRoute(builder: (context) => builder(context));
@@ -78,8 +81,8 @@ class MainPageState extends State<MainPage> {
   // 分页组
   final List<Widget> _pages = [
     HomePage(),
+    SearchTabPage(),
     SelectLoginPage(),
-    // SelectLoginPage(),
     // SelectLoginPage(),
     // SelectLoginPage(),
   ];
@@ -103,7 +106,7 @@ class MainPageState extends State<MainPage> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页", tooltip: "首页"),
           // BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "新作/发现", tooltip: "新作"),
-          // BottomNavigationBarItem(icon: Icon(Icons.search), label: "搜索", tooltip: "搜索"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "搜索", tooltip: "搜索"),
           // BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "我的", tooltip: "搜索"),
           BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: "更多", tooltip: "更多"),
         ],
