@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:pixgem/pages/artworks/artworks_detail_page.dart';
 import 'package:pixgem/pages/artworks/artworks_leaderboard_page.dart';
 import 'package:pixgem/pages/artworks/preview_artworks_page.dart';
-import 'package:pixgem/pages/home.dart';
+import 'package:pixgem/pages/home_navigation_tab_pages/home_tabpage.dart';
+import 'package:pixgem/pages/home_navigation_tab_pages/mine_home_tabpage.dart';
 import 'package:pixgem/pages/login/select_login_method_page.dart';
-import 'package:pixgem/pages/search/search_home_tabpage.dart';
+import 'package:pixgem/pages/home_navigation_tab_pages/search_home_tabpage.dart';
 import 'package:pixgem/pages/search/search_result_page.dart';
 import 'package:pixgem/pages/settings/setting_current_account.dart';
 import 'package:pixgem/pages/user/user_detail_page.dart';
@@ -79,10 +80,10 @@ class MainPage extends StatefulWidget {
 class MainPageState extends State<MainPage> {
   int _currentIndex = 0; // 当前分页
   // 分页组
-  final List<Widget> _pages = [
+  List<Widget> _pages = [
     HomePage(),
     SearchTabPage(),
-    SelectLoginPage(),
+    MineTabPage(),
     // SelectLoginPage(),
     // SelectLoginPage(),
   ];
@@ -108,14 +109,14 @@ class MainPageState extends State<MainPage> {
           // BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "新作/发现", tooltip: "新作"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "搜索", tooltip: "搜索"),
           // BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "我的", tooltip: "搜索"),
-          BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: "更多", tooltip: "更多"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "我的", tooltip: "我的"),
         ],
         fixedColor: Theme.of(context).accentColor,
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         onTap: (int index) {
           // 切换页面
-          _pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
+          _pageController.jumpToPage(index);
         },
       ),
     );
