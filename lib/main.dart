@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
           "my_illusts_bookmark": (context) => MyIllustsBookmarkPage(),
           "user_detail": (context) => UserDetailPage(settings.arguments!),
           "setting_current_account": (context) => SettingCurrentAccountPage(),
+          "login_navigator": (context) => SelectLoginPage(),
           "search_result": (context) => SearchResultPage(settings.arguments!),
         };
         WidgetBuilder builder = routes[settings.name]!;

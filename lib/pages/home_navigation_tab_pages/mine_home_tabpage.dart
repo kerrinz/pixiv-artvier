@@ -24,7 +24,18 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
           actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.color_lens)),
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed("login_navigator");
+              },
+              icon: Icon(Icons.switch_account_outlined),
+              tooltip: "多帐号管理",
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.color_lens),
+              tooltip: "主题",
+            ),
           ],
         ),
         body: Column(
@@ -41,11 +52,9 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
   Widget _buildUserCard(BuildContext context) {
     return InkWell(
       onTap: () {
-        var user = PreloadUserLeastInfo(
-            int.parse(_provider.accountProfile!.user.id), _provider.accountProfile!.user.name,
-            _provider.accountProfile!.user.profileImageUrls!.px170x170);
-        Navigator.of(context)
-            .pushNamed("user_detail", arguments: user);
+        var user = PreloadUserLeastInfo(int.parse(_provider.accountProfile!.user.id),
+            _provider.accountProfile!.user.name, _provider.accountProfile!.user.profileImageUrls!.px170x170);
+        Navigator.of(context).pushNamed("user_detail", arguments: user);
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),

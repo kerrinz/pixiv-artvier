@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/pages/login/login_by_web_page.dart';
-import 'package:pixgem/pages/settings/setting_current_account.dart';
 
 class SelectLoginPage extends StatelessWidget {
   @override
