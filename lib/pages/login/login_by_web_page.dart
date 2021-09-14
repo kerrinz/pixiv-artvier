@@ -29,12 +29,10 @@ class _LoginWebState extends State {
     return Scaffold(
       appBar: new AppBar(
         title: new Text('使用网页登录'),
-        backgroundColor: Colors.blueGrey,
       ),
       body: WebView(
         javascriptMode: JavascriptMode.unrestricted,
-        onPageFinished: (url) {
-        },
+        onPageFinished: (url) {},
         onWebViewCreated: (controller) {
           _controller = controller;
         },
@@ -47,13 +45,13 @@ class _LoginWebState extends State {
               // OAuth登录
               oAuthLogin(code).then((value) {
                 print("Login success!");
-                Navigator.pushNamedAndRemoveUntil(
-                    context, "main", (route) => route == null);
+                Navigator.pushNamedAndRemoveUntil(context, "main", (route) => route == null);
               }).catchError((onError) {
                 print(onError);
                 // 待处理登录失败的逻辑
               });
-            } else print("code=null");
+            } else
+              print("code=null");
             return NavigationDecision.prevent;
           }
           return NavigationDecision.navigate;

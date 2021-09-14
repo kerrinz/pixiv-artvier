@@ -28,7 +28,7 @@ class AccountManagePageState extends State<AccountManagePage> {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed("login_navigator");
+                Navigator.of(context).pushNamed("login_wizard");
               },
               icon: Icon(Icons.add),
               tooltip: "添加帐号",
@@ -43,7 +43,10 @@ class AccountManagePageState extends State<AccountManagePage> {
                   // 帐号列表
                   builder: (BuildContext context, Map<String, AccountProfile>? profilesMap, Widget? child) {
                     if (profilesMap == null) {
-                      return SizedBox(width: 24.0, height: 24.0, child: CircularProgressIndicator(strokeWidth: 2.0));
+                      return SizedBox(
+                          width: 24.0,
+                          height: 24.0,
+                          child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor));
                     }
                     return ListView.builder(
                       itemBuilder: (BuildContext context, int index) {

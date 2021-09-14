@@ -62,8 +62,8 @@ class AccountStore {
     return accountsMap[currentId];
   }
 
-  // 删除当前账号（退出当前账号）
-  static Future removeCurrentAccount() async {
+  // 退出当前账号
+  static Future logoutCurrent() async {
     String id = await _preferences.getString(CURRENT_ACCOUNT_ID);
     await _preferences.remove(CURRENT_ACCOUNT_ID);
     await removeAccountProfileById(userId: id);
