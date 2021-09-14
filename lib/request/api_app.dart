@@ -53,7 +53,7 @@ class ApiApp {
     dio.interceptors.add(RefreshTokenInterceptor());
   }
 
-  // 更新token
+  // 更新全局dio请求头的token
   void updateToken() {
     // 带上一些参数
     if (GlobalStore.currentAccount != null) {

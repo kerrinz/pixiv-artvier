@@ -4,11 +4,13 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/request/api_app.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
+import 'package:provider/provider.dart';
 
 class OAuth {
   static const String BASE_OAUTH_URL_HOST = "oauth.secure.pixiv.net";
@@ -90,8 +92,8 @@ class OAuth {
     return AccountProfile.fromJson(json.decode(res.data));
   }
 
-  // 刷新token，并自动更新到全局资源
-  Future<AccountProfile> refreshAndSetToken({required String refreshToken}) async {
+  // 刷新token
+  Future<AccountProfile> refreshToken(String refreshToken) async {
     Response res = await dio.post<String>(
       "/auth/token",
       data: {
@@ -106,13 +108,16 @@ class OAuth {
         responseType: ResponseType.json,
       ),
     );
-    var profile = AccountProfile.fromJson(json.decode(res.data));
+    return AccountProfile.fromJson(json.decode(res.data));
+  }
+
+  // 保存token到当前帐号
+  Future saveTokenToCurrent(AccountProfile profile) async {
     profile.expiredTimestamp = requestTime + profile.expiresIn*1000; // 添加token的过期时间戳
     await AccountStore.updateAccountProfile(profile); // 存储或更新账号信息
     await AccountStore.setCurrentAccountId(id: profile.user.id); // 存储当前账号id
-    GlobalStore.changeCurrentAccount(profile); // 切换全局账号信息
-    ApiApp().updateToken();
-    return profile;
+    GlobalStore.globalProvider.setCurrentAccount(profile); // 设置全局账号配置并通知更新UI；
+    ApiApp().updateToken(); // dio更新请求头token
   }
 
   // 生成code_verifier，即生成随机字符串并进行base64Url处理
