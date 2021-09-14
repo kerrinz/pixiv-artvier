@@ -30,7 +30,7 @@ class AccountsProfile  {
 class AccountProfile extends Object {
 
   @JsonKey(name: 'expired_timestamp')
-  int? expiredTimestamp; // token过期时间戳（将来时）
+  int? expiredTimestamp; // （非api字段）token过期时间戳
 
   @JsonKey(name: 'access_token')
   String accessToken;

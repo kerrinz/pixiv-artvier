@@ -1,10 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/request/oauth.dart';
-import 'package:pixgem/store/account_store.dart';
-import 'package:pixgem/store/global.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginWebPage extends StatefulWidget {
@@ -17,6 +16,13 @@ class LoginWebPage extends StatefulWidget {
 class _LoginWebState extends State {
   late WebViewController _controller;
   String codeChallenge = "";
+
+  @override
+  void initState() {
+    super.initState();
+    // WebView使用Hybrid composition模式以避免安全键盘无法弹出的问题
+    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +51,7 @@ class _LoginWebState extends State {
                     context, "main", (route) => route == null);
               }).catchError((onError) {
                 print(onError);
+                // 待处理登录失败的逻辑
               });
             } else print("code=null");
             return NavigationDecision.prevent;
@@ -75,9 +82,12 @@ class _LoginWebState extends State {
 
   // OAuth2.1登录方式
   Future oAuthLogin(code) async {
-    // 请求token（含用户其他数据）
+    // 请求用户数据（含token）
     AccountProfile profile = await OAuth().requestToken(code: code);
+
     // 刷新一次token
-    return await OAuth().refreshAndSetToken(refreshToken: profile.refreshToken);
+    var newProfile = await OAuth().refreshToken(profile.refreshToken);
+    // 保存新配置
+    await OAuth().saveTokenToCurrent(newProfile);
   }
 }

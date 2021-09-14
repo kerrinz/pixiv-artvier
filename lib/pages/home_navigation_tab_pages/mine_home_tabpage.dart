@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/user/perload_user_least_info.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/store/account_store.dart';
+import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
 
 class MineTabPage extends StatefulWidget {
@@ -12,38 +13,33 @@ class MineTabPage extends StatefulWidget {
 }
 
 class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientMixin {
-  _MineTabPageProvider _provider = _MineTabPageProvider();
-
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => _provider,
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed("login_navigator");
-              },
-              icon: Icon(Icons.switch_account_outlined),
-              tooltip: "多帐号管理",
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.color_lens),
-              tooltip: "主题",
-            ),
-          ],
-        ),
-        body: Column(
-          children: [
-            _buildUserCard(context),
-            Text("CNM"),
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed("account_manage");
+            },
+            icon: Icon(Icons.switch_account_outlined),
+            tooltip: "多帐号管理",
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.color_lens),
+            tooltip: "主题",
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          _buildUserCard(context),
+          Text("CNM"),
+        ],
       ),
     );
   }
@@ -52,8 +48,8 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
   Widget _buildUserCard(BuildContext context) {
     return InkWell(
       onTap: () {
-        var user = PreloadUserLeastInfo(int.parse(_provider.accountProfile!.user.id),
-            _provider.accountProfile!.user.name, _provider.accountProfile!.user.profileImageUrls!.px170x170);
+        var user = PreloadUserLeastInfo(int.parse(GlobalStore.currentAccount!.user.id),
+            GlobalStore.currentAccount!.user.name, GlobalStore.currentAccount!.user.profileImageUrls!.px170x170);
         Navigator.of(context).pushNamed("user_detail", arguments: user);
       },
       child: Padding(
@@ -72,8 +68,8 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                       width: 64,
                       height: 64,
                       child: Selector(
-                        selector: (BuildContext context, _MineTabPageProvider provider) {
-                          return provider.accountProfile;
+                        selector: (BuildContext context, GlobalProvider provider) {
+                          return provider.currentAccount;
                         },
                         builder: (BuildContext context, AccountProfile? profile, Widget? child) {
                           // 未登录或者原本就无头像用户
@@ -88,8 +84,8 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                   // 昵称、帐号
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Selector(selector: (BuildContext context, _MineTabPageProvider provider) {
-                      return provider.accountProfile;
+                    child: Selector(selector: (BuildContext context, GlobalProvider provider) {
+                      return provider.currentAccount;
                     }, builder: (BuildContext context, AccountProfile? profile, Widget? child) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,17 +125,14 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
   @override
   void initState() {
     super.initState();
-    AccountStore.getCurrentAccountProfile()
-        .then((value) => _provider.setAccountProfile(value!))
-        .catchError((onError) => Fluttertoast.showToast(msg: "加载失败!", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
+    readProfile();
   }
-}
 
-class _MineTabPageProvider with ChangeNotifier {
-  AccountProfile? accountProfile;
-
-  void setAccountProfile(AccountProfile profile) {
-    this.accountProfile = profile;
-    notifyListeners();
+  // 读取配置数据
+  void readProfile() {
+    AccountStore.getCurrentAccountProfile()
+        .then((value) => GlobalStore.globalProvider.setCurrentAccount(value!))
+        .catchError(
+            (onError) => Fluttertoast.showToast(msg: "加载失败!$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
   }
 }

@@ -12,8 +12,9 @@ class RefreshTokenInterceptor extends InterceptorsWrapper {
       // 未登录，打断施法
       print("未登录，打断施法");
     } else if (new DateTime.now().millisecondsSinceEpoch > (profile.expiredTimestamp ?? 0)) {
-      // token过期了，先给全局资源更新token
-      await OAuth().refreshAndSetToken(refreshToken: profile.refreshToken);
+      // token过期了，先获取含新token的profile
+      profile = await OAuth().refreshToken(profile.refreshToken);
+      await OAuth().saveTokenToCurrent(profile); // 保存变更的配置
       // 接着给当前发起的请求更新token
       options.headers["authorization"] = "Bearer " + GlobalStore.currentAccount!.accessToken;
       handler.next(options); // continue
