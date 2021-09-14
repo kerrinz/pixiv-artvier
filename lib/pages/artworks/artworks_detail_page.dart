@@ -348,12 +348,13 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                             ])),
                         // 浏览数
                         Expanded(
-                            flex: 1,
-                            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                              Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
-                              Text(" " + widget.info.totalView.toString(),
-                                  style: TextStyle(color: Colors.grey, fontSize: 14)),
-                            ])),
+                          flex: 1,
+                          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                            Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
+                            Text(" " + widget.info.totalView.toString(),
+                                style: TextStyle(color: Colors.grey, fontSize: 14)),
+                          ]),
+                        ),
                       ],
                     )),
                 // pic id
@@ -369,15 +370,27 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 // tags
                 Builder(
                   builder: (BuildContext context) {
-                    List<TextSpan> _tags = [];
+                    List<Widget> _tags = [];
                     // 遍历displayTags
                     widget.info.tags.forEach((element) {
-                      _tags.add(TextSpan(
-                          text: "#${element.name} ",
-                          style: TextStyle(color: Colors.blue.shade600, fontWeight: FontWeight.w600, fontSize: 15)));
-                      _tags.add(TextSpan(text: "${element.translatedName}  "));
+                      // tag标签
+                      _tags.add(
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed("search_result", arguments: element.name);
+                          },
+                          child: Text("#${element.name} ",
+                              style: TextStyle(color: Colors.blue.shade600, fontWeight: FontWeight.w600, fontSize: 15)),
+                        ),
+                      );
+                      // 标签的翻译文字
+                      _tags.add(
+                        Text("${element.translatedName}  "),
+                      );
                     });
-                    return Text.rich(TextSpan(children: _tags));
+                    return Wrap(
+                      children: _tags,
+                    );
                   },
                 )
               ],
