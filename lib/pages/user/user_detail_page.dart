@@ -340,7 +340,10 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
 
   // 构建循环加载动画
   Widget _buildLoading(BuildContext context) {
-    return SizedBox(width: 24.0, height: 24.0, child: CircularProgressIndicator(strokeWidth: 2.0));
+    return SizedBox(
+        width: 24.0,
+        height: 24.0,
+        child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor));
   }
 
   // 构建关注按钮
