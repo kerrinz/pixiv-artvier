@@ -301,7 +301,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
       child: Container(
         height: 200,
         alignment: Alignment.center,
-        child: CircularProgressIndicator(strokeWidth: 1.0),
+        child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).accentColor),
       ),
     );
   }

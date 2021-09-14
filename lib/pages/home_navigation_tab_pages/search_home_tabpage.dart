@@ -55,7 +55,7 @@ class SearchTabPageState extends State<SearchTabPage>
                 // loading
                 return Container(
                   alignment: Alignment.center,
-                  child: CircularProgressIndicator(strokeWidth: 1.0),
+                  child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).accentColor),
                 );
               }
               return TrendingTagsGird(

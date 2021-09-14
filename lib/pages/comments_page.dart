@@ -69,7 +69,10 @@ class _CommentsPageState extends State<CommentsPage> {
                     return Container(
                       padding: const EdgeInsets.all(16.0),
                       alignment: Alignment.center,
-                      child: SizedBox(width: 24.0, height: 24.0, child: CircularProgressIndicator(strokeWidth: 2.0)),
+                      child: SizedBox(
+                          width: 24.0,
+                          height: 24.0,
+                          child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor)),
                     );
                   } else {
                     //已经加载完全部数据，不再获取
@@ -107,7 +110,10 @@ class _CommentsPageState extends State<CommentsPage> {
     return Container(
       padding: const EdgeInsets.all(16.0),
       alignment: Alignment.center,
-      child: SizedBox(width: 24.0, height: 24.0, child: CircularProgressIndicator(strokeWidth: 2.0)),
+      child: SizedBox(
+          width: 24.0,
+          height: 24.0,
+          child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor)),
     );
   }
 
@@ -122,7 +128,8 @@ class _CommentsPageState extends State<CommentsPage> {
     ApiApp().getIllustComments(illustId: widget.illustId).then((value) {
       print("request");
       _page++; // 页码更新到下一页
-      _providerComments.setAll( newComments: value.comments, count: value.comments.length, isLoading: false); // 设置provider(重复同数据不会进行通知）
+      _providerComments.setAll(
+          newComments: value.comments, count: value.comments.length, isLoading: false); // 设置provider(重复同数据不会进行通知）
     }).catchError((onError) {
       print(onError.toString());
     });
