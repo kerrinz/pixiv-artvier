@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pixgem/booting_page.dart';
 import 'package:pixgem/pages/artworks/artworks_detail_page.dart';
 import 'package:pixgem/pages/artworks/artworks_leaderboard_page.dart';
 import 'package:pixgem/pages/artworks/preview_artworks_page.dart';
 import 'package:pixgem/pages/home_navigation_tab_pages/home_tabpage.dart';
 import 'package:pixgem/pages/home_navigation_tab_pages/mine_home_tabpage.dart';
 import 'package:pixgem/pages/login/account_manage_page.dart';
-import 'package:pixgem/pages/login/select_login_method_page.dart';
+import 'package:pixgem/pages/login/login_wizard_page.dart';
 import 'package:pixgem/pages/home_navigation_tab_pages/search_home_tabpage.dart';
 import 'package:pixgem/pages/search/search_result_page.dart';
 import 'package:pixgem/pages/settings/setting_current_account.dart';
@@ -16,17 +17,16 @@ import 'package:provider/provider.dart';
 
 import 'pages/user/my_illusts_bookmark.dart';
 
-// GlobalStore加载全局变量
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  GlobalStore.init().then((e) {
-    runApp(new MyApp());
-    // 状态栏无前景色的沉浸式
-    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-  });
+  // 运行APP
+  runApp(new MyApp());
+  // 状态栏无前景色的沉浸式
+  SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+  SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 }
 
+/* 初始化一些APP全局设定，不加载内容 */
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -36,22 +36,22 @@ class MyApp extends StatelessWidget {
         title: 'Pixgem',
         onGenerateRoute: (RouteSettings settings) {
           var routes = <String, WidgetBuilder>{
-            "main": (context) => MainPage(),
+            "main": (context) => MainPagingWidget(),
             "artworks_leaderboard": (context) => ArtworksLeaderboardPage(),
             "artworks_detail": (context) => ArtWorksDetailPage(settings.arguments!),
             "artworks_view": (context) => PreviewArtworksPage(settings.arguments!),
             "my_illusts_bookmark": (context) => MyIllustsBookmarkPage(),
             "user_detail": (context) => UserDetailPage(settings.arguments!),
             "setting_current_account": (context) => SettingCurrentAccountPage(),
-            "login_navigator": (context) => SelectLoginPage(),
+            "login_wizard": (context) => LoginWizardPage(),
             "account_manage": (context) => AccountManagePage(),
             "search_result": (context) => SearchResultPage(settings.arguments!),
           };
           WidgetBuilder builder = routes[settings.name]!;
           return MaterialPageRoute(builder: (context) => builder(context));
         },
-        // 主体页面框架
-        home: MainPage(),
+        // 启动加载页面，在这里面初始化全局数据
+        home: BootingPage(),
         // localizationsDelegates: [
         //   GlobalMaterialLocalizations.delegate,
         //   GlobalWidgetsLocalizations.delegate,
@@ -75,15 +75,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/* 主体页面框架 */
-class MainPage extends StatefulWidget {
+/* APP主体内容框架：分页框架 （APP视觉上的起始页面）*/
+class MainPagingWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MainPageState();
+    return MainPagingWidgetState();
   }
 }
 
-class MainPageState extends State<MainPage> {
+class MainPagingWidgetState extends State<MainPagingWidget> {
   int _currentIndex = 0; // 当前分页
   // 分页组
   List<Widget> _pages = [
@@ -99,16 +99,17 @@ class MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView.builder(
-          onPageChanged: (int index) {
-            setState(() {
-              this._currentIndex = index;
-            });
-          },
-          controller: _pageController,
-          itemCount: _pages.length,
-          itemBuilder: (BuildContext context, int index) {
-            return _pages[index];
-          }),
+        onPageChanged: (int index) {
+          setState(() {
+            this._currentIndex = index;
+          });
+        },
+        controller: _pageController,
+        itemCount: _pages.length,
+        itemBuilder: (BuildContext context, int index) {
+          return _pages[index];
+        },
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页", tooltip: "首页"),

@@ -118,30 +118,32 @@ class _SettingCurrentAccountState extends State<SettingCurrentAccountPage> {
 
   // 保存为当前账号
   Future saveToCurrent() async {
-      // 获取本地已缓存的所有账号
-      Map<String, AccountProfile>? map = await AccountStore.getAllAccountsProfile(); // 临时map，账号集合
-      AccountProfile profile; // 临时单账号配置（需要保存的账号）
-      // 总账号缓存不存在，新建
-      if (map == null) {
-        map = new Map<String, AccountProfile>();
-        profile = new AccountProfile(_tokenController.text, 0, "Bearer", "", _refreshTokenController.text, new User(null, _userIdController.text, "", "", "", false, 0, false, false));
-        map.putIfAbsent(_userIdController.text, () => profile);
-      } else if (map[_userIdController.text] != null) {
-        // 总账号缓存存在，并且有这个账号，变更信息
-        profile = map[_userIdController.text]!;
-        profile.user.id = _userIdController.text;
-        profile.accessToken = _tokenController.text;
-        profile.refreshToken = _refreshTokenController.text;
-        map[_userIdController.text] = profile; // 更新临时map
-      } else {
-        // 总账号缓存存在，但不存在这个账号
-        profile = new AccountProfile(_refreshTokenController.text, 0, "Bearer", "", _refreshTokenController.text, new User(null, _userIdController.text, "", "", "", false, 0, false, false));
-        map.putIfAbsent(_userIdController.text, () => profile);
-      }
-      await AccountStore.setAllAccountsProfile(map);
-      await AccountStore.setCurrentAccountId(id: _userIdController.text);
-      // 设置为全局账号信息
-      GlobalStore.changeCurrentAccount(profile);
+    // 获取本地已缓存的所有账号
+    Map<String, AccountProfile>? map = await AccountStore.getAllAccountsProfile(); // 临时map，账号集合
+    AccountProfile profile; // 临时单账号配置（需要保存的账号）
+    // 总账号缓存不存在，新建
+    if (map == null) {
+      map = new Map<String, AccountProfile>();
+      profile = new AccountProfile(_tokenController.text, 0, "Bearer", "", _refreshTokenController.text,
+          new User(null, _userIdController.text, "", "", "", false, 0, false, false));
+      map.putIfAbsent(_userIdController.text, () => profile);
+    } else if (map[_userIdController.text] != null) {
+      // 总账号缓存存在，并且有这个账号，变更信息
+      profile = map[_userIdController.text]!;
+      profile.user.id = _userIdController.text;
+      profile.accessToken = _tokenController.text;
+      profile.refreshToken = _refreshTokenController.text;
+      map[_userIdController.text] = profile; // 更新临时map
+    } else {
+      // 总账号缓存存在，但不存在这个账号
+      profile = new AccountProfile(_refreshTokenController.text, 0, "Bearer", "", _refreshTokenController.text,
+          new User(null, _userIdController.text, "", "", "", false, 0, false, false));
+      map.putIfAbsent(_userIdController.text, () => profile);
+    }
+    await AccountStore.setAllAccountsProfile(map);
+    await AccountStore.setCurrentAccountId(id: _userIdController.text);
+    // 设置为全局账号信息
+    GlobalStore.changeCurrentAccount(profile);
   }
 
   // 构建加载动画
@@ -149,7 +151,10 @@ class _SettingCurrentAccountState extends State<SettingCurrentAccountPage> {
     return Container(
       padding: const EdgeInsets.all(16.0),
       alignment: Alignment.center,
-      child: SizedBox(width: 24.0, height: 24.0, child: CircularProgressIndicator(strokeWidth: 2.0)),
+      child: SizedBox(
+          width: 24.0,
+          height: 24.0,
+          child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor)),
     );
   }
 }
