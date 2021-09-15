@@ -41,12 +41,15 @@ class AccountManagePageState extends State<AccountManagePage> {
               Container(
                 child: Selector(
                   // 帐号列表
-                  builder: (BuildContext context, Map<String, AccountProfile>? profilesMap, Widget? child) {
+                  builder: (BuildContext context,
+                      Map<String, AccountProfile>? profilesMap, Widget? child) {
                     if (profilesMap == null) {
                       return SizedBox(
                           width: 24.0,
                           height: 24.0,
-                          child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor));
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                              color: Theme.of(context).accentColor));
                     }
                     return ListView.builder(
                       itemBuilder: (BuildContext context, int index) {
@@ -57,7 +60,8 @@ class AccountManagePageState extends State<AccountManagePage> {
                       itemCount: profilesMap.length,
                     );
                   },
-                  selector: (BuildContext context, _AccountManageProvider provider) {
+                  selector:
+                      (BuildContext context, _AccountManageProvider provider) {
                     return provider.profilesMap;
                   },
                 ),
@@ -132,9 +136,14 @@ class AccountManagePageState extends State<AccountManagePage> {
             Builder(builder: (context) {
               if (profile.user.id != GlobalStore.currentAccount!.user.id) {
                 return IconButton(
-                    onPressed: () {}, icon: Icon(Icons.delete_forever_rounded, color: Colors.grey.shade300));
+                    onPressed: () {},
+                    icon: Icon(Icons.delete_forever_rounded,
+                        color: Colors.grey.shade300));
               } else {
-                return IconButton(onPressed: () {}, icon: Icon(Icons.done_rounded, color: Colors.grey.shade300));
+                return IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.done_rounded,
+                        color: Theme.of(context).accentColor));
               }
             }),
           ],
@@ -151,8 +160,12 @@ class AccountManagePageState extends State<AccountManagePage> {
 
   // 读取配置数据
   void readProfiles() {
-    AccountStore.getAllAccountsProfile().then((map) => _provider.setAccountProfiles(map)).catchError(
-        (onError) => Fluttertoast.showToast(msg: "读取失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
+    AccountStore.getAllAccountsProfile()
+        .then((map) => _provider.setAccountProfiles(map))
+        .catchError((onError) => Fluttertoast.showToast(
+            msg: "读取失败！$onError",
+            toastLength: Toast.LENGTH_SHORT,
+            fontSize: 16.0));
   }
 }
 
