@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:pixgem/model_store/account_profile.dart';
-import 'package:pixgem/request/api_app.dart';
+import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,13 +33,13 @@ class GlobalStore {
       }
     }
     //初始化网络请求相关配置
-    ApiApp().init();
+    ApiBase().init();
   }
 
   // 更新当前账号配置（不通知更新UI）
   static void changeCurrentAccount(AccountProfile? profile) {
     currentAccount = profile;
-    ApiApp().init(); // 重新初始化dio请求
+    ApiBase().init(); // 重新初始化dio请求
   }
 }
 

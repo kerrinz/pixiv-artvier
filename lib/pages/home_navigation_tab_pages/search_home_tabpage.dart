@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
-import 'package:pixgem/request/api_app.dart';
+import 'package:pixgem/request/api_serach.dart';
 import 'package:pixgem/widgets/trending_tags_gird.dart';
 import 'package:provider/provider.dart';
 
@@ -149,7 +149,7 @@ class SearchTabPageState extends State<SearchTabPage>
   }
 
   Future requestTrendingTags() async {
-    var resModel = await ApiApp().getTrendingTags();
+    var resModel = await ApiSearch().getTrendingTags();
     _provider.setTags(resModel.trendTags);
     return resModel;
   }
