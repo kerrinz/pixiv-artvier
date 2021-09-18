@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:pixgem/model_store/account_profile.dart';
-import 'package:pixgem/request/api_app.dart';
+import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/request/oauth.dart';
 import 'package:pixgem/store/global.dart';
 
