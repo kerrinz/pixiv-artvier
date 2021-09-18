@@ -6,7 +6,8 @@ class CONSTANTS {
   static const String type_illusts = "illusts";
   static const String type_manga = "manga";
 
-  // 公开or私人
+  // 全部、公开、私人
+  static const String restrict_all = "all";
   static const String restrict_public = "public";
   static const String restrict_private = "private";
 

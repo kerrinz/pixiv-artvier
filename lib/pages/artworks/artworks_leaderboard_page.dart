@@ -105,11 +105,14 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
   // 加载下一页数据
   Future getNext(String mode) async {
     String? nextUrl = _provider.nextUrlMap[mode];
-    if (nextUrl == null) return Future.error("NextUrl is null!");
-    var data = await ApiIllusts().getNextIllustRanking(nextUrl);
-    // 添加新数据到provider
-    _provider.addNextData(mode: mode, rankingList: data.illusts, nextUrl: data.nextUrl);
-    this.setState(() {});
+    if (nextUrl == null) {
+      Fluttertoast.showToast(msg: "没有更多数据了", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+    } else {
+      var data = await ApiIllusts().getNextIllustRanking(nextUrl);
+      // 添加新数据到provider
+      _provider.addNextData(mode: mode, rankingList: data.illusts, nextUrl: data.nextUrl);
+      this.setState(() {});
+    }
   }
 
   @override
@@ -122,17 +125,17 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
 
 class _Provider with ChangeNotifier {
   Map<String, List<CommonIllust>> rankingMap = Map(); // 排行榜
-  Map<String, String> nextUrlMap = Map(); // 下一页
+  Map<String, String?> nextUrlMap = Map(); // 下一页
 
   bool isLoading = true; // 是否正在加载中
 
-  void setMapData({required String mode, required List<CommonIllust> rankingList, required String nextUrl}) {
+  void setMapData({required String mode, required List<CommonIllust> rankingList, required String? nextUrl}) {
     this.rankingMap[mode] = rankingList;
     this.nextUrlMap[mode] = nextUrl;
     notifyListeners();
   }
 
-  void addNextData({required String mode, required List<CommonIllust> rankingList, required String nextUrl}) {
+  void addNextData({required String mode, required List<CommonIllust> rankingList, required String? nextUrl}) {
     var oldRanking = this.rankingMap[mode];
     if (oldRanking != null) {
       this.rankingMap[mode] = [...oldRanking, ...rankingList];

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
-import 'package:pixgem/model_response/illusts/illust_ranking.dart';
 import 'package:pixgem/model_response/illusts/illust_recommended.dart';
 import 'package:pixgem/store/global.dart';
 import 'api_base.dart';
@@ -64,7 +64,7 @@ class ApiIllusts extends ApiBase {
    * @parma
    *  mode RankingModeConstants
    */
-  Future<IllustRanking> getIllustRanking({required String mode, int? offset, String? date}) async {
+  Future<CommonIllustList> getIllustRanking({required String mode, int? offset, String? date}) async {
     var query = Map<String, dynamic>();
     query.addAll({
       "filter": "for_ios",
@@ -77,19 +77,19 @@ class ApiIllusts extends ApiBase {
       queryParameters: query,
       options: Options(responseType: ResponseType.json),
     );
-    return IllustRanking.fromJson(json.decode(res.data));
+    return CommonIllustList.fromJson(json.decode(res.data));
   }
 
   /* @description   获取插画排行榜的下一页数据
    * @parma
    *  mode RankingModeConstants
    */
-  Future<IllustRanking> getNextIllustRanking(String url) async {
+  Future<CommonIllustList> getNextIllustRanking(String url) async {
     Response res = await ApiBase.dio.get<String>(
       url,
       options: Options(responseType: ResponseType.json),
     );
-    return IllustRanking.fromJson(json.decode(res.data));
+    return CommonIllustList.fromJson(json.decode(res.data));
   }
 
   /* @description   收藏插画
