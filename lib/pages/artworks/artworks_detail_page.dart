@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +7,7 @@ import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
 import 'package:pixgem/model_response/user/perload_user_least_info.dart';
 import 'package:pixgem/pages/comments_page.dart';
-import 'package:pixgem/request/api_app.dart';
+import 'package:pixgem/request/api_illusts.dart';
 import 'package:pixgem/widgets/comment.dart';
 import 'package:provider/provider.dart';
 
@@ -474,9 +472,9 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   Future postBookmark() async {
     bool isSucceed = false;
     if (_provider.isBookmarked)
-      isSucceed = await ApiApp().deleteIllustBookmark(illustId: widget.info.id.toString());
+      isSucceed = await ApiIllusts().deleteIllustBookmark(illustId: widget.info.id.toString());
     else
-      isSucceed = await ApiApp().addIllustBookmark(illustId: widget.info.id.toString());
+      isSucceed = await ApiIllusts().addIllustBookmark(illustId: widget.info.id.toString());
     if (isSucceed)
       _provider.setBookmarked(!_provider.isBookmarked);
     else
@@ -487,7 +485,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   void initState() {
     super.initState();
     _provider.setData(widget.info);
-    ApiApp().getIllustComments(illustId: widget.info.id.toString()).then((value) {
+    ApiIllusts().getIllustComments(illustId: widget.info.id.toString()).then((value) {
       _providerComments.setData(value);
       _providerComments.setIsLoading(false);
     });

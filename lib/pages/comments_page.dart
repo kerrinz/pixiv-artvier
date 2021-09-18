@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
-import 'package:pixgem/request/api_app.dart';
+import 'package:pixgem/request/api_illusts.dart';
 import 'package:pixgem/widgets/comment.dart';
 import 'package:provider/provider.dart';
 
@@ -125,7 +125,7 @@ class _CommentsPageState extends State<CommentsPage> {
 
   // 请求获取下一页的数据
   void requestNextPageData() {
-    ApiApp().getIllustComments(illustId: widget.illustId).then((value) {
+    ApiIllusts().getIllustComments(illustId: widget.illustId).then((value) {
       print("request");
       _page++; // 页码更新到下一页
       _providerComments.setAll(

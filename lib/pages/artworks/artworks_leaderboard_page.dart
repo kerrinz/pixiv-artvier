@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/config/ranking_mode_constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/artworks/illusts_gird_page.dart';
-import 'package:pixgem/request/api_app.dart';
+import 'package:pixgem/request/api_illusts.dart';
 import 'package:provider/provider.dart';
 
 class ArtworksLeaderboardPage extends StatefulWidget {
@@ -96,7 +96,7 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
 
   // 刷新或获取数据
   Future refreshData(String mode) async {
-    var data = await ApiApp().getIllustRanking(mode: mode);
+    var data = await ApiIllusts().getIllustRanking(mode: mode);
     _provider.setMapData(mode: mode, rankingList: data.illusts, nextUrl: data.nextUrl);
     Fluttertoast.showToast(msg: "获取成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
     this.setState(() {});
@@ -106,7 +106,7 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
   Future getNext(String mode) async {
     String? nextUrl = _provider.nextUrlMap[mode];
     if (nextUrl == null) return Future.error("NextUrl is null!");
-    var data = await ApiApp().getNextIllustRanking(nextUrl);
+    var data = await ApiIllusts().getNextIllustRanking(nextUrl);
     // 添加新数据到provider
     _provider.addNextData(mode: mode, rankingList: data.illusts, nextUrl: data.nextUrl);
     this.setState(() {});

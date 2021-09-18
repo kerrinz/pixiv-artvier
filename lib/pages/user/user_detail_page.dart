@@ -7,7 +7,8 @@ import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/user/perload_user_least_info.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
 import 'package:pixgem/pages/artworks/illusts_gird_page.dart';
-import 'package:pixgem/request/api_app.dart';
+import 'package:pixgem/request/api_base.dart';
+import 'package:pixgem/request/api_user.dart';
 import 'package:provider/provider.dart';
 
 class UserDetailPage extends StatefulWidget {
@@ -390,7 +391,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
 
   // 获取or刷新用户信息
   Future refreshUserData() async {
-    UserDetail userDetail = await ApiApp().getUserDetail(userId: widget.leastInfo.id);
+    UserDetail userDetail = await ApiUser().getUserDetail(userId: widget.leastInfo.id);
     _provider.setUserDetail(userDetail);
     _provider.setFollowed(userDetail.user.isFollowed);
   }
@@ -398,11 +399,11 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
   Future refreshList(int tabIndex) async {
     switch (tabIndex) {
       case 0: // 获取作品列表
-        CommonIllustList userIllusts = await ApiApp().getUserIllusts(userId: widget.leastInfo.id);
+        CommonIllustList userIllusts = await ApiUser().getUserIllusts(userId: widget.leastInfo.id);
         _provider.setUserIllusts(userIllusts);
         break;
       case 1: // 获取收藏列表
-        CommonIllustList bookmarkIllusts = await ApiApp().getUserBookmarksIllust(userId: widget.leastInfo.id);
+        CommonIllustList bookmarkIllusts = await ApiUser().getUserBookmarksIllust(userId: widget.leastInfo.id);
         _provider.setBookmarkIllusts(bookmarkIllusts);
         break;
     }
@@ -410,13 +411,13 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
 
   // 加载更多插画作品
   Future requestMoreIllust(String nextUrl) async {
-    var newDataMap = await ApiApp().getNextUrlData(nextUrl: nextUrl);
+    var newDataMap = await ApiBase().getNextUrlData(nextUrl: nextUrl);
     _provider.addNextUserIllusts(CommonIllustList.fromJson(newDataMap));
   }
 
   // 加载更多收藏
   Future requestMoreBookmark(String nextUrl) async {
-    var newDataMap = await ApiApp().getNextUrlData(nextUrl: nextUrl);
+    var newDataMap = await ApiBase().getNextUrlData(nextUrl: nextUrl);
     _provider.addNextBookmarkIllusts(CommonIllustList.fromJson(newDataMap));
   }
 
@@ -424,9 +425,9 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
   Future postFollow() async {
     bool isSucceed = false;
     if (_provider.isFollowedAuthor!)
-      isSucceed = await ApiApp().deleteFollowUser(userId: widget.leastInfo.id);
+      isSucceed = await ApiUser().deleteFollowUser(userId: widget.leastInfo.id);
     else
-      isSucceed = await ApiApp().addFollowUser(userId: widget.leastInfo.id);
+      isSucceed = await ApiUser().addFollowUser(userId: widget.leastInfo.id);
     if (isSucceed)
       _provider.setFollowed(!_provider.isFollowedAuthor!);
     else

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/illusts_search_result.dart';
-import 'package:pixgem/request/api_app.dart';
+import 'package:pixgem/request/api_serach.dart';
 import 'package:pixgem/widgets/illust_waterfall_gird.dart';
 import 'package:provider/provider.dart';
 
@@ -90,7 +90,7 @@ class SearchResultPageState extends State<SearchResultPage> {
   }
 
   Future refresh() async {
-    var result = await ApiApp().searchIllust(searchWord: _textController.value.text);
+    var result = await ApiSearch().searchIllust(searchWord: _textController.value.text);
     _provider.setIllusts(result.illusts);
     _provider.setNextUrl(result.nextUrl);
   }
@@ -98,7 +98,7 @@ class SearchResultPageState extends State<SearchResultPage> {
   // 加载更多
   Future loadMore() async {
     if (_provider.nextUrl == null) return false;
-    var res = await ApiApp().getNextUrlData(nextUrl: _provider.nextUrl!);
+    var res = await ApiSearch().getNextUrlData(nextUrl: _provider.nextUrl!);
     var result = IllustsSearchResult.fromJson(res);
     _provider.addIllusts(result.illusts);
     _provider.setNextUrl(result.nextUrl);

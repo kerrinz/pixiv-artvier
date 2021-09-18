@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_store/account_profile.dart';
-import 'package:pixgem/request/api_app.dart';
+import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
@@ -117,7 +117,7 @@ class OAuth {
     await AccountStore.updateAccountProfile(profile); // 存储或更新账号信息
     await AccountStore.setCurrentAccountId(id: profile.user.id); // 存储当前账号id
     GlobalStore.globalProvider.setCurrentAccount(profile); // 设置全局账号配置并通知更新UI；
-    ApiApp().updateToken(); // dio更新请求头token
+    ApiBase().updateToken(); // dio更新请求头token
   }
 
   // 生成code_verifier，即生成随机字符串并进行base64Url处理

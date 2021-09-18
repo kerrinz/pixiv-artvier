@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/model_response/user/user_bookmarks_illust.dart';
-import 'package:pixgem/request/api_app.dart';
+import 'package:pixgem/request/api_user.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:pixgem/widgets/illust_waterfall_gird_sliver.dart';
 import 'package:provider/provider.dart';
@@ -72,13 +71,13 @@ class _MyIllustsBookmarkState extends State<MyIllustsBookmarkPage> {
   }
 
   refreshAndSetData() async {
-    CommonIllustList bookmarks = await ApiApp().getUserBookmarksIllust(userId: GlobalStore.currentAccount!.user.id);
+    CommonIllustList bookmarks = await ApiUser().getUserBookmarksIllust(userId: GlobalStore.currentAccount!.user.id);
     _provider.setBookmarksList(list: bookmarks.illusts); // [重置]收藏list
     _provider.setPage(page: 1); // 页码[重置]为1
   }
 
   requestMoreBookmarks() async {
-    CommonIllustList bookmarks = await ApiApp().getUserBookmarksIllust(userId: GlobalStore.currentAccount!.user.id);
+    CommonIllustList bookmarks = await ApiUser().getUserBookmarksIllust(userId: GlobalStore.currentAccount!.user.id);
     _provider.addAllBookmarks(list: bookmarks.illusts); // [重置]收藏list
     _provider.pageAdd(); // 页码 + 1
   }

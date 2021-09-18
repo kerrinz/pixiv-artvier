@@ -5,6 +5,7 @@ import 'package:pixgem/model_response/user/perload_user_least_info.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
+import 'package:pixgem/widgets/preferences_navigator_item.dart';
 import 'package:provider/provider.dart';
 
 class MineTabPage extends StatefulWidget {
@@ -12,8 +13,7 @@ class MineTabPage extends StatefulWidget {
   State<StatefulWidget> createState() => MineTabPageState();
 }
 
-class MineTabPageState extends State<MineTabPage>
-    with AutomaticKeepAliveClientMixin {
+class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientMixin {
   List<FunctionCardModel> cards = [
     FunctionCardModel("流览历史", Icons.history, "", null),
     FunctionCardModel("我的收藏", Icons.favorite, "", null),
@@ -49,51 +49,63 @@ class MineTabPageState extends State<MineTabPage>
             ),
           ];
         },
-        body: Column(
-          children: [
-            // 用户简卡
-            Container(child: _buildUserCard(context)),
-            // 功能卡片
-            Card(
-              margin: const EdgeInsets.all(8.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: GridView.builder(
-                controller: new ScrollController(keepScrollOffset: false),
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  // crossAxisSpacing: 4,
-                  // mainAxisSpacing: 4,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              // 用户简卡
+              Container(child: _buildUserCard(context)),
+              // 功能卡片
+              Card(
+                elevation: 1.5,
+                margin: const EdgeInsets.all(8.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 ),
-                itemCount: cards.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Material(
-                    color: Theme.of(context).cardColor,
-                    child: InkWell(
-                      onTap: () {},
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(cards[index].assetsImageUrl, size: 22),
-                          ),
-                          Text(cards[index].text,
-                              style: TextStyle(fontSize: 14)),
-                        ],
+                clipBehavior: Clip.antiAlias,
+                child: GridView.builder(
+                  controller: new ScrollController(keepScrollOffset: false),
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    // crossAxisSpacing: 4,
+                    // mainAxisSpacing: 4,
+                  ),
+                  itemCount: cards.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Material(
+                      color: Theme.of(context).cardColor,
+                      child: InkWell(
+                        onTap: () {},
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(cards[index].assetsImageUrl, size: 22),
+                            ),
+                            Text(cards[index].text, style: TextStyle(fontSize: 14)),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-            Text("CNM"),
-          ],
+              // 设置项列表
+              Builder(builder: (context) {
+                List<PreferencesNavigatorItem> preferencesItems = [
+                  PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "设置", routeName: "routeName"),
+                  PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "设置", routeName: "routeName"),
+                  PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "设置", routeName: "routeName"),
+                ];
+                return Column(
+                  children: preferencesItems,
+                );
+              }),
+            ],
+          ),
         ),
       ),
     );
@@ -103,10 +115,8 @@ class MineTabPageState extends State<MineTabPage>
   Widget _buildUserCard(BuildContext context) {
     return InkWell(
       onTap: () {
-        var user = PreloadUserLeastInfo(
-            int.parse(GlobalStore.currentAccount!.user.id),
-            GlobalStore.currentAccount!.user.name,
-            GlobalStore.currentAccount!.user.profileImageUrls!.px170x170);
+        var user = PreloadUserLeastInfo(int.parse(GlobalStore.currentAccount!.user.id),
+            GlobalStore.currentAccount!.user.name, GlobalStore.currentAccount!.user.profileImageUrls!.px170x170);
         Navigator.of(context).pushNamed("user_detail", arguments: user);
       },
       child: Padding(
@@ -125,22 +135,15 @@ class MineTabPageState extends State<MineTabPage>
                       width: 64,
                       height: 64,
                       child: Selector(
-                        selector:
-                            (BuildContext context, GlobalProvider provider) {
+                        selector: (BuildContext context, GlobalProvider provider) {
                           return provider.currentAccount;
                         },
-                        builder: (BuildContext context, AccountProfile? profile,
-                            Widget? child) {
+                        builder: (BuildContext context, AccountProfile? profile, Widget? child) {
                           // 未登录或者原本就无头像用户
-                          if (profile == null ||
-                              profile.user.profileImageUrls == null) {
-                            return Image(
-                                image: AssetImage(
-                                    "assets/images/default_avatar.png"));
+                          if (profile == null || profile.user.profileImageUrls == null) {
+                            return Image(image: AssetImage("assets/images/default_avatar.png"));
                           }
-                          return CachedNetworkImage(
-                              imageUrl:
-                                  profile.user.profileImageUrls!.px170x170);
+                          return CachedNetworkImage(imageUrl: profile.user.profileImageUrls!.px170x170);
                         },
                       ),
                     ),
@@ -148,11 +151,9 @@ class MineTabPageState extends State<MineTabPage>
                   // 昵称、帐号
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Selector(selector:
-                        (BuildContext context, GlobalProvider provider) {
+                    child: Selector(selector: (BuildContext context, GlobalProvider provider) {
                       return provider.currentAccount;
-                    }, builder: (BuildContext context, AccountProfile? profile,
-                        Widget? child) {
+                    }, builder: (BuildContext context, AccountProfile? profile, Widget? child) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -198,10 +199,7 @@ class MineTabPageState extends State<MineTabPage>
     AccountStore.getCurrentAccountProfile()
         .then((value) => GlobalStore.globalProvider.setCurrentAccount(value!))
         .catchError(
-          (onError) => Fluttertoast.showToast(
-              msg: "加载失败!$onError",
-              toastLength: Toast.LENGTH_SHORT,
-              fontSize: 16.0),
+          (onError) => Fluttertoast.showToast(msg: "加载失败!$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0),
         );
   }
 }
@@ -213,6 +211,5 @@ class FunctionCardModel {
   String navigatorName;
   Object? argument;
 
-  FunctionCardModel(
-      this.text, this.assetsImageUrl, this.navigatorName, this.argument);
+  FunctionCardModel(this.text, this.assetsImageUrl, this.navigatorName, this.argument);
 }

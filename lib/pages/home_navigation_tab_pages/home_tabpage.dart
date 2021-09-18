@@ -5,7 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/request/api_app.dart';
+import 'package:pixgem/request/api_illusts.dart';
 import 'package:pixgem/widgets/illust_waterfall_gird_sliver.dart';
 import 'package:provider/provider.dart';
 
@@ -308,7 +308,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
 
   // 请求并设置数据，返回Future
   Future refreshAndSetData() async {
-    var artworks = await ApiApp().getFirstRecommendedIllust();
+    var artworks = await ApiIllusts().getFirstRecommendedIllust();
     _listProvider.setData(
         artworkList: artworks.illusts,
         rankingList: artworks.rankingIllusts, // 排行榜
@@ -319,7 +319,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   // 获取更多作品
   Future requestNextIllusts() async {
     // 获取更多作品
-    var artworks = await ApiApp().getNextRecommendedIllust(nextUrl: _listProvider.nextUrl);
+    var artworks = await ApiIllusts().getNextRecommendedIllust(nextUrl: _listProvider.nextUrl);
     _listProvider.addNextArtworks(list: artworks.illusts); // 添加作品list
     _listProvider.setNextUrl(artworks.nextUrl); // 更新nextUrl
   }
