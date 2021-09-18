@@ -5,18 +5,61 @@ import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/request/api_base.dart';
 
 class ApiNewArtWork extends ApiBase {
+  static const String restrict_all = "all";
+  static const String restrict_public = "public";
+  static const String restrict_private = "private";
+
+  static const String type_illust = "illust";
+  static const String type_manga = "manga";
+
   /* @description   获取关注用户的新作
    * @param
-   *  illustId       插画id
+   *  restrict 查询的限制，全部、公开、私人
    */
-  Future<CommonIllust> getFollowsNewIllust({required String illustId}) async {
+  Future<CommonIllust> getFollowsNewIllusts(String restrict) async {
     Response res = await ApiBase.dio.get<String>(
-      "/v3/illust/comments",
+      "/v2/illust/follow",
       queryParameters: {
-        "illust_id": illustId,
+        "restrict": restrict,
       },
       options: Options(responseType: ResponseType.json),
     );
     return CommonIllust.fromJson(json.decode(res.data));
   }
+
+  /* @description   获取大家的新作
+   * @param
+   *  type 作品类型：插画、漫画
+   */
+  Future<CommonIllust> getEveryOnesNewIllusts(String type) async {
+    Response res = await ApiBase.dio.get<String>(
+      "/v1/illust/new",
+      queryParameters: {
+        "content_type": type,
+        "filter": "for_ios",
+      },
+      options: Options(responseType: ResponseType.json),
+    );
+    return CommonIllust.fromJson(json.decode(res.data));
+  }
+
+  /* @description   好P友的新作
+   * @param
+   */
+  Future<CommonIllust> getPFriendsIllusts(String type) async {
+    Response res = await ApiBase.dio.get<String>(
+      "/v2/illust/mypixiv",
+      queryParameters: {
+        "content_type": type,
+        "filter": "for_ios",
+      },
+      options: Options(responseType: ResponseType.json),
+    );
+    return CommonIllust.fromJson(json.decode(res.data));
+  }
+
+  void getFollowsNewNovels() {}
+  void getEveryOnesNewNovels() {}
+  void getPFriendsNovels() {}
+
 }
