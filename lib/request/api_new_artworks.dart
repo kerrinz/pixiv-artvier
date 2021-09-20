@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/request/api_base.dart';
 
 class ApiNewArtWork extends ApiBase {
@@ -16,7 +16,7 @@ class ApiNewArtWork extends ApiBase {
    * @param
    *  restrict 查询的限制，全部、公开、私人
    */
-  Future<CommonIllust> getFollowsNewIllusts(String restrict) async {
+  Future<CommonIllustList> getFollowsNewIllusts(String restrict) async {
     Response res = await ApiBase.dio.get<String>(
       "/v2/illust/follow",
       queryParameters: {
@@ -24,14 +24,14 @@ class ApiNewArtWork extends ApiBase {
       },
       options: Options(responseType: ResponseType.json),
     );
-    return CommonIllust.fromJson(json.decode(res.data));
+    return CommonIllustList.fromJson(json.decode(res.data));
   }
 
   /* @description   获取大家的新作
    * @param
    *  type 作品类型：插画、漫画
    */
-  Future<CommonIllust> getEveryOnesNewIllusts(String type) async {
+  Future<CommonIllustList> getEveryOnesNewIllusts(String type) async {
     Response res = await ApiBase.dio.get<String>(
       "/v1/illust/new",
       queryParameters: {
@@ -40,13 +40,13 @@ class ApiNewArtWork extends ApiBase {
       },
       options: Options(responseType: ResponseType.json),
     );
-    return CommonIllust.fromJson(json.decode(res.data));
+    return CommonIllustList.fromJson(json.decode(res.data));
   }
 
   /* @description   好P友的新作
    * @param
    */
-  Future<CommonIllust> getPFriendsIllusts(String type) async {
+  Future<CommonIllustList> getPFriendsIllusts(String type) async {
     Response res = await ApiBase.dio.get<String>(
       "/v2/illust/mypixiv",
       queryParameters: {
@@ -55,7 +55,7 @@ class ApiNewArtWork extends ApiBase {
       },
       options: Options(responseType: ResponseType.json),
     );
-    return CommonIllust.fromJson(json.decode(res.data));
+    return CommonIllustList.fromJson(json.decode(res.data));
   }
 
   void getFollowsNewNovels() {}
