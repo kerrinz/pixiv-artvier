@@ -211,54 +211,32 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
           body: TabBarView(
             controller: _tabController,
             children: [
-              // 作品
-              Consumer(builder: (context, _UserDetailProvider provider, child) {
-                List<CommonIllust> illusts = provider.userIllusts != null ? provider.userIllusts!.illusts : [];
-                return IllustGirdTabPage(
-                  onLazyLoad: () async {
-                    if (provider.userIllusts!.nextUrl != null) {
-                      requestMoreIllust(provider.userIllusts!.nextUrl!).catchError((err) {
-                        print(err);
-                      });
-                    } else {
-                      Fluttertoast.showToast(msg: "没有更多了", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                    }
-                  },
-                  onRefresh: () async {
-                    await refreshList(0)
-                        .then((value) =>
-                            Fluttertoast.showToast(msg: "刷新成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0))
-                        .catchError((onError) => Fluttertoast.showToast(
-                            msg: "获取用户数据失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0))
-                        .whenComplete(() => _provider.setIsLoading(false));
-                  },
-                  illustList: illusts,
-                );
-              }),
-              // 收藏
-              Consumer(builder: (context, _UserDetailProvider provider, child) {
-                List<CommonIllust> illusts = provider.bookmarkIllusts != null ? provider.bookmarkIllusts!.illusts : [];
-                return IllustGirdTabPage(
-                  onLazyLoad: () async {
-                    if (provider.bookmarkIllusts!.nextUrl != null) {
-                      requestMoreBookmark(provider.bookmarkIllusts!.nextUrl!).catchError((err) {
-                        print(err);
-                      });
-                    } else {
-                      Fluttertoast.showToast(msg: "没有更多了", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                    }
-                  },
-                  onRefresh: () async {
-                    await refreshList(1)
-                        .then((value) =>
-                            Fluttertoast.showToast(msg: "刷新成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0))
-                        .catchError((onError) => Fluttertoast.showToast(
-                            msg: "获取用户数据失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0))
-                        .whenComplete(() => _provider.setIsLoading(false));
-                  },
-                  illustList: illusts,
-                );
-              }),
+              // 作品列表
+              IllustGirdTabPage(
+                onLazyLoad: (String nextUrl) async {
+                  var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
+                  return CommonIllustList.fromJson(result);
+                },
+                onRefresh: () async {
+                  // 获取作品列表
+                  return await ApiUser().getUserIllusts(userId: widget.leastInfo.id).catchError((onError) {
+                    Fluttertoast.showToast(msg: "获取用户数据失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                  });
+                },
+              ),
+              // 收藏列表
+              IllustGirdTabPage(
+                onLazyLoad: (String nextUrl) async {
+                  var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
+                  return CommonIllustList.fromJson(result);
+                },
+                onRefresh: () async {
+                  // 获取收藏列表
+                  return await ApiUser().getUserBookmarksIllust(userId: widget.leastInfo.id).catchError((onError) {
+                    Fluttertoast.showToast(msg: "获取用户数据失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                  });
+                },
+              ),
               // tab——其他信息
               SingleChildScrollView(
                 child: Column(
@@ -396,31 +374,6 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
     _provider.setFollowed(userDetail.user.isFollowed);
   }
 
-  Future refreshList(int tabIndex) async {
-    switch (tabIndex) {
-      case 0: // 获取作品列表
-        CommonIllustList userIllusts = await ApiUser().getUserIllusts(userId: widget.leastInfo.id);
-        _provider.setUserIllusts(userIllusts);
-        break;
-      case 1: // 获取收藏列表
-        CommonIllustList bookmarkIllusts = await ApiUser().getUserBookmarksIllust(userId: widget.leastInfo.id);
-        _provider.setBookmarkIllusts(bookmarkIllusts);
-        break;
-    }
-  }
-
-  // 加载更多插画作品
-  Future requestMoreIllust(String nextUrl) async {
-    var newDataMap = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-    _provider.addNextUserIllusts(CommonIllustList.fromJson(newDataMap));
-  }
-
-  // 加载更多收藏
-  Future requestMoreBookmark(String nextUrl) async {
-    var newDataMap = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-    _provider.addNextBookmarkIllusts(CommonIllustList.fromJson(newDataMap));
-  }
-
   // 关注或者取消关注用户
   Future postFollow() async {
     bool isSucceed = false;
@@ -467,35 +420,11 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
  */
 class _UserDetailProvider with ChangeNotifier {
   UserDetail? userDetail;
-  CommonIllustList? userIllusts;
-  CommonIllustList? bookmarkIllusts;
   bool isLoading = true; // 是否正在加载
   bool? isFollowedAuthor; // 是否已经关注作者
 
   void setUserDetail(UserDetail newData) {
     userDetail = newData;
-    notifyListeners();
-  }
-
-  void setUserIllusts(CommonIllustList newData) {
-    userIllusts = newData;
-    notifyListeners();
-  }
-
-  void setBookmarkIllusts(CommonIllustList newData) {
-    bookmarkIllusts = newData;
-    notifyListeners();
-  }
-
-  void addNextUserIllusts(CommonIllustList newData) {
-    if (userIllusts != null)
-      userIllusts = CommonIllustList([...userIllusts!.illusts, ...newData.illusts], newData.nextUrl);
-    notifyListeners();
-  }
-
-  void addNextBookmarkIllusts(CommonIllustList newData) {
-    if (bookmarkIllusts != null)
-      bookmarkIllusts = CommonIllustList([...bookmarkIllusts!.illusts, ...newData.illusts], newData.nextUrl);
     notifyListeners();
   }
 

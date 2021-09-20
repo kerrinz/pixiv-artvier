@@ -30,7 +30,6 @@ class SearchTabPageState extends State<SearchTabPage>
               // floating: true,
               // snap: true,
               title: _buildSearchBBox(context),
-              // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
               actions: <Widget>[
                 IconButton(
                   icon: Text("取消"),
