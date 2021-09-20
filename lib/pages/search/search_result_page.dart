@@ -40,6 +40,8 @@ class SearchResultPageState extends State<SearchResultPage> {
             color: Colors.grey.withOpacity(0.1),
             child: TextField(
               controller: _textController,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.search,
               decoration: InputDecoration(
                 hintText: "搜索...",
                 contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -47,6 +49,11 @@ class SearchResultPageState extends State<SearchResultPage> {
                 focusedBorder: InputBorder.none,
                 isCollapsed: true, // 高度包裹，不会存在默认高度
               ),
+              onSubmitted: (value) async {
+                // 提交搜索
+                await refresh().catchError((onError) =>
+                    Fluttertoast.showToast(msg: "加载失败!$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
+              },
             ),
           ),
           actions: [
@@ -68,6 +75,11 @@ class SearchResultPageState extends State<SearchResultPage> {
                 return Container(
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).accentColor),
+                );
+              } else if (illusts.length == 0) {
+                return Container(
+                  alignment: Alignment.center,
+                  child: Text("无搜索结果", style: TextStyle(fontSize: 18)),
                 );
               }
               return RefreshIndicator(
@@ -125,7 +137,7 @@ class _SearchResultProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setNextUrl(String nextUrl) {
+  void setNextUrl(String? nextUrl) {
     this.nextUrl = nextUrl;
     notifyListeners();
   }

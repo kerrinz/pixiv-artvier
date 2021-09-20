@@ -11,7 +11,7 @@ class IllustsSearchResult extends Object {
   List<CommonIllust> illusts;
 
   @JsonKey(name: 'next_url')
-  String nextUrl;
+  String? nextUrl;
 
   @JsonKey(name: 'search_span_limit')
   int searchSpanLimit;
