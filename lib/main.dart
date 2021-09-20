@@ -5,10 +5,11 @@ import 'package:pixgem/pages/artworks/artworks_detail_page.dart';
 import 'package:pixgem/pages/artworks/artworks_leaderboard_page.dart';
 import 'package:pixgem/pages/artworks/preview_artworks_page.dart';
 import 'package:pixgem/pages/home_navigation_tab_pages/home_tabpage.dart';
-import 'package:pixgem/pages/home_navigation_tab_pages/mine_home_tabpage.dart';
+import 'package:pixgem/pages/home_navigation_tab_pages/mine_tabpage.dart';
+import 'package:pixgem/pages/home_navigation_tab_pages/new_artworks_tabpage.dart';
 import 'package:pixgem/pages/login/account_manage_page.dart';
 import 'package:pixgem/pages/login/login_wizard_page.dart';
-import 'package:pixgem/pages/home_navigation_tab_pages/search_home_tabpage.dart';
+import 'package:pixgem/pages/home_navigation_tab_pages/search_tabpage.dart';
 import 'package:pixgem/pages/search/search_result_page.dart';
 import 'package:pixgem/pages/settings/setting_current_account.dart';
 import 'package:pixgem/pages/user/user_detail_page.dart';
@@ -88,6 +89,7 @@ class MainPagingWidgetState extends State<MainPagingWidget> {
   // 分页组
   List<Widget> _pages = [
     HomePage(),
+    NewArtworksTabPage(),
     SearchTabPage(),
     MineTabPage(),
     // SelectLoginPage(),
@@ -113,7 +115,7 @@ class MainPagingWidgetState extends State<MainPagingWidget> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页", tooltip: "首页"),
-          // BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "新作/发现", tooltip: "新作"),
+          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "新作/发现", tooltip: "新作"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "搜索", tooltip: "搜索"),
           // BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "我的", tooltip: "搜索"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "我的", tooltip: "我的"),
