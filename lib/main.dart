@@ -16,7 +16,7 @@ import 'package:pixgem/pages/user/user_detail_page.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
 
-import 'pages/user/my_illusts_bookmark.dart';
+import 'pages/user/my_bookmarks.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
             "artworks_leaderboard": (context) => ArtworksLeaderboardPage(),
             "artworks_detail": (context) => ArtWorksDetailPage(settings.arguments!),
             "artworks_view": (context) => PreviewArtworksPage(settings.arguments!),
-            "my_illusts_bookmark": (context) => MyIllustsBookmarkPage(),
+            "my_bookmarks": (context) => MyBookmarksPage(settings.arguments),
             "user_detail": (context) => UserDetailPage(settings.arguments!),
             "setting_current_account": (context) => SettingCurrentAccountPage(),
             "login_wizard": (context) => LoginWizardPage(),

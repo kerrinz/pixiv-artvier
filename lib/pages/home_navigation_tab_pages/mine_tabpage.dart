@@ -14,9 +14,9 @@ class MineTabPage extends StatefulWidget {
 }
 
 class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientMixin {
-  List<FunctionCardModel> cards = [
+  List<FunctionCardModel> _cards = [
     FunctionCardModel("流览历史", Icons.history, "", null),
-    FunctionCardModel("我的收藏", Icons.favorite, "", null),
+    FunctionCardModel("我的收藏", Icons.favorite, "my_bookmarks", GlobalStore.currentAccount?.user.id),
     FunctionCardModel("我的关注", Icons.star, "", null),
     FunctionCardModel("下载记录", Icons.download, "", null),
   ];
@@ -71,21 +71,23 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                     // crossAxisSpacing: 4,
                     // mainAxisSpacing: 4,
                   ),
-                  itemCount: cards.length,
+                  itemCount: _cards.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Material(
                       color: Theme.of(context).cardColor,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, _cards[index].navigatorName, arguments: _cards[index].argument);
+                        },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Icon(cards[index].assetsImageUrl, size: 22),
+                              child: Icon(_cards[index].assetsImageUrl, size: 22),
                             ),
-                            Text(cards[index].text, style: TextStyle(fontSize: 14)),
+                            Text(_cards[index].text, style: TextStyle(fontSize: 14)),
                           ],
                         ),
                       ),
