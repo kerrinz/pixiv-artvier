@@ -50,6 +50,7 @@ class IllustGirdTabPageState extends State<IllustGirdTabPage> with AutomaticKeep
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ChangeNotifierProvider(
       create: (context) => _provider,
       child: RefreshIndicator(

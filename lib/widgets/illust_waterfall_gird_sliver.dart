@@ -17,7 +17,7 @@ class IllustWaterfallGirdSliver extends StatefulWidget {
   State<StatefulWidget> createState() => new IllustWaterfallGirdSliverState();
 }
 
-class IllustWaterfallGirdSliverState extends State<IllustWaterfallGirdSliver> with AutomaticKeepAliveClientMixin {
+class IllustWaterfallGirdSliverState extends State<IllustWaterfallGirdSliver> {
   bool isFastScroll = false; // 是否处于快速滚动时
 
   bool notificationFunction(Notification notification) {
@@ -106,8 +106,4 @@ class IllustWaterfallGirdSliverState extends State<IllustWaterfallGirdSliver> wi
       child: CircularProgressIndicator(strokeWidth: 1.0),
     );
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }

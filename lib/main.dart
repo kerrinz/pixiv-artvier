@@ -64,13 +64,16 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           brightness: Brightness.light,
           primaryColorBrightness: Brightness.light, // 控件亮度，影响上层文字颜色
-          appBarTheme: AppBarTheme(
+          appBarTheme: AppBarTheme( // appbar专门特制
             backgroundColor: Colors.white,
+            titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
+            toolbarTextStyle: TextStyle(color: Colors.black),
+            foregroundColor: Colors.black,
           ),
           colorScheme: ColorScheme.light(
             secondary: Colors.deepOrangeAccent,
             secondaryVariant: Colors.deepOrange,
-            onPrimary: Colors.black, // appbar文字图标颜色等
+            onPrimary: Colors.white, // button文字图标颜色等
           ),
           accentColor: Colors.deepOrangeAccent,
         ),
@@ -81,11 +84,11 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.grey.shade900,
           ),
           colorScheme: ColorScheme.dark(
-            secondary: Colors.orangeAccent.shade700,
-            secondaryVariant: Colors.deepOrange,
-            onPrimary: Colors.black,
+            secondary: Colors.lightGreenAccent,
+            secondaryVariant: Colors.lightGreen,
+            // onPrimary: Colors.black,
           ),
-          accentColor: Colors.orangeAccent.shade700,
+          accentColor: Colors.lightGreenAccent,
         ),
       ),
     );
@@ -136,6 +139,7 @@ class MainPagingWidgetState extends State<MainPagingWidget> {
           // BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "我的", tooltip: "搜索"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "我的", tooltip: "我的"),
         ],
+        fixedColor: Theme.of(context).colorScheme.secondary,
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         onTap: (int index) {

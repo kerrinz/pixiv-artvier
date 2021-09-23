@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
@@ -43,6 +44,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
               builder: (BuildContext context) {
                 return Scrollbar(
                   child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
                     child: Container(
                       width: double.infinity,
                       child: Column(
@@ -111,9 +113,10 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                     widget.info.title,
                     style: TextStyle(fontSize: 18),
                   ),
+                  titleTextStyle: TextStyle(color: Colors.white),
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
-                  brightness: Brightness.dark,
+                  systemOverlayStyle: SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
                   // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
                   leading: Builder(builder: (context) {
                     return IconButton(
@@ -162,15 +165,6 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   // 构建预览大图
   Widget _buildPreviewImage(BuildContext context) {
     return Consumer(builder: (BuildContext context, _IllustDetailProvider provider, Widget? child) {
-      // if (provider.isLoading)
-      //   // 还未取得数据，显示loading
-      //   return Container(
-      //     height: 300,
-      //     padding: const EdgeInsets.only(left: 0, right: 0, top: 72, bottom: 72),
-      //     alignment: Alignment.center,
-      //     child: _buildLoading(context),
-      //   );
-      // 取得数据后，加载图片
       return GestureDetector(
         onTap: () {
           var detail = widget.info;
@@ -293,23 +287,24 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 padding: EdgeInsets.only(right: 4.0, left: 4.0),
                 child: Selector(builder: (BuildContext context, bool isFollowed, Widget? child) {
                   if (isFollowed)
-                    return ElevatedButton(
+                    return OutlinedButton(
                       onPressed: () {
                         _provider.setFollowed(!isFollowed);
                       },
                       child: Text("已关注"),
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.grey.shade400,
-                          elevation: 1.0,
+                      style: OutlinedButton.styleFrom(
+                          primary: Theme.of(context).unselectedWidgetColor,
+                          backgroundColor: Theme.of(context).bottomAppBarColor,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
                     );
-                  return ElevatedButton(
+                  return OutlinedButton(
                     onPressed: () {
                       _provider.setFollowed(!isFollowed);
                     },
                     child: Text("+ 关注"),
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.blue.shade300,
+                    style: OutlinedButton.styleFrom(
+                        primary: Theme.of(context).colorScheme.onPrimary,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         elevation: 1.0,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
                   );
@@ -378,7 +373,10 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                             Navigator.of(context).pushNamed("search_result", arguments: element.name);
                           },
                           child: Text("#${element.name} ",
-                              style: TextStyle(color: Colors.blue.shade600, fontWeight: FontWeight.w600, fontSize: 15)),
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15)),
                         ),
                       );
                       // 标签的翻译文字
@@ -465,7 +463,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     return SizedBox(
         width: 24.0,
         height: 24.0,
-        child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor));
+        child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary));
   }
 
   /* 收藏或者取消收藏插画 */

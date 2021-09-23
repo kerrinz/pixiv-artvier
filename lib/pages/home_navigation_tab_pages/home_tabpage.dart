@@ -34,6 +34,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ChangeNotifierProvider(
       create: (BuildContext context) => _listProvider,
       child: ExtendedNestedScrollView(
