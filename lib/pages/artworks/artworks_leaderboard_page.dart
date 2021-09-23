@@ -1,3 +1,4 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/config/ranking_mode_constants.dart';
@@ -37,7 +38,8 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
+      body: ExtendedNestedScrollView(
+        onlyOneScrollInBody: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           List<Widget> tabs = [];
           this._tabsMap.forEach((key, value) {
@@ -64,6 +66,7 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
               List<IllustGirdTabPage> pages = [];
               this._tabsMap.forEach((mode, text) {
                 pages.add(IllustGirdTabPage(
+                  physics: BouncingScrollPhysics(),
                   onRefresh: () async {
                     return await ApiIllusts().getIllustRanking(mode: mode).catchError((onError) {
                       Fluttertoast.showToast(msg: "获取排行失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
