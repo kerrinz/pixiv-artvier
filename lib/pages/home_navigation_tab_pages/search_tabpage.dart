@@ -1,3 +1,4 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
 import 'package:pixgem/request/api_serach.dart';
@@ -21,15 +22,12 @@ class SearchTabPageState extends State<SearchTabPage>
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (BuildContext context) => _provider,
-      child: NestedScrollView(
-        // controller: _scrollController,
+      child: ExtendedNestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
               pinned: true,
-              // floating: true,
-              // snap: true,
-              title: _buildSearchBBox(context),
+              title: _buildSearchBox(context),
               actions: <Widget>[
                 IconButton(
                   icon: Text("取消"),
@@ -54,7 +52,7 @@ class SearchTabPageState extends State<SearchTabPage>
                 // loading
                 return Container(
                   alignment: Alignment.center,
-                  child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).accentColor),
+                  child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
                 );
               }
               return TrendingTagsGird(
@@ -68,7 +66,7 @@ class SearchTabPageState extends State<SearchTabPage>
   }
 
   // 构建搜索框
-  Widget _buildSearchBBox(BuildContext context) {
+  Widget _buildSearchBox(BuildContext context) {
     return Container(
       // 搜索框
       height: 40,

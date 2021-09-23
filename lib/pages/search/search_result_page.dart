@@ -87,6 +87,7 @@ class SearchResultPageState extends State<SearchResultPage> {
                   return await refresh();
                 },
                 child: IllustWaterfallGird(
+                  physics: BouncingScrollPhysics(),
                   artworkList: illusts,
                   onLazyLoad: () async {
                     await loadMore().catchError((onError) =>

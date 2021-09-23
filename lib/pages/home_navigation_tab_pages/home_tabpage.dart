@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -33,38 +34,37 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(
-      // controller: _scrollController,
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return [
-          SliverAppBar(
-            // pinned: true,
-            floating: true,
-            snap: true,
-            title: Text(
-              "Pixgem",
-              style: TextStyle(fontSize: 18),
-            ),
-            // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.sort),
-                onPressed: () {},
-                tooltip: "排列布局",
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => _listProvider,
+      child: ExtendedNestedScrollView(
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              pinned: false,
+              floating: true,
+              snap: true,
+              title: Text(
+                "Pixgem",
+                style: TextStyle(fontSize: 18),
               ),
-              IconButton(
-                icon: Icon(Icons.keyboard_arrow_up),
-                onPressed: () {},
-                tooltip: "回到顶部",
-              ),
-            ],
-          )
-        ];
-      },
-      // 内容主体
-      body: ChangeNotifierProvider(
-        create: (BuildContext context) => _listProvider,
-        child: RefreshIndicator(
+              // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.sort),
+                  onPressed: () {},
+                  tooltip: "排列布局",
+                ),
+                IconButton(
+                  icon: Icon(Icons.keyboard_arrow_up),
+                  onPressed: () {},
+                  tooltip: "回到顶部",
+                ),
+              ],
+            )
+          ];
+        },
+        body: RefreshIndicator(
           // 下拉刷新
           onRefresh: () async {
             await refreshAndSetData().then((value) {
@@ -76,7 +76,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
             // await saveAccount();
           },
           child: CustomScrollView(
-            // controller: _scrollController,
+            physics: BouncingScrollPhysics(),
             slivers: [
               // 排行榜头部
               SliverToBoxAdapter(
@@ -194,6 +194,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
         ),
       ),
     );
+    ;
   }
 
   // 构建排行榜卡片列表（横向
@@ -203,6 +204,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
         child: Container(
           height: 200,
           child: ListView.builder(
+            physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return Card(

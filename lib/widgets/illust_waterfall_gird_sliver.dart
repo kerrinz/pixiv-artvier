@@ -9,9 +9,8 @@ class IllustWaterfallGirdSliver extends StatefulWidget {
   final List<CommonIllust> artworkList; // 图片含基本信息的列表
   final Function onLazyLoad; // 触发懒加载（加载更多）的时候调用
   final int? limit; // 列表项的极限数量，为空则表示不限
-  ScrollPhysics? physics;
 
-  IllustWaterfallGirdSliver({Key? key, required this.artworkList, required this.onLazyLoad, this.limit, this.physics})
+  IllustWaterfallGirdSliver({Key? key, required this.artworkList, required this.onLazyLoad, this.limit})
       : super(key: key);
 
   @override
@@ -96,7 +95,6 @@ class IllustWaterfallGirdSliverState extends State<IllustWaterfallGirdSliver> wi
             ));
       }
     }
-    // 当快速滚动时
     return Padding(padding: EdgeInsets.all(4), child: IllustWaterfallCard(illust: widget.artworkList[index]));
   }
 
