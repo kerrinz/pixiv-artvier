@@ -15,18 +15,17 @@ class TrendingTagsGird extends StatefulWidget {
 class TrendingTagsGirdState extends State<TrendingTagsGird> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 8, right: 8),
-      child: GridView.builder(
-        itemCount: widget.tags.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-        ),
-        itemBuilder: (BuildContext context, int index) =>
-            _buildItem(context, index),
+    return GridView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      physics: BouncingScrollPhysics(),
+      itemCount: widget.tags.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
       ),
+      itemBuilder: (BuildContext context, int index) =>
+          _buildItem(context, index),
     );
   }
 

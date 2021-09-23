@@ -27,9 +27,11 @@ typedef IllustLazyLoadCallback = Future<CommonIllustList> Function(String nextUr
     ),
  */
 class IllustGirdTabPage extends StatefulWidget {
-  ScrollController? scrollController;
-  IllustLazyLoadCallback onLazyLoad;
-  IllustRefreshCallback onRefresh;
+  IllustLazyLoadCallback onLazyLoad; // 懒加载
+  IllustRefreshCallback onRefresh; // 刷新（包含首次加载）
+  Widget? withoutIllustWidget; // 列表为空时的展示组件
+  ScrollController? scrollController; // 滚动控制器
+  ScrollPhysics? physics; // 滚动物理效果
 
   State<StatefulWidget> createState() => IllustGirdTabPageState();
 
@@ -37,7 +39,9 @@ class IllustGirdTabPage extends StatefulWidget {
     Key? key,
     required this.onLazyLoad,
     required this.onRefresh,
+    this.withoutIllustWidget,
     this.scrollController,
+    this.physics,
   }) : super(key: key);
 }
 
@@ -55,7 +59,21 @@ class IllustGirdTabPageState extends State<IllustGirdTabPage> with AutomaticKeep
         },
         child: Consumer(
           builder: (context, IllustGirdPageProvider provider, Widget? child) {
+            if (provider.illustList?.length == 0) {
+              // 列表为空时展示
+              return SingleChildScrollView(
+                physics: widget.physics,
+                child: widget.withoutIllustWidget ??
+                    // 默认展示的样式
+                    Container(
+                      height: MediaQuery.of(context).size.height / 1.5,
+                      alignment: Alignment.center,
+                      child: Text("暂无", style: TextStyle(fontSize: 18)),
+                    ),
+              );
+            }
             return IllustWaterfallGird(
+              physics: widget.physics,
               artworkList: provider.illustList ?? [],
               onLazyLoad: () async {
                 if (provider.nextUrl == null) {

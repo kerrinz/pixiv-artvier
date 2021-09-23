@@ -1,3 +1,4 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,8 +7,6 @@ import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/pages/artworks/illusts_gird_page.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/request/api_user.dart';
-import 'package:pixgem/widgets/illust_waterfall_gird_sliver.dart';
-import 'package:provider/provider.dart';
 
 class MyBookmarksPage extends StatefulWidget {
   late final String? userId;
@@ -24,6 +23,7 @@ class MyBookmarksPage extends StatefulWidget {
 
 class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateMixin {
   _MyBookmarksProvider _provider = _MyBookmarksProvider();
+  ScrollController _scrollController = ScrollController();
   late TabController _tabController;
   List<Tab> _tabs = [
     Tab(text: "插画、漫画"),
@@ -33,29 +33,14 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              title: Text('我的收藏'),
-              pinned: false,
-              floating: true,
-              snap: true,
-            ),
-            SliverToBoxAdapter(
-              child: TabBar(
-                indicatorSize: TabBarIndicatorSize.label,
-                controller: _tabController,
-                isScrollable: false,
-                tabs: _tabs,
-              ),
-            ),
-          ];
-        },
+      body: ExtendedNestedScrollView(
+        floatHeaderSlivers: true,
+        onlyOneScrollInBody: true,
         body: TabBarView(
           controller: _tabController,
           children: [
             IllustGirdTabPage(
+              physics: BouncingScrollPhysics(),
               onRefresh: () async {
                 return await ApiUser().getUserBookmarksIllust(userId: widget.userId!).catchError((onError) {
                   Fluttertoast.showToast(msg: "获取数据失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
@@ -72,6 +57,22 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
             ),
           ],
         ),
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              title: Text('我的收藏'),
+              pinned: false,
+              floating: true,
+              snap: true,
+              bottom: TabBar(
+                indicatorSize: TabBarIndicatorSize.label,
+                controller: _tabController,
+                isScrollable: false,
+                tabs: _tabs,
+              ),
+            ),
+          ];
+        },
       ),
     );
   }

@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/user/perload_user_least_info.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
 import 'package:pixgem/pages/artworks/illusts_gird_page.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/request/api_user.dart';
+import 'package:pixgem/widgets/TabBarDelegate.dart';
 import 'package:provider/provider.dart';
 
 class UserDetailPage extends StatefulWidget {
@@ -26,7 +27,6 @@ class UserDetailPage extends StatefulWidget {
 
 class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMixin {
   _UserDetailProvider _provider = new _UserDetailProvider();
-  ScrollController _scrollController = ScrollController();
   late TabController _tabController;
 
   static const List<Tab> _tabs = [
@@ -59,8 +59,8 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
     return ChangeNotifierProvider(
       create: (BuildContext context) => _provider,
       child: Scaffold(
-        body: NestedScrollView(
-          controller: _scrollController,
+        body: ExtendedNestedScrollView(
+          onlyOneScrollInBody: true,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
               SliverAppBar(
@@ -213,6 +213,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
             children: [
               // 作品列表
               IllustGirdTabPage(
+                physics: BouncingScrollPhysics(),
                 onLazyLoad: (String nextUrl) async {
                   var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
                   return CommonIllustList.fromJson(result);
@@ -226,6 +227,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
               ),
               // 收藏列表
               IllustGirdTabPage(
+                physics: BouncingScrollPhysics(),
                 onLazyLoad: (String nextUrl) async {
                   var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
                   return CommonIllustList.fromJson(result);
@@ -239,6 +241,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
               ),
               // tab——其他信息
               SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -364,7 +367,6 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
   void dispose() {
     super.dispose();
     _tabController.dispose();
-    _scrollController.dispose();
   }
 
   // 获取or刷新用户信息
@@ -385,34 +387,6 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
       _provider.setFollowed(!_provider.isFollowedAuthor!);
     else
       Future.error("Request follow failed!");
-  }
-}
-
-/*
-* TabBar实现吸附顶端效果所需的Delegate */
-class TabBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar child;
-  Color? backgroundColor;
-
-  TabBarDelegate({required this.child, this.backgroundColor});
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: this.backgroundColor ?? Theme.of(context).bottomAppBarColor,
-      child: this.child,
-    );
-  }
-
-  @override
-  double get maxExtent => this.child.preferredSize.height;
-
-  @override
-  double get minExtent => this.child.preferredSize.height;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
   }
 }
 

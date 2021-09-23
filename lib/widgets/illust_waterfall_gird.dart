@@ -11,8 +11,11 @@ class IllustWaterfallGird extends StatefulWidget {
   final Function onLazyLoad; // 触发懒加载（加载更多）的时候调用
   final int? limit; // 列表项的极限数量，为空则表示不限
   ScrollController? scrollController;
+  ScrollPhysics? physics;
 
-  IllustWaterfallGird({Key? key, required this.artworkList, required this.onLazyLoad, this.limit, this.scrollController}) : super(key: key);
+  IllustWaterfallGird(
+      {Key? key, required this.artworkList, required this.onLazyLoad, this.limit, this.scrollController, this.physics})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => new IllustWaterfallGirdState();
@@ -22,12 +25,14 @@ class IllustWaterfallGirdState extends State<IllustWaterfallGird> {
   @override
   Widget build(BuildContext context) {
     return WaterfallFlow.builder(
+      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
       controller: widget.scrollController,
+      physics: widget.physics,
       itemCount: widget.artworkList.length,
       gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        // crossAxisSpacing: 4,
-        // mainAxisSpacing: 4,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
         collectGarbage: (List<int> garbages) {
           // print('collect garbage : $garbages');
           garbages.forEach((index) {
@@ -64,8 +69,7 @@ class IllustWaterfallGirdState extends State<IllustWaterfallGird> {
             ));
       }
     }
-    // 当快速滚动时
-    return Padding(padding: EdgeInsets.all(4), child: IllustWaterfallCard(illust: widget.artworkList[index]));
+    return IllustWaterfallCard(illust: widget.artworkList[index]);
   }
 
   // 构建循环加载动画

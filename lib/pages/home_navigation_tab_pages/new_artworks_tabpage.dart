@@ -1,3 +1,4 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/pages/artworks/illusts_gird_page.dart';
@@ -19,7 +20,9 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage> with TickerProvi
 
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(
+    return ExtendedNestedScrollView(
+      onlyOneScrollInBody: true,
+      floatHeaderSlivers: true,
       headerSliverBuilder: (context, bool innerBoxIsScrolled) {
         return [
           SliverAppBar(
@@ -57,6 +60,7 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage> with TickerProvi
           children: [
             // 关注的新作
             IllustGirdTabPage(
+              physics: BouncingScrollPhysics(),
               onRefresh: () async {
                 return await ApiNewArtWork().getFollowsNewIllusts(ApiNewArtWork.restrict_all);
               },
@@ -67,6 +71,7 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage> with TickerProvi
             ),
             // 大家的新作
             IllustGirdTabPage(
+              physics: BouncingScrollPhysics(),
               onRefresh: () async {
                 return await ApiNewArtWork().getEveryOnesNewIllusts(ApiNewArtWork.type_illust);
               },
@@ -77,6 +82,7 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage> with TickerProvi
             ),
             // 好P友的新作
             IllustGirdTabPage(
+              physics: BouncingScrollPhysics(),
               onRefresh: () async {
                 return await ApiNewArtWork().getPFriendsIllusts(ApiNewArtWork.restrict_all);
               },

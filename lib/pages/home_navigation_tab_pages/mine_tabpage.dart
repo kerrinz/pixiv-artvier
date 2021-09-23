@@ -50,6 +50,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
           ];
         },
         body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             children: [
               // 用户简卡
@@ -63,13 +64,11 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: GridView.builder(
-                  controller: new ScrollController(keepScrollOffset: false),
+                  controller: ScrollController(keepScrollOffset: false),
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
-                    // crossAxisSpacing: 4,
-                    // mainAxisSpacing: 4,
                   ),
                   itemCount: _cards.length,
                   itemBuilder: (BuildContext context, int index) {
