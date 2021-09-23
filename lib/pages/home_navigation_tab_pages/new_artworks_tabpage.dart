@@ -10,7 +10,8 @@ class NewArtworksTabPage extends StatefulWidget {
   State<StatefulWidget> createState() => NewArtworksTabPageState();
 }
 
-class NewArtworksTabPageState extends State<NewArtworksTabPage> with TickerProviderStateMixin {
+class NewArtworksTabPageState extends State<NewArtworksTabPage>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late TabController _tabController;
   List<Tab> _tabs = [
     Tab(text: "关注的新作"),
@@ -20,6 +21,7 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage> with TickerProvi
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ExtendedNestedScrollView(
       onlyOneScrollInBody: true,
       floatHeaderSlivers: true,
@@ -102,4 +104,7 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage> with TickerProvi
     super.initState();
     _tabController = TabController(initialIndex: 0, length: _tabs.length, vsync: this);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
