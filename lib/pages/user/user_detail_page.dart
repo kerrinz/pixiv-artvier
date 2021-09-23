@@ -69,7 +69,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                 expandedHeight: coverHeight + 100,
                 collapsedHeight: kToolbarHeight,
                 // title: Text(widget.leastInfo.name),
-                backgroundColor: Theme.of(context).bottomAppBarColor,
+                backgroundColor: Theme.of(context).bottomAppBarColor, // 与TabBar背景色一致
                 shadowColor: Colors.transparent,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
@@ -202,7 +202,6 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                     isScrollable: false,
                     tabs: _tabs,
                   ),
-                  backgroundColor: null,
                 ),
               ),
             ];
@@ -334,8 +333,6 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
       return OutlinedButton(
         onPressed: () {},
         style: OutlinedButton.styleFrom(
-          primary: Colors.white,
-          backgroundColor: Theme.of(context).accentColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(32),
           ),
@@ -352,8 +349,8 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
           });
         },
         style: OutlinedButton.styleFrom(
-          primary: isFollowed ? Theme.of(context).unselectedWidgetColor : Colors.white,
-          backgroundColor: isFollowed ? Theme.of(context).bottomAppBarColor : Theme.of(context).accentColor,
+          primary: isFollowed ? Theme.of(context).unselectedWidgetColor : Theme.of(context).colorScheme.onPrimary,
+          backgroundColor: isFollowed ? Theme.of(context).bottomAppBarColor : Theme.of(context).colorScheme.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(32),
           ),

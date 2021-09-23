@@ -20,6 +20,7 @@ class SearchTabPageState extends State<SearchTabPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ChangeNotifierProvider(
       create: (BuildContext context) => _provider,
       child: ExtendedNestedScrollView(
