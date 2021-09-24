@@ -1,5 +1,6 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
 import 'package:pixgem/request/api_serach.dart';
 import 'package:pixgem/widgets/trending_tags_gird.dart';
@@ -12,8 +13,7 @@ class SearchTabPage extends StatefulWidget {
   }
 }
 
-class SearchTabPageState extends State<SearchTabPage>
-    with AutomaticKeepAliveClientMixin {
+class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveClientMixin {
   _SearchProvider _provider = _SearchProvider();
   TextEditingController _textController = TextEditingController();
   FocusNode _focusNode = FocusNode();
@@ -42,24 +42,30 @@ class SearchTabPageState extends State<SearchTabPage>
           ];
         },
         // 内容主体
-        body: Container(
-          child: Selector(
-            selector: (BuildContext context, _SearchProvider provider) {
-              return provider.trendTags;
-            },
-            builder:
-                (BuildContext context, List<TrendTags>? tags, Widget? child) {
-              if (tags == null) {
-                // loading
-                return Container(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            return await requestTrendingTags().catchError(((onError) {
+              Fluttertoast.showToast(msg: "刷新失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+            }));
+          },
+          child: Container(
+            child: Selector(
+              selector: (BuildContext context, _SearchProvider provider) {
+                return provider.trendTags;
+              },
+              builder: (BuildContext context, List<TrendTags>? tags, Widget? child) {
+                if (tags == null) {
+                  // loading
+                  return Container(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
+                  );
+                }
+                return TrendingTagsGird(
+                  tags: tags,
                 );
-              }
-              return TrendingTagsGird(
-                tags: tags,
-              );
-            },
+              },
+            ),
           ),
         ),
       ),
@@ -91,16 +97,14 @@ class SearchTabPageState extends State<SearchTabPage>
               // 键盘的回车键换成搜索按钮
               decoration: InputDecoration(
                 hintText: "搜索...",
-                contentPadding:
-                EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 isCollapsed: true, // 高度包裹，不会存在默认高度
               ),
               onSubmitted: (value) {
                 // 跳转搜索结果页面
-                Navigator.of(context)
-                    .pushNamed("search_result", arguments: value);
+                Navigator.of(context).pushNamed("search_result", arguments: value);
               },
               onChanged: (value) {
                 if (value == "") {
@@ -113,8 +117,7 @@ class SearchTabPageState extends State<SearchTabPage>
           ),
           // 清空按钮
           Selector(
-            builder: (BuildContext context, bool isExistText,
-                Widget? child) {
+            builder: (BuildContext context, bool isExistText, Widget? child) {
               if (!isExistText) {
                 return Container();
               }
@@ -143,7 +146,9 @@ class SearchTabPageState extends State<SearchTabPage>
   void initState() {
     super.initState();
     // 获取热门标签
-    requestTrendingTags();
+    requestTrendingTags().catchError(((onError) {
+      Fluttertoast.showToast(msg: "加载失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+    }));
   }
 
   Future requestTrendingTags() async {

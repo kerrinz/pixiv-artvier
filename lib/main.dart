@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/booting_page.dart';
 import 'package:pixgem/pages/artworks/artworks_detail_page.dart';
 import 'package:pixgem/pages/artworks/artworks_leaderboard_page.dart';
@@ -64,7 +65,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           brightness: Brightness.light,
           primaryColorBrightness: Brightness.light, // 控件亮度，影响上层文字颜色
-          appBarTheme: AppBarTheme( // appbar专门特制
+          appBarTheme: AppBarTheme(
+            // appbar专门特制
             backgroundColor: Colors.white,
             titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
             toolbarTextStyle: TextStyle(color: Colors.black),
@@ -115,37 +117,53 @@ class MainPagingWidgetState extends State<MainPagingWidget> {
     // SelectLoginPage(),
   ];
   PageController _pageController = PageController();
+  DateTime? _lastPressedBack; // 上次点击返回的时间
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView.builder(
-        onPageChanged: (int index) {
-          setState(() {
-            this._currentIndex = index;
-          });
-        },
-        controller: _pageController,
-        itemCount: _pages.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _pages[index];
-        },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页", tooltip: "首页"),
-          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "新作/发现", tooltip: "新作"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "搜索", tooltip: "搜索"),
-          // BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "我的", tooltip: "搜索"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "我的", tooltip: "我的"),
-        ],
-        fixedColor: Theme.of(context).colorScheme.secondary,
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        onTap: (int index) {
-          // 切换页面
-          _pageController.jumpToPage(index);
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        // 拦截短时间内的单按返回
+        if (_lastPressedBack == null || DateTime.now().difference(_lastPressedBack!) > Duration(seconds: 1)) {
+          // 两次点击间隔超过1秒则重新计时
+          _lastPressedBack = DateTime.now();
+          Fluttertoast.showToast(msg: "双击退出程序", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+          return false;
+        }
+        // 短时间内双击返回加通过
+        return true;
+      },
+      child: Scaffold(
+        body: PageView.builder(
+          onPageChanged: (int index) {
+            setState(() {
+              this._currentIndex = index;
+            });
+          },
+          controller: _pageController,
+          itemCount: _pages.length,
+          itemBuilder: (BuildContext context, int index) {
+            return _pages[index];
+          },
+        ),
+        bottomNavigationBar: Container(
+          child: BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页", tooltip: "首页"),
+              BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "新作/发现", tooltip: "新作"),
+              BottomNavigationBarItem(icon: Icon(Icons.search), label: "搜索", tooltip: "搜索"),
+              // BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "我的", tooltip: "搜索"),
+              BottomNavigationBarItem(icon: Icon(Icons.person), label: "我的", tooltip: "我的"),
+            ],
+            fixedColor: Theme.of(context).colorScheme.secondary,
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _currentIndex,
+            onTap: (int index) {
+              // 切换页面
+              _pageController.jumpToPage(index);
+            },
+          ),
+        ),
       ),
     );
   }
