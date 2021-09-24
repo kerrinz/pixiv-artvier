@@ -39,6 +39,7 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
   Widget build(BuildContext context) {
     return Scaffold(
       body: ExtendedNestedScrollView(
+        floatHeaderSlivers: true,
         onlyOneScrollInBody: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           List<Widget> tabs = [];
