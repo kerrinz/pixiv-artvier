@@ -1,23 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/config/constants.dart';
+import 'package:pixgem/model_response/illusts/illust_comments.dart';
 
 class CommentWidget extends StatelessWidget {
-  final String imageUrl;
-  final String name;
-  final String content;
-  final String time;
-  final String? stampId;
-  final bool couldReply;
+  late final Comments comment;
 
-  CommentWidget({
-    Key? key,
-    required this.imageUrl,
-    required this.name,
-    required this.content,
-    required this.time,
-    required this.couldReply,
-    this.stampId,
-  }) : super(key: key);
+  CommentWidget({Key? key, required this.comment}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +18,11 @@ class CommentWidget extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(top: 12),
           child: ClipOval(
-            child: Image.network(
-              imageUrl,
+            child: CachedNetworkImage(
+              imageUrl: comment.user.profileImageUrls.medium,
               width: 50,
               height: 50,
-              headers: {"Referer": CONSTANTS.referer},
+              httpHeaders: {"Referer": CONSTANTS.referer},
               fit: BoxFit.cover,
             ),
           ),
@@ -53,42 +42,43 @@ class CommentWidget extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.only(top: 10, bottom: 8),
                         child: Text(
-                          name,
+                          comment.user.name,
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
                     // 回复按钮
                     Builder(builder: (context) {
-                      if (couldReply)
-                        return TextButton(
-                          onPressed: () {},
-                          child: Text("回复"),
-                          // style: TextButton.styleFrom(primary: Colors.blue.shade400),
-                        );
-                      else
-                        return Text("");
+                      return TextButton(
+                        onPressed: () {},
+                        child: Text("回复"),
+                        // style: TextButton.styleFrom(primary: Colors.blue.shade400),
+                      );
                     }),
                   ],
                 ),
                 // 内容
                 Builder(builder: (context) {
-                  if (stampId != null) {
-                    return Image.network(
-                      "${CONSTANTS.stamp_url_base}${stampId}_s.jpg",
-                      width: 100,
+                  if (comment.stamp != null) {
+                    return CachedNetworkImage(
+                      imageUrl: comment.stamp!.stampUrl,
+                      httpHeaders: {"Referer": CONSTANTS.referer},
+                      width: 64,
                     );
                   }
-                  return Text(
-                    content,
-                    style: TextStyle(fontSize: 16),
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: Text(
+                      comment.comment,
+                      style: TextStyle(fontSize: 16),
+                    ),
                   );
                 }),
                 // 发布时间
                 Padding(
                   padding: EdgeInsets.only(top: 8),
                   child: Text(
-                    time,
+                    comment.date,
                     style: TextStyle(color: Colors.grey.shade600),
                   ),
                 ),
