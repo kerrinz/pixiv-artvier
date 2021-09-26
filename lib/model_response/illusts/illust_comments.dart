@@ -22,7 +22,7 @@ class IllustComments extends Object {
 
 
 @JsonSerializable()
-class Comments extends Object {
+  class Comments extends Object {
 
   @JsonKey(name: 'id')
   int id;
@@ -39,7 +39,10 @@ class Comments extends Object {
   @JsonKey(name: 'has_replies')
   bool hasReplies;
 
-  Comments(this.id,this.comment,this.date,this.user,this.hasReplies,);
+  @JsonKey(name: 'stamp')
+  Stamp? stamp;
+
+  Comments(this.id,this.comment,this.date,this.user,this.hasReplies,this.stamp,);
 
   factory Comments.fromJson(Map<String, dynamic> srcJson) => _$CommentsFromJson(srcJson);
 
@@ -47,9 +50,9 @@ class Comments extends Object {
 
 }
 
-
+  
 @JsonSerializable()
-class User extends Object {
+  class User extends Object {
 
   @JsonKey(name: 'id')
   int id;
@@ -71,9 +74,9 @@ class User extends Object {
 
 }
 
-
+  
 @JsonSerializable()
-class Profile_image_urls extends Object {
+  class Profile_image_urls extends Object {
 
   @JsonKey(name: 'medium')
   String medium;
@@ -86,4 +89,22 @@ class Profile_image_urls extends Object {
 
 }
 
+  
+@JsonSerializable()
+  class Stamp extends Object {
 
+  @JsonKey(name: 'stamp_id')
+  int stampId;
+
+  @JsonKey(name: 'stamp_url')
+  String stampUrl;
+
+  Stamp(this.stampId,this.stampUrl,);
+
+  factory Stamp.fromJson(Map<String, dynamic> srcJson) => _$StampFromJson(srcJson);
+
+  Map<String, dynamic> toJson() => _$StampToJson(this);
+
+}
+
+  

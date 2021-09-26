@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model_response/illusts/illust_comments.dart';
 import 'package:pixgem/model_response/user/perload_user_least_info.dart';
 import 'package:pixgem/pages/comments_page.dart';
 import 'package:pixgem/request/api_illusts.dart';
+import 'package:pixgem/request/api_user.dart';
 import 'package:pixgem/widgets/comment.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +28,7 @@ class ArtWorksDetailPage extends StatefulWidget {
 class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   ///初始化Provider
   _IllustDetailProvider _provider = new _IllustDetailProvider();
-  _IllustCommentsProvider _providerComments = new _IllustCommentsProvider();
+  IllustCommentsProvider _providerComments = new IllustCommentsProvider();
 
   static const String _referer = "https://www.pixiv.net";
 
@@ -62,21 +62,18 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                             child: Card(
                               elevation: 2.0,
                               margin: EdgeInsets.all(4.0),
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 12),
-                                child: ChangeNotifierProvider(
-                                  create: (BuildContext context) => _providerComments,
-                                  child: Consumer(
-                                    builder: (BuildContext context, _IllustCommentsProvider provider, Widget? child) {
-                                      if (provider.isLoading)
-                                        return Container(
-                                          alignment: Alignment.center,
-                                          padding: EdgeInsets.all(16),
-                                          child: _buildLoading(context),
-                                        );
-                                      return _buildComments(context, provider);
-                                    },
-                                  ),
+                              child: ChangeNotifierProvider(
+                                create: (BuildContext context) => _providerComments,
+                                child: Consumer(
+                                  builder: (BuildContext context, IllustCommentsProvider provider, Widget? child) {
+                                    if (provider.commentList == null)
+                                      return Container(
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.all(16),
+                                        child: _buildLoading(context),
+                                      );
+                                    return _buildComments(context, provider);
+                                  },
                                 ),
                               ),
                             ),
@@ -140,16 +137,18 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
           },
           backgroundColor: Colors.grey.shade50,
           child: Selector(
-            builder: (BuildContext context, bool isBookmarked, Widget? child) {
-              if (isBookmarked)
-                return Icon(
-                  Icons.favorite,
-                  color: Colors.red,
-                  size: 28,
-                );
+            builder: (BuildContext context, bool? isBookmarked, Widget? child) {
+              bool flag; // 在获取新数据前后对是否收藏的判断依据
+              if (isBookmarked == null) {
+                // 未加载新数据，使用传递的旧数据
+                flag = widget.info.isBookmarked;
+              } else {
+                // 已获取到新数据，使用新的数据
+                flag = isBookmarked;
+              }
               return Icon(
-                Icons.favorite_border_outlined,
-                color: Colors.grey,
+                flag ? Icons.favorite : Icons.favorite_border_outlined,
+                color: flag ? Colors.red : Colors.grey,
                 size: 28,
               );
             },
@@ -285,28 +284,37 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
               // 关注或已关注的按钮
               Padding(
                 padding: EdgeInsets.only(right: 4.0, left: 4.0),
-                child: Selector(builder: (BuildContext context, bool isFollowed, Widget? child) {
-                  if (isFollowed)
+                child: Selector(builder: (BuildContext context, bool? isFollowed, Widget? child) {
+                  if (isFollowed == null) {
                     return OutlinedButton(
-                      onPressed: () {
-                        _provider.setFollowed(!isFollowed);
-                      },
-                      child: Text("已关注"),
+                      onPressed: () {},
                       style: OutlinedButton.styleFrom(
-                          primary: Theme.of(context).unselectedWidgetColor,
-                          backgroundColor: Theme.of(context).bottomAppBarColor,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32),
+                        ),
+                      ),
+                      child: Text("..."),
                     );
+                  }
                   return OutlinedButton(
                     onPressed: () {
-                      _provider.setFollowed(!isFollowed);
+                      postFollow().then((value) {
+                        Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                      }).onError((error, stackTrace) {
+                        Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                      });
                     },
-                    child: Text("+ 关注"),
                     style: OutlinedButton.styleFrom(
-                        primary: Theme.of(context).colorScheme.onPrimary,
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        elevation: 1.0,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
+                      primary: isFollowed
+                          ? Theme.of(context).unselectedWidgetColor
+                          : Theme.of(context).colorScheme.onPrimary,
+                      backgroundColor:
+                          isFollowed ? Theme.of(context).bottomAppBarColor : Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                    ),
+                    child: Text(isFollowed ? "已关注" : "+ 关注"),
                   );
                 }, selector: (context, _IllustDetailProvider provider) {
                   return provider.isFollowedAuthor;
@@ -324,12 +332,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                     child: Row(
                       children: [
                         // 点赞数
-                        Expanded(
-                            flex: 1,
-                            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                              Icon(Icons.thumb_up, size: 18, color: Colors.grey),
-                              Text(" null ", style: TextStyle(color: Colors.grey, fontSize: 14)),
-                            ])),
+                        Expanded(flex: 1, child: Text("id: " + widget.info.id.toString())),
                         // 收藏数
                         Expanded(
                             flex: 1,
@@ -350,13 +353,9 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                         ),
                       ],
                     )),
-                // pic id
-                Text(
-                  "作品id: " + widget.info.id.toString(),
-                ),
                 // 简介，字段为comment
                 Text(
-                  widget.info.caption != null ? widget.info.caption : "",
+                  widget.info.caption,
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 15),
                 ),
@@ -398,9 +397,9 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   }
 
   // 构建评论区
-  Widget _buildComments(BuildContext context, _IllustCommentsProvider provider) {
+  Widget _buildComments(BuildContext context, IllustCommentsProvider provider) {
     // 展示的评论数量，[0-3]
-    int commentsShowSize = provider.data.comments.length > 3 ? 3 : provider.data.comments.length;
+    int commentsShowSize = provider.commentList!.length > 3 ? 3 : provider.commentList!.length;
     if (commentsShowSize == 0) {
       return Padding(
         padding: EdgeInsets.only(top: 12),
@@ -409,50 +408,37 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     }
     List<Widget> commentWidgets = [];
     for (int i = 0; i < commentsShowSize; i++) {
-      var item = provider.data.comments[i];
-      commentWidgets.add(CommentWidget(
-        imageUrl: item.user.profileImageUrls.medium,
-        time: item.date,
-        content: item.comment,
-        name: item.user.name,
-        couldReply: false,
-      ));
+      var item = provider.commentList![i];
+      commentWidgets.add(CommentWidget(comment: item));
     }
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Text.rich(
-                TextSpan(
-                  text: "评论数 ",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  children: [
-                    TextSpan(
-                      text: provider.data.comments.length.toString(),
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return CommentsPage(illustId: widget.info.id.toString());
-                  }));
-                },
-                child: Text("查看全部评论 >")),
-          ],
+        // 评论列表（部分
+        Padding(
+          padding: EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 12),
+          child: Column(
+            children: commentWidgets,
+          ),
         ),
         Divider(
           height: 1,
-          // color: Colors.grey.shade400,
         ),
-        Column(
-          children: commentWidgets,
+        InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return CommentsPage(illustId: widget.info.id.toString());
+            }));
+          },
+          child: Container(
+            width: double.infinity,
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+            child: Text(
+              "查看全部评论 >",
+              style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500),
+            ),
+          ),
         ),
       ],
     );
@@ -468,15 +454,31 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
 
   /* 收藏或者取消收藏插画 */
   Future postBookmark() async {
-    bool isSucceed = false;
-    if (_provider.isBookmarked)
+    bool isSucceed = false; // 是否执行成功
+    bool isBookmarked = _provider.isBookmarked ?? widget.info.isBookmarked;
+
+    if (isBookmarked)
       isSucceed = await ApiIllusts().deleteIllustBookmark(illustId: widget.info.id.toString());
     else
       isSucceed = await ApiIllusts().addIllustBookmark(illustId: widget.info.id.toString());
+    // 执行结果
     if (isSucceed)
-      _provider.setBookmarked(!_provider.isBookmarked);
+      _provider.setBookmarked(!isBookmarked);
     else
       Future.error("Request bookmark failed!");
+  }
+
+  // 关注或者取消关注用户
+  Future postFollow() async {
+    bool isSucceed = false;
+    if (_provider.isFollowedAuthor!)
+      isSucceed = await ApiUser().deleteFollowUser(userId: widget.info.user.id);
+    else
+      isSucceed = await ApiUser().addFollowUser(userId: widget.info.user.id);
+    if (isSucceed)
+      _provider.setFollowed(!_provider.isFollowedAuthor!);
+    else
+      Future.error("Request follow failed!");
   }
 
   @override
@@ -484,8 +486,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     super.initState();
     _provider.setData(widget.info);
     ApiIllusts().getIllustComments(illustId: widget.info.id.toString()).then((value) {
-      _providerComments.setData(value);
-      _providerComments.setIsLoading(false);
+      _providerComments.setAll(value.comments, value.nextUrl);
     });
   }
 }
@@ -493,9 +494,8 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
 /* Provider: IllustDetail
  */
 class _IllustDetailProvider with ChangeNotifier {
-  bool isLoading = true; // 是否正在加载
-  bool isBookmarked = false; // 是否已经收藏
-  bool isFollowedAuthor = false; // 是否已经关注作者
+  bool? isBookmarked; // 是否已经收藏
+  bool? isFollowedAuthor; // 是否已经关注作者
 
   void setData(CommonIllust newData) {
     isBookmarked = newData.isBookmarked;
@@ -508,42 +508,8 @@ class _IllustDetailProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setIsLoading(bool value) {
-    isLoading = value;
-    notifyListeners();
-  }
-
   void setFollowed(bool value) {
     isFollowedAuthor = value;
-    notifyListeners();
-  }
-}
-
-/* Provider: IllustComments
- */
-class _IllustCommentsProvider with ChangeNotifier {
-  late IllustComments data; // 作品的评论
-  bool isLoading = true; // 是否正在加载
-  int page = 0; // 页码
-
-  void setData(IllustComments newData) {
-    data = newData;
-    notifyListeners();
-  }
-
-  void setIsLoading(bool value) {
-    isLoading = value;
-    notifyListeners();
-  }
-
-  void setPage(int value) {
-    page = value;
-    notifyListeners();
-  }
-
-  // 页码自增1
-  void pageAdd1() {
-    page++;
     notifyListeners();
   }
 }

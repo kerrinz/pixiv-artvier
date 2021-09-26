@@ -28,6 +28,9 @@ Comments _$CommentsFromJson(Map<String, dynamic> json) {
     json['date'] as String,
     User.fromJson(json['user'] as Map<String, dynamic>),
     json['has_replies'] as bool,
+    json['stamp'] == null
+        ? null
+        : Stamp.fromJson(json['stamp'] as Map<String, dynamic>),
   );
 }
 
@@ -37,6 +40,7 @@ Map<String, dynamic> _$CommentsToJson(Comments instance) => <String, dynamic>{
       'date': instance.date,
       'user': instance.user,
       'has_replies': instance.hasReplies,
+      'stamp': instance.stamp,
     };
 
 User _$UserFromJson(Map<String, dynamic> json) {
@@ -65,4 +69,16 @@ Profile_image_urls _$Profile_image_urlsFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$Profile_image_urlsToJson(Profile_image_urls instance) =>
     <String, dynamic>{
       'medium': instance.medium,
+    };
+
+Stamp _$StampFromJson(Map<String, dynamic> json) {
+  return Stamp(
+    json['stamp_id'] as int,
+    json['stamp_url'] as String,
+  );
+}
+
+Map<String, dynamic> _$StampToJson(Stamp instance) => <String, dynamic>{
+      'stamp_id': instance.stampId,
+      'stamp_url': instance.stampUrl,
     };
