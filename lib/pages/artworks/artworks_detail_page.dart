@@ -8,7 +8,7 @@ import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/user/perload_user_least_info.dart';
 import 'package:pixgem/pages/comments_page.dart';
 import 'package:pixgem/request/api_illusts.dart';
-import 'package:pixgem/request/api_user.dart';
+import 'package:pixgem/widgets/FollowButton.dart';
 import 'package:pixgem/widgets/comment.dart';
 import 'package:provider/provider.dart';
 
@@ -284,41 +284,10 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
               // 关注或已关注的按钮
               Padding(
                 padding: EdgeInsets.only(right: 4.0, left: 4.0),
-                child: Selector(builder: (BuildContext context, bool? isFollowed, Widget? child) {
-                  if (isFollowed == null) {
-                    return OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32),
-                        ),
-                      ),
-                      child: Text("..."),
-                    );
-                  }
-                  return OutlinedButton(
-                    onPressed: () {
-                      postFollow().then((value) {
-                        Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                      }).onError((error, stackTrace) {
-                        Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                      });
-                    },
-                    style: OutlinedButton.styleFrom(
-                      primary: isFollowed
-                          ? Theme.of(context).unselectedWidgetColor
-                          : Theme.of(context).colorScheme.onPrimary,
-                      backgroundColor:
-                          isFollowed ? Theme.of(context).bottomAppBarColor : Theme.of(context).colorScheme.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32),
-                      ),
-                    ),
-                    child: Text(isFollowed ? "已关注" : "+ 关注"),
-                  );
-                }, selector: (context, _IllustDetailProvider provider) {
-                  return provider.isFollowedAuthor;
-                }),
+                child: FollowButton(
+                  isFollowed: widget.info.user.isFollowed,
+                  userId: widget.info.user.id.toString(),
+                ),
               ),
             ],
           ),
@@ -468,18 +437,6 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       Future.error("Request bookmark failed!");
   }
 
-  // 关注或者取消关注用户
-  Future postFollow() async {
-    bool isSucceed = false;
-    if (_provider.isFollowedAuthor!)
-      isSucceed = await ApiUser().deleteFollowUser(userId: widget.info.user.id);
-    else
-      isSucceed = await ApiUser().addFollowUser(userId: widget.info.user.id);
-    if (isSucceed)
-      _provider.setFollowed(!_provider.isFollowedAuthor!);
-    else
-      Future.error("Request follow failed!");
-  }
 
   @override
   void initState() {
@@ -495,21 +452,14 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
  */
 class _IllustDetailProvider with ChangeNotifier {
   bool? isBookmarked; // 是否已经收藏
-  bool? isFollowedAuthor; // 是否已经关注作者
 
   void setData(CommonIllust newData) {
     isBookmarked = newData.isBookmarked;
-    isFollowedAuthor = newData.user.isFollowed ?? false;
     notifyListeners();
   }
 
   void setBookmarked(bool value) {
     isBookmarked = value;
-    notifyListeners();
-  }
-
-  void setFollowed(bool value) {
-    isFollowedAuthor = value;
     notifyListeners();
   }
 }

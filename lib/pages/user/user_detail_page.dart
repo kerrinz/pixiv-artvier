@@ -9,6 +9,7 @@ import 'package:pixgem/model_response/user/user_detail.dart';
 import 'package:pixgem/pages/artworks/illusts_gird_page.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/request/api_user.dart';
+import 'package:pixgem/widgets/FollowButton.dart';
 import 'package:pixgem/widgets/TabBarDelegate.dart';
 import 'package:provider/provider.dart';
 
@@ -118,7 +119,24 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                             padding: EdgeInsets.only(right: 12),
                             child: Selector(
                               builder: (BuildContext context, bool? isFollowed, Widget? child) {
-                                return _buildFollowButton(context, isFollowed);
+                                if (isFollowed == null) {
+                                  return OutlinedButton(
+                                    onPressed: () {},
+                                    style: OutlinedButton.styleFrom(
+                                      primary: 
+                                           Theme.of(context).colorScheme.onPrimary,
+                                      backgroundColor: Theme.of(context).colorScheme.primary,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(32),
+                                      ),
+                                    ),
+                                    child: Text("loading..."),
+                                  );
+                                }
+                                return FollowButton(
+                                  isFollowed: isFollowed,
+                                  userId: widget.leastInfo.id.toString(),
+                                );
                               },
                               selector: (context, _UserDetailProvider provider) {
                                 return provider.isFollowedAuthor;
@@ -325,39 +343,6 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
         width: 24.0,
         height: 24.0,
         child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor));
-  }
-
-  // 构建关注按钮
-  Widget _buildFollowButton(BuildContext context, bool? isFollowed) {
-    if (isFollowed == null)
-      return OutlinedButton(
-        onPressed: () {},
-        style: OutlinedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32),
-          ),
-        ),
-        child: Text("..."),
-      );
-    else {
-      return OutlinedButton(
-        onPressed: () {
-          postFollow().then((value) {
-            Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-          }).onError((error, stackTrace) {
-            Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-          });
-        },
-        style: OutlinedButton.styleFrom(
-          primary: isFollowed ? Theme.of(context).unselectedWidgetColor : Theme.of(context).colorScheme.onPrimary,
-          backgroundColor: isFollowed ? Theme.of(context).bottomAppBarColor : Theme.of(context).colorScheme.primary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32),
-          ),
-        ),
-        child: Text(isFollowed ? "已关注" : "+ 关注"),
-      );
-    }
   }
 
   @override
