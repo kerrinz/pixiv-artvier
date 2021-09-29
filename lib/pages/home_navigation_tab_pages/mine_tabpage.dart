@@ -17,7 +17,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
   List<FunctionCardModel> _cards = [
     FunctionCardModel("流览历史", Icons.history, "", null),
     FunctionCardModel("我的收藏", Icons.favorite, "my_bookmarks", GlobalStore.currentAccount?.user.id),
-    FunctionCardModel("我的关注", Icons.star, "", null),
+    FunctionCardModel("我的关注", Icons.star, "user_following", GlobalStore.currentAccount?.user.id),
     FunctionCardModel("下载记录", Icons.download, "", null),
   ];
 

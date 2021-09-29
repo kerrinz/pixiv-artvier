@@ -395,9 +395,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
         ),
         InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return CommentsPage(illustId: widget.info.id.toString());
-            }));
+            Navigator.of(context).pushNamed("artworks_comments", arguments: widget.info.id.toString());
           },
           child: Container(
             width: double.infinity,
@@ -436,7 +434,6 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     else
       Future.error("Request bookmark failed!");
   }
-
 
   @override
   void initState() {

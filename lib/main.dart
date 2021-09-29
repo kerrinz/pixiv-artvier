@@ -14,9 +14,11 @@ import 'package:pixgem/pages/home_navigation_tab_pages/search_tabpage.dart';
 import 'package:pixgem/pages/search/search_result_page.dart';
 import 'package:pixgem/pages/settings/setting_current_account.dart';
 import 'package:pixgem/pages/user/user_detail_page.dart';
+import 'package:pixgem/pages/user/user_following_page.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
 
+import 'pages/comments_page.dart';
 import 'pages/user/my_bookmarks.dart';
 
 void main() {
@@ -42,7 +44,9 @@ class MyApp extends StatelessWidget {
             "artworks_leaderboard": (context) => ArtworksLeaderboardPage(),
             "artworks_detail": (context) => ArtWorksDetailPage(settings.arguments!),
             "artworks_view": (context) => PreviewArtworksPage(settings.arguments!),
+            "artworks_comments": (context) => CommentsPage(settings.arguments!),
             "my_bookmarks": (context) => MyBookmarksPage(settings.arguments),
+            "user_following": (context) => UserFollowingPage(settings.arguments!),
             "user_detail": (context) => UserDetailPage(settings.arguments!),
             "setting_current_account": (context) => SettingCurrentAccountPage(),
             "login_wizard": (context) => LoginWizardPage(),
