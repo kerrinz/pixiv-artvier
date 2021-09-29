@@ -7,9 +7,11 @@ import 'package:pixgem/widgets/comment.dart';
 import 'package:provider/provider.dart';
 
 class CommentsPage extends StatefulWidget {
-  final String illustId; // 作品id
+  late final String illustId; // 作品id
 
-  CommentsPage({Key? key, required this.illustId}) : super(key: key);
+  CommentsPage(Object arguments, {Key? key}) : super(key: key) {
+    this.illustId = arguments as String;
+  }
 
   @override
   State<StatefulWidget> createState() {
@@ -39,50 +41,55 @@ class _CommentsPageState extends State<CommentsPage> {
             );
           }),
         ),
-        body: Consumer(
-          builder: (BuildContext context, IllustCommentsProvider provider, Widget? child) {
-            if (provider.commentList == null) {
-              return _buildLoading(context);
-            }
-            return ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: provider.commentList!.length,
-              itemBuilder: (BuildContext context, int index) {
-                // 如果滑动到了表尾
-                if (index == provider.commentList!.length - 1) {
-                  // 未到上限，继续获取下一页数据
-                  if (provider.nextUrl != null) {
-                    requestNext();
-                    //加载时显示loading
-                    return Container(
-                      padding: const EdgeInsets.all(16.0),
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        width: 24.0,
-                        height: 24.0,
-                        child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor),
-                      ),
-                    );
-                  } else {
-                    //已经加载完全部数据，不再获取
-                    return Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.all(16.0),
-                      child: Text(
-                        "没有更多了",
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    );
-                  }
-                }
-                // 非表尾的情况下显示列表项
-                return Container(
-                  padding: EdgeInsets.only(left: 6),
-                  child: CommentWidget(comment: provider.commentList![index]),
-                );
-              },
-            );
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await refresh();
           },
+          child: Consumer(
+            builder: (BuildContext context, IllustCommentsProvider provider, Widget? child) {
+              if (provider.commentList == null) {
+                return _buildLoading(context);
+              }
+              return ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: provider.commentList!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  // 如果滑动到了表尾
+                  if (index == provider.commentList!.length - 1) {
+                    // 未到上限，继续获取下一页数据
+                    if (provider.nextUrl != null) {
+                      requestNext();
+                      //加载时显示loading
+                      return Container(
+                        padding: const EdgeInsets.all(16.0),
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: 24.0,
+                          height: 24.0,
+                          child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor),
+                        ),
+                      );
+                    } else {
+                      //已经加载完全部数据，不再获取
+                      return Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          "没有更多了",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      );
+                    }
+                  }
+                  // 非表尾的情况下显示列表项
+                  return Container(
+                    padding: EdgeInsets.only(left: 6),
+                    child: CommentWidget(comment: provider.commentList![index]),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );
