@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/illusts_search_result.dart';
 import 'package:pixgem/request/api_serach.dart';
-import 'package:pixgem/widgets/illust_waterfall_gird.dart';
+import 'package:pixgem/widgets/illust_waterfall_grid.dart';
 import 'package:provider/provider.dart';
 
 class SearchResultPage extends StatefulWidget {
@@ -86,7 +86,7 @@ class SearchResultPageState extends State<SearchResultPage> {
                 onRefresh: () async {
                   return await refresh();
                 },
-                child: IllustWaterfallGird(
+                child: IllustWaterfallGrid(
                   physics: BouncingScrollPhysics(),
                   artworkList: illusts,
                   onLazyLoad: () async {

@@ -50,11 +50,11 @@ class BootingPageState extends State<BootingPage> {
     if (id != null) {
       // 已登录
       Navigator.pushNamedAndRemoveUntil(
-          context, "main", (route) => route == null);
+          context, "main", (route) => false);
     } else {
       // 未登录
       Navigator.pushNamedAndRemoveUntil(
-          context, "login_wizard", (route) => route == null);
+          context, "login_wizard", (route) => false);
     }
   }
 }

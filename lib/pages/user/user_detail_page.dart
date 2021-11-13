@@ -6,7 +6,7 @@ import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/user/perload_user_least_info.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
-import 'package:pixgem/pages/artworks/illusts_gird_page.dart';
+import 'package:pixgem/pages/artworks/illusts_grid_page.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/request/api_user.dart';
 import 'package:pixgem/widgets/FollowButton.dart';
@@ -229,7 +229,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
             controller: _tabController,
             children: [
               // 作品列表
-              IllustGirdTabPage(
+              IllustGridTabPage(
                 physics: BouncingScrollPhysics(),
                 onLazyLoad: (String nextUrl) async {
                   var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
@@ -243,7 +243,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                 },
               ),
               // 收藏列表
-              IllustGirdTabPage(
+              IllustGridTabPage(
                 physics: BouncingScrollPhysics(),
                 onLazyLoad: (String nextUrl) async {
                   var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);

@@ -1,7 +1,7 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/pages/artworks/illusts_gird_page.dart';
+import 'package:pixgem/pages/artworks/illusts_grid_page.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/request/api_new_artworks.dart';
 
@@ -61,7 +61,7 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage>
           controller: _tabController,
           children: [
             // 关注的新作
-            IllustGirdTabPage(
+            IllustGridTabPage(
               physics: BouncingScrollPhysics(),
               onRefresh: () async {
                 return await ApiNewArtWork().getFollowsNewIllusts(ApiNewArtWork.restrict_all);
@@ -72,7 +72,7 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage>
               },
             ),
             // 大家的新作
-            IllustGirdTabPage(
+            IllustGridTabPage(
               physics: BouncingScrollPhysics(),
               onRefresh: () async {
                 return await ApiNewArtWork().getEveryOnesNewIllusts(ApiNewArtWork.type_illust);
@@ -83,7 +83,7 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage>
               },
             ),
             // 好P友的新作
-            IllustGirdTabPage(
+            IllustGridTabPage(
               physics: BouncingScrollPhysics(),
               onRefresh: () async {
                 return await ApiNewArtWork().getPFriendsIllusts(ApiNewArtWork.restrict_all);

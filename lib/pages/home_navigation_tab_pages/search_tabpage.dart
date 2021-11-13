@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
 import 'package:pixgem/request/api_serach.dart';
-import 'package:pixgem/widgets/trending_tags_gird.dart';
+import 'package:pixgem/widgets/trending_tags_grid.dart';
 import 'package:provider/provider.dart';
 
 class SearchTabPage extends StatefulWidget {
@@ -61,7 +61,7 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
                     child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
                   );
                 }
-                return TrendingTagsGird(
+                return TrendingTagsGrid(
                   tags: tags,
                 );
               },

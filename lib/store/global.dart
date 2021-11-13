@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/store/account_store.dart';
+import 'package:pixgem/store/theme_store.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,7 +20,7 @@ class GlobalStore {
 
   /* 初始化全局信息，会在APP启动时执行 */
   static Future init() async {
-    globalProvider = GlobalProvider();
+    // globalProvider = GlobalProvider();
 
     // 初始化账号配置
     await AccountStore().init();
@@ -32,8 +34,12 @@ class GlobalStore {
         print(e);
       }
     }
-    //初始化网络请求相关配置
+    // 初始化网络请求相关配置
     ApiBase().init();
+    // 初始化主题配置
+    await ThemeStore().init();
+    ThemeMode themeMode= ThemeStore.getThemeMode();
+    globalProvider.setThemeMode(themeMode);
   }
 
   // 更新当前账号配置（不通知更新UI）
@@ -46,6 +52,7 @@ class GlobalStore {
 // 全局提供器
 class GlobalProvider with ChangeNotifier {
   AccountProfile? get currentAccount => GlobalStore.currentAccount; // 当前帐号
+  ThemeMode themeMode = ThemeMode.system; // 主题模式
 
   // 是否已经登录（如果有用户信息，则证明登录过)
   bool get isLoggedIn => currentAccount != null;
@@ -53,5 +60,11 @@ class GlobalProvider with ChangeNotifier {
   void setCurrentAccount(AccountProfile? profile) {
     GlobalStore.changeCurrentAccount(profile);
     notifyListeners(); // 通知更改（UI自动更新）
+  }
+
+  void setThemeMode(ThemeMode themeMode) {
+    this.themeMode = themeMode;
+    ThemeStore.setThemeMode(themeMode);
+    notifyListeners();
   }
 }

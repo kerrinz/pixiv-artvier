@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/config/ranking_mode_constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/pages/artworks/illusts_gird_page.dart';
+import 'package:pixgem/pages/artworks/illusts_grid_page.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/request/api_illusts.dart';
 
@@ -64,9 +64,9 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
         body: Container(
           child: Builder(
             builder: (context) {
-              List<IllustGirdTabPage> pages = [];
+              List<IllustGridTabPage> pages = [];
               this._tabsMap.forEach((mode, text) {
-                pages.add(IllustGirdTabPage(
+                pages.add(IllustGridTabPage(
                   physics: BouncingScrollPhysics(),
                   onRefresh: () async {
                     return await ApiIllusts().getIllustRanking(mode: mode).catchError((onError) {
