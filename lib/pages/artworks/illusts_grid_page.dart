@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/widgets/illust_waterfall_gird.dart';
+import 'package:pixgem/widgets/illust_waterfall_grid.dart';
 import 'package:provider/provider.dart';
 
 typedef IllustRefreshCallback = Future<CommonIllustList> Function();
@@ -16,7 +16,7 @@ typedef IllustLazyLoadCallback = Future<CommonIllustList> Function(String nextUr
  *    onRefresh()
  *
  * For example:
-    IllustGirdTabPage(
+    IllustGridTabPage(
       onRefresh: () async {
         return await ApiNewArtWork().getFollowsNewIllusts(ApiNewArtWork.restrict_all);
       },
@@ -26,16 +26,16 @@ typedef IllustLazyLoadCallback = Future<CommonIllustList> Function(String nextUr
       },
     ),
  */
-class IllustGirdTabPage extends StatefulWidget {
+class IllustGridTabPage extends StatefulWidget {
   IllustLazyLoadCallback onLazyLoad; // 懒加载
   IllustRefreshCallback onRefresh; // 刷新（包含首次加载）
   Widget? withoutIllustWidget; // 列表为空时的展示组件
   ScrollController? scrollController; // 滚动控制器
   ScrollPhysics? physics; // 滚动物理效果
 
-  State<StatefulWidget> createState() => IllustGirdTabPageState();
+  State<StatefulWidget> createState() => IllustGridTabPageState();
 
-  IllustGirdTabPage({
+  IllustGridTabPage({
     Key? key,
     required this.onLazyLoad,
     required this.onRefresh,
@@ -45,8 +45,8 @@ class IllustGirdTabPage extends StatefulWidget {
   }) : super(key: key);
 }
 
-class IllustGirdTabPageState extends State<IllustGirdTabPage> with AutomaticKeepAliveClientMixin {
-  IllustGirdPageProvider _provider = IllustGirdPageProvider();
+class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeepAliveClientMixin {
+  IllustGridPageProvider _provider = IllustGridPageProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class IllustGirdTabPageState extends State<IllustGirdTabPage> with AutomaticKeep
           _provider.setAll(result.illusts, result.nextUrl);
         },
         child: Consumer(
-          builder: (context, IllustGirdPageProvider provider, Widget? child) {
+          builder: (context, IllustGridPageProvider provider, Widget? child) {
             if (provider.illustList?.length == 0) {
               // 列表为空时展示
               return SingleChildScrollView(
@@ -73,7 +73,7 @@ class IllustGirdTabPageState extends State<IllustGirdTabPage> with AutomaticKeep
                     ),
               );
             }
-            return IllustWaterfallGird(
+            return IllustWaterfallGrid(
               physics: widget.physics,
               artworkList: provider.illustList ?? [],
               onLazyLoad: () async {
@@ -102,7 +102,7 @@ class IllustGirdTabPageState extends State<IllustGirdTabPage> with AutomaticKeep
   bool get wantKeepAlive => true;
 }
 
-class IllustGirdPageProvider with ChangeNotifier {
+class IllustGridPageProvider with ChangeNotifier {
   List<CommonIllust>? illustList; // 插画（或漫画）列表
   String? nextUrl;
 

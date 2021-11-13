@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/pages/artworks/illusts_gird_page.dart';
+import 'package:pixgem/pages/artworks/illusts_grid_page.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/request/api_user.dart';
 
@@ -39,7 +39,7 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
         body: TabBarView(
           controller: _tabController,
           children: [
-            IllustGirdTabPage(
+            IllustGridTabPage(
               physics: BouncingScrollPhysics(),
               onRefresh: () async {
                 return await ApiUser().getUserBookmarksIllust(userId: widget.userId!).catchError((onError) {
