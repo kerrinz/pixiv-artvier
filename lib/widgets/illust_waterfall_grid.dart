@@ -6,22 +6,22 @@ import 'package:waterfall_flow/waterfall_flow.dart';
 
 import 'illust_waterfall_card.dart';
 
-class IllustWaterfallGird extends StatefulWidget {
+class IllustWaterfallGrid extends StatefulWidget {
   final List<CommonIllust> artworkList; // 图片含基本信息的列表
   final Function onLazyLoad; // 触发懒加载（加载更多）的时候调用
   final int? limit; // 列表项的极限数量，为空则表示不限
   ScrollController? scrollController;
   ScrollPhysics? physics;
 
-  IllustWaterfallGird(
+  IllustWaterfallGrid(
       {Key? key, required this.artworkList, required this.onLazyLoad, this.limit, this.scrollController, this.physics})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new IllustWaterfallGirdState();
+  State<StatefulWidget> createState() => new IllustWaterfallGridState();
 }
 
-class IllustWaterfallGirdState extends State<IllustWaterfallGird> {
+class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
   @override
   Widget build(BuildContext context) {
     return WaterfallFlow.builder(

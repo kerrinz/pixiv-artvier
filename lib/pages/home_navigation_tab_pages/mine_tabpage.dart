@@ -5,6 +5,7 @@ import 'package:pixgem/model_response/user/perload_user_least_info.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
+import 'package:pixgem/store/theme_store.dart';
 import 'package:pixgem/widgets/preferences_navigator_item.dart';
 import 'package:provider/provider.dart';
 
@@ -25,33 +26,47 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              pinned: false,
-              automaticallyImplyLeading: true,
-              backgroundColor: Colors.transparent,
-              shadowColor: Colors.transparent,
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed("account_manage");
-                  },
-                  icon: Icon(Icons.switch_account_outlined),
-                  tooltip: "多帐号管理",
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.color_lens),
-                  tooltip: "主题",
-                ),
-              ],
-            ),
-          ];
-        },
-        body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed("account_manage");
+            },
+            icon: Icon(Icons.switch_account_outlined),
+            tooltip: "多帐号管理",
+          ),
+          Selector(
+            selector: (BuildContext context, GlobalProvider provider) {
+              return provider.themeMode;
+            },
+            builder: (BuildContext context, ThemeMode themeMode, Widget? child) {
+              int mode = ThemeStore.transferByThemeMode(themeMode);
+              mode = (mode + 1) % 3; // 下一个主题模式
+              return IconButton(
+                onPressed: () {
+                  GlobalStore.globalProvider.setThemeMode(ThemeStore.transferToThemeMode(mode));
+                },
+                icon: Icon(themeMode == ThemeMode.light
+                    ? Icons.light_mode
+                    : (themeMode == ThemeMode.dark ? Icons.mode_night : Icons.brightness_auto)),
+                tooltip: "切换主题模式，A为自动",
+              );
+            },
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+        child: Container(
+          // 这样解决了内容不足以支撑全屏时，滑动回弹不会回到原位的问题
+          constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height -
+                  kToolbarHeight -
+                  MediaQuery.of(context).padding.top -
+                  kBottomNavigationBarHeight),
           child: Column(
             children: [
               // 用户简卡
@@ -98,7 +113,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
               // 设置项列表
               Builder(builder: (context) {
                 List<PreferencesNavigatorItem> preferencesItems = [
-                  PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "设置", routeName: "routeName"),
+                  PreferencesNavigatorItem(icon: Icon(Icons.color_lens), text: "主题设置", routeName: "setting_theme"),
                   PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "设置", routeName: "routeName"),
                   PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "设置", routeName: "routeName"),
                 ];

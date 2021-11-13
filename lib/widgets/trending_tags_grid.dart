@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
 
-class TrendingTagsGird extends StatefulWidget {
+class TrendingTagsGrid extends StatefulWidget {
   List<TrendTags> tags;
 
-  TrendingTagsGird({Key? key, required this.tags}) : super(key: key);
+  TrendingTagsGrid({Key? key, required this.tags}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new TrendingTagsGirdState();
+  State<StatefulWidget> createState() => new TrendingTagsGridState();
 }
 
-class TrendingTagsGirdState extends State<TrendingTagsGird> {
+class TrendingTagsGridState extends State<TrendingTagsGrid> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(

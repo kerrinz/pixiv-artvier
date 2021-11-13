@@ -5,19 +5,19 @@ import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/widgets/illust_waterfall_card.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
-class IllustWaterfallGirdSliver extends StatefulWidget {
+class IllustWaterfallGridSliver extends StatefulWidget {
   final List<CommonIllust> artworkList; // 图片含基本信息的列表
   final Function onLazyLoad; // 触发懒加载（加载更多）的时候调用
   final int? limit; // 列表项的极限数量，为空则表示不限
 
-  IllustWaterfallGirdSliver({Key? key, required this.artworkList, required this.onLazyLoad, this.limit})
+  IllustWaterfallGridSliver({Key? key, required this.artworkList, required this.onLazyLoad, this.limit})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new IllustWaterfallGirdSliverState();
+  State<StatefulWidget> createState() => new IllustWaterfallGridSliverState();
 }
 
-class IllustWaterfallGirdSliverState extends State<IllustWaterfallGirdSliver> {
+class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
   bool isFastScroll = false; // 是否处于快速滚动时
 
   bool notificationFunction(Notification notification) {
