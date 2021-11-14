@@ -51,11 +51,11 @@ class _CommentsPageState extends State<CommentsPage> {
                 return _buildLoading(context);
               }
               return ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: provider.commentList!.length,
+                physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                itemCount: provider.commentList!.length + 1,
                 itemBuilder: (BuildContext context, int index) {
                   // 如果滑动到了表尾
-                  if (index == provider.commentList!.length - 1) {
+                  if (index == provider.commentList!.length) {
                     // 未到上限，继续获取下一页数据
                     if (provider.nextUrl != null) {
                       requestNext();
