@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/user/common_user_previews.dart';
-import 'package:pixgem/model_response/user/perload_user_least_info.dart';
+import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 
 /// 用户卡片类型
 enum UserPreviewsType { illust, novel }
