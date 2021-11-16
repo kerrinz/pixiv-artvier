@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model_response/user/perload_user_least_info.dart';
+import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/pages/comments_page.dart';
 import 'package:pixgem/request/api_illusts.dart';
 import 'package:pixgem/widgets/FollowButton.dart';

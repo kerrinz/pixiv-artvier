@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/model_response/user/perload_user_least_info.dart';
+import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
 import 'package:pixgem/pages/artworks/illusts_grid_page.dart';
 import 'package:pixgem/request/api_base.dart';

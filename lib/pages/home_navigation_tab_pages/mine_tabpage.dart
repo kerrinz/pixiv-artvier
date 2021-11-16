@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/model_response/user/perload_user_least_info.dart';
+import 'package:pixgem/config/constants.dart';
+import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
@@ -113,8 +114,8 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
               // 设置项列表
               Builder(builder: (context) {
                 List<PreferencesNavigatorItem> preferencesItems = [
-                  PreferencesNavigatorItem(icon: Icon(Icons.color_lens), text: "主题设置", routeName: "setting_theme"),
-                  PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "设置", routeName: "routeName"),
+                  PreferencesNavigatorItem(icon: Icon(Icons.color_lens), text: "主题模式和配色", routeName: "setting_theme"),
+                  PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "下载与保存", routeName: "setting_download"),
                   PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "设置", routeName: "routeName"),
                 ];
                 return Column(
@@ -160,7 +161,10 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                           if (profile == null || profile.user.profileImageUrls == null) {
                             return Image(image: AssetImage("assets/images/default_avatar.png"));
                           }
-                          return CachedNetworkImage(imageUrl: profile.user.profileImageUrls!.px170x170);
+                          return CachedNetworkImage(
+                            imageUrl: profile.user.profileImageUrls!.px170x170,
+                            httpHeaders: {"Referer": CONSTANTS.referer},
+                          );
                         },
                       ),
                     ),
