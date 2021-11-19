@@ -1,10 +1,18 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:pixgem/store/download_store.dart';
+import 'package:pixgem/store/global.dart';
+import 'package:pixgem/utils/save_image_util.dart';
 import 'package:provider/provider.dart';
 
 /*
@@ -26,6 +34,8 @@ class PreviewArtworksPage extends StatefulWidget {
 class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTickerProviderStateMixin {
   late PageController mController;
   _PreviewProvider _provider = _PreviewProvider();
+  late final Permission _permission = Permission.storage;
+  PermissionStatus _permissionStatus = PermissionStatus.denied;
 
   @override
   void initState() {
@@ -89,7 +99,18 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
                           children: [
                             IconButton(
                               icon: Icon(Icons.file_download),
-                              onPressed: () {},
+                              onPressed: () async {
+                                bool isPermit = await checkPermissions();
+                                if (!isPermit) return;
+                                if (GlobalStore.globalProvider.downloadMode == DownloadStore.MODE_GALLERY)
+                                  await SaveImageUtil.saveImageToGallery(
+                                      widget.urlList[_provider.currentPage].original!);
+                                if (GlobalStore.globalProvider.downloadMode == DownloadStore.MODE_DOWNLOAD_PATH)
+                                  Fluttertoast.showToast(msg: "下载到./Download", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+
+                                if (GlobalStore.globalProvider.downloadMode == DownloadStore.MODE_CUSTOM)
+                                  Fluttertoast.showToast(msg: "自定义保存路径", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                              },
                               tooltip: "下载",
                               color: Colors.white,
                               iconSize: 26,
@@ -137,8 +158,8 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
                           ? widget.urlList[index].original ?? widget.urlList[index].large
                           : widget.urlList[index].large,
                       headers: {"referer": CONSTANTS.referer}),
-                  minScale: PhotoViewComputedScale.contained * 0.8,
-                  maxScale: PhotoViewComputedScale.contained * 2,
+                  minScale: PhotoViewComputedScale.contained * 1.0,
+                  maxScale: PhotoViewComputedScale.contained * 5.0,
                 );
               },
               itemCount: widget.urlList.length,
@@ -160,6 +181,36 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
           },
         ),
       ),
+    );
+  }
+
+  // 检查权限
+  Future<bool> checkPermissions() async {
+    if (Platform.isIOS) {
+      _permissionStatus = await Permission.photosAddOnly.request();
+      if (_permissionStatus.isPermanentlyDenied) {
+        openAppSettings(); // 权限被拒绝，跳转设置
+        return false;
+      }
+    } else if (Platform.isAndroid) {
+      //发起权限申请
+      _permissionStatus = await _permission.request();
+      if (_permissionStatus.isPermanentlyDenied) {
+        openAppSettings(); // 权限被拒绝，跳转设置
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // 根据 downloadUrl 和 savePath 下载文件
+  _downloadFile(downloadUrl, savePath) async {
+    await FlutterDownloader.enqueue(
+      url: downloadUrl,
+      savedDir: savePath,
+      showNotification: true,
+      // show download progress in status bar (for Android)
+      openFileFromNotification: false, // click on notification to open downloaded file (for Android)
     );
   }
 }
