@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'global.dart';
 
 class ThemeStore {
   // 当前模式
   static const MODE = "theme_mode";
-  static late SharedPreferences _preferences;
   // 主题模式（因为要存储所以得用int对应ThemeMode的枚举）
   static const MODE_SYSTEM = 0; // 自动
   static const MODE_LIGHT = 1; // 亮色
   static const MODE_DARK = 2; // 暗色
-
-  init() async {
-    _preferences = await SharedPreferences.getInstance();
-  }
 
   static ThemeMode transferToThemeMode(int mode) {
     switch (mode) {
@@ -37,12 +33,12 @@ class ThemeStore {
 
   // 设置主题模式
   static Future setThemeMode(ThemeMode themeMode) async {
-    return await _preferences.setInt(MODE, transferByThemeMode(themeMode));
+    return await GlobalStore.globalSharedPreferences.setInt(MODE, transferByThemeMode(themeMode));
   }
 
   // 获取主题模式
   static ThemeMode getThemeMode() {
-    int? result = _preferences.getInt(MODE);
+    int? result = GlobalStore.globalSharedPreferences.getInt(MODE);
     return transferToThemeMode(result ?? MODE_SYSTEM);
   }
 }

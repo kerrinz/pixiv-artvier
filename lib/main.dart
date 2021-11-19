@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pixgem/main_paging.dart';
-import 'package:pixgem/store/theme_store.dart';
+import 'package:pixgem/pages/settings/setting_download.dart';
 import 'package:provider/provider.dart';
 import 'booting_page.dart';
 import 'pages/artworks/artworks_detail_page.dart';
 import 'pages/artworks/artworks_leaderboard_page.dart';
+import 'pages/artworks/download_manage_page.dart';
 import 'pages/artworks/preview_artworks_page.dart';
 import 'pages/login/account_manage_page.dart';
 import 'pages/login/login_wizard_page.dart';
@@ -91,7 +92,9 @@ class MyAppState extends State<MyApp> {
                 "search_result": (context) => SearchResultPage(settings.arguments!),
                 "my_bookmarks": (context) => MyBookmarksPage(settings.arguments),
                 "account_manage": (context) => AccountManagePage(),
+                "download_manage": (context) => DownloadManagePage(),
                 "setting_current_account": (context) => SettingCurrentAccountPage(),
+                "setting_download": (context) => SettingDownload(),
                 "setting_theme": (context) => SettingThemePage(),
               };
               WidgetBuilder builder = routes[settings.name]!;

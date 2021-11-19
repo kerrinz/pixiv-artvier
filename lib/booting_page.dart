@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'store/account_store.dart';
 import 'store/global.dart';
 
@@ -40,21 +41,23 @@ class BootingPageState extends State<BootingPage> {
   @override
   void initState() {
     super.initState();
-    initAppData().catchError((onError) => Navigator.of(context).pushNamed("login_wizard"));
+    initAppData().catchError((onError) {
+      Navigator.pushNamedAndRemoveUntil(context, "login_wizard", (route) => false);
+      print(onError);
+    });
   }
 
   // 初始化全局数据，拦截未登录
   Future initAppData() async {
+    await FlutterDownloader.initialize(debug: true);
     await GlobalStore.init(); // 初始化一些全局数据
-    String? id = await AccountStore.getCurrentAccountId();
+    String? id = AccountStore.getCurrentAccountId();
     if (id != null) {
       // 已登录
-      Navigator.pushNamedAndRemoveUntil(
-          context, "main", (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, "main", (route) => false);
     } else {
       // 未登录
-      Navigator.pushNamedAndRemoveUntil(
-          context, "login_wizard", (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, "login_wizard", (route) => false);
     }
   }
 }
