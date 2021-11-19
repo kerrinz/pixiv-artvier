@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/config/constants.dart';
@@ -65,7 +64,7 @@ class AccountManagePageState extends State<AccountManagePage> {
   // 帐号卡片
   Widget _buildAccountCard(BuildContext context, AccountProfile profile) {
     var avatar; // 头像的图片widget
-    if (profile == null || profile.user.profileImageUrls == null) {
+    if (profile.user.profileImageUrls == null) {
       // 未登录或者原本就无头像用户
       avatar = Image(image: AssetImage("assets/images/default_avatar.png"));
     } else {
@@ -145,8 +144,11 @@ class AccountManagePageState extends State<AccountManagePage> {
 
   // 读取配置数据
   void readProfiles() {
-    AccountStore.getAllAccountsProfile().then((map) => _provider.setAccountProfiles(map)).catchError(
-        (onError) => Fluttertoast.showToast(msg: "读取失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
+    var profile = AccountStore.getAllAccountsProfile();
+    if (profile != null)
+      _provider.setAccountProfiles(profile);
+    else
+      Fluttertoast.showToast(msg: "读取失败！", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
   }
 }
 

@@ -31,6 +31,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   IllustCommentsProvider _providerComments = new IllustCommentsProvider();
 
   static const String _referer = "https://www.pixiv.net";
+  Key? _imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +183,8 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
         },
         child: CachedNetworkImage(
           imageUrl: widget.info.imageUrls.large,
-          httpHeaders: {"Referer": _referer},
+          key: _imgKey,
+          httpHeaders: {"referer": _referer},
           errorWidget: (context, url, error) {
             return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
@@ -190,9 +192,13 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                   alignment: Alignment.center,
                   width: constraints.maxWidth,
                   height: widget.info.height / widget.info.width * constraints.maxWidth,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text("CNM"),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
+                      });
+                    },
+                    child: Text("加载失败，点击重试"),
                   ),
                 );
               },
@@ -200,14 +206,26 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
           },
           // 加载时显示loading图标
           progressIndicatorBuilder: (BuildContext context, String url, DownloadProgress process) {
-            // if (loadingProgress == null) return child;
             return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 return Container(
                   alignment: Alignment.center,
                   width: constraints.maxWidth,
                   height: widget.info.height / widget.info.width * constraints.maxWidth,
-                  child: _buildLoading(context),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(
+                        // strokeWidth: 4.0,
+                        value: process.progress,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(((process.progress ?? 0) * 100).toStringAsFixed(1) + "%"),
+                      ),
+                    ],
+                  ),
                 );
               },
             );

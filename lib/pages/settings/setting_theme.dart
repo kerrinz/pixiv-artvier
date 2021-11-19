@@ -61,7 +61,7 @@ class _SettingThemeState extends State<SettingThemePage> {
           children: [
             InkWell(
               onTap: () {
-                if (themeMode != ThemeMode.light) GlobalStore.globalProvider.setThemeMode(ThemeMode.light);
+                if (themeMode != ThemeMode.light) GlobalStore.globalProvider.setThemeMode(ThemeMode.light, true);
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -77,7 +77,7 @@ class _SettingThemeState extends State<SettingThemePage> {
             ),
             InkWell(
               onTap: () {
-                if (themeMode != ThemeMode.dark) GlobalStore.globalProvider.setThemeMode(ThemeMode.dark);
+                if (themeMode != ThemeMode.dark) GlobalStore.globalProvider.setThemeMode(ThemeMode.dark, true);
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -93,7 +93,7 @@ class _SettingThemeState extends State<SettingThemePage> {
             ),
             InkWell(
               onTap: () {
-                if (themeMode != ThemeMode.system) GlobalStore.globalProvider.setThemeMode(ThemeMode.system);
+                if (themeMode != ThemeMode.system) GlobalStore.globalProvider.setThemeMode(ThemeMode.system, true);
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),

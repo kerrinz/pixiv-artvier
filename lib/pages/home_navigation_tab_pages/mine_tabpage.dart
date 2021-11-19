@@ -20,7 +20,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
     FunctionCardModel("流览历史", Icons.history, "", null),
     FunctionCardModel("我的收藏", Icons.favorite, "my_bookmarks", GlobalStore.currentAccount?.user.id),
     FunctionCardModel("我的关注", Icons.star, "user_following", GlobalStore.currentAccount?.user.id),
-    FunctionCardModel("下载记录", Icons.download, "", null),
+    FunctionCardModel("下载队列", Icons.download, "download_manage", null),
   ];
 
   @override
@@ -48,7 +48,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
               mode = (mode + 1) % 3; // 下一个主题模式
               return IconButton(
                 onPressed: () {
-                  GlobalStore.globalProvider.setThemeMode(ThemeStore.transferToThemeMode(mode));
+                  GlobalStore.globalProvider.setThemeMode(ThemeStore.transferToThemeMode(mode), true);
                 },
                 icon: Icon(themeMode == ThemeMode.light
                     ? Icons.light_mode
@@ -115,7 +115,8 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
               Builder(builder: (context) {
                 List<PreferencesNavigatorItem> preferencesItems = [
                   PreferencesNavigatorItem(icon: Icon(Icons.color_lens), text: "主题模式和配色", routeName: "setting_theme"),
-                  PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "下载与保存", routeName: "setting_download"),
+                  PreferencesNavigatorItem(
+                      icon: Icon(Icons.download_done), text: "下载与保存", routeName: "setting_download"),
                   PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "设置", routeName: "routeName"),
                 ];
                 return Column(
@@ -217,11 +218,11 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
 
   // 读取配置数据
   void readProfile() {
-    AccountStore.getCurrentAccountProfile()
-        .then((value) => GlobalStore.globalProvider.setCurrentAccount(value!))
-        .catchError(
-          (onError) => Fluttertoast.showToast(msg: "加载失败!$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0),
-        );
+    var profile = AccountStore.getCurrentAccountProfile();
+    if (profile != null)
+      GlobalStore.globalProvider.setCurrentAccount(profile);
+    else
+      Fluttertoast.showToast(msg: "加载失败!", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
   }
 }
 
