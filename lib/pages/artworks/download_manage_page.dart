@@ -22,7 +22,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
               pinned: false,
               floating: true,
               snap: true,
-              title: Text("下载队列"),
+              title: Text("我的下载"),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.settings),

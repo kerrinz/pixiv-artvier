@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:pixgem/pages/artworks/artworks_detail_page.dart';
+import 'package:pixgem/request/api_illusts.dart';
 import 'package:pixgem/widgets/illust_waterfall_card.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
@@ -52,8 +55,6 @@ class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
     return SliverWaterfallFlow(
       gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        // crossAxisSpacing: 4,
-        // mainAxisSpacing: 4,
         collectGarbage: (List<int> garbages) {
           // print('collect garbage : $garbages');
           // 内存回收
@@ -95,7 +96,48 @@ class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
             ));
       }
     }
-    return Padding(padding: EdgeInsets.all(4), child: IllustWaterfallCard(illust: widget.artworkList[index]));
+    return Padding(
+      padding: EdgeInsets.all(4),
+      child: IllustWaterfallCard(
+        illust: widget.artworkList[index],
+        isBookmarked: widget.artworkList[index].isBookmarked,
+        onTap: () => Navigator.of(context).pushNamed("artworks_detail",
+            arguments: ArtworkDetailModel(
+                list: widget.artworkList,
+                index: index,
+                callback: (int index, bool isBookmark) {
+                  // 回调方法，传给详情页
+                  widget.artworkList[index].isBookmarked = isBookmark;
+                  setState(() {});
+                })),
+        onTapBookmark: () {
+          var item = widget.artworkList[index];
+          postBookmark(item.id.toString(), item.isBookmarked).then((value) {
+            Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+            widget.artworkList[index].isBookmarked = !item.isBookmarked;
+            setState(() {});
+          }).onError((error, stackTrace) {
+            Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+          });
+        },
+      ),
+    );
+  }
+
+  /* 收藏或者取消收藏插画 */
+  Future<bool> postBookmark(String id, bool oldIsBookmark) async {
+    bool isSucceed = false; // 是否执行成功
+    if (oldIsBookmark)
+      isSucceed = await ApiIllusts().deleteIllustBookmark(illustId: id);
+    else
+      isSucceed = await ApiIllusts().addIllustBookmark(illustId: id);
+    // 执行结果
+    if (isSucceed)
+      return true;
+    else {
+      Future.error("Request bookmark failed!");
+      return false;
+    }
   }
 
   // 构建循环加载动画

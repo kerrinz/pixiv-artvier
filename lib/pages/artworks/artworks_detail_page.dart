@@ -13,10 +13,10 @@ import 'package:pixgem/widgets/comment.dart';
 import 'package:provider/provider.dart';
 
 class ArtWorksDetailPage extends StatefulWidget {
-  late CommonIllust info; // 作品信息
+  late ArtworkDetailModel model; // 数据集
 
   ArtWorksDetailPage(Object arguments, {Key? key}) : super(key: key) {
-    info = arguments as CommonIllust;
+    model = arguments as ArtworkDetailModel;
   }
 
   @override
@@ -35,6 +35,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    var info = widget.model.list[widget.model.index];
     return ChangeNotifierProvider(
       create: (BuildContext context) => _provider,
       child: Scaffold(
@@ -51,11 +52,11 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                       child: Column(
                         children: [
                           // 预览大图
-                          _buildPreviewImage(context),
+                          _buildPreviewImage(context, info),
                           // 详细信息卡
                           Container(
                             width: double.infinity,
-                            child: _buildInfoCard(context),
+                            child: _buildInfoCard(context, info),
                           ),
                           // 评论区
                           Container(
@@ -73,7 +74,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                                         padding: EdgeInsets.all(16),
                                         child: _buildLoading(context),
                                       );
-                                    return _buildComments(context, provider);
+                                    return _buildComments(context, provider, info);
                                   },
                                 ),
                               ),
@@ -108,7 +109,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 right: 0,
                 child: AppBar(
                   title: Text(
-                    widget.info.title,
+                    info.title,
                     style: TextStyle(fontSize: 18),
                   ),
                   titleTextStyle: TextStyle(color: Colors.white),
@@ -130,10 +131,12 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
         // 悬浮收藏按钮
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            postBookmark().then((value) {
+            postBookmark(info).then((value) {
               Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+              widget.model.callback(widget.model.index, _provider.isBookmarked); // 执行回调，让上级列表更新收藏状态
             }).onError((error, stackTrace) {
               Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+              print(error);
             });
           },
           backgroundColor: Colors.grey.shade50,
@@ -142,7 +145,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
               bool flag; // 在获取新数据前后对是否收藏的判断依据
               if (isBookmarked == null) {
                 // 未加载新数据，使用传递的旧数据
-                flag = widget.info.isBookmarked;
+                flag = info.isBookmarked;
               } else {
                 // 已获取到新数据，使用新的数据
                 flag = isBookmarked;
@@ -163,11 +166,11 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   }
 
   // 构建预览大图
-  Widget _buildPreviewImage(BuildContext context) {
+  Widget _buildPreviewImage(BuildContext context, CommonIllust info) {
     return Consumer(builder: (BuildContext context, _IllustDetailProvider provider, Widget? child) {
       return GestureDetector(
         onTap: () {
-          var detail = widget.info;
+          var detail = info;
           List<Image_urls> argument = [];
           // 传参
           if (detail.metaPages.isEmpty) {
@@ -182,7 +185,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
           Navigator.of(context).pushNamed("artworks_view", arguments: argument);
         },
         child: CachedNetworkImage(
-          imageUrl: widget.info.imageUrls.large,
+          imageUrl: info.imageUrls.large,
           key: _imgKey,
           httpHeaders: {"referer": _referer},
           errorWidget: (context, url, error) {
@@ -191,7 +194,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 return Container(
                   alignment: Alignment.center,
                   width: constraints.maxWidth,
-                  height: widget.info.height / widget.info.width * constraints.maxWidth,
+                  height: info.height / info.width * constraints.maxWidth,
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
@@ -211,7 +214,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 return Container(
                   alignment: Alignment.center,
                   width: constraints.maxWidth,
-                  height: widget.info.height / widget.info.width * constraints.maxWidth,
+                  height: info.height / info.width * constraints.maxWidth,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -222,7 +225,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(((process.progress ?? 0) * 100).toStringAsFixed(1) + "%"),
+                        child: Text(((process.progress ?? 0) * 100).toStringAsFixed(0) + "%"),
                       ),
                     ],
                   ),
@@ -236,7 +239,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   }
 
   // 构建详细信息卡
-  Widget _buildInfoCard(BuildContext context) {
+  Widget _buildInfoCard(BuildContext context, CommonIllust info) {
     return Card(
       elevation: 2.0,
       margin: EdgeInsets.only(left: 4.0, right: 4.0, bottom: 4.0),
@@ -253,7 +256,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                   onTap: () {
                     Navigator.of(context).pushNamed("user_detail",
                         arguments: PreloadUserLeastInfo(
-                            widget.info.user.id, widget.info.user.name, widget.info.user.profileImageUrls.medium));
+                            info.user.id, info.user.name, info.user.profileImageUrls.medium));
                   },
                   child: Padding(
                     padding: EdgeInsets.all(4.0),
@@ -262,7 +265,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                         // 作者头像
                         ClipOval(
                           child: Image.network(
-                            widget.info.user.profileImageUrls.medium,
+                            info.user.profileImageUrls.medium,
                             headers: {"Referer": _referer},
                             fit: BoxFit.cover,
                             width: 56,
@@ -278,7 +281,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 6),
                                   child: Text(
-                                    widget.info.user.name,
+                                    info.user.name,
                                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -286,7 +289,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                                 ),
                                 // 发布时间
                                 Text(
-                                  formatDate(DateTime.parse(widget.info.createDate),
+                                  formatDate(DateTime.parse(info.createDate),
                                       [yyyy, '-', mm, '-', dd, ' ', HH, ':', mm, ':', ss]),
                                   style: TextStyle(color: Colors.grey.shade500),
                                   maxLines: 1,
@@ -303,8 +306,8 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
               Padding(
                 padding: EdgeInsets.only(right: 4.0, left: 4.0),
                 child: FollowButton(
-                  isFollowed: widget.info.user.isFollowed,
-                  userId: widget.info.user.id.toString(),
+                  isFollowed: info.user.isFollowed,
+                  userId: info.user.id.toString(),
                 ),
               ),
             ],
@@ -319,13 +322,13 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                     child: Row(
                       children: [
                         // 点赞数
-                        Expanded(flex: 1, child: Text("id: " + widget.info.id.toString())),
+                        Expanded(flex: 1, child: Text("id: " + info.id.toString())),
                         // 收藏数
                         Expanded(
                             flex: 1,
                             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                               Icon(Icons.favorite, size: 18, color: Colors.blueGrey.shade300),
-                              Text(" " + widget.info.totalBookmarks.toString(),
+                              Text(" " + info.totalBookmarks.toString(),
                                   style: TextStyle(
                                       color: Colors.blueGrey.shade400, fontSize: 15, fontWeight: FontWeight.w400)),
                             ])),
@@ -334,7 +337,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                           flex: 1,
                           child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                             Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
-                            Text(" " + widget.info.totalView.toString(),
+                            Text(" " + info.totalView.toString(),
                                 style: TextStyle(color: Colors.grey, fontSize: 14)),
                           ]),
                         ),
@@ -342,7 +345,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                     )),
                 // 简介，字段为comment
                 Text(
-                  widget.info.caption,
+                  info.caption,
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 15),
                 ),
@@ -351,7 +354,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                   builder: (BuildContext context) {
                     List<Widget> _tags = [];
                     // 遍历displayTags
-                    widget.info.tags.forEach((element) {
+                    info.tags.forEach((element) {
                       // tag标签
                       _tags.add(
                         InkWell(
@@ -384,7 +387,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   }
 
   // 构建评论区
-  Widget _buildComments(BuildContext context, IllustCommentsProvider provider) {
+  Widget _buildComments(BuildContext context, IllustCommentsProvider provider, CommonIllust info) {
     // 展示的评论数量，[0-3]
     int commentsShowSize = provider.commentList!.length > 3 ? 3 : provider.commentList!.length;
     if (commentsShowSize == 0) {
@@ -413,7 +416,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
         ),
         InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed("artworks_comments", arguments: widget.info.id.toString());
+            Navigator.of(context).pushNamed("artworks_comments", arguments: info.id.toString());
           },
           child: Container(
             width: double.infinity,
@@ -438,14 +441,14 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   }
 
   /* 收藏或者取消收藏插画 */
-  Future postBookmark() async {
+  Future postBookmark(CommonIllust info) async {
     bool isSucceed = false; // 是否执行成功
-    bool isBookmarked = _provider.isBookmarked ?? widget.info.isBookmarked;
+    bool isBookmarked = _provider.isBookmarked;
 
     if (isBookmarked)
-      isSucceed = await ApiIllusts().deleteIllustBookmark(illustId: widget.info.id.toString());
+      isSucceed = await ApiIllusts().deleteIllustBookmark(illustId: info.id.toString());
     else
-      isSucceed = await ApiIllusts().addIllustBookmark(illustId: widget.info.id.toString());
+      isSucceed = await ApiIllusts().addIllustBookmark(illustId: info.id.toString());
     // 执行结果
     if (isSucceed)
       _provider.setBookmarked(!isBookmarked);
@@ -456,8 +459,8 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   @override
   void initState() {
     super.initState();
-    _provider.setData(widget.info);
-    ApiIllusts().getIllustComments(illustId: widget.info.id.toString()).then((value) {
+    _provider.setData(widget.model.list[widget.model.index]);
+    ApiIllusts().getIllustComments(illustId: widget.model.list[widget.model.index].id.toString()).then((value) {
       _providerComments.setAll(value.comments, value.nextUrl);
     });
   }
@@ -466,7 +469,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
 /* Provider: IllustDetail
  */
 class _IllustDetailProvider with ChangeNotifier {
-  bool? isBookmarked; // 是否已经收藏
+  late bool isBookmarked; // 是否已经收藏
 
   void setData(CommonIllust newData) {
     isBookmarked = newData.isBookmarked;
@@ -477,4 +480,12 @@ class _IllustDetailProvider with ChangeNotifier {
     isBookmarked = value;
     notifyListeners();
   }
+}
+
+class ArtworkDetailModel {
+  List<CommonIllust> list; // 作品列表
+  int index; // 当前浏览作品的索引
+  Function(int index, bool isBookmarked) callback; // 执行回调，让上级列表更新收藏状态
+
+  ArtworkDetailModel({required this.list, required this.index, required this.callback});
 }
