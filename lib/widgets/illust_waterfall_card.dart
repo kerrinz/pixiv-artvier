@@ -2,14 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:provider/provider.dart';
 
 class IllustWaterfallCard extends StatefulWidget {
-  CommonIllust illust;
+  final CommonIllust illust;
+  final bool isBookmarked; // 是否被收藏
+  final Function onTap; // 点击卡片的事件
+  final Function onTapBookmark; // 点击收藏的事件
 
   @override
   State<StatefulWidget> createState() => IllustWaterfallCardState();
 
-  IllustWaterfallCard({Key? key, required this.illust}) : super(key: key);
+  IllustWaterfallCard(
+      {Key? key, required this.illust, required this.isBookmarked, required this.onTap, required this.onTapBookmark})
+      : super(key: key);
 }
 
 class IllustWaterfallCardState extends State<IllustWaterfallCard> {
@@ -20,8 +26,7 @@ class IllustWaterfallCardState extends State<IllustWaterfallCard> {
       builder: (BuildContext context, BoxConstraints constraints) {
         return Container(
           width: double.infinity,
-          height: (widget.illust.height * constraints.maxWidth) /
-              widget.illust.width,
+          height: (widget.illust.height * constraints.maxWidth) / widget.illust.width,
           child: Card(
             elevation: 2.0,
             margin: EdgeInsets.zero,
@@ -43,32 +48,26 @@ class IllustWaterfallCardState extends State<IllustWaterfallCard> {
                     httpHeaders: {"Referer": CONSTANTS.referer},
                   ),
                 ),
-                // 收藏按钮
-                Positioned(
-                  right: 4,
-                  bottom: 4,
-                  child: Builder(
-                    builder: (context) {
-                      if (widget.illust.isBookmarked) {
-                        return Icon(Icons.favorite, color: Colors.red.shade600, size: 32);
-                      }
-                      return Icon(
-                        Icons.favorite_rounded,
-                        color: Colors.grey,
-                        size: 32,
-                      );
-                    },
-                  ),
-                ),
                 Positioned.fill(
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
                       splashColor: Colors.black12.withOpacity(0.15),
                       highlightColor: Colors.black12.withOpacity(0.1),
-                      onTap: () {
-                        Navigator.of(context).pushNamed("artworks_detail", arguments: widget.illust);
-                      },
+                      onTap: () => widget.onTap(),
+                    ),
+                  ),
+                ),
+                // 收藏按钮
+                Positioned(
+                  right: 4,
+                  bottom: 4,
+                  child: GestureDetector(
+                    onTap: () => widget.onTapBookmark(),
+                    child: Icon(
+                      widget.illust.isBookmarked ? Icons.favorite : Icons.favorite_rounded,
+                      color: widget.illust.isBookmarked ? Colors.red.shade600 : Colors.grey,
+                      size: 32,
                     ),
                   ),
                 ),
