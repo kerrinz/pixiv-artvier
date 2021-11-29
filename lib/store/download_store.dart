@@ -1,11 +1,13 @@
 import 'dart:convert';
 
-import 'package:pixgem/model_store/downloaded_illust.dart';
+import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:pixgem/model_store/downloading_illust.dart';
 import 'package:pixgem/store/global.dart';
 
 class DownloadStore {
   static const MODE = "download_mode";
   static const DOWNLOADED_HISTORY = "downloaded_history";
+  static const DOWNLOADING_HISTORY = "downloading_history";
 
   static const MODE_GALLERY = 0; // 保存到相册/图库
   static const MODE_DOWNLOAD_PATH = 1; // 保存到下载路径
@@ -22,15 +24,60 @@ class DownloadStore {
     return result ?? MODE_GALLERY;
   }
 
-  static Future addDownloadedIllust(DownloadedIllust illust) async {
-    var illusts = getDownloadedIllusts();
-    illusts.insert(0, illust);
-    return await GlobalStore.globalSharedPreferences
-        .setStringList(DOWNLOADED_HISTORY, DownloadedIllust.downloadedIllustItemListToStringList(illusts));
+  // 添加一条进行中（未完成）的下载任务
+  static Future addDownloadingIllust(String url, DownloadingIllust illust) async {
+    Map<String, DownloadingIllust> illusts = getDownloadingIllusts();
+    illusts.putIfAbsent(url, () => illust);
+    return await GlobalStore.globalSharedPreferences.setString(DOWNLOADING_HISTORY, jsonEncode(illusts));
   }
 
-  static List<DownloadedIllust> getDownloadedIllusts() {
-    List<String>? strList = GlobalStore.globalSharedPreferences.getStringList(DOWNLOADED_HISTORY);
-    return DownloadedIllust.downloadedIllustStringListToItemList(strList);
+  // 删除一条进行中（未完成）的下载任务
+  static Future removeDownloadingIllust(String urlKey) async {
+    Map<String, DownloadingIllust> illusts = getDownloadingIllusts();
+    illusts.remove(urlKey);
+    return await GlobalStore.globalSharedPreferences.setString(DOWNLOADING_HISTORY, jsonEncode(illusts));
+  }
+
+  // 获取进行中（未完成）的插画列表
+  static Map<String, DownloadingIllust> getDownloadingIllusts() {
+    String? str = GlobalStore.globalSharedPreferences.getString(DOWNLOADING_HISTORY);
+    if (str == null) return {};
+    Map<String, dynamic> map = json.decode(str);
+    Map<String, DownloadingIllust> illusts = {};
+    for (String key in map.keys) {
+      illusts.putIfAbsent(key, () => DownloadingIllust.fromJson(map[key]));
+    }
+    map.clear();
+    return illusts;
+  }
+
+  // 清空下载任务
+  static Future clearDownloadingIllusts() async {
+    return await GlobalStore.globalSharedPreferences.setString(DOWNLOADING_HISTORY, jsonEncode([]));
+  }
+
+  // 添加一条下载完成的记录
+  static Future addDownloadedIllust(CommonIllust illust) async {
+    List<CommonIllust> illusts = getDownloadedIllusts();
+    illusts.insert(0, illust);
+    return await GlobalStore.globalSharedPreferences.setString(DOWNLOADED_HISTORY, jsonEncode(illusts));
+  }
+
+  // 获取已下载完成的插画列表
+  static List<CommonIllust> getDownloadedIllusts() {
+    String? str = GlobalStore.globalSharedPreferences.getString(DOWNLOADED_HISTORY);
+    if (str == null) return [];
+    List<dynamic> list = json.decode(str);
+    List<CommonIllust> illusts = [];
+    for (dynamic illust in list) {
+      illusts.add(CommonIllust.fromJson(illust));
+    }
+    list.clear();
+    return illusts;
+  }
+
+  // 清空已下载完成的插画
+  static Future clearDownloadedIllusts() async {
+    return await GlobalStore.globalSharedPreferences.setString(DOWNLOADED_HISTORY, jsonEncode([]));
   }
 }

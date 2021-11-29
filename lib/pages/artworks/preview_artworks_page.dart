@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_view/photo_view.dart';
@@ -16,13 +15,13 @@ import 'package:pixgem/utils/save_image_util.dart';
 import 'package:provider/provider.dart';
 
 /*
-* 传入参数：List<ArtworksImageUrls>
+* 传入参数：List<CommonIllust>
 * */
 class PreviewArtworksPage extends StatefulWidget {
-  late final List<Image_urls> urlList; // 图片集合，每张图片有标清和高清两种模式
+  late final CommonIllust illust; // 图片集合，每张图片有标清和高清两种模式
 
   PreviewArtworksPage(Object arguments, {Key? key}) : super(key: key) {
-    urlList = arguments as List<Image_urls>;
+    illust = arguments as CommonIllust;
   }
 
   @override
@@ -37,9 +36,12 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
   late final Permission _permission = Permission.storage;
   PermissionStatus _permissionStatus = PermissionStatus.denied;
 
+  late List<Image_urls> imageUrls;
+
   @override
   void initState() {
     super.initState();
+    this.imageUrls = getIllustUrls();
     mController = PageController();
   }
 
@@ -88,7 +90,7 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
                       // 页码显示
                       Selector(
                         builder: (BuildContext context, int page, Widget? child) =>
-                            Text("${page + 1}/${widget.urlList.length}", style: TextStyle(fontSize: 18)),
+                            Text("${page + 1}/${imageUrls.length}", style: TextStyle(fontSize: 18)),
                         selector: (context, _PreviewProvider provider) => provider.currentPage,
                       ),
                       // 其他功能键
@@ -101,15 +103,24 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
                               icon: Icon(Icons.file_download),
                               onPressed: () async {
                                 bool isPermit = await checkPermissions();
-                                if (!isPermit) return;
-                                if (GlobalStore.globalProvider.downloadMode == DownloadStore.MODE_GALLERY)
-                                  await SaveImageUtil.saveImageToGallery(
-                                      widget.urlList[_provider.currentPage].original!);
-                                if (GlobalStore.globalProvider.downloadMode == DownloadStore.MODE_DOWNLOAD_PATH)
-                                  Fluttertoast.showToast(msg: "下载到./Download", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-
-                                if (GlobalStore.globalProvider.downloadMode == DownloadStore.MODE_CUSTOM)
-                                  Fluttertoast.showToast(msg: "自定义保存路径", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                                if (!isPermit) return; // 没权限，不下载
+                                switch (GlobalStore.globalProvider.downloadMode) {
+                                  case DownloadStore.MODE_DOWNLOAD_PATH:
+                                    Fluttertoast.showToast(
+                                        msg: "下载到./Download", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                                    break;
+                                  case DownloadStore.MODE_CUSTOM:
+                                    Fluttertoast.showToast(
+                                        msg: "自定义保存路径", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                                    break;
+                                  default:
+                                    // 保存图片到相册
+                                    await SaveImageUtil.saveIllustToGallery(
+                                      widget.illust,
+                                      imageUrls[_provider.currentPage].original ??
+                                          imageUrls[_provider.currentPage].large,
+                                    );
+                                }
                               },
                               tooltip: "下载",
                               color: Colors.white,
@@ -154,15 +165,13 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
               builder: (BuildContext context, int index) {
                 return PhotoViewGalleryPageOptions(
                   imageProvider: CachedNetworkImageProvider(
-                      isHdMode
-                          ? widget.urlList[index].original ?? widget.urlList[index].large
-                          : widget.urlList[index].large,
+                      isHdMode ? imageUrls[index].original ?? imageUrls[index].original! : imageUrls[index].large,
                       headers: {"referer": CONSTANTS.referer}),
                   minScale: PhotoViewComputedScale.contained * 1.0,
                   maxScale: PhotoViewComputedScale.contained * 5.0,
                 );
               },
-              itemCount: widget.urlList.length,
+              itemCount: imageUrls.length,
               pageController: mController,
               onPageChanged: (int index) => _provider.setCurrentPage(index),
               // loadingBuilder: (context, progress) => Center(
@@ -184,7 +193,7 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
     );
   }
 
-  // 检查权限
+  // 检查权限，没权限会自动跳转app权限管理页
   Future<bool> checkPermissions() async {
     if (Platform.isIOS) {
       _permissionStatus = await Permission.photosAddOnly.request();
@@ -203,15 +212,21 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
     return true;
   }
 
-  // 根据 downloadUrl 和 savePath 下载文件
-  _downloadFile(downloadUrl, savePath) async {
-    await FlutterDownloader.enqueue(
-      url: downloadUrl,
-      savedDir: savePath,
-      showNotification: true,
-      // show download progress in status bar (for Android)
-      openFileFromNotification: false, // click on notification to open downloaded file (for Android)
-    );
+  // 统一方法，获取展示的图片url列表
+  List<Image_urls> getIllustUrls() {
+    var detail = widget.illust;
+    List<Image_urls> result = [];
+    // 传参
+    if (detail.metaPages.isEmpty) {
+      detail.imageUrls.original = detail.metaSinglePage.originalImageUrl;
+      result = [detail.imageUrls];
+    } else {
+      // 草了这辣鸡接口
+      detail.metaPages.forEach((element) {
+        result.add(element.imageUrls);
+      });
+    }
+    return result;
   }
 }
 

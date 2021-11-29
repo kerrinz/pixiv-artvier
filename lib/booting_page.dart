@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'store/account_store.dart';
 import 'store/global.dart';
 
@@ -49,7 +48,6 @@ class BootingPageState extends State<BootingPage> {
 
   // 初始化全局数据，拦截未登录
   Future initAppData() async {
-    await FlutterDownloader.initialize(debug: true);
     await GlobalStore.init(); // 初始化一些全局数据
     String? id = AccountStore.getCurrentAccountId();
     if (id != null) {
