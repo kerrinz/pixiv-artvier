@@ -72,14 +72,14 @@ class SettingDownloadState extends State<SettingDownload> {
             ),
             InkWell(
               onTap: () {
-                if (mode != DownloadStore.MODE_DOWNLOAD_PATH)
-                  GlobalStore.globalProvider.setDownloadMode(DownloadStore.MODE_DOWNLOAD_PATH, true);
+                // if (mode != DownloadStore.MODE_DOWNLOAD_PATH)
+                //   GlobalStore.globalProvider.setDownloadMode(DownloadStore.MODE_DOWNLOAD_PATH, true);
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
                   children: [
-                    Expanded(child: Text("保存到下载文件夹：./Download", style: TextStyle(fontSize: 16))),
+                    Expanded(child: Text("保存到下载文件夹：./Download（暂不支持）", style: TextStyle(fontSize: 16))),
                     mode == DownloadStore.MODE_DOWNLOAD_PATH
                         ? Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary)
                         : Container(),
@@ -89,14 +89,14 @@ class SettingDownloadState extends State<SettingDownload> {
             ),
             InkWell(
               onTap: () {
-                if (mode != DownloadStore.MODE_CUSTOM)
-                  GlobalStore.globalProvider.setDownloadMode(DownloadStore.MODE_CUSTOM, true);
+                // if (mode != DownloadStore.MODE_CUSTOM)
+                //   GlobalStore.globalProvider.setDownloadMode(DownloadStore.MODE_CUSTOM, true);
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
                   children: [
-                    Expanded(child: Text("自定义保存路径", style: TextStyle(fontSize: 16))),
+                    Expanded(child: Text("自定义保存路径（暂不支持）", style: TextStyle(fontSize: 16))),
                     mode == DownloadStore.MODE_CUSTOM
                         ? Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary)
                         : Container(),

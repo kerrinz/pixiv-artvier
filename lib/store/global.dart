@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_store/account_profile.dart';
+import 'package:pixgem/model_store/downloading_illust.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/download_store.dart';
@@ -56,6 +57,7 @@ class GlobalProvider with ChangeNotifier {
   AccountProfile? get currentAccount => GlobalStore.currentAccount; // 当前帐号
   ThemeMode themeMode = ThemeMode.system; // 主题模式
   int downloadMode = DownloadStore.MODE_GALLERY; // 下载保存图片模式
+  Map<String, DownloadingIllust> downloadingIllust = {}; // 下载中的插画
 
   // 是否已经登录（如果有用户信息，则证明登录过)
   bool get isLoggedIn => currentAccount != null;
@@ -75,6 +77,11 @@ class GlobalProvider with ChangeNotifier {
   void setDownloadMode(int mode, bool ifSafe) {
     this.downloadMode = mode;
     if (ifSafe) ThemeStore.setThemeMode(themeMode);
+    notifyListeners();
+  }
+
+  void setDownloadingIllusts(Map<String, DownloadingIllust> map) {
+    this.downloadingIllust = map;
     notifyListeners();
   }
 }

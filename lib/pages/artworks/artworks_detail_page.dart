@@ -27,8 +27,8 @@ class ArtWorksDetailPage extends StatefulWidget {
 
 class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   ///初始化Provider
-  _IllustDetailProvider _provider = new _IllustDetailProvider();
-  IllustCommentsProvider _providerComments = new IllustCommentsProvider();
+  _IllustDetailProvider _provider = _IllustDetailProvider();
+  IllustCommentsProvider _providerComments = IllustCommentsProvider();
 
   static const String _referer = "https://www.pixiv.net";
   Key? _imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
@@ -170,19 +170,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     return Consumer(builder: (BuildContext context, _IllustDetailProvider provider, Widget? child) {
       return GestureDetector(
         onTap: () {
-          var detail = info;
-          List<Image_urls> argument = [];
-          // 传参
-          if (detail.metaPages.isEmpty) {
-            detail.imageUrls.original = detail.metaSinglePage.originalImageUrl;
-            argument = [detail.imageUrls];
-          } else {
-            // 草了这辣鸡接口
-            detail.metaPages.forEach((element) {
-              argument.add(element.imageUrls);
-            });
-          }
-          Navigator.of(context).pushNamed("artworks_view", arguments: argument);
+          Navigator.of(context).pushNamed("artworks_view", arguments: info);
         },
         child: CachedNetworkImage(
           imageUrl: info.imageUrls.large,
@@ -255,8 +243,8 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context).pushNamed("user_detail",
-                        arguments: PreloadUserLeastInfo(
-                            info.user.id, info.user.name, info.user.profileImageUrls.medium));
+                        arguments:
+                            PreloadUserLeastInfo(info.user.id, info.user.name, info.user.profileImageUrls.medium));
                   },
                   child: Padding(
                     padding: EdgeInsets.all(4.0),
@@ -337,8 +325,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                           flex: 1,
                           child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                             Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
-                            Text(" " + info.totalView.toString(),
-                                style: TextStyle(color: Colors.grey, fontSize: 14)),
+                            Text(" " + info.totalView.toString(), style: TextStyle(color: Colors.grey, fontSize: 14)),
                           ]),
                         ),
                       ],
@@ -464,6 +451,11 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       _providerComments.setAll(value.comments, value.nextUrl);
     });
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 }
 
 /* Provider: IllustDetail
@@ -482,8 +474,14 @@ class _IllustDetailProvider with ChangeNotifier {
   }
 }
 
+///
+/// 作品详情的Model
+/// @param list
+/// @param index
+/// @param list
+///
 class ArtworkDetailModel {
-  List<CommonIllust> list; // 作品列表
+  List<CommonIllust> list; // 作品列表，
   int index; // 当前浏览作品的索引
   Function(int index, bool isBookmarked) callback; // 执行回调，让上级列表更新收藏状态
 
