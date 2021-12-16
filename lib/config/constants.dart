@@ -21,4 +21,7 @@ class CONSTANTS {
   static String code_verifier = "";
   // ignore: non_constant_identifier_names
   static String? code_challenge;
+
+  static const String proxy_default_host = "127.0.0.1";
+  static const String proxy_default_port = "1080";
 }

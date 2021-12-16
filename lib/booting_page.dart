@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:pixgem/store/network_store.dart';
+import 'request/MyHttpOverrides.dart';
 import 'store/account_store.dart';
 import 'store/global.dart';
 
@@ -49,6 +53,8 @@ class BootingPageState extends State<BootingPage> {
   // 初始化全局数据，拦截未登录
   Future initAppData() async {
     await GlobalStore.init(); // 初始化一些全局数据
+    // 初始化代理设置
+    HttpOverrides.global = MyHttpOverrides();
     String? id = AccountStore.getCurrentAccountId();
     if (id != null) {
       // 已登录
