@@ -15,7 +15,7 @@ class SettingDownloadState extends State<SettingDownload> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("下载与保存的配置"),
+        title: Text("图片保存方式"),
       ),
       body: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),

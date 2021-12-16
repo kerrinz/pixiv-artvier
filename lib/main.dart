@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pixgem/main_paging.dart';
 import 'package:pixgem/pages/settings/setting_download.dart';
+import 'package:pixgem/pages/settings/setting_network.dart';
 import 'package:provider/provider.dart';
 import 'booting_page.dart';
 import 'pages/artworks/artworks_detail_page.dart';
@@ -9,6 +10,7 @@ import 'pages/artworks/artworks_leaderboard_page.dart';
 import 'pages/artworks/download_manage_page.dart';
 import 'pages/artworks/preview_artworks_page.dart';
 import 'pages/login/account_manage_page.dart';
+import 'pages/login/login_by_web_page.dart';
 import 'pages/login/login_wizard_page.dart';
 import 'pages/search/search_result_page.dart';
 import 'pages/settings/setting_current_account.dart';
@@ -22,6 +24,7 @@ import 'pages/user/my_bookmarks.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   GlobalStore.globalProvider = GlobalProvider();
+  // 其他数据在BootingPage里进行加载
   // 运行APP
   runApp(new MyApp());
   // 状态栏无前景色的沉浸式
@@ -52,7 +55,7 @@ class MyAppState extends State<MyApp> {
       ),
       colorScheme: ColorScheme.light(
         secondary: Colors.deepOrangeAccent,
-        secondaryVariant: Colors.deepOrange,
+        secondaryVariant: Colors.deepOrangeAccent.shade400,
         onPrimary: Colors.white, // button文字图标颜色等
       ),
       accentColor: Colors.deepOrangeAccent,
@@ -64,11 +67,13 @@ class MyAppState extends State<MyApp> {
         backgroundColor: Colors.grey.shade900,
       ),
       colorScheme: ColorScheme.dark(
-        secondary: Colors.lightGreenAccent,
-        secondaryVariant: Colors.lightGreen,
+        primary: Colors.cyan,
+        primaryVariant: Colors.cyan.shade700,
+        secondary: Colors.orangeAccent,
+        secondaryVariant: Colors.orangeAccent.shade400,
         // onPrimary: Colors.black,
       ),
-      accentColor: Colors.lightGreenAccent,
+      accentColor: Colors.orangeAccent,
     );
     return ChangeNotifierProvider(
       create: (context) => GlobalStore.globalProvider,
@@ -83,6 +88,7 @@ class MyAppState extends State<MyApp> {
               var routes = <String, WidgetBuilder>{
                 "main": (context) => MainPaging(),
                 "login_wizard": (context) => LoginWizardPage(),
+                "login_web": (context) => LoginWebPage(),
                 "artworks_leaderboard": (context) => ArtworksLeaderboardPage(),
                 "artworks_detail": (context) => ArtWorksDetailPage(settings.arguments!),
                 "artworks_view": (context) => PreviewArtworksPage(settings.arguments!),
@@ -96,6 +102,7 @@ class MyAppState extends State<MyApp> {
                 "setting_current_account": (context) => SettingCurrentAccountPage(),
                 "setting_download": (context) => SettingDownload(),
                 "setting_theme": (context) => SettingThemePage(),
+                "setting_network": (context) => SettingNetworkPage(),
               };
               WidgetBuilder builder = routes[settings.name]!;
               return MaterialPageRoute(builder: (context) => builder(context));

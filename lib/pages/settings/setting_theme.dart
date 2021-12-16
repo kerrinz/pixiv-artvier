@@ -34,11 +34,7 @@ class _SettingThemeState extends State<SettingThemePage> {
               Selector(selector: (BuildContext context, GlobalProvider provider) {
                 return provider.themeMode;
               }, builder: (BuildContext context, ThemeMode themeMode, Widget? child) {
-                return Row(
-                  children: [
-                    _buildBrightnessCard(themeMode),
-                  ],
-                );
+                return _buildBrightnessCard(themeMode);
               }),
             ],
           ),
@@ -49,66 +45,64 @@ class _SettingThemeState extends State<SettingThemePage> {
 
   // 切换亮度主题，例如暗黑模式
   Widget _buildBrightnessCard(ThemeMode themeMode) {
-    return Expanded(
-      child: Card(
-        elevation: 1.5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          // side: BorderSide(width: 1, color: Colors.white),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          children: [
-            InkWell(
-              onTap: () {
-                if (themeMode != ThemeMode.light) GlobalStore.globalProvider.setThemeMode(ThemeMode.light, true);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Expanded(child: Text("亮色模式", style: TextStyle(fontSize: 16))),
-                    themeMode == ThemeMode.light
-                        ? Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary)
-                        : Container(),
-                  ],
-                ),
+    return Card(
+      elevation: 1.5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        // side: BorderSide(width: 1, color: Colors.white),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              if (themeMode != ThemeMode.light) GlobalStore.globalProvider.setThemeMode(ThemeMode.light, true);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Expanded(child: Text("亮色模式", style: TextStyle(fontSize: 16))),
+                  themeMode == ThemeMode.light
+                      ? Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary)
+                      : Container(),
+                ],
               ),
             ),
-            InkWell(
-              onTap: () {
-                if (themeMode != ThemeMode.dark) GlobalStore.globalProvider.setThemeMode(ThemeMode.dark, true);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Expanded(child: Text("暗黑模式", style: TextStyle(fontSize: 16))),
-                    themeMode == ThemeMode.dark
-                        ? Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary)
-                        : Container(),
-                  ],
-                ),
+          ),
+          InkWell(
+            onTap: () {
+              if (themeMode != ThemeMode.dark) GlobalStore.globalProvider.setThemeMode(ThemeMode.dark, true);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Expanded(child: Text("暗黑模式", style: TextStyle(fontSize: 16))),
+                  themeMode == ThemeMode.dark
+                      ? Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary)
+                      : Container(),
+                ],
               ),
             ),
-            InkWell(
-              onTap: () {
-                if (themeMode != ThemeMode.system) GlobalStore.globalProvider.setThemeMode(ThemeMode.system, true);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Expanded(child: Text("自动跟随系统", style: TextStyle(fontSize: 16))),
-                    themeMode == ThemeMode.system
-                        ? Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary)
-                        : Container(),
-                  ],
-                ),
+          ),
+          InkWell(
+            onTap: () {
+              if (themeMode != ThemeMode.system) GlobalStore.globalProvider.setThemeMode(ThemeMode.system, true);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Expanded(child: Text("自动跟随系统", style: TextStyle(fontSize: 16))),
+                  themeMode == ThemeMode.system
+                      ? Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary)
+                      : Container(),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

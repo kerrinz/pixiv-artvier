@@ -5,6 +5,7 @@ import 'package:pixgem/model_store/downloading_illust.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/download_store.dart';
+import 'package:pixgem/store/network_store.dart';
 import 'package:pixgem/store/theme_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +16,8 @@ class GlobalStore {
 
   // 当前账号的配置信息（含token和过期时间），未登录为null
   static AccountProfile? currentAccount;
+
+  static String? proxy; // 代理配置，为null则不走代理
 
   // 是否为release版
   static bool get isRelease => bool.fromEnvironment("dart.vm.product");
@@ -36,7 +39,8 @@ class GlobalStore {
       }
     }
     // 初始化网络请求相关配置
-    ApiBase().init();
+    proxy = NetworkStore.getNetworkProxy();
+    ApiBase.init();
     // 初始化主题配置
     ThemeMode themeMode = ThemeStore.getThemeMode();
     globalProvider.setThemeMode(themeMode, false);
@@ -48,7 +52,7 @@ class GlobalStore {
   // 更新当前账号配置（不通知更新UI）
   static void changeCurrentAccount(AccountProfile? profile) {
     currentAccount = profile;
-    ApiBase().init(); // 重新初始化dio请求
+    ApiBase.init(); // 重新初始化dio请求
   }
 }
 

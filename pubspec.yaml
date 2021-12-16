@@ -42,6 +42,7 @@ dependencies:
   extended_nested_scroll_view: ^5.0.0
   photo_view: ^0.13.0 # 图片预览
   image_gallery_saver: ^1.7.1 # 图片保存
+  package_info: ^2.0.2 # 获取本App的信息
 #  flutter_downloader: 1.7.0 # 文件下载
 #  flutter_staggered_grid_view: ^0.4.0
   # The following adds the Cupertino Icons font to your application.flutter_downloader

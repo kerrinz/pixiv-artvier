@@ -4,13 +4,11 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
-import 'package:provider/provider.dart';
 
 class OAuth {
   static const String BASE_OAUTH_URL_HOST = "oauth.secure.pixiv.net";
@@ -33,7 +31,7 @@ class OAuth {
 
   static late int requestTime; // 发起请求的时间戳，(用于标记token过期时间)
 
-  static Dio dio = new Dio(BaseOptions(
+  static Dio dio = Dio(BaseOptions(
     baseUrl: 'https://' + BASE_OAUTH_URL_HOST,
     connectTimeout: 10000,
     receiveTimeout: 10000,
@@ -47,7 +45,7 @@ class OAuth {
     requestTime = now.millisecondsSinceEpoch; // 发起请求的时间戳
     String time = getXClientTime(now);
     String timeHash = getXClientHash(xClientTime: time);
-    dio = new Dio(BaseOptions(
+    dio = Dio(BaseOptions(
       baseUrl: 'https://' + BASE_OAUTH_URL_HOST,
       connectTimeout: 10000,
       receiveTimeout: 10000,

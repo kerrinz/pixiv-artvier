@@ -114,10 +114,10 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
               // 设置项列表
               Builder(builder: (context) {
                 List<PreferencesNavigatorItem> preferencesItems = [
-                  PreferencesNavigatorItem(icon: Icon(Icons.color_lens), text: "主题模式和配色", routeName: "setting_theme"),
+                  PreferencesNavigatorItem(icon: Icon(Icons.color_lens), text: "主题配置", routeName: "setting_theme"),
                   PreferencesNavigatorItem(
-                      icon: Icon(Icons.download_done), text: "下载与保存", routeName: "setting_download"),
-                  PreferencesNavigatorItem(icon: Icon(Icons.settings), text: "设置", routeName: "routeName"),
+                      icon: Icon(Icons.download_done), text: "图片保存方式", routeName: "setting_download"),
+                  PreferencesNavigatorItem(icon: Icon(Icons.web_asset_rounded), text: "代理和图片源", routeName: "setting_network"),
                 ];
                 return Column(
                   children: preferencesItems,
