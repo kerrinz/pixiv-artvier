@@ -76,7 +76,7 @@ class DownloadStore {
     return illusts;
   }
 
-  // 清空已下载完成的插画
+  // 清空已下载的记录
   static Future clearDownloadedIllusts() async {
     return await GlobalStore.globalSharedPreferences.setString(DOWNLOADED_HISTORY, jsonEncode([]));
   }
