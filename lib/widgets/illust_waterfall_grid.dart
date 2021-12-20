@@ -55,7 +55,7 @@ class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
 
   Widget _buildItem(BuildContext context, index) {
     // 如果滑动到了表尾
-    if (index == widget.artworkList.length - 1) {
+    if (index == widget.artworkList.length) {
       // 未到列表上限，继续获取数据
       if (widget.artworkList.length < (widget.limit ?? double.infinity)) {
         if (widget.artworkList.length > 0) widget.onLazyLoad(); // 列表不为空才获取数据
@@ -73,27 +73,26 @@ class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
       }
     }
     return IllustWaterfallCard(
-        illust: widget.artworkList[index],
-        onTap: () =>
-            Navigator.of(context).pushNamed("artworks_detail",
-                arguments: ArtworkDetailModel(
-                    list: widget.artworkList,
-                    index: index,
-                    callback: (int index, bool isBookmarked) {
-                      widget.artworkList[index].isBookmarked = isBookmarked;
-                      setState(() {});
-                    })),
-        isBookmarked: widget.artworkList[index].isBookmarked,
-        onTapBookmark: () {
-          var item = widget.artworkList[index];
-          postBookmark(item.id.toString(), item.isBookmarked).then((value) {
-            Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-            widget.artworkList[index].isBookmarked = !item.isBookmarked;
-            setState(() {});
-          }).onError((error, stackTrace) {
-            Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-          });
-        },
+      illust: widget.artworkList[index],
+      onTap: () => Navigator.of(context).pushNamed("artworks_detail",
+          arguments: ArtworkDetailModel(
+              list: widget.artworkList,
+              index: index,
+              callback: (int index, bool isBookmarked) {
+                widget.artworkList[index].isBookmarked = isBookmarked;
+                setState(() {});
+              })),
+      isBookmarked: widget.artworkList[index].isBookmarked,
+      onTapBookmark: () {
+        var item = widget.artworkList[index];
+        postBookmark(item.id.toString(), item.isBookmarked).then((value) {
+          Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+          widget.artworkList[index].isBookmarked = !item.isBookmarked;
+          setState(() {});
+        }).onError((error, stackTrace) {
+          Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+        });
+      },
     );
   }
 

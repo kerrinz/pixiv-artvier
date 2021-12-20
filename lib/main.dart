@@ -9,6 +9,7 @@ import 'pages/artworks/artworks_detail_page.dart';
 import 'pages/artworks/artworks_leaderboard_page.dart';
 import 'pages/artworks/download_manage_page.dart';
 import 'pages/artworks/preview_artworks_page.dart';
+import 'pages/artworks/view_history.dart';
 import 'pages/login/account_manage_page.dart';
 import 'pages/login/login_by_web_page.dart';
 import 'pages/login/login_wizard_page.dart';
@@ -26,7 +27,7 @@ void main() {
   GlobalStore.globalProvider = GlobalProvider();
   // 其他数据在BootingPage里进行加载
   // 运行APP
-  runApp(new MyApp());
+  runApp(MyApp());
   // 状态栏无前景色的沉浸式
   SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent);
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
@@ -97,6 +98,7 @@ class MyAppState extends State<MyApp> {
                 "user_detail": (context) => UserDetailPage(settings.arguments!),
                 "search_result": (context) => SearchResultPage(settings.arguments!),
                 "my_bookmarks": (context) => MyBookmarksPage(settings.arguments),
+                "view_history": (context) => ViewHistory(),
                 "account_manage": (context) => AccountManagePage(),
                 "download_manage": (context) => DownloadManagePage(),
                 "setting_current_account": (context) => SettingCurrentAccountPage(),

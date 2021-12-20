@@ -8,6 +8,7 @@ import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/pages/comments_page.dart';
 import 'package:pixgem/request/api_illusts.dart';
+import 'package:pixgem/store/history_store.dart';
 import 'package:pixgem/widgets/FollowButton.dart';
 import 'package:pixgem/widgets/comment.dart';
 import 'package:provider/provider.dart';
@@ -450,6 +451,8 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     ApiIllusts().getIllustComments(illustId: widget.model.list[widget.model.index].id.toString()).then((value) {
       _providerComments.setAll(value.comments, value.nextUrl);
     });
+    // 保存到历史记录，如果已有记录会拉到顶部（性能欠佳）
+    HistoryStore.addIllust(widget.model.list[widget.model.index]);
   }
 
   @override
