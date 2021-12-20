@@ -144,7 +144,9 @@ class SettingNetworkPageState extends State<SettingNetworkPage> {
                         var port =
                             _portController.text.length != 0 ? _portController.text : CONSTANTS.proxy_default_port;
                         await NetworkStore.setNetworkProxy(host, port); // 持久化存储
-                        GlobalStore.proxy = "$host:$port"; // 应用全局变量
+                        GlobalStore.proxy = "$host:$port"; //
+                        NetworkStore.setProxyEnable(true);
+                        selectedindex = 1;
                         // 将选中状态返回
                         Navigator.of(context).pop();
                         setState(() {}); // 以后再优化
