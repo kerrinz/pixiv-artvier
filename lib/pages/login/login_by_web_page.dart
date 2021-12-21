@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ class LoginWebPage extends StatefulWidget {
 }
 
 class _LoginWebState extends State {
-  late WebViewController _controller;
   String codeChallenge = "";
 
   @override
@@ -34,7 +32,6 @@ class _LoginWebState extends State {
         javascriptMode: JavascriptMode.unrestricted,
         onPageFinished: (url) {},
         onWebViewCreated: (controller) {
-          _controller = controller;
         },
         initialUrl: OAuth.getLoginWebViewUrl(),
         navigationDelegate: (NavigationRequest request) {
@@ -45,7 +42,7 @@ class _LoginWebState extends State {
               // OAuth登录
               oAuthLogin(code).then((value) {
                 print("Login success!");
-                Navigator.pushNamedAndRemoveUntil(context, "main", (route) => route == null);
+                Navigator.pushNamedAndRemoveUntil(context, "main", (route) => false);
               }).catchError((onError) {
                 print(onError);
                 // 待处理登录失败的逻辑
@@ -62,10 +59,10 @@ class _LoginWebState extends State {
               onMessageReceived: (JavascriptMessage message) {
                 print(message.message);
                 try {
-                  var value = json.decode(message.message);
-                  var id = value["_id"];
-                  var token = value["_token"];
-                  var cookie = value["_cookie"];
+                  // var value = json.decode(message.message);
+                  // var id = value["_id"];
+                  // var token = value["_token"];
+                  // var cookie = value["_cookie"];
                   // AccountStore.saveCurrentAccountProfile(account: new Account.create(userId: id, token: token, cookie: cookie));
                   // print(value["_id"]);
                 } catch (e) {

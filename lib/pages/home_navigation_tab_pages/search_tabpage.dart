@@ -158,7 +158,6 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
   @override

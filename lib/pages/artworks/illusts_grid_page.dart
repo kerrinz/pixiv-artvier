@@ -27,11 +27,11 @@ typedef IllustLazyLoadCallback = Future<CommonIllustList> Function(String nextUr
     ),
  */
 class IllustGridTabPage extends StatefulWidget {
-  IllustLazyLoadCallback onLazyLoad; // 懒加载
-  IllustRefreshCallback onRefresh; // 刷新（包含首次加载）
-  Widget? withoutIllustWidget; // 列表为空时的展示组件
-  ScrollController? scrollController; // 滚动控制器
-  ScrollPhysics? physics; // 滚动物理效果
+  final IllustLazyLoadCallback onLazyLoad; // 懒加载
+  final IllustRefreshCallback onRefresh; // 刷新（包含首次加载）
+  final Widget? withoutIllustWidget; // 列表为空时的展示组件
+  final ScrollController? scrollController; // 滚动控制器
+  final ScrollPhysics? physics; // 滚动物理效果
 
   State<StatefulWidget> createState() => IllustGridTabPageState();
 
@@ -98,7 +98,6 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
 

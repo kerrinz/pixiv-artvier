@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:provider/provider.dart';
 
 class IllustWaterfallCard extends StatefulWidget {
   final CommonIllust illust;

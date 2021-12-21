@@ -4,7 +4,7 @@ import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
 
 class TrendingTagsGrid extends StatefulWidget {
-  List<TrendTags> tags;
+  final List<TrendTags> tags;
 
   TrendingTagsGrid({Key? key, required this.tags}) : super(key: key);
 
@@ -85,14 +85,6 @@ class TrendingTagsGridState extends State<TrendingTagsGrid> {
           ),
         ),
       ],
-    );
-  }
-
-  // 构建循环加载动画
-  Widget _buildLoading(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: CircularProgressIndicator(strokeWidth: 1.0),
     );
   }
 }
