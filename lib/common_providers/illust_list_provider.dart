@@ -10,7 +10,7 @@ class IllustWaterfallProvider extends ChangeNotifier {
   }
 
   void updateIllust(CommonIllust illust, int index) {
-    this.list[index] = illust;
+    list[index] = illust;
     notifyListeners();
   }
 

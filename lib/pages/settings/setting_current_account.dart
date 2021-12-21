@@ -153,7 +153,7 @@ class _SettingCurrentAccountState extends State<SettingCurrentAccountPage> {
       child: SizedBox(
           width: 24.0,
           height: 24.0,
-          child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor)),
+          child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary)),
     );
   }
 }

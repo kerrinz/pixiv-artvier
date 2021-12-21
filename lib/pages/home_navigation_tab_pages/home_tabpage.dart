@@ -8,12 +8,12 @@ import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/artworks/artworks_detail_page.dart';
 import 'package:pixgem/request/api_illusts.dart';
-import 'package:pixgem/common_providers/Illust_waterfall_provider.dart';
+import 'package:pixgem/common_providers/illust_list_provider.dart';
 import 'package:pixgem/widgets/illust_waterfall_grid_sliver.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => HomePageState();
@@ -22,8 +22,8 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State with AutomaticKeepAliveClientMixin {
   int size = 20;
   bool _isLoadingMore = false; // 是否正在加载更多数据（防止重复获取）
-  _ListProvider _listProvider = _ListProvider();
-  IllustWaterfallProvider _illustWaterfallProvider = IllustWaterfallProvider();
+  final _ListProvider _listProvider = _ListProvider();
+  final IllustWaterfallProvider _illustWaterfallProvider = IllustWaterfallProvider();
   String? nextUrl; // 下一页的地址
 
   @override
@@ -50,19 +50,19 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                 pinned: false,
                 floating: true,
                 snap: true,
-                title: Text(
+                title: const Text(
                   "Pixgem",
                   style: TextStyle(fontSize: 18),
                 ),
                 // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
                 actions: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.sort),
+                    icon: const Icon(Icons.sort),
                     onPressed: () {},
                     tooltip: "排列布局",
                   ),
                   IconButton(
-                    icon: Icon(Icons.keyboard_arrow_up),
+                    icon: const Icon(Icons.keyboard_arrow_up),
                     onPressed: () {},
                     tooltip: "回到顶部",
                   ),
@@ -77,17 +77,16 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                 Fluttertoast.showToast(msg: "刷新成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
               }).catchError((onError) {
                 Fluttertoast.showToast(msg: "Error！刷新失败", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                print(onError);
               }).whenComplete(() => _listProvider.setLoading(false));
               // await saveAccount();
             },
             child: CustomScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               slivers: [
                 // 排行榜头部
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 12, top: 4),
+                    padding: const EdgeInsets.only(left: 12, top: 4),
                     child: Flex(
                       direction: Axis.horizontal,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -96,7 +95,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                           flex: 1,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.leaderboard_rounded,
                                 color: Colors.amber,
@@ -116,7 +115,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                           // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+                            children: const [
                               Text("更多"),
                               Icon(Icons.chevron_right),
                             ],
@@ -138,7 +137,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                 // 推荐头部
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 12, top: 4),
+                    padding: const EdgeInsets.only(left: 12, top: 4),
                     child: Flex(
                       direction: Axis.horizontal,
                       children: [
@@ -146,7 +145,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                           flex: 1,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.favorite_rounded,
                                 color: Colors.deepOrange,
@@ -164,7 +163,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                           // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+                            children: const [
                               Text("更多"),
                               Icon(Icons.chevron_right),
                             ],
@@ -182,11 +181,11 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                       artworkList: artworkList,
                       onLazyLoad: () {
                         // 不在加载中才能获取下一页的数据，以防重复获取同页数据
-                        if (!this._isLoadingMore) {
-                          this._isLoadingMore = true;
+                        if (!_isLoadingMore) {
+                          _isLoadingMore = true;
                           requestNextIllusts().catchError((onError) {
                             Fluttertoast.showToast(msg: "获取更多作品失败！", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                          }).whenComplete(() => this._isLoadingMore = false);
+                          }).whenComplete(() => _isLoadingMore = false);
                         }
                       },
                     );
@@ -205,19 +204,19 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
 
   // 构建排行榜卡片列表（横向
   Widget buildLeaderboardCardList(BuildContext context, List<CommonIllust> rankingList) {
-    if (rankingList.isNotEmpty)
+    if (rankingList.isNotEmpty) {
       return SliverToBoxAdapter(
-        child: Container(
+        child: SizedBox(
           height: 200,
           child: ListView.builder(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return Card(
                 margin: const EdgeInsets.only(left: 10),
                 elevation: 2.0,
                 shadowColor: Colors.black,
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 ),
                 clipBehavior: Clip.antiAlias,
@@ -225,7 +224,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                   children: [
                     Image.network(
                       rankingList[index].imageUrls.squareMedium,
-                      headers: {"referer": CONSTANTS.referer_artworks_base},
+                      headers: const {"referer": CONSTANTS.referer_artworks_base},
                     ),
                     // 阴影
                     Positioned(
@@ -234,9 +233,9 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                       bottom: 0,
                       child: Container(
                         height: 80,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           gradient: LinearGradient(colors: [
-                            Color(0x0),
+                            Color(0x00000000),
                             Color(0x33000000),
                             Color(0x6C000000),
                           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
@@ -256,7 +255,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                               padding: const EdgeInsets.only(bottom: 6),
                               child: Text(
                                 rankingList[index].title,
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
                               ),
                             ),
                             Row(
@@ -266,7 +265,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                                 ClipOval(
                                   child: Image.network(
                                     rankingList[index].user.profileImageUrls.medium,
-                                    headers: {"Referer": CONSTANTS.referer},
+                                    headers: const {"Referer": CONSTANTS.referer},
                                     fit: BoxFit.cover,
                                     width: 20,
                                     height: 20,
@@ -276,7 +275,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                                   padding: const EdgeInsets.only(left: 4),
                                   child: Text(
                                     rankingList[index].user.name,
-                                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white),
+                                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white),
                                   ),
                                 ),
                               ],
@@ -312,11 +311,12 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
           ),
         ),
       );
+    }
     return SliverToBoxAdapter(
       child: Container(
         height: 200,
         alignment: Alignment.center,
-        child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).accentColor),
+        child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
       ),
     );
   }

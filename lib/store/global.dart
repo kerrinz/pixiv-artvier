@@ -20,7 +20,7 @@ class GlobalStore {
   static String? proxy; // 代理配置，为null则不走代理
 
   // 是否为release版
-  static bool get isRelease => bool.fromEnvironment("dart.vm.product");
+  static bool get isRelease => const bool.fromEnvironment("dart.vm.product");
 
   /* 初始化全局信息，会在APP启动时执行 */
   static Future init() async {

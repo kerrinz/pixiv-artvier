@@ -14,7 +14,6 @@ class ArtworksLeaderboardPage extends StatefulWidget {
 
 class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with TickerProviderStateMixin {
   late TabController _tabController;
-  String _date = "2021-07-16";
 
   // tab分页的对应模式与字段
   Map<String, String> _tabsMap = {

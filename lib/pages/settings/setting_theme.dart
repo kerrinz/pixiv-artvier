@@ -3,7 +3,7 @@ import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
 
 class SettingThemePage extends StatefulWidget {
-  SettingThemePage({Key? key}) : super(key: key);
+  const SettingThemePage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -21,10 +21,10 @@ class _SettingThemeState extends State<SettingThemePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("主题设置"),
+        title: const Text("主题设置"),
       ),
       body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
         child: Container(
           // 这样解决了内容不足以支撑全屏时，滑动回弹不会回到原位的问题
           constraints: BoxConstraints(
@@ -47,7 +47,7 @@ class _SettingThemeState extends State<SettingThemePage> {
   Widget _buildBrightnessCard(ThemeMode themeMode) {
     return Card(
       elevation: 1.5,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
         // side: BorderSide(width: 1, color: Colors.white),
       ),
@@ -62,7 +62,7 @@ class _SettingThemeState extends State<SettingThemePage> {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  Expanded(child: Text("亮色模式", style: TextStyle(fontSize: 16))),
+                  const Expanded(child: Text("亮色模式", style: TextStyle(fontSize: 16))),
                   themeMode == ThemeMode.light
                       ? Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary)
                       : Container(),
@@ -78,7 +78,7 @@ class _SettingThemeState extends State<SettingThemePage> {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  Expanded(child: Text("暗黑模式", style: TextStyle(fontSize: 16))),
+                  const Expanded(child: Text("暗黑模式", style: TextStyle(fontSize: 16))),
                   themeMode == ThemeMode.dark
                       ? Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary)
                       : Container(),
@@ -94,7 +94,7 @@ class _SettingThemeState extends State<SettingThemePage> {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  Expanded(child: Text("自动跟随系统", style: TextStyle(fontSize: 16))),
+                  const Expanded(child: Text("自动跟随系统", style: TextStyle(fontSize: 16))),
                   themeMode == ThemeMode.system
                       ? Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary)
                       : Container(),
