@@ -9,7 +9,7 @@ import 'package:pixgem/widgets/perference_single_choise_panel.dart';
 import 'package:provider/provider.dart';
 
 class SettingNetworkPage extends StatefulWidget {
-  SettingNetworkPage({Key? key}) : super(key: key);
+  const SettingNetworkPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SettingNetworkPageState();
@@ -41,10 +41,10 @@ class SettingNetworkPageState extends State<SettingNetworkPage> {
       create: (context) => _provider,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("代理和图片源"),
+          title: const Text("代理和图片源"),
         ),
         body: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           child: Container(
             padding: const EdgeInsets.all(8),
             // 这样解决了内容不足以支撑全屏时，滑动回弹不会回到原位的问题
@@ -58,7 +58,7 @@ class SettingNetworkPageState extends State<SettingNetworkPage> {
                     title: 'HTTP网络代理',
                     selectedindex: selectedindex,
                     onSelect: (index) {
-                      this.selectedindex = index; // 选择了第几项
+                      selectedindex = index; // 选择了第几项
                       switch (index) {
                         case 0:
                           GlobalStore.proxy = null;
@@ -73,13 +73,13 @@ class SettingNetworkPageState extends State<SettingNetworkPage> {
                       (context as Element).markNeedsBuild();
                     },
                     widgets: <Widget>[
-                      Text(
+                      const Text(
                         "使用系统代理（默认）",
                         style: TextStyle(fontSize: 16),
                       ),
                       Row(
                         children: [
-                          Text("自定义代理", style: TextStyle(fontSize: 16)),
+                          const Text("自定义代理", style: TextStyle(fontSize: 16)),
                           _buildProxyBadge(context),
                         ],
                       ),
@@ -104,7 +104,7 @@ class SettingNetworkPageState extends State<SettingNetworkPage> {
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text("自定义代理"),
+                  title: const Text("自定义代理"),
                   content: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -113,7 +113,7 @@ class SettingNetworkPageState extends State<SettingNetworkPage> {
                         autofocus: true,
                         controller: _hostController,
                         keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: "${CONSTANTS.proxy_default_host}（本机）",
                           contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                           isCollapsed: true, // 高度包裹，不会存在默认高度
@@ -122,8 +122,8 @@ class SettingNetworkPageState extends State<SettingNetworkPage> {
                       TextField(
                         autofocus: false,
                         controller: _portController,
-                        keyboardType: TextInputType.numberWithOptions(signed: true, decimal: false),
-                        decoration: InputDecoration(
+                        keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: false),
+                        decoration: const InputDecoration(
                           hintText: CONSTANTS.proxy_default_port,
                           contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                           isCollapsed: true, // 高度包裹，不会存在默认高度
@@ -133,16 +133,16 @@ class SettingNetworkPageState extends State<SettingNetworkPage> {
                   ),
                   actions: <Widget>[
                     TextButton(
-                      child: Text("取消"),
+                      child: const Text("取消"),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                     TextButton(
-                      child: Text("保存"),
+                      child: const Text("保存"),
                       onPressed: () async {
                         var host =
-                            _hostController.text.length != 0 ? _hostController.text : CONSTANTS.proxy_default_host;
+                            _hostController.text.isNotEmpty ? _hostController.text : CONSTANTS.proxy_default_host;
                         var port =
-                            _portController.text.length != 0 ? _portController.text : CONSTANTS.proxy_default_port;
+                            _portController.text.isNotEmpty ? _portController.text : CONSTANTS.proxy_default_port;
                         await NetworkStore.setNetworkProxy(host, port); // 持久化存储
                         GlobalStore.proxy = "$host:$port"; //
                         NetworkStore.setProxyEnable(true);

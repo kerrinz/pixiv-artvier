@@ -6,10 +6,10 @@ import 'package:pixgem/request/api_user.dart';
 import 'package:pixgem/widgets/user_previews_listview.dart';
 
 class UserFollowingPage extends StatefulWidget {
-  late String userId;
+  late final String userId;
 
   UserFollowingPage(Object arguments, {Key? key}) : super(key: key) {
-    this.userId = arguments as String;
+    userId = arguments as String;
   }
 
   @override
@@ -25,14 +25,14 @@ class UserFollowingPageState extends State<UserFollowingPage> {
         onlyOneScrollInBody: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
-            SliverAppBar(
+            const SliverAppBar(
               pinned: true,
               title: Text("关注列表"),
             ),
           ];
         },
         body: UsersCardListView(
-          physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           onLazyLoad: (String nextUrl) async {
             var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
             return UserPreviewsList.fromJson(result);

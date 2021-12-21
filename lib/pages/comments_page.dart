@@ -66,7 +66,7 @@ class _CommentsPageState extends State<CommentsPage> {
                         child: SizedBox(
                           width: 24.0,
                           height: 24.0,
-                          child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor),
+                          child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary),
                         ),
                       );
                     } else {

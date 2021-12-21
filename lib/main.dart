@@ -27,14 +27,16 @@ void main() {
   GlobalStore.globalProvider = GlobalProvider();
   // 其他数据在BootingPage里进行加载
   // 运行APP
-  runApp(MyApp());
+  runApp(const MyApp());
   // 状态栏无前景色的沉浸式
-  SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+  SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 }
 
 /* 初始化一些APP全局设定，不加载内容 */
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => MyAppState();
 }
@@ -47,7 +49,7 @@ class MyAppState extends State<MyApp> {
       brightness: Brightness.light,
       primaryColorBrightness: Brightness.light,
       // 控件亮度，影响上层文字颜色
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         // appbar专门特制
         backgroundColor: Colors.white,
         titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
@@ -59,7 +61,6 @@ class MyAppState extends State<MyApp> {
         secondaryVariant: Colors.deepOrangeAccent.shade400,
         onPrimary: Colors.white, // button文字图标颜色等
       ),
-      accentColor: Colors.deepOrangeAccent,
     );
     ThemeData themeDataDark = ThemeData(
       brightness: Brightness.dark,
@@ -74,7 +75,6 @@ class MyAppState extends State<MyApp> {
         secondaryVariant: Colors.orangeAccent.shade400,
         // onPrimary: Colors.black,
       ),
-      accentColor: Colors.orangeAccent,
     );
     return ChangeNotifierProvider(
       create: (context) => GlobalStore.globalProvider,
@@ -83,7 +83,7 @@ class MyAppState extends State<MyApp> {
           return provider.themeMode;
         },
         builder: (BuildContext context, ThemeMode mode, Widget? child) {
-          return new MaterialApp(
+          return MaterialApp(
             title: 'Pixgem',
             onGenerateRoute: (RouteSettings settings) {
               var routes = <String, WidgetBuilder>{
@@ -110,7 +110,7 @@ class MyAppState extends State<MyApp> {
               return MaterialPageRoute(builder: (context) => builder(context));
             },
             // 启动加载页面，在这里面初始化全局数据
-            home: BootingPage(),
+            home: const BootingPage(),
             theme: themeDataLight,
             darkTheme: themeDataDark,
             themeMode: mode,

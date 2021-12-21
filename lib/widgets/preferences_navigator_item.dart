@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PreferencesNavigatorItem extends StatelessWidget {
-  String text;
-  Widget? icon;
-  String routeName;
+  final String text;
+  final Widget? icon;
+  final String routeName;
 
   PreferencesNavigatorItem({Key? key, required this.text, this.icon, required this.routeName}) : super(key: key);
 

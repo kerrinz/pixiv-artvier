@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pixgem/store/network_store.dart';
 import 'request/MyHttpOverrides.dart';
 import 'store/account_store.dart';
 import 'store/global.dart';
@@ -9,6 +8,8 @@ import 'store/global.dart';
 /// app启动的加载过渡页面，在这里会加载一些全局数据
 ///
 class BootingPage extends StatefulWidget {
+  const BootingPage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => BootingPageState();
 }
@@ -23,7 +24,7 @@ class BootingPageState extends State<BootingPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Pixgem",
               style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500),
             ),
@@ -32,7 +33,7 @@ class BootingPageState extends State<BootingPage> {
               child: SizedBox(
                 width: 32.0,
                 height: 32.0,
-                child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).accentColor),
+                child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary),
               ),
             ),
           ],
@@ -46,7 +47,6 @@ class BootingPageState extends State<BootingPage> {
     super.initState();
     initAppData().catchError((onError) {
       Navigator.pushNamedAndRemoveUntil(context, "login_wizard", (route) => false);
-      print(onError);
     });
   }
 

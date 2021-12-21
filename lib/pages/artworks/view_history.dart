@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/common_providers/Illust_waterfall_provider.dart';
+import 'package:pixgem/common_providers/illust_list_provider.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/store/history_store.dart';
 import 'package:pixgem/widgets/base_provider_widget.dart';

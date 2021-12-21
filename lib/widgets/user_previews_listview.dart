@@ -8,12 +8,12 @@ typedef RefreshCallback = Future<UserPreviewsList> Function();
 typedef LazyLoadCallback = Future<UserPreviewsList> Function(String nextUrl);
 
 class UsersCardListView extends StatefulWidget {
-  LazyLoadCallback onLazyLoad; // 懒加载，会传入nextUrl
-  RefreshCallback onRefresh; // 刷新（包含首次加载）
+  final LazyLoadCallback onLazyLoad; // 懒加载，会传入nextUrl
+  final RefreshCallback onRefresh; // 刷新（包含首次加载）
   final int? limit; // 列表项的极限数量，为空则表示不限
 
-  ScrollController? scrollController;
-  ScrollPhysics? physics;
+  final ScrollController? scrollController;
+  final ScrollPhysics? physics;
 
   UsersCardListView(
       {Key? key, required this.onLazyLoad, required this.onRefresh, this.limit, this.scrollController, this.physics})

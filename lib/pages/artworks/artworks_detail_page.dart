@@ -14,7 +14,7 @@ import 'package:pixgem/widgets/comment.dart';
 import 'package:provider/provider.dart';
 
 class ArtWorksDetailPage extends StatefulWidget {
-  late ArtworkDetailModel model; // 数据集
+  late final ArtworkDetailModel model; // 数据集
 
   ArtWorksDetailPage(Object arguments, {Key? key}) : super(key: key) {
     model = arguments as ArtworkDetailModel;

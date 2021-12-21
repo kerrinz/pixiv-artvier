@@ -7,7 +7,7 @@ import 'package:pixgem/widgets/illust_waterfall_grid.dart';
 import 'package:provider/provider.dart';
 
 class SearchResultPage extends StatefulWidget {
-  late String label; // 搜索文本内容
+  late final String label; // 搜索文本内容
 
   SearchResultPage(Object arguments, {Key? key}) : super(key: key) {
     label = arguments as String;
@@ -74,7 +74,7 @@ class SearchResultPageState extends State<SearchResultPage> {
                 // loading
                 return Container(
                   alignment: Alignment.center,
-                  child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).accentColor),
+                  child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
                 );
               } else if (illusts.length == 0) {
                 return Container(
