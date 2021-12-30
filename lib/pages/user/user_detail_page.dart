@@ -290,7 +290,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                     Selector(
                       builder: (BuildContext context, UserDetail? detail, Widget? child) {
                         if (detail == null) {
-                          return Center(child: _buildLoading(context));
+                          return Container();
                         }
                         Map<IconData, String> map = {
                           Icons.transgender: detail.profile.gender == "" ? "unknown" : detail.profile.gender,
@@ -329,10 +329,12 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
 
   // 构建循环加载动画
   Widget _buildLoading(BuildContext context) {
-    return SizedBox(
-        width: 24.0,
-        height: 24.0,
-        child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary));
+    return Container(
+      // width: 24.0,
+      // height: 24.0,
+      alignment: Alignment.center,
+      child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary),
+    );
   }
 
   @override
