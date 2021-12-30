@@ -7,6 +7,8 @@ import 'package:pixgem/widgets/trending_tags_grid.dart';
 import 'package:provider/provider.dart';
 
 class SearchTabPage extends StatefulWidget {
+  const SearchTabPage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return SearchTabPageState();
@@ -14,9 +16,9 @@ class SearchTabPage extends StatefulWidget {
 }
 
 class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveClientMixin {
-  _SearchProvider _provider = _SearchProvider();
-  TextEditingController _textController = TextEditingController();
-  FocusNode _focusNode = FocusNode();
+  final _SearchProvider _provider = _SearchProvider();
+  final TextEditingController _textController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
               title: _buildSearchBox(context),
               actions: <Widget>[
                 IconButton(
-                  icon: Text("取消"),
+                  icon: const Text("取消"),
                   onPressed: () {
                     _focusNode.unfocus();
                   },
@@ -48,24 +50,22 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
               Fluttertoast.showToast(msg: "刷新失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
             }));
           },
-          child: Container(
-            child: Selector(
-              selector: (BuildContext context, _SearchProvider provider) {
-                return provider.trendTags;
-              },
-              builder: (BuildContext context, List<TrendTags>? tags, Widget? child) {
-                if (tags == null) {
-                  // loading
-                  return Container(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
-                  );
-                }
-                return TrendingTagsGrid(
-                  tags: tags,
+          child: Selector(
+            selector: (BuildContext context, _SearchProvider provider) {
+              return provider.trendTags;
+            },
+            builder: (BuildContext context, List<TrendTags>? tags, Widget? child) {
+              if (tags == null) {
+                // loading
+                return Container(
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
                 );
-              },
-            ),
+              }
+              return TrendingTagsGrid(
+                tags: tags,
+              );
+            },
           ),
         ),
       ),
@@ -81,8 +81,8 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
       child: Row(
         children: [
           // 框左边的搜索图标
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
+          const Padding(
+            padding: EdgeInsets.only(left: 10.0),
             child: Icon(Icons.search_outlined, size: 18),
           ),
           // 搜索框
@@ -95,7 +95,7 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.search,
               // 键盘的回车键换成搜索按钮
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "搜索...",
                 contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                 enabledBorder: InputBorder.none,
@@ -122,7 +122,7 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
                 return Container();
               }
               return InkWell(
-                child: Container(
+                child: const SizedBox(
                   width: 40,
                   height: 40,
                   child: Icon(Icons.clear, size: 18),
@@ -172,12 +172,12 @@ class _SearchProvider with ChangeNotifier {
   bool isExistText = false; // 搜索框是否存在文字
 
   void setTags(List<TrendTags> tags) {
-    this.trendTags = tags;
+    trendTags = tags;
     notifyListeners();
   }
 
   void setIsExistText(bool isExist) {
-    this.isExistText = isExist;
+    isExistText = isExist;
     notifyListeners();
   }
 }

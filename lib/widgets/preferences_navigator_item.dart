@@ -5,7 +5,7 @@ class PreferencesNavigatorItem extends StatelessWidget {
   final Widget? icon;
   final String routeName;
 
-  PreferencesNavigatorItem({Key? key, required this.text, this.icon, required this.routeName}) : super(key: key);
+  const PreferencesNavigatorItem({Key? key, required this.text, this.icon, required this.routeName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +21,10 @@ class PreferencesNavigatorItem extends StatelessWidget {
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: icon ?? Container(),
                 ),
-                Text(text, style: TextStyle(fontSize: 18)),
+                Text(text, style: const TextStyle(fontSize: 18)),
               ],
             ),
           ],

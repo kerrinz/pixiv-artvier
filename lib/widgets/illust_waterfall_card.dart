@@ -12,7 +12,7 @@ class IllustWaterfallCard extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => IllustWaterfallCardState();
 
-  IllustWaterfallCard(
+  const IllustWaterfallCard(
       {Key? key, required this.illust, required this.isBookmarked, required this.onTap, required this.onTapBookmark})
       : super(key: key);
 }
@@ -23,28 +23,28 @@ class IllustWaterfallCardState extends State<IllustWaterfallCard> {
     // LayoutBuilder能获取到父组件的最大支撑宽度
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return Container(
+        return SizedBox(
           width: double.infinity,
           height: (widget.illust.height * constraints.maxWidth) / widget.illust.width,
           child: Card(
             elevation: 2.0,
             margin: EdgeInsets.zero,
             shadowColor: Colors.grey.shade600,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(6.0)),
             ),
             clipBehavior: Clip.antiAlias,
             child: Stack(
               fit: StackFit.loose,
               children: [
-                Container(
+                SizedBox(
                   width: double.infinity,
                   child: CachedNetworkImage(
                     fit: BoxFit.cover,
                     width: widget.illust.width.toDouble(),
                     height: widget.illust.height.toDouble(),
                     imageUrl: widget.illust.imageUrls.medium,
-                    httpHeaders: {"Referer": CONSTANTS.referer},
+                    httpHeaders: const {"Referer": CONSTANTS.referer},
                   ),
                 ),
                 Positioned.fill(

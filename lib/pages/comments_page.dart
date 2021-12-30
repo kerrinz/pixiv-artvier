@@ -10,7 +10,7 @@ class CommentsPage extends StatefulWidget {
   late final String illustId; // 作品id
 
   CommentsPage(Object arguments, {Key? key}) : super(key: key) {
-    this.illustId = arguments as String;
+    illustId = arguments as String;
   }
 
   @override
@@ -20,7 +20,7 @@ class CommentsPage extends StatefulWidget {
 }
 
 class _CommentsPageState extends State<CommentsPage> {
-  IllustCommentsProvider _provider = new IllustCommentsProvider();
+  final IllustCommentsProvider _provider = IllustCommentsProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,13 @@ class _CommentsPageState extends State<CommentsPage> {
       create: (BuildContext context) => _provider,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "全部评论",
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
           ),
           leading: Builder(builder: (context) {
             return IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -51,7 +51,7 @@ class _CommentsPageState extends State<CommentsPage> {
                 return _buildLoading(context);
               }
               return ListView.builder(
-                physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                 itemCount: provider.commentList!.length + 1,
                 itemBuilder: (BuildContext context, int index) {
                   // 如果滑动到了表尾
@@ -73,8 +73,8 @@ class _CommentsPageState extends State<CommentsPage> {
                       //已经加载完全部数据，不再获取
                       return Container(
                         alignment: Alignment.center,
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
+                        padding: const EdgeInsets.all(16.0),
+                        child: const Text(
                           "没有更多了",
                           style: TextStyle(color: Colors.grey),
                         ),
@@ -83,7 +83,7 @@ class _CommentsPageState extends State<CommentsPage> {
                   }
                   // 非表尾的情况下显示列表项
                   return Container(
-                    padding: EdgeInsets.only(left: 6),
+                    padding: const EdgeInsets.only(left: 6),
                     child: CommentWidget(comment: provider.commentList![index]),
                   );
                 },

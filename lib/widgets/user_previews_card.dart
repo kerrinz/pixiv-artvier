@@ -12,7 +12,7 @@ class UserPreviewsCard extends StatelessWidget {
   final CommonUserPreviews user;
   final UserPreviewsType type = UserPreviewsType.illust;
 
-  UserPreviewsCard({Key? key, required this.user, required UserPreviewsType type}) : super(key: key);
+  const UserPreviewsCard({Key? key, required this.user, required UserPreviewsType type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class UserPreviewsCard extends StatelessWidget {
       elevation: 1,
       margin: EdgeInsets.zero,
       shadowColor: Colors.grey.withOpacity(0.5),
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
       clipBehavior: Clip.antiAlias,
@@ -30,7 +30,7 @@ class UserPreviewsCard extends StatelessWidget {
           // 图片与用户名
           Column(
             children: [
-              Container(
+              SizedBox(
                 width: double.infinity,
                 height: imgWidth,
                 child: Row(
@@ -45,8 +45,8 @@ class UserPreviewsCard extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 80.0, top: 12, bottom: 12),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  this.user.user.name,
-                  style: TextStyle(fontSize: 18),
+                  user.user.name,
+                  style: const TextStyle(fontSize: 18),
                 ),
               ),
             ],
@@ -70,14 +70,14 @@ class UserPreviewsCard extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey, width: 1),
-                    borderRadius: BorderRadius.all(Radius.circular(80)),
+                    borderRadius: const BorderRadius.all(Radius.circular(80)),
                   ),
                   child: ClipOval(
                     child: CachedNetworkImage(
                       width: 64,
                       height: 64,
-                      imageUrl: this.user.user.profileImageUrls.medium,
-                      httpHeaders: {
+                      imageUrl: user.user.profileImageUrls.medium,
+                      httpHeaders: const {
                         "referer": CONSTANTS.referer,
                       },
                       fit: BoxFit.cover,
@@ -109,26 +109,26 @@ class UserPreviewsCard extends StatelessWidget {
   // 构建图片
   Widget _buildImage(int index) {
     // 当作品数量不够展示的时候进行处理
-    switch (this.type) {
+    switch (type) {
       case UserPreviewsType.illust:
-        if (index >= this.user.illusts.length) {
+        if (index >= user.illusts.length) {
           return Container(color: Colors.redAccent);
         } else {
           return Expanded(
             child: CachedNetworkImage(
-              imageUrl: this.user.illusts[index].imageUrls.squareMedium,
-              httpHeaders: {"referer": CONSTANTS.referer},
+              imageUrl: user.illusts[index].imageUrls.squareMedium,
+              httpHeaders: const {"referer": CONSTANTS.referer},
             ),
           );
         }
       default:
-        if (index >= this.user.novels.length) {
+        if (index >= user.novels.length) {
           return Container(color: Colors.redAccent);
         } else {
           return Expanded(
             child: CachedNetworkImage(
-              imageUrl: this.user.novels[index].imageUrls.squareMedium,
-              httpHeaders: {"referer": CONSTANTS.referer},
+              imageUrl: user.novels[index].imageUrls.squareMedium,
+              httpHeaders: const {"referer": CONSTANTS.referer},
             ),
           );
         }

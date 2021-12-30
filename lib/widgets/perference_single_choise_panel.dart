@@ -12,7 +12,7 @@ class PerferenceSingleChoisePanel extends StatelessWidget {
   final int? selectedindex; // 已选项
   final OnSelectCallback onSelect;
 
-  PerferenceSingleChoisePanel({
+  const PerferenceSingleChoisePanel({
     Key? key,
     required this.title,
     required this.widgets,
@@ -27,13 +27,13 @@ class PerferenceSingleChoisePanel extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
-          child: Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          child: Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         ),
-        Container(
+        SizedBox(
           width: double.infinity,
           child: Card(
             elevation: 1.5,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
               side: BorderSide(width: 1, color: Colors.white12),
             ),

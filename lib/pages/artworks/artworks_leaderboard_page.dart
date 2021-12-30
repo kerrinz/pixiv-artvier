@@ -8,6 +8,8 @@ import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/request/api_illusts.dart';
 
 class ArtworksLeaderboardPage extends StatefulWidget {
+  const ArtworksLeaderboardPage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => ArtworksLeaderboardPageState();
 }
@@ -16,7 +18,7 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
   late TabController _tabController;
 
   // tab分页的对应模式与字段
-  Map<String, String> _tabsMap = {
+  final Map<String, String> _tabsMap = {
     RankingModeConstants.illust_day: "每日",
     RankingModeConstants.illust_week: "每周",
     RankingModeConstants.illust_month: "每月",
@@ -42,7 +44,7 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
         onlyOneScrollInBody: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           List<Widget> tabs = [];
-          this._tabsMap.forEach((key, value) {
+          _tabsMap.forEach((key, value) {
             tabs.add(Tab(text: value));
           });
           return [
@@ -50,7 +52,7 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
               pinned: true,
               snap: true,
               floating: true,
-              title: Text("排行榜"),
+              title: const Text("排行榜"),
               bottom: TabBar(
                 indicatorSize: TabBarIndicatorSize.label,
                 controller: _tabController,
@@ -60,30 +62,28 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
             ),
           ];
         },
-        body: Container(
-          child: Builder(
-            builder: (context) {
-              List<IllustGridTabPage> pages = [];
-              this._tabsMap.forEach((mode, text) {
-                pages.add(IllustGridTabPage(
-                  physics: BouncingScrollPhysics(),
-                  onRefresh: () async {
-                    return await ApiIllusts().getIllustRanking(mode: mode).catchError((onError) {
-                      Fluttertoast.showToast(msg: "获取排行失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                    });
-                  },
-                  onLazyLoad: (String nextUrl) async {
-                    var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-                    return CommonIllustList.fromJson(result);
-                  },
-                ));
-              });
-              return TabBarView(
-                controller: _tabController,
-                children: pages,
-              );
-            },
-          ),
+        body: Builder(
+          builder: (context) {
+            List<IllustGridTabPage> pages = [];
+            _tabsMap.forEach((mode, text) {
+              pages.add(IllustGridTabPage(
+                physics: const BouncingScrollPhysics(),
+                onRefresh: () async {
+                  return await ApiIllusts().getIllustRanking(mode: mode).catchError((onError) {
+                    Fluttertoast.showToast(msg: "获取排行失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                  });
+                },
+                onLazyLoad: (String nextUrl) async {
+                  var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
+                  return CommonIllustList.fromJson(result);
+                },
+              ));
+            });
+            return TabBarView(
+              controller: _tabController,
+              children: pages,
+            );
+          },
         ),
       ),
     );

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -23,7 +25,7 @@ class ApiBase {
   static const String BASE_URL_IP = '104.18.30.199';
 
   ApiBase() {
-    String time = OAuth.getXClientTime(new DateTime.now());
+    String time = OAuth.getXClientTime(DateTime.now());
     String timeHash = OAuth.getXClientHash(xClientTime: time);
     dio.options.headers.addAll({
       "x-client-time": time,

@@ -16,19 +16,19 @@ class IllustWaterfallGrid extends StatefulWidget {
   final ScrollController? scrollController;
   final ScrollPhysics? physics;
 
-  IllustWaterfallGrid(
+  const IllustWaterfallGrid(
       {Key? key, required this.artworkList, required this.onLazyLoad, this.limit, this.scrollController, this.physics})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new IllustWaterfallGridState();
+  State<StatefulWidget> createState() => IllustWaterfallGridState();
 }
 
 class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
   @override
   Widget build(BuildContext context) {
     return WaterfallFlow.builder(
-      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
       controller: widget.scrollController,
       physics: widget.physics,
       itemCount: widget.artworkList.length,
@@ -38,12 +38,12 @@ class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
         mainAxisSpacing: 8,
         collectGarbage: (List<int> garbages) {
           // print('collect garbage : $garbages');
-          garbages.forEach((index) {
+          for (var index in garbages) {
             final provider = CachedNetworkImageProvider(
               widget.artworkList[index].imageUrls.medium,
             );
             provider.evict();
-          });
+          }
         },
         viewportBuilder: (int firstIndex, int lastIndex) {
           // print('viewport : [$firstIndex,$lastIndex]');
@@ -58,15 +58,15 @@ class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
     if (index == widget.artworkList.length) {
       // 未到列表上限，继续获取数据
       if (widget.artworkList.length < (widget.limit ?? double.infinity)) {
-        if (widget.artworkList.length > 0) widget.onLazyLoad(); // 列表不为空才获取数据
+        if (widget.artworkList.isNotEmpty) widget.onLazyLoad(); // 列表不为空才获取数据
         //加载时显示loading
         return _buildLoading(context);
       } else {
         //已经加载足够多的数据，不再获取
         return Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(16.0),
-            child: Text(
+            padding: const EdgeInsets.all(16.0),
+            child: const Text(
               "没有更多了",
               style: TextStyle(color: Colors.grey),
             ));
@@ -99,14 +99,15 @@ class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
   /* 收藏或者取消收藏插画 */
   Future<bool> postBookmark(String id, bool oldIsBookmark) async {
     bool isSucceed = false; // 是否执行成功
-    if (oldIsBookmark)
+    if (oldIsBookmark) {
       isSucceed = await ApiIllusts().deleteIllustBookmark(illustId: id);
-    else
+    } else {
       isSucceed = await ApiIllusts().addIllustBookmark(illustId: id);
+    }
     // 执行结果
-    if (isSucceed)
+    if (isSucceed) {
       return true;
-    else {
+    } else {
       Future.error("Request bookmark failed!");
       return false;
     }
@@ -116,7 +117,7 @@ class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
   Widget _buildLoading(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: CircularProgressIndicator(strokeWidth: 1.0),
+      child: const CircularProgressIndicator(strokeWidth: 1.0),
     );
   }
 }

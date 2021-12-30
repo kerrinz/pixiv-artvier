@@ -32,7 +32,7 @@ class PreviewArtworksPage extends StatefulWidget {
 
 class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTickerProviderStateMixin {
   late PageController mController;
-  _PreviewProvider _provider = _PreviewProvider();
+  final _PreviewProvider _provider = _PreviewProvider();
   late final Permission _permission = Permission.storage;
   PermissionStatus _permissionStatus = PermissionStatus.denied;
 
@@ -41,7 +41,7 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
   @override
   void initState() {
     super.initState();
-    this.imageUrls = getIllustUrls();
+    imageUrls = getIllustUrls();
     mController = PageController();
   }
 
@@ -68,11 +68,11 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
                 color: Colors.transparent,
                 clipBehavior: Clip.antiAlias,
                 child: Container(
-                  padding: EdgeInsets.only(left: 2, right: 2),
+                  padding: const EdgeInsets.only(left: 2, right: 2),
                   // 阴影渐变
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     gradient: LinearGradient(colors: [
-                      Color(0xD000000),
+                      Color(0x0d000000),
                       Color(0x80000000),
                     ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                   ),
@@ -81,7 +81,7 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
                     children: <Widget>[
                       // 返回
                       IconButton(
-                        icon: Icon(Icons.arrow_back_ios_rounded),
+                        icon: const Icon(Icons.arrow_back_ios_rounded),
                         onPressed: () => Navigator.pop(context),
                         tooltip: "关闭",
                         color: Colors.white,
@@ -90,7 +90,7 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
                       // 页码显示
                       Selector(
                         builder: (BuildContext context, int page, Widget? child) =>
-                            Text("${page + 1}/${imageUrls.length}", style: TextStyle(fontSize: 18)),
+                            Text("${page + 1}/${imageUrls.length}", style: const TextStyle(fontSize: 18)),
                         selector: (context, _PreviewProvider provider) => provider.currentPage,
                       ),
                       // 其他功能键
@@ -100,7 +100,7 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             IconButton(
-                              icon: Icon(Icons.file_download),
+                              icon: const Icon(Icons.file_download),
                               onPressed: () async {
                                 bool isPermit = await checkPermissions();
                                 if (!isPermit) return; // 没权限，不下载
@@ -151,7 +151,7 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
   }
 
   Widget _buildPreviewImage(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: double.infinity,
       width: double.infinity,
       child: GestureDetector(
@@ -222,9 +222,9 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
       result = [detail.imageUrls];
     } else {
       // 草了这辣鸡接口
-      detail.metaPages.forEach((element) {
+      for (var element in detail.metaPages) {
         result.add(element.imageUrls);
-      });
+      }
     }
     return result;
   }
@@ -240,7 +240,7 @@ class _PreviewProvider with ChangeNotifier {
   }
 
   void setCurrentPage(int page) {
-    this.currentPage = page;
+    currentPage = page;
     notifyListeners();
   }
 }

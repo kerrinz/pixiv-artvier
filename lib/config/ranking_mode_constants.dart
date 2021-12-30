@@ -1,6 +1,8 @@
 /// 排行榜的模式
 /// */
 
+// ignore_for_file: constant_identifier_names
+
 class RankingModeConstants {
   // 插画，以下几个《可选择》指定日期 &date=2021-07-11
   static const String illust_day = "day";

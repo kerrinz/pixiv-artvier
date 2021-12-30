@@ -19,7 +19,7 @@ class SearchResultPage extends StatefulWidget {
 
 class SearchResultPageState extends State<SearchResultPage> {
   late TextEditingController _textController;
-  _SearchResultProvider _provider = _SearchResultProvider();
+  final _SearchResultProvider _provider = _SearchResultProvider();
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class SearchResultPageState extends State<SearchResultPage> {
               controller: _textController,
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.search,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "搜索...",
                 contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                 enabledBorder: InputBorder.none,
@@ -58,45 +58,43 @@ class SearchResultPageState extends State<SearchResultPage> {
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.more_vert),
+              icon: const Icon(Icons.more_vert),
               onPressed: () {},
               tooltip: "more",
             ),
           ],
         ),
-        body: Container(
-          child: Selector(
-            selector: (BuildContext context, _SearchResultProvider provider) {
-              return provider.illusts;
-            },
-            builder: (BuildContext context, List<CommonIllust>? illusts, Widget? child) {
-              if (illusts == null) {
-                // loading
-                return Container(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
-                );
-              } else if (illusts.length == 0) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: Text("无搜索结果", style: TextStyle(fontSize: 18)),
-                );
-              }
-              return RefreshIndicator(
-                onRefresh: () async {
-                  return await refresh();
-                },
-                child: IllustWaterfallGrid(
-                  physics: BouncingScrollPhysics(),
-                  artworkList: illusts,
-                  onLazyLoad: () async {
-                    await loadMore().catchError((onError) =>
-                        Fluttertoast.showToast(msg: "加载失败!", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
-                  },
-                ),
+        body: Selector(
+          selector: (BuildContext context, _SearchResultProvider provider) {
+            return provider.illusts;
+          },
+          builder: (BuildContext context, List<CommonIllust>? illusts, Widget? child) {
+            if (illusts == null) {
+              // loading
+              return Container(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
               );
-            },
-          ),
+            } else if (illusts.isEmpty) {
+              return Container(
+                alignment: Alignment.center,
+                child: const Text("无搜索结果", style: TextStyle(fontSize: 18)),
+              );
+            }
+            return RefreshIndicator(
+              onRefresh: () async {
+                return await refresh();
+              },
+              child: IllustWaterfallGrid(
+                physics: const BouncingScrollPhysics(),
+                artworkList: illusts,
+                onLazyLoad: () async {
+                  await loadMore().catchError((onError) =>
+                      Fluttertoast.showToast(msg: "加载失败!", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
+                },
+              ),
+            );
+          },
         ),
       ),
     );

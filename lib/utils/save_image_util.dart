@@ -13,7 +13,7 @@ class SaveImageUtil {
   // 保存图片
   static Future<bool> saveIllustToGallery(CommonIllust illust, String url, {int quality = 100}) async {
     Fluttertoast.showToast(msg: "正在保存...", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-    var response;
+    Response response;
     bool result = false;
     // 本地持久化存储里不存在该下载任务就新建下载任务
     if (!GlobalStore.globalProvider.downloadingIllust.containsKey(url)) {
@@ -28,7 +28,7 @@ class SaveImageUtil {
         bool ifFull = false; // 标记是否已满
         if (total != -1) {
           ///当前下载的百分比例
-          print((received / total * 100).toStringAsFixed(0) + "%");
+          // print((received / total * 100).toStringAsFixed(0) + "%");
           if (received / total == 1.0) ifFull = true;
           if (ifFull) {
             // 因100%后还会再执行几次，利用isFull标记让它只执行一次
@@ -43,7 +43,7 @@ class SaveImageUtil {
       Fluttertoast.showToast(msg: "获取图片失败！", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
       // 更新全局变量
       GlobalStore.globalProvider.downloadingIllust[url]!.status = DownloadingStatus.failed;
-      print(e);
+      return false;
     }
     var saveResult = await ImageGallerySaver.saveImage(Uint8List.fromList(response.data), quality: quality);
     if (saveResult["isSuccess"]) {

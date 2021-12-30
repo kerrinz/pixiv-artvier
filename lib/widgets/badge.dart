@@ -5,7 +5,7 @@ class Badge extends StatelessWidget {
   final Color? color;
   final GestureTapCallback? onTap;
 
-  Badge({Key? key, required this.child, this.color, this.onTap}) : super();
+  const Badge({Key? key, required this.child, this.color, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class Badge extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           decoration: BoxDecoration(
             color: color ?? Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
           clipBehavior: Clip.antiAlias,
           child: child,
@@ -23,10 +23,10 @@ class Badge extends StatelessWidget {
       }
       return Material(
         color: color ?? Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             child: child,

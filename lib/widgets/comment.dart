@@ -4,9 +4,9 @@ import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
 
 class CommentWidget extends StatelessWidget {
-  late final Comments comment;
+  final Comments comment;
 
-  CommentWidget({Key? key, required this.comment}) : super(key: key);
+  const CommentWidget({Key? key, required this.comment}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +16,13 @@ class CommentWidget extends StatelessWidget {
       children: [
         // 作者头像
         Container(
-          padding: EdgeInsets.only(top: 12),
+          padding: const EdgeInsets.only(top: 12),
           child: ClipOval(
             child: CachedNetworkImage(
               imageUrl: comment.user.profileImageUrls.medium,
               width: 50,
               height: 50,
-              httpHeaders: {"Referer": CONSTANTS.referer},
+              httpHeaders: const {"Referer": CONSTANTS.referer},
               fit: BoxFit.cover,
             ),
           ),
@@ -31,7 +31,7 @@ class CommentWidget extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Padding(
-              padding: EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.only(left: 8),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,10 +40,10 @@ class CommentWidget extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 8),
+                        padding: const EdgeInsets.only(top: 10, bottom: 8),
                         child: Text(
                           comment.user.name,
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -51,7 +51,7 @@ class CommentWidget extends StatelessWidget {
                     Builder(builder: (context) {
                       return TextButton(
                         onPressed: () {},
-                        child: Text("回复"),
+                        child: const Text("回复"),
                         // style: TextButton.styleFrom(primary: Colors.blue.shade400),
                       );
                     }),
@@ -62,7 +62,7 @@ class CommentWidget extends StatelessWidget {
                   if (comment.stamp != null) {
                     return CachedNetworkImage(
                       imageUrl: comment.stamp!.stampUrl,
-                      httpHeaders: {"Referer": CONSTANTS.referer},
+                      httpHeaders: const {"Referer": CONSTANTS.referer},
                       width: 64,
                     );
                   }
@@ -70,13 +70,13 @@ class CommentWidget extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 12.0),
                     child: Text(
                       comment.comment,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   );
                 }),
                 // 发布时间
                 Padding(
-                  padding: EdgeInsets.only(top: 8),
+                  padding: const EdgeInsets.only(top: 8),
                   child: Text(
                     comment.date,
                     style: TextStyle(color: Colors.grey.shade600),

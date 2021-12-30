@@ -9,8 +9,7 @@ class RefreshTokenInterceptor extends InterceptorsWrapper {
     AccountProfile? profile = GlobalStore.currentAccount;
     if (profile == null) {
       // 未登录，打断施法
-      print("未登录，打断施法");
-    } else if (new DateTime.now().millisecondsSinceEpoch > (profile.expiredTimestamp ?? 0)) {
+    } else if (DateTime.now().millisecondsSinceEpoch > (profile.expiredTimestamp ?? 0)) {
       // token过期了，先获取含新token的profile
       profile = await OAuth().refreshToken(profile.refreshToken);
       await OAuth().saveTokenToCurrent(profile); // 保存变更的配置

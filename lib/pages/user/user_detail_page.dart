@@ -9,8 +9,8 @@ import 'package:pixgem/model_response/user/user_detail.dart';
 import 'package:pixgem/pages/artworks/illusts_grid_page.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/request/api_user.dart';
-import 'package:pixgem/widgets/FollowButton.dart';
-import 'package:pixgem/widgets/TabBarDelegate.dart';
+import 'package:pixgem/widgets/follow_button.dart';
+import 'package:pixgem/widgets/tab_bar_delegate.dart';
 import 'package:provider/provider.dart';
 
 class UserDetailPage extends StatefulWidget {

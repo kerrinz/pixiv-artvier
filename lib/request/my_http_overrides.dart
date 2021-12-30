@@ -19,13 +19,14 @@ class MyHttpOverrides extends HttpOverrides {
 
   // 配置代理设置
   String _findProxy(url) {
-    if (GlobalStore.proxy == null)
+    if (GlobalStore.proxy == null) {
       return HttpClient.findProxyFromEnvironment(url);
-    else
+    } else {
       return HttpClient.findProxyFromEnvironment(url, environment: {
         "http_proxy": GlobalStore.proxy!,
         "https_proxy": GlobalStore.proxy!,
         "no_proxy": "",
       });
+    }
   }
 }

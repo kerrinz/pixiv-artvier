@@ -12,16 +12,16 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: this.backgroundColor ?? Theme.of(context).bottomAppBarColor,
-      child: this.child,
+      color: backgroundColor ?? Theme.of(context).bottomAppBarColor,
+      child: child,
     );
   }
 
   @override
-  double get maxExtent => this.child.preferredSize.height;
+  double get maxExtent => child.preferredSize.height;
 
   @override
-  double get minExtent => this.child.preferredSize.height;
+  double get minExtent => child.preferredSize.height;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {

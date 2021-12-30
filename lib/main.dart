@@ -87,10 +87,10 @@ class MyAppState extends State<MyApp> {
             title: 'Pixgem',
             onGenerateRoute: (RouteSettings settings) {
               var routes = <String, WidgetBuilder>{
-                "main": (context) => MainPaging(),
-                "login_wizard": (context) => LoginWizardPage(),
-                "login_web": (context) => LoginWebPage(),
-                "artworks_leaderboard": (context) => ArtworksLeaderboardPage(),
+                "main": (context) => const MainPaging(),
+                "login_wizard": (context) => const LoginWizardPage(),
+                "login_web": (context) => const LoginWebPage(),
+                "artworks_leaderboard": (context) => const ArtworksLeaderboardPage(),
                 "artworks_detail": (context) => ArtWorksDetailPage(settings.arguments!),
                 "artworks_view": (context) => PreviewArtworksPage(settings.arguments!),
                 "artworks_comments": (context) => CommentsPage(settings.arguments!),
@@ -99,12 +99,12 @@ class MyAppState extends State<MyApp> {
                 "search_result": (context) => SearchResultPage(settings.arguments!),
                 "my_bookmarks": (context) => MyBookmarksPage(settings.arguments),
                 "view_history": (context) => ViewHistory(),
-                "account_manage": (context) => AccountManagePage(),
-                "download_manage": (context) => DownloadManagePage(),
-                "setting_current_account": (context) => SettingCurrentAccountPage(),
-                "setting_download": (context) => SettingDownload(),
-                "setting_theme": (context) => SettingThemePage(),
-                "setting_network": (context) => SettingNetworkPage(),
+                "account_manage": (context) => const AccountManagePage(),
+                "download_manage": (context) => const DownloadManagePage(),
+                "setting_current_account": (context) => const SettingCurrentAccountPage(),
+                "setting_download": (context) => const SettingDownload(),
+                "setting_theme": (context) => const SettingThemePage(),
+                "setting_network": (context) => const SettingNetworkPage(),
               };
               WidgetBuilder builder = routes[settings.name]!;
               return MaterialPageRoute(builder: (context) => builder(context));

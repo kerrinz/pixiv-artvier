@@ -6,6 +6,8 @@ import 'package:pixgem/request/oauth.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginWebPage extends StatefulWidget {
+  const LoginWebPage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _LoginWebState();
@@ -25,8 +27,8 @@ class _LoginWebState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        title: new Text('使用网页登录'),
+      appBar: AppBar(
+        title: const Text('使用网页登录'),
       ),
       body: WebView(
         javascriptMode: JavascriptMode.unrestricted,
@@ -41,23 +43,21 @@ class _LoginWebState extends State {
             if (code != null) {
               // OAuth登录
               oAuthLogin(code).then((value) {
-                print("Login success!");
                 Navigator.pushNamedAndRemoveUntil(context, "main", (route) => false);
               }).catchError((onError) {
-                print(onError);
                 // 待处理登录失败的逻辑
               });
-            } else
-              print("code=null");
+            } else {
+              //
+            }
             return NavigationDecision.prevent;
           }
           return NavigationDecision.navigate;
         },
-        javascriptChannels: <JavascriptChannel>[
+        javascriptChannels: <JavascriptChannel>{
           JavascriptChannel(
               name: "rnm",
               onMessageReceived: (JavascriptMessage message) {
-                print(message.message);
                 try {
                   // var value = json.decode(message.message);
                   // var id = value["_id"];
@@ -66,11 +66,10 @@ class _LoginWebState extends State {
                   // AccountStore.saveCurrentAccountProfile(account: new Account.create(userId: id, token: token, cookie: cookie));
                   // print(value["_id"]);
                 } catch (e) {
-                  print("????????????? Error javascriptChannels");
-                  print(e);
+                  //
                 }
               }),
-        ].toSet(),
+        },
       ),
     );
   }

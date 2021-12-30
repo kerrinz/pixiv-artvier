@@ -15,7 +15,7 @@ class UsersCardListView extends StatefulWidget {
   final ScrollController? scrollController;
   final ScrollPhysics? physics;
 
-  UsersCardListView(
+  const UsersCardListView(
       {Key? key, required this.onLazyLoad, required this.onRefresh, this.limit, this.scrollController, this.physics})
       : super(key: key);
 
@@ -24,7 +24,7 @@ class UsersCardListView extends StatefulWidget {
 }
 
 class UsersCardListViewState extends State<UsersCardListView> {
-  UserPreviewsListViewProvider _provider = UserPreviewsListViewProvider();
+  final UserPreviewsListViewProvider _provider = UserPreviewsListViewProvider();
 
   @override
   void initState() {
@@ -55,11 +55,12 @@ class UsersCardListViewState extends State<UsersCardListView> {
                 if (index == list.length - 1) {
                   // 未到列表上限，继续获取数据
                   if (provider.nextUrl != null) {
-                    if (list.length > 0)
+                    if (list.isNotEmpty) {
                       widget.onLazyLoad(provider.nextUrl!).then((value) {
                         _provider.addIllustList(value.userPreviews);
                         _provider.setNextUrl(value.nextUrl);
-                      }); // 列表不为空才获取数据
+                      });
+                    } // 列表不为空才获取数据
                     //加载时显示loading
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -69,8 +70,8 @@ class UsersCardListViewState extends State<UsersCardListView> {
                     // 达到上限，不再获取
                     return Container(
                       alignment: Alignment.center,
-                      padding: EdgeInsets.all(16.0),
-                      child: Text(
+                      padding: const EdgeInsets.all(16.0),
+                      child: const Text(
                         "没有更多了",
                         style: TextStyle(color: Colors.grey),
                       ),
@@ -97,7 +98,7 @@ class UsersCardListViewState extends State<UsersCardListView> {
   Widget _buildLoading(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: CircularProgressIndicator(strokeWidth: 1.0),
+      child: const CircularProgressIndicator(strokeWidth: 1.0),
     );
   }
 }
@@ -107,18 +108,18 @@ class UserPreviewsListViewProvider with ChangeNotifier {
   String? nextUrl;
 
   setAll(List<CommonUserPreviews>? newUserList, String? nextUrl) {
-    this.userList = newUserList;
+    userList = newUserList;
     this.nextUrl = nextUrl;
     notifyListeners();
   }
 
   setIllustList(List<CommonUserPreviews>? newUserList) {
-    this.userList = newUserList;
+    userList = newUserList;
     notifyListeners();
   }
 
   addIllustList(List<CommonUserPreviews> moreUserList) {
-    this.userList = [...userList ?? [], ...moreUserList];
+    userList = [...userList ?? [], ...moreUserList];
     notifyListeners();
   }
 

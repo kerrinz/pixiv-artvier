@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class CONSTANTS {
   static const String mode_all = "all";
   static const String mode_safe = "safe";
@@ -16,11 +18,6 @@ class CONSTANTS {
   static const String stamp_url_base = "https://s.pximg.net/common/images/stamp/generated-stamps/"; // 用于表情图片的显示
   static const String pixiv_host_url = "https://www.pixiv.net";
   static const String pixiv_account_url = "https://accounts.pixiv.net";
-
-  // ignore: non_constant_identifier_names
-  static String code_verifier = "";
-  // ignore: non_constant_identifier_names
-  static String? code_challenge;
 
   static const String proxy_default_host = "127.0.0.1";
   static const String proxy_default_port = "1080";

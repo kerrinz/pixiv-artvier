@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -10,7 +12,7 @@ class AccountsProfile  {
   * */
   static Map<String, AccountProfile> getAccountsMap(String jsonStr){
     Map<String, dynamic> map = json.decode(jsonStr);
-    Map<String, AccountProfile> result = new Map<String, AccountProfile>();
+    Map<String, AccountProfile> result = <String, AccountProfile>{};
     map.forEach((key, value){
       AccountProfile profile = AccountProfile.fromJson(value);
       result.putIfAbsent(profile.user.id, () => profile);
