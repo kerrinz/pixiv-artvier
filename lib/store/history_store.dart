@@ -39,7 +39,7 @@ class HistoryStore {
   }
 
   // 清空插画的历史记录
-  static Future clearIllusts() async {
+  static Future<bool> clearIllusts() async {
     return await GlobalStore.globalSharedPreferences.setString(HISTORY_ILLUST, jsonEncode([]));
   }
 }

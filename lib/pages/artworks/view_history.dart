@@ -10,25 +10,51 @@ class ViewHistory extends StatelessWidget {
   final List<CommonIllust> list = [];
   @override
   Widget build(BuildContext context) {
-    list.addAll(HistoryStore.getHistoryIllust());
+    _provider.setList(HistoryStore.getHistoryIllust());
     return Scaffold(
       appBar: AppBar(
         title: Text("浏览历史"),
         actions: [
-          TextButton(onPressed: (){}, child: Text("清空")),
+          // 清空的按钮
+          TextButton(
+            child: Text("清空"),
+            onPressed: () {
+              showDialog<bool>(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text("提示"),
+                    content: Text("确定要清空所有历史记录吗?"),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text("取消"),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      TextButton(
+                        child: Text("确定"),
+                        onPressed: () {
+                          HistoryStore.clearIllusts().then((value) => _provider.clearList());
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
       body: Container(
-        child: ProviderWidget(
-            model: _provider,
-            child: StatefulBuilder(
-              builder: (context, StateSetter setState) {
-                return IllustWaterfallGrid(
-                  artworkList: list,
-                  onLazyLoad: () {},
-                );
-              },
-            )),
+        child: ProviderWidget<IllustWaterfallProvider>(
+          model: _provider,
+          builder: (BuildContext context, IllustWaterfallProvider value, Widget? child) {
+            return IllustWaterfallGrid(
+              artworkList: value.list,
+              onLazyLoad: () {},
+            );
+          },
+        ),
       ),
     );
   }

@@ -2,24 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 ///
-/// Provider的快捷创建组件
+/// Provider快捷创建组件，内置Consumer
+/// 示例：
+/// ProviderWidget<XXXProvider>(
+///   model: XXXProvider(),
+///   builder: (BuildContext context, XXXProvider value, Widget? child) {
+///     return Text(value.text);
+///   },
+/// ),
 ///
 class ProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
   final T model;
-  final Widget child;
+  final Widget Function(
+    BuildContext context,
+    T value,
+    Widget? child,
+  ) builder;
+  final Widget? child;
 
-  const ProviderWidget({required this.child, required this.model}) : super();
+  const ProviderWidget({required this.model, required this.builder, this.child}) : super();
 
   @override
-  State<StatefulWidget> createState() => ProviderWidgetState();
+  ProviderWidgetState<T> createState() => ProviderWidgetState<T>();
 }
 
-class ProviderWidgetState extends State<ProviderWidget> {
+class ProviderWidgetState<T extends ChangeNotifier> extends State<ProviderWidget<T>> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
+    return ChangeNotifierProvider<T>.value(
       value: widget.model,
-      child: widget.child,
+      child: Consumer<T>(
+        builder: widget.builder,
+        child: widget.child,
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.model.dispose();
   }
 }

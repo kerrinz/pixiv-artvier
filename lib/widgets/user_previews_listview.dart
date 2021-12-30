@@ -44,12 +44,7 @@ class UsersCardListViewState extends State<UsersCardListView> {
         child: Consumer(
           builder: (BuildContext context, UserPreviewsListViewProvider provider, Widget? child) {
             if (provider.userList == null) {
-              return SingleChildScrollView(
-                physics: widget.physics,
-                child: Container(
-                  child: Text("暂无"),
-                ),
-              );
+              return _buildLoading(context);
             }
             return ListView.builder(
               physics: widget.physics,
