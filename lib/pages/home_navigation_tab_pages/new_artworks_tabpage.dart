@@ -6,6 +6,8 @@ import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/request/api_new_artworks.dart';
 
 class NewArtworksTabPage extends StatefulWidget {
+  const NewArtworksTabPage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => NewArtworksTabPageState();
 }
@@ -13,10 +15,10 @@ class NewArtworksTabPage extends StatefulWidget {
 class NewArtworksTabPageState extends State<NewArtworksTabPage>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late TabController _tabController;
-  List<Tab> _tabs = [
-    Tab(text: "关注的新作"),
-    Tab(text: "大家的新作"),
-    Tab(text: "好P友的新作"),
+  final List<Tab> _tabs = [
+    const Tab(text: "关注的新作"),
+    const Tab(text: "大家的新作"),
+    const Tab(text: "好P友的新作"),
   ];
 
   @override
@@ -31,7 +33,7 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage>
             pinned: false,
             floating: true,
             snap: true,
-            title: Container(
+            title: SizedBox(
               height: 48,
               child: Row(
                 children: [
@@ -48,7 +50,7 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage>
             ),
             actions: <Widget>[
               IconButton(
-                icon: Text("?"),
+                icon: const Text("?"),
                 onPressed: () {},
                 tooltip: "?",
               ),
@@ -56,45 +58,43 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage>
           ),
         ];
       },
-      body: Container(
-        child: TabBarView(
-          controller: _tabController,
-          children: [
-            // 关注的新作
-            IllustGridTabPage(
-              physics: BouncingScrollPhysics(),
-              onRefresh: () async {
-                return await ApiNewArtWork().getFollowsNewIllusts(ApiNewArtWork.restrict_all);
-              },
-              onLazyLoad: (String nextUrl) async {
-                var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-                return CommonIllustList.fromJson(result);
-              },
-            ),
-            // 大家的新作
-            IllustGridTabPage(
-              physics: BouncingScrollPhysics(),
-              onRefresh: () async {
-                return await ApiNewArtWork().getEveryOnesNewIllusts(ApiNewArtWork.type_illust);
-              },
-              onLazyLoad: (String nextUrl) async {
-                var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-                return CommonIllustList.fromJson(result);
-              },
-            ),
-            // 好P友的新作
-            IllustGridTabPage(
-              physics: BouncingScrollPhysics(),
-              onRefresh: () async {
-                return await ApiNewArtWork().getPFriendsIllusts(ApiNewArtWork.restrict_all);
-              },
-              onLazyLoad: (String nextUrl) async {
-                var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-                return CommonIllustList.fromJson(result);
-              },
-            ),
-          ],
-        ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          // 关注的新作
+          IllustGridTabPage(
+            physics: const BouncingScrollPhysics(),
+            onRefresh: () async {
+              return await ApiNewArtWork().getFollowsNewIllusts(ApiNewArtWork.restrict_all);
+            },
+            onLazyLoad: (String nextUrl) async {
+              var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
+              return CommonIllustList.fromJson(result);
+            },
+          ),
+          // 大家的新作
+          IllustGridTabPage(
+            physics: const BouncingScrollPhysics(),
+            onRefresh: () async {
+              return await ApiNewArtWork().getEveryOnesNewIllusts(ApiNewArtWork.type_illust);
+            },
+            onLazyLoad: (String nextUrl) async {
+              var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
+              return CommonIllustList.fromJson(result);
+            },
+          ),
+          // 好P友的新作
+          IllustGridTabPage(
+            physics: const BouncingScrollPhysics(),
+            onRefresh: () async {
+              return await ApiNewArtWork().getPFriendsIllusts(ApiNewArtWork.restrict_all);
+            },
+            onLazyLoad: (String nextUrl) async {
+              var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
+              return CommonIllustList.fromJson(result);
+            },
+          ),
+        ],
       ),
     );
   }

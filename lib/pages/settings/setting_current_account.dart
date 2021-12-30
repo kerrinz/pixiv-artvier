@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class SettingCurrentAccountPage extends StatefulWidget {
   final String? userId;
 
-  SettingCurrentAccountPage({Key? key, this.userId}) : super(key: key);
+  const SettingCurrentAccountPage({Key? key, this.userId}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -18,11 +18,11 @@ class SettingCurrentAccountPage extends StatefulWidget {
 }
 
 class _SettingCurrentAccountState extends State<SettingCurrentAccountPage> {
-  _Provider _provider = _Provider();
+  final _Provider _provider = _Provider();
 
-  TextEditingController _userIdController = new TextEditingController();
-  TextEditingController _tokenController = new TextEditingController();
-  TextEditingController _refreshTokenController = new TextEditingController();
+  final TextEditingController _userIdController = TextEditingController();
+  final TextEditingController _tokenController = TextEditingController();
+  final TextEditingController _refreshTokenController = TextEditingController();
 
   @override
   void initState() {
@@ -31,7 +31,6 @@ class _SettingCurrentAccountState extends State<SettingCurrentAccountPage> {
       // 加载当前账号配置
       loadCurrentProfile().catchError((err) {
         Fluttertoast.showToast(msg: "加载失败！$err", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-        print(err);
       });
     }
     _provider.setLoading(isLoading: false);
@@ -42,13 +41,13 @@ class _SettingCurrentAccountState extends State<SettingCurrentAccountPage> {
     return ChangeNotifierProvider(
       create: (BuildContext context) => _provider,
       child: Scaffold(
-        appBar: new AppBar(
-          title: new Text('设置当前账号'),
+        appBar: AppBar(
+          title: const Text('设置当前账号'),
           backgroundColor: Colors.blueGrey,
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             child: Selector(
               builder: (BuildContext context, bool isLoading, Widget? child) {
                 if (isLoading) {
@@ -57,25 +56,25 @@ class _SettingCurrentAccountState extends State<SettingCurrentAccountPage> {
                 return Column(
                   children: [
                     TextField(
-                      style: TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 18),
                       controller: _userIdController,
-                      decoration: InputDecoration(labelText: "用户id"),
+                      decoration: const InputDecoration(labelText: "用户id"),
                       onChanged: (value) {
                         _userIdController.text = value;
                       },
                     ),
                     TextField(
-                      style: TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 18),
                       controller: _tokenController,
-                      decoration: InputDecoration(labelText: "token"),
+                      decoration: const InputDecoration(labelText: "token"),
                       onChanged: (value) {
                         _tokenController.text = value;
                       },
                     ),
                     TextField(
-                      style: TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 18),
                       controller: _refreshTokenController,
-                      decoration: InputDecoration(labelText: "refresh_token"),
+                      decoration: const InputDecoration(labelText: "refresh_token"),
                       onChanged: (value) {
                         _refreshTokenController.text = value;
                       },
@@ -87,10 +86,9 @@ class _SettingCurrentAccountState extends State<SettingCurrentAccountPage> {
                           Navigator.pop(context);
                         }).catchError((onError) {
                           Fluttertoast.showToast(msg: "保存失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                          print(onError);
                         });
                       },
-                      child: Text("保存并设为当前账号"),
+                      child: const Text("保存并设为当前账号"),
                     ),
                   ],
                 );
@@ -107,7 +105,7 @@ class _SettingCurrentAccountState extends State<SettingCurrentAccountPage> {
 
   // 加载当前账号配置
   Future loadCurrentProfile() async {
-    AccountProfile? profile = await AccountStore.getCurrentAccountProfile();
+    AccountProfile? profile = AccountStore.getCurrentAccountProfile();
     if (profile != null) {
       _userIdController.text = profile.user.id;
       _tokenController.text = profile.accessToken;
@@ -118,13 +116,13 @@ class _SettingCurrentAccountState extends State<SettingCurrentAccountPage> {
   // 保存为当前账号
   Future saveToCurrent() async {
     // 获取本地已缓存的所有账号
-    Map<String, AccountProfile>? map = await AccountStore.getAllAccountsProfile(); // 临时map，账号集合
+    Map<String, AccountProfile>? map = AccountStore.getAllAccountsProfile(); // 临时map，账号集合
     AccountProfile profile; // 临时单账号配置（需要保存的账号）
     // 总账号缓存不存在，新建
     if (map == null) {
-      map = new Map<String, AccountProfile>();
-      profile = new AccountProfile(_tokenController.text, 0, "Bearer", "", _refreshTokenController.text,
-          new User(null, _userIdController.text, "", "", "", false, 0, false, false));
+      map = <String, AccountProfile>{};
+      profile = AccountProfile(_tokenController.text, 0, "Bearer", "", _refreshTokenController.text,
+          User(null, _userIdController.text, "", "", "", false, 0, false, false));
       map.putIfAbsent(_userIdController.text, () => profile);
     } else if (map[_userIdController.text] != null) {
       // 总账号缓存存在，并且有这个账号，变更信息
@@ -135,8 +133,8 @@ class _SettingCurrentAccountState extends State<SettingCurrentAccountPage> {
       map[_userIdController.text] = profile; // 更新临时map
     } else {
       // 总账号缓存存在，但不存在这个账号
-      profile = new AccountProfile(_refreshTokenController.text, 0, "Bearer", "", _refreshTokenController.text,
-          new User(null, _userIdController.text, "", "", "", false, 0, false, false));
+      profile = AccountProfile(_refreshTokenController.text, 0, "Bearer", "", _refreshTokenController.text,
+          User(null, _userIdController.text, "", "", "", false, 0, false, false));
       map.putIfAbsent(_userIdController.text, () => profile);
     }
     await AccountStore.setAllAccountsProfile(map);

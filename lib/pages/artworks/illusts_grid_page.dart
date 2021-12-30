@@ -33,9 +33,10 @@ class IllustGridTabPage extends StatefulWidget {
   final ScrollController? scrollController; // 滚动控制器
   final ScrollPhysics? physics; // 滚动物理效果
 
+  @override
   State<StatefulWidget> createState() => IllustGridTabPageState();
 
-  IllustGridTabPage({
+  const IllustGridTabPage({
     Key? key,
     required this.onLazyLoad,
     required this.onRefresh,
@@ -46,7 +47,7 @@ class IllustGridTabPage extends StatefulWidget {
 }
 
 class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeepAliveClientMixin {
-  IllustGridPageProvider _provider = IllustGridPageProvider();
+  final IllustGridPageProvider _provider = IllustGridPageProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
         },
         child: Consumer(
           builder: (context, IllustGridPageProvider provider, Widget? child) {
-            if (provider.illustList?.length == 0) {
+            if (provider.illustList?.isEmpty ?? false) {
               // 列表为空时展示
               return SingleChildScrollView(
                 physics: widget.physics,
@@ -69,7 +70,7 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
                     Container(
                       height: MediaQuery.of(context).size.height / 1.5,
                       alignment: Alignment.center,
-                      child: Text("暂无", style: TextStyle(fontSize: 18)),
+                      child: const Text("暂无", style: TextStyle(fontSize: 18)),
                     ),
               );
             }
@@ -106,18 +107,18 @@ class IllustGridPageProvider with ChangeNotifier {
   String? nextUrl;
 
   setAll(List<CommonIllust>? newIllustList, String? nextUrl) {
-    this.illustList = newIllustList;
+    illustList = newIllustList;
     this.nextUrl = nextUrl;
     notifyListeners();
   }
 
   setIllustList(List<CommonIllust>? newIllustList) {
-    this.illustList = newIllustList;
+    illustList = newIllustList;
     notifyListeners();
   }
 
   addIllustList(List<CommonIllust> moreIllustList) {
-    this.illustList = [...illustList ?? [], ...moreIllustList];
+    illustList = [...illustList ?? [], ...moreIllustList];
     notifyListeners();
   }
 

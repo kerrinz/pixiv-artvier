@@ -1,10 +1,11 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
-import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/request/api_base.dart';
 import 'package:pixgem/store/account_store.dart';
@@ -41,7 +42,7 @@ class OAuth {
   ));
 
   OAuth() {
-    var now = new DateTime.now();
+    var now = DateTime.now();
     requestTime = now.millisecondsSinceEpoch; // 发起请求的时间戳
     String time = getXClientTime(now);
     String timeHash = getXClientHash(xClientTime: time);
@@ -62,8 +63,8 @@ class OAuth {
   static String getLoginWebViewUrl() {
     String codeVerifier = createCodeVerifier();
     String codeChallenge = codeVerifierToChallenge(codeVerifier: codeVerifier);
-    CONSTANTS.code_challenge = codeChallenge;
-    CONSTANTS.code_verifier = codeVerifier;
+    GlobalStore.codeChallenge = codeChallenge;
+    GlobalStore.codeVerifier = codeVerifier;
     return "https://app-api.pixiv.net/web/v1/login?code_challenge=$codeChallenge&code_challenge_method=S256&client=pixiv-ios";
   }
 
@@ -75,7 +76,7 @@ class OAuth {
       "/auth/token",
       data: {
         "code": code,
-        "code_verifier": CONSTANTS.code_verifier,
+        "code_verifier": GlobalStore.codeVerifier,
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET,
         "include_policy": "true",
@@ -120,7 +121,7 @@ class OAuth {
 
   // 生成code_verifier，即生成随机字符串并进行base64Url处理
   static String createCodeVerifier({length = 32}) {
-    var random = new Random();
+    var random = Random();
     var text = "";
     String possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     for (var i = 0; i < length; i++) {
@@ -144,9 +145,7 @@ class OAuth {
 
   // x-client-hash
   static String getXClientHash({required xClientTime}) {
-    // var content = utf8.encode(xClientTime + HASH_SALT);
-    // return md5.convert(content).toString();
-    var content = new Utf8Encoder().convert(xClientTime + HASH_SALT);
+    var content = const Utf8Encoder().convert(xClientTime + HASH_SALT);
     return md5.convert(content).toString();
   }
 }

@@ -6,20 +6,20 @@ import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
 class TrendingTagsGrid extends StatefulWidget {
   final List<TrendTags> tags;
 
-  TrendingTagsGrid({Key? key, required this.tags}) : super(key: key);
+  const TrendingTagsGrid({Key? key, required this.tags}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new TrendingTagsGridState();
+  State<StatefulWidget> createState() => TrendingTagsGridState();
 }
 
 class TrendingTagsGridState extends State<TrendingTagsGrid> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      physics: BouncingScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      physics: const BouncingScrollPhysics(),
       itemCount: widget.tags.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
@@ -30,20 +30,18 @@ class TrendingTagsGridState extends State<TrendingTagsGrid> {
   }
 
   Widget _buildItem(BuildContext context, index) {
-    if (widget.tags.length == 0) {
-      return Text("暂无");
+    if (widget.tags.isEmpty) {
+      return const Text("暂无");
     }
     var item = widget.tags[index];
     return Stack(
       children: [
-        Container(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: CachedNetworkImage(
-              fit: BoxFit.cover,
-              imageUrl: item.illust.imageUrls.squareMedium,
-              httpHeaders: {"referer": CONSTANTS.referer},
-            ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: CachedNetworkImage(
+            fit: BoxFit.cover,
+            imageUrl: item.illust.imageUrls.squareMedium,
+            httpHeaders: const {"referer": CONSTANTS.referer},
           ),
         ),
         Positioned.fill(
@@ -61,12 +59,12 @@ class TrendingTagsGridState extends State<TrendingTagsGrid> {
               children: [
                 Text(
                   "#${item.tag}",
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
                 Text(
                   item.translatedName ?? "",
-                  style: TextStyle(fontSize: 12, color: Colors.white),
+                  style: const TextStyle(fontSize: 12, color: Colors.white),
                 )
               ],
             ),

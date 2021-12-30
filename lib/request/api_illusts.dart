@@ -27,8 +27,8 @@ class ApiIllusts extends ApiBase {
   /* @description   获取下一页推荐插画（加载更多）
    */
   Future<IllustRecommended> getNextRecommendedIllust({required String nextUrl}) async {
-    var time = OAuth.getXClientTime(new DateTime.now());
-    Dio cacheDio = new Dio(BaseOptions(
+    var time = OAuth.getXClientTime(DateTime.now());
+    Dio cacheDio = Dio(BaseOptions(
       contentType: Headers.jsonContentType,
       headers: {
         "User-Agent": "PixivIOSApp/7.12.5 (iOS 14.6; iPhone11,2)",
@@ -65,7 +65,7 @@ class ApiIllusts extends ApiBase {
    *  mode RankingModeConstants
    */
   Future<CommonIllustList> getIllustRanking({required String mode, int? offset, String? date}) async {
-    var query = Map<String, dynamic>();
+    var query = <String, dynamic>{};
     query.addAll({
       "filter": "for_ios",
       "mode": mode,
@@ -102,12 +102,12 @@ class ApiIllusts extends ApiBase {
       'illust_id': illustId,
       "restrict": isPublic ? "public" : "private",
     };
-    FormData formData = new FormData();
+    FormData formData = FormData();
     formData.fields.addAll(baseData.entries);
     if (tags != null) {
-      tags.forEach((element) {
-        formData.fields.add(new MapEntry("tags[]", element));
-      });
+      for (var element in tags) {
+        formData.fields.add(MapEntry("tags[]", element));
+      }
     }
     Response res = await ApiBase.dio.post<String>(
       "/v2/illust/bookmark/add",

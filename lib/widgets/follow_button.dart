@@ -6,10 +6,10 @@ import 'package:pixgem/request/api_user.dart';
 ///
 
 class FollowButton extends StatefulWidget {
-  late final bool isFollowed;
-  late final String userId;
+  final bool isFollowed;
+  final String userId;
 
-  FollowButton({Key? key, required this.isFollowed, required this.userId}) : super(key: key);
+  const FollowButton({Key? key, required this.isFollowed, required this.userId}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => FollowButtonState();
@@ -21,7 +21,7 @@ class FollowButtonState extends State<FollowButton> {
   @override
   void initState() {
     super.initState();
-    this.isFollowed = widget.isFollowed;
+    isFollowed = widget.isFollowed;
   }
 
   @override
@@ -30,7 +30,7 @@ class FollowButtonState extends State<FollowButton> {
       onPressed: () async {
         var isSucceed = await postFollow();
         if (isSucceed) {
-          this.isFollowed = !this.isFollowed;
+          isFollowed = !isFollowed;
           (context as Element).markNeedsBuild(); // 更新UI
         }
       },
@@ -47,9 +47,9 @@ class FollowButtonState extends State<FollowButton> {
 
   // 关注或者取消关注用户
   Future postFollow() async {
-    var isSucceed;
+    bool isSucceed;
     String msg;
-    if (this.isFollowed) {
+    if (isFollowed) {
       isSucceed = await ApiUser().deleteFollowUser(userId: widget.userId);
       msg = isSucceed ? "取关成功" : "取关失败";
     } else {

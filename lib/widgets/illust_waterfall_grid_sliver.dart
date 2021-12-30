@@ -13,11 +13,11 @@ class IllustWaterfallGridSliver extends StatefulWidget {
   final Function onLazyLoad; // 触发懒加载（加载更多）的时候调用
   final int? limit; // 列表项的极限数量，为空则表示不限
 
-  IllustWaterfallGridSliver({Key? key, required this.artworkList, required this.onLazyLoad, this.limit})
+  const IllustWaterfallGridSliver({Key? key, required this.artworkList, required this.onLazyLoad, this.limit})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new IllustWaterfallGridSliverState();
+  State<StatefulWidget> createState() => IllustWaterfallGridSliverState();
 }
 
 class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
@@ -27,16 +27,16 @@ class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
     ///通知类型
     switch (notification.runtimeType) {
       case ScrollStartNotification:
-        print("开始滚动");
+        // print("开始滚动");
 
         ///在这里更新标识 刷新页面 不加载图片
         isFastScroll = true;
         break;
       case ScrollUpdateNotification:
-        print("正在滚动");
+        // print("正在滚动");
         break;
       case ScrollEndNotification:
-        print("滚动停止");
+        // print("滚动停止");
 
         ///在这里更新标识 刷新页面 加载图片
         setState(() {
@@ -44,7 +44,7 @@ class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
         });
         break;
       case OverscrollNotification:
-        print("滚动到边界");
+        // print("滚动到边界");
         break;
     }
     return true;
@@ -82,22 +82,22 @@ class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
     if (index == widget.artworkList.length - 1) {
       // 未到列表上限，继续获取数据
       if (widget.artworkList.length < (widget.limit ?? double.infinity)) {
-        if (widget.artworkList.length > 0) widget.onLazyLoad(); // 列表不为空才获取数据
+        if (widget.artworkList.isNotEmpty) widget.onLazyLoad(); // 列表不为空才获取数据
         //加载时显示loading
         return _buildLoading(context);
       } else {
         //已经加载足够多的数据，不再获取
         return Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(16.0),
-            child: Text(
+            padding: const EdgeInsets.all(16.0),
+            child: const Text(
               "没有更多了",
               style: TextStyle(color: Colors.grey),
             ));
       }
     }
     return Padding(
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       child: IllustWaterfallCard(
         illust: widget.artworkList[index],
         isBookmarked: widget.artworkList[index].isBookmarked,
@@ -127,14 +127,15 @@ class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
   /* 收藏或者取消收藏插画 */
   Future<bool> postBookmark(String id, bool oldIsBookmark) async {
     bool isSucceed = false; // 是否执行成功
-    if (oldIsBookmark)
+    if (oldIsBookmark) {
       isSucceed = await ApiIllusts().deleteIllustBookmark(illustId: id);
-    else
+    } else {
       isSucceed = await ApiIllusts().addIllustBookmark(illustId: id);
+    }
     // 执行结果
-    if (isSucceed)
+    if (isSucceed) {
       return true;
-    else {
+    } else {
       Future.error("Request bookmark failed!");
       return false;
     }
@@ -144,8 +145,8 @@ class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
   Widget _buildLoading(BuildContext context) {
     return Container(
       alignment: Alignment.topCenter,
-      padding: EdgeInsets.only(top: 16.0),
-      child: CircularProgressIndicator(strokeWidth: 1.0),
+      padding: const EdgeInsets.only(top: 16.0),
+      child: const CircularProgressIndicator(strokeWidth: 1.0),
     );
   }
 }
