@@ -12,13 +12,15 @@ import 'package:provider/provider.dart';
 import 'artworks_detail_page.dart';
 
 class DownloadManagePage extends StatefulWidget {
+  const DownloadManagePage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => DownloadManagePageState();
 }
 
 class DownloadManagePageState extends State<DownloadManagePage> with TickerProviderStateMixin {
   late TabController _tabController;
-  DownloadManageProvider _downloadManageProvider = DownloadManageProvider();
+  final DownloadManageProvider _downloadManageProvider = DownloadManageProvider();
   late Timer _timer;
 
   @override
@@ -27,7 +29,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
     _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
     _downloadManageProvider.setDownloadingIllusts(DownloadStore.getDownloadedIllusts());
     _downloadManageProvider.setDownloadedIllusts(DownloadStore.getDownloadedIllusts());
-    _timer = new Timer.periodic(new Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {});
     });
   }
@@ -52,10 +54,10 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                 pinned: true,
                 floating: true,
                 snap: false,
-                title: Text("我的下载"),
+                title: const Text("我的下载"),
                 actions: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.settings),
+                    icon: const Icon(Icons.settings),
                     onPressed: () {
                       Navigator.pushNamed(context, "setting_download");
                     },
@@ -66,7 +68,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                   indicatorSize: TabBarIndicatorSize.label,
                   controller: _tabController,
                   isScrollable: false,
-                  tabs: [
+                  tabs: const [
                     Tab(text: "下载中"),
                     Tab(text: "已完成"),
                   ],
@@ -97,11 +99,11 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
   Widget _buildDownloadingList(Map<String, DownloadingIllust> map) {
     var illusts = map.values.toList();
     return ListView.builder(
-      physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       padding: EdgeInsets.zero,
       itemBuilder: (BuildContext context, int index) {
         return Card(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(6.0)),
           ),
           clipBehavior: Clip.antiAlias,
@@ -122,7 +124,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 12, right: 12, bottom: 6),
+                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 6),
                     child: LinearProgressIndicator(
                       backgroundColor: Colors.blue,
                       value: illusts[index].percentage,
@@ -162,7 +164,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     child: Builder(builder: (context) {
                       return Column(
                         children: [
-                          (illusts[index].status == DownloadingStatus.failed) ? Icon(Icons.replay) : Container(),
+                          (illusts[index].status == DownloadingStatus.failed) ? const Icon(Icons.replay) : Container(),
                           Text("${(illusts[index].percentage * 100).toStringAsFixed(0)}%"),
                         ],
                       );
@@ -189,11 +191,11 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
   // 构建已完成的列表
   Widget _buildDownloadedList(List<CommonIllust> illusts) {
     return ListView.builder(
-      physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       padding: EdgeInsets.zero,
       itemBuilder: (BuildContext context, int index) {
         return Card(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(6.0)),
           ),
           clipBehavior: Clip.antiAlias,
@@ -213,7 +215,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                         ],
                       ),
                     ),
-                    Icon((Icons.arrow_right_rounded)),
+                    const Icon((Icons.arrow_right_rounded)),
                   ],
                 ),
               ),
@@ -245,24 +247,24 @@ class DownloadManageProvider with ChangeNotifier {
   List<CommonIllust> downloadedIllusts = []; // 已下载的列表
 
   void setDownloadingIllusts(List<CommonIllust> list) {
-    this.downloadingIllusts = list;
+    downloadingIllusts = list;
     notifyListeners();
   }
 
   // 添加下载任务（可多个）
   void addDownloadingIllusts(List<CommonIllust> list) {
-    this.downloadingIllusts.insertAll(0, list);
+    downloadingIllusts.insertAll(0, list);
     notifyListeners();
   }
 
   // 删除下载任务（可多个）
   void removeDownloadingIllusts(List<CommonIllust> list) {
-    this.downloadingIllusts.insertAll(0, list);
+    downloadingIllusts.insertAll(0, list);
     notifyListeners();
   }
 
   void setDownloadedIllusts(List<CommonIllust> list) {
-    this.downloadedIllusts = list;
+    downloadedIllusts = list;
     notifyListeners();
   }
 }

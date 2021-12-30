@@ -31,7 +31,6 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
     super.initState();
     refreshAndSetData().catchError((onError) {
       Fluttertoast.showToast(msg: "Error！获取作品失败", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-      print(onError);
     }).whenComplete(() => _listProvider.setLoading(false));
   }
 
@@ -334,10 +333,10 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   // 获取更多作品
   Future requestNextIllusts() async {
     // 获取更多作品
-    if (this.nextUrl != null) {
-      var result = await ApiIllusts().getNextRecommendedIllust(nextUrl: this.nextUrl!);
+    if (nextUrl != null) {
+      var result = await ApiIllusts().getNextRecommendedIllust(nextUrl: nextUrl!);
       _illustWaterfallProvider.addNextIllust(list: result.illusts); // 添加作品list
-      this.nextUrl = result.nextUrl; // 更新nextUrl
+      nextUrl = result.nextUrl; // 更新nextUrl
     }
   }
 

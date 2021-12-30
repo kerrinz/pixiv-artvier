@@ -9,12 +9,14 @@ import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
 
 class AccountManagePage extends StatefulWidget {
+  const AccountManagePage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => AccountManagePageState();
 }
 
 class AccountManagePageState extends State<AccountManagePage> {
-  _AccountManageProvider _provider = _AccountManageProvider();
+  final _AccountManageProvider _provider = _AccountManageProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -22,40 +24,38 @@ class AccountManagePageState extends State<AccountManagePage> {
       create: (context) => _provider,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("多帐号切换"),
+          title: const Text("多帐号切换"),
           actions: [
             IconButton(
               onPressed: () {
                 Navigator.of(context).pushNamed("login_wizard");
               },
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
               tooltip: "添加帐号",
             ),
           ],
         ),
-        body: Container(
-          child: Selector(
-            // 帐号列表
-            builder: (BuildContext context, Map<String, AccountProfile>? profilesMap, Widget? child) {
-              if (profilesMap == null) {
-                return SizedBox(
-                    width: 24.0,
-                    height: 24.0,
-                    child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary));
-              }
-              return ListView.builder(
-                physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()), // ListView内容不足也能搞出回弹效果
-                itemBuilder: (BuildContext context, int index) {
-                  var list = profilesMap.values.toList();
-                  return _buildAccountCard(context, list[index]);
-                },
-                itemCount: profilesMap.length,
-              );
-            },
-            selector: (BuildContext context, _AccountManageProvider provider) {
-              return provider.profilesMap;
-            },
-          ),
+        body: Selector(
+          // 帐号列表
+          builder: (BuildContext context, Map<String, AccountProfile>? profilesMap, Widget? child) {
+            if (profilesMap == null) {
+              return SizedBox(
+                  width: 24.0,
+                  height: 24.0,
+                  child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary));
+            }
+            return ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()), // ListView内容不足也能搞出回弹效果
+              itemBuilder: (BuildContext context, int index) {
+                var list = profilesMap.values.toList();
+                return _buildAccountCard(context, list[index]);
+              },
+              itemCount: profilesMap.length,
+            );
+          },
+          selector: (BuildContext context, _AccountManageProvider provider) {
+            return provider.profilesMap;
+          },
         ),
       ),
     );
@@ -63,14 +63,14 @@ class AccountManagePageState extends State<AccountManagePage> {
 
   // 帐号卡片
   Widget _buildAccountCard(BuildContext context, AccountProfile profile) {
-    var avatar; // 头像的图片widget
+    Widget avatar; // 头像的图片widget
     if (profile.user.profileImageUrls == null) {
       // 未登录或者原本就无头像用户
-      avatar = Image(image: AssetImage("assets/images/default_avatar.png"));
+      avatar = const Image(image: AssetImage("assets/images/default_avatar.png"));
     } else {
       avatar = CachedNetworkImage(
         imageUrl: profile.user.profileImageUrls!.px170x170,
-        httpHeaders: {"Referer": CONSTANTS.referer},
+        httpHeaders: const {"Referer": CONSTANTS.referer},
       );
     }
     return InkWell(
@@ -79,7 +79,7 @@ class AccountManagePageState extends State<AccountManagePage> {
         await AccountStore.setCurrentAccountId(id: profile.user.id);
         var newProfile = await OAuth().refreshToken(profile.refreshToken);
         await OAuth().saveTokenToCurrent(newProfile);
-        this.readProfiles();
+        readProfiles();
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -89,7 +89,7 @@ class AccountManagePageState extends State<AccountManagePage> {
               flex: 1,
               child: Row(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 64,
                     width: 64,
                     child: ClipOval(
@@ -103,14 +103,14 @@ class AccountManagePageState extends State<AccountManagePage> {
                       children: [
                         Text(
                           profile.user.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             height: 1.4,
                           ),
                         ),
                         Text(
                           profile.user.mailAddress,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             height: 1.6,
                           ),
@@ -145,10 +145,11 @@ class AccountManagePageState extends State<AccountManagePage> {
   // 读取配置数据
   void readProfiles() {
     var profile = AccountStore.getAllAccountsProfile();
-    if (profile != null)
+    if (profile != null) {
       _provider.setAccountProfiles(profile);
-    else
+    } else {
       Fluttertoast.showToast(msg: "读取失败！", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+    }
   }
 }
 

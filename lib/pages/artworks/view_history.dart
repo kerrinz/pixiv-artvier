@@ -8,30 +8,33 @@ import 'package:pixgem/widgets/illust_waterfall_grid.dart';
 class ViewHistory extends StatelessWidget {
   final IllustWaterfallProvider _provider = IllustWaterfallProvider();
   final List<CommonIllust> list = [];
+
+  ViewHistory({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     _provider.setList(HistoryStore.getHistoryIllust());
     return Scaffold(
       appBar: AppBar(
-        title: Text("浏览历史"),
+        title: const Text("浏览历史"),
         actions: [
           // 清空的按钮
           TextButton(
-            child: Text("清空"),
+            child: const Text("清空"),
             onPressed: () {
               showDialog<bool>(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: Text("提示"),
-                    content: Text("确定要清空所有历史记录吗?"),
+                    title: const Text("提示"),
+                    content: const Text("确定要清空所有历史记录吗?"),
                     actions: <Widget>[
                       TextButton(
-                        child: Text("取消"),
+                        child: const Text("取消"),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                       TextButton(
-                        child: Text("确定"),
+                        child: const Text("确定"),
                         onPressed: () {
                           HistoryStore.clearIllusts().then((value) => _provider.clearList());
                           Navigator.of(context).pop();
@@ -45,16 +48,14 @@ class ViewHistory extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        child: ProviderWidget<IllustWaterfallProvider>(
-          model: _provider,
-          builder: (BuildContext context, IllustWaterfallProvider value, Widget? child) {
-            return IllustWaterfallGrid(
-              artworkList: value.list,
-              onLazyLoad: () {},
-            );
-          },
-        ),
+      body: ProviderWidget<IllustWaterfallProvider>(
+        model: _provider,
+        builder: (BuildContext context, IllustWaterfallProvider value, Widget? child) {
+          return IllustWaterfallGrid(
+            artworkList: value.list,
+            onLazyLoad: () {},
+          );
+        },
       ),
     );
   }

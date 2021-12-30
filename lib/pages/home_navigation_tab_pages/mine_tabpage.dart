@@ -11,12 +11,14 @@ import 'package:pixgem/widgets/preferences_navigator_item.dart';
 import 'package:provider/provider.dart';
 
 class MineTabPage extends StatefulWidget {
+  const MineTabPage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => MineTabPageState();
 }
 
 class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientMixin {
-  List<FunctionCardModel> _cards = [
+  final List<FunctionCardModel> _cards = [
     FunctionCardModel("流览历史", Icons.history, "view_history", null),
     FunctionCardModel("我的收藏", Icons.favorite, "my_bookmarks", GlobalStore.currentAccount?.user.id),
     FunctionCardModel("我的关注", Icons.star, "user_following", GlobalStore.currentAccount?.user.id),
@@ -36,7 +38,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
             onPressed: () {
               Navigator.of(context).pushNamed("account_manage");
             },
-            icon: Icon(Icons.switch_account_outlined),
+            icon: const Icon(Icons.switch_account_outlined),
             tooltip: "多帐号管理",
           ),
           Selector(
@@ -60,7 +62,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
         ],
       ),
       body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
         child: Container(
           // 这样解决了内容不足以支撑全屏时，滑动回弹不会回到原位的问题
           constraints: BoxConstraints(
@@ -76,7 +78,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
               Card(
                 elevation: 1.5,
                 margin: const EdgeInsets.all(8.0),
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 ),
                 clipBehavior: Clip.antiAlias,
@@ -84,7 +86,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                   controller: ScrollController(keepScrollOffset: false),
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                   ),
                   itemCount: _cards.length,
@@ -103,7 +105,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                               padding: const EdgeInsets.all(8.0),
                               child: Icon(_cards[index].assetsImageUrl, size: 22),
                             ),
-                            Text(_cards[index].text, style: TextStyle(fontSize: 14)),
+                            Text(_cards[index].text, style: const TextStyle(fontSize: 14)),
                           ],
                         ),
                       ),
@@ -114,10 +116,10 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
               // 设置项列表
               Builder(builder: (context) {
                 List<PreferencesNavigatorItem> preferencesItems = [
-                  PreferencesNavigatorItem(icon: Icon(Icons.color_lens), text: "主题配置", routeName: "setting_theme"),
-                  PreferencesNavigatorItem(
+                  const PreferencesNavigatorItem(icon: Icon(Icons.color_lens), text: "主题配置", routeName: "setting_theme"),
+                  const PreferencesNavigatorItem(
                       icon: Icon(Icons.download_done), text: "图片保存方式", routeName: "setting_download"),
-                  PreferencesNavigatorItem(
+                  const PreferencesNavigatorItem(
                       icon: Icon(Icons.web_asset_rounded), text: "代理和图片源", routeName: "setting_network"),
                 ];
                 return Column(
@@ -151,7 +153,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                 children: [
                   // 头像
                   ClipOval(
-                    child: Container(
+                    child: SizedBox(
                       width: 64,
                       height: 64,
                       child: Selector(
@@ -161,11 +163,11 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                         builder: (BuildContext context, AccountProfile? profile, Widget? child) {
                           // 未登录或者原本就无头像用户
                           if (profile == null || profile.user.profileImageUrls == null) {
-                            return Image(image: AssetImage("assets/images/default_avatar.png"));
+                            return const Image(image: AssetImage("assets/images/default_avatar.png"));
                           }
                           return CachedNetworkImage(
                             imageUrl: profile.user.profileImageUrls!.px170x170,
-                            httpHeaders: {"Referer": CONSTANTS.referer},
+                            httpHeaders: const {"Referer": CONSTANTS.referer},
                           );
                         },
                       ),
@@ -182,14 +184,14 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                         children: [
                           Text(
                             profile == null ? "..." : profile.user.name,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               height: 1.4,
                             ),
                           ),
                           Text(
                             profile == null ? "..." : profile.user.mailAddress,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               height: 1.6,
                             ),
@@ -201,7 +203,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                 ],
               ),
             ),
-            Icon(Icons.keyboard_arrow_right, color: Colors.grey),
+            const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
           ],
         ),
       ),
@@ -220,10 +222,11 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
   // 读取配置数据
   void readProfile() {
     var profile = AccountStore.getCurrentAccountProfile();
-    if (profile != null)
+    if (profile != null) {
       GlobalStore.changeCurrentAccount(profile);
-    else
+    } else {
       Fluttertoast.showToast(msg: "加载失败!", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+    }
   }
 }
 

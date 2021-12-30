@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 

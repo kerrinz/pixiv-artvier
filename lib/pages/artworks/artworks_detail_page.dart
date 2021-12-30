@@ -9,7 +9,7 @@ import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/pages/comments_page.dart';
 import 'package:pixgem/request/api_illusts.dart';
 import 'package:pixgem/store/history_store.dart';
-import 'package:pixgem/widgets/FollowButton.dart';
+import 'package:pixgem/widgets/follow_button.dart';
 import 'package:pixgem/widgets/comment.dart';
 import 'package:provider/provider.dart';
 
@@ -22,14 +22,14 @@ class ArtWorksDetailPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new _ArtWorksDetailState();
+    return _ArtWorksDetailState();
   }
 }
 
 class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   ///初始化Provider
-  _IllustDetailProvider _provider = _IllustDetailProvider();
-  IllustCommentsProvider _providerComments = IllustCommentsProvider();
+  final _IllustDetailProvider _provider = _IllustDetailProvider();
+  final IllustCommentsProvider _providerComments = IllustCommentsProvider();
 
   static const String _referer = "https://www.pixiv.net";
   Key? _imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
@@ -47,34 +47,35 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
               builder: (BuildContext context) {
                 return Scrollbar(
                   child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Container(
+                    physics: const BouncingScrollPhysics(),
+                    child: SizedBox(
                       width: double.infinity,
                       child: Column(
                         children: [
                           // 预览大图
                           _buildPreviewImage(context, info),
                           // 详细信息卡
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             child: _buildInfoCard(context, info),
                           ),
                           // 评论区
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             child: Card(
                               elevation: 2.0,
-                              margin: EdgeInsets.all(4.0),
+                              margin: const EdgeInsets.all(4.0),
                               child: ChangeNotifierProvider(
                                 create: (BuildContext context) => _providerComments,
                                 child: Consumer(
                                   builder: (BuildContext context, IllustCommentsProvider provider, Widget? child) {
-                                    if (provider.commentList == null)
+                                    if (provider.commentList == null) {
                                       return Container(
                                         alignment: Alignment.center,
-                                        padding: EdgeInsets.all(16),
+                                        padding: const EdgeInsets.all(16),
                                         child: _buildLoading(context),
                                       );
+                                    }
                                     return _buildComments(context, provider, info);
                                   },
                                 ),
@@ -95,10 +96,10 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
               right: 0,
               height: MediaQuery.of(context).padding.top + kToolbarHeight,
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(colors: [
                     Color(0x98000000),
-                    Color(0x0),
+                    Color(0x00000000),
                   ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                 ),
               ),
@@ -111,16 +112,16 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 child: AppBar(
                   title: Text(
                     info.title,
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
-                  titleTextStyle: TextStyle(color: Colors.white),
+                  titleTextStyle: const TextStyle(color: Colors.white),
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
-                  systemOverlayStyle: SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+                  systemOverlayStyle: const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
                   // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
                   leading: Builder(builder: (context) {
                     return IconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -137,8 +138,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
               widget.model.callback(widget.model.index, _provider.isBookmarked); // 执行回调，让上级列表更新收藏状态
             }).onError((error, stackTrace) {
               Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-              print(error);
-            });
+              });
           },
           backgroundColor: Colors.grey.shade50,
           child: Selector(
@@ -176,7 +176,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
         child: CachedNetworkImage(
           imageUrl: info.imageUrls.large,
           key: _imgKey,
-          httpHeaders: {"referer": _referer},
+          httpHeaders: const {"referer": _referer},
           errorWidget: (context, url, error) {
             return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
@@ -190,7 +190,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                         _imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
                       });
                     },
-                    child: Text("加载失败，点击重试"),
+                    child: const Text("加载失败，点击重试"),
                   ),
                 );
               },
@@ -231,7 +231,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   Widget _buildInfoCard(BuildContext context, CommonIllust info) {
     return Card(
       elevation: 2.0,
-      margin: EdgeInsets.only(left: 4.0, right: 4.0, bottom: 4.0),
+      margin: const EdgeInsets.only(left: 4.0, right: 4.0, bottom: 4.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -248,14 +248,14 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                             PreloadUserLeastInfo(info.user.id, info.user.name, info.user.profileImageUrls.medium));
                   },
                   child: Padding(
-                    padding: EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: Row(
                       children: [
                         // 作者头像
                         ClipOval(
                           child: Image.network(
                             info.user.profileImageUrls.medium,
-                            headers: {"Referer": _referer},
+                            headers: const {"Referer": _referer},
                             fit: BoxFit.cover,
                             width: 56,
                             height: 56,
@@ -264,14 +264,14 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                         // 作者昵称 + 发布时间。自适应填满剩余空间
                         Expanded(
                           child: Padding(
-                              padding: EdgeInsets.only(left: 12),
+                              padding: const EdgeInsets.only(left: 12),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                 // 作者昵称
                                 Padding(
-                                  padding: EdgeInsets.only(bottom: 6),
+                                  padding: const EdgeInsets.only(bottom: 6),
                                   child: Text(
                                     info.user.name,
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -293,7 +293,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
               ),
               // 关注或已关注的按钮
               Padding(
-                padding: EdgeInsets.only(right: 4.0, left: 4.0),
+                padding: const EdgeInsets.only(right: 4.0, left: 4.0),
                 child: FollowButton(
                   isFollowed: info.user.isFollowed,
                   userId: info.user.id.toString(),
@@ -302,12 +302,12 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(4.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                    padding: EdgeInsets.only(left: 2, right: 2, top: 8, bottom: 8),
+                    padding: const EdgeInsets.only(left: 2, right: 2, top: 8, bottom: 8),
                     child: Row(
                       children: [
                         // 点赞数
@@ -325,8 +325,8 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                         Expanded(
                           flex: 1,
                           child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                            Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
-                            Text(" " + info.totalView.toString(), style: TextStyle(color: Colors.grey, fontSize: 14)),
+                            const Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
+                            Text(" " + info.totalView.toString(), style: const TextStyle(color: Colors.grey, fontSize: 14)),
                           ]),
                         ),
                       ],
@@ -335,14 +335,14 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 Text(
                   info.caption,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 15),
+                  style: const TextStyle(fontSize: 15),
                 ),
                 // tags
                 Builder(
                   builder: (BuildContext context) {
                     List<Widget> _tags = [];
                     // 遍历displayTags
-                    info.tags.forEach((element) {
+                    for (var element in info.tags) {
                       // tag标签
                       _tags.add(
                         InkWell(
@@ -360,7 +360,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                       _tags.add(
                         Text("${element.translatedName}  "),
                       );
-                    });
+                    }
                     return Wrap(
                       children: _tags,
                     );
@@ -379,7 +379,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     // 展示的评论数量，[0-3]
     int commentsShowSize = provider.commentList!.length > 3 ? 3 : provider.commentList!.length;
     if (commentsShowSize == 0) {
-      return Padding(
+      return const Padding(
         padding: EdgeInsets.only(top: 12),
         child: Text("暂无评论", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
       );
@@ -394,12 +394,12 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       children: [
         // 评论列表（部分
         Padding(
-          padding: EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 12),
+          padding: const EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 12),
           child: Column(
             children: commentWidgets,
           ),
         ),
-        Divider(
+        const Divider(
           height: 1,
         ),
         InkWell(
@@ -409,7 +409,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
           child: Container(
             width: double.infinity,
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
             child: Text(
               "查看全部评论 >",
               style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500),
@@ -433,15 +433,17 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     bool isSucceed = false; // 是否执行成功
     bool isBookmarked = _provider.isBookmarked;
 
-    if (isBookmarked)
+    if (isBookmarked) {
       isSucceed = await ApiIllusts().deleteIllustBookmark(illustId: info.id.toString());
-    else
+    } else {
       isSucceed = await ApiIllusts().addIllustBookmark(illustId: info.id.toString());
+    }
     // 执行结果
-    if (isSucceed)
+    if (isSucceed) {
       _provider.setBookmarked(!isBookmarked);
-    else
+    } else {
       Future.error("Request bookmark failed!");
+    }
   }
 
   @override

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:pixgem/model_store/account_profile.dart';
@@ -12,7 +14,6 @@ class AccountStore {
   // 当前账号id
   static const CURRENT_ACCOUNT_ID = "current_account_id";
   // 已缓存的所有账号的信息
-  // ignore: non_constant_identifier_names
   static const ALL_ACCOUNTS_PROFILE = "all_accounts_profile";
 
   // 设置所有账号信息
@@ -30,10 +31,7 @@ class AccountStore {
   // 添加或覆盖单个账号信息
   static Future updateAccountProfile(AccountProfile profile) async {
     Map<String, AccountProfile>? map = getAllAccountsProfile();
-    if (map == null) {
-      print("allAccountsProfile no found, create a new profile");
-      map = new Map();
-    }
+    map ??= {};
     map[profile.user.id] = profile;
     return setAllAccountsProfile(map);
   }

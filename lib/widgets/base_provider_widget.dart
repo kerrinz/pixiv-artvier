@@ -20,7 +20,7 @@ class ProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
   ) builder;
   final Widget? child;
 
-  const ProviderWidget({required this.model, required this.builder, this.child}) : super();
+  const ProviderWidget({Key? key, required this.model, required this.builder, this.child}) : super(key: key);
 
   @override
   ProviderWidgetState<T> createState() => ProviderWidgetState<T>();

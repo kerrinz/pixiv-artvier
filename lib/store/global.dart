@@ -14,6 +14,10 @@ class GlobalStore {
 
   static late SharedPreferences globalSharedPreferences; // 全局持久化存储实例
 
+  static late String codeVerifier = "";
+
+  static late String? codeChallenge;
+
   // 当前账号的配置信息（含token和过期时间），未登录为null
   static AccountProfile? currentAccount;
 
@@ -35,7 +39,7 @@ class GlobalStore {
         AccountProfile? profile = AccountStore.getCurrentAccountProfile(userId: id);
         currentAccount = profile; // 设置全局帐号变量，但不通知提供器
       } catch (e) {
-        print(e);
+        //
       }
     }
     // 初始化网络请求相关配置
@@ -79,13 +83,13 @@ class GlobalProvider with ChangeNotifier {
   }
 
   void setDownloadMode(int mode, bool ifSafe) {
-    this.downloadMode = mode;
+    downloadMode = mode;
     if (ifSafe) ThemeStore.setThemeMode(themeMode);
     notifyListeners();
   }
 
   void setDownloadingIllusts(Map<String, DownloadingIllust> map) {
-    this.downloadingIllust = map;
+    downloadingIllust = map;
     notifyListeners();
   }
 }
