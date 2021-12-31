@@ -28,14 +28,12 @@ class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
   @override
   Widget build(BuildContext context) {
     return WaterfallFlow.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+      padding: EdgeInsets.zero,
       controller: widget.scrollController,
       physics: widget.physics,
-      itemCount: widget.artworkList.length,
+      itemCount: widget.artworkList.length + 1,
       gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
         collectGarbage: (List<int> garbages) {
           // print('collect garbage : $garbages');
           for (var index in garbages) {
@@ -54,7 +52,7 @@ class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
   }
 
   Widget _buildItem(BuildContext context, index) {
-    // 如果滑动到了表尾
+    // 如果滑动到了表尾加载更多的项
     if (index == widget.artworkList.length) {
       // 未到列表上限，继续获取数据
       if (widget.artworkList.length < (widget.limit ?? double.infinity)) {
@@ -64,35 +62,40 @@ class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
       } else {
         //已经加载足够多的数据，不再获取
         return Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(16.0),
-            child: const Text(
-              "没有更多了",
-              style: TextStyle(color: Colors.grey),
-            ));
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(16.0),
+          child: const Text(
+            "没有更多了",
+            style: TextStyle(color: Colors.grey),
+          ),
+        );
       }
     }
-    return IllustWaterfallCard(
-      illust: widget.artworkList[index],
-      onTap: () => Navigator.of(context).pushNamed("artworks_detail",
-          arguments: ArtworkDetailModel(
-              list: widget.artworkList,
-              index: index,
-              callback: (int index, bool isBookmarked) {
-                widget.artworkList[index].isBookmarked = isBookmarked;
-                setState(() {});
-              })),
-      isBookmarked: widget.artworkList[index].isBookmarked,
-      onTapBookmark: () {
-        var item = widget.artworkList[index];
-        postBookmark(item.id.toString(), item.isBookmarked).then((value) {
-          Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-          widget.artworkList[index].isBookmarked = !item.isBookmarked;
-          setState(() {});
-        }).onError((error, stackTrace) {
-          Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-        });
-      },
+    return Padding(
+      padding: const EdgeInsets.all(4),
+      child: IllustWaterfallCard(
+        illust: widget.artworkList[index],
+        isBookmarked: widget.artworkList[index].isBookmarked,
+        onTap: () => Navigator.of(context).pushNamed("artworks_detail",
+            arguments: ArtworkDetailModel(
+                list: widget.artworkList,
+                index: index,
+                callback: (int index, bool isBookmark) {
+                  // 回调方法，传给详情页
+                  widget.artworkList[index].isBookmarked = isBookmark;
+                  setState(() {});
+                })),
+        onTapBookmark: () {
+          var item = widget.artworkList[index];
+          postBookmark(item.id.toString(), item.isBookmarked).then((value) {
+            Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+            widget.artworkList[index].isBookmarked = !item.isBookmarked;
+            setState(() {});
+          }).onError((error, stackTrace) {
+            Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+          });
+        },
+      ),
     );
   }
 

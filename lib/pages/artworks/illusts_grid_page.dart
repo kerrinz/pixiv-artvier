@@ -1,6 +1,7 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:pixgem/provider/common_illusts.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/widgets/illust_waterfall_grid.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +48,8 @@ class IllustGridTabPage extends StatefulWidget {
 }
 
 class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeepAliveClientMixin {
-  final IllustGridPageProvider _provider = IllustGridPageProvider();
+  final IllustWaterfallProvider _provider = IllustWaterfallProvider();
+  String? nextUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +59,19 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
       child: RefreshIndicator(
         onRefresh: () async {
           var result = await widget.onRefresh();
-          _provider.setAll(result.illusts, result.nextUrl);
+          _provider.setList(result.illusts);
+          nextUrl = result.nextUrl;
         },
         child: Consumer(
-          builder: (context, IllustGridPageProvider provider, Widget? child) {
-            if (provider.illustList?.isEmpty ?? false) {
+          builder: (context, IllustWaterfallProvider provider, Widget? child) {
+            if (provider.list == null) {
+              return Container(
+                height: min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
+              );
+            }
+            if (provider.list!.isEmpty) {
               // 列表为空时展示
               return SingleChildScrollView(
                 physics: widget.physics,
@@ -76,13 +86,14 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
             }
             return IllustWaterfallGrid(
               physics: widget.physics,
-              artworkList: provider.illustList ?? [],
+              artworkList: provider.list!,
               onLazyLoad: () async {
-                if (provider.nextUrl == null) {
+                if (nextUrl == null) {
                   return Fluttertoast.showToast(msg: "已经加载到底了", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
                 }
-                var moreIllustList = await widget.onLazyLoad(provider.nextUrl!); // 懒加载传入下一页地址
-                provider.addIllustList(moreIllustList.illusts);
+                var moreIllustList = await widget.onLazyLoad(nextUrl!); // 懒加载传入下一页地址
+                provider.addNextIllust(list: moreIllustList.illusts);
+                setState(() {});
               },
               scrollController: widget.scrollController,
             );
@@ -95,35 +106,12 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
   @override
   void initState() {
     super.initState();
-    widget.onRefresh().then((value) => _provider.setAll(value.illusts, value.nextUrl));
+    widget.onRefresh().then((value) {
+      _provider.setList(value.illusts);
+      nextUrl = value.nextUrl;
+    });
   }
 
   @override
   bool get wantKeepAlive => true;
-}
-
-class IllustGridPageProvider with ChangeNotifier {
-  List<CommonIllust>? illustList; // 插画（或漫画）列表
-  String? nextUrl;
-
-  setAll(List<CommonIllust>? newIllustList, String? nextUrl) {
-    illustList = newIllustList;
-    this.nextUrl = nextUrl;
-    notifyListeners();
-  }
-
-  setIllustList(List<CommonIllust>? newIllustList) {
-    illustList = newIllustList;
-    notifyListeners();
-  }
-
-  addIllustList(List<CommonIllust> moreIllustList) {
-    illustList = [...illustList ?? [], ...moreIllustList];
-    notifyListeners();
-  }
-
-  setNextUrl(String? nextUrl) {
-    this.nextUrl = nextUrl;
-    notifyListeners();
-  }
 }

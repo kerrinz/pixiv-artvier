@@ -8,7 +8,7 @@ import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/artworks/artworks_detail_page.dart';
 import 'package:pixgem/request/api_illusts.dart';
-import 'package:pixgem/common_providers/illust_list_provider.dart';
+import 'package:pixgem/provider/common_illusts.dart';
 import 'package:pixgem/widgets/illust_waterfall_grid_sliver.dart';
 import 'package:provider/provider.dart';
 
@@ -136,7 +136,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                 // 推荐头部
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 12, top: 4),
+                    padding: const EdgeInsets.only(left: 12, top: 16, bottom: 8),
                     child: Flex(
                       direction: Axis.horizontal,
                       children: [
@@ -157,27 +157,25 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                             ],
                           ),
                         ),
-                        TextButton(
-                          onPressed: () {},
-                          // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const [
-                              Text("更多"),
-                              Icon(Icons.chevron_right),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
                 ),
                 // 推荐列表
                 Selector(
-                  builder: (BuildContext context, List<CommonIllust> artworkList, Widget? child) {
+                  builder: (BuildContext context, List<CommonIllust>? artworkList, Widget? child) {
+                    if (artworkList == null) {
+                      return SliverToBoxAdapter(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          alignment: Alignment.center,
+                          child: Text("loading..."),
+                        ),
+                      );
+                    }
                     return IllustWaterfallGridSliver(
                       // 普通网格布局（图片）
-                      artworkList: artworkList,
+                      artworkList: artworkList ?? [],
                       onLazyLoad: () {
                         // 不在加载中才能获取下一页的数据，以防重复获取同页数据
                         if (!_isLoadingMore) {
@@ -274,7 +272,8 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                                   padding: const EdgeInsets.only(left: 4),
                                   child: Text(
                                     rankingList[index].user.name,
-                                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white),
+                                    style:
+                                        const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white),
                                   ),
                                 ),
                               ],
@@ -322,18 +321,20 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
 
   // 请求并设置数据，返回Future
   Future refreshAndSetData() async {
-    var artworks = await ApiIllusts().getFirstRecommendedIllust();
-    _illustWaterfallProvider.setList(artworks.illusts);
+    var body = await ApiIllusts().getFirstRecommendedIllust();
+    _illustWaterfallProvider.setList(body.illusts);
     _listProvider.setData(
-      rankingList: artworks.rankingIllusts, // 排行榜
+      rankingList: body.rankingIllusts, // 排行榜
       isLoading: false, // 停止加载); // 下一组作品数据的访问地址
     );
+    nextUrl = body.nextUrl;
   }
 
   // 获取更多作品
   Future requestNextIllusts() async {
     // 获取更多作品
     if (nextUrl != null) {
+      print(11111);
       var result = await ApiIllusts().getNextRecommendedIllust(nextUrl: nextUrl!);
       _illustWaterfallProvider.addNextIllust(list: result.illusts); // 添加作品list
       nextUrl = result.nextUrl; // 更新nextUrl
