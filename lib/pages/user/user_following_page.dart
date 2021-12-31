@@ -17,17 +17,33 @@ class UserFollowingPage extends StatefulWidget {
 }
 
 class UserFollowingPageState extends State<UserFollowingPage> {
+  ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ExtendedNestedScrollView(
         floatHeaderSlivers: true,
         onlyOneScrollInBody: true,
+        controller: scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
-            const SliverAppBar(
+            SliverAppBar(
               pinned: true,
               title: Text("关注列表"),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.keyboard_arrow_up),
+                  onPressed: () {
+                    scrollController.animateTo(
+                      0,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.decelerate,
+                    );
+                  },
+                  tooltip: "回到顶部",
+                ),
+              ],
             ),
           ];
         },
