@@ -24,6 +24,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   bool _isLoadingMore = false; // 是否正在加载更多数据（防止重复获取）
   final _ListProvider _listProvider = _ListProvider();
   final IllustWaterfallProvider _illustWaterfallProvider = IllustWaterfallProvider();
+  ScrollController controller = ScrollController();
   String? nextUrl; // 下一页的地址
 
   @override
@@ -42,6 +43,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
       child: ChangeNotifierProvider(
         create: (BuildContext context) => _illustWaterfallProvider,
         child: ExtendedNestedScrollView(
+          controller: controller,
           floatHeaderSlivers: true,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
@@ -55,14 +57,20 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                 ),
                 // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
                 actions: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.sort),
-                    onPressed: () {},
-                    tooltip: "排列布局",
-                  ),
+                  // IconButton(
+                  //   icon: const Icon(Icons.sort),
+                  //   onPressed: () {},
+                  //   tooltip: "排列布局",
+                  // ),
                   IconButton(
                     icon: const Icon(Icons.keyboard_arrow_up),
-                    onPressed: () {},
+                    onPressed: () {
+                      controller.animateTo(
+                        0,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.decelerate,
+                      );
+                    },
                     tooltip: "回到顶部",
                   ),
                 ],
@@ -175,7 +183,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                     }
                     return IllustWaterfallGridSliver(
                       // 普通网格布局（图片）
-                      artworkList: artworkList ?? [],
+                      artworkList: artworkList,
                       onLazyLoad: () {
                         // 不在加载中才能获取下一页的数据，以防重复获取同页数据
                         if (!_isLoadingMore) {

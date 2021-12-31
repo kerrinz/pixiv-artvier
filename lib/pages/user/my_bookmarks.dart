@@ -22,6 +22,7 @@ class MyBookmarksPage extends StatefulWidget {
 
 class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateMixin {
   late TabController _tabController;
+  ScrollController scrollController = ScrollController();
   final List<Tab> _tabs = [
     const Tab(text: "插画、漫画"),
     const Tab(text: "小说"),
@@ -33,6 +34,36 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
       body: ExtendedNestedScrollView(
         floatHeaderSlivers: true,
         onlyOneScrollInBody: true,
+        controller: scrollController,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              title: const Text('我的收藏'),
+              pinned: false,
+              floating: true,
+              snap: true,
+              bottom: TabBar(
+                indicatorSize: TabBarIndicatorSize.label,
+                controller: _tabController,
+                isScrollable: false,
+                tabs: _tabs,
+              ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.keyboard_arrow_up),
+                  onPressed: () {
+                    scrollController.animateTo(
+                      0,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.decelerate,
+                    );
+                  },
+                  tooltip: "回到顶部",
+                ),
+              ],
+            ),
+          ];
+        },
         body: TabBarView(
           controller: _tabController,
           children: [
@@ -54,22 +85,6 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
             ),
           ],
         ),
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              title: const Text('我的收藏'),
-              pinned: false,
-              floating: true,
-              snap: true,
-              bottom: TabBar(
-                indicatorSize: TabBarIndicatorSize.label,
-                controller: _tabController,
-                isScrollable: false,
-                tabs: _tabs,
-              ),
-            ),
-          ];
-        },
       ),
     );
   }
@@ -84,4 +99,3 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
     _tabController = TabController(initialIndex: 0, length: _tabs.length, vsync: this);
   }
 }
-

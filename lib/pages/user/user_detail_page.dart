@@ -29,7 +29,7 @@ class UserDetailPage extends StatefulWidget {
 class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMixin {
   final _UserDetailProvider _provider = _UserDetailProvider();
   late TabController _tabController;
-
+  ScrollController scrollController = ScrollController();
   static const List<Tab> _tabs = [
     Tab(text: "作品"),
     Tab(text: "收藏"),
@@ -56,6 +56,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
       child: Scaffold(
         body: ExtendedNestedScrollView(
           onlyOneScrollInBody: true,
+          controller: scrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
               SliverAppBar(
@@ -201,6 +202,19 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                     ],
                   ),
                 ),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.keyboard_arrow_up),
+                    onPressed: () {
+                      scrollController.animateTo(
+                        0,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.decelerate,
+                      );
+                    },
+                    tooltip: "回到顶部",
+                  ),
+                ],
               ),
               // TabBar 分页栏
               SliverPersistentHeader(
