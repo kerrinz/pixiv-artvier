@@ -72,14 +72,14 @@ class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
       ),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) => _buildItem(context, index),
-        childCount: widget.artworkList.length,
+        childCount: widget.artworkList.length + 1,
       ),
     );
   }
 
   Widget _buildItem(BuildContext context, index) {
-    // 如果滑动到了表尾
-    if (index == widget.artworkList.length - 1) {
+    // 如果滑动到了表尾加载更多的项
+    if (index == widget.artworkList.length) {
       // 未到列表上限，继续获取数据
       if (widget.artworkList.length < (widget.limit ?? double.infinity)) {
         if (widget.artworkList.isNotEmpty) widget.onLazyLoad(); // 列表不为空才获取数据
@@ -88,12 +88,13 @@ class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
       } else {
         //已经加载足够多的数据，不再获取
         return Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(16.0),
-            child: const Text(
-              "没有更多了",
-              style: TextStyle(color: Colors.grey),
-            ));
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(16.0),
+          child: const Text(
+            "没有更多了",
+            style: TextStyle(color: Colors.grey),
+          ),
+        );
       }
     }
     return Padding(
