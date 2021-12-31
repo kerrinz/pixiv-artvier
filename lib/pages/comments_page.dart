@@ -21,6 +21,7 @@ class CommentsPage extends StatefulWidget {
 
 class _CommentsPageState extends State<CommentsPage> {
   final IllustCommentsProvider _provider = IllustCommentsProvider();
+  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,19 @@ class _CommentsPageState extends State<CommentsPage> {
               },
             );
           }),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.keyboard_arrow_up),
+              onPressed: () {
+                scrollController.animateTo(
+                  0,
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.decelerate,
+                );
+              },
+              tooltip: "回到顶部",
+            ),
+          ],
         ),
         body: RefreshIndicator(
           onRefresh: () async {
@@ -51,6 +65,7 @@ class _CommentsPageState extends State<CommentsPage> {
                 return _buildLoading(context);
               }
               return ListView.builder(
+                controller: scrollController,
                 physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                 itemCount: provider.commentList!.length + 1,
                 itemBuilder: (BuildContext context, int index) {
@@ -66,7 +81,8 @@ class _CommentsPageState extends State<CommentsPage> {
                         child: SizedBox(
                           width: 24.0,
                           height: 24.0,
-                          child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary),
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary),
                         ),
                       );
                     } else {

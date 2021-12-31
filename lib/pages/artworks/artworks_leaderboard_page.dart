@@ -16,7 +16,7 @@ class ArtworksLeaderboardPage extends StatefulWidget {
 
 class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with TickerProviderStateMixin {
   late TabController _tabController;
-
+  ScrollController scrollController = ScrollController();
   // tab分页的对应模式与字段
   final Map<String, String> _tabsMap = {
     RankingModeConstants.illust_day: "每日",
@@ -42,6 +42,7 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
       body: ExtendedNestedScrollView(
         floatHeaderSlivers: true,
         onlyOneScrollInBody: true,
+        controller: scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           List<Widget> tabs = [];
           _tabsMap.forEach((key, value) {
@@ -59,6 +60,19 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
                 isScrollable: true,
                 tabs: tabs,
               ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.keyboard_arrow_up),
+                  onPressed: () {
+                    scrollController.animateTo(
+                      0,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.decelerate,
+                    );
+                  },
+                  tooltip: "回到顶部",
+                ),
+              ],
             ),
           ];
         },

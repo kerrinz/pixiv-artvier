@@ -8,6 +8,7 @@ import 'package:pixgem/widgets/illust_waterfall_grid.dart';
 class ViewHistory extends StatelessWidget {
   final IllustWaterfallProvider _provider = IllustWaterfallProvider();
   final List<CommonIllust> list = [];
+  final ScrollController scrollController = ScrollController();
 
   ViewHistory({Key? key}) : super(key: key);
 
@@ -46,6 +47,17 @@ class ViewHistory extends StatelessWidget {
               );
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.keyboard_arrow_up),
+            onPressed: () {
+              scrollController.animateTo(
+                0,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.decelerate,
+              );
+            },
+            tooltip: "回到顶部",
+          ),
         ],
       ),
       body: ProviderWidget<IllustWaterfallProvider>(
@@ -53,6 +65,7 @@ class ViewHistory extends StatelessWidget {
         builder: (BuildContext context, IllustWaterfallProvider value, Widget? child) {
           return IllustWaterfallGrid(
             artworkList: value.list ?? [],
+            scrollController: scrollController,
             onLazyLoad: () {},
           );
         },
