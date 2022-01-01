@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
@@ -19,7 +20,17 @@ class SearchResultPage extends StatefulWidget {
 
 class SearchResultPageState extends State<SearchResultPage> {
   late TextEditingController _textController;
+  final FocusNode _focusNode = FocusNode();
   final _SearchResultProvider _provider = _SearchResultProvider();
+  List<String> bookmarkLevels = const [
+    "0",
+    "500",
+    "1000",
+    "5000",
+    "10000",
+    "20000",
+  ]; // 插画的收藏级别
+  int selectedLevelsIndex = 0; // 选择的收藏级别的索引
 
   @override
   void initState() {
@@ -42,6 +53,8 @@ class SearchResultPageState extends State<SearchResultPage> {
               controller: _textController,
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.search,
+              autofocus: false,
+              focusNode: _focusNode,
               decoration: const InputDecoration(
                 hintText: "搜索...",
                 contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -59,7 +72,84 @@ class SearchResultPageState extends State<SearchResultPage> {
           actions: [
             IconButton(
               icon: const Icon(Icons.more_vert),
-              onPressed: () {},
+              onPressed: () {
+                _focusNode.unfocus();
+                showGeneralDialog<int>(
+                  context: context,
+                  pageBuilder:
+                      (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                    return Scaffold(
+                      backgroundColor: Colors.black26, // 遮罩层
+                      body: Stack(
+                        children: [
+                          GestureDetector(onTap: () => Navigator.of(context).pop()),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).dialogBackgroundColor,
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                              ),
+                              child: Column(
+                                children: [
+                                  Builder(
+                                    builder: (context) {
+                                      return Column(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(16),
+                                            width: double.infinity,
+                                            child: Text("收藏超过" + bookmarkLevels[selectedLevelsIndex] + "的插画"),
+                                          ),
+                                          Slider(
+                                            min: 0,
+                                            max: bookmarkLevels.length.roundToDouble() - 1,
+                                            label: bookmarkLevels[selectedLevelsIndex],
+                                            onChanged: (double value) {
+                                              selectedLevelsIndex = value.round();
+                                              (context as Element).markNeedsBuild();
+                                            },
+                                            divisions: bookmarkLevels.length - 1,
+                                            value: selectedLevelsIndex.roundToDouble(),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                  // 取消按钮
+                                  Container(
+                                    width: double.infinity,
+                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    padding: const EdgeInsets.only(top: 8),
+                                    child: CupertinoButton(
+                                      color: Theme.of(context).cardColor,
+                                      borderRadius: BorderRadius.zero,
+                                      child: Text(
+                                        "确定",
+                                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                                      ),
+                                      onPressed: () {
+                                        _provider.setIllusts(null);
+                                        refresh(
+                                            label:
+                                                "${_textController.text} ${bookmarkLevels[selectedLevelsIndex]}users入り");
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
               tooltip: "more",
             ),
           ],
@@ -100,8 +190,8 @@ class SearchResultPageState extends State<SearchResultPage> {
     );
   }
 
-  Future refresh() async {
-    var result = await ApiSearch().searchIllust(searchWord: _textController.value.text);
+  Future refresh({String? label}) async {
+    var result = await ApiSearch().searchIllust(searchWord: label ?? _textController.value.text);
     _provider.setIllusts(result.illusts);
     _provider.setNextUrl(result.nextUrl);
   }
@@ -126,7 +216,7 @@ class _SearchResultProvider with ChangeNotifier {
   List<CommonIllust>? illusts;
   String? nextUrl;
 
-  void setIllusts(List<CommonIllust> illusts) {
+  void setIllusts(List<CommonIllust>? illusts) {
     this.illusts = illusts;
     notifyListeners();
   }

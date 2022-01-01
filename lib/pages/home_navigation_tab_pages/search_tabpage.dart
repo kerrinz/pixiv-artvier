@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -57,9 +59,12 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
             builder: (BuildContext context, List<TrendTags>? tags, Widget? child) {
               if (tags == null) {
                 // loading
-                return Container(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
+                return SingleChildScrollView(
+                  child: Container(
+                    height: min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
+                  ),
                 );
               }
               return TrendingTagsGrid(
