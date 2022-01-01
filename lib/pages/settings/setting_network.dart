@@ -105,36 +105,59 @@ class SettingNetworkPageState extends State<SettingNetworkPage> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: const Text("自定义代理"),
-                  content: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      TextField(
-                        autofocus: true,
-                        controller: _hostController,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          hintText: "${CONSTANTS.proxy_default_host}（本机）",
-                          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                          isCollapsed: true, // 高度包裹，不会存在默认高度
+                  content: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            const Expanded(flex: 1, child: Text("IP地址：")),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                autofocus: false,
+                                controller: _hostController,
+                                keyboardType: TextInputType.text,
+                                textAlign: TextAlign.end,
+                                decoration: const InputDecoration(
+                                  hintText: "${CONSTANTS.proxy_default_host}（本机）",
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                                  isCollapsed: true, // 高度包裹，不会存在默认高度
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      TextField(
-                        autofocus: false,
-                        controller: _portController,
-                        keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: false),
-                        decoration: const InputDecoration(
-                          hintText: CONSTANTS.proxy_default_port,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                          isCollapsed: true, // 高度包裹，不会存在默认高度
+                        Row(
+                          children: [
+                            const Expanded(child: Text("端口：")),
+                            Expanded(
+                              child: TextField(
+                                autofocus: false,
+                                controller: _portController,
+                                keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: false),
+                                textAlign: TextAlign.end,
+                                decoration: const InputDecoration(
+                                  hintText: CONSTANTS.proxy_default_port,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                                  isCollapsed: true, // 高度包裹，不会存在默认高度
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   actions: <Widget>[
                     TextButton(
                       child: const Text("取消"),
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () {
+                        // 退回原来的值
+                        _hostController.text = NetworkStore.getProxyHost() ?? "";
+                        _portController.text = NetworkStore.getProxyPort() ?? "";
+                        Navigator.of(context).pop();
+                      },
                     ),
                     TextButton(
                       child: const Text("保存"),
