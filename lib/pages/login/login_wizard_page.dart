@@ -22,7 +22,7 @@ class LoginWizardPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Text("Pixgem", style: TextStyle(fontSize: 32)),
             ),
-            const Text.rich(TextSpan(text: "请使用代理软件登录")),
+            const Text.rich(TextSpan(text: "（代理设置不对登录生效）")),
             Row(
               children: [
                 Expanded(child: Container()),
