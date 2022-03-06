@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pixgem/main_paging.dart';
-import 'package:pixgem/pages/settings/setting_download.dart';
-import 'package:pixgem/pages/settings/setting_network.dart';
+import 'package:pixgem/pages/illust/download_manage/download_manage_page.dart';
+import 'package:pixgem/pages/illust/history/history_page.dart';
+import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
+import 'package:pixgem/pages/illust/leaderboard/illust_leaderboard_page.dart';
+import 'package:pixgem/pages/illust/preview/illust_preview_page.dart';
+import 'package:pixgem/pages/main_navigation.dart';
+import 'package:pixgem/pages/setting/download/download_setting.dart';
+import 'package:pixgem/pages/setting/network/network_setting.dart';
 import 'package:provider/provider.dart';
 import 'booting_page.dart';
-import 'pages/artworks/artworks_detail_page.dart';
-import 'pages/artworks/artworks_leaderboard_page.dart';
-import 'pages/artworks/download_manage_page.dart';
-import 'pages/artworks/preview_artworks_page.dart';
-import 'pages/artworks/view_history.dart';
-import 'pages/login/account_manage_page.dart';
+import 'pages/account/account_manage/account_manage_page.dart';
 import 'pages/login/login_by_web_page.dart';
 import 'pages/login/login_wizard_page.dart';
-import 'pages/search/search_result_page.dart';
-import 'pages/settings/setting_current_account.dart';
-import 'pages/user/user_detail_page.dart';
-import 'pages/user/user_following_page.dart';
+import 'pages/search/result/search_result_page.dart';
+import 'pages/user/user_detail/user_detail_page.dart';
+import 'pages/user/following/user_following_page.dart';
 import 'store/global.dart';
-import 'pages/comments_page.dart';
-import 'pages/settings/setting_theme.dart';
-import 'pages/user/my_bookmarks.dart';
+import 'pages/comment/comments_page.dart';
+import 'pages/setting/theme/theme_setting.dart';
+import 'pages/user/bookmark/my_bookmarks.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,7 +86,7 @@ class MyAppState extends State<MyApp> {
             title: 'Pixgem',
             onGenerateRoute: (RouteSettings settings) {
               var routes = <String, WidgetBuilder>{
-                "main": (context) => const MainPaging(),
+                "main": (context) => const MainNavigation(),
                 "login_wizard": (context) => const LoginWizardPage(),
                 "login_web": (context) => const LoginWebPage(),
                 "artworks_leaderboard": (context) => const ArtworksLeaderboardPage(),
@@ -98,10 +97,9 @@ class MyAppState extends State<MyApp> {
                 "user_detail": (context) => UserDetailPage(settings.arguments!),
                 "search_result": (context) => SearchResultPage(settings.arguments!),
                 "my_bookmarks": (context) => MyBookmarksPage(settings.arguments),
-                "view_history": (context) => ViewHistory(),
+                "view_history": (context) => ViewHistoryPage(),
                 "account_manage": (context) => const AccountManagePage(),
                 "download_manage": (context) => const DownloadManagePage(),
-                "setting_current_account": (context) => const SettingCurrentAccountPage(),
                 "setting_download": (context) => const SettingDownload(),
                 "setting_theme": (context) => const SettingThemePage(),
                 "setting_network": (context) => const SettingNetworkPage(),
