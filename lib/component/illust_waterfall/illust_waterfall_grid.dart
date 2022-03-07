@@ -76,15 +76,17 @@ class IllustWaterfallGridState extends State<IllustWaterfallGrid> {
       child: IllustWaterfallCard(
         illust: widget.artworkList[index],
         isBookmarked: widget.artworkList[index].isBookmarked,
-        onTap: () => Navigator.of(context).pushNamed("artworks_detail",
-            arguments: ArtworkDetailModel(
-                list: widget.artworkList,
-                index: index,
-                callback: (int index, bool isBookmark) {
-                  // 回调方法，传给详情页
-                  widget.artworkList[index].isBookmarked = isBookmark;
-                  setState(() {});
-                })),
+        onTap: () => widget.artworkList[index].restrict == 2
+            ? Fluttertoast.showToast(msg: "该图片已被删除或不公开", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0)
+            : Navigator.of(context).pushNamed("artworks_detail",
+                arguments: ArtworkDetailModel(
+                    list: widget.artworkList,
+                    index: index,
+                    callback: (int index, bool isBookmark) {
+                      // 回调方法，传给详情页
+                      widget.artworkList[index].isBookmarked = isBookmark;
+                      setState(() {});
+                    })),
         onTapBookmark: () {
           var item = widget.artworkList[index];
           postBookmark(item.id.toString(), item.isBookmarked).then((value) {
