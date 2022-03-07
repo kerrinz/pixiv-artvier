@@ -122,8 +122,9 @@ class User extends Object {
   @JsonKey(name: 'profile_image_urls')
   Profile_image_urls profileImageUrls;
 
+  /// 已删除或不公开的图片会不存在此字段
   @JsonKey(name: 'is_followed')
-  bool isFollowed;
+  bool? isFollowed;
 
   User(this.id,this.name,this.account,this.profileImageUrls,this.isFollowed,);
 

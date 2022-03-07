@@ -44,10 +44,6 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
         onlyOneScrollInBody: true,
         controller: scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          List<Widget> tabs = [];
-          _tabsMap.forEach((key, value) {
-            tabs.add(Tab(text: value));
-          });
           return [
             SliverAppBar(
               pinned: true,
@@ -58,7 +54,12 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
                 indicatorSize: TabBarIndicatorSize.label,
                 controller: _tabController,
                 isScrollable: true,
-                tabs: tabs,
+                tabs: [
+                  for (String name in _tabsMap.values)
+                    Tab(
+                      text: name,
+                    ),
+                ],
               ),
               actions: [
                 IconButton(
@@ -78,24 +79,23 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
         },
         body: Builder(
           builder: (context) {
-            List<IllustGridTabPage> pages = [];
-            _tabsMap.forEach((mode, text) {
-              pages.add(IllustGridTabPage(
-                physics: const BouncingScrollPhysics(),
-                onRefresh: () async {
-                  return await ApiIllusts().getIllustRanking(mode: mode).catchError((onError) {
-                    Fluttertoast.showToast(msg: "获取排行失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                  });
-                },
-                onLazyLoad: (String nextUrl) async {
-                  var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-                  return CommonIllustList.fromJson(result);
-                },
-              ));
-            });
             return TabBarView(
               controller: _tabController,
-              children: pages,
+              children: [
+                for (String mode in _tabsMap.keys)
+                  IllustGridTabPage(
+                    physics: const BouncingScrollPhysics(),
+                    onRefresh: () async {
+                      return await ApiIllusts().getIllustRanking(mode: mode).catchError((onError) {
+                        Fluttertoast.showToast(msg: "获取排行失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                      });
+                    },
+                    onLazyLoad: (String nextUrl) async {
+                      var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
+                      return CommonIllustList.fromJson(result);
+                    },
+                  ),
+              ],
             );
           },
         ),

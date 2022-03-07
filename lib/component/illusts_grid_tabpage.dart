@@ -9,24 +9,24 @@ import 'package:provider/provider.dart';
 typedef IllustRefreshCallback = Future<CommonIllustList> Function();
 typedef IllustLazyLoadCallback = Future<CommonIllustList> Function(String nextUrl);
 
-/* 适用于放在TabView里的插画列表页面
- * @parma
- *    scrollController
- * @required parma
- *    onLazyLoad(String nextUrl)
- *    onRefresh()
- *
- * For example:
-    IllustGridTabPage(
-      onRefresh: () async {
-        return await ApiNewArtWork().getFollowsNewIllusts(ApiNewArtWork.restrict_all);
-      },
-      onLazyLoad: (String nextUrl) async {
-        var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-        return CommonIllustList.fromJson(result);
-      },
-    ),
- */
+/// 适用于放在TabView里的插画列表页面
+/// @parma
+///    scrollController
+/// @required parma
+///    onLazyLoad(String nextUrl)
+///    onRefresh()
+///
+/// For example:
+///  IllustGridTabPage(
+///    onRefresh: () async {
+///      return await ApiNewArtWork().getFollowsNewIllusts(ApiNewArtWork.restrict_all);
+///    },
+///    onLazyLoad: (String nextUrl) async {
+///      var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
+///      return CommonIllustList.fromJson(result);
+///    },
+///  ),
+///
 class IllustGridTabPage extends StatefulWidget {
   final IllustLazyLoadCallback onLazyLoad; // 懒加载
   final IllustRefreshCallback onRefresh; // 刷新（包含首次加载）
@@ -37,6 +37,7 @@ class IllustGridTabPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => IllustGridTabPageState();
 
+  /// 适用于放在TabView里的插画列表页面
   const IllustGridTabPage({
     Key? key,
     required this.onLazyLoad,
@@ -49,7 +50,7 @@ class IllustGridTabPage extends StatefulWidget {
 
 class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeepAliveClientMixin {
   final IllustListProvider _provider = IllustListProvider();
-  String? nextUrl;
+  String? nextUrl; // 下一页的地址
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +92,10 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
                 if (nextUrl == null) {
                   return Fluttertoast.showToast(msg: "已经加载到底了", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
                 }
-                var moreIllustList = await widget.onLazyLoad(nextUrl!); // 懒加载传入下一页地址
+                CommonIllustList moreIllustList = await widget.onLazyLoad(nextUrl!); // 懒加载传入下一页地址
+                nextUrl = moreIllustList.nextUrl; // 替换新的nextUrl
                 provider.addNextIllust(list: moreIllustList.illusts);
-                setState(() {});
+                (context as Element).markNeedsBuild();
               },
               scrollController: widget.scrollController,
             );
