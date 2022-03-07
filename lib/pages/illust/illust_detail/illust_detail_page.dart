@@ -297,7 +297,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
               Padding(
                 padding: const EdgeInsets.only(right: 4.0, left: 4.0),
                 child: FollowButton(
-                  isFollowed: info.user.isFollowed,
+                  isFollowed: info.user.isFollowed!,
                   userId: info.user.id.toString(),
                 ),
               ),

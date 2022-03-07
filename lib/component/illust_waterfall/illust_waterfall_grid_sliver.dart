@@ -13,8 +13,11 @@ class IllustWaterfallGridSliver extends StatefulWidget {
   final List<CommonIllust> artworkList; // 图片含基本信息的列表
   final Function onLazyLoad; // 触发懒加载（加载更多）的时候调用
   final int? limit; // 列表项的极限数量，为空则表示不限
+  final ScrollController? scrollController;
+  final ScrollPhysics? physics;
 
-  const IllustWaterfallGridSliver({Key? key, required this.artworkList, required this.onLazyLoad, this.limit})
+  const IllustWaterfallGridSliver(
+      {Key? key, required this.artworkList, required this.onLazyLoad, this.limit, this.scrollController, this.physics})
       : super(key: key);
 
   @override
@@ -22,35 +25,6 @@ class IllustWaterfallGridSliver extends StatefulWidget {
 }
 
 class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
-  bool isFastScroll = false; // 是否处于快速滚动时
-
-  bool notificationFunction(Notification notification) {
-    ///通知类型
-    switch (notification.runtimeType) {
-      case ScrollStartNotification:
-        // print("开始滚动");
-
-        ///在这里更新标识 刷新页面 不加载图片
-        isFastScroll = true;
-        break;
-      case ScrollUpdateNotification:
-        // print("正在滚动");
-        break;
-      case ScrollEndNotification:
-        // print("滚动停止");
-
-        ///在这里更新标识 刷新页面 加载图片
-        setState(() {
-          isFastScroll = false;
-        });
-        break;
-      case OverscrollNotification:
-        // print("滚动到边界");
-        break;
-    }
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
     return SliverWaterfallFlow(
@@ -103,15 +77,17 @@ class IllustWaterfallGridSliverState extends State<IllustWaterfallGridSliver> {
       child: IllustWaterfallCard(
         illust: widget.artworkList[index],
         isBookmarked: widget.artworkList[index].isBookmarked,
-        onTap: () => Navigator.of(context).pushNamed("artworks_detail",
-            arguments: ArtworkDetailModel(
-                list: widget.artworkList,
-                index: index,
-                callback: (int index, bool isBookmark) {
-                  // 回调方法，传给详情页
-                  widget.artworkList[index].isBookmarked = isBookmark;
-                  setState(() {});
-                })),
+        onTap: () => widget.artworkList[index].restrict == 2
+            ? Fluttertoast.showToast(msg: "该图片已被删除或不公开", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0)
+            : Navigator.of(context).pushNamed("artworks_detail",
+                arguments: ArtworkDetailModel(
+                    list: widget.artworkList,
+                    index: index,
+                    callback: (int index, bool isBookmark) {
+                      // 回调方法，传给详情页
+                      widget.artworkList[index].isBookmarked = isBookmark;
+                      setState(() {});
+                    })),
         onTapBookmark: () {
           var item = widget.artworkList[index];
           postBookmark(item.id.toString(), item.isBookmarked).then((value) {
