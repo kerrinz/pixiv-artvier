@@ -70,7 +70,8 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                               child: ChangeNotifierProvider(
                                 create: (BuildContext context) => _providerComments,
                                 child: Consumer(
-                                  builder: (BuildContext context, ListLoadmoreProvider<Comments> provider, Widget? child) {
+                                  builder:
+                                      (BuildContext context, ListLoadmoreProvider<Comments> provider, Widget? child) {
                                     if (provider.list == null) {
                                       return Container(
                                         alignment: Alignment.center,
@@ -133,37 +134,44 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
           ],
         ),
         // 悬浮收藏按钮
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            postBookmark(info).then((value) {
-              Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-              widget.model.callback(widget.model.index, _provider.isBookmarked); // 执行回调，让上级列表更新收藏状态
-            }).onError((error, stackTrace) {
-              Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+        floatingActionButton: Builder(builder: (context) {
+          return FloatingActionButton(
+            onPressed: () {
+              postBookmark(info).then((value) {
+                Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                widget.model.callback(widget.model.index, _provider.isBookmarked); // 执行回调，让上级列表更新收藏状态
+                (context as Element).markNeedsBuild();
+              }).onError((error, stackTrace) {
+                Fluttertoast.showToast(
+                    msg: "操作失败！可能已经${_provider.isBookmarked ? "取消" : ""}收藏了",
+                    toastLength: Toast.LENGTH_SHORT,
+                    fontSize: 16.0);
+                // Fluttertoast.showToast(msg: "操作失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
               });
-          },
-          backgroundColor: Colors.grey.shade50,
-          child: Selector(
-            builder: (BuildContext context, bool? isBookmarked, Widget? child) {
-              bool flag; // 在获取新数据前后对是否收藏的判断依据
-              if (isBookmarked == null) {
-                // 未加载新数据，使用传递的旧数据
-                flag = info.isBookmarked;
-              } else {
-                // 已获取到新数据，使用新的数据
-                flag = isBookmarked;
-              }
-              return Icon(
-                flag ? Icons.favorite : Icons.favorite_border_outlined,
-                color: flag ? Colors.red : Colors.grey,
-                size: 28,
-              );
             },
-            selector: (context, IsBookmarkedProvider provider) {
-              return provider.isBookmarked;
-            },
-          ),
-        ),
+            backgroundColor: Colors.grey.shade50,
+            child: Selector(
+              builder: (BuildContext context, bool? isBookmarked, Widget? child) {
+                bool flag; // 在获取新数据前后对是否收藏的判断依据
+                if (isBookmarked == null) {
+                  // 未加载新数据，使用传递的旧数据
+                  flag = info.isBookmarked;
+                } else {
+                  // 已获取到新数据，使用新的数据
+                  flag = isBookmarked;
+                }
+                return Icon(
+                  flag ? Icons.favorite : Icons.favorite_border_outlined,
+                  color: flag ? Colors.red : Colors.grey,
+                  size: 28,
+                );
+              },
+              selector: (context, IsBookmarkedProvider provider) {
+                return provider.isBookmarked;
+              },
+            ),
+          );
+        }),
       ),
     );
   }
@@ -328,7 +336,8 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                           flex: 1,
                           child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                             const Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
-                            Text(" " + info.totalView.toString(), style: const TextStyle(color: Colors.grey, fontSize: 14)),
+                            Text(" " + info.totalView.toString(),
+                                style: const TextStyle(color: Colors.grey, fontSize: 14)),
                           ]),
                         ),
                       ],
@@ -472,7 +481,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
 /// @param list
 ///
 class ArtworkDetailModel {
-  List<CommonIllust> list; // 作品列表，
+  List<CommonIllust> list; // 作品列表
   int index; // 当前浏览作品的索引
   Function(int index, bool isBookmarked) callback; // 执行回调，让上级列表更新收藏状态
 

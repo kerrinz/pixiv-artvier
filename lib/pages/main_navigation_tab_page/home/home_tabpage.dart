@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/illusts_provider.dart';
-import 'package:pixgem/component/illust_waterfall/illust_waterfall_grid_sliver.dart';
+import 'package:pixgem/component/illust_waterfall/illust_waterfall_grid.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
@@ -24,7 +24,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State with AutomaticKeepAliveClientMixin {
   int size = 20;
   bool _isLoadingMore = false; // 是否正在加载更多数据（防止重复获取）
-  final ListProvider _listProvider = ListProvider();
+  final ListProvider _listProvider = ListProvider(); // 排行榜数据
   final IllustListProvider _illustListProvider = IllustListProvider();
   ScrollController controller = ScrollController();
   String? nextUrl; // 下一页的地址
@@ -172,9 +172,9 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                   ),
                 ),
                 // 推荐列表
-                Selector(
-                  builder: (BuildContext context, List<CommonIllust>? artworkList, Widget? child) {
-                    if (artworkList == null) {
+                Consumer(
+                  builder: (BuildContext context, IllustListProvider provider, Widget? child) {
+                    if (provider.list == null) {
                       return SliverToBoxAdapter(
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -183,9 +183,9 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                         ),
                       );
                     }
-                    return IllustWaterfallGridSliver(
+                    return IllustWaterfallGrid.sliver(
                       // 普通网格布局（图片）
-                      artworkList: artworkList,
+                      artworkList: provider.list ?? [],
                       onLazyLoad: () {
                         // 不在加载中才能获取下一页的数据，以防重复获取同页数据
                         if (!_isLoadingMore) {
@@ -196,9 +196,6 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                         }
                       },
                     );
-                  },
-                  selector: (context, IllustListProvider provider) {
-                    return provider.list;
                   },
                 ),
               ],
@@ -305,7 +302,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                                     index: index,
                                     callback: (int index, bool isBookmarked) {
                                       _listProvider.rankingList[index].isBookmarked = isBookmarked;
-                                      setState(() {});
+                                      // (context as Element).markNeedsBuild();
                                     }));
                           },
                         ),
@@ -353,4 +350,3 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 }
-

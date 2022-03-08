@@ -7,7 +7,7 @@ class IllustWaterfallCard extends StatefulWidget {
   final CommonIllust illust;
   final bool isBookmarked; // 是否被收藏
   final Function onTap; // 点击卡片的事件
-  final Function onTapBookmark; // 点击收藏的事件
+  final Function onTapBookmark; // 点击收藏的事件，会自动刷新收藏按钮的UI
 
   @override
   State<StatefulWidget> createState() => IllustWaterfallCardState();
@@ -58,18 +58,23 @@ class IllustWaterfallCardState extends State<IllustWaterfallCard> {
                   ),
                 ),
                 // 收藏按钮
-                Positioned(
-                  right: 4,
-                  bottom: 4,
-                  child: GestureDetector(
-                    onTap: () => widget.onTapBookmark(),
-                    child: Icon(
-                      widget.illust.isBookmarked ? Icons.favorite : Icons.favorite_rounded,
-                      color: widget.illust.isBookmarked ? Colors.red.shade600 : Colors.grey,
-                      size: 32,
+                Builder(builder: (BuildContext context) {
+                  return Positioned(
+                    right: 4,
+                    bottom: 4,
+                    child: GestureDetector(
+                      onTap: () async {
+                        await widget.onTapBookmark();
+                        (context as Element).markNeedsBuild();
+                      },
+                      child: Icon(
+                        widget.illust.isBookmarked ? Icons.favorite : Icons.favorite_rounded,
+                        color: widget.illust.isBookmarked ? Colors.red.shade600 : Colors.grey,
+                        size: 32,
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                }),
               ],
             ),
           ),
