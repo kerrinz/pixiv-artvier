@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/component/badge.dart';
 import 'package:pixgem/component/perference/perference_single_choise_panel.dart';
