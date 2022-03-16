@@ -1,6 +1,5 @@
 /*
 * TabBar实现吸附顶端效果所需的Delegate */
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TabBarDelegate extends SliverPersistentHeaderDelegate {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/pages/illust/download_manage/download_manage_page.dart';
 import 'package:pixgem/pages/illust/history/history_page.dart';
 import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
@@ -8,7 +9,9 @@ import 'package:pixgem/pages/illust/preview/illust_preview_page.dart';
 import 'package:pixgem/pages/main_navigation.dart';
 import 'package:pixgem/pages/setting/download/download_setting.dart';
 import 'package:pixgem/pages/setting/network/network_setting.dart';
+import 'package:pixgem/store/theme_store.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'booting_page.dart';
 import 'pages/account/account_manage/account_manage_page.dart';
 import 'pages/login/login_by_web_page.dart';
@@ -21,10 +24,10 @@ import 'pages/comment/comments_page.dart';
 import 'pages/setting/theme/theme_setting.dart';
 import 'pages/user/bookmark/my_bookmarks.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  GlobalStore.globalProvider = GlobalProvider();
-  // 其他数据在BootingPage里进行加载
+  // 启动之前加载高优先的数据，其他低优先度的数据在BootingPage里进行加载
+  await beforeRunApp();
   // 运行APP
   runApp(const MyApp());
   // 状态栏无前景色的沉浸式
@@ -32,7 +35,13 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 }
 
-/* 初始化一些APP全局设定，不加载内容 */
+beforeRunApp() async {
+  GlobalStore.globalProvider = GlobalProvider();
+  GlobalStore.globalSharedPreferences = await SharedPreferences.getInstance();
+  GlobalStore.globalProvider.setThemeMode(ThemeStore.getThemeMode(), false); // 提前得知主题模式（例如暗黑模式）
+}
+
+// 初始化一些APP全局设定，不加载内容
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -43,13 +52,9 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    // var mode = ThemeStore.getThemeMode() ?? MyThemeMode.AUTO;
     ThemeData themeDataLight = ThemeData(
-      brightness: Brightness.light,
-      primaryColorBrightness: Brightness.light,
-      // 控件亮度，影响上层文字颜色
       appBarTheme: const AppBarTheme(
-        // appbar专门特制
+        // appbar特制
         backgroundColor: Colors.white,
         titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
         toolbarTextStyle: TextStyle(color: Colors.black),
@@ -57,21 +62,19 @@ class MyAppState extends State<MyApp> {
       ),
       colorScheme: ColorScheme.light(
         secondary: Colors.deepOrangeAccent,
-        secondaryVariant: Colors.deepOrangeAccent.shade400,
+        secondaryContainer: Colors.deepOrangeAccent.shade400,
         onPrimary: Colors.white, // button文字图标颜色等
       ),
     );
     ThemeData themeDataDark = ThemeData(
-      brightness: Brightness.dark,
-      primaryColorBrightness: Brightness.dark,
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.grey.shade900,
       ),
       colorScheme: ColorScheme.dark(
         primary: Colors.cyan,
-        primaryVariant: Colors.cyan.shade700,
+        primaryContainer: Colors.cyan.shade700,
         secondary: Colors.orangeAccent,
-        secondaryVariant: Colors.orangeAccent.shade400,
+        secondaryContainer: Colors.orangeAccent.shade400,
         // onPrimary: Colors.black,
       ),
     );
