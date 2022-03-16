@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
 

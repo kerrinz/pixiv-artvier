@@ -31,7 +31,7 @@ class Badge extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             child: child,
           ),
-          splashColor: Theme.of(context).colorScheme.primaryVariant, // 长按渐渐覆盖区域的颜色
+          splashColor: Theme.of(context).colorScheme.primaryContainer, // 长按渐渐覆盖区域的颜色
           highlightColor: Colors.transparent,
         ),
       );

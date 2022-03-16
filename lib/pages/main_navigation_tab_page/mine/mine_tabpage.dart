@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/component/perference/preferences_navigator_item.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
-import 'package:pixgem/store/theme_store.dart';
 import 'package:provider/provider.dart';
 
 class MineTabPage extends StatefulWidget {
@@ -41,21 +41,41 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
             icon: const Icon(Icons.switch_account_outlined),
             tooltip: "多帐号管理",
           ),
-          Selector(
-            selector: (BuildContext context, GlobalProvider provider) {
-              return provider.themeMode;
-            },
-            builder: (BuildContext context, ThemeMode themeMode, Widget? child) {
-              int mode = ThemeStore.transferByThemeMode(themeMode);
-              mode = (mode + 1) % 3; // 下一个主题模式
+          Builder(
+            builder: (BuildContext context) {
+              // 当前所处的主题模式
+              bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
               return IconButton(
-                onPressed: () {
-                  GlobalStore.globalProvider.setThemeMode(ThemeStore.transferToThemeMode(mode), true);
+                onPressed: () async {
+                  // 如果APP主题正处于跟随系统设置的情况下
+                  if (GlobalStore.globalProvider.themeMode == ThemeMode.system) {
+                    bool isCancel = true; // 用户是否取消了变更主题的请求
+                    await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("提示"),
+                          content: const Text("切换模式将会关闭自动跟随系统，可以在主题设置里再次开启"),
+                          actions: <Widget>[
+                            TextButton(child: const Text("取消"), onPressed: () => Navigator.pop(context)),
+                            TextButton(
+                              child: const Text("切换"),
+                              onPressed: () {
+                                isCancel = false;
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    if (isCancel) return; // 取消则不变更主题模式
+                  }
+                  // 切换主题模式
+                  GlobalStore.globalProvider.setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark, true);
                 },
-                icon: Icon(themeMode == ThemeMode.light
-                    ? Icons.light_mode
-                    : (themeMode == ThemeMode.dark ? Icons.mode_night : Icons.brightness_auto)),
-                tooltip: "切换主题模式，A为自动",
+                icon: Icon(isDarkMode ? Icons.mode_night : Icons.light_mode),
+                tooltip: "切换${isDarkMode ? '亮色' : '暗黑'}模式",
               );
             },
           ),
@@ -116,7 +136,8 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
               // 设置项列表
               Builder(builder: (context) {
                 List<PreferencesNavigatorItem> preferencesItems = [
-                  const PreferencesNavigatorItem(icon: Icon(Icons.color_lens), text: "主题配置", routeName: "setting_theme"),
+                  const PreferencesNavigatorItem(
+                      icon: Icon(Icons.color_lens), text: "主题配置", routeName: "setting_theme"),
                   const PreferencesNavigatorItem(
                       icon: Icon(Icons.download_done), text: "图片保存方式", routeName: "setting_download"),
                   const PreferencesNavigatorItem(
