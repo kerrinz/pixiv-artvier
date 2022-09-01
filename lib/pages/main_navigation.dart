@@ -22,8 +22,8 @@ class MainNavigationState extends State<MainNavigation> {
   // 分页组
   final List<Widget> _pages = [
     const HomePage(),
-    const NewArtworksTabPage(),
     const SearchTabPage(),
+    const NewArtworksTabPage(),
     const MineTabPage(),
   ];
   final PageController _pageController = PageController();
@@ -59,11 +59,11 @@ class MainNavigationState extends State<MainNavigation> {
         bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页", tooltip: "首页"),
-            BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "新作/发现", tooltip: "新作"),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: "搜索", tooltip: "搜索"),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: "发现", tooltip: "发现"),
+            BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "动态", tooltip: "动态"),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: "我的", tooltip: "我的"),
           ],
-          fixedColor: Theme.of(context).colorScheme.secondary,
+          fixedColor: Theme.of(context).colorScheme.primary,
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
           onTap: (int index) {

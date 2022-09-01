@@ -9,8 +9,8 @@ import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
-import 'package:pixgem/request/api_base.dart';
-import 'package:pixgem/request/api_user.dart';
+import 'package:pixgem/api_app/api_base.dart';
+import 'package:pixgem/api_app/api_user.dart';
 import 'package:provider/provider.dart';
 
 import 'user_detail_provider.dart';

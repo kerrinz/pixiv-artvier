@@ -5,7 +5,7 @@ import 'package:pixgem/common_provider/list_loadmore_provider.dart';
 import 'package:pixgem/component/illust_waterfall/illust_waterfall_grid.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/illusts_search_result.dart';
-import 'package:pixgem/request/api_serach.dart';
+import 'package:pixgem/api_app/api_serach.dart';
 import 'package:provider/provider.dart';
 
 class SearchResultPage extends StatefulWidget {

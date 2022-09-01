@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/request/api_user.dart';
+import 'package:pixgem/api_app/api_user.dart';
 
 /// 关注或已关注的按钮
 ///

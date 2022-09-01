@@ -1,8 +1,8 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_response/user/user_previews_list.dart';
-import 'package:pixgem/request/api_base.dart';
-import 'package:pixgem/request/api_user.dart';
+import 'package:pixgem/api_app/api_base.dart';
+import 'package:pixgem/api_app/api_user.dart';
 
 import 'widget/user_previews_listview.dart';
 
