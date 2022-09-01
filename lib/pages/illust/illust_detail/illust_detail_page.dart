@@ -10,7 +10,7 @@ import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/pages/comment/comment_item_widget.dart';
-import 'package:pixgem/request/api_illusts.dart';
+import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:pixgem/store/history_store.dart';
 import 'package:provider/provider.dart';
 

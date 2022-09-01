@@ -4,8 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/component/illusts_grid_tabpage.dart';
 import 'package:pixgem/config/ranking_mode_constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/request/api_base.dart';
-import 'package:pixgem/request/api_illusts.dart';
+import 'package:pixgem/api_app/api_base.dart';
+import 'package:pixgem/api_app/api_illusts.dart';
 
 class ArtworksLeaderboardPage extends StatefulWidget {
   const ArtworksLeaderboardPage({Key? key}) : super(key: key);
@@ -19,15 +19,15 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
   ScrollController scrollController = ScrollController();
   // tab分页的对应模式与字段
   final Map<String, String> _tabsMap = {
-    RankingModeConstants.illust_day: "每日",
-    RankingModeConstants.illust_week: "每周",
-    RankingModeConstants.illust_month: "每月",
-    RankingModeConstants.illust_day_male: "男性向",
-    RankingModeConstants.illust_day_female: "女性向",
-    RankingModeConstants.illust_week_original: "原创",
-    RankingModeConstants.illust_week_rookie: "新人",
-    RankingModeConstants.illust_day_r18: "每日R18",
-    RankingModeConstants.illust_week_r18: "每周R18",
+    IllustRankingMode.daily: "每日",
+    IllustRankingMode.weekly: "每周",
+    IllustRankingMode.monthly: "每月",
+    IllustRankingMode.dailyMale: "男性向",
+    IllustRankingMode.dailyFemale: "女性向",
+    IllustRankingMode.weeklyOriginal: "原创",
+    IllustRankingMode.weeklyRookie: "新人",
+    IllustRankingMode.dailyR18: "每日R18",
+    IllustRankingMode.weeklyR18: "每周R18",
   };
 
   @override

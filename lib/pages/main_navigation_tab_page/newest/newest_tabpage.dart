@@ -2,8 +2,8 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/component/illusts_grid_tabpage.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/request/api_base.dart';
-import 'package:pixgem/request/api_new_artworks.dart';
+import 'package:pixgem/api_app/api_base.dart';
+import 'package:pixgem/api_app/api_new_artworks.dart';
 
 class NewArtworksTabPage extends StatefulWidget {
   const NewArtworksTabPage({Key? key}) : super(key: key);
@@ -16,9 +16,9 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late TabController _tabController;
   final List<Tab> _tabs = [
-    const Tab(text: "关注的新作"),
-    const Tab(text: "大家的新作"),
-    const Tab(text: "好P友的新作"),
+    const Tab(text: "关注"),
+    const Tab(text: "全站"),
+    const Tab(text: "好P友"),
   ];
 
   @override

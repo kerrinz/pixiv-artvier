@@ -21,10 +21,10 @@ class PreferencesNavigatorItem extends StatelessWidget {
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: icon ?? Container(),
                 ),
-                Text(text, style: const TextStyle(fontSize: 18)),
+                Text(text, style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary)),
               ],
             ),
           ],

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/list_loadmore_provider.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
-import 'package:pixgem/request/api_base.dart';
-import 'package:pixgem/request/api_illusts.dart';
+import 'package:pixgem/api_app/api_base.dart';
+import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:provider/provider.dart';
 
 import 'comment_item_widget.dart';
