@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/component/trending_tags_grid.dart';
 import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
-import 'package:pixgem/request/api_serach.dart';
+import 'package:pixgem/api_app/api_serach.dart';
 import 'package:provider/provider.dart';
 
 import 'search_provider.dart';

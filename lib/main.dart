@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
+import 'package:pixgem/config/theme_colors.dart';
 import 'package:pixgem/pages/illust/download_manage/download_manage_page.dart';
 import 'package:pixgem/pages/illust/history/history_page.dart';
 import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
@@ -52,20 +53,7 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    ThemeData themeDataLight = ThemeData(
-      appBarTheme: const AppBarTheme(
-        // appbar特制
-        backgroundColor: Colors.white,
-        titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
-        toolbarTextStyle: TextStyle(color: Colors.black),
-        foregroundColor: Colors.black,
-      ),
-      colorScheme: ColorScheme.light(
-        secondary: Colors.deepOrangeAccent,
-        secondaryContainer: Colors.deepOrangeAccent.shade400,
-        onPrimary: Colors.white, // button文字图标颜色等
-      ),
-    );
+    ThemeData themeDataLight = PurpleTheme.themeData;
     ThemeData themeDataDark = ThemeData(
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.grey.shade900,

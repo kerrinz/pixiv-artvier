@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
-import 'package:pixgem/request/api_illusts.dart';
+import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 import 'illust_waterfall_card.dart';

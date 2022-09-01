@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/model_store/account_profile.dart';
-import 'package:pixgem/request/api_base.dart';
+import 'package:pixgem/api_app/api_base.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/download_store.dart';
 import 'package:pixgem/store/network_store.dart';

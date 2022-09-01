@@ -1,26 +1,40 @@
 /// 排行榜的模式
 /// */
 
-// ignore_for_file: constant_identifier_names
-
-class RankingModeConstants {
+/// 插画排行模式
+class IllustRankingMode {
   // 插画，以下几个《可选择》指定日期 &date=2021-07-11
-  static const String illust_day = "day";
-  static const String illust_day_male = "day_male";
-  static const String illust_day_female = "day_female";
-  static const String illust_week = "week";
-  static const String illust_week_original = "week_original";
-  static const String illust_week_rookie = "week_rookie";
-  static const String illust_month = "month";
-  // 插画，以下几个《必需》指定日期
-  static const String illust_day_r18 = "day_r18";
-  static const String illust_week_r18 = "week_r18";
-  static const String illust_day_male_r18 = "day_male_r18";
-  static const String illust_day_female_r18 = "day_female_r18";
+  static const String daily = "day";
+  static const String dailyMale = "day_male";
+  static const String dailyFemale = "day_female";
+  static const String weekly = "week";
+  /// 原创榜
+  static const String weeklyOriginal = "week_original";
+  /// 新人榜
+  static const String weeklyRookie = "week_rookie";
+  static const String monthly = "month";
+  /// 必须指定日期
+  static const String dailyR18 = "day_r18";
+  /// 必须指定日期
+  static const String weeklyR18 = "week_r18";
+  /// 必须指定日期
+  static const String dailyMaleR18 = "day_male_r18";
+  /// 必须指定日期
+  static const String dailyFemaleR18 = "day_female_r18";
+}
 
-  // 漫画，都可指定日期；额外还有 R18每日、R18每周，与插画的完全一致
-  static const String manga_day = "day_manga";
-  static const String manga_week_rookie = "week_rookie_manga";
-  static const String manga_week = "week_manga";
-  static const String manga_month = "month_manga";
+/// 小说排行模式
+class MangaRankingMode {
+  static const String daily = "day_manga";
+  static const String weekly = "week_manga";
+  static const String weeklyRookie = "week_rookie_manga";
+  static const String monthly = "month_manga";
+  /// 必须指定日期
+  static String get dailyR18 => IllustRankingMode.dailyR18;
+  /// 必须指定日期
+  static String get weeklyR18 => IllustRankingMode.dailyR18;
+  /// 必须指定日期
+  static String get dailyMaleR18 => IllustRankingMode.dailyR18;
+  /// 必须指定日期
+  static String get dailyFemaleR18 => IllustRankingMode.dailyR18;
 }

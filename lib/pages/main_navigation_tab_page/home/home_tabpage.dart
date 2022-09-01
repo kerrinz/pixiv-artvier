@@ -7,7 +7,7 @@ import 'package:pixgem/component/illust_waterfall/illust_waterfall_grid.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
-import 'package:pixgem/request/api_illusts.dart';
+import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:provider/provider.dart';
 
 import 'list_provider.dart';

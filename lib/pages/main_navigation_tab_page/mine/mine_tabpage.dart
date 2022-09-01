@@ -19,19 +19,19 @@ class MineTabPage extends StatefulWidget {
 
 class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientMixin {
   final List<FunctionCardModel> _cards = [
-    FunctionCardModel("流览历史", Icons.history, "view_history", null),
-    FunctionCardModel("我的收藏", Icons.favorite, "my_bookmarks", GlobalStore.currentAccount?.user.id),
-    FunctionCardModel("我的关注", Icons.star, "user_following", GlobalStore.currentAccount?.user.id),
-    FunctionCardModel("我的下载", Icons.download, "download_manage", null),
+    FunctionCardModel("足迹", Icons.history, "view_history", null),
+    FunctionCardModel("收藏", Icons.favorite, "my_bookmarks", GlobalStore.currentAccount?.user.id),
+    FunctionCardModel("关注", Icons.star, "user_following", GlobalStore.currentAccount?.user.id),
+    FunctionCardModel("下载", Icons.download, "download_manage", null),
   ];
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         actions: [
           IconButton(
@@ -95,13 +95,9 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
               // 用户简卡
               Container(child: _buildUserCard(context)),
               // 功能卡片
-              Card(
-                elevation: 1.5,
-                margin: const EdgeInsets.all(8.0),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                ),
-                clipBehavior: Clip.antiAlias,
+              Container(
+                color: Theme.of(context).colorScheme.surface,
+                margin: const EdgeInsets.symmetric(vertical: 6.0),
                 child: GridView.builder(
                   controller: ScrollController(keepScrollOffset: false),
                   shrinkWrap: true,
@@ -112,7 +108,7 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                   itemCount: _cards.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Material(
-                      color: Theme.of(context).cardColor,
+                      color: Theme.of(context).colorScheme.surface,
                       child: InkWell(
                         onTap: () {
                           Navigator.pushNamed(context, _cards[index].navigatorName, arguments: _cards[index].argument);
@@ -123,9 +119,14 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Icon(_cards[index].assetsImageUrl, size: 22),
+                              child: Icon(_cards[index].assetsImageUrl,
+                                  size: 22, color: Theme.of(context).colorScheme.primary),
                             ),
-                            Text(_cards[index].text, style: const TextStyle(fontSize: 14)),
+                            Text(_cards[index].text,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                           ],
                         ),
                       ),
@@ -136,15 +137,24 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
               // 设置项列表
               Builder(builder: (context) {
                 List<PreferencesNavigatorItem> preferencesItems = [
-                  const PreferencesNavigatorItem(
-                      icon: Icon(Icons.color_lens), text: "主题配置", routeName: "setting_theme"),
-                  const PreferencesNavigatorItem(
-                      icon: Icon(Icons.download_done), text: "图片保存方式", routeName: "setting_download"),
-                  const PreferencesNavigatorItem(
-                      icon: Icon(Icons.web_asset_rounded), text: "代理和图片源", routeName: "setting_network"),
+                  PreferencesNavigatorItem(
+                      icon: Icon(Icons.color_lens, color: Theme.of(context).colorScheme.primary),
+                      text: "主题模式",
+                      routeName: "setting_theme"),
+                  PreferencesNavigatorItem(
+                      icon: Icon(Icons.download_done, color: Theme.of(context).colorScheme.primary),
+                      text: "保存方式",
+                      routeName: "setting_download"),
+                  PreferencesNavigatorItem(
+                      icon: Icon(Icons.web_asset_rounded, color: Theme.of(context).colorScheme.primary),
+                      text: "网络代理",
+                      routeName: "setting_network"),
                 ];
-                return Column(
-                  children: preferencesItems,
+                return Container(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: Column(
+                    children: preferencesItems,
+                  ),
                 );
               }),
             ],
@@ -162,7 +172,8 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
             GlobalStore.currentAccount!.user.name, GlobalStore.currentAccount!.user.profileImageUrls!.px170x170);
         Navigator.of(context).pushNamed("user_detail", arguments: user);
       },
-      child: Padding(
+      child: Container(
+        color: Theme.of(context).colorScheme.surface,
         padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [

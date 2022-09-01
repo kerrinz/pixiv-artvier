@@ -7,7 +7,7 @@ import 'package:crypto/crypto.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
 import 'package:pixgem/model_store/account_profile.dart';
-import 'package:pixgem/request/api_base.dart';
+import 'package:pixgem/api_app/api_base.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
 
