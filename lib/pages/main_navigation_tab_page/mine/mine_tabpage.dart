@@ -149,6 +149,10 @@ class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientM
                       icon: Icon(Icons.web_asset_rounded, color: Theme.of(context).colorScheme.primary),
                       text: "网络代理",
                       routeName: "setting_network"),
+                  PreferencesNavigatorItem(
+                      icon: Icon(Icons.language, color: Theme.of(context).colorScheme.primary),
+                      text: "App语言",
+                      routeName: "setting_language"),
                 ];
                 return Container(
                   color: Theme.of(context).colorScheme.surface,

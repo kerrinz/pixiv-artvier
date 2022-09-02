@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/config/theme_colors.dart';
 import 'package:pixgem/pages/illust/download_manage/download_manage_page.dart';
@@ -9,6 +10,7 @@ import 'package:pixgem/pages/illust/leaderboard/illust_leaderboard_page.dart';
 import 'package:pixgem/pages/illust/preview/illust_preview_page.dart';
 import 'package:pixgem/pages/main_navigation.dart';
 import 'package:pixgem/pages/setting/download/download_setting.dart';
+import 'package:pixgem/pages/setting/language/language_setting.dart';
 import 'package:pixgem/pages/setting/network/network_setting.dart';
 import 'package:pixgem/store/theme_store.dart';
 import 'package:provider/provider.dart';
@@ -94,6 +96,7 @@ class MyAppState extends State<MyApp> {
                 "setting_download": (context) => const SettingDownload(),
                 "setting_theme": (context) => const SettingThemePage(),
                 "setting_network": (context) => const SettingNetworkPage(),
+                "setting_language": (context) => const LanguageSettingPage(),
               };
               WidgetBuilder builder = routes[settings.name]!;
               return MaterialPageRoute(builder: (context) => builder(context));
@@ -103,14 +106,21 @@ class MyAppState extends State<MyApp> {
             theme: themeDataLight,
             darkTheme: themeDataDark,
             themeMode: mode,
-            // localizationsDelegates: [
-            //   GlobalMaterialLocalizations.delegate,
-            //   GlobalWidgetsLocalizations.delegate,
-            // ],
-            // supportedLocales: [
-            //   const Locale('zh', 'CN'),
-            //   const Locale('en', 'US'),
-            // ],
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('zh', 'CN'),
+              Locale('en', 'US'),
+            ],
+            // 切换系统语言时的回调函数
+            localeListResolutionCallback: (locales, supportedLocales) {
+              if (locales == null) return const Locale('en', 'US'); // 获取不到系统语言时的默认App语言
+              for (Locale locale in locales) {
+                if (supportedLocales.contains(locale)) return locale;
+              }
+            },
           );
         },
       ),

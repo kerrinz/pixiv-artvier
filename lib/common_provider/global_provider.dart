@@ -1,4 +1,3 @@
-
 // 全局提供器
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_store/account_profile.dart';
@@ -12,6 +11,7 @@ class GlobalProvider with ChangeNotifier {
   ThemeMode themeMode = ThemeMode.system; // 主题模式，默认跟随系统
   int downloadMode = DownloadStore.MODE_GALLERY; // 下载保存图片模式
   Map<String, DownloadingIllust> downloadingIllust = {}; // 下载中的插画
+  Locale locale = const Locale('en', 'US'); // App语言
 
   // 是否已经登录（如果有用户信息，则证明登录过)
   bool get isLoggedIn => currentAccount != null;
@@ -36,6 +36,11 @@ class GlobalProvider with ChangeNotifier {
 
   void setDownloadingIllusts(Map<String, DownloadingIllust> map) {
     downloadingIllust = map;
+    notifyListeners();
+  }
+
+  void setLocale(Locale locale) {
+    this.locale = locale;
     notifyListeners();
   }
 }
