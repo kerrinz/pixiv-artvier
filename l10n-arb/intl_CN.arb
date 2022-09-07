@@ -1,0 +1,101 @@
+{
+  "@@last_modified": "2022-09-07T22:32:59.033509",
+  "navHome": "首页",
+  "@navHome": {
+    "description": "底部导航栏，首页",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "navDiscover": "发现",
+  "@navDiscover": {
+    "description": "底部导航栏，发现",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "navDynamic": "动态",
+  "@navDynamic": {
+    "description": "底部导航栏，动态",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "navProfile": "我的",
+  "@navProfile": {
+    "description": "底部导航栏，我的",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "illustrations": "插画",
+  "@illustrations": {
+    "description": "插画，用于选项",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "manga": "漫画",
+  "@manga": {
+    "description": "漫画，用于选项",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "novels": "小说",
+  "@novels": {
+    "description": "小说，用于选项",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "rankings": "排行榜",
+  "@rankings": {
+    "description": "功能组的排行榜按钮",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "dailyRankings": "每日排行",
+  "@dailyRankings": {
+    "description": "首页的每日排行组件的标题",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "recommended": "为你推荐",
+  "@recommended": {
+    "description": "首页的推荐组件的标题",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "more": "更多",
+  "@more": {
+    "description": "更多，用于选项",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "following": "关注",
+  "@following": {
+    "description": "关注",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "followers": "粉丝",
+  "@followers": {
+    "description": "粉丝",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "friends": "好P友",
+  "@friends": {
+    "description": "好P友",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  }
+}
