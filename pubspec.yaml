@@ -28,35 +28,36 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  dio: ^4.0.0 
-  json_annotation: ^4.0.1
-  provider: ^5.0.0
-  path_provider: ^2.0.1
-  shared_preferences: ^2.0.5
-  permission_handler: 8.1.6 # 权限管理
-#  flutter_easy_permission: ^1.1.1 # 权限管理
-  crypto: ^3.0.1
-  date_format: ^2.0.2
   cached_network_image: ^3.1.0
-  fluttertoast: ^8.0.8
-  webview_flutter: ^2.0.13
-  waterfall_flow: ^3.0.1 # 瀑布流
-  extended_nested_scroll_view: ^5.0.0
-  photo_view: ^0.13.0 # 图片预览
-  image_gallery_saver: ^1.7.1 # 图片保存
-  package_info: ^2.0.2 # 获取本App的信息
-#  flutter_downloader: 1.7.0 # 文件下载
-#  flutter_staggered_grid_view: ^0.4.0
+  crypto: ^3.0.1
   # The following adds the Cupertino Icons font to your application.flutter_downloader
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  date_format: ^2.0.2
+  dio: ^4.0.0 
+  extended_nested_scroll_view: ^5.0.0
+#  flutter_downloader: 1.7.0 # 文件下载
+#  flutter_staggered_grid_view: ^0.4.0
+  fluttertoast: ^8.0.8
+  image_gallery_saver: ^1.7.1 # 图片保存
+  intl: ^0.17.0
+  json_annotation: ^4.0.1
+  package_info: ^2.0.2 # 获取本App的信息
+  path_provider: ^2.0.1
+  permission_handler: 8.1.6 # 权限管理
+  photo_view: ^0.13.0 # 图片预览
+  provider: ^5.0.0
+  shared_preferences: ^2.0.5
+  waterfall_flow: ^3.0.1 # 瀑布流
+  webview_flutter: ^2.0.13
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.0.1 # flutter packages pub run build_runner build
-  json_serializable: ^4.1.1
   flutter_lints: ^1.0.4
+  intl_generator: ^0.3.0
+  json_serializable: ^6.3.1
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

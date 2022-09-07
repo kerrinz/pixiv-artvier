@@ -38,11 +38,15 @@ class LanguageSettingPageState<LanguageSettingPage> extends State {
                     },
                     widgets: <Widget> [
                       Text(
-                        "中文（简体）",
+                        "跟随系统（默认）",
                         style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
                       ),
                       Text(
-                        "英文（美国）",
+                        "简体中文",
+                        style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
+                      ),
+                      Text(
+                        "English(US)",
                         style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
                       ),
                     ],

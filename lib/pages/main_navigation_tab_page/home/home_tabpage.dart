@@ -53,7 +53,6 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                 snap: true,
                 title: const Text(
                   "Pixgem",
-                  style: TextStyle(fontSize: 18),
                 ),
                 // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
                 actions: <Widget>[
