@@ -10,14 +10,14 @@ import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
 
-class MineTabPage extends StatefulWidget {
-  const MineTabPage({Key? key}) : super(key: key);
+class ProfileTabPage extends StatefulWidget {
+  const ProfileTabPage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => MineTabPageState();
+  State<StatefulWidget> createState() => ProfileTabPageState();
 }
 
-class MineTabPageState extends State<MineTabPage> with AutomaticKeepAliveClientMixin {
+class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveClientMixin {
   final List<FunctionCardModel> _cards = [
     FunctionCardModel("足迹", Icons.history, "view_history", null),
     FunctionCardModel("收藏", Icons.favorite, "my_bookmarks", GlobalStore.currentAccount?.user.id),

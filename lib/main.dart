@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/config/theme_colors.dart';
+import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/pages/illust/download_manage/download_manage_page.dart';
 import 'package:pixgem/pages/illust/history/history_page.dart';
 import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
@@ -109,6 +110,7 @@ class MyAppState extends State<MyApp> {
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
+              LocalizationIntlDelegate(),
             ],
             supportedLocales: const [
               Locale('zh', 'CN'),
@@ -120,6 +122,7 @@ class MyAppState extends State<MyApp> {
               for (Locale locale in locales) {
                 if (supportedLocales.contains(locale)) return locale;
               }
+              return const Locale('en', 'US');
             },
           );
         },

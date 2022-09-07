@@ -1,0 +1,108 @@
+{
+  "@@last_modified": "2022-09-07T22:51:35.752665",
+  "navHome": "Home",
+  "@navHome": {
+    "description": "底部导航栏",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "navDiscover": "Discover",
+  "@navDiscover": {
+    "description": "底部导航栏",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "navDynamic": "Dynamic",
+  "@navDynamic": {
+    "description": "底部导航栏",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "navProfile": "Profile",
+  "@navProfile": {
+    "description": "底部导航栏",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "illustrations": "illustrations",
+  "@illustrations": {
+    "description": "作品类型选项",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "manga": "Manga",
+  "@manga": {
+    "description": "作品类型选项",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "novels": "Novels",
+  "@novels": {
+    "description": "作品类型选项",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "rankings": "Rankings",
+  "@rankings": {
+    "description": "功能组的按钮文字",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "dailyRankings": "Daily Rankings",
+  "@dailyRankings": {
+    "description": "首页的每日排行组件的标题",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "recommended": "Recommended",
+  "@recommended": {
+    "description": "首页的推荐组件的标题",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "more": "More",
+  "@more": {
+    "description": "更多",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "viewMore": "View more",
+  "@viewMore": {
+    "description": "查看更多",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "following": "Following",
+  "@following": {
+    "description": "用户属性之一，统计数量",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "followers": "Followers",
+  "@followers": {
+    "description": "用户属性之一，统计数量",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "friends": "Friends",
+  "@friends": {
+    "description": "用户属性之一，统计数量",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  }
+}
