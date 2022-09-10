@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'request/my_http_overrides.dart';
-import 'store/account_store.dart';
-import 'store/global.dart';
+import 'package:pixgem/request/my_http_overrides.dart';
+import 'package:pixgem/routes.dart';
+import 'package:pixgem/store/account_store.dart';
+import 'package:pixgem/store/global.dart';
 
 /// app启动的加载过渡页面，在这里会加载一些全局数据
 ///
@@ -46,7 +47,7 @@ class BootingPageState extends State<BootingPage> {
   void initState() {
     super.initState();
     initAppData().catchError((onError) {
-      Navigator.pushNamedAndRemoveUntil(context, "login_wizard", (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
     });
   }
 
@@ -58,10 +59,10 @@ class BootingPageState extends State<BootingPage> {
     String? id = AccountStore.getCurrentAccountId();
     if (id != null) {
       // 已登录
-      Navigator.pushNamedAndRemoveUntil(context, "main", (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
     } else {
       // 未登录
-      Navigator.pushNamedAndRemoveUntil(context, "login_wizard", (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
     }
   }
 }

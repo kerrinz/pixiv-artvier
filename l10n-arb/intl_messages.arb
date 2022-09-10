@@ -1,5 +1,12 @@
 {
-  "@@last_modified": "2022-09-07T22:51:35.752665",
+  "@@last_modified": "2022-09-08T20:09:19.062094",
+  "doubleBackToExit": "Double back to exit.",
+  "@doubleBackToExit": {
+    "description": "退出程序前的提示",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
   "navHome": "Home",
   "@navHome": {
     "description": "底部导航栏",
@@ -49,9 +56,23 @@
     "placeholders_order": [],
     "placeholders": {}
   },
+  "more": "More",
+  "@more": {
+    "description": "更多",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "viewMore": "View more",
+  "@viewMore": {
+    "description": "查看更多",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
   "rankings": "Rankings",
   "@rankings": {
-    "description": "功能组的按钮文字",
+    "description": "首页功能组按钮",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -66,20 +87,6 @@
   "recommended": "Recommended",
   "@recommended": {
     "description": "首页的推荐组件的标题",
-    "type": "text",
-    "placeholders_order": [],
-    "placeholders": {}
-  },
-  "more": "More",
-  "@more": {
-    "description": "更多",
-    "type": "text",
-    "placeholders_order": [],
-    "placeholders": {}
-  },
-  "viewMore": "View more",
-  "@viewMore": {
-    "description": "查看更多",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -101,6 +108,48 @@
   "friends": "Friends",
   "@friends": {
     "description": "用户属性之一，统计数量",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "history": "History",
+  "@history": {
+    "description": "用户功能",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "downloads": "Downloads",
+  "@downloads": {
+    "description": "功能项，下载",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "artworks": "Artworks",
+  "@artworks": {
+    "description": "功能项，用户的作品",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "collections": "Collections",
+  "@collections": {
+    "description": "功能项，用户的收藏",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "markers": "Markers",
+  "@markers": {
+    "description": "功能项，表示小说的书签",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "submitWork": "Submit Work",
+  "@submitWork": {
+    "description": "投稿新作品的按钮",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_store/downloading_illust.dart';
 import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
+import 'package:pixgem/routes.dart';
 import 'package:pixgem/store/download_store.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:pixgem/util/save_image_util.dart';
@@ -141,7 +142,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     splashColor: Colors.black12.withOpacity(0.15),
                     highlightColor: Colors.black12.withOpacity(0.1),
                     onTap: () {
-                      Navigator.of(context).pushNamed("artworks_detail",
+                      Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
                           arguments: ArtworkDetailModel(
                               list: [illusts[index].illust], index: 0, callback: (index, isBookmarked) {}));
                     },
@@ -226,9 +227,9 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     splashColor: Colors.black12.withOpacity(0.15),
                     highlightColor: Colors.black12.withOpacity(0.1),
                     onTap: () {
-                      Navigator.of(context).pushNamed("artworks_detail",
-                          arguments: ArtworkDetailModel(
-                              list: illusts, index: index, callback: (index, isBookmarked) {}));
+                      Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
+                          arguments:
+                              ArtworkDetailModel(list: illusts, index: index, callback: (index, isBookmarked) {}));
                     },
                   ),
                 ),
