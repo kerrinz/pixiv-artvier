@@ -6,6 +6,7 @@ import 'package:pixgem/component/perference/preferences_navigator_item.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/model_store/account_profile.dart';
+import 'package:pixgem/routes.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
@@ -19,10 +20,11 @@ class ProfileTabPage extends StatefulWidget {
 
 class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveClientMixin {
   final List<FunctionCardModel> _cards = [
-    FunctionCardModel("足迹", Icons.history, "view_history", null),
-    FunctionCardModel("收藏", Icons.favorite, "my_bookmarks", GlobalStore.currentAccount?.user.id),
-    FunctionCardModel("关注", Icons.star, "user_following", GlobalStore.currentAccount?.user.id),
-    FunctionCardModel("下载", Icons.download, "download_manage", null),
+    FunctionCardModel("足迹", Icons.history, RouteNames.mainNavigation.name, null),
+    FunctionCardModel("下载", Icons.download, RouteNames.downloadManage.name, null),
+    // FunctionCardModel("作品", Icons.favorite, RouteNames.myBookmarks.name, GlobalStore.currentAccount?.user.id),
+    FunctionCardModel("收藏", Icons.favorite, RouteNames.myBookmarks.name, GlobalStore.currentAccount?.user.id),
+    FunctionCardModel("关注", Icons.star, RouteNames.userFollowing.name, GlobalStore.currentAccount?.user.id),
   ];
 
   @override
@@ -36,7 +38,7 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed("account_manage");
+              Navigator.of(context).pushNamed(RouteNames.accountManage.name);
             },
             icon: const Icon(Icons.switch_account_outlined),
             tooltip: "多帐号管理",
@@ -140,19 +142,19 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
                   PreferencesNavigatorItem(
                       icon: Icon(Icons.color_lens, color: Theme.of(context).colorScheme.primary),
                       text: "主题模式",
-                      routeName: "setting_theme"),
+                      routeName: RouteNames.themeSettings.name),
                   PreferencesNavigatorItem(
                       icon: Icon(Icons.download_done, color: Theme.of(context).colorScheme.primary),
                       text: "保存方式",
-                      routeName: "setting_download"),
+                      routeName: RouteNames.downloadSettings.name),
                   PreferencesNavigatorItem(
                       icon: Icon(Icons.web_asset_rounded, color: Theme.of(context).colorScheme.primary),
                       text: "网络代理",
-                      routeName: "setting_network"),
+                      routeName: RouteNames.networkSettings.name),
                   PreferencesNavigatorItem(
                       icon: Icon(Icons.language, color: Theme.of(context).colorScheme.primary),
                       text: "App语言",
-                      routeName: "setting_language"),
+                      routeName: RouteNames.languageSettings.name),
                 ];
                 return Container(
                   color: Theme.of(context).colorScheme.surface,
@@ -174,7 +176,7 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
       onTap: () {
         var user = PreloadUserLeastInfo(int.parse(GlobalStore.currentAccount!.user.id),
             GlobalStore.currentAccount!.user.name, GlobalStore.currentAccount!.user.profileImageUrls!.px170x170);
-        Navigator.of(context).pushNamed("user_detail", arguments: user);
+        Navigator.of(context).pushNamed(RouteNames.userDetail.name, arguments: user);
       },
       child: Container(
         color: Theme.of(context).colorScheme.surface,

@@ -28,13 +28,19 @@ class LocalizationIntl {
   String get more => Intl.message('More', name: 'more', desc: '更多');
   String get viewMore => Intl.message('View more', name: 'viewMore', desc: '查看更多');
   // 首页
-  String get rankings => Intl.message('Rankings', name: 'rankings', desc: '功能组的按钮文字');
+  String get rankings => Intl.message('Rankings', name: 'rankings', desc: '首页功能组按钮');
   String get dailyRankings => Intl.message('Daily Rankings', name: 'dailyRankings', desc: '首页的每日排行组件的标题');
   String get recommended => Intl.message('Recommended', name: 'recommended', desc: '首页的推荐组件的标题');
-  // 用户信息
+  // Profile页面
   String get following => Intl.message('Following', name: 'following', desc: '用户属性之一，统计数量');
   String get followers => Intl.message('Followers', name: 'followers', desc: '用户属性之一，统计数量');
   String get friends => Intl.message('Friends', name: 'friends', desc: '用户属性之一，统计数量');
+  String get history => Intl.message('History', name: 'history', desc: '用户功能');
+  String get downloads => Intl.message('Downloads', name: 'downloads', desc: '功能项，下载');
+  String get artworks => Intl.message('Artworks', name: 'artworks', desc: '功能项，用户的作品');
+  String get collections => Intl.message('Collections', name: 'collections', desc: '功能项，用户的收藏');
+  String get markers => Intl.message('Markers', name: 'markers', desc: '功能项，表示小说的书签');
+  String get submitWork => Intl.message('Submit Work', name: 'submitWork', desc: '投稿新作品的按钮');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {

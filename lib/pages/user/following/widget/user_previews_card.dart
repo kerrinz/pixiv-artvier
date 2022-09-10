@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/user/common_user_previews.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
+import 'package:pixgem/routes.dart';
 
 /// 用户卡片类型
 enum UserPreviewsType { illust, novel }
@@ -94,7 +95,7 @@ class UserPreviewsCard extends StatelessWidget {
                 splashColor: Colors.black12.withOpacity(0.15),
                 highlightColor: Colors.black12.withOpacity(0.1),
                 onTap: () {
-                  Navigator.of(context).pushNamed("user_detail",
+                  Navigator.of(context).pushNamed(RouteNames.userDetail.name,
                       arguments: PreloadUserLeastInfo(user.user.id, user.user.name, user.user.profileImageUrls.medium));
                 },
               ),

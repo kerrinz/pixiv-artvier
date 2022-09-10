@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/request/oauth.dart';
+import 'package:pixgem/routes.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,7 @@ class AccountManagePageState extends State<AccountManagePage> {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed("login_wizard");
+                Navigator.of(context).pushNamed(RouteNames.wizard.name);
               },
               icon: const Icon(Icons.add),
               tooltip: "添加帐号",

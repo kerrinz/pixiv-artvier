@@ -11,6 +11,7 @@ import 'package:pixgem/model_response/illusts/illust_comments.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/pages/comment/comment_item_widget.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
+import 'package:pixgem/routes.dart';
 import 'package:pixgem/store/history_store.dart';
 import 'package:provider/provider.dart';
 
@@ -180,7 +181,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     return Consumer(builder: (BuildContext context, IsBookmarkedProvider provider, Widget? child) {
       return GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed("artworks_view", arguments: info);
+          Navigator.of(context).pushNamed(RouteNames.artworkImagesPreview.name, arguments: info);
         },
         child: CachedNetworkImage(
           imageUrl: info.imageUrls.large,
@@ -252,7 +253,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 flex: 1,
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamed("user_detail",
+                    Navigator.of(context).pushNamed(RouteNames.userDetail.name,
                         arguments:
                             PreloadUserLeastInfo(info.user.id, info.user.name, info.user.profileImageUrls.medium));
                   },
@@ -357,7 +358,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                       _tags.add(
                         InkWell(
                           onTap: () {
-                            Navigator.of(context).pushNamed("search_result", arguments: element.name);
+                            Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: element.name);
                           },
                           child: Text("#${element.name} ",
                               style: TextStyle(
@@ -414,7 +415,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
         ),
         InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed("artworks_comments", arguments: info.id.toString());
+            Navigator.of(context).pushNamed(RouteNames.comments.name, arguments: info.id.toString());
           },
           child: Container(
             width: double.infinity,

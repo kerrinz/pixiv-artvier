@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/component/trending_tags_grid.dart';
 import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
 import 'package:pixgem/api_app/api_serach.dart';
+import 'package:pixgem/routes.dart';
 import 'package:provider/provider.dart';
 
 import 'search_provider.dart';
@@ -111,7 +112,7 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
               ),
               onSubmitted: (value) {
                 // 跳转搜索结果页面
-                Navigator.of(context).pushNamed("search_result", arguments: value);
+                Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: value);
               },
               onChanged: (value) {
                 if (value == "") {

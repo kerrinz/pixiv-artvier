@@ -1,4 +1,3 @@
-
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,6 +7,7 @@ import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
+import 'package:pixgem/routes.dart';
 import 'package:provider/provider.dart';
 
 import 'list_provider.dart';
@@ -116,7 +116,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pushNamed("artworks_leaderboard");
+                            Navigator.of(context).pushNamed(RouteNames.leaderboard.name);
                           },
                           // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
                           child: Row(
@@ -293,7 +293,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                           splashColor: Colors.black12.withOpacity(0.15),
                           highlightColor: Colors.black12.withOpacity(0.1),
                           onTap: () {
-                            Navigator.of(context).pushNamed("artworks_detail",
+                            Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
                                 arguments: ArtworkDetailModel(
                                     list: rankingList,
                                     index: index,
