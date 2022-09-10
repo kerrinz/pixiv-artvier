@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
+import 'package:pixgem/routes.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 import 'illust_waterfall_card.dart';
@@ -103,7 +104,7 @@ class IllustWaterfallGrid extends StatelessWidget {
         isBookmarked: artworkList[index].isBookmarked,
         onTap: () => artworkList[index].restrict == 2
             ? Fluttertoast.showToast(msg: "该图片已被删除或不公开", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0)
-            : Navigator.of(context).pushNamed("artworks_detail",
+            : Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
                 arguments: ArtworkDetailModel(
                     list: artworkList,
                     index: index,
@@ -123,7 +124,8 @@ class IllustWaterfallGrid extends StatelessWidget {
               throw Exception("http status code is not 200.");
             }
           } catch (e) {
-            Fluttertoast.showToast(msg: "操作失败！可能已经${ item.isBookmarked ? "取消" : "" }收藏了", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+            Fluttertoast.showToast(
+                msg: "操作失败！可能已经${item.isBookmarked ? "取消" : ""}收藏了", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
           }
         },
       ),

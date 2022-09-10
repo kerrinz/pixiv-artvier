@@ -21,12 +21,18 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function> {
+    "artworks" : MessageLookupByLibrary.simpleMessage("Artworks"),
+    "collections" : MessageLookupByLibrary.simpleMessage("Collections"),
     "dailyRankings" : MessageLookupByLibrary.simpleMessage("Daily Rankings"),
+    "doubleBackToExit" : MessageLookupByLibrary.simpleMessage("Double back to exit."),
+    "downloads" : MessageLookupByLibrary.simpleMessage("Downloads"),
     "followers" : MessageLookupByLibrary.simpleMessage("Followers"),
     "following" : MessageLookupByLibrary.simpleMessage("Following"),
     "friends" : MessageLookupByLibrary.simpleMessage("Friends"),
+    "history" : MessageLookupByLibrary.simpleMessage("History"),
     "illustrations" : MessageLookupByLibrary.simpleMessage("illustrations"),
     "manga" : MessageLookupByLibrary.simpleMessage("Manga"),
+    "markers" : MessageLookupByLibrary.simpleMessage("Markers"),
     "more" : MessageLookupByLibrary.simpleMessage("More"),
     "navDiscover" : MessageLookupByLibrary.simpleMessage("Discover"),
     "navDynamic" : MessageLookupByLibrary.simpleMessage("Dynamic"),
@@ -35,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "novels" : MessageLookupByLibrary.simpleMessage("Novels"),
     "rankings" : MessageLookupByLibrary.simpleMessage("Rankings"),
     "recommended" : MessageLookupByLibrary.simpleMessage("Recommended"),
+    "submitWork" : MessageLookupByLibrary.simpleMessage("Submit Work"),
     "viewMore" : MessageLookupByLibrary.simpleMessage("View more")
   };
 }
