@@ -1,155 +1,218 @@
 {
-  "@@last_modified": "2022-09-08T20:09:19.062094",
-  "doubleBackToExit": "Double back to exit.",
-  "@doubleBackToExit": {
-    "description": "退出程序前的提示",
+  "@@last_modified": "2022-09-14T19:15:57.674636",
+  "doubleBackToExitPrompt": "Double back to confirm exit.",
+  "@doubleBackToExitPrompt": {
+    "description": "Prompt when click back on main page",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "navHome": "Home",
   "@navHome": {
-    "description": "底部导航栏",
+    "description": "BottomNavigationBar",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "navDiscover": "Discover",
   "@navDiscover": {
-    "description": "底部导航栏",
+    "description": "BottomNavigationBar",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "navDynamic": "Dynamic",
   "@navDynamic": {
-    "description": "底部导航栏",
+    "description": "BottomNavigationBar",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "navProfile": "Profile",
   "@navProfile": {
-    "description": "底部导航栏",
+    "description": "BottomNavigationBar",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "illustrations": "illustrations",
   "@illustrations": {
-    "description": "作品类型选项",
+    "description": "An option of artwork type",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "manga": "Manga",
   "@manga": {
-    "description": "作品类型选项",
+    "description": "An option of artwork type",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "novels": "Novels",
   "@novels": {
-    "description": "作品类型选项",
+    "description": "An option of artwork type",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "more": "More",
   "@more": {
-    "description": "更多",
+    "description": "",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "viewMore": "View more",
   "@viewMore": {
-    "description": "查看更多",
+    "description": "",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "rankings": "Rankings",
   "@rankings": {
-    "description": "首页功能组按钮",
+    "description": "Function group item.",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "dailyRankings": "Daily Rankings",
   "@dailyRankings": {
-    "description": "首页的每日排行组件的标题",
+    "description": "Title of ranking glance widget",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "recommended": "Recommended",
   "@recommended": {
-    "description": "首页的推荐组件的标题",
+    "description": "Title of recommended artwork list in home page",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "following": "Following",
   "@following": {
-    "description": "用户属性之一，统计数量",
+    "description": "Show number of following",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "followers": "Followers",
   "@followers": {
-    "description": "用户属性之一，统计数量",
+    "description": "Show number of followers",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "friends": "Friends",
   "@friends": {
-    "description": "用户属性之一，统计数量",
+    "description": "Show number of friends(好P友)",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "history": "History",
   "@history": {
-    "description": "用户功能",
+    "description": "Function group item",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "downloads": "Downloads",
   "@downloads": {
-    "description": "功能项，下载",
+    "description": "Name of button in function group",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "artworks": "Artworks",
   "@artworks": {
-    "description": "功能项，用户的作品",
+    "description": "Function group item. My created artwork",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "collections": "Collections",
   "@collections": {
-    "description": "功能项，用户的收藏",
+    "description": "Function group item. User favorite works",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "markers": "Markers",
   "@markers": {
-    "description": "功能项，表示小说的书签",
+    "description": "Function group item. Same as novel bookmark",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "submitWork": "Submit Work",
   "@submitWork": {
-    "description": "投稿新作品的按钮",
+    "description": "Submit new works",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "switchAccount": "Switch account",
+  "@switchAccount": {
+    "description": "A preference item",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "muteSettings": "Mute settings",
+  "@muteSettings": {
+    "description": "A preference item of hide certain users and tags",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "themeSettings": "Theme settings",
+  "@themeSettings": {
+    "description": "A preference item",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "proxyAndOrigin": "proxy & origin",
+  "@proxyAndOrigin": {
+    "description": "A preference item of configure network proxy and image origin",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "otherSettings": "Other settings",
+  "@otherSettings": {
+    "description": "A preference item",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "promptTitle": "Prompt",
+  "@promptTitle": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "promptCancel": "Cancel",
+  "@promptCancel": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "promptConform": "Conform",
+  "@promptConform": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "themeModePromptContent": "Manually switching theme mode will turn off the auto-follow system mode, are you sure to switch?",
+  "@themeModePromptContent": {
+    "description": "Switch theme mode in tool bar when currently in auto-follow system mode",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}

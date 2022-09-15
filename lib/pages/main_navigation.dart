@@ -37,7 +37,7 @@ class MainNavigationState extends State<MainNavigation> {
           // 两次点击间隔超过1秒则重新计时
           _lastPressedBack = DateTime.now();
           Fluttertoast.showToast(
-              msg: LocalizationIntl.of(context).doubleBackToExit, toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+              msg: LocalizationIntl.of(context).doubleBackToExitPrompt, toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
           return false;
         }
         // 短时间内双击返回加通过

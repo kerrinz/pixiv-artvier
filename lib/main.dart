@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
-import 'package:pixgem/config/theme_colors.dart';
+import 'package:pixgem/config/themes.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/routes.dart';
 import 'package:pixgem/store/theme_store.dart';
@@ -39,7 +39,7 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    ThemeData themeDataLight = PurpleTheme.themeData;
+    ThemeData themeDataLight = Themes.match(ThemeTypes.purple, Brightness.light).themeData;
     ThemeData themeDataDark = ThemeData(
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.grey.shade900,

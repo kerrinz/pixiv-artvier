@@ -227,9 +227,10 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     splashColor: Colors.black12.withOpacity(0.15),
                     highlightColor: Colors.black12.withOpacity(0.1),
                     onTap: () {
-                      Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
-                          arguments:
-                              ArtworkDetailModel(list: illusts, index: index, callback: (index, isBookmarked) {}));
+                      Navigator.of(context).pushNamed(
+                        RouteNames.artworkDetail.name,
+                        arguments: ArtworkDetailModel(list: illusts, index: index, callback: (index, isBookmarked) {}),
+                      );
                     },
                   ),
                 ),

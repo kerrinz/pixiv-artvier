@@ -4,32 +4,54 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/component/perference/preferences_navigator_item.dart';
 import 'package:pixgem/config/constants.dart';
+import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/model_store/account_profile.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/models.dart';
 import 'package:pixgem/routes.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
 
-class ProfileTabPage extends StatefulWidget {
+class ProfileTabPage extends StatelessWidget {
   const ProfileTabPage({Key? key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() => ProfileTabPageState();
-}
-
-class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveClientMixin {
-  final List<FunctionCardModel> _cards = [
-    FunctionCardModel("足迹", Icons.history, RouteNames.mainNavigation.name, null),
-    FunctionCardModel("下载", Icons.download, RouteNames.downloadManage.name, null),
-    // FunctionCardModel("作品", Icons.favorite, RouteNames.myBookmarks.name, GlobalStore.currentAccount?.user.id),
-    FunctionCardModel("收藏", Icons.favorite, RouteNames.myBookmarks.name, GlobalStore.currentAccount?.user.id),
-    FunctionCardModel("关注", Icons.star, RouteNames.userFollowing.name, GlobalStore.currentAccount?.user.id),
+  static final List<IconButtonModelBuilder> _iconButtonBuilders = [
+    (context) => IconButtonModel(
+          LocalizationIntl.of(context).history,
+          Icon(Icons.history_rounded, color: Theme.of(context).colorScheme.primary),
+          RouteNames.mainNavigation.name,
+          null,
+        ),
+    (context) => IconButtonModel(
+          LocalizationIntl.of(context).downloads,
+          Icon(Icons.download, color: Theme.of(context).colorScheme.primary),
+          RouteNames.downloadManage.name,
+          null,
+        ),
+    (context) => IconButtonModel(
+          LocalizationIntl.of(context).artworks,
+          Icon(Icons.card_giftcard_rounded, color: Theme.of(context).colorScheme.primary),
+          "",
+          null,
+        ),
+    (context) => IconButtonModel(
+          LocalizationIntl.of(context).collections,
+          Icon(Icons.favorite, color: Theme.of(context).colorScheme.primary),
+          RouteNames.myBookmarks.name,
+          null,
+        ),
+    (context) => IconButtonModel(
+          LocalizationIntl.of(context).following,
+          Icon(Icons.star, color: Theme.of(context).colorScheme.primary),
+          RouteNames.userFollowing.name,
+          null,
+        ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    readProfile();
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -41,7 +63,7 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
               Navigator.of(context).pushNamed(RouteNames.accountManage.name);
             },
             icon: const Icon(Icons.switch_account_outlined),
-            tooltip: "多帐号管理",
+            tooltip: "切换账号",
           ),
           Builder(
             builder: (BuildContext context) {
@@ -56,12 +78,14 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: const Text("提示"),
-                          content: const Text("切换模式将会关闭自动跟随系统，可以在主题设置里再次开启"),
+                          title: Text(LocalizationIntl.of(context).promptTitle),
+                          content: Text(LocalizationIntl.of(context).themeModePromptContent),
                           actions: <Widget>[
-                            TextButton(child: const Text("取消"), onPressed: () => Navigator.pop(context)),
                             TextButton(
-                              child: const Text("切换"),
+                                child: Text(LocalizationIntl.of(context).promptCancel),
+                                onPressed: () => Navigator.pop(context)),
+                            TextButton(
+                              child: Text(LocalizationIntl.of(context).promptConform),
                               onPressed: () {
                                 isCancel = false;
                                 Navigator.pop(context);
@@ -77,7 +101,6 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
                   GlobalStore.globalProvider.setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark, true);
                 },
                 icon: Icon(isDarkMode ? Icons.mode_night : Icons.light_mode),
-                tooltip: "切换${isDarkMode ? '亮色' : '暗黑'}模式",
               );
             },
           ),
@@ -94,12 +117,12 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
                   kBottomNavigationBarHeight),
           child: Column(
             children: [
-              // 用户简卡
-              Container(child: _buildUserCard(context)),
+              // 我的信息栏
+              Container(child: _buildUserInfoContainer(context)),
               // 功能卡片
               Container(
                 color: Theme.of(context).colorScheme.surface,
-                margin: const EdgeInsets.symmetric(vertical: 6.0),
+                margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
                 child: GridView.builder(
                   controller: ScrollController(keepScrollOffset: false),
                   shrinkWrap: true,
@@ -107,30 +130,26 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                   ),
-                  itemCount: _cards.length,
+                  itemCount: 5,
                   itemBuilder: (BuildContext context, int index) {
-                    return Material(
-                      color: Theme.of(context).colorScheme.surface,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(context, _cards[index].navigatorName, arguments: _cards[index].argument);
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(_cards[index].assetsImageUrl,
-                                  size: 22, color: Theme.of(context).colorScheme.primary),
-                            ),
-                            Text(_cards[index].text,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Theme.of(context).colorScheme.primary,
-                                )),
-                          ],
-                        ),
+                    IconButtonModelBuilder builder = _iconButtonBuilders[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, builder(context).routeName, arguments: builder(context).argument);
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: builder(context).icon,
+                          ),
+                          Text(
+                            builder(context).text,
+                            style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -170,91 +189,132 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
     );
   }
 
-  // 用户简卡
-  Widget _buildUserCard(BuildContext context) {
-    return InkWell(
+  // 我的信息栏
+  Widget _buildUserInfoContainer(BuildContext context) {
+    Color secondTextColor = Theme.of(context).colorScheme.primaryContainer;
+    return GestureDetector(
       onTap: () {
         var user = PreloadUserLeastInfo(int.parse(GlobalStore.currentAccount!.user.id),
             GlobalStore.currentAccount!.user.name, GlobalStore.currentAccount!.user.profileImageUrls!.px170x170);
         Navigator.of(context).pushNamed(RouteNames.userDetail.name, arguments: user);
       },
       child: Container(
-        color: Theme.of(context).colorScheme.surface,
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
+        color: Theme.of(context).colorScheme.primary,
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+        child: Column(
           children: [
-            Expanded(
-              flex: 1,
-              // 用户简卡
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // 头像
-                  ClipOval(
-                    child: SizedBox(
-                      width: 64,
-                      height: 64,
-                      child: Selector(
-                        selector: (BuildContext context, GlobalProvider provider) {
-                          return provider.currentAccount;
-                        },
-                        builder: (BuildContext context, AccountProfile? profile, Widget? child) {
-                          // 未登录或者原本就无头像用户
-                          if (profile == null || profile.user.profileImageUrls == null) {
-                            return const Image(image: AssetImage("assets/images/default_avatar.png"));
-                          }
-                          return CachedNetworkImage(
-                            imageUrl: profile.user.profileImageUrls!.px170x170,
-                            httpHeaders: const {"Referer": CONSTANTS.referer},
-                          );
-                        },
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // 头像
+                      ClipOval(
+                        child: SizedBox(
+                          width: 55,
+                          height: 55,
+                          child: Selector(
+                            selector: (BuildContext context, GlobalProvider provider) {
+                              return provider.currentAccount;
+                            },
+                            builder: (BuildContext context, AccountProfile? profile, Widget? child) {
+                              // 未登录或者原本就无头像用户
+                              if (profile == null || profile.user.profileImageUrls == null) {
+                                return const Image(image: AssetImage("assets/images/default_avatar.png"));
+                              }
+                              return CachedNetworkImage(
+                                imageUrl: profile.user.profileImageUrls!.px170x170,
+                                httpHeaders: const {"Referer": CONSTANTS.referer},
+                              );
+                            },
+                          ),
+                        ),
                       ),
+                      // 昵称、帐号
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Selector(selector: (BuildContext context, GlobalProvider provider) {
+                          return provider.currentAccount;
+                        }, builder: (BuildContext context, AccountProfile? profile, Widget? child) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                profile == null ? "..." : profile.user.name,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  height: 1.4,
+                                  color: Theme.of(context).colorScheme.onPrimary,
+                                ),
+                              ),
+                              Text(
+                                profile == null ? "..." : profile.user.mailAddress,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  height: 1.6,
+                                  color: secondTextColor,
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
+                ),
+                Text("空间", style: TextStyle(color: secondTextColor)),
+                Icon(Icons.keyboard_arrow_right, size: 16, color: Theme.of(context).colorScheme.primaryContainer),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      children: [
+                        Text("0", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+                        Text(
+                          LocalizationIntl.of(context).following,
+                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ],
                     ),
                   ),
-                  // 昵称、帐号
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Selector(selector: (BuildContext context, GlobalProvider provider) {
-                      return provider.currentAccount;
-                    }, builder: (BuildContext context, AccountProfile? profile, Widget? child) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            profile == null ? "..." : profile.user.name,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              height: 1.4,
-                            ),
-                          ),
-                          Text(
-                            profile == null ? "..." : profile.user.mailAddress,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              height: 1.6,
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      Text("0", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+                      Text(
+                        LocalizationIntl.of(context).followers,
+                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      Text("0", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+                      Text(
+                        LocalizationIntl.of(context).friends,
+                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
           ],
         ),
       ),
     );
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  void initState() {
-    super.initState();
-    readProfile();
   }
 
   // 读取配置数据
@@ -266,14 +326,4 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
       Fluttertoast.showToast(msg: "加载失败!", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
     }
   }
-}
-
-// 功能卡片的数据模型
-class FunctionCardModel {
-  String text;
-  IconData assetsImageUrl;
-  String navigatorName;
-  Object? argument;
-
-  FunctionCardModel(this.text, this.assetsImageUrl, this.navigatorName, this.argument);
 }
