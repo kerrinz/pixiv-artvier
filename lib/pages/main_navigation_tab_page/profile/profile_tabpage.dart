@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pixgem/api_app/api_user.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
+import 'package:pixgem/component/base_provider_widget.dart';
 import 'package:pixgem/component/perference/preferences_navigator_item.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/models.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/provider.dart';
 import 'package:pixgem/routes.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
@@ -20,7 +23,7 @@ class ProfileTabPage extends StatelessWidget {
     (context) => IconButtonModel(
           LocalizationIntl.of(context).history,
           Icon(Icons.history_rounded, color: Theme.of(context).colorScheme.primary),
-          RouteNames.mainNavigation.name,
+          RouteNames.history.name,
           null,
         ),
     (context) => IconButtonModel(
@@ -30,7 +33,7 @@ class ProfileTabPage extends StatelessWidget {
           null,
         ),
     (context) => IconButtonModel(
-          LocalizationIntl.of(context).artworks,
+          LocalizationIntl.of(context).works,
           Icon(Icons.card_giftcard_rounded, color: Theme.of(context).colorScheme.primary),
           "",
           null,
@@ -39,13 +42,13 @@ class ProfileTabPage extends StatelessWidget {
           LocalizationIntl.of(context).collections,
           Icon(Icons.favorite, color: Theme.of(context).colorScheme.primary),
           RouteNames.myBookmarks.name,
-          null,
+          GlobalStore.currentAccount?.user.id,
         ),
     (context) => IconButtonModel(
           LocalizationIntl.of(context).following,
           Icon(Icons.star, color: Theme.of(context).colorScheme.primary),
           RouteNames.userFollowing.name,
-          null,
+          GlobalStore.currentAccount?.user.id,
         ),
   ];
 
@@ -53,7 +56,7 @@ class ProfileTabPage extends StatelessWidget {
   Widget build(BuildContext context) {
     readProfile();
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         shadowColor: Colors.transparent,
@@ -107,7 +110,7 @@ class ProfileTabPage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+        physics: const NeverScrollableScrollPhysics(parent: BouncingScrollPhysics()),
         child: Container(
           // 这样解决了内容不足以支撑全屏时，滑动回弹不会回到原位的问题
           constraints: BoxConstraints(
@@ -121,67 +124,56 @@ class ProfileTabPage extends StatelessWidget {
               Container(child: _buildUserInfoContainer(context)),
               // 功能卡片
               Container(
-                color: Theme.of(context).colorScheme.surface,
-                margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
-                child: GridView.builder(
-                  controller: ScrollController(keepScrollOffset: false),
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).backgroundColor,
+                      Theme.of(context).backgroundColor,
+                    ],
+                    stops: const [0, 0.6, 0.6, 1],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
-                  itemCount: 5,
-                  itemBuilder: (BuildContext context, int index) {
-                    IconButtonModelBuilder builder = _iconButtonBuilders[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, builder(context).routeName, arguments: builder(context).argument);
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: builder(context).icon,
-                          ),
-                          Text(
-                            builder(context).text,
-                            style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
                 ),
+                child: _buildFunctionCardContianer(context),
               ),
-              // 设置项列表
-              Builder(builder: (context) {
-                List<PreferencesNavigatorItem> preferencesItems = [
-                  PreferencesNavigatorItem(
-                      icon: Icon(Icons.color_lens, color: Theme.of(context).colorScheme.primary),
-                      text: "主题模式",
-                      routeName: RouteNames.themeSettings.name),
-                  PreferencesNavigatorItem(
-                      icon: Icon(Icons.download_done, color: Theme.of(context).colorScheme.primary),
-                      text: "保存方式",
-                      routeName: RouteNames.downloadSettings.name),
-                  PreferencesNavigatorItem(
-                      icon: Icon(Icons.web_asset_rounded, color: Theme.of(context).colorScheme.primary),
-                      text: "网络代理",
-                      routeName: RouteNames.networkSettings.name),
-                  PreferencesNavigatorItem(
-                      icon: Icon(Icons.language, color: Theme.of(context).colorScheme.primary),
-                      text: "App语言",
-                      routeName: RouteNames.languageSettings.name),
-                ];
-                return Container(
-                  color: Theme.of(context).colorScheme.surface,
-                  child: Column(
-                    children: preferencesItems,
+              Column(
+                children: [
+                  // 快捷设置项
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                    child: Builder(builder: (context) {
+                      List<PreferencesNavigatorItem> preferencesItems = [
+                        PreferencesNavigatorItem(
+                            icon: Icon(Icons.color_lens, color: Theme.of(context).colorScheme.primary),
+                            text: "主题模式",
+                            routeName: RouteNames.themeSettings.name),
+                        PreferencesNavigatorItem(
+                            icon: Icon(Icons.download_done, color: Theme.of(context).colorScheme.primary),
+                            text: "保存方式",
+                            routeName: RouteNames.downloadSettings.name),
+                        PreferencesNavigatorItem(
+                            icon: Icon(Icons.web_asset_rounded, color: Theme.of(context).colorScheme.primary),
+                            text: "网络代理",
+                            routeName: RouteNames.networkSettings.name),
+                        PreferencesNavigatorItem(
+                            icon: Icon(Icons.language, color: Theme.of(context).colorScheme.primary),
+                            text: "App语言",
+                            routeName: RouteNames.languageSettings.name),
+                      ];
+                      return Column(
+                        children: preferencesItems,
+                      );
+                    }),
                   ),
-                );
-              }),
+                ],
+              ),
             ],
           ),
         ),
@@ -189,7 +181,6 @@ class ProfileTabPage extends StatelessWidget {
     );
   }
 
-  // 我的信息栏
   Widget _buildUserInfoContainer(BuildContext context) {
     Color secondTextColor = Theme.of(context).colorScheme.primaryContainer;
     return GestureDetector(
@@ -268,51 +259,102 @@ class ProfileTabPage extends StatelessWidget {
                 Icon(Icons.keyboard_arrow_right, size: 16, color: Theme.of(context).colorScheme.primaryContainer),
               ],
             ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      children: [
-                        Text("0", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-                        Text(
-                          LocalizationIntl.of(context).following,
-                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: ProviderWidget<ProfileProvider>(
+                builder: (BuildContext context, ProfileProvider provider, Widget? child) {
+                  TextStyle numTextStyle = TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onPrimary);
+                  TextStyle secondTextStyle =
+                      TextStyle(fontSize: 12, height: 1.6, color: Theme.of(context).colorScheme.primaryContainer);
+                  return Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: Column(
+                            children: [
+                              Text(provider.following.toString(), style: numTextStyle),
+                              Text(LocalizationIntl.of(context).following, style: secondTextStyle),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      Text("0", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-                      Text(
-                        LocalizationIntl.of(context).followers,
-                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: Column(
+                            children: [
+                              Text(provider.followers.toString(), style: numTextStyle),
+                              Text(LocalizationIntl.of(context).followers, style: secondTextStyle),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: Column(
+                            children: [
+                              Text("All >", style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
+                              Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      Text("0", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-                      Text(
-                        LocalizationIntl.of(context).friends,
-                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                  );
+                },
+                model: ProfileProvider(),
+              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // 功能卡片
+  Widget _buildFunctionCardContianer(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: Theme.of(context).colorScheme.surface,
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+      child: GridView.builder(
+        controller: ScrollController(keepScrollOffset: false),
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 5,
+        ),
+        itemCount: 5,
+        itemBuilder: (BuildContext context, int index) {
+          IconButtonModelBuilder builder = _iconButtonBuilders[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, builder(context).routeName, arguments: builder(context).argument);
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: builder(context).icon,
+                ),
+                Text(
+                  builder(context).text,
+                  style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -325,5 +367,6 @@ class ProfileTabPage extends StatelessWidget {
     } else {
       Fluttertoast.showToast(msg: "加载失败!", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
     }
+    ApiUser().getUserDetail(userId: profile?.user.id).then((value) => null);
   }
 }
