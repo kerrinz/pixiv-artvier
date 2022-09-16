@@ -40,10 +40,10 @@ class LocalizationIntl {
   String get followers => Intl.message('Followers', name: 'followers', desc: 'Show number of followers');
   String get friends => Intl.message('Friends', name: 'friends', desc: 'Show number of friends(好P友)');
   String get history => Intl.message('History', name: 'history', desc: 'Function group item');
-  String get downloads => Intl.message('Downloads', name: 'downloads', desc: 'Name of button in function group');
-  String get artworks => Intl.message('Artworks', name: 'artworks', desc: 'Function group item. My created artwork');
+  String get downloads => Intl.message('Download', name: 'downloads', desc: 'Name of button in function group');
+  String get works => Intl.message('Works', name: 'works', desc: 'Function group item. My created artwork');
   String get collections =>
-      Intl.message('Collections', name: 'collections', desc: 'Function group item. User favorite works');
+      Intl.message('Collection', name: 'collections', desc: 'Function group item. User favorite works');
   String get markers => Intl.message('Markers', name: 'markers', desc: 'Function group item. Same as novel bookmark');
   String get submitWork => Intl.message('Submit Work', name: 'submitWork', desc: 'Submit new works');
   String get switchAccount => Intl.message('Switch account', name: 'switchAccount', desc: 'A preference item');

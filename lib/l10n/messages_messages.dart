@@ -21,7 +21,6 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function> {
-    "artworks" : MessageLookupByLibrary.simpleMessage("Artworks"),
     "collections" : MessageLookupByLibrary.simpleMessage("Collections"),
     "dailyRankings" : MessageLookupByLibrary.simpleMessage("Daily Rankings"),
     "doubleBackToExitPrompt" : MessageLookupByLibrary.simpleMessage("Double back to confirm exit."),
@@ -51,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "switchAccount" : MessageLookupByLibrary.simpleMessage("Switch account"),
     "themeModePromptContent" : MessageLookupByLibrary.simpleMessage("Manually switching theme mode will turn off the auto-follow system mode, are you sure to switch?"),
     "themeSettings" : MessageLookupByLibrary.simpleMessage("Theme settings"),
-    "viewMore" : MessageLookupByLibrary.simpleMessage("View more")
+    "viewMore" : MessageLookupByLibrary.simpleMessage("View more"),
+    "works" : MessageLookupByLibrary.simpleMessage("Works")
   };
 }

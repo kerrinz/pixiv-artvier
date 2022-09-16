@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2022-09-14T19:15:57.674636",
+  "@@last_modified": "2022-09-16T14:41:17.688033",
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -126,8 +126,8 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "artworks": "Artworks",
-  "@artworks": {
+  "works": "Works",
+  "@works": {
     "description": "Function group item. My created artwork",
     "type": "text",
     "placeholders_order": [],

@@ -5,6 +5,7 @@ import 'package:pixgem/component/illusts_grid_tabpage.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/api_app/api_base.dart';
 import 'package:pixgem/api_app/api_user.dart';
+import 'package:pixgem/routes.dart';
 
 class MyBookmarksPage extends StatefulWidget {
   late final String? userId;
@@ -93,7 +94,7 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
     super.initState();
     // 未登录拦截
     if (widget.userId == null) {
-      Navigator.pushNamed(context, "login_wizard");
+      Navigator.pushNamed(context, RouteNames.wizard.name);
     }
     _tabController = TabController(initialIndex: 0, length: _tabs.length, vsync: this);
   }

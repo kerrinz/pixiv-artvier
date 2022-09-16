@@ -126,8 +126,8 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "artworks": "作品",
-  "@artworks": {
+  "works": "作品",
+  "@works": {
     "description": "Function group item. My created artwork",
     "type": "text",
     "placeholders_order": [],
