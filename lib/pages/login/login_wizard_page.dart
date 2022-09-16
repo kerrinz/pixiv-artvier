@@ -47,7 +47,7 @@ class LoginWizardPage extends StatelessWidget {
               ),
               clipBehavior: Clip.antiAlias,
               child: InkWell(
-                onTap: () => Navigator.pushNamed(context, "login_web"),
+                onTap: () => Navigator.pushNamed(context, RouteNames.loginWeb.name),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   child: Text(

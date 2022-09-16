@@ -7,10 +7,24 @@
             "type": "dart"
         },
         {
-            "name": "Flutter",
+            "name": "Run",
             "program": "lib/main.dart",
             "request": "launch",
             "type": "dart"
-        }
+        },
+        {
+            "name": "Profile",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "Release",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "flutterMode": "release"
+        },
     ]
 }

@@ -23,7 +23,7 @@ class MainNavigationState extends State<MainNavigation> {
     const HomePage(),
     const SearchTabPage(),
     const NewArtworksTabPage(),
-    const ProfileTabPage(),
+    ProfileTabPage(),
   ];
   final PageController _pageController = PageController();
   DateTime? _lastPressedBack; // 上次点击返回的时间
@@ -45,6 +45,7 @@ class MainNavigationState extends State<MainNavigation> {
       },
       child: Scaffold(
         body: PageView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           onPageChanged: (int index) {
             setState(() {
               _currentIndex = index;

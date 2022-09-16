@@ -21,7 +21,6 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function> {
-    "artworks" : MessageLookupByLibrary.simpleMessage("作品"),
     "collections" : MessageLookupByLibrary.simpleMessage("收藏"),
     "dailyRankings" : MessageLookupByLibrary.simpleMessage("每日排行"),
     "doubleBackToExitPrompt" : MessageLookupByLibrary.simpleMessage("连续返回两次退出程序"),
@@ -51,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "switchAccount" : MessageLookupByLibrary.simpleMessage("切换账户"),
     "themeModePromptContent" : MessageLookupByLibrary.simpleMessage("手动切换主题模式将关闭自动跟随系统，确定切换吗？"),
     "themeSettings" : MessageLookupByLibrary.simpleMessage("主题设置"),
-    "viewMore" : MessageLookupByLibrary.simpleMessage("查看更多")
+    "viewMore" : MessageLookupByLibrary.simpleMessage("查看更多"),
+    "works" : MessageLookupByLibrary.simpleMessage("作品")
   };
 }

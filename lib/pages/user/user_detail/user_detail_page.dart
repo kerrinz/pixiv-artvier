@@ -67,7 +67,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                 expandedHeight: coverHeight + 100,
                 collapsedHeight: kToolbarHeight,
                 // title: Text(widget.leastInfo.name),
-                backgroundColor: Theme.of(context).bottomAppBarColor, // 与TabBar背景色一致
+                backgroundColor: Theme.of(context).colorScheme.surface, // 与TabBar背景色一致
                 shadowColor: Colors.transparent,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
@@ -223,6 +223,9 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                 pinned: true,
                 delegate: TabBarDelegate(
                   child: TabBar(
+                    labelColor: Theme.of(context).primaryColor,
+                    indicatorColor: Theme.of(context).primaryColor,
+                    unselectedLabelColor: Theme.of(context).colorScheme.onSurface,
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.label,
                     isScrollable: false,

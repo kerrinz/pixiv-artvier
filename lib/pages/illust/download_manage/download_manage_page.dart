@@ -60,7 +60,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                   IconButton(
                     icon: const Icon(Icons.settings),
                     onPressed: () {
-                      Navigator.pushNamed(context, "setting_download");
+                      Navigator.pushNamed(context, RouteNames.downloadSettings.name);
                     },
                     tooltip: "下载设置",
                   ),
