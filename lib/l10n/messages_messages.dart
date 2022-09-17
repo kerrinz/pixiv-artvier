@@ -21,10 +21,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function> {
-    "collections" : MessageLookupByLibrary.simpleMessage("Collections"),
+    "collections" : MessageLookupByLibrary.simpleMessage("Collection"),
     "dailyRankings" : MessageLookupByLibrary.simpleMessage("Daily Rankings"),
     "doubleBackToExitPrompt" : MessageLookupByLibrary.simpleMessage("Double back to confirm exit."),
-    "downloads" : MessageLookupByLibrary.simpleMessage("Downloads"),
+    "downloads" : MessageLookupByLibrary.simpleMessage("Download"),
     "followers" : MessageLookupByLibrary.simpleMessage("Followers"),
     "following" : MessageLookupByLibrary.simpleMessage("Following"),
     "friends" : MessageLookupByLibrary.simpleMessage("Friends"),
