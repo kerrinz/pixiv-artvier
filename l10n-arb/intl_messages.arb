@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2022-09-16T14:41:17.688033",
+  "@@last_modified": "2022-09-17T20:59:59.466601",
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -119,7 +119,7 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "downloads": "Downloads",
+  "downloads": "Download",
   "@downloads": {
     "description": "Name of button in function group",
     "type": "text",
@@ -133,7 +133,7 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "collections": "Collections",
+  "collections": "Collection",
   "@collections": {
     "description": "Function group item. User favorite works",
     "type": "text",

@@ -275,6 +275,18 @@ class ProfileTabPage extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: Column(
                             children: [
+                              Text(provider.friends.toString(), style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
+                              Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: Column(
+                            children: [
                               Text(provider.following.toString(), style: numTextStyle),
                               Text(LocalizationIntl.of(context).following, style: secondTextStyle),
                             ],
@@ -287,20 +299,8 @@ class ProfileTabPage extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: Column(
                             children: [
-                              Text(provider.followers.toString(), style: numTextStyle),
+                              Text("All >", style: numTextStyle),
                               Text(LocalizationIntl.of(context).followers, style: secondTextStyle),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Column(
-                            children: [
-                              Text("All >", style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
-                              Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
                             ],
                           ),
                         ),
