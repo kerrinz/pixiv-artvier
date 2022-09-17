@@ -3,9 +3,14 @@ import 'package:intl/intl.dart';
 import 'messages_all.dart';
 
 class LocalizationIntl {
+  // App 支持的语言，不考虑countryCode
+  static List<Locale> supportedLocales = const [
+    Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans"),
+    Locale.fromSubtags(languageCode: "en"),
+  ];
+
   static Future<LocalizationIntl> load(Locale locale) {
-    final String name = locale.countryCode == null ? locale.languageCode : locale.toString();
-    final String localeName = Intl.canonicalizedLocale(name);
+    final String localeName = Intl.canonicalizedLocale(locale.toString());
     return initializeMessages(localeName).then((b) {
       Intl.defaultLocale = localeName;
       return LocalizationIntl();
@@ -58,13 +63,15 @@ class LocalizationIntl {
   String get promptConform => Intl.message('Conform', name: 'promptConform', desc: '');
   String get themeModePromptContent =>
       Intl.message('Manually switching theme mode will turn off the auto-follow system mode, are you sure to switch?',
-          name: 'themeModePromptContent', desc: 'Switch theme mode in tool bar when currently in auto-follow system mode');
+          name: 'themeModePromptContent',
+          desc: 'Switch theme mode in tool bar when currently in auto-follow system mode');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {
   const LocalizationIntlDelegate();
   @override
-  bool isSupported(Locale locale) => ['en', 'zh'].contains(locale.languageCode);
+  // 这里的 locale 是App当前的locale.
+  bool isSupported(Locale locale) => LocalizationIntl.supportedLocales.contains(locale);
 
   @override
   Future<LocalizationIntl> load(Locale locale) {

@@ -72,20 +72,23 @@ class MyAppState extends State<MyApp> {
             themeMode: mode,
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               LocalizationIntlDelegate(),
             ],
-            supportedLocales: const [
-              Locale('zh', 'CN'),
-              Locale('en', 'US'),
-            ],
+            supportedLocales: LocalizationIntl.supportedLocales,
+            // locale: LocalizationIntl.supportedLocales[0],
             // 切换系统语言时的回调函数
             localeListResolutionCallback: (locales, supportedLocales) {
-              if (locales == null) return const Locale('en', 'US'); // 获取不到系统语言时的默认App语言
+              if (locales == null) return const Locale('en'); // 获取不到系统语言时的默认App语言
               for (Locale locale in locales) {
-                if (supportedLocales.contains(locale)) return locale;
+                Locale formatLocale = Locale.fromSubtags(
+                  languageCode: locale.languageCode,
+                  scriptCode: locale.scriptCode,
+                ); // 不考虑countryCode
+                if (supportedLocales.contains(formatLocale)) return formatLocale;
               }
-              return const Locale('en', 'US');
+              return const Locale('en');
             },
           );
         },

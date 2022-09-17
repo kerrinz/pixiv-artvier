@@ -76,7 +76,10 @@ class MainNavigationState extends State<MainNavigation> {
                 label: LocalizationIntl.of(context).navProfile,
                 tooltip: LocalizationIntl.of(context).navProfile),
           ],
-          fixedColor: Theme.of(context).colorScheme.primary,
+          unselectedFontSize: 10,
+          selectedFontSize: 10,
+          fixedColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
           onTap: (int index) {

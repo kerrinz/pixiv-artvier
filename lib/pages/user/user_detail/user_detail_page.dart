@@ -70,6 +70,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                 backgroundColor: Theme.of(context).colorScheme.surface, // 与TabBar背景色一致
                 shadowColor: Colors.transparent,
                 flexibleSpace: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.pin,
                   background: Stack(
                     children: [
                       // 封面背景图
