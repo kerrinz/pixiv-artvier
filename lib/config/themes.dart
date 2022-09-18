@@ -67,6 +67,6 @@ class PurpleTheme extends BaseTheme {
         onSurface: Color(0xff313033),
         surfaceVariant: Color(0xffF4EFF4),
         onSurfaceVariant: Color(0xff49454F),
-        outline: Color(0xff79747E),
+        outline: Color(0xffAEA9B4),
       );
 }

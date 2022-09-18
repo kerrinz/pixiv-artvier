@@ -1,53 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
+import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
 
-class SettingThemePage extends StatefulWidget {
-  const SettingThemePage({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() {
-    return _SettingThemeState();
-  }
-}
-
-class _SettingThemeState extends State<SettingThemePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class ThemeSettingsBottomSheetContent extends StatelessWidget {
+  const ThemeSettingsBottomSheetContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("主题设置"),
-      ),
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-        child: Container(
-          // 这样解决了内容不足以支撑全屏时，滑动回弹不会回到原位的问题
-          constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height - kToolbarHeight - MediaQuery.of(context).padding.top),
-          child: Column(
-            children: [
-              Selector(selector: (BuildContext context, GlobalProvider provider) {
-                return provider.themeMode;
-              }, builder: (BuildContext context, ThemeMode themeMode, Widget? child) {
-                return _buildBrightnessCard(themeMode);
-              }),
-            ],
-          ),
+    return Column(
+      children: [
+        const BottomSheetSlideBar(),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 24),
+          child: Selector(selector: (BuildContext context, GlobalProvider provider) {
+            return provider.themeMode;
+          }, builder: (BuildContext context, ThemeMode themeMode, Widget? child) {
+            return _buildBrightnessCard(context, themeMode);
+          }),
         ),
-      ),
+      ],
     );
   }
 
   // 切换亮度主题，例如暗黑模式
-  Widget _buildBrightnessCard(ThemeMode themeMode) {
+  Widget _buildBrightnessCard(BuildContext context, ThemeMode themeMode) {
     return Card(
-      elevation: 1.5,
+      elevation: 0,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
         // side: BorderSide(width: 1, color: Colors.white),

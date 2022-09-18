@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2022-09-17T20:59:59.466601",
+  "@@last_modified": "2022-09-18T14:46:10.835084",
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -91,6 +91,13 @@
     "placeholders_order": [],
     "placeholders": {}
   },
+  "space": "Space",
+  "@space": {
+    "description": "Navigate to my detail page",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
   "following": "Following",
   "@following": {
     "description": "Show number of following",
@@ -157,6 +164,13 @@
   "switchAccount": "Switch account",
   "@switchAccount": {
     "description": "A preference item",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "quickSettingsTitle": "Quick settings",
+  "@quickSettingsTitle": {
+    "description": "The title of settings list",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}

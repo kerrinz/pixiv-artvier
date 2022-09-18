@@ -41,6 +41,7 @@ class LocalizationIntl {
   String get recommended =>
       Intl.message('Recommended', name: 'recommended', desc: 'Title of recommended artwork list in home page');
   // Profile页面
+  String get space => Intl.message('Space', name: 'space', desc: 'Navigate to my detail page');
   String get following => Intl.message('Following', name: 'following', desc: 'Show number of following');
   String get followers => Intl.message('Followers', name: 'followers', desc: 'Show number of followers');
   String get friends => Intl.message('Friends', name: 'friends', desc: 'Show number of friends(好P友)');
@@ -52,6 +53,8 @@ class LocalizationIntl {
   String get markers => Intl.message('Markers', name: 'markers', desc: 'Function group item. Same as novel bookmark');
   String get submitWork => Intl.message('Submit Work', name: 'submitWork', desc: 'Submit new works');
   String get switchAccount => Intl.message('Switch account', name: 'switchAccount', desc: 'A preference item');
+  String get quickSettingsTitle =>
+      Intl.message('Quick settings', name: 'quickSettingsTitle', desc: 'The title of settings list');
   String get muteSettings =>
       Intl.message('Mute settings', name: 'muteSettings', desc: 'A preference item of hide certain users and tags');
   String get themeSettings => Intl.message('Theme settings', name: 'themeSettings', desc: 'A preference item');
