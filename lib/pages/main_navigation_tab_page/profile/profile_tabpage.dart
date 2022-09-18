@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/api_app/api_user.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/component/base_provider_widget.dart';
+import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
 import 'package:pixgem/component/perference/preferences_navigator_item.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
@@ -11,6 +12,8 @@ import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/models.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/provider.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy_and_origin.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/theme.dart';
 import 'package:pixgem/routes.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
@@ -19,35 +22,52 @@ import 'package:provider/provider.dart';
 class ProfileTabPage extends StatelessWidget {
   const ProfileTabPage({Key? key}) : super(key: key);
 
-  static final List<IconButtonModelBuilder> _iconButtonBuilders = [
+  // 功能项列表的模型
+  static final List<IconButtonModelBuilder> _functionItemBuilders = [
     (context) => IconButtonModel(
           LocalizationIntl.of(context).history,
-          Icon(Icons.history_rounded, color: Theme.of(context).colorScheme.primary),
+          Icon(Icons.history_rounded, color: Theme.of(context).primaryColor, size: 26),
           RouteNames.history.name,
           null,
         ),
     (context) => IconButtonModel(
           LocalizationIntl.of(context).downloads,
-          Icon(Icons.download, color: Theme.of(context).colorScheme.primary),
+          Icon(Icons.file_download_outlined, color: Theme.of(context).primaryColor, size: 26),
           RouteNames.downloadManage.name,
           null,
         ),
     (context) => IconButtonModel(
           LocalizationIntl.of(context).works,
-          Icon(Icons.card_giftcard_rounded, color: Theme.of(context).colorScheme.primary),
+          Icon(Icons.card_giftcard_rounded, color: Theme.of(context).primaryColor, size: 26),
           "",
           null,
         ),
     (context) => IconButtonModel(
           LocalizationIntl.of(context).collections,
-          Icon(Icons.favorite, color: Theme.of(context).colorScheme.primary),
+          Icon(Icons.favorite_outline_rounded, color: Theme.of(context).primaryColor, size: 26),
           RouteNames.myBookmarks.name,
           GlobalStore.currentAccount?.user.id,
         ),
     (context) => IconButtonModel(
           LocalizationIntl.of(context).following,
-          Icon(Icons.star, color: Theme.of(context).colorScheme.primary),
+          Icon(Icons.star_border_rounded, color: Theme.of(context).primaryColor, size: 26),
           RouteNames.userFollowing.name,
+          GlobalStore.currentAccount?.user.id,
+        ),
+  ];
+
+  // 设置项列表的模型
+  static final List<PerferenceBottomSheetBuilder> _perferenceItemBuilders = [
+    (context) => PerferenceBottomSheetModel(
+          LocalizationIntl.of(context).themeSettings,
+          Icon(Icons.color_lens_outlined, color: Theme.of(context).primaryColor),
+          const ThemeSettingsBottomSheetContent(),
+          null,
+        ),
+    (context) => PerferenceBottomSheetModel(
+          LocalizationIntl.of(context).proxyAndOrigin,
+          Icon(Icons.lan_outlined, color: Theme.of(context).primaryColor),
+          const ProxyOriginSettingsBottomSheet(),
           GlobalStore.currentAccount?.user.id,
         ),
   ];
@@ -139,41 +159,7 @@ class ProfileTabPage extends StatelessWidget {
                 ),
                 child: _buildFunctionCardContianer(context),
               ),
-              Column(
-                children: [
-                  // 快捷设置项
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Theme.of(context).colorScheme.surface,
-                    ),
-                    child: Builder(builder: (context) {
-                      List<PreferencesNavigatorItem> preferencesItems = [
-                        PreferencesNavigatorItem(
-                            icon: Icon(Icons.color_lens, color: Theme.of(context).colorScheme.primary),
-                            text: "主题模式",
-                            routeName: RouteNames.themeSettings.name),
-                        PreferencesNavigatorItem(
-                            icon: Icon(Icons.download_done, color: Theme.of(context).colorScheme.primary),
-                            text: "保存方式",
-                            routeName: RouteNames.downloadSettings.name),
-                        PreferencesNavigatorItem(
-                            icon: Icon(Icons.web_asset_rounded, color: Theme.of(context).colorScheme.primary),
-                            text: "网络代理",
-                            routeName: RouteNames.networkSettings.name),
-                        PreferencesNavigatorItem(
-                            icon: Icon(Icons.language, color: Theme.of(context).colorScheme.primary),
-                            text: "App语言",
-                            routeName: RouteNames.languageSettings.name),
-                      ];
-                      return Column(
-                        children: preferencesItems,
-                      );
-                    }),
-                  ),
-                ],
-              ),
+              _buildPreferenceSettings(context),
             ],
           ),
         ),
@@ -255,7 +241,7 @@ class ProfileTabPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Text("空间", style: TextStyle(color: secondTextColor)),
+                Text(LocalizationIntl.of(context).space, style: TextStyle(color: secondTextColor)),
                 Icon(Icons.keyboard_arrow_right, size: 16, color: Theme.of(context).colorScheme.primaryContainer),
               ],
             ),
@@ -275,7 +261,8 @@ class ProfileTabPage extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: Column(
                             children: [
-                              Text(provider.friends.toString(), style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
+                              Text(provider.friends.toString(),
+                                  style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
                               Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
                             ],
                           ),
@@ -324,37 +311,95 @@ class ProfileTabPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         color: Theme.of(context).colorScheme.surface,
       ),
-      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0),
       child: GridView.builder(
         controller: ScrollController(keepScrollOffset: false),
         shrinkWrap: true,
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 5,
         ),
         itemCount: 5,
         itemBuilder: (BuildContext context, int index) {
-          IconButtonModelBuilder builder = _iconButtonBuilders[index];
+          IconButtonModelBuilder builder = _functionItemBuilders[index];
           return GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, builder(context).routeName, arguments: builder(context).argument);
             },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: builder(context).icon,
-                ),
-                Text(
-                  builder(context).text,
-                  style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
-                ),
-              ],
+            child: Container(
+              color: Colors.transparent,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  builder(context).icon,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Text(
+                      builder(context).text,
+                      style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
+      ),
+    );
+  }
+
+  // 快捷设置
+  Widget _buildPreferenceSettings(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        color: Theme.of(context).colorScheme.surface,
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12, top: 16, bottom: 10),
+                  child: Text(
+                    LocalizationIntl.of(context).quickSettingsTitle,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          for (PerferenceBottomSheetBuilder builder in _perferenceItemBuilders)
+            PreferencesNavigatorItem(
+              icon: builder(context).icon,
+              text: Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: Text(
+                  builder(context).text,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+              ),
+              onTap: () {
+                BottomSheets.showCustomBottomSheet(
+                  context: context,
+                  child: builder(context).widget ?? Container(),
+                );
+                // builder(context).routeName,
+              },
+              padding: const EdgeInsets.only(left: 20, right: 12, top: 14, bottom: 14),
+            ),
+        ],
       ),
     );
   }

@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/component/badge.dart';
+import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
 import 'package:pixgem/component/perference/perference_single_choise_panel.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:pixgem/store/network_store.dart';
 import 'package:provider/provider.dart';
 
-import 'network_setting_provider.dart';
+import 'proxy_and_origin_provider.dart';
 
-class SettingNetworkPage extends StatefulWidget {
-  const SettingNetworkPage({Key? key}) : super(key: key);
+class ProxyOriginSettingsBottomSheet extends StatefulWidget {
+  const ProxyOriginSettingsBottomSheet({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SettingNetworkPageState();
 }
 
-class SettingNetworkPageState extends State<SettingNetworkPage> {
+class SettingNetworkPageState extends State<ProxyOriginSettingsBottomSheet> {
   late TextEditingController _hostController;
   late TextEditingController _portController;
   late NetworkSettingProvider _provider;
@@ -38,60 +39,50 @@ class SettingNetworkPageState extends State<SettingNetworkPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => _provider,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("代理和图片源"),
-        ),
-        body: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            // 这样解决了内容不足以支撑全屏时，滑动回弹不会回到原位的问题
-            constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height - kToolbarHeight - MediaQuery.of(context).padding.top),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Builder(builder: (context) {
-                  return PerferenceSingleChoisePanel(
-                    title: 'HTTP网络代理',
-                    selectedindex: selectedindex,
-                    onSelect: (index) {
-                      selectedindex = index; // 选择了第几项
-                      switch (index) {
-                        case 0:
-                          GlobalStore.proxy = null;
-                          NetworkStore.setProxyEnable(false);
-                          Fluttertoast.showToast(msg: "切换为系统代理", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                          break;
-                        case 1:
-                          GlobalStore.proxy = NetworkStore.getNetworkProxy();
-                          NetworkStore.setProxyEnable(true);
-                          Fluttertoast.showToast(msg: "切换为自定义代理", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                      }
-                      (context as Element).markNeedsBuild();
-                    },
-                    widgets: <Widget>[
-                      const Text(
-                        "使用系统代理（默认）",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Row(
-                        children: [
-                          const Text("自定义代理", style: TextStyle(fontSize: 16)),
-                          _buildProxyBadge(context),
-                        ],
-                      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const BottomSheetSlideBar(),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 24),
+          child: ChangeNotifierProvider(
+            create: (context) => _provider,
+            child: Builder(builder: (context) {
+              return PerferenceSingleChoisePanel(
+                title: 'HTTP网络代理',
+                selectedindex: selectedindex,
+                onSelect: (index) {
+                  selectedindex = index; // 选择了第几项
+                  switch (index) {
+                    case 0:
+                      GlobalStore.proxy = null;
+                      NetworkStore.setProxyEnable(false);
+                      Fluttertoast.showToast(msg: "切换为系统代理", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                      break;
+                    case 1:
+                      GlobalStore.proxy = NetworkStore.getNetworkProxy();
+                      NetworkStore.setProxyEnable(true);
+                      Fluttertoast.showToast(msg: "切换为自定义代理", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                  }
+                  (context as Element).markNeedsBuild();
+                },
+                widgets: <Widget>[
+                  const Text(
+                    "使用系统代理（默认）",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  Row(
+                    children: [
+                      const Text("自定义代理", style: TextStyle(fontSize: 16)),
+                      _buildProxyBadge(context),
                     ],
-                  );
-                }),
-              ],
-            ),
+                  ),
+                ],
+              );
+            }),
           ),
         ),
-      ),
+      ],
     );
   }
 

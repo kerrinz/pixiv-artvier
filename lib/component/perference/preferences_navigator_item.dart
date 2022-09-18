@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 
 class PreferencesNavigatorItem extends StatelessWidget {
-  final String text;
+  final Widget text;
   final Widget? icon;
-  final String routeName;
+  final Function()? onTap;
+  final EdgeInsetsGeometry? padding;
 
-  const PreferencesNavigatorItem({Key? key, required this.text, this.icon, required this.routeName}) : super(key: key);
+  const PreferencesNavigatorItem({Key? key, required this.text, this.icon, this.onTap, this.padding})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, routeName);
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
+      onTap: onTap,
+      child: Container(
+        padding: padding,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: icon ?? Container(),
-                ),
-                Text(text, style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary)),
-              ],
+            icon ?? Container(),
+            Expanded(
+              flex: 1,
+              child: text,
+            ),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Theme.of(context).colorScheme.outline,
+              size: 12,
             ),
           ],
         ),

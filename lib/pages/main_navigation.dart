@@ -23,7 +23,7 @@ class MainNavigationState extends State<MainNavigation> {
     const HomePage(),
     const SearchTabPage(),
     const NewArtworksTabPage(),
-    ProfileTabPage(),
+    const ProfileTabPage(),
   ];
   final PageController _pageController = PageController();
   DateTime? _lastPressedBack; // 上次点击返回的时间

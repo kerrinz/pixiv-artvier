@@ -10,10 +10,8 @@ import 'package:pixgem/pages/login/login_by_web_page.dart';
 import 'package:pixgem/pages/login/login_wizard_page.dart';
 import 'package:pixgem/pages/main_navigation.dart';
 import 'package:pixgem/pages/search/result/search_result_page.dart';
-import 'package:pixgem/pages/setting/download/download_setting.dart';
-import 'package:pixgem/pages/setting/language/language_setting.dart';
-import 'package:pixgem/pages/setting/network/network_setting.dart';
-import 'package:pixgem/pages/setting/theme/theme_setting.dart';
+import 'package:pixgem/pages/settings/download/download_setting.dart';
+import 'package:pixgem/pages/settings/language/language_setting.dart';
 import 'package:pixgem/pages/user/bookmark/my_bookmarks.dart';
 import 'package:pixgem/pages/user/following/user_following_page.dart';
 import 'package:pixgem/pages/user/user_detail/user_detail_page.dart';
@@ -77,8 +75,6 @@ class Routes {
     RouteNames.accountManage.name: (context, arguments) => const AccountManagePage(),
     RouteNames.downloadManage.name: (context, arguments) => const DownloadManagePage(),
     RouteNames.downloadSettings.name: (context, arguments) => const SettingDownload(),
-    RouteNames.themeSettings.name: (context, arguments) => const SettingThemePage(),
-    RouteNames.networkSettings.name: (context, arguments) => const SettingNetworkPage(),
     RouteNames.languageSettings.name: (context, arguments) => const LanguageSettingPage(),
   };
 

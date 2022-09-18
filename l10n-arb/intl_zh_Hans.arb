@@ -91,6 +91,13 @@
     "placeholders_order": [],
     "placeholders": {}
   },
+  "space": "空间",
+  "@space": {
+    "description": "Navigate to my detail page",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
   "following": "关注",
   "@following": {
     "description": "Show number of following",
@@ -157,6 +164,13 @@
   "switchAccount": "切换账户",
   "@switchAccount": {
     "description": "A preference item",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "quickSettingsTitle": "快捷设置",
+  "@quickSettingsTitle": {
+    "description": "The title of settings list",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
