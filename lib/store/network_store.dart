@@ -30,8 +30,8 @@ class NetworkStore {
     return GlobalStore.globalSharedPreferences.getString(PROXY_PORT);
   }
 
-  static bool? getProxyEnable() {
-    return GlobalStore.globalSharedPreferences.getBool(PROXY_ENABLE);
+  static bool getProxyEnable() {
+    return GlobalStore.globalSharedPreferences.getBool(PROXY_ENABLE) ?? false;
   }
 
   static Future<bool> setProxyEnable(bool enable) {
