@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pixgem/component/buttons/blur_button.dart';
 import 'package:pixgem/component/follow_button.dart';
 import 'package:pixgem/component/illusts_grid_tabpage.dart';
 import 'package:pixgem/component/tab_bar_delegate.dart';
@@ -69,6 +70,11 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                 // title: Text(widget.leastInfo.name),
                 backgroundColor: Theme.of(context).colorScheme.surface, // 与TabBar背景色一致
                 shadowColor: Colors.transparent,
+                leading: BlurButton.leadingBack(
+                  onPressed: () {
+                    Navigator.of(context).pop(-1);
+                  },
+                ),
                 flexibleSpace: FlexibleSpaceBar(
                   collapseMode: CollapseMode.pin,
                   background: Stack(
@@ -104,7 +110,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                         right: 0,
                         height: coverHeight,
                         child: Container(
-                          color: const Color(0x33000000), // black with 0.2 opacity
+                          color: const Color(0x00000000), // black with 0.2 opacity
                         ),
                       ),
                       // 是否已关注的按钮
@@ -206,8 +212,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                   ),
                 ),
                 actions: [
-                  IconButton(
-                    icon: const Icon(Icons.keyboard_arrow_up),
+                  BlurButton(
                     onPressed: () {
                       scrollController.animateTo(
                         0,
@@ -215,7 +220,15 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                         curve: Curves.decelerate,
                       );
                     },
-                    tooltip: "回到顶部",
+                    borderRadius: BorderRadius.circular(20.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: const Icon(Icons.keyboard_arrow_up),
+                  ),
+                  BlurButton(
+                    onPressed: () {},
+                    borderRadius: BorderRadius.circular(20.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: const Icon(Icons.more_horiz_rounded),
                   ),
                 ],
               ),

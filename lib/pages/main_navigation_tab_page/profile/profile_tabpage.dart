@@ -38,7 +38,7 @@ class ProfileTabPage extends StatelessWidget {
         ),
     (context) => IconButtonModel(
           LocalizationIntl.of(context).works,
-          Icon(Icons.card_giftcard_rounded, color: Theme.of(context).primaryColor, size: 26),
+          Icon(Icons.inventory_2_outlined, color: Theme.of(context).primaryColor, size: 26),
           "",
           null,
         ),

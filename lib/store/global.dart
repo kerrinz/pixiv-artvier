@@ -43,7 +43,7 @@ class GlobalStore {
       }
     }
     // 初始化网络请求相关配置
-    proxy = NetworkStore.getNetworkProxy();
+    proxy = NetworkStore.getProxyEnable() ? NetworkStore.getNetworkProxy() : null;
     ApiBase.init();
     // 初始化主题配置
     ThemeMode themeMode = ThemeStore.getThemeMode();

@@ -34,7 +34,7 @@ class SettingNetworkPageState extends State<ProxyOriginSettingsBottomSheet> {
     );
     _hostController.text = NetworkStore.getProxyHost() ?? "";
     _portController.text = NetworkStore.getProxyPort() ?? "";
-    selectedindex = (NetworkStore.getProxyEnable() ?? false) ? 1 : 0;
+    selectedindex = (NetworkStore.getProxyEnable()) ? 1 : 0;
   }
 
   @override
@@ -68,7 +68,7 @@ class SettingNetworkPageState extends State<ProxyOriginSettingsBottomSheet> {
                 },
                 widgets: <Widget>[
                   const Text(
-                    "使用系统代理（默认）",
+                    "不使用代理（默认）",
                     style: TextStyle(fontSize: 16),
                   ),
                   Row(
