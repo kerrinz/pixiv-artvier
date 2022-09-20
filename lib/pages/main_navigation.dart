@@ -60,19 +60,23 @@ class MainNavigationState extends State<MainNavigation> {
         bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
-                icon: const Icon(Icons.home),
+                icon: const Icon(Icons.home_outlined),
+                activeIcon: const Icon(Icons.home_rounded),
                 label: LocalizationIntl.of(context).navHome,
                 tooltip: LocalizationIntl.of(context).navHome),
             BottomNavigationBarItem(
-                icon: const Icon(Icons.search),
+                icon: const Icon(Icons.widgets_outlined),
+                activeIcon: const Icon(Icons.widgets_rounded),
                 label: LocalizationIntl.of(context).navDiscover,
                 tooltip: LocalizationIntl.of(context).navDiscover),
             BottomNavigationBarItem(
-                icon: const Icon(Icons.bookmark),
+                icon: const Icon(Icons.explore_outlined),
+                activeIcon: const Icon(Icons.explore_rounded),
                 label: LocalizationIntl.of(context).navDynamic,
                 tooltip: LocalizationIntl.of(context).navDynamic),
             BottomNavigationBarItem(
-                icon: const Icon(Icons.person),
+                icon: const Icon(Icons.person_outline_rounded),
+                activeIcon: const Icon(Icons.person_rounded),
                 label: LocalizationIntl.of(context).navProfile,
                 tooltip: LocalizationIntl.of(context).navProfile),
           ],
