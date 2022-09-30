@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2022-09-18T14:46:10.835084",
+  "@@last_modified": "2022-09-25T17:00:22.634288",
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -227,6 +227,34 @@
   "themeModePromptContent": "Manually switching theme mode will turn off the auto-follow system mode, are you sure to switch?",
   "@themeModePromptContent": {
     "description": "Switch theme mode in tool bar when currently in auto-follow system mode",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "follow": "Follow",
+  "@follow": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "followed": "Followed",
+  "@followed": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "textCollapse": "Collapse",
+  "@textCollapse": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "textExpand": "Expand",
+  "@textExpand": {
+    "description": "",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}

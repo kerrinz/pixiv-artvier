@@ -2,11 +2,11 @@
 * TabBar实现吸附顶端效果所需的Delegate */
 import 'package:flutter/material.dart';
 
-class TabBarDelegate extends SliverPersistentHeaderDelegate {
+class SliverTabBarPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   final TabBar child;
   Color? backgroundColor;
 
-  TabBarDelegate({required this.child, this.backgroundColor});
+  SliverTabBarPersistentHeaderDelegate({required this.child, this.backgroundColor});
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {

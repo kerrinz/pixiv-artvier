@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 
 typedef ThemeDataBuilder = BaseTheme Function(Brightness brightness);
 
+/// 主题类型
 enum ThemeTypes {
   purple,
   // customize,
 }
 
+/// 主题工具类
 class Themes {
   static get themesMap => <String, ThemeDataBuilder>{
-    ThemeTypes.purple.name: (brightness) => PurpleTheme(brightness),
-  };
+        ThemeTypes.purple.name: (brightness) => PurpleTheme(brightness),
+      };
 
+  /// 通过主题枚举类型
   static BaseTheme match(ThemeTypes type, Brightness brightness) {
     return themesMap[type.name](brightness) ?? PurpleTheme(brightness);
   }
 }
 
+/// 主题的基类
 abstract class BaseTheme {
   BaseTheme(
     this._brightness,
@@ -25,8 +29,14 @@ abstract class BaseTheme {
   );
 
   final Brightness _brightness;
+
   ColorScheme lightColorScheme;
+
   ColorScheme darkColorScheme;
+
+  ColorScheme get colorScheme => (_brightness == Brightness.light ? lightColorScheme : lightColorScheme);
+
+  AppBarTheme appBarTheme = const AppBarTheme(shadowColor: Colors.transparent);
 
   get textThemeOnLight => const TextTheme(
         bodyText1: TextStyle(color: Color(0xff000000), fontSize: 14),
@@ -34,8 +44,11 @@ abstract class BaseTheme {
         caption: TextStyle(color: Color(0xff222222), fontSize: 12),
       );
 
-  get themeData => ThemeData.from(
-        colorScheme: (_brightness == Brightness.light ? lightColorScheme : lightColorScheme),
+  get themeData => ThemeData(
+        colorScheme: colorScheme,
+        primaryColor: colorScheme.primary,
+        backgroundColor: colorScheme.background,
+        appBarTheme: appBarTheme,
         // textTheme: BaseTheme.textTheme,
       );
 }

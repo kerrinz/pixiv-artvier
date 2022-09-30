@@ -68,6 +68,11 @@ class LocalizationIntl {
       Intl.message('Manually switching theme mode will turn off the auto-follow system mode, are you sure to switch?',
           name: 'themeModePromptContent',
           desc: 'Switch theme mode in tool bar when currently in auto-follow system mode');
+  // 用户详情页
+  String get follow => Intl.message('Follow', name: 'follow', desc: '');
+  String get followed => Intl.message('Followed', name: 'followed', desc: '');
+  String get textCollapse => Intl.message('Collapse', name: 'textCollapse', desc: '');
+  String get textExpand => Intl.message('Expand', name: 'textExpand', desc: '');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {
