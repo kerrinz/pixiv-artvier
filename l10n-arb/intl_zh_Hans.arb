@@ -230,5 +230,33 @@
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
+  },
+  "follow": "关注",
+  "@follow": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "followed": "已关注",
+  "@followed": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "textCollapse": "收起",
+  "@textCollapse": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "textExpand": "展开",
+  "@textExpand": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
   }
 }
