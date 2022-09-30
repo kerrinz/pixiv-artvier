@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 ///
@@ -82,18 +81,15 @@ class _BlurButtonState extends State<BlurButton> with SingleTickerProviderStateM
             alignment: widget.alignment,
             widthFactor: 1.0,
             heightFactor: 1.0,
-            child: ClipRRect(
-              borderRadius: widget.borderRadius,
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                child: FadeTransition(
-                  opacity: _opacityAnimation,
-                  child: Container(
-                    padding: widget.padding,
-                    color: widget.opacityColor ?? const Color(0xff000000).withOpacity(0.25),
-                    child: widget.child,
-                  ),
+            child: FadeTransition( //  ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+              opacity: _opacityAnimation,
+              child: Container(
+                padding: widget.padding,
+                decoration: BoxDecoration(
+                  borderRadius: widget.borderRadius,
+                  color: widget.opacityColor ?? const Color(0xff000000).withOpacity(0.33),
                 ),
+                child: widget.child,
               ),
             ),
           ),
