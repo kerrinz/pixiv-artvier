@@ -34,6 +34,17 @@ class LocalizationIntl {
   String get novels => Intl.message('Novels', name: 'novels', desc: 'An option of artwork type');
   String get more => Intl.message('More', name: 'more', desc: '');
   String get viewMore => Intl.message('View more', name: 'viewMore', desc: '');
+  String get promptTitle => Intl.message('Prompt', name: 'promptTitle', desc: '');
+  String get promptCancel => Intl.message('Cancel', name: 'promptCancel', desc: '');
+  String get promptConform => Intl.message('Conform', name: 'promptConform', desc: '');
+  String get all => Intl.message('All', name: 'all', desc: '');
+  String get public => Intl.message('Public', name: 'public', desc: '');
+  String get private => Intl.message('Private', name: 'private', desc: 'non-public');
+  String get yes => Intl.message('Yes', name: 'yes', desc: '');
+  String get not => Intl.message('Not', name: 'not', desc: '');
+  String get loadingFailed => Intl.message('Loading Failed', name: 'loadingFailed', desc: 'Image loading failed');
+  String get requestFailed => Intl.message('Request Failed', name: 'requestFailed', desc: 'Request data failed');
+  String get retry => Intl.message('Retry', name: 'retry', desc: '');
   // 首页
   String get rankings => Intl.message('Rankings', name: 'rankings', desc: 'Function group item.');
   String get dailyRankings =>
@@ -61,9 +72,6 @@ class LocalizationIntl {
   String get proxyAndOrigin => Intl.message('proxy & origin',
       name: 'proxyAndOrigin', desc: 'A preference item of configure network proxy and image origin');
   String get otherSettings => Intl.message('Other settings', name: 'otherSettings', desc: 'A preference item');
-  String get promptTitle => Intl.message('Prompt', name: 'promptTitle', desc: '');
-  String get promptCancel => Intl.message('Cancel', name: 'promptCancel', desc: '');
-  String get promptConform => Intl.message('Conform', name: 'promptConform', desc: '');
   String get themeModePromptContent =>
       Intl.message('Manually switching theme mode will turn off the auto-follow system mode, are you sure to switch?',
           name: 'themeModePromptContent',
@@ -73,6 +81,34 @@ class LocalizationIntl {
   String get followed => Intl.message('Followed', name: 'followed', desc: '');
   String get textCollapse => Intl.message('Collapse', name: 'textCollapse', desc: '');
   String get textExpand => Intl.message('Expand', name: 'textExpand', desc: '');
+  String get gender => Intl.message('Gender', name: 'gender', desc: '');
+  String get male => Intl.message('Male', name: 'male', desc: '');
+  String get female => Intl.message('Female', name: 'female', desc: '');
+  String get age => Intl.message('Age', name: 'age', desc: '');
+  String get birthday => Intl.message('Birthday', name: 'birthday', desc: '');
+  String get occupation => Intl.message('Occupation', name: 'occupation', desc: '');
+  String get workspace => Intl.message('Workspace', name: 'workspace', desc: '');
+  String get computer => Intl.message('Computer', name: 'computer', desc: '');
+  String get monitor => Intl.message('Monitor', name: 'monitor', desc: '');
+  String get softwareUsed => Intl.message('Software Used', name: 'softwareUsed', desc: 'Drawing software');
+  String get scanner => Intl.message('Scanner', name: 'scanner', desc: '');
+  String get tablet => Intl.message('Graphic tablet', name: 'tablet', desc: 'Drawing equipment');
+  String get mouse => Intl.message('Mouse', name: 'mouse', desc: '');
+  String get printer => Intl.message('Printer', name: 'printer', desc: '');
+  String get onYourDesk => Intl.message('On top of your desk', name: 'onYourDesk', desc: 'Something on your desk');
+  String get backgroundMusic =>
+      Intl.message('Background music', name: 'backgroundMusic', desc: 'The background music when you drawing');
+  String get table => Intl.message('Table', name: 'table', desc: '');
+  String get chair => Intl.message('Chair', name: 'chair', desc: '');
+  String get other => Intl.message('Other', name: 'other', desc: '');
+  String get nickname => Intl.message('Nickname', name: 'nickname', desc: '');
+  String get website => Intl.message('Website', name: 'website', desc: '');
+  String get socialMedia => Intl.message('Social Media', name: 'socialMedia', desc: '');
+  String get location => Intl.message('Location', name: 'location', desc: 'country or region');
+  String get copiedToClipboard => Intl.message('Copied to clipboard', name: 'copiedToClipboard', desc: '');
+  String get emptyWorksPlaceholder => Intl.message("It's empty here",
+      name: 'emptyWorksPlaceholder', desc: 'Placeholder the works list when it is empty');
+  String get pixivPremium => Intl.message("Pixiv Premium", name: 'pixivPremium', desc: '');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {

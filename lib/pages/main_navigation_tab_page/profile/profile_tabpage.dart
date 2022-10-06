@@ -49,9 +49,9 @@ class ProfileTabPage extends StatelessWidget {
           GlobalStore.currentAccount?.user.id,
         ),
     (context) => IconButtonModel(
-          LocalizationIntl.of(context).following,
-          Icon(Icons.star_border_rounded, color: Theme.of(context).primaryColor, size: 26),
-          RouteNames.userFollowing.name,
+          LocalizationIntl.of(context).markers,
+          Icon(Icons.bookmark_border_rounded, color: Theme.of(context).primaryColor, size: 26),
+          "",
           GlobalStore.currentAccount?.user.id,
         ),
   ];
@@ -167,20 +167,21 @@ class ProfileTabPage extends StatelessWidget {
     );
   }
 
+  // 用户信息
   Widget _buildUserInfoContainer(BuildContext context) {
     Color secondTextColor = Theme.of(context).colorScheme.primaryContainer;
-    return GestureDetector(
-      onTap: () {
-        var user = PreloadUserLeastInfo(int.parse(GlobalStore.currentAccount!.user.id),
-            GlobalStore.currentAccount!.user.name, GlobalStore.currentAccount!.user.profileImageUrls!.px170x170);
-        Navigator.of(context).pushNamed(RouteNames.userDetail.name, arguments: user);
-      },
-      child: Container(
-        color: Theme.of(context).colorScheme.primary,
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
-        child: Column(
-          children: [
-            Row(
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            var user = PreloadUserLeastInfo(int.parse(GlobalStore.currentAccount!.user.id),
+                GlobalStore.currentAccount!.user.name, GlobalStore.currentAccount!.user.profileImageUrls!.px170x170);
+            Navigator.of(context).pushNamed(RouteNames.userDetail.name, arguments: user);
+          },
+          child: Container(
+            color: Theme.of(context).colorScheme.primary,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+            child: Row(
               children: [
                 Expanded(
                   flex: 1,
@@ -245,62 +246,70 @@ class ProfileTabPage extends StatelessWidget {
                 Icon(Icons.keyboard_arrow_right, size: 16, color: Theme.of(context).colorScheme.primaryContainer),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: ProviderWidget<ProfileProvider>(
-                builder: (BuildContext context, ProfileProvider provider, Widget? child) {
-                  TextStyle numTextStyle = TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onPrimary);
-                  TextStyle secondTextStyle =
-                      TextStyle(fontSize: 12, height: 1.6, color: Theme.of(context).colorScheme.primaryContainer);
-                  return Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Column(
-                            children: [
-                              Text(provider.friends.toString(),
-                                  style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
-                              Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Column(
-                            children: [
-                              Text(provider.following.toString(), style: numTextStyle),
-                              Text(LocalizationIntl.of(context).following, style: secondTextStyle),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Column(
-                            children: [
-                              Text("All >", style: numTextStyle),
-                              Text(LocalizationIntl.of(context).followers, style: secondTextStyle),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-                model: ProfileProvider(),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        Container(
+          color: Theme.of(context).colorScheme.primary,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          child: ProviderWidget<ProfileProvider>(
+            builder: (BuildContext context, ProfileProvider provider, Widget? child) {
+              TextStyle numTextStyle = TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onPrimary);
+              TextStyle secondTextStyle =
+                  TextStyle(fontSize: 12, height: 1.6, color: Theme.of(context).colorScheme.primaryContainer);
+              return Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      color: Colors.transparent,
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Column(
+                        children: [
+                          Text(provider.friends.toString(),
+                              style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
+                          Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, RouteNames.userFollowing.name,
+                          arguments: GlobalStore.currentAccount?.user.id),
+                      child: Container(
+                        color: Colors.transparent,
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Column(
+                          children: [
+                            Text(provider.following.toString(), style: numTextStyle),
+                            Text(LocalizationIntl.of(context).following, style: secondTextStyle),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      color: Colors.transparent,
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Column(
+                        children: [
+                          Text("All >", style: numTextStyle),
+                          Text(LocalizationIntl.of(context).followers, style: secondTextStyle),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+            model: ProfileProvider(),
+          ),
+        ),
+      ],
     );
   }
 

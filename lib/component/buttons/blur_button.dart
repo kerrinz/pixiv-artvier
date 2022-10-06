@@ -13,19 +13,7 @@ class BlurButton extends StatefulWidget {
     this.borderRadius,
     this.margin,
     this.padding = const EdgeInsets.all(4.0),
-    this.opacityColor,
-    this.pressedOpacity = 0.66,
-    this.alignment = Alignment.center,
-  }) : super(key: key);
-
-  const BlurButton.leadingBack({
-    Key? key,
-    required this.onPressed,
-    this.child = const Icon(Icons.arrow_back_ios_rounded, size: 16),
-    this.borderRadius = const BorderRadius.all(Radius.circular(20.0)),
-    this.margin,
-    this.padding = const EdgeInsets.all(8.0),
-    this.opacityColor,
+    this.background,
     this.pressedOpacity = 0.66,
     this.alignment = Alignment.center,
   }) : super(key: key);
@@ -40,7 +28,7 @@ class BlurButton extends StatefulWidget {
 
   final VoidCallback? onPressed; // set null to disable button.
 
-  final Color? opacityColor;
+  final Color? background;
 
   final EdgeInsets? padding;
 
@@ -87,7 +75,7 @@ class _BlurButtonState extends State<BlurButton> with SingleTickerProviderStateM
                 padding: widget.padding,
                 decoration: BoxDecoration(
                   borderRadius: widget.borderRadius,
-                  color: widget.opacityColor ?? const Color(0xff000000).withOpacity(0.33),
+                  color: widget.background ?? const Color(0xff000000).withOpacity(0.33),
                 ),
                 child: widget.child,
               ),
