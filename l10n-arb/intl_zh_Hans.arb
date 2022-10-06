@@ -70,6 +70,83 @@
     "placeholders_order": [],
     "placeholders": {}
   },
+  "promptTitle": "提示",
+  "@promptTitle": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "promptCancel": "取消",
+  "@promptCancel": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "promptConform": "确定",
+  "@promptConform": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "all": "全部",
+  "@all": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "public": "公开",
+  "@public": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "private": "非公开",
+  "@private": {
+    "description": "non-public",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "yes": "是",
+  "@yes": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "not": "否",
+  "@not": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "loadingFailed": "加载失败",
+  "@loadingFailed": {
+    "description": "Image loading failed",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "requestFailed": "请求失败",
+  "@requestFailed": {
+    "description": "Request data failed",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "retry": "重试",
+  "@retry": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
   "rankings": "排行榜",
   "@rankings": {
     "description": "Function group item.",
@@ -203,27 +280,6 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "promptTitle": "提示",
-  "@promptTitle": {
-    "description": "",
-    "type": "text",
-    "placeholders_order": [],
-    "placeholders": {}
-  },
-  "promptCancel": "取消",
-  "@promptCancel": {
-    "description": "",
-    "type": "text",
-    "placeholders_order": [],
-    "placeholders": {}
-  },
-  "promptConform": "确定",
-  "@promptConform": {
-    "description": "",
-    "type": "text",
-    "placeholders_order": [],
-    "placeholders": {}
-  },
   "themeModePromptContent": "手动切换主题模式将关闭自动跟随系统，确定切换吗？",
   "@themeModePromptContent": {
     "description": "Switch theme mode in tool bar when currently in auto-follow system mode",
@@ -254,6 +310,188 @@
   },
   "textExpand": "展开",
   "@textExpand": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "gender": "性别",
+  "@gender": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "male": "男",
+  "@male": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "female": "女",
+  "@female": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "age": "年龄",
+  "@age": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "birthday": "生日",
+  "@birthday": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "occupation": "职业",
+  "@occupation": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "workspace": "创作环境",
+  "@workspace": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "computer": "电脑",
+  "@computer": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "monitor": "显示器",
+  "@monitor": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "softwareUsed": "软件",
+  "@softwareUsed": {
+    "description": "Drawing software",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "scanner": "扫描仪",
+  "@scanner": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "tablet": "数位板",
+  "@tablet": {
+    "description": "Drawing equipment",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "mouse": "鼠标",
+  "@mouse": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "printer": "打印机",
+  "@printer": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "onYourDesk": "桌子上的物品",
+  "@onYourDesk": {
+    "description": "Something on your desk",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "backgroundMusic": "绘图时听的音乐",
+  "@backgroundMusic": {
+    "description": "The background music when you drawing",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "table": "桌子",
+  "@table": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "chair": "椅子",
+  "@chair": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "other": "其他",
+  "@other": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "nickname": "昵称",
+  "@nickname": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "website": "个人网站",
+  "@website": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "socialMedia": "社交媒体",
+  "@socialMedia": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "location": "地理位置",
+  "@location": {
+    "description": "Country or region",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "copiedToClipboard": "已复制到剪贴板",
+  "@copiedToClipboard": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "emptyWorksPlaceholder": "这里空空如也",
+  "@emptyWorksPlaceholder": {
+    "description": "Placeholder the works list when it is empty",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "pixivPremium": "Pixiv高级会员",
+  "@pixivPremium": {
     "description": "",
     "type": "text",
     "placeholders_order": [],
