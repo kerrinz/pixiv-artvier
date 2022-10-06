@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/illusts_provider.dart';
 import 'package:pixgem/component/illust_waterfall/illust_waterfall_grid.dart';
+import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:provider/provider.dart';
 
@@ -74,16 +75,21 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
             }
             if (provider.list!.isEmpty) {
               // 列表为空时展示
-              return SingleChildScrollView(
-                physics: widget.physics,
-                child: widget.withoutIllustWidget ??
-                    // 默认展示的样式
-                    Container(
-                      height: MediaQuery.of(context).size.height / 1.5,
-                      alignment: Alignment.center,
-                      child: const Text("暂无", style: TextStyle(fontSize: 18)),
-                    ),
-              );
+              return widget.withoutIllustWidget ??
+                  CustomScrollView(
+                    slivers: [
+                      SliverFillRemaining(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 100),
+                          child: Text(
+                            LocalizationIntl.of(context).emptyWorksPlaceholder,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
             }
             return IllustWaterfallGrid(
               physics: widget.physics,
