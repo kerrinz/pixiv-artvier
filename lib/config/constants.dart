@@ -5,7 +5,7 @@ class CONSTANTS {
   static const String mode_safe = "safe";
   static const String mode_r18 = "r18";
 
-  static const String type_illusts = "illusts";
+  static const String type_illusts = "illust";
   static const String type_manga = "manga";
 
   // 全部、公开、私人

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2022-10-06T23:29:53.955698",
+  "@@last_modified": "2022-10-07T22:03:15.236827",
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -483,7 +483,7 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "emptyWorksPlaceholder": "It's empty here",
+  "emptyWorksPlaceholder": "It is empty here",
   "@emptyWorksPlaceholder": {
     "description": "Placeholder the works list when it is empty",
     "type": "text",

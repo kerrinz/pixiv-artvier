@@ -1,10 +1,12 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/component/buttons/blur_button.dart';
-import 'package:pixgem/component/follow_button.dart';
+import 'package:pixgem/component/buttons/follow_button.dart';
 import 'package:pixgem/component/illusts_grid_tabpage.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/component/sliver_delegates/tab_bar_delegate.dart';
@@ -16,6 +18,7 @@ import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
 import 'package:pixgem/api_app/api_base.dart';
 import 'package:pixgem/api_app/api_user.dart';
+import 'package:pixgem/pages/user/user_detail/works_tabpage.dart';
 import 'package:pixgem/routes.dart';
 import 'package:provider/provider.dart';
 
@@ -125,13 +128,25 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                     },
                     builder: (BuildContext context, UserDetail? userDetail, Widget? child) {
                       if (userDetail?.profile.backgroundImageUrl == null) {
-                        return Container(height: bannerHeight, color: Theme.of(context).colorScheme.primary);
+                        return ImageFiltered(
+                          imageFilter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                          child: CachedNetworkImage(
+                            width: double.infinity,
+                            imageUrl: widget.leastInfo.avatar,
+                            httpHeaders: const {"Referer": CONSTANTS.referer},
+                            fit: BoxFit.cover,
+                            color: const Color(0x33000000), // 等同于black.opacity(0.2)
+                            colorBlendMode: BlendMode.multiply,
+                          ),
+                        );
                       }
                       return CachedNetworkImage(
                         width: double.infinity,
                         imageUrl: userDetail!.profile.backgroundImageUrl!,
                         httpHeaders: const {"Referer": CONSTANTS.referer},
                         fit: BoxFit.cover,
+                        color: const Color(0x33000000),
+                        colorBlendMode: BlendMode.multiply,
                       );
                     },
                   ),
@@ -167,7 +182,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                     pinned: true,
                     delegate: SliverTabBarPersistentHeaderDelegate(
                       backgroundColor: Theme.of(context).colorScheme.surface,
-                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
                       child: TabBar(
                         labelColor: Theme.of(context).primaryColor,
                         indicatorColor: Theme.of(context).primaryColor,
@@ -177,7 +192,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                         labelPadding: const EdgeInsets.symmetric(horizontal: 12.0),
                         indicatorSize: TabBarIndicatorSize.label,
                         controller: _tabController,
-                        isScrollable: true,
+                        isScrollable: false,
                         tabs: _tabs(context),
                       ),
                       maxHeight: kTabBarHeight,
@@ -194,8 +209,21 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                   case LoadingStatus.loading:
                     return const RequestLoading();
                   case LoadingStatus.failed:
-                    return RequestLoadingFailed(
-                      onRetry: refreshUserData,
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 50),
+                      child: Column(
+                        children: [
+                          Center(
+                            child: RequestLoadingFailed(
+                              onRetry: () {
+                                refreshUserData().catchError((_) {
+                                  _provider.setLoadingStatus(LoadingStatus.failed);
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   default:
                     break;
@@ -208,19 +236,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                     controller: _tabController,
                     children: [
                       // 作品列表
-                      IllustGridTabPage(
-                        onLazyLoad: (String nextUrl) async {
-                          var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-                          return CommonIllustList.fromJson(result);
-                        },
-                        onRefresh: () async {
-                          // 获取作品列表
-                          return await ApiUser().getUserIllusts(userId: widget.leastInfo.id).catchError((onError) {
-                            Fluttertoast.showToast(
-                                msg: "获取用户数据失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                          });
-                        },
-                      ),
+                      WorksTabPage(userId: widget.leastInfo.id.toString()),
                       // 收藏列表
                       IllustGridTabPage(
                         onLazyLoad: (String nextUrl) async {
@@ -354,21 +370,25 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
               bottom: 0,
               left: 0,
               right: 0,
-              child: StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
-                  _dropTopSetState = setState;
-                  return GestureDetector(
-                    onTap: () => _scrollController.animateTo(
-                      0,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.decelerate,
-                    ),
-                    child: Opacity(
-                      opacity: _dropTopOpacity,
-                      child: Icon(Icons.keyboard_arrow_up, color: Theme.of(context).colorScheme.onBackground),
-                    ),
-                  );
-                },
+              child: SafeArea(
+                top: false,
+                bottom: true,
+                child: StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    _dropTopSetState = setState;
+                    return GestureDetector(
+                      onTap: () => _scrollController.animateTo(
+                        0,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.decelerate,
+                      ),
+                      child: Opacity(
+                        opacity: _dropTopOpacity,
+                        child: Icon(Icons.keyboard_arrow_up, color: Theme.of(context).colorScheme.onBackground),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ],
@@ -709,7 +729,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
 
   /// 计算各类参数
   void _calc(BuildContext context) {
-    bannerHeight = MediaQuery.of(context).size.width / 2;
+    bannerHeight = MediaQuery.of(context).size.width * 0.48;
     if (bannerHeight > 200) bannerHeight = 200;
     _appBarHeight = kToolbarHeight + MediaQuery.of(context).padding.top;
     _appBarColorOffset0 = bannerHeight - _appBarHeight - 12;

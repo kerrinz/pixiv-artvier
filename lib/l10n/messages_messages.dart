@@ -32,7 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dailyRankings" : MessageLookupByLibrary.simpleMessage("Daily Rankings"),
     "doubleBackToExitPrompt" : MessageLookupByLibrary.simpleMessage("Double back to confirm exit."),
     "downloads" : MessageLookupByLibrary.simpleMessage("Download"),
-    "emptyWorksPlaceholder" : MessageLookupByLibrary.simpleMessage("It\'s empty here"),
+    "emptyWorksPlaceholder" : MessageLookupByLibrary.simpleMessage("It is empty here"),
     "female" : MessageLookupByLibrary.simpleMessage("Female"),
     "follow" : MessageLookupByLibrary.simpleMessage("Follow"),
     "followed" : MessageLookupByLibrary.simpleMessage("Followed"),

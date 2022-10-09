@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 
 class IllustListProvider extends ChangeNotifier {
-  List<CommonIllust>? list; // 插画列表，为null表示未获得数据，isEmpty表示取得数据但无插画
+  /// 插画或漫画列表，[list.isEmpty]表示取得数据但无作品
+  List<CommonIllust> list = [];
+  LoadingStatus loadingStatus = LoadingStatus.loading;
 
-  void setList(List<CommonIllust>? list) {
+  void setAll(List<CommonIllust> list, LoadingStatus status) {
     this.list = list;
+    loadingStatus = status;
     notifyListeners();
   }
 
-  void updateIllust(CommonIllust illust, int index) {
-    list?[index] = illust;
+  /// 覆盖列表全部内容
+  void resetList(List<CommonIllust> list) {
+    this.list.clear();
+    this.list.addAll(list);
     notifyListeners();
   }
 
-  void addNextIllust({required List<CommonIllust> list}) {
-    this.list = [...this.list ?? [], ...list];
+  void setLoadingStatus(LoadingStatus status) {
+    loadingStatus = status;
+    notifyListeners();
+  }
+
+  void addAllToList({required List<CommonIllust> list}) {
+    this.list.addAll(list);
     notifyListeners();
   }
 
   void clearList() {
-    list?.clear();
+    list.clear();
     notifyListeners();
   }
 }

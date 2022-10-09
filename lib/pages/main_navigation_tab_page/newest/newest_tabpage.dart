@@ -1,4 +1,3 @@
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/component/illusts_grid_tabpage.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
@@ -24,15 +23,9 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ExtendedNestedScrollView(
-      onlyOneScrollInBody: true,
-      floatHeaderSlivers: true,
-      headerSliverBuilder: (context, bool innerBoxIsScrolled) {
-        return [
-          SliverAppBar(
-            pinned: false,
-            floating: true,
-            snap: true,
+    return Column(
+      children: [
+          AppBar(
             title: SizedBox(
               height: 48,
               child: Row(
@@ -56,46 +49,47 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage>
               ),
             ],
           ),
-        ];
-      },
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          // 关注的新作
-          IllustGridTabPage(
-            physics: const BouncingScrollPhysics(),
-            onRefresh: () async {
-              return await ApiNewArtWork().getFollowsNewIllusts(ApiNewArtWork.restrict_all);
-            },
-            onLazyLoad: (String nextUrl) async {
-              var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-              return CommonIllustList.fromJson(result);
-            },
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              // 关注的新作
+              IllustGridTabPage(
+                physics: const BouncingScrollPhysics(),
+                onRefresh: () async {
+                  return await ApiNewArtWork().getFollowsNewIllusts(ApiNewArtWork.restrict_all);
+                },
+                onLazyLoad: (String nextUrl) async {
+                  var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
+                  return CommonIllustList.fromJson(result);
+                },
+              ),
+              // 大家的新作
+              IllustGridTabPage(
+                physics: const BouncingScrollPhysics(),
+                onRefresh: () async {
+                  return await ApiNewArtWork().getEveryOnesNewIllusts(ApiNewArtWork.type_illust);
+                },
+                onLazyLoad: (String nextUrl) async {
+                  var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
+                  return CommonIllustList.fromJson(result);
+                },
+              ),
+              // 好P友的新作
+              IllustGridTabPage(
+                physics: const BouncingScrollPhysics(),
+                onRefresh: () async {
+                  return await ApiNewArtWork().getPFriendsIllusts(ApiNewArtWork.restrict_all);
+                },
+                onLazyLoad: (String nextUrl) async {
+                  var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
+                  return CommonIllustList.fromJson(result);
+                },
+              ),
+            ],
           ),
-          // 大家的新作
-          IllustGridTabPage(
-            physics: const BouncingScrollPhysics(),
-            onRefresh: () async {
-              return await ApiNewArtWork().getEveryOnesNewIllusts(ApiNewArtWork.type_illust);
-            },
-            onLazyLoad: (String nextUrl) async {
-              var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-              return CommonIllustList.fromJson(result);
-            },
-          ),
-          // 好P友的新作
-          IllustGridTabPage(
-            physics: const BouncingScrollPhysics(),
-            onRefresh: () async {
-              return await ApiNewArtWork().getPFriendsIllusts(ApiNewArtWork.restrict_all);
-            },
-            onLazyLoad: (String nextUrl) async {
-              var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-              return CommonIllustList.fromJson(result);
-            },
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

@@ -57,10 +57,11 @@ class ApiUser extends ApiBase {
   /* 获取用户的作品列表 */
   Future<CommonIllustList> getUserIllusts({required userId, String type = CONSTANTS.type_illusts}) async {
     Response res = await ApiBase.dio.get<String>(
-      "/v1/user/$type",
+      "/v1/user/illusts",
       queryParameters: {
         "user_id": userId,
         "filter": "for_ios",
+        "type": type,
       },
       options: Options(responseType: ResponseType.json),
     );
