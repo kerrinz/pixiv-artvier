@@ -106,7 +106,7 @@ class LocalizationIntl {
   String get socialMedia => Intl.message('Social Media', name: 'socialMedia', desc: '');
   String get location => Intl.message('Location', name: 'location', desc: 'country or region');
   String get copiedToClipboard => Intl.message('Copied to clipboard', name: 'copiedToClipboard', desc: '');
-  String get emptyWorksPlaceholder => Intl.message("It's empty here",
+  String get emptyWorksPlaceholder => Intl.message("It is empty here",
       name: 'emptyWorksPlaceholder', desc: 'Placeholder the works list when it is empty');
   String get pixivPremium => Intl.message("Pixiv Premium", name: 'pixivPremium', desc: '');
 }

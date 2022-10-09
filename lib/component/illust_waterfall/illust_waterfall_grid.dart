@@ -29,10 +29,12 @@ class IllustWaterfallGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isSliver
-        ? SliverWaterfallFlow(
+    if (isSliver) {
+      return SliverWaterfallFlow(
             gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
               collectGarbage: (List<int> garbages) {
                 // print('collect garbage : $garbages');
                 // 内存回收
@@ -52,14 +54,17 @@ class IllustWaterfallGrid extends StatelessWidget {
               (BuildContext context, int index) => _buildItem(context, index),
               childCount: artworkList.length + 1,
             ),
-          )
-        : WaterfallFlow.builder(
+          );
+    } else {
+      return WaterfallFlow.builder(
             padding: EdgeInsets.zero,
             controller: scrollController,
             physics: physics,
             itemCount: artworkList.length + 1,
             gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
               collectGarbage: (List<int> garbages) {
                 // print('collect garbage : $garbages');
                 for (var index in garbages) {
@@ -75,6 +80,7 @@ class IllustWaterfallGrid extends StatelessWidget {
             ),
             itemBuilder: (BuildContext context, int index) => _buildItem(context, index),
           );
+    }
   }
 
   Widget _buildItem(BuildContext context, index) {
@@ -97,38 +103,35 @@ class IllustWaterfallGrid extends StatelessWidget {
         );
       }
     }
-    return Padding(
-      padding: const EdgeInsets.all(4),
-      child: IllustWaterfallCard(
-        illust: artworkList[index],
-        isBookmarked: artworkList[index].isBookmarked,
-        onTap: () => artworkList[index].restrict == 2
-            ? Fluttertoast.showToast(msg: "该图片已被删除或不公开", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0)
-            : Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
-                arguments: ArtworkDetailModel(
-                    list: artworkList,
-                    index: index,
-                    callback: (int index, bool isBookmark) {
-                      // 回调方法，传给详情页
-                      artworkList[index].isBookmarked = isBookmark;
-                      (context as Element).markNeedsBuild();
-                    })),
-        onTapBookmark: () async {
-          var item = artworkList[index];
-          try {
-            bool result = await postBookmark(item.id.toString(), item.isBookmarked);
-            if (result) {
-              Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-              artworkList[index].isBookmarked = !item.isBookmarked;
-            } else {
-              throw Exception("http status code is not 200.");
-            }
-          } catch (e) {
-            Fluttertoast.showToast(
-                msg: "操作失败！可能已经${item.isBookmarked ? "取消" : ""}收藏了", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+    return IllustWaterfallCard(
+      illust: artworkList[index],
+      isBookmarked: artworkList[index].isBookmarked,
+      onTap: () => artworkList[index].restrict == 2
+          ? Fluttertoast.showToast(msg: "该图片已被删除或不公开", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0)
+          : Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
+              arguments: ArtworkDetailModel(
+                  list: artworkList,
+                  index: index,
+                  callback: (int index, bool isBookmark) {
+                    // 回调方法，传给详情页
+                    artworkList[index].isBookmarked = isBookmark;
+                    (context as Element).markNeedsBuild();
+                  })),
+      onTapBookmark: () async {
+        var item = artworkList[index];
+        try {
+          bool result = await postBookmark(item.id.toString(), item.isBookmarked);
+          if (result) {
+            Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+            artworkList[index].isBookmarked = !item.isBookmarked;
+          } else {
+            throw Exception("http status code is not 200.");
           }
-        },
-      ),
+        } catch (e) {
+          Fluttertoast.showToast(
+              msg: "操作失败！可能已经${item.isBookmarked ? "取消" : ""}收藏了", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+        }
+      },
     );
   }
 

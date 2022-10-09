@@ -31,14 +31,12 @@ class RequestLoadingFailed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Column(
-        children: [
-          Text(LocalizationIntl.of(context).requestFailed),
-          TextButton(onPressed: onRetry, child: Text(LocalizationIntl.of(context).retry)),
-        ],
-      ),
+    return Wrap(
+      direction: Axis.vertical,
+      children: [
+        Text(LocalizationIntl.of(context).requestFailed),
+        TextButton(onPressed: onRetry, child: Text(LocalizationIntl.of(context).retry)),
+      ],
     );
   }
 }

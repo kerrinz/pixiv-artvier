@@ -1,24 +1,50 @@
 import 'package:flutter/widgets.dart';
+import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 
-class ListProvider with ChangeNotifier {
-  List<CommonIllust> rankingList = []; // 排行榜列表
+class HomeTabPageIllustProvider with ChangeNotifier {
+  /// 排行榜列表
+  /// [List.isEmpty]表示取得数据但无作品
+  List<CommonIllust> rankingList = [];
+  /// 推荐列表
+  List<CommonIllust> recomendlist = [];
+  LoadingStatus loadingStatus = LoadingStatus.loading;
 
-  bool isLoading = true; // 是否正在加载中
-
-  void setData({required List<CommonIllust> rankingList, bool isLoading = false}) {
-    this.rankingList = rankingList;
-    this.isLoading = isLoading;
+  /// 覆盖全部
+  void resetAll(
+    List<CommonIllust> rankingList,
+    List<CommonIllust> recomendlist,
+    LoadingStatus status,
+  ) {
+    this.rankingList.clear();
+    this.recomendlist.clear();
+    this.rankingList.addAll(rankingList);
+    this.recomendlist.addAll(recomendlist);
+    loadingStatus = status;
     notifyListeners();
   }
 
-  void setRankingList({required List<CommonIllust> list}) {
-    rankingList = list;
+  /// 覆盖推荐列表内容
+  void resetRecomendList(List<CommonIllust> recomendlist) {
+    this.recomendlist.clear();
+    this.recomendlist.addAll(recomendlist);
     notifyListeners();
   }
 
-  void setLoading(bool isLoading) {
-    this.isLoading = isLoading;
+  void setLoadingStatus(LoadingStatus status) {
+    loadingStatus = status;
+    notifyListeners();
+  }
+
+  // 添加更多到推荐列表
+  void addAllToRecomendList(List<CommonIllust> moreList) {
+    recomendlist.addAll(moreList);
+    notifyListeners();
+  }
+
+  void clearAllList() {
+    rankingList.clear();
+    recomendlist.clear();
     notifyListeners();
   }
 }

@@ -14,7 +14,7 @@ class ViewHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _provider.setList(HistoryStore.getHistoryIllust());
+    _provider.resetList(HistoryStore.getHistoryIllust());
     return Scaffold(
       appBar: AppBar(
         title: const Text("浏览历史"),
@@ -64,7 +64,7 @@ class ViewHistoryPage extends StatelessWidget {
         model: _provider,
         builder: (BuildContext context, IllustListProvider value, Widget? child) {
           return IllustWaterfallGrid(
-            artworkList: value.list ?? [],
+            artworkList: value.list,
             scrollController: scrollController,
             onLazyLoad: () {},
           );
