@@ -58,10 +58,11 @@ class ApiBase {
   * @parma
   *   nextUrl 下一页的链接地址
   */
-  Future<Map<String, dynamic>> getNextUrlData({required String nextUrl}) async {
+  Future<Map<String, dynamic>> getNextUrlData({required String nextUrl, CancelToken? cancelToken}) async {
     Response res = await dio.get<String>(
       nextUrl,
       options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
     );
     return json.decode(res.data);
   }

@@ -32,6 +32,7 @@ class LocalizationIntl {
   String get illustrations => Intl.message('illustrations', name: 'illustrations', desc: 'An option of artwork type');
   String get manga => Intl.message('Manga', name: 'manga', desc: 'An option of artwork type');
   String get novels => Intl.message('Novels', name: 'novels', desc: 'An option of artwork type');
+  String get series => Intl.message("Series", name: 'series', desc: 'the badge or manga or novel series');
   String get more => Intl.message('More', name: 'more', desc: '');
   String get viewMore => Intl.message('View more', name: 'viewMore', desc: '');
   String get promptTitle => Intl.message('Prompt', name: 'promptTitle', desc: '');
@@ -109,6 +110,7 @@ class LocalizationIntl {
   String get emptyWorksPlaceholder => Intl.message("It is empty here",
       name: 'emptyWorksPlaceholder', desc: 'Placeholder the works list when it is empty');
   String get pixivPremium => Intl.message("Pixiv Premium", name: 'pixivPremium', desc: '');
+  // 小说
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {

@@ -1,22 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'user_detail.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserDetail _$UserDetailFromJson(Map<String, dynamic> json) {
-  return UserDetail(
-    User.fromJson(json['user'] as Map<String, dynamic>),
-    Profile.fromJson(json['profile'] as Map<String, dynamic>),
-    Profile_publicity.fromJson(
-        json['profile_publicity'] as Map<String, dynamic>),
-    Workspace.fromJson(json['workspace'] as Map<String, dynamic>),
-  );
-}
+UserDetail _$UserDetailFromJson(Map<String, dynamic> json) => UserDetail(
+      User.fromJson(json['user'] as Map<String, dynamic>),
+      Profile.fromJson(json['profile'] as Map<String, dynamic>),
+      Profile_publicity.fromJson(
+          json['profile_publicity'] as Map<String, dynamic>),
+      Workspace.fromJson(json['workspace'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$UserDetailToJson(UserDetail instance) =>
     <String, dynamic>{
@@ -26,17 +22,15 @@ Map<String, dynamic> _$UserDetailToJson(UserDetail instance) =>
       'workspace': instance.workspace,
     };
 
-User _$UserFromJson(Map<String, dynamic> json) {
-  return User(
-    json['id'] as int,
-    json['name'] as String,
-    json['account'] as String,
-    Profile_image_urls.fromJson(
-        json['profile_image_urls'] as Map<String, dynamic>),
-    json['comment'] as String,
-    json['is_followed'] as bool,
-  );
-}
+User _$UserFromJson(Map<String, dynamic> json) => User(
+      json['id'] as int,
+      json['name'] as String,
+      json['account'] as String,
+      Profile_image_urls.fromJson(
+          json['profile_image_urls'] as Map<String, dynamic>),
+      json['comment'] as String,
+      json['is_followed'] as bool,
+    );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
@@ -47,45 +41,42 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'is_followed': instance.isFollowed,
     };
 
-Profile_image_urls _$Profile_image_urlsFromJson(Map<String, dynamic> json) {
-  return Profile_image_urls(
-    json['medium'] as String,
-  );
-}
+Profile_image_urls _$Profile_image_urlsFromJson(Map<String, dynamic> json) =>
+    Profile_image_urls(
+      json['medium'] as String,
+    );
 
 Map<String, dynamic> _$Profile_image_urlsToJson(Profile_image_urls instance) =>
     <String, dynamic>{
       'medium': instance.medium,
     };
 
-Profile _$ProfileFromJson(Map<String, dynamic> json) {
-  return Profile(
-    json['webpage'] as String?,
-    json['gender'] as String,
-    json['birth'] as String,
-    json['birth_day'] as String,
-    json['birth_year'] as int,
-    json['region'] as String,
-    json['address_id'] as int,
-    json['country_code'] as String,
-    json['job'] as String,
-    json['job_id'] as int,
-    json['total_follow_users'] as int,
-    json['total_mypixiv_users'] as int,
-    json['total_illusts'] as int,
-    json['total_manga'] as int,
-    json['total_novels'] as int,
-    json['total_illust_bookmarks_public'] as int,
-    json['total_illust_series'] as int,
-    json['total_novel_series'] as int,
-    json['twitter_account'] as String,
-    json['twitter_url'] as String?,
-    json['is_premium'] as bool,
-    json['is_using_custom_profile_image'] as bool,
-  )
-    ..backgroundImageUrl = json['background_image_url'] as String?
-    ..pawooUrl = json['pawoo_url'] as String?;
-}
+Profile _$ProfileFromJson(Map<String, dynamic> json) => Profile(
+      json['webpage'] as String?,
+      json['gender'] as String,
+      json['birth'] as String,
+      json['birth_day'] as String,
+      json['birth_year'] as int,
+      json['region'] as String,
+      json['address_id'] as int,
+      json['country_code'] as String,
+      json['job'] as String,
+      json['job_id'] as int,
+      json['total_follow_users'] as int,
+      json['total_mypixiv_users'] as int,
+      json['total_illusts'] as int,
+      json['total_manga'] as int,
+      json['total_novels'] as int,
+      json['total_illust_bookmarks_public'] as int,
+      json['total_illust_series'] as int,
+      json['total_novel_series'] as int,
+      json['twitter_account'] as String,
+      json['twitter_url'] as String?,
+      json['is_premium'] as bool,
+      json['is_using_custom_profile_image'] as bool,
+    )
+      ..backgroundImageUrl = json['background_image_url'] as String?
+      ..pawooUrl = json['pawoo_url'] as String?;
 
 Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'webpage': instance.webpage,
@@ -114,16 +105,15 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'is_using_custom_profile_image': instance.isUsingCustomProfileImage,
     };
 
-Profile_publicity _$Profile_publicityFromJson(Map<String, dynamic> json) {
-  return Profile_publicity(
-    json['gender'] as String,
-    json['region'] as String,
-    json['birth_day'] as String,
-    json['birth_year'] as String,
-    json['job'] as String,
-    json['pawoo'] as bool,
-  );
-}
+Profile_publicity _$Profile_publicityFromJson(Map<String, dynamic> json) =>
+    Profile_publicity(
+      json['gender'] as String,
+      json['region'] as String,
+      json['birth_day'] as String,
+      json['birth_year'] as String,
+      json['job'] as String,
+      json['pawoo'] as bool,
+    );
 
 Map<String, dynamic> _$Profile_publicityToJson(Profile_publicity instance) =>
     <String, dynamic>{
@@ -135,22 +125,20 @@ Map<String, dynamic> _$Profile_publicityToJson(Profile_publicity instance) =>
       'pawoo': instance.pawoo,
     };
 
-Workspace _$WorkspaceFromJson(Map<String, dynamic> json) {
-  return Workspace(
-    json['pc'] as String,
-    json['monitor'] as String,
-    json['tool'] as String,
-    json['scanner'] as String,
-    json['tablet'] as String,
-    json['mouse'] as String,
-    json['printer'] as String,
-    json['desktop'] as String,
-    json['music'] as String,
-    json['desk'] as String,
-    json['chair'] as String,
-    json['comment'] as String,
-  );
-}
+Workspace _$WorkspaceFromJson(Map<String, dynamic> json) => Workspace(
+      json['pc'] as String,
+      json['monitor'] as String,
+      json['tool'] as String,
+      json['scanner'] as String,
+      json['tablet'] as String,
+      json['mouse'] as String,
+      json['printer'] as String,
+      json['desktop'] as String,
+      json['music'] as String,
+      json['desk'] as String,
+      json['chair'] as String,
+      json['comment'] as String,
+    );
 
 Map<String, dynamic> _$WorkspaceToJson(Workspace instance) => <String, dynamic>{
       'pc': instance.pc,

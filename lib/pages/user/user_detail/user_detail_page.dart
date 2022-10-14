@@ -7,17 +7,15 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/component/buttons/blur_button.dart';
 import 'package:pixgem/component/buttons/follow_button.dart';
-import 'package:pixgem/component/illusts_grid_tabpage.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/component/sliver_delegates/tab_bar_delegate.dart';
 import 'package:pixgem/component/text/collapsible_text.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
-import 'package:pixgem/api_app/api_base.dart';
 import 'package:pixgem/api_app/api_user.dart';
+import 'package:pixgem/pages/user/user_detail/collections_tabpage.dart';
 import 'package:pixgem/pages/user/user_detail/works_tabpage.dart';
 import 'package:pixgem/routes.dart';
 import 'package:provider/provider.dart';
@@ -45,14 +43,6 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
   late ScrollController _scrollController;
 
   bool _hasMountedListener = false; // 是否已经挂载了监听事件
-
-  static List<Tab> _tabs(BuildContext context) => [
-        Tab(text: LocalizationIntl.of(context).works),
-        Tab(text: LocalizationIntl.of(context).collections),
-        Tab(text: LocalizationIntl.of(context).more),
-      ];
-
-  final _tabsLength = 3; // [_tabs]的Tab数量
 
   static double bannerHeight = 150; // 背景封面图的高度
 
@@ -89,7 +79,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(initialIndex: 0, length: _tabsLength, vsync: this);
+    _tabController = TabController(initialIndex: 0, length: 3, vsync: this);
     refreshUserData().then((detail) {}).catchError((onError) {
       Fluttertoast.showToast(msg: "获取用户数据失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
       _provider.setLoadingStatus(LoadingStatus.failed);
@@ -193,7 +183,11 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                         indicatorSize: TabBarIndicatorSize.label,
                         controller: _tabController,
                         isScrollable: false,
-                        tabs: _tabs(context),
+                        tabs: [
+                          Tab(text: LocalizationIntl.of(context).works),
+                          Tab(text: LocalizationIntl.of(context).collections),
+                          Tab(text: LocalizationIntl.of(context).more),
+                        ],
                       ),
                       maxHeight: kTabBarHeight,
                       minHeight: kTabBarHeight,
@@ -236,24 +230,13 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                     controller: _tabController,
                     children: [
                       // 作品列表
-                      WorksTabPage(userId: widget.leastInfo.id.toString()),
-                      // 收藏列表
-                      IllustGridTabPage(
-                        onLazyLoad: (String nextUrl) async {
-                          var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-                          return CommonIllustList.fromJson(result);
-                        },
-                        onRefresh: () async {
-                          // 获取收藏列表
-                          return await ApiUser()
-                              .getUserBookmarksIllust(userId: widget.leastInfo.id)
-                              .catchError((onError) {
-                            Fluttertoast.showToast(
-                                msg: "获取用户数据失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                          });
-                        },
+                      WorksTabPage(
+                        userId: widget.leastInfo.id.toString(),
                       ),
-                      // tab——其他信息
+                      // 收藏列表
+                      CollectionsTabPage(
+                        userId: widget.leastInfo.id.toString(),
+                      ),
                       Builder(
                         builder: (BuildContext context) {
                           LocalizationIntl intl = LocalizationIntl.of(context);
@@ -450,6 +433,27 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+            ),
+            Selector(
+              builder: (BuildContext context, bool? isFollowed, Widget? child) {
+                if (isFollowed == null || _appBarTitleOpacity < 1) return Container();
+                return FollowButton(
+                  followedStyle: FollowButtonStyle(
+                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    textStyle: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary),
+                  ),
+                  unfollowedStyle: FollowButtonStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    textStyle: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onPrimary),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                  isFollowed: isFollowed,
+                  userId: widget.leastInfo.id.toString(),
+                );
+              },
+              selector: (context, UserDetailProvider provider) {
+                return provider.isFollowedAuthor;
+              },
             ),
           ],
         ),

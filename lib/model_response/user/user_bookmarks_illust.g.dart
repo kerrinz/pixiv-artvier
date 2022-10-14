@@ -6,14 +6,13 @@ part of 'user_bookmarks_illust.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserBookmarksIllust _$UserBookmarksIllustFromJson(Map<String, dynamic> json) {
-  return UserBookmarksIllust(
-    (json['illusts'] as List<dynamic>)
-        .map((e) => CommonIllust.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    json['next_url'] as String,
-  );
-}
+UserBookmarksIllust _$UserBookmarksIllustFromJson(Map<String, dynamic> json) =>
+    UserBookmarksIllust(
+      (json['illusts'] as List<dynamic>)
+          .map((e) => CommonIllust.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['next_url'] as String,
+    );
 
 Map<String, dynamic> _$UserBookmarksIllustToJson(
         UserBookmarksIllust instance) =>

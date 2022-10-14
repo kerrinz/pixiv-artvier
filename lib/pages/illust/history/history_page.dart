@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/common_provider/illusts_provider.dart';
 import 'package:pixgem/component/base_provider_widget.dart';
-import 'package:pixgem/component/illust_waterfall/illust_waterfall_grid.dart';
+import 'package:pixgem/component/scroll_list/illust_waterfall_grid.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/store/history_store.dart';
 

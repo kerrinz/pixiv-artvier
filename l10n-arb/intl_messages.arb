@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2022-10-07T22:03:15.236827",
+  "@@last_modified": "2022-10-14T15:27:37.994976",
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -493,6 +493,13 @@
   "pixivPremium": "Pixiv Premium",
   "@pixivPremium": {
     "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "series": "Series",
+  "@series": {
+    "description": "the badge or manga or novel series",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
