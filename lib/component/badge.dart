@@ -4,15 +4,22 @@ class Badge extends StatelessWidget {
   final Widget child;
   final Color? color;
   final GestureTapCallback? onTap;
+  final EdgeInsets? padding;
 
-  const Badge({Key? key, required this.child, this.color, this.onTap}) : super(key: key);
+  const Badge({
+    Key? key,
+    required this.child,
+    this.color,
+    this.onTap,
+    this.padding,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
       if (onTap == null) {
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          padding: padding ?? const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           decoration: BoxDecoration(
             color: color ?? Theme.of(context).colorScheme.primary,
             borderRadius: const BorderRadius.all(Radius.circular(20)),

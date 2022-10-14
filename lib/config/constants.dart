@@ -8,9 +8,13 @@ class CONSTANTS {
   static const String type_illusts = "illust";
   static const String type_manga = "manga";
 
-  // 全部、公开、私人
+  /// 作品可见范围的匹配规则：**全部**
+  /// - 支持：关注用户的新作
+  /// - 不支持：用户的收藏
   static const String restrict_all = "all";
+  /// 作品可见范围的匹配规则：**公开**
   static const String restrict_public = "public";
+  /// 作品可见范围的匹配规则：**非公开**
   static const String restrict_private = "private";
 
   static const String referer = "https://www.pixiv.net/";

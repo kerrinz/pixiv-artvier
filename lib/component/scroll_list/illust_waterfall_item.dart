@@ -3,33 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 
-class IllustWaterfallCard extends StatefulWidget {
+class IllustWaterfallItem extends StatefulWidget {
   final CommonIllust illust;
   final bool isBookmarked; // 是否被收藏
   final Function onTap; // 点击卡片的事件
   final Function onTapBookmark; // 点击收藏的事件，会自动刷新收藏按钮的UI
 
   @override
-  State<StatefulWidget> createState() => IllustWaterfallCardState();
+  State<StatefulWidget> createState() => IllustWaterfallItemState();
 
-  const IllustWaterfallCard(
+  const IllustWaterfallItem(
       {Key? key, required this.illust, required this.isBookmarked, required this.onTap, required this.onTapBookmark})
       : super(key: key);
 }
 
-class IllustWaterfallCardState extends State<IllustWaterfallCard> {
+class IllustWaterfallItemState extends State<IllustWaterfallItem> {
   @override
   Widget build(BuildContext context) {
     // LayoutBuilder能获取到父组件的最大支撑宽度
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
+        double _height = (widget.illust.height.toDouble() * constraints.maxWidth) / widget.illust.width;
+        // 最高高度（太高了就阉割掉）
+        double maxConstraintHeight = constraints.maxWidth * 3;
         return SizedBox(
           width: double.infinity,
-          height: (widget.illust.height * constraints.maxWidth) / widget.illust.width,
+          height: _height < maxConstraintHeight ? _height : maxConstraintHeight,
           child: Card(
             elevation: 2.0,
             margin: EdgeInsets.zero,
-            shadowColor: Colors.grey.shade600,
+            shadowColor: Colors.grey.shade300,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(6.0)),
             ),
