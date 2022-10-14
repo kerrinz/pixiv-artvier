@@ -16,19 +16,19 @@ import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/novels/common_novel_list.dart';
 import 'package:provider/provider.dart';
 
-class WorksTabPage extends StatefulWidget {
+class CollectionsTabPage extends StatefulWidget {
   final String userId;
 
-  const WorksTabPage({
+  const CollectionsTabPage({
     Key? key,
     required this.userId,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => WorksTabPageState();
+  State<StatefulWidget> createState() => CollectionsTabPageState();
 }
 
-class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClientMixin {
+class CollectionsTabPageState extends State<CollectionsTabPage> with AutomaticKeepAliveClientMixin {
   /// 列表数据统一管理
   final WorksProvider _worksProvider = WorksProvider();
 
@@ -46,7 +46,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
   @override
   void initState() {
     super.initState();
-    requestIllusts(WorksType.illust).then((value) {
+    requestIllusts(CONSTANTS.restrict_public).then((value) {
       _worksProvider.resetIllust(value.illusts);
       setNextUrl(value.nextUrl);
     }).catchError((error) {
@@ -63,13 +63,8 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
       onRefresh: () async {
         switch (_worksProvider.currentWorksType) {
           case WorksType.illust:
-            CommonIllustList value = await requestIllusts(WorksType.illust);
+            CommonIllustList value = await requestIllusts(CONSTANTS.restrict_public);
             _worksProvider.resetIllust(value.illusts);
-            nextUrl = value.nextUrl;
-            break;
-          case WorksType.manga:
-            CommonIllustList value = await requestIllusts(WorksType.manga);
-            _worksProvider.resetManga(value.illusts);
             nextUrl = value.nextUrl;
             break;
           case WorksType.novel:
@@ -77,7 +72,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
             _worksProvider.resetNovel(value.novels);
             nextUrl = value.nextUrl;
             break;
-          case WorksType.mangaSeries:
+          default:
         }
       },
       child: CustomScrollView(
@@ -103,7 +98,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
                       switch (tapIndex) {
                         case 0:
                           _worksProvider.setCurrentWorksType(WorksType.illust);
-                          requestIllusts(WorksType.illust).then((value) {
+                          requestIllusts(CONSTANTS.restrict_public).then((value) {
                             _worksProvider.resetIllust(value.illusts);
                             setNextUrl(value.nextUrl);
                           }).catchError((error) {
@@ -113,17 +108,6 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
                           });
                           break;
                         case 1:
-                          _worksProvider.setCurrentWorksType(WorksType.manga);
-                          requestIllusts(WorksType.manga).then((value) {
-                            _worksProvider.resetManga(value.illusts);
-                            setNextUrl(value.nextUrl);
-                          }).catchError((error) {
-                            // 非取消才能显示Failed
-                            if (error is DioError && error.type == DioErrorType.cancel) return;
-                            _worksProvider.setLoadingStatus(LoadingStatus.failed);
-                          });
-                          break;
-                        case 2:
                           _worksProvider.setCurrentWorksType(WorksType.novel);
                           requestNovels().then((value) {
                             _worksProvider.resetNovel(value.novels);
@@ -138,8 +122,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
                     }
                   },
                   texts: [
-                    LocalizationIntl.of(context).illustrations,
-                    LocalizationIntl.of(context).manga,
+                    LocalizationIntl.of(context).illustrations + " • " + LocalizationIntl.of(context).manga,
                     LocalizationIntl.of(context).novels
                   ],
                 ),
@@ -163,7 +146,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
                     return SliverToBoxAdapter(
                       child: RequestLoadingFailed(onRetry: () {
                         _worksProvider.setLoadingStatus(LoadingStatus.loading);
-                        requestIllusts(WorksType.illust).then((value) {
+                        requestIllusts(CONSTANTS.restrict_public).then((value) {
                           _worksProvider.resetIllust(value.illusts);
                           setNextUrl(value.nextUrl);
                         }).catchError((error) {
@@ -264,14 +247,14 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
     }).whenComplete(() => isLazyloadRequesting = false); // 最后取消标记懒加载中
   }
 
-  /// 加载插画数据（漫画也适用），成功和失败的后续操作需另行处理
-  Future<CommonIllustList> requestIllusts(WorksType worksType) async {
-    assert(worksType == WorksType.illust || worksType == WorksType.manga);
+  /// 加载插画漫画数据，成功和失败的后续操作需另行处理
+  /// - [restrict] 过滤规则，参考[CONSTANTS.restrict_public]
+  Future<CommonIllustList> requestIllusts(String restrict) async {
     resetLazyload();
     _cancelToken = CancelToken();
-    return await ApiUser().getUserIllusts(
+    return await ApiUser().getUserBookmarksIllust(
       userId: widget.userId,
-      type: _worksProvider.currentWorksType == WorksType.illust ? CONSTANTS.type_illusts : CONSTANTS.type_manga,
+      restrict: restrict,
       cancelToken: _cancelToken,
     );
   }
@@ -280,7 +263,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
   Future<CommonNovelList> requestNovels() async {
     resetLazyload();
     _cancelToken = CancelToken();
-    return await ApiUser().getUserNovels(
+    return await ApiUser().getUserBookmarksNovel(
       userId: widget.userId,
       cancelToken: _cancelToken,
     );

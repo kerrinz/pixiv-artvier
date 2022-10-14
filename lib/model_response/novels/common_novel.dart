@@ -107,10 +107,13 @@ part 'common_novel.g.dart';
   @JsonKey(name: 'name')
   String name;
 
+  @JsonKey(name: 'translated_name')
+  String? translatedName;
+
   @JsonKey(name: 'added_by_uploaded_user')
   bool addedByUploadedUser;
 
-  Tags(this.name,this.addedByUploadedUser,);
+  Tags(this.name,this.translatedName,this.addedByUploadedUser,);
 
   factory Tags.fromJson(Map<String, dynamic> srcJson) => _$TagsFromJson(srcJson);
 
@@ -121,7 +124,13 @@ part 'common_novel.g.dart';
 @JsonSerializable()
   class Series extends Object {
 
-  Series();
+  @JsonKey(name: 'id')
+  int? id;
+
+  @JsonKey(name: 'title')
+  String? title;
+
+  Series(this.id, this.title);
 
   factory Series.fromJson(Map<String, dynamic> srcJson) => _$SeriesFromJson(srcJson);
 

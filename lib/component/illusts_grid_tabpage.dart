@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/illusts_provider.dart';
-import 'package:pixgem/component/illust_waterfall/illust_waterfall_grid.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
+import 'package:pixgem/component/scroll_list/illust_waterfall_grid.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +29,7 @@ class IllustGridTabPage extends StatefulWidget {
   final Widget? withoutIllustWidget; // 列表为空时的展示组件
   final ScrollController? scrollController; // 滚动控制器
   final ScrollPhysics? physics; // 滚动物理效果
+  final bool isSliver;
 
   @override
   State<StatefulWidget> createState() => IllustGridTabPageState();
@@ -41,6 +42,7 @@ class IllustGridTabPage extends StatefulWidget {
     this.withoutIllustWidget,
     this.scrollController,
     this.physics,
+    this.isSliver = false,
   }) : super(key: key);
 }
 
@@ -54,11 +56,7 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
     return ChangeNotifierProvider.value(
       value: _provider,
       child: RefreshIndicator(
-        onRefresh: () async {
-          var result = await widget.onRefresh();
-          _provider.setAll(result.illusts, LoadingStatus.success);
-          nextUrl = result.nextUrl;
-        },
+        onRefresh: widget.onRefresh,
         child: Consumer(
           builder: (context, IllustListProvider provider, Widget? child) {
             switch (provider.loadingStatus) {
@@ -87,6 +85,22 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
                       ),
                     ],
                   );
+            }
+            if (widget.isSliver) {
+              return IllustWaterfallGrid.sliver(
+                physics: widget.physics,
+                artworkList: provider.list,
+                onLazyLoad: () async {
+                  if (nextUrl == null) {
+                    return Fluttertoast.showToast(msg: "已经加载到底了", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                  }
+                  CommonIllustList moreIllustList = await widget.onLazyLoad(nextUrl!); // 懒加载传入下一页地址
+                  nextUrl = moreIllustList.nextUrl; // 替换新的nextUrl
+                  provider.addAllToList(list: moreIllustList.illusts);
+                  (context as Element).markNeedsBuild();
+                },
+                scrollController: widget.scrollController,
+              );
             }
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),

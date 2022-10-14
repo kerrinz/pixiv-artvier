@@ -5,6 +5,7 @@ part 'common_illust_list.g.dart';
 
 
 @JsonSerializable()
+/// - 与漫画通用
 class CommonIllustList extends Object {
 
   @JsonKey(name: 'illusts')

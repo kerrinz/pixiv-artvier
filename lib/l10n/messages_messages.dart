@@ -76,6 +76,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "requestFailed" : MessageLookupByLibrary.simpleMessage("Request Failed"),
     "retry" : MessageLookupByLibrary.simpleMessage("Retry"),
     "scanner" : MessageLookupByLibrary.simpleMessage("Scanner"),
+    "series" : MessageLookupByLibrary.simpleMessage("Series"),
     "socialMedia" : MessageLookupByLibrary.simpleMessage("Social Media"),
     "softwareUsed" : MessageLookupByLibrary.simpleMessage("Software Used"),
     "space" : MessageLookupByLibrary.simpleMessage("Space"),
