@@ -18,13 +18,14 @@ class ApiNewArtWork extends ApiBase {
    * @param
    *  restrict 查询的限制，全部、公开、私人
    */
-  Future<CommonIllustList> getFollowsNewIllusts(String restrict) async {
+  Future<CommonIllustList> getFollowsNewIllusts(String restrict, {CancelToken? cancelToken}) async {
     Response res = await ApiBase.dio.get<String>(
       "/v2/illust/follow",
       queryParameters: {
         "restrict": restrict,
       },
       options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
     );
     return CommonIllustList.fromJson(json.decode(res.data));
   }
@@ -33,7 +34,7 @@ class ApiNewArtWork extends ApiBase {
    * @param
    *  type 作品类型：插画、漫画
    */
-  Future<CommonIllustList> getEveryOnesNewIllusts(String type) async {
+  Future<CommonIllustList> getEveryOnesNewIllusts(String type, {CancelToken? cancelToken}) async {
     Response res = await ApiBase.dio.get<String>(
       "/v1/illust/new",
       queryParameters: {
@@ -41,6 +42,7 @@ class ApiNewArtWork extends ApiBase {
         "filter": "for_ios",
       },
       options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
     );
     return CommonIllustList.fromJson(json.decode(res.data));
   }
@@ -48,7 +50,7 @@ class ApiNewArtWork extends ApiBase {
   /* @description   好P友的新作
    * @param
    */
-  Future<CommonIllustList> getPFriendsIllusts(String type) async {
+  Future<CommonIllustList> getPFriendsIllusts(String type, {CancelToken? cancelToken}) async {
     Response res = await ApiBase.dio.get<String>(
       "/v2/illust/mypixiv",
       queryParameters: {
@@ -56,6 +58,7 @@ class ApiNewArtWork extends ApiBase {
         "filter": "for_ios",
       },
       options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
     );
     return CommonIllustList.fromJson(json.decode(res.data));
   }

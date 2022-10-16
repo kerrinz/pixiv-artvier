@@ -18,10 +18,16 @@ import 'illust_waterfall_item.dart';
 /// - #### 使用时须在本组件外套一层[ChangeNotifierProvider\<LazyloadStatusProvider\>]
 /// - 通过[lazyloadWidget]参数可以自定义并管理其他懒加载组件，此时就不需要外套[LazyloadStatusProvider]
 class IllustWaterfallGrid extends StatelessWidget {
-  final List<CommonIllust> artworkList; // 图片含基本信息的列表
-  final Function onLazyLoad; // 触发懒加载（加载更多）的时候调用
-  final int? limit; // 列表项的极限数量，为空则表示不限
+  /// 插画（或漫画）列表
+  final List<CommonIllust> artworkList;
+
+  /// 触发懒加载（加载更多）的时候调用
+  final Function onLazyLoad;
+
+  /// 列表项的极限数量，为空则表示不限
+  final int? limit;
   final ScrollController? scrollController;
+  final EdgeInsets? padding;
   final ScrollPhysics? physics;
 
   /// 自定义懒加载组件（为null时使用默认的懒加载，但需要外套一层 [ChangeNotifierProvider\<LazyloadStatusProvider\>]）
@@ -36,6 +42,7 @@ class IllustWaterfallGrid extends StatelessWidget {
     this.scrollController,
     this.physics,
     this.lazyloadWidget,
+    this.padding,
   })  : isSliver = false,
         super(key: key);
 
@@ -47,6 +54,7 @@ class IllustWaterfallGrid extends StatelessWidget {
     this.scrollController,
     this.physics,
     this.lazyloadWidget,
+    this.padding,
   })  : isSliver = true,
         super(key: key);
 
@@ -82,7 +90,7 @@ class IllustWaterfallGrid extends StatelessWidget {
       );
     } else {
       return WaterfallFlow.builder(
-        padding: EdgeInsets.zero,
+        padding: padding,
         controller: scrollController,
         physics: physics,
         itemCount: artworkList.length + 1,

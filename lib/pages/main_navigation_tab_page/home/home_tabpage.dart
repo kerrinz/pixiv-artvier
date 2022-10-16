@@ -1,6 +1,8 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pixgem/common_provider/lazyload_status_provider.dart';
+import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/component/scroll_list/illust_waterfall_grid.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/config/constants.dart';
@@ -22,6 +24,8 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   int size = 20;
   bool _isLoadingMore = false; // 是否正在加载更多数据（防止重复获取）
   final HomeTabPageIllustProvider _illustProvider = HomeTabPageIllustProvider();
+  /// 管理懒加载的状态
+  final LazyloadStatusProvider _lazyloadProvider = LazyloadStatusProvider();
   ScrollController controller = ScrollController();
   String? nextUrl; // 下一页的地址
 
@@ -183,18 +187,21 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                   }
                   return SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    sliver: IllustWaterfallGrid.sliver(
-                      // 普通网格布局（图片）
-                      artworkList: provider.recomendlist,
-                      onLazyLoad: () {
-                        // 不在加载中才能获取下一页的数据，以防重复获取同页数据
-                        if (!_isLoadingMore) {
-                          _isLoadingMore = true;
-                          requestNextIllusts().catchError((onError) {
-                            Fluttertoast.showToast(msg: "获取更多作品失败！", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                          }).whenComplete(() => _isLoadingMore = false);
-                        }
-                      },
+                    sliver: ChangeNotifierProvider.value(
+                      value: _lazyloadProvider,
+                      child: IllustWaterfallGrid.sliver(
+                        // 普通网格布局（图片）
+                        artworkList: provider.recomendlist,
+                        onLazyLoad: () {
+                          // 不在加载中才能获取下一页的数据，以防重复获取同页数据
+                          if (!_isLoadingMore) {
+                            _isLoadingMore = true;
+                            requestNextIllusts().catchError((onError) {
+                              Fluttertoast.showToast(msg: "获取更多作品失败！", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+                            }).whenComplete(() => _isLoadingMore = false);
+                          }
+                        },
+                      ),
                     ),
                   );
                 },

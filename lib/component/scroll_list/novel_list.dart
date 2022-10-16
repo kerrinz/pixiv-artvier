@@ -15,6 +15,7 @@ class NovelList extends StatelessWidget {
   final int? limit; // 列表项的极限数量，为空则表示不限
   final ScrollController? scrollController;
   final ScrollPhysics? physics;
+  final EdgeInsets? padding;
   final bool isSliver;
 
   const NovelList({
@@ -25,6 +26,7 @@ class NovelList extends StatelessWidget {
     this.scrollController,
     this.physics,
     this.isSliver = false,
+    this.padding,
   }) : super(key: key);
 
   const NovelList.sliver({
@@ -35,6 +37,7 @@ class NovelList extends StatelessWidget {
     this.scrollController,
     this.physics,
     this.isSliver = true,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -43,7 +46,7 @@ class NovelList extends StatelessWidget {
       return SliverWaterfallFlow(
         gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
-          mainAxisSpacing: 10,
+          mainAxisSpacing: 8,
           crossAxisSpacing: 8,
           collectGarbage: (List<int> garbages) {
             // print('collect garbage : $garbages');
@@ -69,12 +72,12 @@ class NovelList extends StatelessWidget {
       );
     }
     return WaterfallFlow.builder(
-      padding: EdgeInsets.zero,
+      padding: padding,
       controller: scrollController,
       physics: physics,
       itemCount: novelList.length + 1,
       gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: 1,
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
         collectGarbage: (List<int> garbages) {
@@ -157,7 +160,7 @@ class NovelList extends StatelessWidget {
       }),
     );
   }
-  
+
   /* 收藏或者取消收藏 */
   Future<bool> postBookmark(String id, bool oldIsBookmark) async {
     bool isSucceed = false; // 是否执行成功

@@ -4,6 +4,7 @@ import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:pixgem/api_app/api_novels.dart';
 import 'package:pixgem/api_app/api_user.dart';
 import 'package:pixgem/common_provider/lazyload_status_provider.dart';
+import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/common_provider/works_provider.dart';
 import 'package:pixgem/component/filter/flow_filter.dart';
 import 'package:pixgem/component/loading/request_loading.dart';

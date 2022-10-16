@@ -9,14 +9,13 @@ import 'package:pixgem/api_app/api_base.dart';
 class ApiSearch extends ApiBase {
   /* @description   搜索的热门标签
    */
-  Future<IllustTrendingTags> getTrendingTags() async {
-    Response res = await ApiBase.dio.get<String>(
-      "/v1/trending-tags/illust",
-      queryParameters: {
-        "filter": "for_ios",
-      },
-      options: Options(responseType: ResponseType.json),
-    );
+  Future<IllustTrendingTags> getTrendingTags({CancelToken? cancelToken}) async {
+    Response res = await ApiBase.dio.get<String>("/v1/trending-tags/illust",
+        queryParameters: {
+          "filter": "for_ios",
+        },
+        options: Options(responseType: ResponseType.json),
+        cancelToken: cancelToken);
     return IllustTrendingTags.fromJson(json.decode(res.data));
   }
 
@@ -29,6 +28,7 @@ class ApiSearch extends ApiBase {
     includeTranslatedTag = true,
     sort = "date_desc",
     searchTarget = "partial_match_for_tags",
+    CancelToken? cancelToken,
   }) async {
     Response res = await ApiBase.dio.get<String>(
       "/v1/search/illust",
@@ -41,6 +41,7 @@ class ApiSearch extends ApiBase {
         "filter": "for_ios",
       },
       options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
     );
     return IllustsSearchResult.fromJson(json.decode(res.data));
   }

@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/component/buttons/blur_button.dart';
 import 'package:pixgem/component/buttons/follow_button.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
@@ -37,6 +39,8 @@ class UserDetailPage extends StatefulWidget {
 
 class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMixin {
   final UserDetailProvider _provider = UserDetailProvider();
+
+  CancelToken _cancelToken = CancelToken();
 
   late TabController _tabController;
 
@@ -80,8 +84,13 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
   void initState() {
     super.initState();
     _tabController = TabController(initialIndex: 0, length: 3, vsync: this);
-    refreshUserData().then((detail) {}).catchError((onError) {
-      Fluttertoast.showToast(msg: "获取用户数据失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+    refreshUserData().then((detail) {
+      _provider.setUserDetail(detail);
+      _provider.setFollowed(detail.user.isFollowed);
+      _provider.setLoadingStatus(LoadingStatus.success);
+    }).catchError((error) {
+      if (error is DioError && error.type == DioErrorType.cancel) return;
+      Fluttertoast.showToast(msg: "获取用户数据失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
       _provider.setLoadingStatus(LoadingStatus.failed);
     });
   }
@@ -727,6 +736,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
   @override
   void dispose() {
     super.dispose();
+    if (!_cancelToken.isCancelled) _cancelToken.cancel();
     _tabController.dispose();
     _provider.dispose();
   }
@@ -804,11 +814,8 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
 
   // 获取or刷新用户信息
   Future<UserDetail> refreshUserData() async {
+    _cancelToken = CancelToken();
     if (_provider.loadingStatus == LoadingStatus.failed) _provider.setLoadingStatus(LoadingStatus.loading);
-    UserDetail detail = await ApiUser().getUserDetail(userId: widget.leastInfo.id);
-    _provider.setUserDetail(detail);
-    _provider.setFollowed(detail.user.isFollowed);
-    _provider.setLoadingStatus(LoadingStatus.success);
-    return detail;
+    return await ApiUser().getUserDetail(userId: widget.leastInfo.id, cancelToken: _cancelToken);
   }
 }

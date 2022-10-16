@@ -14,7 +14,7 @@ class ViewHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _provider.resetList(HistoryStore.getHistoryIllust());
+    _provider.resetIllusts(HistoryStore.getHistoryIllust());
     return Scaffold(
       appBar: AppBar(
         title: const Text("浏览历史"),
@@ -37,7 +37,7 @@ class ViewHistoryPage extends StatelessWidget {
                       TextButton(
                         child: const Text("确定"),
                         onPressed: () {
-                          HistoryStore.clearIllusts().then((value) => _provider.clearList());
+                          HistoryStore.clearIllusts().then((value) => _provider.clearIllusts());
                           Navigator.of(context).pop();
                         },
                       ),

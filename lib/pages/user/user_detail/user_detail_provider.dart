@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
+import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
 
 class UserDetailProvider with ChangeNotifier {
