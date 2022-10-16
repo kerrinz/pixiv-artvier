@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
+import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/novels/common_novel.dart';
 

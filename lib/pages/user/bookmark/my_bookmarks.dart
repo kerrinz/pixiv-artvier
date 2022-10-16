@@ -1,12 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/component/illusts_grid_tabpage.dart';
+import 'package:pixgem/pages/illust/tab_page/illusts_grid_tabpage.dart';
 import 'package:pixgem/component/sliver_delegates/tab_bar_delegate.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/api_app/api_base.dart';
 import 'package:pixgem/api_app/api_user.dart';
+import 'package:pixgem/pages/novel/novel_list_tabpage.dart';
 import 'package:pixgem/routes.dart';
 
 class MyBookmarksPage extends StatefulWidget {
@@ -17,9 +16,7 @@ class MyBookmarksPage extends StatefulWidget {
   }
 
   @override
-  State<StatefulWidget> createState() {
-    return _MyBookmarksState();
-  }
+  State<StatefulWidget> createState() => _MyBookmarksState();
 }
 
 class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateMixin {
@@ -45,25 +42,15 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
         floatHeaderSlivers: true,
         onlyOneScrollInBody: true,
         controller: _scrollController,
+        pinnedHeaderSliverHeightBuilder: () {
+          return MediaQuery.of(context).padding.top + 48;
+        },
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              title: const Text('我的收藏'),
-              pinned: true,
               floating: true,
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.keyboard_arrow_up),
-                  onPressed: () {
-                    _scrollController.animateTo(
-                      0,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.decelerate,
-                    );
-                  },
-                  tooltip: "回到顶部",
-                ),
-              ],
+              title: const Text('我的收藏'),
+              backgroundColor: Theme.of(context).colorScheme.primary,
             ),
             SliverPersistentHeader(
               pinned: true,
@@ -75,8 +62,8 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
                   indicatorColor: Theme.of(context).colorScheme.onPrimary,
                   unselectedLabelColor: Theme.of(context).colorScheme.onPrimary.withAlpha(175),
                   labelStyle: const TextStyle(fontSize: 14),
-                  unselectedLabelStyle: const TextStyle(fontSize: 14),
-                  labelPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  unselectedLabelStyle: const TextStyle(fontSize: 13),
+                  labelPadding: const EdgeInsets.symmetric(horizontal: 13.0),
                   indicatorSize: TabBarIndicatorSize.label,
                   controller: _tabController,
                   isScrollable: true,
@@ -92,24 +79,15 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
         body: TabBarView(
           controller: _tabController,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: IllustGridTabPage(
-                physics: const BouncingScrollPhysics(),
-                onRefresh: () async {
-                  return await ApiUser().getUserBookmarksIllust(userId: widget.userId!).catchError((onError) {
-                    Fluttertoast.showToast(msg: "获取数据失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                  });
-                },
-                onLazyLoad: (String nextUrl) async {
-                  var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-                  return CommonIllustList.fromJson(result);
-                },
-              ),
+            IllustGridTabPage(
+              onRequest: (CancelToken cancelToken) async {
+                return await ApiUser().getUserBookmarksIllust(userId: widget.userId!, cancelToken: cancelToken);
+              },
             ),
-            Container(
-              child: const Text("小说"),
-              alignment: Alignment.center,
+            NovelListTabPage(
+              onRequest: (CancelToken cancelToken) async {
+                return await ApiUser().getUserBookmarksNovel(userId: widget.userId!, cancelToken: cancelToken);
+              },
             ),
           ],
         ),
