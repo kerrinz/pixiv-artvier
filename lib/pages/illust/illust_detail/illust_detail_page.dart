@@ -224,7 +224,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(((process.progress ?? 0) * 100).toStringAsFixed(0) + "%"),
+                        child: Text("${((process.progress ?? 0) * 100).toStringAsFixed(0)}%"),
                       ),
                     ],
                   ),
@@ -321,13 +321,13 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                     child: Row(
                       children: [
                         // 点赞数
-                        Expanded(flex: 1, child: Text("id: " + info.id.toString())),
+                        Expanded(flex: 1, child: Text("id: ${info.id}")),
                         // 收藏数
                         Expanded(
                             flex: 1,
                             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                               Icon(Icons.favorite, size: 18, color: Colors.blueGrey.shade300),
-                              Text(" " + info.totalBookmarks.toString(),
+                              Text(" ${info.totalBookmarks}",
                                   style: TextStyle(
                                       color: Colors.blueGrey.shade400, fontSize: 15, fontWeight: FontWeight.w400)),
                             ])),
@@ -336,7 +336,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                           flex: 1,
                           child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                             const Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
-                            Text(" " + info.totalView.toString(),
+                            Text(" ${info.totalView}",
                                 style: const TextStyle(color: Colors.grey, fontSize: 14)),
                           ]),
                         ),
@@ -351,11 +351,11 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                 // tags
                 Builder(
                   builder: (BuildContext context) {
-                    List<Widget> _tags = [];
+                    List<Widget> tags = [];
                     // 遍历displayTags
                     for (var element in info.tags) {
                       // tag标签
-                      _tags.add(
+                      tags.add(
                         InkWell(
                           onTap: () {
                             Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: element.name);
@@ -368,12 +368,12 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                         ),
                       );
                       // 标签的翻译文字
-                      _tags.add(
+                      tags.add(
                         Text("${element.translatedName}  "),
                       );
                     }
                     return Wrap(
-                      children: _tags,
+                      children: tags,
                     );
                   },
                 )

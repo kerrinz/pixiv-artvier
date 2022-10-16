@@ -14,7 +14,7 @@ class RefreshTokenInterceptor extends InterceptorsWrapper {
       profile = await OAuth().refreshToken(profile.refreshToken);
       await OAuth().saveTokenToCurrent(profile); // 保存变更的配置
       // 接着给当前发起的请求更新token
-      options.headers["authorization"] = "Bearer " + GlobalStore.currentAccount!.accessToken;
+      options.headers["authorization"] = "Bearer ${GlobalStore.currentAccount!.accessToken}";
       handler.next(options); // continue
     } else {
       // 正常发起请求

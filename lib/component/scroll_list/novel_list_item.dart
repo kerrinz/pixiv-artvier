@@ -23,7 +23,7 @@ class NovelWaterfallItem extends StatelessWidget {
     // 获取到父组件的最大支撑宽度
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        double _height = constraints.maxWidth * 0.36;
+        double height = constraints.maxWidth * 0.36;
         return Container(
           width: constraints.maxWidth,
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
@@ -43,7 +43,7 @@ class NovelWaterfallItem extends StatelessWidget {
                   child: CachedNetworkImage(
                     fit: BoxFit.cover,
                     width: constraints.maxWidth * 0.26,
-                    height: _height,
+                    height: height,
                     imageUrl: novel.imageUrls.medium,
                     httpHeaders: const {"Referer": CONSTANTS.referer},
                   ),
@@ -63,11 +63,11 @@ class NovelWaterfallItem extends StatelessWidget {
                             children: [
                               Badge(
                                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                color: Colors.amber,
                                 child: Text(
                                   LocalizationIntl.of(context).series,
                                   style: const TextStyle(color: Colors.white, fontSize: 12),
                                 ),
-                                color: Colors.amber,
                               ),
                               Expanded(
                                 flex: 1,

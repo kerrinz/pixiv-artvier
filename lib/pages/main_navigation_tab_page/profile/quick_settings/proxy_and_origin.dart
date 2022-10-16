@@ -153,18 +153,20 @@ class SettingNetworkPageState extends State<ProxyOriginSettingsBottomSheet> {
                     ),
                     TextButton(
                       child: const Text("保存"),
-                      onPressed: () async {
+                      onPressed: () {
                         var host =
                             _hostController.text.isNotEmpty ? _hostController.text : CONSTANTS.proxy_default_host;
                         var port =
                             _portController.text.isNotEmpty ? _portController.text : CONSTANTS.proxy_default_port;
-                        await NetworkStore.setNetworkProxy(host, port); // 持久化存储
-                        GlobalStore.proxy = "$host:$port"; //
-                        NetworkStore.setProxyEnable(true);
-                        selectedindex = 1;
-                        // 将选中状态返回
-                        Navigator.of(context).pop();
-                        setState(() {}); // 以后再优化
+                        // 持久化存储
+                        NetworkStore.setNetworkProxy(host, port).then((value) {
+                          GlobalStore.proxy = "$host:$port"; //
+                          NetworkStore.setProxyEnable(true);
+                          selectedindex = 1;
+                          // 将选中状态返回
+                          Navigator.of(context).pop();
+                          setState(() {}); // 以后再优化
+                        });
                       },
                     ),
                   ],

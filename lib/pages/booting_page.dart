@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:pixgem/request/my_http_overrides.dart';
 import 'package:pixgem/routes.dart';
 import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
@@ -46,23 +43,21 @@ class BootingPageState extends State<BootingPage> {
   @override
   void initState() {
     super.initState();
-    initAppData().catchError((onError) {
+    initAppData().then((value) {
+    String? id = AccountStore.getCurrentAccountId();
+      // 拦截未登录
+      if (id != null) {
+        Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
+      }
+    }).catchError((onError) {
       Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
     });
   }
 
-  // 初始化全局数据，拦截未登录
+  /// 初始化数据
   Future initAppData() async {
-    await GlobalStore.init(); // 初始化一些全局数据
-    // 初始化代理设置
-    HttpOverrides.global = MyHttpOverrides();
-    String? id = AccountStore.getCurrentAccountId();
-    if (id != null) {
-      // 已登录
-      Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
-    } else {
-      // 未登录
-      Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
-    }
+    await GlobalStore.init();
   }
 }

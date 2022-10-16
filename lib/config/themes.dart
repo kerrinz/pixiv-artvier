@@ -54,7 +54,7 @@ abstract class BaseTheme {
 }
 
 class PurpleTheme extends BaseTheme {
-  PurpleTheme(Brightness _brightness) : super(_brightness, lightColorScheme_, lightColorScheme_);
+  PurpleTheme(Brightness brightness) : super(brightness, lightColorScheme_, lightColorScheme_);
 
   static get lightColorScheme_ => const ColorScheme(
         brightness: Brightness.light,

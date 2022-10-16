@@ -103,7 +103,7 @@ class SearchResultPageState extends State<SearchResultPage> {
                                           Container(
                                             padding: const EdgeInsets.all(16),
                                             width: double.infinity,
-                                            child: Text("收藏超过" + bookmarkLevels[selectedLevelsIndex] + "的插画"),
+                                            child: Text("收藏超过${bookmarkLevels[selectedLevelsIndex]}的插画"),
                                           ),
                                           Slider(
                                             min: 0,

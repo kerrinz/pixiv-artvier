@@ -33,7 +33,7 @@ class OAuth {
   static late int requestTime; // 发起请求的时间戳，(用于标记token过期时间)
 
   static Dio dio = Dio(BaseOptions(
-    baseUrl: 'https://' + BASE_OAUTH_URL_HOST,
+    baseUrl: 'https://$BASE_OAUTH_URL_HOST',
     connectTimeout: 10000,
     receiveTimeout: 10000,
     sendTimeout: 10000,
@@ -47,7 +47,7 @@ class OAuth {
     String time = getXClientTime(now);
     String timeHash = getXClientHash(xClientTime: time);
     dio = Dio(BaseOptions(
-      baseUrl: 'https://' + BASE_OAUTH_URL_HOST,
+      baseUrl: 'https://$BASE_OAUTH_URL_HOST',
       connectTimeout: 10000,
       receiveTimeout: 10000,
       sendTimeout: 10000,

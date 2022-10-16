@@ -9,7 +9,7 @@ import 'package:pixgem/store/global.dart';
 
 class ApiBase {
   static Dio dio = Dio(BaseOptions(
-    baseUrl: 'https://' + BASE_URL_HOST,
+    baseUrl: 'https://$BASE_URL_HOST',
     connectTimeout: 10000,
     receiveTimeout: 10000,
     sendTimeout: 10000,
@@ -37,7 +37,7 @@ class ApiBase {
   static void init() {
     // 带上一些参数
     if (GlobalStore.currentAccount != null) {
-      dio.options.headers["authorization"] = "Bearer " + GlobalStore.currentAccount!.accessToken; // token
+      dio.options.headers["authorization"] = "Bearer ${GlobalStore.currentAccount!.accessToken}"; // token
       dio.options.headers["accept-language"] = "zh-cn"; // 接口返回的语言
     }
     // 添加拦截器
@@ -49,7 +49,7 @@ class ApiBase {
   void updateToken() {
     // 带上一些参数
     if (GlobalStore.currentAccount != null) {
-      dio.options.headers["authorization"] = "Bearer " + GlobalStore.currentAccount!.accessToken; // token
+      dio.options.headers["authorization"] = "Bearer ${GlobalStore.currentAccount!.accessToken}"; // token
     }
   }
 
