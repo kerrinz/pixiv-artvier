@@ -27,11 +27,11 @@ class BottomSheetSelectItem extends StatelessWidget {
         color: Theme.of(context).cardColor,
         alignment: alignment,
         borderRadius: BorderRadius.zero,
+        onPressed: onTap,
         child: DefaultTextStyle(
           style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
           child: text,
         ),
-        onPressed: onTap,
       ),
     );
   }

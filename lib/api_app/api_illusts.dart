@@ -34,7 +34,7 @@ class ApiIllusts extends ApiBase {
         "User-Agent": "PixivIOSApp/7.12.5 (iOS 14.6; iPhone11,2)",
         "x-client-time": time,
         "x-client-hash": OAuth.getXClientHash(xClientTime: time),
-        "authorization": "Bearer " + GlobalStore.currentAccount!.accessToken,
+        "authorization": "Bearer ${GlobalStore.currentAccount!.accessToken}",
         "accept-language": "zh-cn",
       },
     ));

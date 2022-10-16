@@ -23,12 +23,12 @@ class IllustWaterfallItemState extends State<IllustWaterfallItem> {
     // LayoutBuilder能获取到父组件的最大支撑宽度
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        double _height = (widget.illust.height.toDouble() * constraints.maxWidth) / widget.illust.width;
+        double height = (widget.illust.height.toDouble() * constraints.maxWidth) / widget.illust.width;
         // 最高高度（太高了就阉割掉）
         double maxConstraintHeight = constraints.maxWidth * 3;
         return SizedBox(
           width: double.infinity,
-          height: _height < maxConstraintHeight ? _height : maxConstraintHeight,
+          height: height < maxConstraintHeight ? height : maxConstraintHeight,
           child: Card(
             elevation: 2.0,
             margin: EdgeInsets.zero,
