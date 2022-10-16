@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-/// 加载状态
+/// 懒加载状态
 enum LazyloadStatus {
   loading,
   failed,
