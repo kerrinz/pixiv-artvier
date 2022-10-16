@@ -123,7 +123,7 @@ class CollectionsTabPageState extends State<CollectionsTabPage> with AutomaticKe
                     }
                   },
                   texts: [
-                    LocalizationIntl.of(context).illustrations + " • " + LocalizationIntl.of(context).manga,
+                    "${LocalizationIntl.of(context).illustrations} • ${LocalizationIntl.of(context).manga}",
                     LocalizationIntl.of(context).novels
                   ],
                 ),
