@@ -7,11 +7,15 @@ class NovelListProvider extends ChangeNotifier {
   /// 小说列表，[list.isEmpty]表示取得数据但无作品
   List<CommonNovel> list = [];
 
+  /// 下一页的链接
+  String? nextUrl;
+
   LoadingStatus loadingStatus = LoadingStatus.loading;
 
-  void resetNovels(List<CommonNovel> list, {LoadingStatus status = LoadingStatus.success}) {
+  void resetNovels(List<CommonNovel> list, String? nextUrl, {LoadingStatus status = LoadingStatus.success}) {
     this.list.clear();
     this.list.addAll(list);
+    this.nextUrl = nextUrl;
     if (loadingStatus != status) loadingStatus = status;
     notifyListeners();
   }
@@ -23,8 +27,9 @@ class NovelListProvider extends ChangeNotifier {
     }
   }
 
-  void appendNovels(List<CommonNovel> list) {
+  void appendNovels(List<CommonNovel> list, String? nextUrl) {
     this.list.addAll(list);
+    this.nextUrl = nextUrl;
     notifyListeners();
   }
 

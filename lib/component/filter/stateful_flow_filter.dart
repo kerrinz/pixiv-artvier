@@ -14,8 +14,8 @@ enum FilterMode {
   multiple,
 }
 
-abstract class FlowFilterWidget extends StatefulWidget {
-  FlowFilterWidget({
+abstract class FlowFilterStatefulWidget extends StatefulWidget {
+  FlowFilterStatefulWidget({
     Key? key,
     this.initialIndexes = const {0},
     required this.itemCount,
@@ -55,10 +55,10 @@ abstract class FlowFilterWidget extends StatefulWidget {
   Widget buildUnselectedWidget(BuildContext context, int index);
 
   @override
-  State<StatefulWidget> createState() => _FlowFilterWidgetState();
+  State<StatefulWidget> createState() => _FlowFilterStatefulWidgetState();
 }
 
-class _FlowFilterWidgetState extends State<FlowFilterWidget> {
+class _FlowFilterStatefulWidgetState extends State<FlowFilterStatefulWidget> {
   final Set<int> _selectedindexes = {};
 
   @override
@@ -120,7 +120,7 @@ class _FlowFilterWidgetState extends State<FlowFilterWidget> {
 }
 
 /// 需要自定义内容和样式的过滤器组件，所有待选项均同时显示；支持流式布局
-class CustomFlowFilter extends FlowFilterWidget {
+class CustomFlowFilter extends FlowFilterStatefulWidget {
   CustomFlowFilter({
     Key? key,
     Set<int> initialIndexes = const {0},
@@ -161,7 +161,7 @@ class CustomFlowFilter extends FlowFilterWidget {
 }
 
 /// 文字形过滤器组件
-class TextFlowFilter extends FlowFilterWidget {
+class StatefulTextFlowFilter extends FlowFilterStatefulWidget {
   /// 所有项的文字
   final List<String> texts;
   final TextStyle? selectedTextStyle;
@@ -172,7 +172,7 @@ class TextFlowFilter extends FlowFilterWidget {
   final Border? textBorder;
   final BorderRadius? textBorderRadius;
 
-  TextFlowFilter({
+  StatefulTextFlowFilter({
     Key? key,
     Set<int> initialIndexes = const {0},
     required this.texts,
@@ -186,7 +186,7 @@ class TextFlowFilter extends FlowFilterWidget {
     this.unselectedTextStyle,
     this.selectedBackground,
     this.unselectedBackground,
-    this.textPadding = const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+    this.textPadding = const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
     this.textBorder,
     this.textBorderRadius = const BorderRadius.all(Radius.circular(4)),
   }) : super(

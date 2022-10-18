@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/lazyload_status_provider.dart';
+import 'package:pixgem/component/loading/lazyloading.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
@@ -21,7 +22,7 @@ class IllustWaterfallGrid extends StatelessWidget {
   /// 插画（或漫画）列表
   final List<CommonIllust> artworkList;
 
-  /// 触发懒加载（加载更多）的时候调用
+  /// 触发懒加载（加载更多）的时候调用，需要自行处理重复触发请求的问题
   final Function onLazyLoad;
 
   /// 列表项的极限数量，为空则表示不限
@@ -32,7 +33,13 @@ class IllustWaterfallGrid extends StatelessWidget {
 
   /// 自定义懒加载组件（为null时使用默认的懒加载，但需要外套一层 [ChangeNotifierProvider\<LazyloadStatusProvider\>]）
   final Widget? lazyloadWidget;
-  final bool isSliver; // 是否为Sliver型组件
+
+  /// 是否为Sliver型组件
+  final bool isSliver;
+
+  /// 是否有更多的数据没请求（即是否还有下一页）; [true] 使懒加载显示Loading，[false] 则显示没有更多数据
+  /// - **优先级大于[LazyloadStatusProvider.lazyloadStatus]**
+  final bool hasMore;
 
   const IllustWaterfallGrid({
     Key? key,
@@ -43,6 +50,7 @@ class IllustWaterfallGrid extends StatelessWidget {
     this.physics,
     this.lazyloadWidget,
     this.padding,
+    this.hasMore = true,
   })  : isSliver = false,
         super(key: key);
 
@@ -55,6 +63,7 @@ class IllustWaterfallGrid extends StatelessWidget {
     this.physics,
     this.lazyloadWidget,
     this.padding,
+    this.hasMore = true,
   })  : isSliver = true,
         super(key: key);
 
@@ -176,19 +185,22 @@ class IllustWaterfallGrid extends StatelessWidget {
   Widget _buildLazyloadItem(BuildContext context) {
     return Consumer<LazyloadStatusProvider>(
       builder: ((context, LazyloadStatusProvider provider, child) {
-        switch (provider.lazyloadStatus) {
-          case LazyloadStatus.noMore:
-            return Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(16.0),
-              child: const Text(
-                "没有更多了",
-                style: TextStyle(color: Colors.grey),
-              ),
-            );
-          case LazyloadStatus.loading:
-          case LazyloadStatus.failed:
-            return _buildLoading(context);
+        if (hasMore) {
+          switch (provider.lazyloadStatus) {
+            case LazyloadStatus.loading:
+              return _buildLoading(context);
+            case LazyloadStatus.failed:
+              return _buildLoadingFailed(context);
+          }
+        } else {
+          return Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(16.0),
+            child: const Text(
+              "没有更多了",
+              style: TextStyle(color: Colors.grey),
+            ),
+          );
         }
       }),
     );
@@ -206,7 +218,7 @@ class IllustWaterfallGrid extends StatelessWidget {
     return isSucceed;
   }
 
-  // 构建循环加载动画
+  // 构建懒加载中
   Widget _buildLoading(BuildContext context) {
     return SafeArea(
       left: false,
@@ -215,8 +227,27 @@ class IllustWaterfallGrid extends StatelessWidget {
       bottom: true,
       child: Container(
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         child: const CircularProgressIndicator(strokeWidth: 1.0),
+      ),
+    );
+  }
+
+  // 构建懒加载失败
+  Widget _buildLoadingFailed(BuildContext context) {
+    return SafeArea(
+      left: false,
+      top: false,
+      right: false,
+      bottom: true,
+      child: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: LazyloadingFailedWidget(
+          onRetry: () {
+            onLazyLoad();
+          },
+        ),
       ),
     );
   }

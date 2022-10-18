@@ -42,6 +42,12 @@ class NovelListTabPage extends StatefulWidget {
 
   final EdgeInsets? padding;
 
+  /// 列表数据管理，为空则由内部进行实例化
+  final NovelListProvider? novelsProvider;
+
+  /// 懒加载状态管理，为空则由内部进行实例化
+  final LazyloadStatusProvider? lazyloadProvider;
+
   @override
   State<StatefulWidget> createState() => NovelListTabPageState();
 
@@ -54,18 +60,17 @@ class NovelListTabPage extends StatefulWidget {
     this.scrollController,
     this.physics,
     this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+    this.novelsProvider,
+    this.lazyloadProvider,
   }) : super(key: key);
 }
 
 class NovelListTabPageState extends State<NovelListTabPage> with AutomaticKeepAliveClientMixin {
   /// 列表数据管理
-  final NovelListProvider _illustsProvider = NovelListProvider();
+  late final NovelListProvider _novelsProvider;
 
   /// 懒加载状态管理
-  final LazyloadStatusProvider _lazyloadProvider = LazyloadStatusProvider();
-
-  /// 下一页的地址
-  String? nextUrl;
+  late final LazyloadStatusProvider _lazyloadProvider;
 
   /// 用于取消当前还未完成的请求
   CancelToken _cancelToken = CancelToken();
@@ -76,12 +81,13 @@ class NovelListTabPageState extends State<NovelListTabPage> with AutomaticKeepAl
   @override
   void initState() {
     super.initState();
+    _novelsProvider = widget.novelsProvider ?? NovelListProvider();
+    _lazyloadProvider = widget.lazyloadProvider ?? LazyloadStatusProvider();
     widget.onRequest(_cancelToken).then((value) {
-      _illustsProvider.resetNovels(value.novels);
-      setNextUrl(value.nextUrl);
+      _novelsProvider.resetNovels(value.novels, value.nextUrl);
     }).catchError((error) {
       if (error is DioError && error.type == DioErrorType.cancel) return;
-      _illustsProvider.setLoadingStatus(LoadingStatus.failed);
+      _novelsProvider.setLoadingStatus(LoadingStatus.failed);
     });
   }
 
@@ -90,7 +96,7 @@ class NovelListTabPageState extends State<NovelListTabPage> with AutomaticKeepAl
     super.build(context);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: _illustsProvider),
+        ChangeNotifierProvider.value(value: _novelsProvider),
         ChangeNotifierProvider.value(value: _lazyloadProvider),
       ],
       child: RefreshIndicator(
@@ -102,8 +108,7 @@ class NovelListTabPageState extends State<NovelListTabPage> with AutomaticKeepAl
               fontSize: 14.0,
             );
           });
-          _illustsProvider.resetNovels(value.novels);
-          setNextUrl(value.nextUrl);
+          _novelsProvider.resetNovels(value.novels, value.nextUrl);
         },
         child: Consumer(
           builder: (context, NovelListProvider provider, Widget? child) {
@@ -114,11 +119,10 @@ class NovelListTabPageState extends State<NovelListTabPage> with AutomaticKeepAl
                 return RequestLoadingFailed(
                   onRetry: () {
                     requestNovels(CONSTANTS.restrict_public).then((value) {
-                      _illustsProvider.resetNovels(value.novels);
-                      setNextUrl(value.nextUrl);
+                      _novelsProvider.resetNovels(value.novels, value.nextUrl);
                     }).catchError((error) {
                       if (error is DioError && error.type == DioErrorType.cancel) return;
-                      _illustsProvider.setLoadingStatus(LoadingStatus.failed);
+                      _novelsProvider.setLoadingStatus(LoadingStatus.failed);
                     });
                   },
                 );
@@ -132,18 +136,18 @@ class NovelListTabPageState extends State<NovelListTabPage> with AutomaticKeepAl
               physics: widget.physics,
               padding: widget.padding,
               novelList: provider.list,
+              hasMore: provider.nextUrl != null,
               onLazyLoad: () async {
-                if (nextUrl == null) return;
+                if (_novelsProvider.nextUrl == null) return;
                 if (widget.onLazyLoad != null) {
                   // 自定义的懒加载
                   isLazyloadRequesting = true;
                   _lazyloadProvider.setLazyloadStatus(LazyloadStatus.loading);
                   _cancelToken = CancelToken();
-                  CommonNovelList value = await widget.onLazyLoad!(nextUrl, _cancelToken).catchError((error) {
+                  CommonNovelList value = await widget.onLazyLoad!(provider.nextUrl, _cancelToken).catchError((error) {
                     if (!_cancelToken.isCancelled) _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed);
                   }).whenComplete(() => isLazyloadRequesting = false);
-                  _illustsProvider.resetNovels(value.novels);
-                  setNextUrl(value.nextUrl);
+                  _novelsProvider.resetNovels(value.novels, value.nextUrl);
                 } else {
                   // 默认的懒加载
                   defaultNovelLazyload();
@@ -180,9 +184,8 @@ class NovelListTabPageState extends State<NovelListTabPage> with AutomaticKeepAl
     isLazyloadRequesting = true; // 标记正在懒加载中
     _lazyloadProvider.setLazyloadStatus(LazyloadStatus.loading);
     _cancelToken = CancelToken();
-    ApiNovels().getNextNovels(nextUrl!, cancelToken: _cancelToken).then((value) {
-      _illustsProvider.appendNovels(value.novels);
-      setNextUrl(value.nextUrl);
+    ApiNovels().getNextNovels(_novelsProvider.nextUrl!, cancelToken: _cancelToken).then((value) {
+      _novelsProvider.appendNovels(value.novels, value.nextUrl);
     }).catchError((_) {
       if (!_cancelToken.isCancelled) {
         // 非取消才能显示Failed
@@ -197,13 +200,6 @@ class NovelListTabPageState extends State<NovelListTabPage> with AutomaticKeepAl
     resetLazyload();
     _cancelToken = CancelToken();
     return widget.onRequest(_cancelToken);
-  }
-
-  /// 预置下一页的地址，同时更新[LazyloadStatusProvider]
-  void setNextUrl(String? url) {
-    nextUrl = url;
-    // 没有更多了
-    if (url == null) _lazyloadProvider.setLazyloadStatus(LazyloadStatus.noMore);
   }
 
   /// 重置懒加载的相关数据

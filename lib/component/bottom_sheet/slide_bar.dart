@@ -16,7 +16,7 @@ class BottomSheetSlideBar extends StatelessWidget {
     Key? key,
     this.width = 32.0,
     this.height = 4.0,
-    this.padding,
+    this.padding = const EdgeInsets.symmetric(vertical: 8.0),
     this.color,
     this.alignment = Alignment.center,
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
@@ -26,7 +26,7 @@ class BottomSheetSlideBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: padding ?? const EdgeInsets.symmetric(vertical: 8.0),
+      padding: padding,
       child: Container(
         width: width,
         height: height,

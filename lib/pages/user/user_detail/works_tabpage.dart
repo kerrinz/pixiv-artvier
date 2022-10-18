@@ -6,7 +6,7 @@ import 'package:pixgem/api_app/api_user.dart';
 import 'package:pixgem/common_provider/lazyload_status_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/common_provider/works_provider.dart';
-import 'package:pixgem/component/filter/flow_filter.dart';
+import 'package:pixgem/component/filter/stateful_flow_filter.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/component/scroll_list/illust_waterfall_grid.dart';
 import 'package:pixgem/component/sliver_delegates/widget_delegate.dart';
@@ -88,7 +88,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
             delegate: SliverWidgetPersistentHeaderDelegate(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: TextFlowFilter(
+                child: StatefulTextFlowFilter(
                   filterMode: FilterMode.single,
                   selectedBackground: Theme.of(context).colorScheme.secondary,
                   unselectedBackground: Theme.of(context).colorScheme.surface,
@@ -181,6 +181,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
                       if (provider.illustList.isEmpty) return _buildEmptyPrompt(context);
                       return IllustWaterfallGrid.sliver(
                         artworkList: provider.illustList,
+                        hasMore: nextUrl != null,
                         onLazyLoad: () async {
                           if (isLazyloadRequesting) return; // 已经在请求了，不要重复请求
                           if (nextUrl != null) defaultIllustLazyload(WorksType.illust);
@@ -191,6 +192,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
                       if (provider.mangaList.isEmpty) return _buildEmptyPrompt(context);
                       return IllustWaterfallGrid.sliver(
                         artworkList: provider.mangaList,
+                        hasMore: nextUrl != null,
                         onLazyLoad: () {
                           if (isLazyloadRequesting) return; // 已经在请求了，不要重复请求
                           if (nextUrl != null) defaultIllustLazyload(WorksType.manga);
@@ -200,6 +202,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
                       if (provider.novelList.isEmpty) return _buildEmptyPrompt(context);
                       return NovelList.sliver(
                         novelList: provider.novelList,
+                        hasMore: nextUrl != null,
                         onLazyLoad: () {
                           if (isLazyloadRequesting) return; // 已经在请求了，不要重复请求
                           if (nextUrl != null) defaultNovelLazyload();
@@ -291,7 +294,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
   void setNextUrl(String? url) {
     nextUrl = url;
     // 没有更多了
-    if (url == null) _lazyloadProvider.setLazyloadStatus(LazyloadStatus.noMore);
+    // if (url == null) _lazyloadProvider.setLazyloadStatus(LazyloadStatus.noMore);
   }
 
   /// 重置懒加载的相关数据

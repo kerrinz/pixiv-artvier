@@ -61,6 +61,7 @@ class MyAppState extends State<MyApp> {
         builder: (BuildContext context, ThemeMode mode, Widget? child) {
           return MaterialApp(
             title: 'Pixgem',
+            debugShowCheckedModeBanner: false, // 禁用Debug角标
             onGenerateRoute: (RouteSettings settings) {
               RouteWidgetBuilder builder = Routes.match(context, settings.name);
               return MaterialPageRoute(builder: (context) => builder(context, settings.arguments));

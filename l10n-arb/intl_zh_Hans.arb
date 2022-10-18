@@ -56,6 +56,13 @@
     "placeholders_order": [],
     "placeholders": {}
   },
+  "series": "系列",
+  "@series": {
+    "description": "the badge or manga or novel series",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
   "more": "更多",
   "@more": {
     "description": "",
@@ -143,6 +150,13 @@
   "retry": "重试",
   "@retry": {
     "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "filter": "筛选",
+  "@filter": {
+    "description": "filter the conditions for list",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -492,6 +506,13 @@
   },
   "pixivPremium": "Pixiv高级会员",
   "@pixivPremium": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "myCollections": "我的收藏",
+  "@myCollections": {
     "description": "",
     "type": "text",
     "placeholders_order": [],

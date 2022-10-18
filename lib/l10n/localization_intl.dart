@@ -46,6 +46,7 @@ class LocalizationIntl {
   String get loadingFailed => Intl.message('Loading Failed', name: 'loadingFailed', desc: 'Image loading failed');
   String get requestFailed => Intl.message('Request Failed', name: 'requestFailed', desc: 'Request data failed');
   String get retry => Intl.message('Retry', name: 'retry', desc: '');
+  String get filter => Intl.message("Filter", name: 'filter', desc: 'filter the conditions for list');
   // 首页
   String get rankings => Intl.message('Rankings', name: 'rankings', desc: 'Function group item.');
   String get dailyRankings =>
@@ -110,7 +111,8 @@ class LocalizationIntl {
   String get emptyWorksPlaceholder => Intl.message("It is empty here",
       name: 'emptyWorksPlaceholder', desc: 'Placeholder the works list when it is empty');
   String get pixivPremium => Intl.message("Pixiv Premium", name: 'pixivPremium', desc: '');
-  // 小说
+  // 我的收藏页面
+  String get myCollections => Intl.message("My collections", name: 'myCollections', desc: '');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {
