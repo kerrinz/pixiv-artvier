@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheets {
-  static showCustomBottomSheet({
+  static Future<T?> showCustomBottomSheet<T>({
     required BuildContext context,
     required Widget child,
+    borderRadius = const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
     enableDrag = true, // 拖拽退出
     exitOnClickModal = true, // 点击遮罩层退出
-  }) {
-    showModalBottomSheet<int>(
+  }) async {
+    return await showModalBottomSheet<T>(
       context: context,
       isScrollControlled: true,
       enableDrag: enableDrag,
@@ -25,7 +26,7 @@ class BottomSheets {
               child: Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surface,
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                  borderRadius: borderRadius,
                 ),
                 child: child,
               ),

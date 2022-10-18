@@ -7,11 +7,15 @@ class IllustListProvider extends ChangeNotifier {
   /// 插画或漫画列表，[list.isEmpty]表示取得数据但无作品
   List<CommonIllust> list = [];
 
+  /// 下一页的链接
+  String? nextUrl;
+
   LoadingStatus loadingStatus = LoadingStatus.loading;
 
-  void resetIllusts(List<CommonIllust> list, {LoadingStatus status = LoadingStatus.success}) {
+  void resetIllusts(List<CommonIllust> list, String? nextUrl, {LoadingStatus status = LoadingStatus.success}) {
     this.list.clear();
     this.list.addAll(list);
+    this.nextUrl = nextUrl;
     if (loadingStatus != status) loadingStatus = status;
     notifyListeners();
   }
@@ -23,8 +27,9 @@ class IllustListProvider extends ChangeNotifier {
     }
   }
 
-  void appendIllusts(List<CommonIllust> list) {
+  void appendIllusts(List<CommonIllust> list, String? nextUrl) {
     this.list.addAll(list);
+    this.nextUrl = nextUrl;
     notifyListeners();
   }
 
@@ -32,4 +37,6 @@ class IllustListProvider extends ChangeNotifier {
     list.clear();
     notifyListeners();
   }
+
+  get notify => notifyListeners();
 }

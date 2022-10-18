@@ -14,7 +14,7 @@ class ViewHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _provider.resetIllusts(HistoryStore.getHistoryIllust());
+    _provider.resetIllusts(HistoryStore.getHistoryIllust(), null);
     return Scaffold(
       appBar: AppBar(
         title: const Text("浏览历史"),

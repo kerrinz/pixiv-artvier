@@ -49,6 +49,7 @@ abstract class BaseTheme {
         primaryColor: colorScheme.primary,
         backgroundColor: colorScheme.background,
         appBarTheme: appBarTheme,
+        // useMaterial3: true,
         // textTheme: BaseTheme.textTheme,
       );
 }

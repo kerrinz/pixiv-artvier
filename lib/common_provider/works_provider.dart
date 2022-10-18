@@ -11,7 +11,7 @@ enum WorksType {
   novel,
 }
 
-/// 展示范围
+/// 限制范围
 enum Reveal {
   /// 全部
   all,
@@ -31,7 +31,7 @@ class WorksProvider extends ChangeNotifier {
   /// 当前展示的作品类型
   WorksType currentWorksType;
 
-  /// 展示范围
+  /// 限制范围
   Reveal reveal;
 
   /// 标签

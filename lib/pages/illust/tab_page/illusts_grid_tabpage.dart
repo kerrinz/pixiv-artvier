@@ -18,11 +18,16 @@ typedef IllustLazyLoadCallback = Future<CommonIllustList> Function(String? nextU
 /// 适用于放在TabView里的插画（或漫画）列表页面
 ///
 /// 示例：
-///  IllustGridTabPage(
-///    onRefresh: () async {
-///      return await ApiNewArtWork().getFollowsNewIllusts(ApiNewArtWork.restrict_all);
-///    },
-///  ),
+/// IllustGridTabPage(
+///   illustsProvider: _illustsProvider,
+///   onRequest: (CancelToken cancelToken) async {
+///     return await ApiUser().getUserBookmarksIllust(
+///       userId: widget.userId!,
+///       restrict: illustFilterModel.restrict,
+///       cancelToken: cancelToken,
+///     );
+///   },
+/// ),
 ///
 class IllustGridTabPage extends StatefulWidget {
   /// 首次请求数据的回调函数（刷新也需要该函数）
@@ -42,6 +47,12 @@ class IllustGridTabPage extends StatefulWidget {
 
   final EdgeInsets? padding;
 
+  /// 列表数据管理，为空则由内部进行实例化
+  final IllustListProvider? illustsProvider;
+
+  /// 懒加载状态管理，为空则由内部进行实例化
+  final LazyloadStatusProvider? lazyloadProvider;
+
   @override
   State<StatefulWidget> createState() => IllustGridTabPageState();
 
@@ -54,18 +65,17 @@ class IllustGridTabPage extends StatefulWidget {
     this.scrollController,
     this.physics,
     this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+    this.illustsProvider,
+    this.lazyloadProvider,
   }) : super(key: key);
 }
 
 class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeepAliveClientMixin {
   /// 列表数据管理
-  final IllustListProvider _illustsProvider = IllustListProvider();
+  late final IllustListProvider _illustsProvider;
 
   /// 懒加载状态管理
-  final LazyloadStatusProvider _lazyloadProvider = LazyloadStatusProvider();
-
-  /// 下一页的地址
-  String? nextUrl;
+  late final LazyloadStatusProvider _lazyloadProvider;
 
   /// 用于取消当前还未完成的请求
   CancelToken _cancelToken = CancelToken();
@@ -76,9 +86,10 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
   @override
   void initState() {
     super.initState();
+    _illustsProvider = widget.illustsProvider ?? IllustListProvider();
+    _lazyloadProvider = widget.lazyloadProvider ?? LazyloadStatusProvider();
     widget.onRequest(_cancelToken).then((value) {
-      _illustsProvider.resetIllusts(value.illusts);
-      setNextUrl(value.nextUrl);
+      _illustsProvider.resetIllusts(value.illusts, value.nextUrl);
     }).catchError((error) {
       if (error is DioError && error.type == DioErrorType.cancel) return;
       _illustsProvider.setLoadingStatus(LoadingStatus.failed);
@@ -102,8 +113,7 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
               fontSize: 14.0,
             );
           });
-          _illustsProvider.resetIllusts(value.illusts);
-          setNextUrl(value.nextUrl);
+          _illustsProvider.resetIllusts(value.illusts, value.nextUrl);
         },
         child: Consumer(
           builder: (context, IllustListProvider provider, Widget? child) {
@@ -114,8 +124,7 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
                 return RequestLoadingFailed(
                   onRetry: () {
                     requestIllusts(CONSTANTS.restrict_public).then((value) {
-                      _illustsProvider.resetIllusts(value.illusts);
-                      setNextUrl(value.nextUrl);
+                      _illustsProvider.resetIllusts(value.illusts, value.nextUrl);
                     }).catchError((error) {
                       if (error is DioError && error.type == DioErrorType.cancel) return;
                       _illustsProvider.setLoadingStatus(LoadingStatus.failed);
@@ -132,18 +141,18 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
               physics: widget.physics,
               padding: widget.padding,
               artworkList: provider.list,
+              hasMore: provider.nextUrl != null,
               onLazyLoad: () async {
-                if (nextUrl == null) return;
+                if (_illustsProvider.nextUrl == null) return;
                 if (widget.onLazyLoad != null) {
                   // 自定义的懒加载
                   isLazyloadRequesting = true;
                   _lazyloadProvider.setLazyloadStatus(LazyloadStatus.loading);
                   _cancelToken = CancelToken();
-                  CommonIllustList value = await widget.onLazyLoad!(nextUrl, _cancelToken).catchError((error) {
+                  CommonIllustList value = await widget.onLazyLoad!(provider.nextUrl, _cancelToken).catchError((error) {
                     if (!_cancelToken.isCancelled) _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed);
                   }).whenComplete(() => isLazyloadRequesting = false);
-                  _illustsProvider.resetIllusts(value.illusts);
-                  setNextUrl(value.nextUrl);
+                  _illustsProvider.resetIllusts(value.illusts, value.nextUrl);
                 } else {
                   // 默认的懒加载
                   defaultIllustLazyload();
@@ -180,9 +189,8 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
     isLazyloadRequesting = true; // 标记正在懒加载中
     _lazyloadProvider.setLazyloadStatus(LazyloadStatus.loading);
     _cancelToken = CancelToken();
-    ApiIllusts().getNextIllusts(nextUrl!, cancelToken: _cancelToken).then((value) {
-      _illustsProvider.appendIllusts(value.illusts);
-      setNextUrl(value.nextUrl);
+    ApiIllusts().getNextIllusts(_illustsProvider.nextUrl!, cancelToken: _cancelToken).then((value) {
+      _illustsProvider.appendIllusts(value.illusts, value.nextUrl);
     }).catchError((_) {
       if (!_cancelToken.isCancelled) {
         // 非取消才能显示Failed
@@ -197,13 +205,6 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
     resetLazyload();
     _cancelToken = CancelToken();
     return widget.onRequest(_cancelToken);
-  }
-
-  /// 预置下一页的地址，同时更新[LazyloadStatusProvider]
-  void setNextUrl(String? url) {
-    nextUrl = url;
-    // 没有更多了
-    if (url == null) _lazyloadProvider.setLazyloadStatus(LazyloadStatus.noMore);
   }
 
   /// 重置懒加载的相关数据
