@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:pixgem/common_provider/works_provider.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/novels/common_novel_list.dart';
+import 'package:pixgem/model_response/user/bookmark/bookmark_tag_list.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
 import 'package:pixgem/model_response/user/user_previews_list.dart';
 
@@ -88,13 +90,19 @@ class ApiUser extends ApiBase {
   }
 
   /// 获取用户收藏的插画列表
-  Future<CommonIllustList> getUserBookmarksIllust(
-      {required userId, String restrict = CONSTANTS.restrict_public, CancelToken? cancelToken}) async {
+  Future<CommonIllustList> getUserBookmarksIllust({
+    required userId,
+    String restrict = CONSTANTS.restrict_public,
+    String? tag,
+    CancelToken? cancelToken,
+  }) async {
+    assert(restrict == CONSTANTS.restrict_public || restrict == CONSTANTS.restrict_private);
     Response res = await ApiBase.dio.get<String>(
       "/v1/user/bookmarks/illust",
       queryParameters: {
         "user_id": userId,
         "restrict": restrict,
+        if (tag != null) "tag": tag,
       },
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
@@ -103,12 +111,19 @@ class ApiUser extends ApiBase {
   }
 
   /// 获取用户收藏的小说列表
-  Future<CommonNovelList> getUserBookmarksNovel({required String userId, CancelToken? cancelToken}) async {
+  Future<CommonNovelList> getUserBookmarksNovel({
+    required String userId,
+    String restrict = CONSTANTS.restrict_public,
+    String? tag,
+    CancelToken? cancelToken,
+  }) async {
+    assert(restrict == CONSTANTS.restrict_public || restrict == CONSTANTS.restrict_private);
     Response res = await ApiBase.dio.get<String>(
       "/v1/user/bookmarks/novel",
       queryParameters: {
         "user_id": userId,
-        "restrict": "public",
+        "restrict": restrict,
+        if (tag != null) "tag": tag,
       },
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
@@ -129,5 +144,25 @@ class ApiUser extends ApiBase {
       cancelToken: cancelToken,
     );
     return UserPreviewsList.fromJson(json.decode(res.data));
+  }
+
+  /// 获取收藏插画的标签列表
+  Future<BookmarkTagList> getBookmarkTags(
+    WorksType worksType, {
+    String restrict = CONSTANTS.restrict_public,
+    CancelToken? cancelToken,
+  }) async {
+    assert(restrict == CONSTANTS.restrict_public || restrict == CONSTANTS.restrict_private);
+    assert(worksType == WorksType.illust || worksType == WorksType.novel);
+    String type = (worksType == WorksType.novel ? "novel" : "illust");
+    Response res = await ApiBase.dio.get<String>(
+      "/v1/user/bookmark-tags/$type",
+      queryParameters: {
+        "restrict": restrict,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return BookmarkTagList.fromJson(json.decode(res.data));
   }
 }

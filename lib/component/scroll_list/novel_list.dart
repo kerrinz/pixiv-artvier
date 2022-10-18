@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/lazyload_status_provider.dart';
+import 'package:pixgem/component/loading/lazyloading.dart';
 import 'package:pixgem/component/scroll_list/novel_list_item.dart';
 import 'package:pixgem/model_response/novels/common_novel.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
@@ -18,6 +19,10 @@ class NovelList extends StatelessWidget {
   final EdgeInsets? padding;
   final bool isSliver;
 
+  /// 是否有更多的数据没请求（即是否还有下一页）; [true] 使懒加载显示Loading，[false] 则显示没有更多数据
+  /// - **优先级大于[LazyloadStatusProvider.lazyloadStatus]**
+  final bool hasMore;
+
   const NovelList({
     Key? key,
     required this.novelList,
@@ -27,6 +32,7 @@ class NovelList extends StatelessWidget {
     this.physics,
     this.isSliver = false,
     this.padding,
+    this.hasMore = true,
   }) : super(key: key);
 
   const NovelList.sliver({
@@ -38,6 +44,7 @@ class NovelList extends StatelessWidget {
     this.physics,
     this.isSliver = true,
     this.padding,
+    this.hasMore = true,
   }) : super(key: key);
 
   @override
@@ -143,19 +150,22 @@ class NovelList extends StatelessWidget {
   Widget _buildLazyloadItem(BuildContext context) {
     return Consumer<LazyloadStatusProvider>(
       builder: ((context, LazyloadStatusProvider provider, child) {
-        switch (provider.lazyloadStatus) {
-          case LazyloadStatus.noMore:
-            return Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(16.0),
-              child: const Text(
-                "没有更多了",
-                style: TextStyle(color: Colors.grey),
-              ),
-            );
-          case LazyloadStatus.loading:
-          case LazyloadStatus.failed:
-            return _buildLoading(context);
+        if (hasMore) {
+          switch (provider.lazyloadStatus) {
+            case LazyloadStatus.loading:
+              return _buildLoading(context);
+            case LazyloadStatus.failed:
+              return _buildLoadingFailed(context);
+          }
+        } else {
+          return Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(16.0),
+            child: const Text(
+              "没有更多了",
+              style: TextStyle(color: Colors.grey),
+            ),
+          );
         }
       }),
     );
@@ -175,9 +185,35 @@ class NovelList extends StatelessWidget {
 
   // 构建循环加载动画
   Widget _buildLoading(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: const CircularProgressIndicator(strokeWidth: 1.0),
+    return SafeArea(
+      left: false,
+      top: false,
+      right: false,
+      bottom: true,
+      child: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: const CircularProgressIndicator(strokeWidth: 1.0),
+      ),
+    );
+  }
+
+  // 构建懒加载失败
+  Widget _buildLoadingFailed(BuildContext context) {
+    return SafeArea(
+      left: false,
+      top: false,
+      right: false,
+      bottom: true,
+      child: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: LazyloadingFailedWidget(
+          onRetry: () {
+            onLazyLoad();
+          },
+        ),
+      ),
     );
   }
 }

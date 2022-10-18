@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2022-10-14T15:27:37.994976",
+  "@@last_modified": "2022-10-16T20:56:02.160859",
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -52,6 +52,13 @@
   "novels": "Novels",
   "@novels": {
     "description": "An option of artwork type",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "series": "Series",
+  "@series": {
+    "description": "the badge or manga or novel series",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -143,6 +150,13 @@
   "retry": "Retry",
   "@retry": {
     "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "filter": "Filter",
+  "@filter": {
+    "description": "filter the conditions for list",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -497,9 +511,9 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "series": "Series",
-  "@series": {
-    "description": "the badge or manga or novel series",
+  "myCollections": "My collections",
+  "@myCollections": {
+    "description": "",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
