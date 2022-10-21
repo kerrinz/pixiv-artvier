@@ -36,6 +36,7 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
             SliverAppBar(
               pinned: true,
               title: _buildSearchBox(context),
+              toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
               actions: <Widget>[
                 IconButton(
                   icon: const Text("取消"),

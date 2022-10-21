@@ -52,6 +52,8 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
 
   static double avatarDiameter = 80; // 头像的直径
 
+  static const double kToolbarHeight = 50;
+
   static const double kTabBarHeight = 46;
 
   late double _appBarHeight; // AppBar加上状态栏的高度
@@ -391,6 +393,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
     int c = Theme.of(context).brightness == Brightness.light ? (255 * reverseOpacity).toInt() : 240;
     Color buttonForeground = Color.fromARGB(255, c, c, c);
     return AppBar(
+      toolbarHeight: kToolbarHeight,
       backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(_appBarColorOpacity),
       leading: BlurButton(
         onPressed: () {

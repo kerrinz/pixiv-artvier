@@ -49,6 +49,7 @@ class ArtworksLeaderboardPageState extends State<ArtworksLeaderboardPage> with T
               snap: true,
               floating: true,
               title: const Text("排行榜"),
+              toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
               bottom: TabBar(
                 indicatorSize: TabBarIndicatorSize.label,
                 controller: _tabController,
