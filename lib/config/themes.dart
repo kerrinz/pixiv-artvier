@@ -34,9 +34,9 @@ abstract class BaseTheme {
 
   ColorScheme darkColorScheme;
 
-  ColorScheme get colorScheme => (_brightness == Brightness.light ? lightColorScheme : lightColorScheme);
+  ColorScheme get colorScheme => (_brightness == Brightness.light ? lightColorScheme : darkColorScheme);
 
-  AppBarTheme appBarTheme = const AppBarTheme(shadowColor: Colors.transparent);
+  bool get isLight => _brightness == Brightness.light;
 
   get textThemeOnLight => const TextTheme(
         bodyText1: TextStyle(color: Color(0xff000000), fontSize: 14),
@@ -44,18 +44,41 @@ abstract class BaseTheme {
         caption: TextStyle(color: Color(0xff222222), fontSize: 12),
       );
 
+  /// 主题的核心配置，默认主题配置都在这里定义
   get themeData => ThemeData(
         colorScheme: colorScheme,
         primaryColor: colorScheme.primary,
         backgroundColor: colorScheme.background,
-        appBarTheme: appBarTheme,
-        // useMaterial3: true,
+        scaffoldBackgroundColor: colorScheme.background,
+        appBarTheme: AppBarTheme(
+          toolbarHeight: 50,
+          scrolledUnderElevation: 0,
+          color: colorScheme.surface,
+          titleTextStyle: TextStyle(fontSize: 18, color: colorScheme.onSurface, fontWeight: FontWeight.w600),
+        ),
+        tabBarTheme: TabBarTheme(
+          labelColor: colorScheme.brightness == Brightness.light ? Colors.black : Colors.white,
+          unselectedLabelColor: colorScheme.onSurface.withAlpha(150),
+          labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          unselectedLabelStyle: const TextStyle(fontSize: 14),
+          indicatorSize: TabBarIndicatorSize.label,
+        ),
+        indicatorColor: colorScheme.primary,
+        cardTheme: CardTheme(
+          color: colorScheme.surface,
+          surfaceTintColor: colorScheme.surface,
+          elevation: 1.0,
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          shape: CircleBorder(),
+        ),
+        useMaterial3: true,
         // textTheme: BaseTheme.textTheme,
       );
 }
 
 class PurpleTheme extends BaseTheme {
-  PurpleTheme(Brightness brightness) : super(brightness, lightColorScheme_, lightColorScheme_);
+  PurpleTheme(Brightness brightness) : super(brightness, lightColorScheme_, darkColorScheme_);
 
   static get lightColorScheme_ => const ColorScheme(
         brightness: Brightness.light,
@@ -79,8 +102,35 @@ class PurpleTheme extends BaseTheme {
         onBackground: Color(0xff1C1B1F),
         surface: Color(0xffffffff),
         onSurface: Color(0xff313033),
-        surfaceVariant: Color(0xffF4EFF4),
+        surfaceVariant: Color(0xffF4F4F4),
         onSurfaceVariant: Color(0xff49454F),
         outline: Color(0xffAEA9B4),
+      );
+
+  static get darkColorScheme_ => const ColorScheme(
+        brightness: Brightness.dark,
+        primary: Color(0xffD0BCFF),
+        onPrimary: Color(0xff381E72),
+        primaryContainer: Color(0xff4F378B),
+        onPrimaryContainer: Color(0xffEADDFF),
+        secondary: Color(0xffCCC2DC),
+        onSecondary: Color(0xff332D41),
+        secondaryContainer: Color(0xff4A4458),
+        onSecondaryContainer: Color(0xffE8DEF8),
+        tertiary: Color(0xffEFB8C8),
+        onTertiary: Color(0xff492532),
+        tertiaryContainer: Color(0xff633B48),
+        onTertiaryContainer: Color(0xffFFD8E4),
+        error: Color(0xffF2B8B5),
+        onError: Color(0xff601410),
+        errorContainer: Color(0xff8C1D18),
+        onErrorContainer: Color(0xffF9DEDC),
+        background: Color(0xff181818),
+        onBackground: Color(0xffE6E1E5),
+        surface: Color(0xff222222),
+        onSurface: Color(0xffE6E1E5),
+        surfaceVariant: Color(0xff383838),
+        onSurfaceVariant: Color(0xffCAC4D0),
+        outline: Color(0xff938F99),
       );
 }
