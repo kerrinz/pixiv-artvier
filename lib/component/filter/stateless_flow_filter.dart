@@ -41,7 +41,7 @@ abstract class FlowFilterStatefulWidget extends StatelessWidget {
 
   Widget buildSelectedWidget(BuildContext context, int index);
   Widget buildUnselectedWidget(BuildContext context, int index);
-  
+
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [];
@@ -77,9 +77,14 @@ class StatelessTextFlowFilter extends FlowFilterStatefulWidget {
   final TextStyle? unselectedTextStyle;
   final Color? selectedBackground;
   final Color? unselectedBackground;
+  final Border? selectedBorder;
+  final Border? unselectedBorder;
   final EdgeInsets? textPadding;
-  final Border? textBorder;
   final BorderRadius? textBorderRadius;
+  /// 注：优先级大于其他相关属性
+  final BoxDecoration? selectedDecoration;
+  /// 注：优先级大于其他相关属性
+  final BoxDecoration? unselectedDecoration;
 
   StatelessTextFlowFilter({
     Key? key,
@@ -88,15 +93,18 @@ class StatelessTextFlowFilter extends FlowFilterStatefulWidget {
     required IndexTap onTap,
     int? maxSelectedCount,
     Axis direction = Axis.horizontal,
-    double spacing = 2,
+    double spacing = 4,
     double runSpacing = 0,
     this.selectedTextStyle,
     this.unselectedTextStyle,
     this.selectedBackground,
     this.unselectedBackground,
+    this.selectedBorder,
+    this.unselectedBorder,
     this.textPadding = const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-    this.textBorder,
-    this.textBorderRadius = const BorderRadius.all(Radius.circular(4)),
+    this.textBorderRadius = const BorderRadius.all(Radius.circular(8)),
+    this.selectedDecoration,
+    this.unselectedDecoration,
   }) : super(
           key: key,
           initialIndexes: initialIndexes,
@@ -112,9 +120,9 @@ class StatelessTextFlowFilter extends FlowFilterStatefulWidget {
   Widget buildSelectedWidget(BuildContext context, int index) {
     return Container(
       padding: textPadding,
-      decoration: BoxDecoration(
+      decoration: selectedDecoration ?? BoxDecoration(
         color: selectedBackground ?? Theme.of(context).colorScheme.primary,
-        border: textBorder,
+        border: selectedBorder,
         borderRadius: textBorderRadius,
       ),
       child: Text(texts[index], style: selectedTextStyle ?? TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
@@ -125,9 +133,9 @@ class StatelessTextFlowFilter extends FlowFilterStatefulWidget {
   Widget buildUnselectedWidget(BuildContext context, int index) {
     return Container(
       padding: textPadding,
-      decoration: BoxDecoration(
+      decoration: unselectedDecoration ?? BoxDecoration(
         color: unselectedBackground,
-        border: textBorder,
+        border: unselectedBorder,
         borderRadius: textBorderRadius,
       ),
       child: Text(texts[index], style: unselectedTextStyle),

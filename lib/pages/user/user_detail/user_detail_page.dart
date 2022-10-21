@@ -183,13 +183,8 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                       backgroundColor: Theme.of(context).colorScheme.surface,
                       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
                       child: TabBar(
-                        labelColor: Theme.of(context).primaryColor,
-                        indicatorColor: Theme.of(context).primaryColor,
-                        unselectedLabelColor: Theme.of(context).colorScheme.onSurface,
-                        labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                        unselectedLabelStyle: const TextStyle(fontSize: 14),
+                        labelColor: Theme.of(context).colorScheme.primary,
                         labelPadding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        indicatorSize: TabBarIndicatorSize.label,
                         controller: _tabController,
                         isScrollable: false,
                         tabs: [
@@ -391,9 +386,9 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
 
   // AppBar
   Widget _buildAppBar(BuildContext context) {
-    double reverseOpacity = 1 - _appBarColorOpacity;
-    Color buttonBackground = const Color(0x55000000).withAlpha((85 * reverseOpacity).toInt());
-    int c = (255 * reverseOpacity).toInt();
+    double reverseOpacity = 1 - _appBarColorOpacity; // AppBar背景色透明度的反向透明度
+    Color buttonBackground = const Color(0x55000000).withAlpha((85 * reverseOpacity).toInt()); // back和action按钮的背景色
+    int c = Theme.of(context).brightness == Brightness.light ? (255 * reverseOpacity).toInt() : 240;
     Color buttonForeground = Color.fromARGB(255, c, c, c);
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(_appBarColorOpacity),

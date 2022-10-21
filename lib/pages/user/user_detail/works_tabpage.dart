@@ -11,7 +11,6 @@ import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/component/scroll_list/illust_waterfall_grid.dart';
 import 'package:pixgem/component/sliver_delegates/widget_delegate.dart';
 import 'package:pixgem/component/scroll_list/novel_list.dart';
-import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/novels/common_novel_list.dart';
@@ -275,7 +274,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
     _cancelToken = CancelToken();
     return await ApiUser().getUserIllusts(
       userId: widget.userId,
-      type: _worksProvider.currentWorksType == WorksType.illust ? CONSTANTS.type_illusts : CONSTANTS.type_manga,
+      worksType: _worksProvider.currentWorksType,
       cancelToken: _cancelToken,
     );
   }
