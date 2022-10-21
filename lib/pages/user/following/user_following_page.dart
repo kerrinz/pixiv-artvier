@@ -32,6 +32,7 @@ class UserFollowingPageState extends State<UserFollowingPage> {
             SliverAppBar(
               pinned: true,
               title: const Text("关注列表"),
+              toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
               actions: [
                 IconButton(
                   icon: const Icon(Icons.keyboard_arrow_up),

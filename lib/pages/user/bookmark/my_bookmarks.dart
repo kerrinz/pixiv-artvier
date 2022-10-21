@@ -111,6 +111,7 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
               pinned: true,
               floating: true,
               title: const Text('我的收藏'),
+              toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
               bottom: PreferredSize(
                 preferredSize: tabBar.preferredSize,
                 child: Row(

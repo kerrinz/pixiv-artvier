@@ -24,6 +24,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   int size = 20;
   bool _isLoadingMore = false; // 是否正在加载更多数据（防止重复获取）
   final HomeTabPageIllustProvider _illustProvider = HomeTabPageIllustProvider();
+
   /// 管理懒加载的状态
   final LazyloadStatusProvider _lazyloadProvider = LazyloadStatusProvider();
   ScrollController controller = ScrollController();
@@ -50,8 +51,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
           return [
             SliverAppBar(
               pinned: true,
-              // floating: true,
-              // snap: true,
+              toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
               title: const Text(
                 "Pixgem",
               ),
@@ -217,11 +217,11 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   Widget _buildRankingUnsuccess(BuildContext context, LoadingStatus status) {
     Widget loadingWidget = const RequestLoading();
     Widget failedWidget = RequestLoadingFailed(onRetry: () {
-          _illustProvider.setLoadingStatus(LoadingStatus.loading);
-          refreshAndSetData().catchError((_) {
-            _illustProvider.setLoadingStatus(LoadingStatus.failed);
-          });
-        });
+      _illustProvider.setLoadingStatus(LoadingStatus.loading);
+      refreshAndSetData().catchError((_) {
+        _illustProvider.setLoadingStatus(LoadingStatus.failed);
+      });
+    });
     return SliverToBoxAdapter(
       child: Container(
         height: 200,
