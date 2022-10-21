@@ -30,9 +30,9 @@ class IllustWaterfallItemState extends State<IllustWaterfallItem> {
           width: double.infinity,
           height: height < maxConstraintHeight ? height : maxConstraintHeight,
           child: Card(
-            elevation: 2.0,
+            elevation: 1.0,
             margin: EdgeInsets.zero,
-            shadowColor: Colors.grey.shade300,
+            shadowColor: Theme.of(context).colorScheme.onBackground.withAlpha(10),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(6.0)),
             ),

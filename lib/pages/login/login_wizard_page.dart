@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy_and_origin.dart';
 import 'package:pixgem/routes.dart';
 
 /// 登录引导页面，未登录、添加帐号会跳转到这里
@@ -17,6 +19,7 @@ class LoginWizardPage extends StatelessWidget {
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -24,10 +27,15 @@ class LoginWizardPage extends StatelessWidget {
             ),
             const Text.rich(TextSpan(text: "（代理设置不对登录生效）")),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(child: Container()),
                 TextButton(
-                  onPressed: () => Navigator.of(context).pushNamed(RouteNames.networkSettings.name),
+                  onPressed: () {
+                    BottomSheets.showCustomBottomSheet(
+                      context: context,
+                      child: const ProxyOriginSettingsBottomSheet(),
+                    );
+                  },
                   child: Row(
                     children: const [
                       Text("设置网络代理"),
@@ -35,7 +43,6 @@ class LoginWizardPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(child: Container()),
               ],
             ),
             Card(

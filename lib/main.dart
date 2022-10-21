@@ -40,18 +40,7 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     ThemeData themeDataLight = Themes.match(ThemeTypes.purple, Brightness.light).themeData;
-    ThemeData themeDataDark = ThemeData(
-      appBarTheme: AppBarTheme(
-        backgroundColor: Colors.grey.shade900,
-      ),
-      colorScheme: ColorScheme.dark(
-        primary: Colors.cyan,
-        primaryContainer: Colors.cyan.shade700,
-        secondary: Colors.orangeAccent,
-        secondaryContainer: Colors.orangeAccent.shade400,
-        // onPrimary: Colors.black,
-      ),
-    );
+    ThemeData themeDataDark = Themes.match(ThemeTypes.purple, Brightness.dark).themeData;
     return ChangeNotifierProvider(
       create: (context) => GlobalStore.globalProvider,
       child: Selector(

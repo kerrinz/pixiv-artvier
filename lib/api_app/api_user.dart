@@ -62,7 +62,9 @@ class ApiUser extends ApiBase {
 
   /// 获取用户的漫画（或插画）作品列表
   Future<CommonIllustList> getUserIllusts(
-      {required userId, String type = CONSTANTS.type_illusts, CancelToken? cancelToken}) async {
+      {required userId, WorksType worksType = WorksType.illust, CancelToken? cancelToken}) async {
+    assert([WorksType.illust, WorksType.manga].contains(worksType));
+    String type = worksType == WorksType.illust ? CONSTANTS.type_illusts : CONSTANTS.type_manga;
     Response res = await ApiBase.dio.get<String>(
       "/v1/user/illusts",
       queryParameters: {
@@ -96,7 +98,7 @@ class ApiUser extends ApiBase {
     String? tag,
     CancelToken? cancelToken,
   }) async {
-    assert(restrict == CONSTANTS.restrict_public || restrict == CONSTANTS.restrict_private);
+    assert([CONSTANTS.restrict_public, CONSTANTS.restrict_private].contains(restrict));
     Response res = await ApiBase.dio.get<String>(
       "/v1/user/bookmarks/illust",
       queryParameters: {
@@ -117,7 +119,7 @@ class ApiUser extends ApiBase {
     String? tag,
     CancelToken? cancelToken,
   }) async {
-    assert(restrict == CONSTANTS.restrict_public || restrict == CONSTANTS.restrict_private);
+    assert([CONSTANTS.restrict_public, CONSTANTS.restrict_private].contains(restrict));
     Response res = await ApiBase.dio.get<String>(
       "/v1/user/bookmarks/novel",
       queryParameters: {
@@ -134,6 +136,7 @@ class ApiUser extends ApiBase {
   /// 获取某个用户的关注（用户）列表
   Future<UserPreviewsList> getUserFollowing(
       {required String userId, String restrict = CONSTANTS.restrict_public, CancelToken? cancelToken}) async {
+    assert([CONSTANTS.restrict_public, CONSTANTS.restrict_private].contains(restrict));
     Response res = await ApiBase.dio.get<String>(
       "/v1/user/following",
       queryParameters: {
@@ -152,8 +155,8 @@ class ApiUser extends ApiBase {
     String restrict = CONSTANTS.restrict_public,
     CancelToken? cancelToken,
   }) async {
-    assert(restrict == CONSTANTS.restrict_public || restrict == CONSTANTS.restrict_private);
-    assert(worksType == WorksType.illust || worksType == WorksType.novel);
+    assert([CONSTANTS.restrict_public, CONSTANTS.restrict_private].contains(restrict));
+    assert([WorksType.illust, WorksType.novel].contains(worksType));
     String type = (worksType == WorksType.novel ? "novel" : "illust");
     Response res = await ApiBase.dio.get<String>(
       "/v1/user/bookmark-tags/$type",

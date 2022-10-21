@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/request/oauth.dart';
+import 'package:pixgem/routes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginWebPage extends StatefulWidget {
@@ -43,7 +44,7 @@ class _LoginWebState extends State {
             if (code != null) {
               // OAuth登录
               oAuthLogin(code).then((value) {
-                Navigator.pushNamedAndRemoveUntil(context, "main", (route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
               }).catchError((onError) {
                 // 待处理登录失败的逻辑
               });

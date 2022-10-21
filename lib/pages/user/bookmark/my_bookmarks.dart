@@ -61,6 +61,12 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
   /// 当前作品类型的FilterModel
   FilterModel get currentFilterModel => currentWorkType == WorksType.illust ? illustFilterModel : novelFilterModel;
 
+  /// 另一个作品类型的FilterModel
+  FilterModel get anotherFilterModel => currentWorkType == WorksType.illust ? novelFilterModel : illustFilterModel;
+
+  /// 跟踪当前是否正在显示筛选弹窗
+  bool isShowFilter = false;
+
   @override
   void initState() {
     super.initState();
@@ -71,6 +77,10 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
       _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
       _tabController.addListener(() {
         _tagsProvider.setWorksType(currentWorkType);
+        // 由于当前显示了筛选弹窗，为它更新数据。视图上的restrict还是另一边的，故继续使用另一边的model.restrict
+        if (isShowFilter) {
+          requestBookmarkTags(currentWorkType, anotherFilterModel.restrict);
+        }
       });
     }
   }
@@ -85,13 +95,7 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
         controller: _scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           TabBar tabBar = TabBar(
-            labelColor: Theme.of(context).colorScheme.onPrimary,
-            indicatorColor: Theme.of(context).colorScheme.onPrimary,
-            unselectedLabelColor: Theme.of(context).colorScheme.onPrimary.withAlpha(175),
-            labelStyle: const TextStyle(fontSize: 14),
-            unselectedLabelStyle: const TextStyle(fontSize: 13),
-            labelPadding: const EdgeInsets.symmetric(horizontal: 13.0),
-            indicatorSize: TabBarIndicatorSize.label,
+            labelPadding: const EdgeInsets.symmetric(horizontal: 12.0),
             indicatorPadding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
             controller: _tabController,
             isScrollable: true,
@@ -107,7 +111,6 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
               pinned: true,
               floating: true,
               title: const Text('我的收藏'),
-              backgroundColor: Theme.of(context).colorScheme.primary,
               bottom: PreferredSize(
                 preferredSize: tabBar.preferredSize,
                 child: Row(
@@ -120,11 +123,12 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
                     ProviderWidget<BookmarkTagsProvider>(
                       model: _tagsProvider,
                       builder: (buttonContext, provider, child) {
-                        return CupertinoButton.filled(
+                        return CupertinoButton(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           minSize: tabBar.preferredSize.height,
                           onPressed: () async {
                             requestBookmarkTags(currentWorkType, currentFilterModel.restrict);
+                            isShowFilter = true;
                             FilterModel? model = await BottomSheets.showCustomBottomSheet<FilterModel>(
                               context: context,
                               borderRadius: const BorderRadius.only(
@@ -141,8 +145,9 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
                                 tagsProvider: _tagsProvider,
                               ),
                             );
+                            isShowFilter = false;
                             // 取消掉标签请求
-                            _tagsCancelToken.cancel();
+                            if (!_tagsCancelToken.isCancelled) _tagsCancelToken.cancel();
                             if (model != null) {
                               // 确定筛选后触发
                               changeFilter(currentWorkType, model);
@@ -170,7 +175,6 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
         },
         body: TabBarView(
           controller: _tabController,
-          physics: const NeverScrollableScrollPhysics(),
           children: [
             IllustGridTabPage(
               illustsProvider: illustsProvider,
@@ -211,7 +215,6 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
       case WorksType.illust:
         ApiUser().getBookmarkTags(WorksType.illust, restrict: restrict, cancelToken: _tagsCancelToken).then((value) {
           _tagsProvider.resetIllustTags(value.bookmarkTags ?? [], value.nextUrl);
-          _tagsProvider.seLoadStatus(LoadingStatus.success);
         }).catchError((error) {
           if ((error as DioError).type == DioErrorType.cancel) return;
           _tagsProvider.seLoadStatus(LoadingStatus.failed);
@@ -221,7 +224,6 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
       default:
         ApiUser().getBookmarkTags(WorksType.novel, restrict: restrict, cancelToken: _tagsCancelToken).then((value) {
           _tagsProvider.resetNovelTags(value.bookmarkTags ?? [], value.nextUrl);
-          _tagsProvider.seLoadStatus(LoadingStatus.success);
         }).catchError((error) {
           if ((error as DioError).type == DioErrorType.cancel) return;
           _tagsProvider.seLoadStatus(LoadingStatus.failed);
@@ -275,7 +277,6 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
     _tabController.dispose();
     if (!_cancelToken.isCancelled) _cancelToken.cancel();
     if (!_tagsCancelToken.isCancelled) _cancelToken.cancel();
-    _tagsProvider.dispose();
     super.dispose();
   }
 }

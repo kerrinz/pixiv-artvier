@@ -27,6 +27,9 @@ class BookmarkFilterSheet extends StatelessWidget {
 
   final void Function(WorksType worksType, String restrict) requestBookmarkTags;
 
+  /// 当前restrict对应的索引
+  get currentRestrictIndex => [CONSTANTS.restrict_public, CONSTANTS.restrict_private].indexOf(cacheModel.restrict);
+
   const BookmarkFilterSheet({
     Key? key,
     required this.cacheModel,
@@ -61,12 +64,28 @@ class BookmarkFilterSheet extends StatelessWidget {
                 Builder(builder: (filterContext) {
                   return StatelessTextFlowFilter(
                     initialIndexes: {cacheModel.restrict == CONSTANTS.restrict_public ? 0 : 1},
-                    unselectedBackground: Theme.of(context).colorScheme.background,
-                    spacing: 4,
+                    selectedDecoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      border: Border.all(color: Theme.of(context).colorScheme.primary.withAlpha(100)),
+                    ),
+                    unselectedDecoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.background,
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      border: Border.all(color: Theme.of(context).colorScheme.background),
+                    ),
+                    selectedTextStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     onTap: (int tapIndex) {
-                      cacheModel.setRestrict(tapIndex == 0 ? CONSTANTS.restrict_public : CONSTANTS.restrict_private);
-                      requestBookmarkTags(currentWorkType, cacheModel.restrict);
-                      (filterContext as Element).markNeedsBuild();
+                      if (tapIndex != currentRestrictIndex) {
+                        cacheModel
+                            .setRestrict(tapIndex == 0 ? CONSTANTS.restrict_public : CONSTANTS.restrict_private);
+                        requestBookmarkTags(tagsProvider.currentWorksType, cacheModel.restrict);
+                        (filterContext as Element).markNeedsBuild();
+                      }
                     },
                     texts: [
                       LocalizationIntl.of(context).public,
@@ -89,10 +108,10 @@ class BookmarkFilterSheet extends StatelessWidget {
                   maxHeight: MediaQuery.of(context).size.height * 0.5,
                 ),
                 child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 4.0),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background.withAlpha(150),
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    border: Border.all(color: Theme.of(context).colorScheme.surfaceVariant),
+                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                   ),
                   child: Consumer(
                     builder: ((context, BookmarkTagsProvider provider, child) {
@@ -249,25 +268,25 @@ class _TagListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+      borderRadius: const BorderRadius.all(Radius.circular(10.0)),
       child: Material(
         shadowColor: Colors.transparent,
-        color: isActived ? Theme.of(context).colorScheme.primaryContainer : Colors.transparent,
+        color: isActived ? Theme.of(context).colorScheme.secondaryContainer : Colors.transparent,
         child: InkWell(
           onTap: onTap,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-              border: Border.all(color: isActived ? Theme.of(context).colorScheme.primary : Colors.transparent),
+              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+              border: Border.all(
+                  color: isActived ? Theme.of(context).colorScheme.primary.withAlpha(100) : Colors.transparent),
             ),
             child: Text(
               name,
               style: TextStyle(
                 fontSize: 16,
-                color: isActived
-                    ? Theme.of(context).colorScheme.onPrimaryContainer
-                    : Theme.of(context).colorScheme.onSurface,
+                fontWeight: isActived ? FontWeight.w500 : FontWeight.w400,
+                color: isActived ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
               ),
               overflow: TextOverflow.ellipsis,
             ),

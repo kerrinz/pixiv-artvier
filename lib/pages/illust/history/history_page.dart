@@ -2,15 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:pixgem/common_provider/illusts_provider.dart';
 import 'package:pixgem/component/base_provider_widget.dart';
 import 'package:pixgem/component/scroll_list/illust_waterfall_grid.dart';
+import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/store/history_store.dart';
 
-class ViewHistoryPage extends StatelessWidget {
+class ViewHistoryPage extends StatefulWidget {
+  const ViewHistoryPage({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _HistoryPageState();
+}
+
+class _HistoryPageState extends State<ViewHistoryPage> {
   final IllustListProvider _provider = IllustListProvider();
   final List<CommonIllust> list = [];
-  final ScrollController scrollController = ScrollController();
+  late ScrollController scrollController;
 
-  ViewHistoryPage({Key? key}) : super(key: key);
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    scrollController = PrimaryScrollController.of(context) ?? ScrollController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +43,11 @@ class ViewHistoryPage extends StatelessWidget {
                     content: const Text("确定要清空所有历史记录吗?"),
                     actions: <Widget>[
                       TextButton(
-                        child: const Text("取消"),
+                        child: Text(LocalizationIntl.of(context).promptCancel),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                       TextButton(
-                        child: const Text("确定"),
+                        child: Text(LocalizationIntl.of(context).promptConform),
                         onPressed: () {
                           HistoryStore.clearIllusts().then((value) => _provider.clearIllusts());
                           Navigator.of(context).pop();
@@ -47,17 +59,6 @@ class ViewHistoryPage extends StatelessWidget {
               );
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.keyboard_arrow_up),
-            onPressed: () {
-              scrollController.animateTo(
-                0,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.decelerate,
-              );
-            },
-            tooltip: "回到顶部",
-          ),
         ],
       ),
       body: ProviderWidget<IllustListProvider>(
@@ -66,6 +67,7 @@ class ViewHistoryPage extends StatelessWidget {
           return IllustWaterfallGrid(
             artworkList: value.list,
             scrollController: scrollController,
+            hasMore: false,
             onLazyLoad: () {},
           );
         },

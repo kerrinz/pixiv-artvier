@@ -49,9 +49,9 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              pinned: false,
-              floating: true,
-              snap: true,
+              pinned: true,
+              // floating: true,
+              // snap: true,
               title: const Text(
                 "Pixgem",
               ),

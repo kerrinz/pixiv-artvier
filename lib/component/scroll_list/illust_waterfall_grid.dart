@@ -49,7 +49,7 @@ class IllustWaterfallGrid extends StatelessWidget {
     this.scrollController,
     this.physics,
     this.lazyloadWidget,
-    this.padding,
+    this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
     this.hasMore = true,
   })  : isSliver = false,
         super(key: key);
@@ -62,7 +62,7 @@ class IllustWaterfallGrid extends StatelessWidget {
     this.scrollController,
     this.physics,
     this.lazyloadWidget,
-    this.padding,
+    this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
     this.hasMore = true,
   })  : isSliver = true,
         super(key: key);
@@ -183,27 +183,27 @@ class IllustWaterfallGrid extends StatelessWidget {
   }
 
   Widget _buildLazyloadItem(BuildContext context) {
-    return Consumer<LazyloadStatusProvider>(
-      builder: ((context, LazyloadStatusProvider provider, child) {
-        if (hasMore) {
+    if (hasMore) {
+      return Consumer<LazyloadStatusProvider>(
+        builder: ((context, LazyloadStatusProvider provider, child) {
           switch (provider.lazyloadStatus) {
             case LazyloadStatus.loading:
               return _buildLoading(context);
             case LazyloadStatus.failed:
               return _buildLoadingFailed(context);
           }
-        } else {
-          return Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(16.0),
-            child: const Text(
-              "没有更多了",
-              style: TextStyle(color: Colors.grey),
-            ),
-          );
-        }
-      }),
-    );
+        }),
+      );
+    } else {
+      return Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(16.0),
+        child: const Text(
+          "没有更多了",
+          style: TextStyle(color: Colors.grey),
+        ),
+      );
+    }
   }
 
   /* 收藏或者取消收藏插画 */

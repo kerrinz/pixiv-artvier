@@ -39,8 +39,8 @@ class ProfileTabPage extends StatelessWidget {
     (context) => IconButtonModel(
           LocalizationIntl.of(context).works,
           Icon(Icons.inventory_2_outlined, color: Theme.of(context).primaryColor, size: 26),
-          "",
-          null,
+          RouteNames.myWorks.name,
+          GlobalStore.currentAccount?.user.id,
         ),
     (context) => IconButtonModel(
           LocalizationIntl.of(context).collections,
@@ -72,60 +72,76 @@ class ProfileTabPage extends StatelessWidget {
         ),
   ];
 
+  bool isLightMode(context) => Theme.of(context).colorScheme.brightness == Brightness.light;
+
   @override
   Widget build(BuildContext context) {
     readProfile();
+    Color topBackgroundColor = isLightMode(context)
+        ? Theme.of(context).colorScheme.primary.withOpacity(0.8)
+        : Theme.of(context).colorScheme.primary.withOpacity(0.1);
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        toolbarHeight: 50,
         automaticallyImplyLeading: true,
         shadowColor: Colors.transparent,
+        backgroundColor: topBackgroundColor,
+        actionsIconTheme: const IconThemeData(size: 20, color: Colors.white),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(RouteNames.accountManage.name);
-            },
-            icon: const Icon(Icons.switch_account_outlined),
-            tooltip: "切换账号",
+          Center(
+            child: IconButton(
+              padding: const EdgeInsets.all(8.0),
+              onPressed: () {
+                Navigator.of(context).pushNamed(RouteNames.accountManage.name);
+              },
+              color: Colors.white,
+              icon: const Icon(Icons.switch_account_outlined),
+              tooltip: "切换账号",
+            ),
           ),
-          Builder(
-            builder: (BuildContext context) {
-              // 当前所处的主题模式
-              bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
-              return IconButton(
-                onPressed: () async {
-                  // 如果APP主题正处于跟随系统设置的情况下
-                  if (GlobalStore.globalProvider.themeMode == ThemeMode.system) {
-                    bool isCancel = true; // 用户是否取消了变更主题的请求
-                    await showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text(LocalizationIntl.of(context).promptTitle),
-                          content: Text(LocalizationIntl.of(context).themeModePromptContent),
-                          actions: <Widget>[
-                            TextButton(
-                                child: Text(LocalizationIntl.of(context).promptCancel),
-                                onPressed: () => Navigator.pop(context)),
-                            TextButton(
-                              child: Text(LocalizationIntl.of(context).promptConform),
-                              onPressed: () {
-                                isCancel = false;
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                    if (isCancel) return; // 取消则不变更主题模式
-                  }
-                  // 切换主题模式
-                  GlobalStore.globalProvider.setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark, true);
-                },
-                icon: Icon(isDarkMode ? Icons.mode_night : Icons.light_mode),
-              );
-            },
+          Center(
+            child: Builder(
+              builder: (BuildContext context) {
+                // 当前所处的主题模式
+                bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
+                return IconButton(
+                  padding: const EdgeInsets.all(8.0),
+                  onPressed: () async {
+                    // 如果APP主题正处于跟随系统设置的情况下
+                    if (GlobalStore.globalProvider.themeMode == ThemeMode.system) {
+                      bool isCancel = true; // 用户是否取消了变更主题的请求
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(LocalizationIntl.of(context).promptTitle),
+                            content: Text(LocalizationIntl.of(context).themeModePromptContent),
+                            actions: <Widget>[
+                              TextButton(
+                                  child: Text(LocalizationIntl.of(context).promptCancel),
+                                  onPressed: () => Navigator.pop(context)),
+                              TextButton(
+                                child: Text(LocalizationIntl.of(context).promptConform),
+                                onPressed: () {
+                                  isCancel = false;
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      if (isCancel) return; // 取消则不变更主题模式
+                    }
+                    // 切换主题模式
+                    GlobalStore.globalProvider.setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark, true);
+                  },
+                  color: Colors.white,
+                  icon: Icon(isDarkMode ? Icons.mode_night : Icons.light_mode),
+                  tooltip: "切换主题模式",
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -141,14 +157,14 @@ class ProfileTabPage extends StatelessWidget {
           child: Column(
             children: [
               // 我的信息栏
-              Container(child: _buildUserInfoContainer(context)),
+              Container(child: _buildUserInfoContainer(context, topBackgroundColor)),
               // 功能卡片
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Theme.of(context).primaryColor,
-                      Theme.of(context).primaryColor,
+                      topBackgroundColor,
+                      topBackgroundColor,
                       Theme.of(context).backgroundColor,
                       Theme.of(context).backgroundColor,
                     ],
@@ -168,8 +184,12 @@ class ProfileTabPage extends StatelessWidget {
   }
 
   // 用户信息
-  Widget _buildUserInfoContainer(BuildContext context) {
-    Color secondTextColor = Theme.of(context).colorScheme.primaryContainer;
+  Widget _buildUserInfoContainer(BuildContext context, Color topBackgroundColor) {
+    Color textColor =
+        isLightMode(context) ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurface;
+    Color secondTextColor = isLightMode(context)
+        ? Theme.of(context).colorScheme.onPrimary.withAlpha(200)
+        : Theme.of(context).colorScheme.onSurface.withAlpha(150);
     return Column(
       children: [
         GestureDetector(
@@ -179,8 +199,8 @@ class ProfileTabPage extends StatelessWidget {
             Navigator.of(context).pushNamed(RouteNames.userDetail.name, arguments: user);
           },
           child: Container(
-            color: Theme.of(context).colorScheme.primary,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+            color: topBackgroundColor,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
             child: Row(
               children: [
                 Expanded(
@@ -224,7 +244,7 @@ class ProfileTabPage extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 20,
                                   height: 1.4,
-                                  color: Theme.of(context).colorScheme.onPrimary,
+                                  color: textColor,
                                 ),
                               ),
                               Text(
@@ -243,20 +263,18 @@ class ProfileTabPage extends StatelessWidget {
                   ),
                 ),
                 Text(LocalizationIntl.of(context).space, style: TextStyle(color: secondTextColor)),
-                Icon(Icons.keyboard_arrow_right, size: 16, color: Theme.of(context).colorScheme.primaryContainer),
+                Icon(Icons.keyboard_arrow_right, size: 16, color: secondTextColor),
               ],
             ),
           ),
         ),
         Container(
-          color: Theme.of(context).colorScheme.primary,
+          color: topBackgroundColor,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           child: ProviderWidget<ProfileProvider>(
             builder: (BuildContext context, ProfileProvider provider, Widget? child) {
-              TextStyle numTextStyle = TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onPrimary);
-              TextStyle secondTextStyle =
-                  TextStyle(fontSize: 12, height: 1.6, color: Theme.of(context).colorScheme.primaryContainer);
+              TextStyle numTextStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: textColor);
+              TextStyle secondTextStyle = TextStyle(fontSize: 12, height: 1.6, color: secondTextColor);
               return Row(
                 children: [
                   Expanded(
