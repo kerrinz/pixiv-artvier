@@ -56,6 +56,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                 floating: true,
                 snap: false,
                 title: const Text("我的下载"),
+                toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
                 actions: <Widget>[
                   IconButton(
                     icon: const Icon(Icons.settings),
