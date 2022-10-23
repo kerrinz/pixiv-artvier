@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/pages/illust/tab_page/illusts_grid_tabpage.dart';
+import 'package:pixgem/pages/artwork/tab_page/illusts_grid_tabpage.dart';
 import 'package:pixgem/config/ranking_mode_constants.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
 

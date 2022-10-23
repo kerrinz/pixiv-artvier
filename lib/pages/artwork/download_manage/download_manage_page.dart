@@ -4,7 +4,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_store/downloading_illust.dart';
-import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
+import 'package:pixgem/pages/artwork/detail/artwork_detail_arguments.dart';
 import 'package:pixgem/routes.dart';
 import 'package:pixgem/store/download_store.dart';
 import 'package:pixgem/store/global.dart';
@@ -144,8 +144,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     highlightColor: Colors.black12.withOpacity(0.1),
                     onTap: () {
                       Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
-                          arguments: ArtworkDetailModel(
-                              list: [illusts[index].illust], index: 0, callback: (index, isBookmarked) {}));
+                          arguments: ArkworkDetailPageArguments(detail: illusts[index].illust));
                     },
                   ),
                 ),
@@ -230,7 +229,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     onTap: () {
                       Navigator.of(context).pushNamed(
                         RouteNames.artworkDetail.name,
-                        arguments: ArtworkDetailModel(list: illusts, index: index, callback: (index, isBookmarked) {}),
+                        arguments: ArkworkDetailPageArguments(detail: illusts[index]),
                       );
                     },
                   ),

@@ -1,14 +1,26 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
 import 'package:pixgem/model_response/illusts/illust_recommended.dart';
 import 'package:pixgem/api_app/api_base.dart';
-import 'package:pixgem/request/oauth.dart';
-import 'package:pixgem/store/global.dart';
 
 class ApiIllusts extends ApiBase {
+  /// 获取插画详情
+  Future<CommonIllust> getIllustDetail(String illustId, {CancelToken? cancelToken}) async {
+    Response res = await ApiBase.dio.get<String>(
+      " /v1/illust/detail",
+      queryParameters: {
+        "illust_id": illustId,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return CommonIllust.fromJson(json.decode(res.data));
+  }
+
   /// 获取推荐插画
   Future<IllustRecommended> getFirstRecommendedIllust({CancelToken? cancelToken}) async {
     Response res = await ApiBase.dio.get<String>(
@@ -24,31 +36,10 @@ class ApiIllusts extends ApiBase {
     return IllustRecommended.fromJson(json.decode(res.data));
   }
 
-  /// ## 待废弃
-  /// 获取下一页推荐插画（加载更多）
-  Future<IllustRecommended> getNextRecommendedIllust({required String nextUrl, CancelToken? cancelToken}) async {
-    var time = OAuth.getXClientTime(DateTime.now());
-    Dio cacheDio = Dio(BaseOptions(
-      contentType: Headers.jsonContentType,
-      headers: {
-        "User-Agent": "PixivIOSApp/7.12.5 (iOS 14.6; iPhone11,2)",
-        "x-client-time": time,
-        "x-client-hash": OAuth.getXClientHash(xClientTime: time),
-        "authorization": "Bearer ${GlobalStore.currentAccount!.accessToken}",
-        "accept-language": "zh-cn",
-      },
-    ));
-    Response res = await cacheDio.get<String>(
-      nextUrl,
-      options: Options(responseType: ResponseType.json),
-      cancelToken: cancelToken,
-    );
-    return IllustRecommended.fromJson(json.decode(res.data));
-  }
 
   /// 获取插画的评论
   /// - [illustId] 插画id
-  Future<IllustComments> getIllustComments({required String illustId, CancelToken? cancelToken}) async {
+  Future<IllustComments> getIllustComments(String illustId, {CancelToken? cancelToken}) async {
     Response res = await ApiBase.dio.get<String>(
       "/v3/illust/comments",
       queryParameters: {

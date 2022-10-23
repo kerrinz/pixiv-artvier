@@ -9,7 +9,7 @@ import 'package:pixgem/common_provider/works_provider.dart';
 import 'package:pixgem/component/base_provider_widget.dart';
 import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
 import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/pages/illust/tab_page/illusts_grid_tabpage.dart';
+import 'package:pixgem/pages/artwork/tab_page/illusts_grid_tabpage.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/api_app/api_user.dart';
 import 'package:pixgem/pages/novel/novel_list_tabpage.dart';
