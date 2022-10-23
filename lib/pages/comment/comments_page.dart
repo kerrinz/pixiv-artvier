@@ -134,7 +134,7 @@ class _CommentsPageState extends State<CommentsPage> {
   }
 
   Future refresh() async {
-    var result = await ApiIllusts().getIllustComments(illustId: widget.illustId);
+    var result = await ApiIllusts().getIllustComments(widget.illustId);
     _provider.setAll(result.comments, result.nextUrl);
   }
 

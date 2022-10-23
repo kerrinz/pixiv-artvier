@@ -7,7 +7,7 @@ import 'package:pixgem/component/scroll_list/illust_waterfall_grid.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
+import 'package:pixgem/pages/artwork/detail/artwork_detail_arguments.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/home/list_provider.dart';
 import 'package:pixgem/routes.dart';
@@ -227,9 +227,8 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
         height: 200,
         margin: const EdgeInsets.symmetric(horizontal: 12),
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.background,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
         child: status == LoadingStatus.loading ? loadingWidget : failedWidget,
       ),
@@ -325,14 +324,16 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                         splashColor: Colors.black12.withOpacity(0.15),
                         highlightColor: Colors.black12.withOpacity(0.1),
                         onTap: () {
-                          Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
-                              arguments: ArtworkDetailModel(
-                                  list: rankingList,
-                                  index: index,
-                                  callback: (int index, bool isBookmarked) {
-                                    _illustProvider.rankingList[index].isBookmarked = isBookmarked;
-                                    // (context as Element).markNeedsBuild(); 非当前页面触发，无需刷新
-                                  }));
+                          Navigator.of(context).pushNamed(
+                            RouteNames.artworkDetail.name,
+                            arguments: ArkworkDetailPageArguments(
+                              detail: rankingList[index],
+                              callback: (String id, bool isBookmarked) {
+                                _illustProvider.rankingList[index].isBookmarked = isBookmarked;
+                                // 非当前页面触发，无需刷新
+                              },
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -358,7 +359,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   Future requestNextIllusts() async {
     // 获取更多作品
     if (nextUrl != null) {
-      var result = await ApiIllusts().getNextRecommendedIllust(nextUrl: nextUrl!);
+      var result = await ApiIllusts().getNextIllusts(nextUrl!);
       _illustProvider.addAllToRecomendList(result.illusts); // 添加更多作品
       nextUrl = result.nextUrl; // 更新nextUrl
     }

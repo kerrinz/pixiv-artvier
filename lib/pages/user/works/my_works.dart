@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pixgem/common_provider/illusts_provider.dart';
 import 'package:pixgem/common_provider/novels_provider.dart';
 import 'package:pixgem/common_provider/works_provider.dart';
-import 'package:pixgem/pages/illust/tab_page/illusts_grid_tabpage.dart';
+import 'package:pixgem/pages/artwork/tab_page/illusts_grid_tabpage.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/api_app/api_user.dart';
 import 'package:pixgem/pages/novel/novel_list_tabpage.dart';

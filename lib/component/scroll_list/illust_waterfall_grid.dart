@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/lazyload_status_provider.dart';
 import 'package:pixgem/component/loading/lazyloading.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
+import 'package:pixgem/pages/artwork/detail/artwork_detail_arguments.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:pixgem/routes.dart';
 import 'package:provider/provider.dart';
@@ -154,10 +154,9 @@ class IllustWaterfallGrid extends StatelessWidget {
           ? Fluttertoast.showToast(msg: "该图片已被删除或不公开", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0)
           : Navigator.of(context).pushNamed(
               RouteNames.artworkDetail.name,
-              arguments: ArtworkDetailModel(
-                list: artworkList,
-                index: index,
-                callback: (int index, bool isBookmark) {
+              arguments: ArkworkDetailPageArguments(
+                detail: artworkList[index],
+                callback: (String id, bool isBookmark) {
                   // 回调方法，传给详情页
                   artworkList[index].isBookmarked = isBookmark;
                   (context as Element).markNeedsBuild();

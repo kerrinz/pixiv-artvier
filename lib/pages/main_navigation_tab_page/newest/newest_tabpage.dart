@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:pixgem/pages/illust/tab_page/illusts_grid_tabpage.dart';
+import 'package:pixgem/pages/artwork/tab_page/illusts_grid_tabpage.dart';
 import 'package:pixgem/api_app/api_new_artworks.dart';
 
 class NewArtworksTabPage extends StatefulWidget {

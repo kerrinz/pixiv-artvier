@@ -26,7 +26,7 @@ class HistoryStore {
     return GlobalStore.globalSharedPreferences.setString(HISTORY_ILLUST, jsonEncode(list));
   }
 
-  // 添加一条插画的历史记录，如果已有记录会拉到顶部（性能欠佳）
+  /// 添加一条插画的历史记录，如果已有记录会拉到顶部
   static Future addIllust(CommonIllust illust) async {
     List<CommonIllust> illusts = getHistoryIllust();
     for (int i = 0; i < illusts.length; i++) {
