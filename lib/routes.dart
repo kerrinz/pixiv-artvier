@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:pixgem/pages/account/account_manage/account_manage_page.dart';
 import 'package:pixgem/pages/comment/comments_page.dart';
-import 'package:pixgem/pages/illust/download_manage/download_manage_page.dart';
-import 'package:pixgem/pages/illust/history/history_page.dart';
-import 'package:pixgem/pages/illust/illust_detail/illust_detail_page.dart';
-import 'package:pixgem/pages/illust/leaderboard/illust_leaderboard_page.dart';
-import 'package:pixgem/pages/illust/preview/illust_preview_page.dart';
+import 'package:pixgem/pages/artwork/download_manage/download_manage_page.dart';
+import 'package:pixgem/pages/artwork/history/history_page.dart';
+import 'package:pixgem/pages/artwork/detail/artwork_detail_page.dart';
+import 'package:pixgem/pages/artwork/leaderboard/illust_leaderboard_page.dart';
+import 'package:pixgem/pages/artwork/preview/illust_preview_page.dart';
 import 'package:pixgem/pages/login/login_by_web_page.dart';
 import 'package:pixgem/pages/login/login_wizard_page.dart';
 import 'package:pixgem/pages/main_navigation.dart';
