@@ -113,6 +113,30 @@ class LocalizationIntl {
   String get pixivPremium => Intl.message("Pixiv Premium", name: 'pixivPremium', desc: '');
   // 我的收藏页面
   String get myCollections => Intl.message("My collections", name: 'myCollections', desc: '');
+  // 画作详情页
+  String get addToCollections =>
+      Intl.message("Add to collections", name: 'addToCollections', desc: 'Title of add works to colllections');
+  String get editCollection =>
+      Intl.message("Edit collection", name: 'editCollection', desc: 'Title of edit the colllection');
+  String get privacyRestrict =>
+      Intl.message("Privacy restrict", name: 'privacyRestrict', desc: 'Settings the rescriction of works');
+  String get attachTags => Intl.message("Attach tags", name: 'attachTags', desc: 'Attach tags when collecting a works');
+  String get addCollectSucceed =>
+      Intl.message("Add collection succeed!", name: 'addCollectSucceed', desc: 'Prompt success of add collect a works');
+  String get addCollectFailed =>
+      Intl.message("Add collestion failed!", name: 'addCollectFailed', desc: 'Prompt failed of add collect a works');
+  String get removeCollectionSucceed => Intl.message("Remove collection succeed!",
+      name: 'removeCollectionSucceed', desc: 'Prompt success of remove collection of a works');
+  String get removeCollectionFailed => Intl.message("Remove collection failed!",
+      name: 'removeCollectionFailed', desc: 'Prompt failed of remove collection of a works');
+  String get editCollectionSucceed => Intl.message("Edit collection succeed!",
+      name: 'editCollectionSucceed', desc: 'Prompt of edit collection success');
+  String get editCollectionFailed =>
+      Intl.message("Edit collection failed!", name: 'editCollectionFailed', desc: 'Prompt of edit collection failed');
+  String get addNewTagPlaceholder => Intl.message("Add new tag...",
+      name: 'addNewTagPlaceholder', desc: 'The placeholder of input tag name to add a new tag');
+  String get tagAlreadyExists => Intl.message("Tag already exists!",
+      name: 'tagAlreadyExists', desc: 'Prompt the tag already exists by add new tag');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {

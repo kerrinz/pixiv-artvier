@@ -517,5 +517,89 @@
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
+  },
+  "addToCollections": "添加收藏",
+  "@addToCollections": {
+    "description": "Title of add works to colllections",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "editCollection": "编辑收藏",
+  "@editCollection": {
+    "description": "Title of edit the colllection",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "privacyRestrict": "隐私限制",
+  "@privacyRestrict": {
+    "description": "Settings the rescriction of works",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "attachTags": "附加标签",
+  "@attachTags": {
+    "description": "Attach tags when collecting a works",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "addCollectSucceed": "添加收藏成功！",
+  "@addCollectSucceed": {
+    "description": "Prompt success of add collect a works",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "addCollectFailed": "添加收藏失败！",
+  "@addCollectFailed": {
+    "description": "Prompt failed of add collect a works",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "removeCollectionSucceed": "移除收藏成功！",
+  "@removeCollectionSucceed": {
+    "description": "Prompt success of remove collection of a works",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "removeCollectionFailed": "移除收藏失败！",
+  "@removeCollectionFailed": {
+    "description": "Prompt failed of remove collection of a works",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "editCollectionSucceed": "编辑收藏成功！",
+  "@editCollectionSucceed": {
+    "description": "Prompt of edit collection success",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "editCollectionFailed": "编辑收藏失败！",
+  "@editCollectionFailed": {
+    "description": "Prompt of edit collection failed",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "addNewTagPlaceholder": "添加新的标签...",
+  "@addNewTagPlaceholder": {
+    "description": "The placeholder of input tag name to add a new tag",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "tagAlreadyExists": "该标签已存在！",
+  "@tagAlreadyExists": {
+    "description": "Prompt the tag already exists by add new tag",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
   }
 }

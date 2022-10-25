@@ -7,13 +7,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/bookmark_status_provider_provider.dart';
 import 'package:pixgem/common_provider/list_loadmore_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
+import 'package:pixgem/common_provider/works_provider.dart';
 import 'package:pixgem/component/base_provider_widget.dart';
+import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
 import 'package:pixgem/component/buttons/follow_button.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/config/constants.dart';
+import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
+import 'package:pixgem/pages/artwork/detail/advanced_collect__bottom_sheet.dart';
 import 'package:pixgem/pages/artwork/detail/artwork_detail_arguments.dart';
 import 'package:pixgem/pages/comment/comment_item_widget.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
@@ -53,8 +57,12 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
   /// 存放作品详情（在[widget.model.detail]为空时才会用到）
   CommonIllust? _artworkDetail;
 
-  /// 传入的作品id
-  String get _artworkId => widget.model.artworkId ?? widget.model.detail!.id.toString();
+  /// 作品id，优先使用传入的id，若空则使用完整画作详情内的id
+  String get _currentArtworkId => widget.model.artworkId ?? widget.model.detail!.id.toString();
+
+  /// 作品类型，优先使用传入的详情，其次通过id获取的详情
+  WorksType get _currentWorksType =>
+      (widget.model.detail?.type ?? widget.model.detail!.type) == "manga" ? WorksType.manga : WorksType.illust;
 
   @override
   void initState() {
@@ -69,7 +77,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       _loadingStatus = LoadingStatus.loading;
       requestArtworkDetail(widget.model.artworkId!);
     }
-    requestComment(_artworkId);
+    requestComment(_currentArtworkId);
   }
 
   @override
@@ -78,7 +86,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       return const RequestLoading();
     } else if (_loadingStatus == LoadingStatus.failed) {
       return RequestLoadingFailed(onRetry: () {
-        requestArtworkDetail(_artworkId);
+        requestArtworkDetail(_currentArtworkId);
       });
     }
     // 加载成功或者使用已有的详情数据时
@@ -151,28 +159,29 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
           ),
           // appbar/toolbar
           Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: AppBar(
-                title: Text(
-                  detail.title,
-                  style: const TextStyle(fontSize: 18),
-                ),
-                titleTextStyle: const TextStyle(color: Colors.white),
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                systemOverlayStyle: const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
-                // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-                leading: Builder(builder: (context) {
-                  return IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  );
-                }),
-              )),
+            top: 0,
+            left: 0,
+            right: 0,
+            child: AppBar(
+              title: Text(
+                detail.title,
+                style: const TextStyle(fontSize: 18),
+              ),
+              titleTextStyle: const TextStyle(color: Colors.white),
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              systemOverlayStyle: const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+              // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
+              leading: Builder(builder: (context) {
+                return IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                );
+              }),
+            ),
+          ),
         ],
       ),
       // 悬浮收藏按钮
@@ -180,40 +189,62 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       floatingActionButton: ProviderWidget<BookmarkStatusProvider>(
         model: _bookmarkProvider,
         builder: ((context, value, child) {
-          return FloatingActionButton(
-            onPressed: () {
-              toggleBookmark(detail.id.toString());
-            },
-            backgroundColor: Colors.grey.shade50,
-            child: Consumer(
-              builder: (BuildContext context, BookmarkStatusProvider provider, Widget? child) {
-                switch (provider.bookmarkStatus) {
-                  case BookmarkStatus.bookmarking:
-                    return const Icon(
-                      Icons.favorite,
-                      color: Colors.grey,
-                      size: 28,
-                    );
-                  case BookmarkStatus.unBookmarking:
-                    return Icon(
-                      Icons.favorite,
-                      color: Colors.red.shade200,
-                      size: 28,
-                    );
-                  case BookmarkStatus.bookmarked:
-                    return const Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: 28,
-                    );
-                  case BookmarkStatus.notBookmark:
-                    return const Icon(
-                      Icons.favorite_border_outlined,
-                      color: Colors.grey,
-                      size: 28,
-                    );
-                }
+          return GestureDetector(
+            onLongPress: (() async {
+              switch (_bookmarkProvider.bookmarkStatus) {
+                case BookmarkStatus.bookmarking:
+                case BookmarkStatus.unBookmarking:
+                  return;
+                default:
+              }
+              AdvancedCollectArguments? arguments = await BottomSheets.showCustomBottomSheet<AdvancedCollectArguments>(
+                context: context,
+                exitOnClickModal: false,
+                enableDrag: false,
+                child: AdvancedCollectBottomSheet(
+                  isCollected: _bookmarkProvider.bookmarkStatus == BookmarkStatus.bookmarked ? true : false,
+                  worksId: _currentArtworkId,
+                  worksType: _currentWorksType,
+                ),
+              );
+              if (arguments == null) return;
+              submitAdvancedBookmark(arguments);
+            }),
+            child: FloatingActionButton(
+              onPressed: () {
+                toggleBookmark(detail.id.toString());
               },
+              backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+              child: Consumer(
+                builder: (BuildContext context, BookmarkStatusProvider provider, Widget? child) {
+                  switch (provider.bookmarkStatus) {
+                    case BookmarkStatus.bookmarking:
+                      return const Icon(
+                        Icons.favorite,
+                        color: Colors.grey,
+                        size: 28,
+                      );
+                    case BookmarkStatus.unBookmarking:
+                      return Icon(
+                        Icons.favorite,
+                        color: Colors.red.shade200,
+                        size: 28,
+                      );
+                    case BookmarkStatus.bookmarked:
+                      return const Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                        size: 28,
+                      );
+                    case BookmarkStatus.notBookmark:
+                      return const Icon(
+                        Icons.favorite_border_outlined,
+                        color: Colors.grey,
+                        size: 28,
+                      );
+                  }
+                },
+              ),
             ),
           );
         }),
@@ -481,8 +512,41 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
         child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary));
   }
 
+  /// 高级收藏
+  void submitAdvancedBookmark(AdvancedCollectArguments arguments) {
+    LocalizationIntl intl = LocalizationIntl.of(context);
+    if (!_bookmarkCancelToken.isCancelled) _bookmarkCancelToken.cancel();
+    _bookmarkCancelToken = CancelToken();
+    _bookmarkProvider.setBookmarkStatus(BookmarkStatus.bookmarking);
+    ApiIllusts()
+        .addIllustBookmark(
+            illustId: _currentArtworkId,
+            tags: arguments.tags,
+            restrict: arguments.restrict,
+            cancelToken: _bookmarkCancelToken)
+        .then((value) {
+      if (value) {
+        Fluttertoast.showToast(
+            msg: arguments.isCollected ? intl.editCollectionSucceed : intl.addCollectSucceed,
+            toastLength: Toast.LENGTH_LONG);
+        _bookmarkProvider.setBookmarkStatus(BookmarkStatus.bookmarked);
+      } else {
+        Fluttertoast.showToast(
+            msg: arguments.isCollected ? intl.editCollectionFailed : intl.addCollectFailed,
+            toastLength: Toast.LENGTH_LONG);
+      }
+    }).catchError((error) {
+      if (error is DioError && error.type == DioErrorType.cancel) return;
+      Fluttertoast.showToast(
+          msg: arguments.isCollected ? intl.editCollectionFailed : intl.addCollectFailed,
+          toastLength: Toast.LENGTH_LONG);
+      _bookmarkProvider.setBookmarkStatus(BookmarkStatus.notBookmark);
+    });
+  }
+
   /// 收藏或者取消收藏插画
   void toggleBookmark(String illustId) {
+    LocalizationIntl intl = LocalizationIntl.of(context);
     switch (_bookmarkProvider.bookmarkStatus) {
       case BookmarkStatus.bookmarking:
       case BookmarkStatus.unBookmarking:
@@ -501,12 +565,13 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
             }
             _bookmarkProvider.setBookmarkStatus(BookmarkStatus.notBookmark);
           } else {
-            Fluttertoast.showToast(msg: "添加收藏失败！可能已经在收藏里了", toastLength: Toast.LENGTH_LONG);
+            Fluttertoast.showToast(
+                msg: "${intl.removeCollectionFailed}, (Maybe already un-collected)", toastLength: Toast.LENGTH_LONG);
             _bookmarkProvider.setBookmarkStatus(BookmarkStatus.bookmarked);
           }
         }).catchError((error) {
-          if ((error as DioError).type == DioErrorType.cancel) return;
-          Fluttertoast.showToast(msg: "添加收藏失败！", toastLength: Toast.LENGTH_LONG);
+          if (error is DioError && error.type == DioErrorType.cancel) return;
+          Fluttertoast.showToast(msg: intl.removeCollectionFailed, toastLength: Toast.LENGTH_LONG);
           _bookmarkProvider.setBookmarkStatus(BookmarkStatus.bookmarked);
         });
         break;
@@ -524,12 +589,13 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
             }
             _bookmarkProvider.setBookmarkStatus(BookmarkStatus.bookmarked);
           } else {
-            Fluttertoast.showToast(msg: "取消收藏失败！可能已经不在收藏里了", toastLength: Toast.LENGTH_LONG);
+            Fluttertoast.showToast(
+                msg: "${intl.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG);
             _bookmarkProvider.setBookmarkStatus(BookmarkStatus.bookmarked);
           }
         }).catchError((error) {
-          if ((error as DioError).type == DioErrorType.cancel) return;
-          Fluttertoast.showToast(msg: "取消收藏失败！", toastLength: Toast.LENGTH_LONG);
+          if (error is DioError && error.type == DioErrorType.cancel) return;
+          Fluttertoast.showToast(msg: intl.addCollectFailed, toastLength: Toast.LENGTH_LONG);
           _bookmarkProvider.setBookmarkStatus(BookmarkStatus.notBookmark);
         });
         break;
@@ -552,7 +618,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
         _loadingStatus = LoadingStatus.success;
       });
     }).catchError((error) {
-      if ((error as DioError).type == DioErrorType.cancel) return;
+      if (error is DioError && error.type == DioErrorType.cancel) return;
       setState(() {
         _loadingStatus = LoadingStatus.failed;
       });
@@ -566,7 +632,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     ApiIllusts().getIllustComments(artworkId, cancelToken: _commentCancelToken).then((value) {
       _commentsProvider.setAll(value.comments, value.nextUrl);
     }).catchError((error) {
-      if ((error as DioError).type == DioErrorType.cancel) return;
+      if (error is DioError && error.type == DioErrorType.cancel) return;
       // 请求失败时递归请求
       requestComment(artworkId);
     });

@@ -81,8 +81,10 @@ class StatelessTextFlowFilter extends FlowFilterStatefulWidget {
   final Border? unselectedBorder;
   final EdgeInsets? textPadding;
   final BorderRadius? textBorderRadius;
+
   /// 注：优先级大于其他相关属性
   final BoxDecoration? selectedDecoration;
+
   /// 注：优先级大于其他相关属性
   final BoxDecoration? unselectedDecoration;
 
@@ -118,14 +120,45 @@ class StatelessTextFlowFilter extends FlowFilterStatefulWidget {
 
   @override
   Widget buildSelectedWidget(BuildContext context, int index) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Container(
       padding: textPadding,
-      decoration: selectedDecoration ?? BoxDecoration(
-        color: selectedBackground ?? Theme.of(context).colorScheme.primary,
-        border: selectedBorder,
-        borderRadius: textBorderRadius,
+      decoration: selectedDecoration ??
+          BoxDecoration(
+            color: selectedBackground ?? colorScheme.primary,
+            border: selectedBorder,
+            borderRadius: textBorderRadius,
+          ),
+      child: Text(
+        texts[index],
+        style: TextStyle(
+          inherit: selectedTextStyle?.inherit ?? true,
+          color: selectedTextStyle?.color ?? colorScheme.onPrimary,
+          backgroundColor: selectedTextStyle?.backgroundColor,
+          fontSize: selectedTextStyle?.fontSize ?? 14.0,
+          fontWeight: selectedTextStyle?.fontWeight,
+          fontStyle: selectedTextStyle?.fontStyle,
+          letterSpacing: selectedTextStyle?.letterSpacing,
+          wordSpacing: selectedTextStyle?.wordSpacing,
+          textBaseline: selectedTextStyle?.textBaseline,
+          height: selectedTextStyle?.height,
+          leadingDistribution: selectedTextStyle?.leadingDistribution,
+          locale: selectedTextStyle?.locale,
+          foreground: selectedTextStyle?.foreground,
+          background: selectedTextStyle?.background,
+          shadows: selectedTextStyle?.shadows,
+          fontFeatures: selectedTextStyle?.fontFeatures,
+          fontVariations: selectedTextStyle?.fontVariations,
+          decoration: selectedTextStyle?.decoration,
+          decorationColor: selectedTextStyle?.decorationColor,
+          decorationStyle: selectedTextStyle?.decorationStyle,
+          decorationThickness: selectedTextStyle?.decorationThickness,
+          debugLabel: selectedTextStyle?.debugLabel,
+          fontFamily: selectedTextStyle?.fontFamily,
+          fontFamilyFallback: selectedTextStyle?.fontFamilyFallback,
+          overflow: selectedTextStyle?.overflow,
+        ),
       ),
-      child: Text(texts[index], style: selectedTextStyle ?? TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
     );
   }
 
@@ -133,12 +166,42 @@ class StatelessTextFlowFilter extends FlowFilterStatefulWidget {
   Widget buildUnselectedWidget(BuildContext context, int index) {
     return Container(
       padding: textPadding,
-      decoration: unselectedDecoration ?? BoxDecoration(
-        color: unselectedBackground,
-        border: unselectedBorder,
-        borderRadius: textBorderRadius,
+      decoration: unselectedDecoration ??
+          BoxDecoration(
+            color: unselectedBackground,
+            border: unselectedBorder,
+            borderRadius: textBorderRadius,
+          ),
+      child: Text(
+        texts[index],
+        style: TextStyle(
+          inherit: unselectedTextStyle?.inherit ?? true,
+          color: unselectedTextStyle?.color ?? Theme.of(context).colorScheme.onSurface,
+          backgroundColor: unselectedTextStyle?.backgroundColor,
+          fontSize: unselectedTextStyle?.fontSize ?? 14.0,
+          fontWeight: unselectedTextStyle?.fontWeight,
+          fontStyle: unselectedTextStyle?.fontStyle,
+          letterSpacing: unselectedTextStyle?.letterSpacing,
+          wordSpacing: unselectedTextStyle?.wordSpacing,
+          textBaseline: unselectedTextStyle?.textBaseline,
+          height: unselectedTextStyle?.height,
+          leadingDistribution: unselectedTextStyle?.leadingDistribution,
+          locale: unselectedTextStyle?.locale,
+          foreground: unselectedTextStyle?.foreground,
+          background: unselectedTextStyle?.background,
+          shadows: unselectedTextStyle?.shadows,
+          fontFeatures: unselectedTextStyle?.fontFeatures,
+          fontVariations: unselectedTextStyle?.fontVariations,
+          decoration: unselectedTextStyle?.decoration,
+          decorationColor: unselectedTextStyle?.decorationColor,
+          decorationStyle: unselectedTextStyle?.decorationStyle,
+          decorationThickness: unselectedTextStyle?.decorationThickness,
+          debugLabel: unselectedTextStyle?.debugLabel,
+          fontFamily: unselectedTextStyle?.fontFamily,
+          fontFamilyFallback: unselectedTextStyle?.fontFamilyFallback,
+          overflow: unselectedTextStyle?.overflow,
+        ),
       ),
-      child: Text(texts[index], style: unselectedTextStyle),
     );
   }
 }
