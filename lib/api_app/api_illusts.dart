@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:pixgem/config/constants.dart';
+import 'package:pixgem/model_response/illusts/artwork_collect_detail.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
@@ -36,7 +38,6 @@ class ApiIllusts extends ApiBase {
     return IllustRecommended.fromJson(json.decode(res.data));
   }
 
-
   /// 获取插画的评论
   /// - [illustId] 插画id
   Future<IllustComments> getIllustComments(String illustId, {CancelToken? cancelToken}) async {
@@ -71,14 +72,28 @@ class ApiIllusts extends ApiBase {
     return CommonIllustList.fromJson(json.decode(res.data));
   }
 
+  /// 高级收藏的时候，获取标签列表（含画作标签 + 用户收藏里已有的标签）
+  Future<ArtworkCollectDetail> getIllustCollectionTags(String illustId, {CancelToken? cancelToken}) async {
+    Response res = await ApiBase.dio.get<String>(
+      "/v2/illust/bookmark/detail",
+      queryParameters: {
+        "illust_id": illustId,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return ArtworkCollectDetail.fromJson(json.decode(res.data));
+  }
+
   /// 收藏插画
   /// - [isPublic] 是否公开
   /// - [illustId] 插画id
+  /// - [tags] 附加标签
   Future<bool> addIllustBookmark(
-      {required String illustId, bool isPublic = true, List<String>? tags, CancelToken? cancelToken}) async {
+      {required String illustId, String restrict = CONSTANTS.restrict_public, List<String>? tags, CancelToken? cancelToken}) async {
     var baseData = {
       'illust_id': illustId,
-      "restrict": isPublic ? "public" : "private",
+      "restrict": restrict,
     };
     FormData formData = FormData();
     formData.fields.addAll(baseData.entries);
