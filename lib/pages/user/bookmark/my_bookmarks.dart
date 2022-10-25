@@ -217,7 +217,7 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
         ApiUser().getBookmarkTags(WorksType.illust, restrict: restrict, cancelToken: _tagsCancelToken).then((value) {
           _tagsProvider.resetIllustTags(value.bookmarkTags ?? [], value.nextUrl);
         }).catchError((error) {
-          if ((error as DioError).type == DioErrorType.cancel) return;
+          if (error is DioError && error.type == DioErrorType.cancel) return;
           _tagsProvider.seLoadStatus(LoadingStatus.failed);
         });
         break;
@@ -226,7 +226,7 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
         ApiUser().getBookmarkTags(WorksType.novel, restrict: restrict, cancelToken: _tagsCancelToken).then((value) {
           _tagsProvider.resetNovelTags(value.bookmarkTags ?? [], value.nextUrl);
         }).catchError((error) {
-          if ((error as DioError).type == DioErrorType.cancel) return;
+          if (error is DioError && error.type == DioErrorType.cancel) return;
           _tagsProvider.seLoadStatus(LoadingStatus.failed);
         });
     }
@@ -250,7 +250,7 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
             )
             .then((value) => illustsProvider.resetIllusts(value.illusts, value.nextUrl))
             .catchError((error) {
-          if ((error as DioError).type == DioErrorType.cancel) return;
+          if (error is DioError && error.type == DioErrorType.cancel) return;
           illustsProvider.setLoadingStatus(LoadingStatus.failed);
         });
         break;
@@ -267,7 +267,7 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
             )
             .then((value) => novelsProvider.resetNovels(value.novels, value.nextUrl))
             .catchError((error) {
-          if ((error as DioError).type == DioErrorType.cancel) return;
+          if (error is DioError && error.type == DioErrorType.cancel) return;
           novelsProvider.setLoadingStatus(LoadingStatus.failed);
         });
     }

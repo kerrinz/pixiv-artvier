@@ -5,6 +5,7 @@ class BottomSheets {
   static Future<T?> showCustomBottomSheet<T>({
     required BuildContext context,
     required Widget child,
+    Color? background,
     borderRadius = const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
     enableDrag = true, // 拖拽退出
     exitOnClickModal = true, // 点击遮罩层退出
@@ -25,7 +26,7 @@ class BottomSheets {
               right: 0,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
+                  color: background ?? Theme.of(context).colorScheme.surface,
                   borderRadius: borderRadius,
                 ),
                 child: child,
