@@ -155,6 +155,7 @@ class IllustWaterfallGrid extends StatelessWidget {
           : Navigator.of(context).pushNamed(
               RouteNames.artworkDetail.name,
               arguments: ArkworkDetailPageArguments(
+                artworkId: artworkList[index].id.toString(),
                 detail: artworkList[index],
                 callback: (String id, bool isBookmark) {
                   // 回调方法，传给详情页

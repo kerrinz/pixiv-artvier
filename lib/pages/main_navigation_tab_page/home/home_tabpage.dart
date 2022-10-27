@@ -327,6 +327,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                           Navigator.of(context).pushNamed(
                             RouteNames.artworkDetail.name,
                             arguments: ArkworkDetailPageArguments(
+                              artworkId: rankingList[index].id.toString(),
                               detail: rankingList[index],
                               callback: (String id, bool isBookmarked) {
                                 _illustProvider.rankingList[index].isBookmarked = isBookmarked;

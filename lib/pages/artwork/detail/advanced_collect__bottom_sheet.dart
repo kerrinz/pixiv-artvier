@@ -178,7 +178,12 @@ class _AdvancedCollectBottomSheetState extends State<AdvancedCollectBottomSheet>
                   StatefulBuilder(
                     builder: ((context, StateSetter theSetState) {
                       _countSetState = theSetState;
-                      return Text("$_selectCount / $_maxTags");
+                      return Text(
+                        "$_selectCount / $_maxTags",
+                        style: _selectCount >= _maxTags
+                            ? TextStyle(color: Theme.of(context).colorScheme.tertiary, fontWeight: FontWeight.bold)
+                            : null,
+                      );
                     }),
                   ),
                 ],
@@ -207,18 +212,21 @@ class _AdvancedCollectBottomSheetState extends State<AdvancedCollectBottomSheet>
                   isCollapsed: true, // 高度包裹，不会存在默认高度
                 ),
                 onSubmitted: ((value) {
-                  if (LoadingStatus.success != _loadingStatus || value.isEmpty) return;
-                  bool isNotExist = _tags.every(((element) => element.name != _addTagTextController.text));
-                  if (isNotExist) {
-                    setState(() {
-                      _tags.insert(0, WorksCollectTag(name: value, isRegistered: true));
-                      _selectCount++;
-                      _addTagTextController.text = "";
-                    });
-                  } else {
-                    Fluttertoast.showToast(msg: LocalizationIntl.of(context).tagAlreadyExists);
-                  }
                   _addTagFocusNode.unfocus();
+                  if (value.isEmpty) {
+                    return;
+                  } else if (LoadingStatus.success == _loadingStatus && _selectCount < _maxTags) {
+                    bool isNotExist = _tags.every(((element) => element.name != _addTagTextController.text));
+                    isNotExist
+                        ? setState(() {
+                            _tags.insert(0, WorksCollectTag(name: value, isRegistered: true));
+                            _selectCount++;
+                            _addTagTextController.text = "";
+                          })
+                        : Fluttertoast.showToast(msg: LocalizationIntl.of(context).tagAlreadyExists);
+                  } else if (_selectCount == _maxTags) {
+                    Fluttertoast.showToast(msg: "Max $_maxTags tags");
+                  }
                 }),
               ),
             ),
@@ -271,6 +279,7 @@ class _AdvancedCollectBottomSheetState extends State<AdvancedCollectBottomSheet>
     _cancelToken = CancelToken();
     switch (widget.worksType) {
       case WorksType.illust:
+      case WorksType.manga:
         ApiIllusts().getIllustCollectionTags(widget.worksId).then((value) {
           _tags.clear();
           for (WorksCollectTag item in value.detail?.tags ?? []) {
@@ -285,8 +294,6 @@ class _AdvancedCollectBottomSheetState extends State<AdvancedCollectBottomSheet>
         }).catchError((error) {
           if (error is DioError && error.type == DioErrorType.cancel) return;
         });
-        break;
-      case WorksType.manga:
         break;
       case WorksType.novel:
       default:
