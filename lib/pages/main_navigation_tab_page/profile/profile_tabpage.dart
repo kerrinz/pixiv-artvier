@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/api_app/api_user.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/component/base_provider_widget.dart';
@@ -9,9 +8,10 @@ import 'package:pixgem/component/perference/preferences_navigator_item.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
+import 'package:pixgem/model_response/user/user_detail.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/models.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/provider.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/user_profile_provider.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy_and_origin.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/theme.dart';
 import 'package:pixgem/routes.dart';
@@ -19,11 +19,16 @@ import 'package:pixgem/store/account_store.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:provider/provider.dart';
 
-class ProfileTabPage extends StatelessWidget {
+class ProfileTabPage extends StatefulWidget {
   const ProfileTabPage({Key? key}) : super(key: key);
 
+  @override
+  State<StatefulWidget> createState() => ProfileTabPageState();
+}
+
+class ProfileTabPageState extends State<ProfileTabPage> {
   // 功能项列表的模型
-  static final List<IconButtonModelBuilder> _functionItemBuilders = [
+  final List<IconButtonModelBuilder> _functionItemBuilders = [
     (context) => IconButtonModel(
           LocalizationIntl.of(context).history,
           Icon(Icons.history_rounded, color: Theme.of(context).primaryColor, size: 26),
@@ -57,7 +62,7 @@ class ProfileTabPage extends StatelessWidget {
   ];
 
   // 设置项列表的模型
-  static final List<PerferenceBottomSheetBuilder> _perferenceItemBuilders = [
+  final List<PerferenceBottomSheetBuilder> _perferenceItemBuilders = [
     (context) => PerferenceBottomSheetModel(
           LocalizationIntl.of(context).themeSettings,
           Icon(Icons.color_lens_outlined, color: Theme.of(context).primaryColor),
@@ -72,94 +77,38 @@ class ProfileTabPage extends StatelessWidget {
         ),
   ];
 
-  bool isLightMode(context) => Theme.of(context).colorScheme.brightness == Brightness.light;
+  bool _isLightMode(context) => Theme.of(context).colorScheme.brightness == Brightness.light;
+
+  final UserProfileProvider _profileProvider = UserProfileProvider();
+
+  @override
+  void initState() {
+    requestCounts();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     readProfile();
-    Color topBackgroundColor = isLightMode(context)
-        ? Theme.of(context).colorScheme.primary.withOpacity(0.8)
-        : Theme.of(context).colorScheme.primary.withOpacity(0.1);
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 50,
-        automaticallyImplyLeading: true,
-        shadowColor: Colors.transparent,
-        backgroundColor: topBackgroundColor,
-        actionsIconTheme: const IconThemeData(size: 20, color: Colors.white),
-        actions: [
-          Center(
-            child: IconButton(
-              padding: const EdgeInsets.all(8.0),
-              onPressed: () {
-                Navigator.of(context).pushNamed(RouteNames.accountManage.name);
-              },
-              color: Colors.white,
-              icon: const Icon(Icons.switch_account_outlined),
-              tooltip: "切换账号",
-            ),
-          ),
-          Center(
-            child: Builder(
-              builder: (BuildContext context) {
-                // 当前所处的主题模式
-                bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
-                return IconButton(
-                  padding: const EdgeInsets.all(8.0),
-                  onPressed: () async {
-                    // 如果APP主题正处于跟随系统设置的情况下
-                    if (GlobalStore.globalProvider.themeMode == ThemeMode.system) {
-                      bool isCancel = true; // 用户是否取消了变更主题的请求
-                      await showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(LocalizationIntl.of(context).promptTitle),
-                            content: Text(LocalizationIntl.of(context).themeModePromptContent),
-                            actions: <Widget>[
-                              TextButton(
-                                  child: Text(LocalizationIntl.of(context).promptCancel),
-                                  onPressed: () => Navigator.pop(context)),
-                              TextButton(
-                                child: Text(LocalizationIntl.of(context).promptConform),
-                                onPressed: () {
-                                  isCancel = false;
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                      if (isCancel) return; // 取消则不变更主题模式
-                    }
-                    // 切换主题模式
-                    GlobalStore.globalProvider.setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark, true);
-                  },
-                  color: Colors.white,
-                  icon: Icon(isDarkMode ? Icons.mode_night : Icons.light_mode),
-                  tooltip: "切换主题模式",
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-        child: Container(
-          // 这样解决了内容不足以支撑全屏时，滑动回弹不会回到原位的问题
-          constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height -
-                  kToolbarHeight -
-                  MediaQuery.of(context).padding.top -
-                  kBottomNavigationBarHeight),
+    // 顶部区域背景色
+    Color topBackgroundColor = _isLightMode(context)
+        ? HSLColor.fromColor(Theme.of(context).colorScheme.primary).withLightness(0.66).toColor()
+        : HSVColor.fromColor(Theme.of(context).colorScheme.primary).withValue(0.25).toColor();
+    return Stack(
+      children: [
+        Container(
+          color: Theme.of(context).colorScheme.background,
           child: Column(
             children: [
               // 我的信息栏
-              Container(child: _buildUserInfoContainer(context, topBackgroundColor)),
+              Container(
+                color: topBackgroundColor,
+                padding: EdgeInsets.only(top: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight),
+                child: _buildUserInfoContainer(context),
+              ),
               // 功能卡片
               Container(
+                transform: Matrix4.translationValues(0, -4, 0),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -179,15 +128,83 @@ class ProfileTabPage extends StatelessWidget {
             ],
           ),
         ),
-      ),
+        // Toolbar（Appbar）
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: AppBar(
+            automaticallyImplyLeading: true,
+            backgroundColor: Colors.transparent,
+            actionsIconTheme: const IconThemeData(size: 20, color: Colors.white),
+            actions: [
+              Center(
+                child: IconButton(
+                  padding: const EdgeInsets.all(8.0),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(RouteNames.accountManage.name);
+                  },
+                  color: Colors.white,
+                  icon: const Icon(Icons.switch_account_outlined),
+                  tooltip: "切换账号",
+                ),
+              ),
+              Center(
+                child: Builder(
+                  builder: (BuildContext context) {
+                    // 当前所处的主题模式
+                    bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
+                    return IconButton(
+                      padding: const EdgeInsets.all(8.0),
+                      onPressed: () async {
+                        // 如果APP主题正处于跟随系统设置的情况下
+                        if (GlobalStore.globalProvider.themeMode == ThemeMode.system) {
+                          bool isCancel = true; // 用户是否取消了变更主题的请求
+                          await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(LocalizationIntl.of(context).promptTitle),
+                                content: Text(LocalizationIntl.of(context).themeModePromptContent),
+                                actions: <Widget>[
+                                  TextButton(
+                                      child: Text(LocalizationIntl.of(context).promptCancel),
+                                      onPressed: () => Navigator.pop(context)),
+                                  TextButton(
+                                    child: Text(LocalizationIntl.of(context).promptConform),
+                                    onPressed: () {
+                                      isCancel = false;
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          if (isCancel) return; // 取消则不变更主题模式
+                        }
+                        // 切换主题模式
+                        GlobalStore.globalProvider.setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark, true);
+                      },
+                      color: Colors.white,
+                      icon: Icon(isDarkMode ? Icons.mode_night : Icons.light_mode),
+                      tooltip: "切换主题模式",
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
   // 用户信息
-  Widget _buildUserInfoContainer(BuildContext context, Color topBackgroundColor) {
+  Widget _buildUserInfoContainer(BuildContext context) {
     Color textColor =
-        isLightMode(context) ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurface;
-    Color secondTextColor = isLightMode(context)
+        _isLightMode(context) ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurface;
+    Color secondTextColor = _isLightMode(context)
         ? Theme.of(context).colorScheme.onPrimary.withAlpha(200)
         : Theme.of(context).colorScheme.onSurface.withAlpha(150);
     return Column(
@@ -198,8 +215,7 @@ class ProfileTabPage extends StatelessWidget {
                 GlobalStore.currentAccount!.user.name, GlobalStore.currentAccount!.user.profileImageUrls!.px170x170);
             Navigator.of(context).pushNamed(RouteNames.userDetail.name, arguments: user);
           },
-          child: Container(
-            color: topBackgroundColor,
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
             child: Row(
               children: [
@@ -268,11 +284,11 @@ class ProfileTabPage extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          color: topBackgroundColor,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: ProviderWidget<ProfileProvider>(
-            builder: (BuildContext context, ProfileProvider provider, Widget? child) {
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 4, bottom: 8),
+          child: ProviderWidget<UserProfileProvider>(
+            model: _profileProvider,
+            builder: (BuildContext context, UserProfileProvider provider, Widget? child) {
               TextStyle numTextStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: textColor);
               TextStyle secondTextStyle = TextStyle(fontSize: 12, height: 1.6, color: secondTextColor);
               return Row(
@@ -284,7 +300,7 @@ class ProfileTabPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Column(
                         children: [
-                          Text(provider.friends.toString(),
+                          Text(provider.friends?.toString() ?? "...",
                               style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
                           Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
                         ],
@@ -301,7 +317,7 @@ class ProfileTabPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: Column(
                           children: [
-                            Text(provider.following.toString(), style: numTextStyle),
+                            Text(provider.following?.toString() ?? "...", style: numTextStyle),
                             Text(LocalizationIntl.of(context).following, style: secondTextStyle),
                           ],
                         ),
@@ -324,7 +340,6 @@ class ProfileTabPage extends StatelessWidget {
                 ],
               );
             },
-            model: ProfileProvider(),
           ),
         ),
       ],
@@ -379,7 +394,7 @@ class ProfileTabPage extends StatelessWidget {
   // 快捷设置
   Widget _buildPreferenceSettings(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
         color: Theme.of(context).colorScheme.surface,
@@ -431,14 +446,18 @@ class ProfileTabPage extends StatelessWidget {
     );
   }
 
-  // 读取配置数据
+  /// 读取账户配置
   void readProfile() {
     var profile = AccountStore.getCurrentAccountProfile();
     if (profile != null) {
       GlobalStore.changeCurrentAccount(profile);
-    } else {
-      Fluttertoast.showToast(msg: "加载失败!", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
     }
-    ApiUser().getUserDetail(userId: profile?.user.id).then((value) => null);
+  }
+
+  /// 获取相关用户统计
+  Future requestCounts() async {
+    if (GlobalStore.currentAccount == null) return;
+    UserDetail detail = await ApiUser().getUserDetail(userId: GlobalStore.currentAccount!.user.id.toString());
+    _profileProvider.setAll(0, detail.profile.totalFollowUsers, detail.profile.totalMypixivUsers);
   }
 }
