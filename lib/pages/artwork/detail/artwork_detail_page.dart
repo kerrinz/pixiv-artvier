@@ -516,15 +516,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       ],
     );
   }
-
-  // 构建循环加载动画
-  Widget _buildLoading(BuildContext context) {
-    return SizedBox(
-        width: 24.0,
-        height: 24.0,
-        child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary));
-  }
-
+  
   /// 高级收藏
   void submitAdvancedBookmark(AdvancedCollectArguments arguments) {
     LocalizationIntl intl = LocalizationIntl.of(context);
