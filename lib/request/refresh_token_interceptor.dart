@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/request/oauth.dart';
 import 'package:pixgem/store/global.dart';
@@ -20,5 +21,11 @@ class RefreshTokenInterceptor extends InterceptorsWrapper {
       // 正常发起请求
       handler.next(options); // continue
     }
+  }
+
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    debugPrint(err.toString());
+    super.onError(err, handler);
   }
 }

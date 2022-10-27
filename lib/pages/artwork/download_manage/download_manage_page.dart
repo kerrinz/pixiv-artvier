@@ -144,7 +144,10 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     highlightColor: Colors.black12.withOpacity(0.1),
                     onTap: () {
                       Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
-                          arguments: ArkworkDetailPageArguments(detail: illusts[index].illust));
+                          arguments: ArkworkDetailPageArguments(
+                            detail: illusts[index].illust,
+                            artworkId: illusts[index].illust.id.toString(),
+                          ));
                     },
                   ),
                 ),
@@ -229,7 +232,10 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     onTap: () {
                       Navigator.of(context).pushNamed(
                         RouteNames.artworkDetail.name,
-                        arguments: ArkworkDetailPageArguments(detail: illusts[index]),
+                        arguments: ArkworkDetailPageArguments(
+                          detail: illusts[index],
+                          artworkId: illusts[index].id.toString(),
+                        ),
                       );
                     },
                   ),
