@@ -1,6 +1,6 @@
-import 'package:flutter/widgets.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 
-class NetworkSettingProvider with ChangeNotifier {
+class NetworkSettingProvider extends BaseProvider {
   String? host;
   String? port;
 

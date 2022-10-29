@@ -11,12 +11,10 @@ import 'package:pixgem/component/scroll_list/user_list_vertical.dart';
 import 'package:pixgem/component/sliver_delegates/widget_delegate.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/illusts/illusts_search_result.dart';
 import 'package:pixgem/api_app/api_serach.dart';
 import 'package:pixgem/model_response/novels/common_novel.dart';
 import 'package:pixgem/model_response/novels/common_novel_list.dart';
-import 'package:pixgem/model_response/user/common_user.dart';
 import 'package:pixgem/model_response/user/common_user_previews_list.dart';
 import 'package:pixgem/model_response/user/common_user_previews.dart';
 import 'package:pixgem/pages/search/result/seach_filter_arguments.dart';
@@ -62,11 +60,6 @@ class SearchResultPageState extends State<SearchResultPage> {
     super.initState();
     _textController = TextEditingController(text: widget.label);
     onSearch();
-    List list = [];
-    list = <String>["q", "w", "e"];
-    print((list as List<String>));
-    list = <int>[1, 2, 3];
-    print(list as List<int>);
   }
 
   @override
@@ -242,7 +235,10 @@ class SearchResultPageState extends State<SearchResultPage> {
     _resultProvider.setLoadingStatus(LoadingStatus.loading);
     requestSearch(_resultProvider.searchType, label: label)
         .then((value) => _resultProvider.setLoadingStatus(LoadingStatus.success))
-        .catchError((error) => _resultProvider.setLoadingStatus(LoadingStatus.failed));
+        .catchError((err) {
+      if (err is DioError && err.type == DioErrorType.cancel) return;
+      _resultProvider.setLoadingStatus(LoadingStatus.failed);
+    });
   }
 
   /// 懒加载事件
@@ -251,9 +247,9 @@ class SearchResultPageState extends State<SearchResultPage> {
     _isLazyloading = true;
     if (!_cancelToken.isCancelled) _cancelToken.cancel();
     _cancelToken = CancelToken();
-    requestLazyload(_resultProvider.searchType)
-        .catchError((err) => _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed))
-        .whenComplete(() => _isLazyloading = false);
+    requestLazyload(_resultProvider.searchType).catchError((err) {
+      if (err is DioError && err.type == DioErrorType.cancel) _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed);
+    }).whenComplete(() => _isLazyloading = false);
   }
 
   /// 获取插画·漫画作品

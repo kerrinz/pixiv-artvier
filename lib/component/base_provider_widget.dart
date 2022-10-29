@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 import 'package:provider/provider.dart';
 
 /// Provider快捷创建组件，内置Consumer
@@ -12,7 +13,7 @@ import 'package:provider/provider.dart';
 ///   },
 /// ),
 ///
-class ProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
+class ProviderWidget<T extends BaseProvider> extends StatefulWidget {
   final T model;
   final Widget Function(
     BuildContext context,
@@ -27,7 +28,7 @@ class ProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
   ProviderWidgetState<T> createState() => ProviderWidgetState<T>();
 }
 
-class ProviderWidgetState<T extends ChangeNotifier> extends State<ProviderWidget<T>> {
+class ProviderWidgetState<T extends BaseProvider> extends State<ProviderWidget<T>> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>.value(
@@ -49,7 +50,7 @@ class ProviderWidgetState<T extends ChangeNotifier> extends State<ProviderWidget
 /// Provider快捷创建组件，内置Consumer
 /// 
 /// 请勿直接给 [model] 传 [T()]，应当在外部定义T的变量，并控制其生命周期，本组件不管理Provider的生命周期
-class ProviderStatelessWidget<T extends ChangeNotifier> extends StatelessWidget {
+class ProviderStatelessWidget<T extends BaseProvider> extends StatelessWidget {
   final T model;
   final Widget Function(
     BuildContext context,

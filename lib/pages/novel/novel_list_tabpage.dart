@@ -144,8 +144,10 @@ class NovelListTabPageState extends State<NovelListTabPage> with AutomaticKeepAl
                   isLazyloadRequesting = true;
                   _lazyloadProvider.setLazyloadStatus(LazyloadStatus.loading);
                   _cancelToken = CancelToken();
-                  CommonNovelList value = await widget.onLazyLoad!(provider.nextUrl, _cancelToken).catchError((error) {
-                    if (!_cancelToken.isCancelled) _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed);
+                  CommonNovelList value = await widget.onLazyLoad!(provider.nextUrl, _cancelToken).catchError((err) {
+                    if (!(err is DioError && err.type == DioErrorType.cancel)) {
+                      _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed);
+                    }
                   }).whenComplete(() => isLazyloadRequesting = false);
                   _novelsProvider.resetNovels(value.novels, value.nextUrl);
                 } else {
@@ -179,18 +181,23 @@ class NovelListTabPageState extends State<NovelListTabPage> with AutomaticKeepAl
     );
   }
 
+  @override
+  void dispose() {
+    if (!_cancelToken.isCancelled) _cancelToken.cancel();
+    super.dispose();
+  }
+
   /// 默认的懒加载（插画与漫画通用），确保nextUrl不为空再调用！
   void defaultNovelLazyload() {
+    if (isLazyloadRequesting) return;
     isLazyloadRequesting = true; // 标记正在懒加载中
     _lazyloadProvider.setLazyloadStatus(LazyloadStatus.loading);
     _cancelToken = CancelToken();
     ApiNovels().getNextNovels(_novelsProvider.nextUrl!, cancelToken: _cancelToken).then((value) {
       _novelsProvider.appendNovels(value.novels, value.nextUrl);
-    }).catchError((_) {
-      if (!_cancelToken.isCancelled) {
-        // 非取消才能显示Failed
-        _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed);
-      }
+    }).catchError((err) {
+      if (err is DioError && err.type == DioErrorType.cancel) return;
+      _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed);
     }).whenComplete(() => isLazyloadRequesting = false); // 最后取消标记懒加载中
   }
 

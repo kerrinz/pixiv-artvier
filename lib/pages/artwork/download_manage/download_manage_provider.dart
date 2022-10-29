@@ -1,7 +1,7 @@
-import 'package:flutter/widgets.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 
-class DownloadManageProvider with ChangeNotifier {
+class DownloadManageProvider extends BaseProvider {
   List<CommonIllust> downloadingIllusts = []; // 正在下载的列表
   List<CommonIllust> downloadedIllusts = []; // 已下载的列表
 

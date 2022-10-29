@@ -1,12 +1,13 @@
 // 全局提供器
 import 'package:flutter/material.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 import 'package:pixgem/model_store/account_profile.dart';
 import 'package:pixgem/model_store/downloading_illust.dart';
 import 'package:pixgem/store/download_store.dart';
 import 'package:pixgem/store/global.dart';
 import 'package:pixgem/store/theme_store.dart';
 
-class GlobalProvider with ChangeNotifier {
+class GlobalProvider extends BaseProvider {
   AccountProfile? get currentAccount => GlobalStore.currentAccount; // 当前帐号
   ThemeMode themeMode = ThemeMode.system; // 主题模式，默认跟随系统
   int downloadMode = DownloadStore.MODE_GALLERY; // 下载保存图片模式

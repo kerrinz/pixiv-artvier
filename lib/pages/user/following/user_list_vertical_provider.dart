@@ -1,8 +1,8 @@
-import 'package:flutter/widgets.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/model_response/user/common_user_previews.dart';
 
-class UserListVerticalProvider with ChangeNotifier {
+class UserListVerticalProvider extends BaseProvider {
   UserListVerticalProvider({
     this.loadingStatus = LoadingStatus.loading,
   });
