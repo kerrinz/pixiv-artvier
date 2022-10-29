@@ -50,11 +50,6 @@ class SearchResultPageState extends State<SearchResultPage> {
   /// 筛选条件
   SearchFilterArguments _filterAguments = SearchFilterArguments();
 
-  /// TODO
-  Map map = {
-    // SearchType.artworks,
-  };
-
   @override
   void initState() {
     super.initState();
