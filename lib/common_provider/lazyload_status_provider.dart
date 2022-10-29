@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 
 /// 懒加载状态
 enum LazyloadStatus {
@@ -9,15 +9,13 @@ enum LazyloadStatus {
 }
 
 /// 懒加载更新状态时专用的Provider
-class LazyloadStatusProvider extends ChangeNotifier {
+class LazyloadStatusProvider extends BaseProvider {
   // 懒加载状态
   LazyloadStatus lazyloadStatus;
 
   LazyloadStatusProvider({
     this.lazyloadStatus = LazyloadStatus.loading,
   });
-
-  notify() => notifyListeners();
 
   void setLazyloadStatus(LazyloadStatus status) {
     if(lazyloadStatus != status) {

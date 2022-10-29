@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
 
 /// 自定义泛型列表的Provider
-class TListProvider<T> extends ChangeNotifier {
+class TListProvider<T> extends BaseProvider {
   List<T> list = [];
 
   LoadingStatus loadingStatus = LoadingStatus.loading;

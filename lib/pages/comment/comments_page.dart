@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/list_loadmore_provider.dart';
@@ -23,7 +24,18 @@ class CommentsPage extends StatefulWidget {
 
 class _CommentsPageState extends State<CommentsPage> {
   final ListLoadmoreProvider<Comments> _provider = ListLoadmoreProvider<Comments>();
+
   ScrollController scrollController = ScrollController();
+
+  CancelToken _cancelToken = CancelToken();
+
+  @override
+  void initState() {
+    super.initState();
+    refresh().catchError((onError) {
+      Fluttertoast.showToast(msg: "加载失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,21 +138,23 @@ class _CommentsPageState extends State<CommentsPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    refresh().catchError((onError) {
-      Fluttertoast.showToast(msg: "加载失败！$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-    });
+  void dispose() {
+    if (!_cancelToken.isCancelled) _cancelToken.cancel();
+    super.dispose();
   }
 
   Future refresh() async {
-    var result = await ApiIllusts().getIllustComments(widget.illustId);
+    if (!_cancelToken.isCancelled) _cancelToken.cancel();
+    _cancelToken = CancelToken();
+    var result = await ApiIllusts().getIllustComments(widget.illustId, cancelToken: _cancelToken);
     _provider.setAll(result.comments, result.nextUrl);
   }
 
   // 获取下一页的数据
   Future requestNext() async {
-    var res = await ApiBase().getNextUrlData(nextUrl: _provider.nextUrl!);
+    if (!_cancelToken.isCancelled) _cancelToken.cancel();
+    _cancelToken = CancelToken();
+    var res = await ApiBase().getNextUrlData(nextUrl: _provider.nextUrl!, cancelToken: _cancelToken);
     var result = IllustComments.fromJson(res);
     _provider.addAll(result.comments);
     _provider.setNextUrl(result.nextUrl);

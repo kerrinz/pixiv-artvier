@@ -1,9 +1,9 @@
-import 'package:flutter/widgets.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 
 ///
 /// 含有加载更多内容的列表的provider
 ///
-class ListLoadmoreProvider<T> with ChangeNotifier {
+class ListLoadmoreProvider<T> extends BaseProvider {
   List<T>? list;
   String? nextUrl; // 下一页的地址
 

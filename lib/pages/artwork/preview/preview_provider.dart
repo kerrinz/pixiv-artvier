@@ -1,6 +1,6 @@
-import 'package:flutter/widgets.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 
-class PreviewProvider with ChangeNotifier {
+class PreviewProvider extends BaseProvider {
   bool isHdMode = false; // 是否高清模式
   int currentPage = 0; // 当前页
 

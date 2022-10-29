@@ -149,8 +149,10 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
                   isLazyloadRequesting = true;
                   _lazyloadProvider.setLazyloadStatus(LazyloadStatus.loading);
                   _cancelToken = CancelToken();
-                  CommonIllustList value = await widget.onLazyLoad!(provider.nextUrl, _cancelToken).catchError((error) {
-                    if (!_cancelToken.isCancelled) _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed);
+                  CommonIllustList value = await widget.onLazyLoad!(provider.nextUrl, _cancelToken).catchError((err) {
+                    if (!(err is DioError && err.type == DioErrorType.cancel)) {
+                      _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed);
+                    }
                   }).whenComplete(() => isLazyloadRequesting = false);
                   _illustsProvider.resetIllusts(value.illusts, value.nextUrl);
                 } else {
@@ -184,18 +186,25 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
     );
   }
 
+  @override
+  void dispose() {
+    if (!_cancelToken.isCancelled) _cancelToken.cancel();
+    _cancelToken = CancelToken();
+    super.dispose();
+  }
+
   /// 默认的懒加载（插画与漫画通用），确保nextUrl不为空再调用！
   void defaultIllustLazyload() {
+    if (isLazyloadRequesting) return;
     isLazyloadRequesting = true; // 标记正在懒加载中
     _lazyloadProvider.setLazyloadStatus(LazyloadStatus.loading);
+    if (!_cancelToken.isCancelled) _cancelToken.cancel();
     _cancelToken = CancelToken();
     ApiIllusts().getNextIllusts(_illustsProvider.nextUrl!, cancelToken: _cancelToken).then((value) {
       _illustsProvider.appendIllusts(value.illusts, value.nextUrl);
-    }).catchError((_) {
-      if (!_cancelToken.isCancelled) {
-        // 非取消才能显示Failed
-        _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed);
-      }
+    }).catchError((err) {
+      if (err is DioError && err.type == DioErrorType.cancel) return;
+      _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed);
     }).whenComplete(() => isLazyloadRequesting = false); // 最后取消标记懒加载中
   }
 

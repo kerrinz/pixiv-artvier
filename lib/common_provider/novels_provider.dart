@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/model_response/novels/common_novel.dart';
 
 /// 小说列表的通用Provider，附带了请求加载状态的管理
-class NovelListProvider extends ChangeNotifier {
+class NovelListProvider extends BaseProvider {
   /// 小说列表，[list.isEmpty]表示取得数据但无作品
   List<CommonNovel> list = [];
 
