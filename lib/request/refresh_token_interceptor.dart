@@ -25,7 +25,9 @@ class RefreshTokenInterceptor extends InterceptorsWrapper {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    debugPrint(err.toString());
+    if (err.type != DioErrorType.cancel) {
+      debugPrint(err.toString());
+    }
     super.onError(err, handler);
   }
 }

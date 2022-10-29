@@ -1,6 +1,7 @@
-import 'package:flutter/widgets.dart';
 
-class UserProfileProvider with ChangeNotifier {
+import 'package:pixgem/common_provider/base_provider.dart';
+
+class UserProfileProvider extends BaseProvider {
   int? followers;
   int? following;
   int? friends;

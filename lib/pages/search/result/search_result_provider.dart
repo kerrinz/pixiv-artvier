@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/novels/common_novel.dart';
@@ -14,7 +14,7 @@ enum SearchType {
   users,
 }
 
-class SearchResultProvider extends ChangeNotifier {
+class SearchResultProvider extends BaseProvider {
   // 加载状态
   LoadingStatus loadingStatus;
 
@@ -44,8 +44,6 @@ class SearchResultProvider extends ChangeNotifier {
     this.loadingStatus = LoadingStatus.loading,
     this.searchType = SearchType.artworks,
   });
-
-  notify() => notifyListeners();
 
   /// 重置列表
   void resetList<T>(

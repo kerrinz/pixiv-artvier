@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 
-class FollowingProvider extends ChangeNotifier {
+class FollowingProvider extends BaseProvider {
   bool? isFollowing;
 
   void setIsFollowing(bool isFollowing) {

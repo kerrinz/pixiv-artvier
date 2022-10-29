@@ -1,8 +1,8 @@
-import 'package:flutter/widgets.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 
-class HomeTabPageIllustProvider with ChangeNotifier {
+class HomeTabPageIllustProvider extends BaseProvider {
   /// 排行榜列表
   /// [List.isEmpty]表示取得数据但无作品
   List<CommonIllust> rankingList = [];

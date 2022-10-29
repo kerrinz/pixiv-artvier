@@ -68,7 +68,7 @@ class UserFollowingPageState extends State<UserFollowingPage> {
                 child: UserVerticalList(
                   userList: provider.userList,
                   physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   mainAxisSpacing: 12,
                   hasMore: provider.nextUrl != null,
                   onLazyLoad: () {

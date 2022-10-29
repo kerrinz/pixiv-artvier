@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/novels/common_novel.dart';
@@ -24,7 +24,7 @@ enum Reveal {
 }
 
 /// 适用于需要切换多种类型的作品时候使用；含作品类型[WorksType]、多个列表数据[List]、常用Filter属性[Reveal]与[tag]
-class WorksProvider extends ChangeNotifier {
+class WorksProvider extends BaseProvider {
   // 加载状态
   LoadingStatus loadingStatus;
 
@@ -52,8 +52,6 @@ class WorksProvider extends ChangeNotifier {
     this.reveal = Reveal.all,
     this.tag,
   });
-
-  notify() => notifyListeners();
 
   /// 重置插画列表（例如：刷新插画列表/切换到插画列表）
   void resetIllust(

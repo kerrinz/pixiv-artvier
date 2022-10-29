@@ -86,15 +86,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
   void initState() {
     super.initState();
     _tabController = TabController(initialIndex: 0, length: 3, vsync: this);
-    refreshUserData().then((detail) {
-      _provider.setUserDetail(detail);
-      _provider.setFollowed(detail.user.isFollowed);
-      _provider.setLoadingStatus(LoadingStatus.success);
-    }).catchError((error) {
-      if (error is DioError && error.type == DioErrorType.cancel) return;
-      Fluttertoast.showToast(msg: "获取用户数据失败！$error", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-      _provider.setLoadingStatus(LoadingStatus.failed);
-    });
+    onRefresh();
   }
 
   @override
@@ -216,9 +208,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                           Center(
                             child: RequestLoadingFailed(
                               onRetry: () {
-                                refreshUserData().catchError((_) {
-                                  _provider.setLoadingStatus(LoadingStatus.failed);
-                                });
+                                onRefresh();
                               },
                             ),
                           ),
@@ -736,7 +726,6 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
     super.dispose();
     if (!_cancelToken.isCancelled) _cancelToken.cancel();
     _tabController.dispose();
-    _provider.dispose();
   }
 
   /// 计算各类参数
@@ -810,10 +799,21 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
     // }
   }
 
+  void onRefresh() {
+    refreshUserData().catchError((error) {
+      if (error is DioError && error.type == DioErrorType.cancel) return;
+      _provider.setLoadingStatus(LoadingStatus.failed);
+    });
+  }
+
   // 获取or刷新用户信息
-  Future<UserDetail> refreshUserData() async {
+  Future refreshUserData() async {
+    if (!_cancelToken.isCancelled) _cancelToken.cancel();
     _cancelToken = CancelToken();
     if (_provider.loadingStatus == LoadingStatus.failed) _provider.setLoadingStatus(LoadingStatus.loading);
-    return await ApiUser().getUserDetail(userId: widget.leastInfo.id, cancelToken: _cancelToken);
+    UserDetail detail = await ApiUser().getUserDetail(userId: widget.leastInfo.id, cancelToken: _cancelToken);
+    _provider.setUserDetail(detail);
+    _provider.setFollowed(detail.user.isFollowed);
+    _provider.setLoadingStatus(LoadingStatus.success);
   }
 }

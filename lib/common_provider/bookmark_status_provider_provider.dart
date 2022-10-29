@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 
 /// 收藏的状态
 enum BookmarkStatus {
@@ -15,7 +15,7 @@ enum BookmarkStatus {
   notBookmark,
 }
 
-class BookmarkStatusProvider with ChangeNotifier {
+class BookmarkStatusProvider extends BaseProvider {
   late BookmarkStatus bookmarkStatus; // 收藏状态
 
   BookmarkStatusProvider({

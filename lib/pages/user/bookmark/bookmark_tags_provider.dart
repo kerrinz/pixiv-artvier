@@ -1,9 +1,9 @@
-import 'package:flutter/widgets.dart';
+import 'package:pixgem/common_provider/base_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/common_provider/works_provider.dart';
 import 'package:pixgem/model_response/user/bookmark/bookmark_tag.dart';
 
-class BookmarkTagsProvider extends ChangeNotifier {
+class BookmarkTagsProvider extends BaseProvider {
   List<BookmarkTag> illustTags = [];
   List<BookmarkTag> novelTags = [];
   String? illustNextUrl;
