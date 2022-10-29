@@ -135,13 +135,29 @@ class ApiUser extends ApiBase {
 
   /// 获取某个用户的关注（用户）列表
   Future<UserPreviewsList> getUserFollowing(
-      {required String userId, String restrict = CONSTANTS.restrict_public, CancelToken? cancelToken}) async {
+    String userId, {
+    String restrict = CONSTANTS.restrict_public,
+    CancelToken? cancelToken,
+  }) async {
     assert([CONSTANTS.restrict_public, CONSTANTS.restrict_private].contains(restrict));
     Response res = await ApiBase.dio.get<String>(
       "/v1/user/following",
       queryParameters: {
         "user_id": userId,
         "restrict": restrict,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return UserPreviewsList.fromJson(json.decode(res.data));
+  }
+
+  /// 获取推荐用户列表
+  Future<UserPreviewsList> getRecommended({CancelToken? cancelToken}) async {
+    Response res = await ApiBase.dio.get<String>(
+      "/v1/user/recommended",
+      queryParameters: {
+        "filter": "for_ios",
       },
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,

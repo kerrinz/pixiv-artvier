@@ -15,6 +15,8 @@ abstract class FlowFilterStatefulWidget extends StatelessWidget {
     this.direction = Axis.horizontal,
     this.spacing = 0,
     this.runSpacing = 0,
+    this.alignment = WrapAlignment.start,
+    this.runAlignment = WrapAlignment.start,
   })  : assert(maxSelectedCount == null || (0 < maxSelectedCount && maxSelectedCount <= itemCount)),
         assert(initialIndexes.every((int item) => 0 <= item && item < itemCount)),
         super(key: key);
@@ -39,6 +41,10 @@ abstract class FlowFilterStatefulWidget extends StatelessWidget {
   /// 纵轴方向的间距
   final double runSpacing;
 
+  final WrapAlignment alignment;
+
+  final WrapAlignment runAlignment;
+
   Widget buildSelectedWidget(BuildContext context, int index);
   Widget buildUnselectedWidget(BuildContext context, int index);
 
@@ -60,8 +66,8 @@ abstract class FlowFilterStatefulWidget extends StatelessWidget {
     }
     return Wrap(
       direction: direction,
-      alignment: WrapAlignment.start,
-      runAlignment: WrapAlignment.start,
+      alignment: alignment,
+      runAlignment: runAlignment,
       spacing: spacing,
       runSpacing: runSpacing,
       children: widgets,
@@ -107,6 +113,8 @@ class StatelessTextFlowFilter extends FlowFilterStatefulWidget {
     this.textBorderRadius = const BorderRadius.all(Radius.circular(8)),
     this.selectedDecoration,
     this.unselectedDecoration,
+    WrapAlignment alignment = WrapAlignment.start,
+    WrapAlignment runAlignment = WrapAlignment.start,
   }) : super(
           key: key,
           initialIndexes: initialIndexes,
@@ -116,6 +124,8 @@ class StatelessTextFlowFilter extends FlowFilterStatefulWidget {
           direction: direction,
           spacing: spacing,
           runSpacing: runSpacing,
+          alignment: alignment,
+          runAlignment: runAlignment,
         );
 
   @override

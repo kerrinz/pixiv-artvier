@@ -85,13 +85,15 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
   Widget _buildSearchBox(BuildContext context) {
     return Container(
       // 搜索框
-      height: 40,
-      color: Colors.grey.withOpacity(0.12),
+      height: 34,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          color: Colors.grey.withOpacity(0.15), borderRadius: const BorderRadius.all(Radius.circular(8.0))),
       child: Row(
         children: [
           // 框左边的搜索图标
           const Padding(
-            padding: EdgeInsets.only(left: 10.0),
+            padding: EdgeInsets.only(left: 10.0, right: 4),
             child: Icon(Icons.search_outlined, size: 18),
           ),
           // 搜索框
@@ -103,10 +105,9 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
               controller: _textController,
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.search,
-              // 键盘的回车键换成搜索按钮
+              style: const TextStyle(fontSize: 14),
               decoration: const InputDecoration(
                 hintText: "搜索...",
-                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 isCollapsed: true, // 高度包裹，不会存在默认高度

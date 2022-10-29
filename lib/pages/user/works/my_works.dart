@@ -67,7 +67,7 @@ class _MyBookmarksState extends State<MyWorksPage> with TickerProviderStateMixin
             controller: _tabController,
             isScrollable: true,
             tabs: [
-              Tab(text: LocalizationIntl.of(context).illustrations),
+              Tab(text: LocalizationIntl.of(context).illust),
               Tab(text: LocalizationIntl.of(context).manga),
               Tab(text: LocalizationIntl.of(context).novels),
             ],

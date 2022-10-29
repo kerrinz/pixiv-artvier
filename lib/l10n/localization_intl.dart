@@ -29,9 +29,10 @@ class LocalizationIntl {
   String get navDynamic => Intl.message('Dynamic', name: 'navDynamic', desc: 'BottomNavigationBar');
   String get navProfile => Intl.message('Profile', name: 'navProfile', desc: 'BottomNavigationBar');
   // 通用
-  String get illustrations => Intl.message('illustrations', name: 'illustrations', desc: 'An option of artwork type');
-  String get manga => Intl.message('Manga', name: 'manga', desc: 'An option of artwork type');
-  String get novels => Intl.message('Novels', name: 'novels', desc: 'An option of artwork type');
+  String get illust => Intl.message('Illust', name: 'illust', desc: 'An option of works type');
+  String get manga => Intl.message('Manga', name: 'manga', desc: 'An option of works type');
+  String get novels => Intl.message('Novels', name: 'novels', desc: 'An option of works type');
+  String get users => Intl.message('Users', name: 'users', desc: 'a search type');
   String get series => Intl.message("Series", name: 'series', desc: 'the badge or manga or novel series');
   String get more => Intl.message('More', name: 'more', desc: '');
   String get viewMore => Intl.message('View more', name: 'viewMore', desc: '');

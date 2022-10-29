@@ -18,7 +18,7 @@ class LoadingRequestProvider extends ChangeNotifier {
 
   notify() => notifyListeners();
 
-  void setLazyloadStatus(LoadingStatus status) {
+  void setLoadingStatus(LoadingStatus status) {
     if (loadingStatus != status) {
       loadingStatus = status;
       notifyListeners();
