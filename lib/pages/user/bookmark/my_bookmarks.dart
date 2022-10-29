@@ -101,7 +101,7 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
             isScrollable: true,
             tabs: [
               Tab(
-                child: Text("${LocalizationIntl.of(context).illustrations} • ${LocalizationIntl.of(context).manga}"),
+                child: Text("${LocalizationIntl.of(context).illust} • ${LocalizationIntl.of(context).manga}"),
               ),
               Tab(text: LocalizationIntl.of(context).novels),
             ],

@@ -1,10 +1,14 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:pixgem/common_provider/lazyload_status_provider.dart';
+import 'package:pixgem/common_provider/loading_request_provider.dart';
+import 'package:pixgem/component/loading/request_loading.dart';
+import 'package:pixgem/component/scroll_list/user_list_vertical.dart';
 import 'package:pixgem/model_response/user/user_previews_list.dart';
 import 'package:pixgem/api_app/api_base.dart';
 import 'package:pixgem/api_app/api_user.dart';
-
-import 'widget/user_previews_listview.dart';
+import 'package:pixgem/pages/user/following/user_list_vertical_provider.dart';
+import 'package:provider/provider.dart';
 
 class UserFollowingPage extends StatefulWidget {
   late final String userId;
@@ -18,7 +22,17 @@ class UserFollowingPage extends StatefulWidget {
 }
 
 class UserFollowingPageState extends State<UserFollowingPage> {
-  ScrollController scrollController = ScrollController();
+  final UserListVerticalProvider _listProvider = UserListVerticalProvider();
+
+  final LazyloadStatusProvider _lazyloadProvider = LazyloadStatusProvider();
+
+  bool isLazyloading = false;
+
+  @override
+  void initState() {
+    refresh();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,40 +40,65 @@ class UserFollowingPageState extends State<UserFollowingPage> {
       body: ExtendedNestedScrollView(
         floatHeaderSlivers: true,
         onlyOneScrollInBody: true,
-        controller: scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
               pinned: true,
               title: const Text("关注列表"),
               toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.keyboard_arrow_up),
-                  onPressed: () {
-                    scrollController.animateTo(
-                      0,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.decelerate,
-                    );
-                  },
-                  tooltip: "回到顶部",
-                ),
-              ],
+              actions: const [],
             ),
           ];
         },
-        body: UsersCardListView(
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          onLazyLoad: (String nextUrl) async {
-            var result = await ApiBase().getNextUrlData(nextUrl: nextUrl);
-            return UserPreviewsList.fromJson(result);
-          },
-          onRefresh: () async {
-            return await ApiUser().getUserFollowing(userId: widget.userId);
-          },
+        body: MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: _listProvider),
+            ChangeNotifierProvider.value(value: _lazyloadProvider),
+          ],
+          child: Consumer(
+            builder: ((_, UserListVerticalProvider provider, __) {
+              if (provider.loadingStatus != LoadingStatus.success) {
+                return RequestLoadMask(
+                  loadingStatus: provider.loadingStatus,
+                  onRetry: () {},
+                );
+              }
+              return RefreshIndicator(
+                onRefresh: refresh,
+                child: UserVerticalList(
+                  userList: provider.userList,
+                  physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  mainAxisSpacing: 12,
+                  hasMore: provider.nextUrl != null,
+                  onLazyLoad: () {
+                    if (provider.nextUrl == null || isLazyloading) return;
+                    isLazyloading = true;
+                    lazyload()
+                        .catchError((_) => _lazyloadProvider.setLazyloadStatus(LazyloadStatus.failed))
+                        .whenComplete(() => isLazyloading = false);
+                  },
+                ),
+              );
+            }),
+          ),
         ),
       ),
     );
+  }
+
+  /// 刷新数据
+  Future refresh({String? label}) async {
+    if (_listProvider.loadingStatus != LoadingStatus.success) _listProvider.setLoadingStatus(LoadingStatus.loading);
+    UserPreviewsList data = await ApiUser()
+        .getUserFollowing(widget.userId)
+        .catchError((error) => _listProvider.setLoadingStatus(LoadingStatus.failed));
+    _listProvider.resetList(data.userPreviews, data.nextUrl);
+  }
+
+  Future lazyload() async {
+    Map<String, dynamic> map = await ApiBase().getNextUrlData(nextUrl: _listProvider.nextUrl!);
+    UserPreviewsList data = UserPreviewsList.fromJson(map);
+    _listProvider.appendList(data.userPreviews, data.nextUrl);
   }
 }

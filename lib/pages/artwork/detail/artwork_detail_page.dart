@@ -607,12 +607,12 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     IllustComments data =
         await ApiIllusts().getIllustComments(artworkId, cancelToken: _commentCancelToken).catchError((error) {
       if (!(error is DioError && error.type == DioErrorType.cancel)) {
-        _loadingProvider.setLazyloadStatus(LoadingStatus.failed);
+        _loadingProvider.setLoadingStatus(LoadingStatus.failed);
       }
     });
     _commentList.clear();
     _commentList.addAll(data.comments);
-    _loadingProvider.setLazyloadStatus(LoadingStatus.success);
+    _loadingProvider.setLoadingStatus(LoadingStatus.success);
   }
 
   @override
