@@ -564,7 +564,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       // 操作成功
       if (widget.model.callback != null) {
         // 执行回调
-        widget.model.callback!(widget.model.artworkId, false);
+        widget.model.callback!(widget.model.artworkId, !isCollected);
       }
       Fluttertoast.showToast(msg: intl.removeCollectionSucceed, toastLength: Toast.LENGTH_LONG);
       _bookmarkProvider.setBookmarkStatus(isCollected ? BookmarkStatus.notBookmark : BookmarkStatus.bookmarked);

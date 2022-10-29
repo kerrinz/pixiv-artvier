@@ -83,7 +83,6 @@ class ApiSearch extends ApiBase {
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
-    print(res.data);
     return CommonUserPreviewsList.fromJson(json.decode(res.data));
   }
 }
