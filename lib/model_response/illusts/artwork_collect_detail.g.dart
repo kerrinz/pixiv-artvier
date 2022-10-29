@@ -23,12 +23,13 @@ Map<String, dynamic> _$ArtworkCollectDetailToJson(
     };
 
 WorksCollectDetail _$WorksCollectDetailFromJson(Map<String, dynamic> json) =>
-    WorksCollectDetail()
-      ..isBookmarked = json['is_bookmarked'] as bool?
-      ..tags = (json['tags'] as List<dynamic>?)
+    WorksCollectDetail(
+      isBookmarked: json['is_bookmarked'] as bool?,
+      restrict: json['restrict'] as String?,
+      tags: (json['tags'] as List<dynamic>?)
           ?.map((e) => WorksCollectTag.fromJson(e as Map<String, dynamic>))
-          .toList()
-      ..restrict = json['restrict'] as String?;
+          .toList(),
+    );
 
 Map<String, dynamic> _$WorksCollectDetailToJson(WorksCollectDetail instance) =>
     <String, dynamic>{
@@ -38,9 +39,10 @@ Map<String, dynamic> _$WorksCollectDetailToJson(WorksCollectDetail instance) =>
     };
 
 WorksCollectTag _$WorksCollectTagFromJson(Map<String, dynamic> json) =>
-    WorksCollectTag()
-      ..name = json['name'] as String?
-      ..isRegistered = json['is_registered'] as bool?;
+    WorksCollectTag(
+      name: json['name'] as String?,
+      isRegistered: json['is_registered'] as bool?,
+    );
 
 Map<String, dynamic> _$WorksCollectTagToJson(WorksCollectTag instance) =>
     <String, dynamic>{

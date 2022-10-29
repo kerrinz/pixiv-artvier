@@ -35,23 +35,30 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "illustrations": "插画",
-  "@illustrations": {
-    "description": "An option of artwork type",
+  "illust": "插画",
+  "@illust": {
+    "description": "An option of works type",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "manga": "漫画",
   "@manga": {
-    "description": "An option of artwork type",
+    "description": "An option of works type",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
   "novels": "小说",
   "@novels": {
-    "description": "An option of artwork type",
+    "description": "An option of works type",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "users": "用户",
+  "@users": {
+    "description": "a search type",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}

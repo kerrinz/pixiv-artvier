@@ -138,7 +138,7 @@ class WorksTabPageState extends State<WorksTabPage> with AutomaticKeepAliveClien
                     }
                   },
                   texts: [
-                    LocalizationIntl.of(context).illustrations,
+                    LocalizationIntl.of(context).illust,
                     LocalizationIntl.of(context).manga,
                     LocalizationIntl.of(context).novels
                   ],
