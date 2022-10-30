@@ -175,15 +175,13 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
               itemCount: imageUrls.length,
               pageController: mController,
               onPageChanged: (int index) => _provider.setCurrentPage(index),
-              // loadingBuilder: (context, progress) => Center(
-              //   child: Container(
-              //     width: 20.0,
-              //     height: 20.0,
-              //     child: CircularProgressIndicator(
-              //       value: _progress == null ? null : _progress.cumulativeBytesLoaded / _progress.expectedTotalBytes,
-              //     ),
-              //   ),
-              // ),
+              loadingBuilder: (context, progress) => Center(
+                child: Container(
+                  width: 20.0,
+                  height: 20.0,
+                  child: Text("========================"),
+                ),
+              ),
             );
           },
           selector: (context, PreviewProvider provider) {
