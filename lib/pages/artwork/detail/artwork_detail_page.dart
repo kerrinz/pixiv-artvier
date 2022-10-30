@@ -516,7 +516,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       ],
     );
   }
-  
+
   /// 高级收藏
   void submitAdvancedBookmark(AdvancedCollectArguments arguments) {
     LocalizationIntl intl = LocalizationIntl.of(context);
@@ -525,6 +525,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
         .addIllustBookmark(illustId: _currentArtworkId, tags: arguments.tags, restrict: arguments.restrict)
         .then((value) {
       if (value) {
+        doCallBack(true);
         Fluttertoast.showToast(
             msg: arguments.isCollected ? intl.editCollectionSucceed : intl.addCollectSucceed,
             toastLength: Toast.LENGTH_LONG);
@@ -558,15 +559,14 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       // 响应失败则恢复到原先的状态并提示
       _bookmarkProvider.setBookmarkStatus(status);
       Fluttertoast.showToast(
-          msg: isCollected ? intl.removeCollectionFailed : intl.addCollectFailed, toastLength: Toast.LENGTH_LONG);
+          msg: isCollected ? intl.addCollectFailed : intl.addCollectFailed, toastLength: Toast.LENGTH_LONG);
     });
     if (result) {
       // 操作成功
-      if (widget.model.callback != null) {
-        // 执行回调
-        widget.model.callback!(widget.model.artworkId, !isCollected);
-      }
-      Fluttertoast.showToast(msg: intl.removeCollectionSucceed, toastLength: Toast.LENGTH_LONG);
+      // 执行回调
+      doCallBack(!isCollected);
+      Fluttertoast.showToast(
+          msg: isCollected ? intl.removeCollectionSucceed : intl.addCollectSucceed, toastLength: Toast.LENGTH_LONG);
       _bookmarkProvider.setBookmarkStatus(isCollected ? BookmarkStatus.notBookmark : BookmarkStatus.bookmarked);
     } else {
       // 操作失败
@@ -613,6 +613,14 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     _commentList.clear();
     _commentList.addAll(data.comments);
     _loadingProvider.setLoadingStatus(LoadingStatus.success);
+  }
+
+  /// 执行回调方法，传入操作结果
+  void doCallBack(bool isCollected) {
+    if (widget.model.callback != null) {
+      // 执行回调
+      widget.model.callback!(widget.model.artworkId, isCollected);
+    }
   }
 
   @override
