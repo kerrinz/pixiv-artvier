@@ -103,7 +103,9 @@ class ProfileTabPageState extends State<ProfileTabPage> {
               // 我的信息栏
               Container(
                 color: topBackgroundColor,
-                padding: EdgeInsets.only(top: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.top +
+                        (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight)),
                 child: _buildUserInfoContainer(context),
               ),
               // 功能卡片

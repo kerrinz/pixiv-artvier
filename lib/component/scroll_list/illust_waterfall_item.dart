@@ -26,60 +26,104 @@ class IllustWaterfallItemState extends State<IllustWaterfallItem> {
         double height = (widget.illust.height.toDouble() * constraints.maxWidth) / widget.illust.width;
         // 最高高度（太高了就阉割掉）
         double maxConstraintHeight = constraints.maxWidth * 3;
-        return SizedBox(
-          width: double.infinity,
-          height: height < maxConstraintHeight ? height : maxConstraintHeight,
-          child: Card(
-            elevation: 1.0,
-            margin: EdgeInsets.zero,
-            shadowColor: Theme.of(context).colorScheme.onBackground.withAlpha(10),
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(6.0)),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: Stack(
-              fit: StackFit.loose,
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    width: widget.illust.width.toDouble(),
-                    height: widget.illust.height.toDouble(),
-                    imageUrl: widget.illust.imageUrls.medium,
-                    httpHeaders: const {"Referer": CONSTANTS.referer},
-                  ),
-                ),
-                Positioned.fill(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      splashColor: Colors.black12.withOpacity(0.15),
-                      highlightColor: Colors.black12.withOpacity(0.1),
-                      onTap: () => widget.onTap(),
+        return Card(
+          elevation: 8.0,
+          margin: EdgeInsets.zero,
+          shadowColor: Theme.of(context).colorScheme.secondary.withAlpha(50),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Stack(
+            fit: StackFit.loose,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    height: height < maxConstraintHeight ? height : maxConstraintHeight,
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      width: widget.illust.width.toDouble(),
+                      height: widget.illust.height.toDouble(),
+                      imageUrl: widget.illust.imageUrls.medium,
+                      httpHeaders: const {"Referer": CONSTANTS.referer},
                     ),
                   ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0, right: 34.0, top: 4.0),
+                              child: Text(
+                                widget.illust.title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0, right: 34.0, bottom: 4.0),
+                              child: Text(
+                                widget.illust.user.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Positioned.fill(
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    splashColor: Colors.black12.withOpacity(0.15),
+                    highlightColor: Colors.black12.withOpacity(0.1),
+                    onTap: () => widget.onTap(),
+                  ),
                 ),
-                // 收藏按钮
-                Builder(builder: (BuildContext context) {
-                  return Positioned(
-                    right: 4,
-                    bottom: 4,
-                    child: GestureDetector(
+              ),
+              // 收藏按钮
+              Positioned(
+                top: height,
+                bottom: 0,
+                right: 4,
+                child: Center(
+                  child: Builder(builder: (BuildContext btnContext) {
+                    return InkWell(
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
                       onTap: () async {
                         await widget.onTapBookmark();
-                        (context as Element).markNeedsBuild();
+                        (btnContext as Element).markNeedsBuild();
                       },
-                      child: Icon(
-                        widget.illust.isBookmarked ? Icons.favorite : Icons.favorite_rounded,
-                        color: widget.illust.isBookmarked ? Colors.red.shade600 : Colors.grey,
-                        size: 32,
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Icon(
+                          widget.illust.isBookmarked ? Icons.favorite : Icons.favorite_outline_rounded,
+                          color: widget.illust.isBookmarked ? Colors.red.shade600 : Colors.grey,
+                          size: 24,
+                        ),
                       ),
-                    ),
-                  );
-                }),
-              ],
-            ),
+                    );
+                  }),
+                ),
+              ),
+            ],
           ),
         );
       },
