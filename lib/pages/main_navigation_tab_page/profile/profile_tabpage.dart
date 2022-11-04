@@ -26,7 +26,7 @@ class ProfileTabPage extends StatefulWidget {
   State<StatefulWidget> createState() => ProfileTabPageState();
 }
 
-class ProfileTabPageState extends State<ProfileTabPage> {
+class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveClientMixin {
   // 功能项列表的模型
   final List<IconButtonModelBuilder> _functionItemBuilders = [
     (context) => IconButtonModel(
@@ -89,6 +89,7 @@ class ProfileTabPageState extends State<ProfileTabPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     readProfile();
     // 顶部区域背景色
     Color topBackgroundColor = _isLightMode(context)
@@ -462,4 +463,7 @@ class ProfileTabPageState extends State<ProfileTabPage> {
     UserDetail detail = await ApiUser().getUserDetail(userId: GlobalStore.currentAccount!.user.id.toString());
     _profileProvider.setAll(0, detail.profile.totalFollowUsers, detail.profile.totalMypixivUsers);
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

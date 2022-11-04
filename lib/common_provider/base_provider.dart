@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 class BaseProvider with ChangeNotifier {
   late Function notify;
 
-  static bool isDisposed = false;
+  late bool isDisposed;
 
   BaseProvider() {
     notify = notifyListeners;
