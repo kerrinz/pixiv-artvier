@@ -49,6 +49,9 @@ class IllustWaterfallItemState extends State<IllustWaterfallItem> {
                       height: widget.illust.height.toDouble(),
                       imageUrl: widget.illust.imageUrls.medium,
                       httpHeaders: const {"Referer": CONSTANTS.referer},
+                      errorWidget: ((context, url, error) => const Center(
+                            child: Icon(Icons.error_outline_rounded),
+                          )),
                     ),
                   ),
                   Row(
