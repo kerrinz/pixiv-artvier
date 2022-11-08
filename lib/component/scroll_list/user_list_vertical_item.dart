@@ -1,5 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/novels/common_novel.dart';
@@ -68,13 +69,14 @@ class UserVerticalListItem extends StatelessWidget {
                         borderRadius: const BorderRadius.all(Radius.circular(80)),
                       ),
                       child: ClipOval(
-                        child: CachedNetworkImage(
+                        child: EnhanceNetworkImage(
+                          image: ExtendedNetworkImageProvider(
+                            user.user.profileImageUrls.medium,
+                            headers: const {"referer": CONSTANTS.referer},
+                            cache: true,
+                          ),
                           width: 64,
                           height: 64,
-                          imageUrl: user.user.profileImageUrls.medium,
-                          httpHeaders: const {
-                            "referer": CONSTANTS.referer,
-                          },
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -125,9 +127,7 @@ class UserVerticalListItem extends StatelessWidget {
     }
     while (widgets.length < 3) {
       widgets.add(DecoratedBox(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface
-        ),
+        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
       ));
     }
     return widgets;
@@ -135,17 +135,23 @@ class UserVerticalListItem extends StatelessWidget {
 
   // 构建画作的图片
   Widget _buildArtworkImage(CommonIllust artwork) {
-    return CachedNetworkImage(
-      imageUrl: artwork.imageUrls.squareMedium,
-      httpHeaders: const {"referer": CONSTANTS.referer},
+    return EnhanceNetworkImage(
+      image: ExtendedNetworkImageProvider(
+        artwork.imageUrls.squareMedium,
+        headers: const {"referer": CONSTANTS.referer},
+        cache: true,
+      ),
     );
   }
 
   // 构建小说的图片
   Widget _buildNovelImage(CommonNovel novel) {
-    return CachedNetworkImage(
-      imageUrl: novel.imageUrls.squareMedium,
-      httpHeaders: const {"referer": CONSTANTS.referer},
+    return EnhanceNetworkImage(
+      image: ExtendedNetworkImageProvider(
+        novel.imageUrls.squareMedium,
+        headers: const {"referer": CONSTANTS.referer},
+        cache: true,
+      ),
     );
   }
 }

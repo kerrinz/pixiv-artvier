@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/component/buttons/blur_button.dart';
 import 'package:pixgem/component/buttons/follow_button.dart';
+import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/component/sliver_delegates/tab_bar_delegate.dart';
 import 'package:pixgem/component/text/collapsible_text.dart';
@@ -123,20 +124,24 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                       if (userDetail?.profile.backgroundImageUrl == null) {
                         return ImageFiltered(
                           imageFilter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                          child: CachedNetworkImage(
+                          child: EnhanceNetworkImage(
+                            image: ExtendedNetworkImageProvider(
+                              widget.leastInfo.avatar,
+                              headers: const {"Referer": CONSTANTS.referer},
+                            ),
                             width: double.infinity,
-                            imageUrl: widget.leastInfo.avatar,
-                            httpHeaders: const {"Referer": CONSTANTS.referer},
                             fit: BoxFit.cover,
                             color: const Color(0x33000000), // 等同于black.opacity(0.2)
                             colorBlendMode: BlendMode.multiply,
                           ),
                         );
                       }
-                      return CachedNetworkImage(
+                      return EnhanceNetworkImage(
+                        image: ExtendedNetworkImageProvider(
+                          userDetail!.profile.backgroundImageUrl!,
+                          headers: const {"Referer": CONSTANTS.referer},
+                        ),
                         width: double.infinity,
-                        imageUrl: userDetail!.profile.backgroundImageUrl!,
-                        httpHeaders: const {"Referer": CONSTANTS.referer},
                         fit: BoxFit.cover,
                         color: const Color(0x33000000),
                         colorBlendMode: BlendMode.multiply,
@@ -415,7 +420,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   filterQuality: FilterQuality.none,
-                  image: CachedNetworkImageProvider(
+                  image: ExtendedNetworkImageProvider(
                     widget.leastInfo.avatar,
                     headers: const {"Referer": CONSTANTS.referer},
                   ),
@@ -488,7 +493,7 @@ class _UserDetailState extends State<UserDetailPage> with TickerProviderStateMix
                     borderRadius: const BorderRadius.all(Radius.circular(80)),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(
+                      image: ExtendedNetworkImageProvider(
                         widget.leastInfo.avatar,
                         headers: {"Referer": CONSTANTS.referer},
                       ),

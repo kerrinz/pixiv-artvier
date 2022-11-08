@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,6 +10,7 @@ import 'package:pixgem/common_provider/works_provider.dart';
 import 'package:pixgem/component/base_provider_widget.dart';
 import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
 import 'package:pixgem/component/buttons/follow_button.dart';
+import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
@@ -277,10 +278,13 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       onTap: () {
         Navigator.of(context).pushNamed(RouteNames.artworkImagesPreview.name, arguments: info);
       },
-      child: CachedNetworkImage(
-        imageUrl: info.imageUrls.large,
+      child: EnhanceNetworkImage(
+        image: ExtendedNetworkImageProvider(
+          info.imageUrls.large,
+          headers: const {"referer": CONSTANTS.referer},
+          cache: true,
+        ),
         key: _imgKey,
-        httpHeaders: const {"referer": CONSTANTS.referer},
         errorWidget: (context, url, error) {
           return LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
@@ -301,7 +305,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
           );
         },
         // 加载时显示loading图标
-        progressIndicatorBuilder: (BuildContext context, String url, DownloadProgress process) {
+        loadingWidget: (BuildContext context, String url, ImageChunkEvent process) {
           return LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               return Container(

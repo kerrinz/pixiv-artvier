@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/config/constants.dart';
@@ -71,9 +71,10 @@ class AccountManagePageState extends State<AccountManagePage> {
       // 未登录或者原本就无头像用户
       avatar = const Image(image: AssetImage("assets/images/default_avatar.png"));
     } else {
-      avatar = CachedNetworkImage(
-        imageUrl: profile.user.profileImageUrls!.px170x170,
-        httpHeaders: const {"Referer": CONSTANTS.referer},
+      avatar = ExtendedImage.network(
+        profile.user.profileImageUrls!.px170x170,
+        headers: const {"Referer": CONSTANTS.referer},
+        enableLoadState: false,
       );
     }
     return InkWell(
@@ -155,4 +156,3 @@ class AccountManagePageState extends State<AccountManagePage> {
     }
   }
 }
-

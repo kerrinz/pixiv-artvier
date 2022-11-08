@@ -1,5 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 
@@ -18,6 +19,11 @@ class IllustWaterfallItem extends StatefulWidget {
 }
 
 class IllustWaterfallItemState extends State<IllustWaterfallItem> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // LayoutBuilder能获取到父组件的最大支撑宽度
@@ -43,15 +49,15 @@ class IllustWaterfallItemState extends State<IllustWaterfallItem> {
                   SizedBox(
                     width: double.infinity,
                     height: height < maxConstraintHeight ? height : maxConstraintHeight,
-                    child: CachedNetworkImage(
+                    child: EnhanceNetworkImage(
+                      image: ExtendedNetworkImageProvider(
+                        widget.illust.imageUrls.medium,
+                        cache: true,
+                        headers: const {"Referer": CONSTANTS.referer},
+                      ),
                       fit: BoxFit.cover,
                       width: widget.illust.width.toDouble(),
                       height: widget.illust.height.toDouble(),
-                      imageUrl: widget.illust.imageUrls.medium,
-                      httpHeaders: const {"Referer": CONSTANTS.referer},
-                      errorWidget: ((context, url, error) => const Center(
-                            child: Icon(Icons.error_outline_rounded),
-                          )),
                     ),
                   ),
                   Row(

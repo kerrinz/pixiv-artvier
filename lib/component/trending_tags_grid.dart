@@ -1,5 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
 import 'package:pixgem/routes.dart';
@@ -25,8 +26,7 @@ class TrendingTagsGridState extends State<TrendingTagsGrid> {
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
       ),
-      itemBuilder: (BuildContext context, int index) =>
-          _buildItem(context, index),
+      itemBuilder: (BuildContext context, int index) => _buildItem(context, index),
     );
   }
 
@@ -39,10 +39,13 @@ class TrendingTagsGridState extends State<TrendingTagsGrid> {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(4),
-          child: CachedNetworkImage(
+          child: EnhanceNetworkImage(
+            image: ExtendedNetworkImageProvider(
+              item.illust.imageUrls.squareMedium,
+              headers: const {"referer": CONSTANTS.referer},
+              cache: true,
+            ),
             fit: BoxFit.cover,
-            imageUrl: item.illust.imageUrls.squareMedium,
-            httpHeaders: const {"referer": CONSTANTS.referer},
           ),
         ),
         Positioned.fill(
