@@ -1,5 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/illust_comments.dart';
 
@@ -18,12 +19,14 @@ class CommentWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(top: 12),
           child: ClipOval(
-            child: CachedNetworkImage(
-              imageUrl: comment.user.profileImageUrls.medium,
+            child: EnhanceNetworkImage(
+              image: ExtendedNetworkImageProvider(
+                comment.user.profileImageUrls.medium,
+                headers: const {"Referer": CONSTANTS.referer},
+              ),
+              fit: BoxFit.cover,
               width: 50,
               height: 50,
-              httpHeaders: const {"Referer": CONSTANTS.referer},
-              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -60,9 +63,11 @@ class CommentWidget extends StatelessWidget {
                 // 内容
                 Builder(builder: (context) {
                   if (comment.stamp != null) {
-                    return CachedNetworkImage(
-                      imageUrl: comment.stamp!.stampUrl,
-                      httpHeaders: const {"Referer": CONSTANTS.referer},
+                    return EnhanceNetworkImage(
+                      image: ExtendedNetworkImageProvider(
+                        comment.stamp!.stampUrl,
+                        headers: const {"Referer": CONSTANTS.referer},
+                      ),
                       width: 64,
                     );
                   }

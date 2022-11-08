@@ -62,7 +62,7 @@ class UserVerticalList extends StatelessWidget {
             // 内存回收
             // int end = garbages.last;
             // for (int i = garbages.first; i <= end; i++) {
-            //   final provider = CachedNetworkImageProvider(
+            // final provider = ExtendedNetworkImageProvider(
             //     userList[i].,
             //   );
             //   provider.evict();
@@ -92,7 +92,7 @@ class UserVerticalList extends StatelessWidget {
         collectGarbage: (List<int> garbages) {
           // print('collect garbage : $garbages');
           // for (var index in garbages) {
-          //   final provider = CachedNetworkImageProvider(
+          //   final provider = ExtendedNetworkImageProvider(
           //     userList[index].imageUrls.medium,
           //   );
           //   provider.evict();

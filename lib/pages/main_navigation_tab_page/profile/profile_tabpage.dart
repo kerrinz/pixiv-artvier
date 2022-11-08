@@ -1,9 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/api_app/api_user.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/component/base_provider_widget.dart';
 import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
+import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/component/perference/preferences_navigator_item.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
@@ -241,9 +242,11 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
                               if (profile == null || profile.user.profileImageUrls == null) {
                                 return const Image(image: AssetImage("assets/images/default_avatar.png"));
                               }
-                              return CachedNetworkImage(
-                                imageUrl: profile.user.profileImageUrls!.px170x170,
-                                httpHeaders: const {"Referer": CONSTANTS.referer},
+                              return EnhanceNetworkImage(
+                                image: ExtendedNetworkImageProvider(
+                                  profile.user.profileImageUrls!.px170x170,
+                                  headers: const {"Referer": CONSTANTS.referer},
+                                ),
                               );
                             },
                           ),
@@ -463,7 +466,7 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
     UserDetail detail = await ApiUser().getUserDetail(userId: GlobalStore.currentAccount!.user.id.toString());
     _profileProvider.setAll(0, detail.profile.totalFollowUsers, detail.profile.totalMypixivUsers);
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }

@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/lazyload_status_provider.dart';
@@ -60,7 +60,7 @@ class NovelList extends StatelessWidget {
             // 内存回收
             int end = garbages.last;
             for (int i = garbages.first; i <= end; i++) {
-              final provider = CachedNetworkImageProvider(
+              final provider = ExtendedNetworkImageProvider(
                 novelList[i].imageUrls.medium,
               );
               provider.evict();
@@ -90,7 +90,7 @@ class NovelList extends StatelessWidget {
         collectGarbage: (List<int> garbages) {
           // print('collect garbage : $garbages');
           for (var index in garbages) {
-            final provider = CachedNetworkImageProvider(
+            final provider = ExtendedNetworkImageProvider(
               novelList[index].imageUrls.medium,
             );
             provider.evict();
