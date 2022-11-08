@@ -1,6 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/component/badge.dart';
+import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/novels/common_novel.dart';
@@ -40,12 +41,15 @@ class NovelWaterfallItem extends StatelessWidget {
                 // 封面
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
-                  child: CachedNetworkImage(
+                  child: EnhanceNetworkImage(
+                    image: ExtendedNetworkImageProvider(
+                      novel.imageUrls.medium,
+                      headers: const {"Referer": CONSTANTS.referer},
+                      cache: true,
+                    ),
                     fit: BoxFit.cover,
                     width: constraints.maxWidth * 0.26,
                     height: height,
-                    imageUrl: novel.imageUrls.medium,
-                    httpHeaders: const {"Referer": CONSTANTS.referer},
                   ),
                 ),
                 Expanded(

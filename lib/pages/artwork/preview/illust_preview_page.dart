@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -165,7 +165,7 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
               scrollPhysics: const BouncingScrollPhysics(),
               builder: (BuildContext context, int index) {
                 return PhotoViewGalleryPageOptions(
-                  imageProvider: CachedNetworkImageProvider(
+                  imageProvider: ExtendedNetworkImageProvider(
                       isHdMode ? imageUrls[index].original ?? imageUrls[index].original! : imageUrls[index].large,
                       headers: {"referer": CONSTANTS.referer}),
                   minScale: PhotoViewComputedScale.contained * 1.0,
