@@ -75,6 +75,7 @@ class _MyBookmarksState extends State<MyWorksPage> with TickerProviderStateMixin
           return [
             SliverAppBar(
               pinned: true,
+              toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? 50,
               floating: true,
               title: const Text('我的作品'),
               bottom: PreferredSize(
