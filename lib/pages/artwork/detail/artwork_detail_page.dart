@@ -9,7 +9,9 @@ import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/common_provider/works_provider.dart';
 import 'package:pixgem/component/base_provider_widget.dart';
 import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
+import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
 import 'package:pixgem/component/buttons/follow_button.dart';
+import 'package:pixgem/component/drag_view/drag_vertical_container.dart';
 import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/config/constants.dart';
@@ -39,6 +41,16 @@ class ArtWorksDetailPage extends StatefulWidget {
 }
 
 class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
+  DragController dragController = DragController();
+
+  /// 拖拽组件内部滚动内容的控制器
+  ScrollController scrollController = ScrollController();
+
+  double scrollOffset = 0;
+
+  // Drag拖拽组件阶段1增量的上下文
+  late BuildContext _increase1Context;
+
   final BookmarkStatusProvider _bookmarkProvider = BookmarkStatusProvider(bookmarkStatus: BookmarkStatus.notBookmark);
 
   /// 管理<评论+相关作品>整体的加载
@@ -51,20 +63,28 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
 
   CancelToken _commentCancelToken = CancelToken();
 
-  Key? _imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
+  // Key? imgKeys = Key(DateTime.now().millisecondsSinceEpoch.toString());
 
   /// 存放作品详情（在[widget.model.detail]为空时才会用到）
   CommonIllust? _artworkDetail;
 
-  /// 评论列表（仅显示部分）
+  /// 评论列表（仅显示部分）o
   final List<Comments> _commentList = [];
 
   /// 作品id
   String get _currentArtworkId => widget.model.artworkId;
 
+  double minimunPosition = 50;
+
+  /// 收藏按钮的高度偏移量
+  static const double floatingButtonOffset = 20;
+
+  /// 拖拽组件最小内容高度
+  static const double minRevealHeight = 160;
+
   @override
   void initState() {
-    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     if (widget.model.detail != null) {
       _fullLoadingStatus = LoadingStatus.success;
       _bookmarkProvider.setBookmarkStatus(
@@ -76,6 +96,36 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
       requestArtworkDetail(widget.model.artworkId);
     }
     requestComment(_currentArtworkId);
+    scrollController.addListener(() {
+      scrollOffset = scrollController.offset;
+      // 滚动到顶才允许拖拽
+      if (scrollController.offset > 0) {
+        dragController.setCanStopover(false);
+      } else {
+        dragController.setCanStopover(true);
+      }
+    });
+    dragController.setDragListener((position, status) {
+      // 保持滚动位置不变，直到拖拽组件视图最大化
+      if (position != minimunPosition) {
+        scrollController.jumpTo(scrollOffset);
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      bool isHorizontal = MediaQuery.of(context).size.height < MediaQuery.of(context).size.width; // 是否横屏模式
+      // 更新可供拖拽组件停留的位置
+      double step1Position =
+          MediaQuery.of(context).size.height - minRevealHeight - (_increase1Context.size?.height ?? 0);
+      dragController.updatePositions(
+        [if (!isHorizontal && step1Position > minimunPosition) step1Position],
+      );
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -83,71 +133,200 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
     if (_fullLoadingStatus == LoadingStatus.loading) {
       return const RequestLoading();
     } else if (_fullLoadingStatus == LoadingStatus.failed) {
-      return RequestLoadingFailed(onRetry: () {
-        requestArtworkDetail(_currentArtworkId);
-      });
+      return RequestLoadingFailed(onRetry: () => {requestArtworkDetail(_currentArtworkId)});
     }
-    // 加载成功或者使用已有的详情数据时
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double statusBarHeight = MediaQuery.of(context).padding.top; // 状态栏高度
+    double toolBarHeight = Theme.of(context).appBarTheme.toolbarHeight ?? 50;
+    // 拖拽组件上拉到顶的极限距离
+    minimunPosition = statusBarHeight + (screenHeight < screenWidth ? 0 : toolBarHeight) - floatingButtonOffset;
+    // 详情数据
     CommonIllust detail = widget.model.detail ?? _artworkDetail!;
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: Stack(
         children: [
           // 内容主体
           Builder(
             builder: (BuildContext context) {
-              return Scrollbar(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Column(
+              return Stack(
+                children: [
+                  // 图片浏览区域
+                  Container(
+                    padding: const EdgeInsets.only(bottom: minRevealHeight - floatingButtonOffset - 20),
+                    alignment: Alignment.center,
+                    color: Colors.black,
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.only(
+                        bottom: 20,
+                      ),
+                      physics: const BouncingScrollPhysics(),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: _buildPreviewImage(context, detail),
+                      ),
+                    ),
+                  ),
+                  // appbar/toolbar
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: AppBar(
+                      title: Text(
+                        detail.title,
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      titleTextStyle: const TextStyle(color: Colors.white),
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
+                      leading: Builder(builder: (context) {
+                        return IconButton(
+                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                      }),
+                    ),
+                  ),
+                  // 拖拽抽屉区域
+                  DragVerticalContainer(
+                    controller: dragController,
+                    height: screenHeight -
+                        statusBarHeight -
+                        (screenHeight < screenWidth ? 0 : toolBarHeight) +
+                        floatingButtonOffset,
+                    defaultPosition: screenHeight - minRevealHeight,
+                    minimunPosition: minimunPosition,
+                    maximumPosition: screenHeight - minRevealHeight,
+                    dragStageOffset: 50,
+                    child: Stack(
                       children: [
-                        // 预览大图
-                        _buildPreviewImage(context, detail),
-                        // 详细信息卡
-                        SizedBox(
-                          width: double.infinity,
-                          child: _buildInfoCard(context, detail),
+                        Container(
+                          margin: const EdgeInsets.only(top: floatingButtonOffset),
+                          decoration: BoxDecoration(
+                            color: colorScheme.surface,
+                            borderRadius: const BorderRadius.all(Radius.circular(20)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withAlpha(50),
+                                offset: const Offset(0, -floatingButtonOffset),
+                                blurRadius: 40,
+                                spreadRadius: 5,
+                              )
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(top: 1),
+                                child: BottomSheetSlideBar(width: 48, height: 3),
+                              ),
+                              // 拖拽抽屉最小展示内容
+                              ..._buildDragContentMinView(context, colorScheme, detail),
+                              Expanded(
+                                child: PrimaryScrollController(
+                                  controller: scrollController,
+                                  child: CustomScrollView(
+                                    physics: const ClampingScrollPhysics(),
+                                    slivers: [
+                                      // 拖拽抽屉次要的内容
+                                      SliverToBoxAdapter(child: Builder(builder: (context1) {
+                                        _increase1Context = context1;
+                                        return _buildDragContentSecondView(context, detail);
+                                      })),
+                                      // 拖拽抽屉最大化时的其他内容
+                                      ..._buildDragContentOtherView(context, detail),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        // 评论和相关作品
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(minHeight: 200),
-                          child: ProviderWidget(
-                            model: _loadingProvider,
-                            builder: ((context, LoadingRequestProvider provider, child) {
-                              switch (provider.loadingStatus) {
-                                case LoadingStatus.loading:
-                                  return const RequestLoading();
-                                case LoadingStatus.failed:
-                                  return RequestLoadingFailed(onRetry: () {
-                                    requestComment(_currentArtworkId);
-                                  });
-                                case LoadingStatus.success:
-                              }
-                              return Column(
-                                children: [
-                                  // 评论区
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: Card(
-                                      elevation: 2.0,
-                                      margin: const EdgeInsets.all(4.0),
-                                      child: Builder(
-                                        builder: (_) {
-                                          if (_commentList.isEmpty) {
-                                            return Container(
-                                              alignment: Alignment.center,
-                                              padding: const EdgeInsets.symmetric(vertical: 12),
-                                              child: const Text("暂无评论",
-                                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                        // 悬浮收藏按钮
+                        Positioned(
+                          right: 20,
+                          child: ProviderWidget<BookmarkStatusProvider>(
+                            model: _bookmarkProvider,
+                            builder: ((context, value, child) {
+                              return GestureDetector(
+                                onLongPress: (() async {
+                                  switch (_bookmarkProvider.bookmarkStatus) {
+                                    case BookmarkStatus.bookmarking:
+                                    case BookmarkStatus.unBookmarking:
+                                      return;
+                                    default:
+                                  }
+                                  AdvancedCollectArguments? arguments =
+                                      await BottomSheets.showCustomBottomSheet<AdvancedCollectArguments>(
+                                    context: context,
+                                    exitOnClickModal: false,
+                                    enableDrag: false,
+                                    child: AdvancedCollectBottomSheet(
+                                      isCollected:
+                                          _bookmarkProvider.bookmarkStatus == BookmarkStatus.bookmarked ? true : false,
+                                      worksId: _currentArtworkId,
+                                      worksType: WorksType.illust,
+                                    ),
+                                  );
+                                  if (arguments == null) return;
+                                  submitAdvancedBookmark(arguments);
+                                }),
+                                child: InkWell(
+                                  onTap: () {
+                                    if ([BookmarkStatus.bookmarked, BookmarkStatus.notBookmark]
+                                        .contains(_bookmarkProvider.bookmarkStatus)) {
+                                      requestBookmark(_bookmarkProvider.bookmarkStatus);
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                        color: colorScheme.surface,
+                                        gradient: LinearGradient(colors: [
+                                          colorScheme.surface,
+                                          colorScheme.surface,
+                                          colorScheme.surface,
+                                          colorScheme.surface.withAlpha(0),
+                                        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                                        borderRadius: const BorderRadius.all(Radius.circular(50))),
+                                    child: Consumer(
+                                      builder: (BuildContext context, BookmarkStatusProvider provider, Widget? child) {
+                                        switch (provider.bookmarkStatus) {
+                                          case BookmarkStatus.bookmarking:
+                                            return const Icon(
+                                              Icons.favorite,
+                                              color: Colors.grey,
+                                              size: 28,
                                             );
-                                          }
-                                          return _buildComments(detail);
-                                        },
-                                      ),
+                                          case BookmarkStatus.unBookmarking:
+                                            return Icon(
+                                              Icons.favorite,
+                                              color: Colors.red.shade200,
+                                              size: 28,
+                                            );
+                                          case BookmarkStatus.bookmarked:
+                                            return const Icon(
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                              size: 28,
+                                            );
+                                          case BookmarkStatus.notBookmark:
+                                            return const Icon(
+                                              Icons.favorite_border_outlined,
+                                              color: Colors.grey,
+                                              size: 28,
+                                            );
+                                        }
+                                      },
                                     ),
                                   ),
-                                ],
+                                ),
                               );
                             }),
                           ),
@@ -155,7 +334,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
                       ],
                     ),
                   ),
-                ),
+                ],
               );
             },
           ),
@@ -164,325 +343,309 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
             top: 0,
             left: 0,
             right: 0,
-            height: MediaQuery.of(context).padding.top + kToolbarHeight,
+            height: statusBarHeight,
             child: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(colors: [
-                  Color(0x98000000),
+                  Color(0x80000000),
+                  Color(0x40000000),
                   Color(0x00000000),
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
               ),
             ),
           ),
-          // appbar/toolbar
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: AppBar(
-              title: Text(
-                detail.title,
-                style: const TextStyle(fontSize: 18),
-              ),
-              titleTextStyle: const TextStyle(color: Colors.white),
-              backgroundColor: Colors.transparent,
-              shadowColor: Colors.transparent,
-              systemOverlayStyle: const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
-              // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-              leading: Builder(builder: (context) {
-                return IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                );
-              }),
-            ),
-          ),
         ],
-      ),
-      // 悬浮收藏按钮
-      // TODO Feature: 收藏请求过程中，加入图标跳动动画
-      floatingActionButton: ProviderWidget<BookmarkStatusProvider>(
-        model: _bookmarkProvider,
-        builder: ((context, value, child) {
-          return GestureDetector(
-            onLongPress: (() async {
-              switch (_bookmarkProvider.bookmarkStatus) {
-                case BookmarkStatus.bookmarking:
-                case BookmarkStatus.unBookmarking:
-                  return;
-                default:
-              }
-              AdvancedCollectArguments? arguments = await BottomSheets.showCustomBottomSheet<AdvancedCollectArguments>(
-                context: context,
-                exitOnClickModal: false,
-                enableDrag: false,
-                child: AdvancedCollectBottomSheet(
-                  isCollected: _bookmarkProvider.bookmarkStatus == BookmarkStatus.bookmarked ? true : false,
-                  worksId: _currentArtworkId,
-                  worksType: WorksType.illust,
-                ),
-              );
-              if (arguments == null) return;
-              submitAdvancedBookmark(arguments);
-            }),
-            child: FloatingActionButton(
-              onPressed: () {
-                if ([BookmarkStatus.bookmarked, BookmarkStatus.notBookmark]
-                    .contains(_bookmarkProvider.bookmarkStatus)) {
-                  requestBookmark(_bookmarkProvider.bookmarkStatus);
-                }
-              },
-              backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-              child: Consumer(
-                builder: (BuildContext context, BookmarkStatusProvider provider, Widget? child) {
-                  switch (provider.bookmarkStatus) {
-                    case BookmarkStatus.bookmarking:
-                      return const Icon(
-                        Icons.favorite,
-                        color: Colors.grey,
-                        size: 28,
-                      );
-                    case BookmarkStatus.unBookmarking:
-                      return Icon(
-                        Icons.favorite,
-                        color: Colors.red.shade200,
-                        size: 28,
-                      );
-                    case BookmarkStatus.bookmarked:
-                      return const Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                        size: 28,
-                      );
-                    case BookmarkStatus.notBookmark:
-                      return const Icon(
-                        Icons.favorite_border_outlined,
-                        color: Colors.grey,
-                        size: 28,
-                      );
-                  }
-                },
-              ),
-            ),
-          );
-        }),
       ),
     );
   }
 
   // 构建预览大图
-  Widget _buildPreviewImage(BuildContext context, CommonIllust info) {
+  Widget _buildPreviewImage(BuildContext context, CommonIllust detail) {
+    List<MetaPages> metaPages = [];
+    if (detail.metaPages.isEmpty) {
+      metaPages.add(MetaPages(detail.imageUrls));
+    } else {
+      metaPages.addAll(detail.metaPages);
+    }
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(RouteNames.artworkImagesPreview.name, arguments: info);
+        Navigator.of(context).pushNamed(RouteNames.artworkImagesPreview.name, arguments: detail);
       },
-      child: EnhanceNetworkImage(
-        image: ExtendedNetworkImageProvider(
-          info.imageUrls.large,
-          headers: const {"referer": CONSTANTS.referer},
-          cache: true,
-        ),
-        key: _imgKey,
-        errorWidget: (context, url, error) {
-          return LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              return Container(
-                alignment: Alignment.center,
-                width: constraints.maxWidth,
-                height: info.height / info.width * constraints.maxWidth,
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
-                    });
+      child: Column(
+        children: [
+          for (MetaPages metaPage in metaPages)
+            EnhanceNetworkImage(
+              image: ExtendedNetworkImageProvider(
+                metaPage.imageUrls.large,
+                headers: const {"referer": CONSTANTS.referer},
+                cache: true,
+              ),
+              // key: _imgKey,
+              errorWidget: (context, url, error) {
+                return LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Container(
+                      alignment: Alignment.center,
+                      width: constraints.maxWidth,
+                      height: detail.height / detail.width * constraints.maxWidth,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            // _imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
+                          });
+                        },
+                        child: const Text("加载失败，点击重试"),
+                      ),
+                    );
                   },
-                  child: const Text("加载失败，点击重试"),
-                ),
-              );
-            },
-          );
-        },
-        // 加载时显示loading图标
-        loadingWidget: (BuildContext context, String url, ImageChunkEvent process) {
-          return LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              return Container(
-                alignment: Alignment.center,
-                width: constraints.maxWidth,
-                height: info.height / info.width * constraints.maxWidth,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      // strokeWidth: 4.0,
-                      value: process.progress,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text("${((process.progress ?? 0) * 100).toStringAsFixed(0)}%"),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
+                );
+              },
+              // 加载时显示loading图标
+              loadingWidget: (BuildContext context, String url, ImageChunkEvent process) {
+                return LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Container(
+                      alignment: Alignment.center,
+                      width: constraints.maxWidth,
+                      height: detail.height / detail.width * constraints.maxWidth,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            // strokeWidth: 4.0,
+                            value: process.progress,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text("${((process.progress ?? 0) * 100).toStringAsFixed(0)}%"),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+        ],
       ),
     );
   }
 
-  // 构建详细信息卡
-  Widget _buildInfoCard(BuildContext context, CommonIllust info) {
-    return Card(
-      elevation: 2.0,
-      margin: const EdgeInsets.only(left: 4.0, right: 4.0, bottom: 4.0),
+  // 拖拽抽屉最小展示内容
+  List<Widget> _buildDragContentMinView(BuildContext context, ColorScheme colorScheme, CommonIllust detail) {
+    return [
+      Padding(
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
+        child: FittedBox(child: Text(detail.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold))),
+      ),
+      Container(
+        margin: const EdgeInsets.symmetric(horizontal: 12.0),
+        height: 60,
+        decoration: BoxDecoration(
+          color: colorScheme.background,
+          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(RouteNames.userDetail.name,
+                    arguments:
+                        PreloadUserLeastInfo(detail.user.id, detail.user.name, detail.user.profileImageUrls.medium));
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // 作者头像
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: ClipOval(
+                        child: EnhanceNetworkImage(
+                          image: ExtendedNetworkImageProvider(
+                            detail.user.profileImageUrls.medium,
+                            headers: const {"Referer": CONSTANTS.referer},
+                          ),
+                          fit: BoxFit.cover,
+                          width: 46,
+                          height: 46,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // 作者昵称
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 6),
+                            child: Text(
+                              detail.user.name,
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: colorScheme.primary),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          // 发布时间
+                          Text(
+                            formatDate(
+                                DateTime.parse(detail.createDate), [yyyy, '-', mm, '-', dd, ' ', HH, ':', mm, ':', ss]),
+                            style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                    // 关注或已关注的按钮
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4.0, left: 4.0),
+                      child: FollowButton(
+                        isFollowed: detail.user.isFollowed!,
+                        userId: detail.user.id.toString(),
+                        followedStyle: FollowButtonStyle(
+                          color: colorScheme.primaryContainer,
+                          textStyle: TextStyle(color: colorScheme.primary, fontSize: 14.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      )
+    ];
+  }
+
+  // 拖拽抽屉次要的内容
+  Widget _buildDragContentSecondView(BuildContext context, CommonIllust detail) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 作者的简单信息栏，author
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(RouteNames.userDetail.name,
-                        arguments:
-                            PreloadUserLeastInfo(info.user.id, info.user.name, info.user.profileImageUrls.medium));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Row(
-                      children: [
-                        // 作者头像
-                        ClipOval(
-                          child: Image.network(
-                            info.user.profileImageUrls.medium,
-                            headers: const {"Referer": CONSTANTS.referer},
-                            fit: BoxFit.cover,
-                            width: 56,
-                            height: 56,
-                          ),
-                        ),
-                        // 作者昵称 + 发布时间。自适应填满剩余空间
-                        Expanded(
-                          child: Padding(
-                              padding: const EdgeInsets.only(left: 12),
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                // 作者昵称
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 6),
-                                  child: Text(
-                                    info.user.name,
-                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                // 发布时间
-                                Text(
-                                  formatDate(DateTime.parse(info.createDate),
-                                      [yyyy, '-', mm, '-', dd, ' ', HH, ':', mm, ':', ss]),
-                                  style: TextStyle(color: Colors.grey.shade500),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ])),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              // 关注或已关注的按钮
-              Padding(
-                padding: const EdgeInsets.only(right: 4.0, left: 4.0),
-                child: FollowButton(
-                  isFollowed: info.user.isFollowed!,
-                  userId: info.user.id.toString(),
-                ),
-              ),
-            ],
-          ),
           Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                    padding: const EdgeInsets.only(left: 2, right: 2, top: 8, bottom: 8),
-                    child: Row(
-                      children: [
-                        // 点赞数
-                        Expanded(flex: 1, child: Text("id: ${info.id}")),
-                        // 收藏数
-                        Expanded(
-                            flex: 1,
-                            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                              Icon(Icons.favorite, size: 18, color: Colors.blueGrey.shade300),
-                              Text(" ${info.totalBookmarks}",
-                                  style: TextStyle(
-                                      color: Colors.blueGrey.shade400, fontSize: 15, fontWeight: FontWeight.w400)),
-                            ])),
-                        // 浏览数
-                        Expanded(
-                          flex: 1,
-                          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                            const Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
-                            Text(" ${info.totalView}", style: const TextStyle(color: Colors.grey, fontSize: 14)),
-                          ]),
-                        ),
-                      ],
-                    )),
-                // 简介，字段为comment
-                Text(
-                  info.caption,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 15),
-                ),
-                // tags
-                Builder(
-                  builder: (BuildContext context) {
-                    List<Widget> tags = [];
-                    // 遍历displayTags
-                    for (var element in info.tags) {
-                      // tag标签
-                      tags.add(
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: element.name);
-                          },
-                          child: Text("#${element.name} ",
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15)),
-                        ),
-                      );
-                      // 标签的翻译文字
-                      tags.add(
-                        Text("${element.translatedName}  "),
-                      );
-                    }
-                    return Wrap(
-                      children: tags,
-                    );
-                  },
-                )
-              ],
-            ),
+              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+              child: Row(
+                children: [
+                  // 点赞数
+                  Expanded(flex: 1, child: Text("id: ${detail.id}")),
+                  // 收藏数
+                  Expanded(
+                    flex: 1,
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Icon(Icons.favorite, size: 18, color: Colors.blueGrey.shade300),
+                      Text(" ${detail.totalBookmarks}",
+                          style: TextStyle(color: Colors.blueGrey.shade400, fontSize: 15, fontWeight: FontWeight.w400)),
+                    ]),
+                  ),
+                  // 浏览数
+                  Expanded(
+                    flex: 1,
+                    child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                      const Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
+                      Text(" ${detail.totalView}", style: const TextStyle(color: Colors.grey, fontSize: 14)),
+                    ]),
+                  ),
+                ],
+              )),
+          // 简介，字段为comment
+          Text(
+            detail.caption,
+            textAlign: TextAlign.left,
+            style: const TextStyle(fontSize: 15),
+          ),
+          // tags
+          Builder(
+            builder: (BuildContext context) {
+              List<Widget> tags = [];
+              // 遍历displayTags
+              for (var element in detail.tags) {
+                // tag标签
+                tags.add(
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: element.name);
+                    },
+                    child: Text("#${element.name} ",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600, fontSize: 15)),
+                  ),
+                );
+                // 标签的翻译文字
+                tags.add(
+                  Text("${element.translatedName}  "),
+                );
+              }
+              return Wrap(
+                children: tags,
+              );
+            },
           )
         ],
       ),
     );
   }
 
+  // 拖拽抽屉的其他内容（上拉到最大化时才会显示的内容）
+  List<Widget> _buildDragContentOtherView(BuildContext context, CommonIllust detail) {
+    return [
+      SliverToBoxAdapter(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 200),
+          child: ProviderWidget(
+            model: _loadingProvider,
+            builder: ((context, LoadingRequestProvider provider, child) {
+              switch (provider.loadingStatus) {
+                case LoadingStatus.loading:
+                  return const RequestLoading();
+                case LoadingStatus.failed:
+                  return RequestLoadingFailed(onRetry: () {
+                    requestComment(_currentArtworkId);
+                  });
+                case LoadingStatus.success:
+              }
+              return Column(
+                children: [
+                  // 评论区
+                  SizedBox(
+                    width: double.infinity,
+                    child: Card(
+                      elevation: 2.0,
+                      margin: const EdgeInsets.all(4.0),
+                      child: Builder(
+                        builder: (_) {
+                          if (_commentList.isEmpty) {
+                            return Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              child: const Text("暂无评论", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                            );
+                          }
+                          return _buildComments(detail);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }),
+          ),
+        ),
+      ),
+    ];
+  }
+
   // 构建评论区
-  Widget _buildComments(CommonIllust info) {
+  Widget _buildComments(CommonIllust detail) {
     // 展示的评论数量，[0-3]
     int commentsShowSize = _commentList.length > 3 ? 3 : _commentList.length;
     List<Widget> commentWidgets = [];
@@ -505,7 +668,7 @@ class _ArtWorksDetailState extends State<ArtWorksDetailPage> {
         ),
         InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(RouteNames.comments.name, arguments: info.id.toString());
+            Navigator.of(context).pushNamed(RouteNames.comments.name, arguments: detail.id.toString());
           },
           child: Container(
             width: double.infinity,
