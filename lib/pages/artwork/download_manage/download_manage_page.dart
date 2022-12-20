@@ -4,7 +4,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_store/downloading_illust.dart';
-import 'package:pixgem/pages/artwork/detail/artwork_detail_arguments.dart';
+import 'package:pixgem/pages/artwork/detail/arguments.dart';
 import 'package:pixgem/routes.dart';
 import 'package:pixgem/store/download_store.dart';
 import 'package:pixgem/store/global.dart';

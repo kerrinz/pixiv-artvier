@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/lazyload_status_provider.dart';
 import 'package:pixgem/component/loading/lazyloading.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/pages/artwork/detail/artwork_detail_arguments.dart';
+import 'package:pixgem/pages/artwork/detail/arguments.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:pixgem/routes.dart';
 import 'package:provider/provider.dart';

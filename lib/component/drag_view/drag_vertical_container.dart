@@ -21,6 +21,7 @@ typedef DragCallback = void Function(double position);
 typedef DragListener = void Function(double position, DragStatus status);
 
 /// [DragVerticalContainer]的拖拽控制器
+/// - 注意：Position/位置，均指组件的顶点相对于父组件顶部的距离
 class DragController extends ChangeNotifier {
   /// 回调函数，通过它可以实现代码控制拖拽操作，而无需手势
   DragCallback? _dragToCallback;
@@ -28,15 +29,15 @@ class DragController extends ChangeNotifier {
   /// Drag拖拽事件发生时会执行的钩子函数，类似于.addListener()，
   DragListener? dragListener;
 
-  /// 当手势拖动组件时，可供组件中途停留的位置
+  /// 组件拖拽时可供停留的位置
   ///
-  /// - 注意是"**中途**"，即不包含最大最小拖拽位置
+  /// - **不要包含**最大位置，即[DragVerticalContainer.maximumPosition]
   /// - 保持**从小到大**的顺序定义，并且不要出现重复值
-  Iterable<double> get stopoverPositions => _positions;
+  Iterable<double> get extendPositions => _positions;
   final List<double> _positions = <double>[];
 
   /// 是否支持中途停留，即多段式拖拽
-  /// - 如果为false，则[stopoverPositions]将暂时性失效
+  /// - 如果为false，则[stopoverPositions]将只有最后一个元素（即最小位置）生效
   bool canStopover = true;
 
   void setDragToCallback(DragCallback callback) {
@@ -104,10 +105,7 @@ class DragVerticalContainer extends StatefulWidget {
   /// 初次加载时的默认位置（相对于父组件的顶部）
   final double defaultPosition;
 
-  /// 拖拽到最小位置，此位置将无法再上拖动
-  final double minimunPosition;
-
-  /// 拖拽到最大位置，此位置将无法再拖动
+  /// 拖拽到最大位置，此位置将无法再往下拖动（组件下移）
   final double maximumPosition;
 
   /// 抵达另一个阶段位置所需要的拖动偏移量
@@ -125,10 +123,8 @@ class DragVerticalContainer extends StatefulWidget {
     required this.height,
     required this.defaultPosition,
     required this.dragStageOffset,
-    required this.minimunPosition,
     required this.maximumPosition,
-  })  : assert(maximumPosition > minimunPosition),
-        assert(defaultPosition >= minimunPosition && defaultPosition <= maximumPosition),
+  })  : assert(defaultPosition <= maximumPosition),
         super(key: key);
 
   final Widget? child;
@@ -144,12 +140,14 @@ class _DragContainerState extends State<DragVerticalContainer> with SingleTicker
 
   /// 默认位置
   double get defaultY => widget.defaultPosition;
-  double get min => widget.minimunPosition;
+
+  /// 最小位置（无法再上拉）
+  double get min => dragController.extendPositions.lastWhere((element) => true, orElse: () => max);
 
   double get max => widget.maximumPosition;
 
   /// 可供中途停留的位置
-  Iterable<double> get stopoverPositions => dragController.stopoverPositions;
+  Iterable<double> get stopoverPositions => dragController.extendPositions;
 
   /// 本组件目前停留的的位置，作用于视图
   late double positionY;
@@ -205,7 +203,9 @@ class _DragContainerState extends State<DragVerticalContainer> with SingleTicker
   @override
   void didUpdateWidget(covariant DragVerticalContainer oldWidget) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      positionY = defaultY; // 重新归位，以避免分辨率变化导致错位
+      // 重新归位，以避免分辨率变化导致错位
+      positionY = defaultY;
+      lastPositionY = defaultY;
       setState(() {});
     });
     super.didUpdateWidget(oldWidget);
@@ -302,13 +302,13 @@ class _DragContainerState extends State<DragVerticalContainer> with SingleTicker
         // 往上拖动
         // 查找距离最近的前一个位置，不允许中途停留则上拉到顶
         toY = dragController.canStopover
-            ? [min, ...stopoverPositions, max].lastWhere((element) => element < positionY, orElse: () => min)
+            ? [min, ...stopoverPositions].lastWhere((element) => element < positionY, orElse: () => min)
             : min;
       } else {
         // 往下拖动
         // 查找距离最近的后一个位置，不允许中途停留则下拉到底
         toY = dragController.canStopover
-            ? [min, ...stopoverPositions, max].firstWhere((element) => element > positionY, orElse: () => max)
+            ? [min, ...stopoverPositions].firstWhere((element) => element > positionY, orElse: () => max)
             : max;
       }
       tween.begin = positionY;
@@ -437,7 +437,6 @@ class _TextPageState2 extends State<TestPage> {
             controller: dragController,
             height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - (isHorizontal ? 0 : 50),
             defaultPosition: MediaQuery.of(context).size.height - minRevealHeight,
-            minimunPosition: minimunPosition,
             maximumPosition: MediaQuery.of(context).size.height - minRevealHeight,
             dragStageOffset: 50,
             child: Column(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 /// [opacityColor] : 背景色，需要带Alpha或Opacity才能有半透明效果
 /// [pressedOpacity] : 按下时的背景透明度，最终背景透明度 = [opacityColor] * [pressedOpacity]
 ///
+
 class BlurButton extends StatefulWidget {
   const BlurButton({
     Key? key,
@@ -16,6 +17,8 @@ class BlurButton extends StatefulWidget {
     this.background,
     this.pressedOpacity = 0.66,
     this.alignment = Alignment.center,
+    this.width,
+    this.height,
   }) : super(key: key);
 
   final Alignment alignment;
@@ -24,15 +27,21 @@ class BlurButton extends StatefulWidget {
 
   final Widget child;
 
+  /// This margin area can still trigger the press event.
   final EdgeInsets? margin;
-
-  final VoidCallback? onPressed; // set null to disable button.
-
-  final Color? background;
 
   final EdgeInsets? padding;
 
+  // set null to disable button.
+  final VoidCallback? onPressed;
+
+  final Color? background;
+
   final double pressedOpacity;
+
+  final double? width;
+
+  final double? height;
 
   bool get enabled => onPressed != null;
 
@@ -69,10 +78,13 @@ class _BlurButtonState extends State<BlurButton> with SingleTickerProviderStateM
             alignment: widget.alignment,
             widthFactor: 1.0,
             heightFactor: 1.0,
-            child: FadeTransition( //  ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: FadeTransition(
+              //  ImageFilter.blur(sigmaX: 20, sigmaY: 20),
               opacity: _opacityAnimation,
               child: Container(
                 padding: widget.padding,
+                width: widget.width,
+                height: widget.height,
                 decoration: BoxDecoration(
                   borderRadius: widget.borderRadius,
                   color: widget.background ?? const Color(0xff000000).withOpacity(0.33),
@@ -144,5 +156,32 @@ class _BlurButtonState extends State<BlurButton> with SingleTickerProviderStateM
     ticker.then<void>((void value) {
       if (mounted && wasHeldDown != _buttonHeldDown) _animate();
     });
+  }
+}
+
+class AppbarBlurIconButton extends StatelessWidget {
+  const AppbarBlurIconButton({super.key, required this.onPressed, required this.icon, this.margin, this.padding});
+
+  final Function() onPressed;
+
+  final Widget icon;
+
+  /// This margin area can still trigger the press event.
+  final EdgeInsets? margin;
+
+  final EdgeInsets? padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlurButton(
+      borderRadius: const BorderRadius.all(Radius.circular(18)),
+      padding: EdgeInsets.zero,
+      background: const Color.fromARGB(100, 0, 0, 0),
+      margin: margin,
+      width: 32,
+      height: 32,
+      onPressed: onPressed,
+      child: icon,
+    );
   }
 }

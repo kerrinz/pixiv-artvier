@@ -52,6 +52,21 @@ class ApiIllusts extends ApiBase {
     return IllustComments.fromJson(json.decode(res.data));
   }
 
+  /// 获取插画的相关作品
+  /// - [illustId] 插画id
+  Future<CommonIllustList> getRelatedIllust(String illustId, {CancelToken? cancelToken}) async {
+    Response res = await ApiBase.dio.get<String>(
+      "/v2/illust/related",
+      queryParameters: {
+        "illust_id": illustId,
+        "filter": "for_ios",
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return CommonIllustList.fromJson(json.decode(res.data));
+  }
+
   // 获取插画排行榜
   // - [mode] IllustRankingMode
   Future<CommonIllustList> getIllustRanking(
