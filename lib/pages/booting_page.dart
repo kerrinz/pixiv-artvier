@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/routes.dart';
-import 'package:pixgem/store/account_store.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/global/global.dart';
+import 'package:pixgem/storage/account_storage.dart';
 
 /// app启动的加载过渡页面，在这里会加载一些全局数据
 ///
@@ -44,7 +44,7 @@ class BootingPageState extends State<BootingPage> {
   void initState() {
     super.initState();
     initAppData().then((value) {
-    String? id = AccountStore.getCurrentAccountId();
+    String? id = AccountStorage(GlobalStore.globalSharedPreferences).getCurrentAccountId();
       // 拦截未登录
       if (id != null) {
         Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);

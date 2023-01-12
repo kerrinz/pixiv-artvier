@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/common_provider/illusts_provider.dart';
 import 'package:pixgem/component/base_provider_widget.dart';
-import 'package:pixgem/component/scroll_list/illust_waterfall_grid.dart';
+import 'package:pixgem/business_component/illust_listview/illust_waterfall_grid.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/store/history_store.dart';
+import 'package:pixgem/storage/history_store.dart';
 
 class ViewHistoryPage extends StatefulWidget {
   const ViewHistoryPage({Key? key}) : super(key: key);

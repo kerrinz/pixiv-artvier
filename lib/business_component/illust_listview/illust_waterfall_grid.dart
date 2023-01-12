@@ -1,13 +1,15 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/common_provider/lazyload_status_provider.dart';
 import 'package:pixgem/component/loading/lazyloading.dart';
+import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/pages/artwork/detail/arguments.dart';
+import 'package:pixgem/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:pixgem/routes.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as pro;
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 import 'illust_waterfall_item.dart';
@@ -18,7 +20,7 @@ import 'illust_waterfall_item.dart';
 /// **例外**：管理了懒加载Lazyload的状态（出于懒加载状态的性能考虑）
 /// - #### 使用时须在本组件外套一层[ChangeNotifierProvider\<LazyloadStatusProvider\>]
 /// - 通过[lazyloadWidget]参数可以自定义并管理其他懒加载组件，此时就不需要外套[LazyloadStatusProvider]
-class IllustWaterfallGrid extends StatelessWidget {
+class IllustWaterfallGrid extends ConsumerWidget {
   /// 插画（或漫画）列表
   final List<CommonIllust> artworkList;
 
@@ -68,7 +70,7 @@ class IllustWaterfallGrid extends StatelessWidget {
         super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (isSliver) {
       return SliverWaterfallFlow(
         gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
@@ -93,7 +95,7 @@ class IllustWaterfallGrid extends StatelessWidget {
               index == artworkList.length ? LastChildLayoutType.fullCrossAxisExtent : LastChildLayoutType.none,
         ),
         delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) => _buildItem(context, index),
+          (BuildContext context, int index) => _buildItem(ref, index),
           childCount: artworkList.length + 1,
         ),
       );
@@ -122,19 +124,20 @@ class IllustWaterfallGrid extends StatelessWidget {
           lastChildLayoutTypeBuilder: (index) =>
               index == artworkList.length ? LastChildLayoutType.fullCrossAxisExtent : LastChildLayoutType.none,
         ),
-        itemBuilder: (BuildContext context, int index) => _buildItem(context, index),
+        itemBuilder: (BuildContext context, int index) => _buildItem(ref, index),
       );
     }
   }
 
-  Widget _buildItem(BuildContext context, index) {
+  Widget _buildItem(WidgetRef ref, index) {
+    var illust = artworkList[index];
     // 如果滑动到了表尾加载更多的项
     if (index == artworkList.length) {
       // 未到列表上限，继续获取数据
       if (artworkList.length < (limit ?? double.infinity)) {
         if (artworkList.isNotEmpty) onLazyLoad(); // 列表不为空才获取数据
         // 尾部懒加载组件
-        return _buildLazyloadItem(context);
+        return _buildLazyloadItem(ref.context);
       } else {
         //已经加载足够多的数据，不再获取
         return Container(
@@ -149,42 +152,26 @@ class IllustWaterfallGrid extends StatelessWidget {
     }
     return IllustWaterfallItem(
       illust: artworkList[index],
-      isBookmarked: artworkList[index].isBookmarked,
-      onTap: () => artworkList[index].restrict == 2
-          ? Fluttertoast.showToast(msg: "该图片已被删除或不公开", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0)
-          : Navigator.of(context).pushNamed(
-              RouteNames.artworkDetail.name,
-              arguments: ArkworkDetailPageArguments(
-                artworkId: artworkList[index].id.toString(),
-                detail: artworkList[index],
-                callback: (String id, bool isBookmark) {
-                  // 回调方法，传给详情页
-                  artworkList[index].isBookmarked = isBookmark;
-                  (context as Element).markNeedsBuild();
-                },
-              ),
-            ),
-      onTapBookmark: () async {
-        var item = artworkList[index];
-        try {
-          bool result = await postBookmark(item.id.toString(), item.isBookmarked);
-          if (result) {
-            Fluttertoast.showToast(msg: "操作成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-            artworkList[index].isBookmarked = !item.isBookmarked;
-          } else {
-            throw Exception("http status code is not 200.");
-          }
-        } catch (e) {
-          Fluttertoast.showToast(
-              msg: "操作失败！可能已经${item.isBookmarked ? "取消" : ""}收藏了", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-        }
+      // isBookmarked: ref.watch(illustDetailCollectStateProvider(illust.id.toString())) == CollectState.collected,
+      collectState: illust.isBookmarked ? CollectState.collected : CollectState.notCollect,
+      onTap: () {
+        // ref.read(illustDetailProvider(illust.id.toString()).notifier).setIllustInfo(illust);
+        artworkList[index].restrict == 2
+            ? Fluttertoast.showToast(msg: "该图片已被删除或不公开", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0)
+            : Navigator.of(ref.context).pushNamed(
+                RouteNames.artworkDetail.name,
+                arguments: IllustDetailPageArguments(
+                  illustId: illust.id.toString(),
+                  detail: illust,
+                ),
+              );
       },
     );
   }
 
   Widget _buildLazyloadItem(BuildContext context) {
     if (hasMore) {
-      return Consumer<LazyloadStatusProvider>(
+      return pro.Consumer<LazyloadStatusProvider>(
         builder: ((context, LazyloadStatusProvider provider, child) {
           switch (provider.lazyloadStatus) {
             case LazyloadStatus.loading:

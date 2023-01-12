@@ -105,10 +105,10 @@ class ApiIllusts extends ApiBase {
   /// - [illustId] 插画id
   /// - [tags] 附加标签
   Future<bool> addIllustBookmark(
-      {required String illustId, String restrict = CONSTANTS.restrict_public, List<String>? tags, CancelToken? cancelToken}) async {
+      {required String illustId, String? restrict, List<String>? tags, CancelToken? cancelToken}) async {
     var baseData = {
       'illust_id': illustId,
-      "restrict": restrict,
+      "restrict": restrict ?? CONSTANTS.restrict_public,
     };
     FormData formData = FormData();
     formData.fields.addAll(baseData.entries);

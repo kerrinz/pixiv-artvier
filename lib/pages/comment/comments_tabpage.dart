@@ -127,7 +127,7 @@ class _CommentsPageState extends State<CommentsPage> {
   Future requestNext() async {
     if (!_cancelToken.isCancelled) _cancelToken.cancel();
     _cancelToken = CancelToken();
-    var res = await ApiBase().getNextUrlData(nextUrl: _provider.nextUrl!, cancelToken: _cancelToken);
+    var res = await ApiBase().nextUrlData(nextUrl: _provider.nextUrl!, cancelToken: _cancelToken);
     var result = IllustComments.fromJson(res);
     _provider.addAll(result.comments);
     _provider.setNextUrl(result.nextUrl);

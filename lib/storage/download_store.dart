@@ -3,8 +3,8 @@
 import 'dart:convert';
 
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model_store/downloading_illust.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/model/model_store/downloading_illust.dart';
+import 'package:pixgem/global/global.dart';
 
 class DownloadStore {
   static const MODE = "download_mode";

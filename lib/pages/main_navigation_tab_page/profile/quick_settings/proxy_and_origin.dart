@@ -4,8 +4,8 @@ import 'package:pixgem/component/badge.dart';
 import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
 import 'package:pixgem/component/perference/perference_single_choise_panel.dart';
 import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/store/global.dart';
-import 'package:pixgem/store/network_store.dart';
+import 'package:pixgem/global/global.dart';
+import 'package:pixgem/storage/network_store.dart';
 import 'package:provider/provider.dart';
 
 import 'proxy_and_origin_provider.dart';

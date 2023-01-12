@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
-import 'package:pixgem/model_store/account_profile.dart';
+import 'package:pixgem/model/model_store/account_profile.dart';
 import 'package:pixgem/api_app/api_base.dart';
 import 'package:pixgem/request/my_http_overrides.dart';
-import 'package:pixgem/store/account_store.dart';
-import 'package:pixgem/store/download_store.dart';
-import 'package:pixgem/store/network_store.dart';
-import 'package:pixgem/store/theme_store.dart';
+import 'package:pixgem/storage/account_storage.dart';
+import 'package:pixgem/storage/download_store.dart';
+import 'package:pixgem/storage/network_store.dart';
+import 'package:pixgem/storage/theme_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GlobalStore {
@@ -37,10 +37,10 @@ class GlobalStore {
     // 以上均已在程序入口处初始化完成
 
     // 账号配置
-    String? id = AccountStore.getCurrentAccountId();
+    String? id = AccountStorage(globalSharedPreferences).getCurrentAccountId();
     if (id != null) {
       // 获取用户配置信息
-      AccountProfile? profile = AccountStore.getCurrentAccountProfile(userId: id);
+      AccountProfile? profile = AccountStorage(globalSharedPreferences).getCurrentAccountProfile(userId: id);
       currentAccount = profile; // 设置全局帐号变量，但不通知Provider
     }
     // 网络请求相关配置

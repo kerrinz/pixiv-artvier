@@ -1,13 +1,13 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pixgem/business_component/illust_listview/illust_waterfall_grid.dart';
 import 'package:pixgem/common_provider/lazyload_status_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
-import 'package:pixgem/component/scroll_list/illust_waterfall_grid.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/pages/artwork/detail/arguments.dart';
+import 'package:pixgem/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/home/list_provider.dart';
 import 'package:pixgem/routes.dart';
@@ -326,13 +326,9 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                         onTap: () {
                           Navigator.of(context).pushNamed(
                             RouteNames.artworkDetail.name,
-                            arguments: ArkworkDetailPageArguments(
-                              artworkId: rankingList[index].id.toString(),
+                            arguments: IllustDetailPageArguments(
+                              illustId: rankingList[index].id.toString(),
                               detail: rankingList[index],
-                              callback: (String id, bool isBookmarked) {
-                                _illustProvider.rankingList[index].isBookmarked = isBookmarked;
-                                // 非当前页面触发，无需刷新
-                              },
                             ),
                           );
                         },

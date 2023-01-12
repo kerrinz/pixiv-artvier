@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:pixgem/request/oauth.dart';
 import 'package:pixgem/request/refresh_token_interceptor.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/global/global.dart';
 
 class ApiBase {
   static Dio dio = Dio(BaseOptions(
@@ -53,12 +53,9 @@ class ApiBase {
     }
   }
 
-  /* @description   通用：加载更多/获取下一页数据
-  *  取得的jsonMap数据还需要 T.fromJson()转换
-  * @parma
-  *   nextUrl 下一页的链接地址
-  */
-  Future<Map<String, dynamic>> getNextUrlData({required String nextUrl, CancelToken? cancelToken}) async {
+  /// 通用加载更多/获取下一页数据
+  /// 取得的jsonMap数据还需要 T.fromJson()转换
+  Future<Map<String, dynamic>> nextUrlData({required String nextUrl, CancelToken? cancelToken}) async {
     Response res = await dio.get<String>(
       nextUrl,
       options: Options(responseType: ResponseType.json),

@@ -1,22 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/config/themes.dart';
+import 'package:pixgem/global/provider/shared_preferences.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/routes.dart';
-import 'package:pixgem/store/theme_store.dart';
-import 'package:provider/provider.dart';
+import 'package:pixgem/storage/theme_store.dart';
+import 'package:provider/provider.dart' as prov;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'pages/booting_page.dart';
-import 'store/global.dart';
+import 'global/global.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 启动之前加载高优先的数据，其他低优先度的数据在BootingPage里进行加载
   await beforeRunApp();
-  // 运行APP
-  runApp(const MyApp());
+  // Get the instance of shared preferences
+  final prefs = await SharedPreferences.getInstance();
+  // 运行APP，注入Riverpod
+  runApp(
+    ProviderScope(
+      overrides: [
+        globalSharedPreferencesProvider.overrideWithValue(prefs),
+      ],
+      child: const MyApp(),
+    ),
+  );
   // 状态栏无前景色的沉浸式
   SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
@@ -41,9 +52,9 @@ class MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     ThemeData themeDataLight = Themes.match(ThemeTypes.purple, Brightness.light).themeData;
     ThemeData themeDataDark = Themes.match(ThemeTypes.purple, Brightness.dark).themeData;
-    return ChangeNotifierProvider(
+    return prov.ChangeNotifierProvider(
       create: (context) => GlobalStore.globalProvider,
-      child: Selector(
+      child: prov.Selector(
         selector: (BuildContext context, GlobalProvider provider) {
           return provider.themeMode;
         },
