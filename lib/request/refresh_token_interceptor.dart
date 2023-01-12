@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:pixgem/model_store/account_profile.dart';
+import 'package:pixgem/model/model_store/account_profile.dart';
 import 'package:pixgem/request/oauth.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/global/global.dart';
 
 class RefreshTokenInterceptor extends InterceptorsWrapper {
   @override

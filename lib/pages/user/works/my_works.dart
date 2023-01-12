@@ -9,7 +9,7 @@ import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/api_app/api_user.dart';
 import 'package:pixgem/pages/novel/novel_list_tabpage.dart';
 import 'package:pixgem/routes.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/global/global.dart';
 
 class MyWorksPage extends StatefulWidget {
   const MyWorksPage(Object? arguments, {Key? key}) : super(key: key);

@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model_store/downloading_illust.dart';
-import 'package:pixgem/pages/artwork/detail/arguments.dart';
+import 'package:pixgem/model/model_store/downloading_illust.dart';
+import 'package:pixgem/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:pixgem/routes.dart';
-import 'package:pixgem/store/download_store.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/storage/download_store.dart';
+import 'package:pixgem/global/global.dart';
 import 'package:pixgem/util/save_image_util.dart';
 import 'package:provider/provider.dart';
 import 'download_manage_provider.dart';
@@ -144,9 +144,9 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     highlightColor: Colors.black12.withOpacity(0.1),
                     onTap: () {
                       Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
-                          arguments: ArkworkDetailPageArguments(
+                          arguments: IllustDetailPageArguments(
                             detail: illusts[index].illust,
-                            artworkId: illusts[index].illust.id.toString(),
+                            illustId: illusts[index].illust.id.toString(),
                           ));
                     },
                   ),
@@ -232,9 +232,9 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     onTap: () {
                       Navigator.of(context).pushNamed(
                         RouteNames.artworkDetail.name,
-                        arguments: ArkworkDetailPageArguments(
+                        arguments: IllustDetailPageArguments(
                           detail: illusts[index],
-                          artworkId: illusts[index].id.toString(),
+                          illustId: illusts[index].id.toString(),
                         ),
                       );
                     },

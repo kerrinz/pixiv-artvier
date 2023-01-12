@@ -2,11 +2,11 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/model_store/account_profile.dart';
+import 'package:pixgem/model/model_store/account_profile.dart';
 import 'package:pixgem/request/oauth.dart';
 import 'package:pixgem/routes.dart';
-import 'package:pixgem/store/account_store.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/storage/account_storage.dart';
+import 'package:pixgem/global/global.dart';
 import 'package:provider/provider.dart';
 
 import 'account_manage_provider.dart';
@@ -80,7 +80,7 @@ class AccountManagePageState extends State<AccountManagePage> {
     return InkWell(
       onTap: () async {
         // 切换帐号
-        await AccountStore.setCurrentAccountId(id: profile.user.id);
+        await AccountStorage(GlobalStore.globalSharedPreferences).setCurrentAccountId(id: profile.user.id);
         var newProfile = await OAuth().refreshToken(profile.refreshToken);
         await OAuth().saveTokenToCurrent(newProfile);
         readProfiles();
@@ -148,7 +148,7 @@ class AccountManagePageState extends State<AccountManagePage> {
 
   // 读取配置数据
   void readProfiles() {
-    var profile = AccountStore.getAllAccountsProfile();
+    var profile = AccountStorage(GlobalStore.globalSharedPreferences).getAllAccountsProfile();
     if (profile != null) {
       _provider.setAccountProfiles(profile);
     } else {
