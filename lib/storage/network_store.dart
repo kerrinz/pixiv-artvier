@@ -2,7 +2,7 @@
 
 import 'package:pixgem/config/constants.dart';
 
-import 'global.dart';
+import '../global/global.dart';
 
 class NetworkStore {
   static const String PROXY_HOST = "network_proxy_host";

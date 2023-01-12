@@ -5,9 +5,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model_store/downloading_illust.dart';
-import 'package:pixgem/store/download_store.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/model/model_store/downloading_illust.dart';
+import 'package:pixgem/storage/download_store.dart';
+import 'package:pixgem/global/global.dart';
 
 class SaveImageUtil {
   // 保存图片

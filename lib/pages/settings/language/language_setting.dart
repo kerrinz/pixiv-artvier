@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/component/perference/perference_single_choise_panel.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/global/global.dart';
 import 'package:provider/provider.dart';
 
 class LanguageSettingPage extends StatefulWidget {

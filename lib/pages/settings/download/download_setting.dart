@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
-import 'package:pixgem/store/download_store.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/storage/download_store.dart';
+import 'package:pixgem/global/global.dart';
 import 'package:provider/provider.dart';
 
 class SettingDownload extends StatefulWidget {

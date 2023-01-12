@@ -8,8 +8,8 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/store/download_store.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/storage/download_store.dart';
+import 'package:pixgem/global/global.dart';
 import 'package:pixgem/util/save_image_util.dart';
 import 'package:provider/provider.dart';
 

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
-import 'package:pixgem/common_provider/works_provider.dart';
 import 'package:pixgem/component/filter/stateless_flow_filter.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/config/constants.dart';
+import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/artwork_collect_detail.dart';
 

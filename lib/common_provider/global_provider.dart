@@ -1,11 +1,11 @@
 // 全局提供器
 import 'package:flutter/material.dart';
 import 'package:pixgem/common_provider/base_provider.dart';
-import 'package:pixgem/model_store/account_profile.dart';
-import 'package:pixgem/model_store/downloading_illust.dart';
-import 'package:pixgem/store/download_store.dart';
-import 'package:pixgem/store/global.dart';
-import 'package:pixgem/store/theme_store.dart';
+import 'package:pixgem/model/model_store/account_profile.dart';
+import 'package:pixgem/model/model_store/downloading_illust.dart';
+import 'package:pixgem/storage/download_store.dart';
+import 'package:pixgem/global/global.dart';
+import 'package:pixgem/storage/theme_store.dart';
 
 class GlobalProvider extends BaseProvider {
   AccountProfile? get currentAccount => GlobalStore.currentAccount; // 当前帐号

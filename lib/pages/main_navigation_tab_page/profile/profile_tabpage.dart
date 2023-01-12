@@ -10,14 +10,14 @@ import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
-import 'package:pixgem/model_store/account_profile.dart';
+import 'package:pixgem/model/model_store/account_profile.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/models.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/user_profile_provider.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy_and_origin.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/theme.dart';
 import 'package:pixgem/routes.dart';
-import 'package:pixgem/store/account_store.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/storage/account_storage.dart';
+import 'package:pixgem/global/global.dart';
 import 'package:provider/provider.dart';
 
 class ProfileTabPage extends StatefulWidget {
@@ -454,7 +454,7 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
 
   /// 读取账户配置
   void readProfile() {
-    var profile = AccountStore.getCurrentAccountProfile();
+    var profile = AccountStorage(GlobalStore.globalSharedPreferences).getCurrentAccountProfile();
     if (profile != null) {
       GlobalStore.changeCurrentAccount(profile);
     }

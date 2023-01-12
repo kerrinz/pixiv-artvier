@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/common_provider/illusts_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/common_provider/novels_provider.dart';
@@ -9,27 +10,28 @@ import 'package:pixgem/common_provider/works_provider.dart';
 import 'package:pixgem/component/base_provider_widget.dart';
 import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
 import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/pages/artwork/tab_page/illusts_grid_tabpage.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/api_app/api_user.dart';
+import 'package:pixgem/pages/base/base_page.dart';
 import 'package:pixgem/pages/novel/novel_list_tabpage.dart';
-import 'package:pixgem/pages/user/bookmark/bookmark_filter_model.dart';
-import 'package:pixgem/pages/user/bookmark/bookmark_filter_sheets.dart';
-import 'package:pixgem/pages/user/bookmark/bookmark_tags_provider.dart';
-import 'package:pixgem/routes.dart';
+import 'package:pixgem/pages/user/collection/bookmark_filter_model.dart';
+import 'package:pixgem/pages/user/collection/bookmark_filter_sheets.dart';
+import 'package:pixgem/pages/user/collection/bookmark_tags_provider.dart';
+import 'package:pixgem/pages/user/collection/logic.dart';
+import 'package:pixgem/pages/user/collection/widget/artworks_tabpage.dart';
 
-class MyBookmarksPage extends StatefulWidget {
-  late final String? userId;
+class MyBookmarksPage extends BaseStatefulPage {
+  final String userId;
 
-  MyBookmarksPage(Object? arguments, {Key? key}) : super(key: key) {
-    userId = arguments as String?;
-  }
+  const MyBookmarksPage(Object arguments, {Key? key})
+      : userId = arguments as String,
+        super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MyBookmarksState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyCollectionsState();
 }
 
-class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateMixin {
+class _MyCollectionsState extends BasePageState<MyBookmarksPage> with TickerProviderStateMixin, MyCollectionPageLogic {
   late TabController _tabController;
 
   late ScrollController _scrollController;
@@ -70,19 +72,14 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
   @override
   void initState() {
     super.initState();
-    // 未登录拦截
-    if (widget.userId == null) {
-      Navigator.pushNamed(context, RouteNames.wizard.name);
-    } else {
-      _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
-      _tabController.addListener(() {
-        _tagsProvider.setWorksType(currentWorkType);
-        // 由于当前显示了筛选弹窗，为它更新数据。视图上的restrict还是另一边的，故继续使用另一边的model.restrict
-        if (isShowFilter) {
-          requestBookmarkTags(currentWorkType, anotherFilterModel.restrict);
-        }
-      });
-    }
+    _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
+    _tabController.addListener(() {
+      _tagsProvider.setWorksType(currentWorkType);
+      // 由于当前显示了筛选弹窗，为它更新数据。视图上的restrict还是另一边的，故继续使用另一边的model.restrict
+      if (isShowFilter) {
+        requestBookmarkTags(currentWorkType, anotherFilterModel.restrict);
+      }
+    });
   }
 
   @override
@@ -177,22 +174,23 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
         body: TabBarView(
           controller: _tabController,
           children: [
-            IllustGridTabPage(
-              illustsProvider: illustsProvider,
-              onRequest: (CancelToken cancelToken) async {
-                return await ApiUser().getUserBookmarksIllust(
-                  userId: widget.userId!,
-                  restrict: illustFilterModel.restrict,
-                  tag: illustFilterModel.tag,
-                  cancelToken: cancelToken,
-                );
-              },
-            ),
+            // IllustGridTabPage(
+            //   illustsProvider: illustsProvider,
+            //   onRequest: (CancelToken cancelToken) async {
+            //     return await ApiUser().getUserBookmarksIllust(
+            //       userId: widget.userId!,
+            //       restrict: illustFilterModel.restrict,
+            //       tag: illustFilterModel.tag,
+            //       cancelToken: cancelToken,
+            //     );
+            //   },
+            // ),
+            const MyCollectArtworksTabPage(),
             NovelListTabPage(
               novelsProvider: novelsProvider,
               onRequest: (CancelToken cancelToken) async {
                 return await ApiUser().getUserBookmarksNovel(
-                  userId: widget.userId!,
+                  userId: widget.userId,
                   restrict: novelFilterModel.restrict,
                   tag: novelFilterModel.tag,
                   cancelToken: cancelToken,
@@ -243,7 +241,7 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
         illustFilterModel.update(model.restrict, model.tag);
         ApiUser()
             .getUserBookmarksIllust(
-              userId: widget.userId!,
+              userId: widget.userId,
               restrict: model.restrict,
               tag: model.tag,
               cancelToken: _cancelToken,
@@ -260,7 +258,7 @@ class _MyBookmarksState extends State<MyBookmarksPage> with TickerProviderStateM
         novelFilterModel.update(model.restrict, model.tag);
         ApiUser()
             .getUserBookmarksNovel(
-              userId: widget.userId!,
+              userId: widget.userId,
               restrict: model.restrict,
               tag: model.tag,
               cancelToken: _cancelToken,

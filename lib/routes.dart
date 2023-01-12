@@ -13,7 +13,7 @@ import 'package:pixgem/pages/not_found_page.dart';
 import 'package:pixgem/pages/search/result/search_result_page.dart';
 import 'package:pixgem/pages/settings/download/download_setting.dart';
 import 'package:pixgem/pages/settings/language/language_setting.dart';
-import 'package:pixgem/pages/user/bookmark/my_bookmarks.dart';
+import 'package:pixgem/pages/user/collection/my_collection_page.dart';
 import 'package:pixgem/pages/user/following/user_following_page.dart';
 import 'package:pixgem/pages/user/user_detail/user_detail_page.dart';
 import 'package:pixgem/pages/user/works/my_works.dart';
@@ -73,7 +73,7 @@ class Routes {
     RouteNames.userFollowing.name: (context, arguments) => UserFollowingPage(arguments!),
     RouteNames.userDetail.name: (context, arguments) => UserDetailPage(arguments!),
     RouteNames.searchResult.name: (context, arguments) => SearchResultPage(arguments!),
-    RouteNames.myBookmarks.name: (context, arguments) => MyBookmarksPage(arguments),
+    RouteNames.myBookmarks.name: (context, arguments) => MyBookmarksPage(arguments!),
     RouteNames.myWorks.name: (context, arguments) => MyWorksPage(arguments),
     RouteNames.history.name: (context, arguments) => const ViewHistoryPage(),
     RouteNames.accountManage.name: (context, arguments) => const AccountManagePage(),

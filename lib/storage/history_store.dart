@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 
-import 'global.dart';
+import '../global/global.dart';
 
 class HistoryStore {
   static const String HISTORY_ILLUST = "history_illust";

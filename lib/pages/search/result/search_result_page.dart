@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:pixgem/api_app/api_base.dart';
+import 'package:pixgem/business_component/illust_listview/illust_waterfall_grid.dart';
 import 'package:pixgem/common_provider/lazyload_status_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
 import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
 import 'package:pixgem/component/filter/stateless_flow_filter.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/component/scroll_list/illust_waterfall_grid.dart';
 import 'package:pixgem/component/scroll_list/novel_list.dart';
 import 'package:pixgem/component/scroll_list/user_list_vertical.dart';
 import 'package:pixgem/component/sliver_delegates/widget_delegate.dart';
@@ -270,7 +271,7 @@ class SearchResultPageState extends State<SearchResultPage> {
   /// 请求懒加载
   Future requestLazyload(SearchType type) async {
     Map<String, dynamic> res =
-        await ApiSearch().getNextUrlData(nextUrl: _resultProvider.nextUrl!, cancelToken: _cancelToken);
+        await ApiBase().nextUrlData(nextUrl: _resultProvider.nextUrl!, cancelToken: _cancelToken);
     switch (type) {
       case SearchType.artworks:
         IllustsSearchResult result = IllustsSearchResult.fromJson(res);

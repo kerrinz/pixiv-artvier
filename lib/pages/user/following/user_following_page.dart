@@ -97,7 +97,7 @@ class UserFollowingPageState extends State<UserFollowingPage> {
   }
 
   Future lazyload() async {
-    Map<String, dynamic> map = await ApiBase().getNextUrlData(nextUrl: _listProvider.nextUrl!);
+    Map<String, dynamic> map = await ApiBase().nextUrlData(nextUrl: _listProvider.nextUrl!);
     UserPreviewsList data = UserPreviewsList.fromJson(map);
     _listProvider.appendList(data.userPreviews, data.nextUrl);
   }

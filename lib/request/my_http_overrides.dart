@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/global/global.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   MyHttpOverrides() : super();

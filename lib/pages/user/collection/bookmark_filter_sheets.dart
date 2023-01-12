@@ -13,8 +13,8 @@ import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/user/bookmark/bookmark_tag.dart';
 import 'package:pixgem/model_response/user/bookmark/bookmark_tag_list.dart';
-import 'package:pixgem/pages/user/bookmark/bookmark_filter_model.dart';
-import 'package:pixgem/pages/user/bookmark/bookmark_tags_provider.dart';
+import 'package:pixgem/pages/user/collection/bookmark_filter_model.dart';
+import 'package:pixgem/pages/user/collection/bookmark_tags_provider.dart';
 import 'package:provider/provider.dart';
 
 /// 我的收藏页面的筛选弹窗
@@ -229,7 +229,7 @@ class BookmarkFilterSheet extends StatelessWidget {
     String? nextUrl =
         tagsProvider.currentWorksType == WorksType.novel ? tagsProvider.novelNextUrl : tagsProvider.illustNextUrl;
     if (nextUrl == null) return;
-    ApiBase().getNextUrlData(nextUrl: nextUrl).then((value) {
+    ApiBase().nextUrlData(nextUrl: nextUrl).then((value) {
       BookmarkTagList list = BookmarkTagList.fromJson(value);
       tagsProvider.appendIllustTags(list.bookmarkTags ?? [], list.nextUrl);
     });

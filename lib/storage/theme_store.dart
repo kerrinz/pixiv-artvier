@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'global.dart';
+import '../global/global.dart';
 
 class ThemeStore {
   // 当前模式

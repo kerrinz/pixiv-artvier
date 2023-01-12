@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pixgem/model_store/account_profile.dart';
+import 'package:pixgem/model/model_store/account_profile.dart';
 import 'package:pixgem/request/oauth.dart';
 import 'package:pixgem/routes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -64,7 +64,7 @@ class _LoginWebState extends State {
                   // var id = value["_id"];
                   // var token = value["_token"];
                   // var cookie = value["_cookie"];
-                  // AccountStore.saveCurrentAccountProfile(account: new Account.create(userId: id, token: token, cookie: cookie));
+                  // AccountStorage.saveCurrentAccountProfile(account: new Account.create(userId: id, token: token, cookie: cookie));
                   // print(value["_id"]);
                 } catch (e) {
                   //

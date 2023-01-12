@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/common_provider/global_provider.dart';
 import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
-import 'package:pixgem/store/global.dart';
+import 'package:pixgem/global/global.dart';
 import 'package:provider/provider.dart';
 
 class ThemeSettingsBottomSheetContent extends StatelessWidget {
