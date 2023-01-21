@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
-import 'package:pixgem/business_component/illust_listview/illust_waterfall_grid.dart';
+import 'package:pixgem/base/base_api.dart';
+import 'package:pixgem/base/base_page.dart';
+import 'package:pixgem/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
 import 'package:pixgem/common_provider/illusts_provider.dart';
 import 'package:pixgem/common_provider/lazyload_status_provider.dart';
 import 'package:pixgem/common_provider/loading_request_provider.dart';
@@ -10,13 +13,13 @@ import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as pro;
 
 typedef IllustRequestCallback = Future<CommonIllustList> Function(CancelToken cancelToken);
 typedef IllustLazyLoadCallback = Future<CommonIllustList> Function(String? nextUrl, CancelToken cancelToken);
 
 /// 适用于放在TabView里的插画（或漫画）列表页面
-///
+/// TODO: 该文件作废，后续将删除
 /// 示例：
 /// IllustGridTabPage(
 ///   illustsProvider: _illustsProvider,
@@ -29,7 +32,7 @@ typedef IllustLazyLoadCallback = Future<CommonIllustList> Function(String? nextU
 ///   },
 /// ),
 ///
-class IllustGridTabPage extends StatefulWidget {
+class IllustGridTabPage extends BaseStatefulPage {
   /// 首次请求数据的回调函数（刷新也需要该函数）
   final IllustRequestCallback onRequest;
 
@@ -54,7 +57,7 @@ class IllustGridTabPage extends StatefulWidget {
   final LazyloadStatusProvider? lazyloadProvider;
 
   @override
-  State<StatefulWidget> createState() => IllustGridTabPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => IllustGridTabPageState();
 
   /// 适用于放在TabView里的插画列表页面
   const IllustGridTabPage({
@@ -70,7 +73,7 @@ class IllustGridTabPage extends StatefulWidget {
   }) : super(key: key);
 }
 
-class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeepAliveClientMixin {
+class IllustGridTabPageState extends BasePageState<IllustGridTabPage> with AutomaticKeepAliveClientMixin {
   /// 列表数据管理
   late final IllustListProvider _illustsProvider;
 
@@ -99,10 +102,10 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return MultiProvider(
+    return pro.MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: _illustsProvider),
-        ChangeNotifierProvider.value(value: _lazyloadProvider),
+        pro.ChangeNotifierProvider.value(value: _illustsProvider),
+        pro.ChangeNotifierProvider.value(value: _lazyloadProvider),
       ],
       child: RefreshIndicator(
         onRefresh: () async {
@@ -115,7 +118,7 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
           });
           _illustsProvider.resetIllusts(value.illusts, value.nextUrl);
         },
-        child: Consumer(
+        child: pro.Consumer(
           builder: (context, IllustListProvider provider, Widget? child) {
             switch (provider.loadingStatus) {
               case LoadingStatus.loading:
@@ -137,13 +140,12 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
               // 列表为空时展示
               return widget.withoutIllustWidget ?? _buildEmptyPrompt(context);
             }
-            return IllustWaterfallGrid(
+            return IllustWaterfallGridView(
               physics: widget.physics,
               padding: widget.padding,
               artworkList: provider.list,
-              hasMore: provider.nextUrl != null,
-              onLazyLoad: () async {
-                if (_illustsProvider.nextUrl == null) return;
+              onLazyload: () async {
+                if (_illustsProvider.nextUrl == null) return false;
                 if (widget.onLazyLoad != null) {
                   // 自定义的懒加载
                   isLazyloadRequesting = true;
@@ -159,6 +161,7 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
                   // 默认的懒加载
                   defaultIllustLazyload();
                 }
+                return true;
               },
               scrollController: widget.scrollController,
             );
@@ -200,7 +203,9 @@ class IllustGridTabPageState extends State<IllustGridTabPage> with AutomaticKeep
     _lazyloadProvider.setLazyloadStatus(LazyloadStatus.loading);
     if (!_cancelToken.isCancelled) _cancelToken.cancel();
     _cancelToken = CancelToken();
-    ApiIllusts().getNextIllusts(_illustsProvider.nextUrl!, cancelToken: _cancelToken).then((value) {
+    ApiIllusts(ref.read(httpRequesterProvider))
+        .getNextIllusts(_illustsProvider.nextUrl!, cancelToken: _cancelToken)
+        .then((value) {
       _illustsProvider.appendIllusts(value.illusts, value.nextUrl);
     }).catchError((err) {
       if (err is DioError && err.type == DioErrorType.cancel) return;

@@ -9,7 +9,7 @@ part of 'user_detail.dart';
 // **************************************************************************
 
 UserDetail _$UserDetailFromJson(Map<String, dynamic> json) => UserDetail(
-      User.fromJson(json['user'] as Map<String, dynamic>),
+      CommonUser.fromJson(json['user'] as Map<String, dynamic>),
       Profile.fromJson(json['profile'] as Map<String, dynamic>),
       Profile_publicity.fromJson(
           json['profile_publicity'] as Map<String, dynamic>),
@@ -22,35 +22,6 @@ Map<String, dynamic> _$UserDetailToJson(UserDetail instance) =>
       'profile': instance.profile,
       'profile_publicity': instance.profilePublicity,
       'workspace': instance.workspace,
-    };
-
-User _$UserFromJson(Map<String, dynamic> json) => User(
-      json['id'] as int,
-      json['name'] as String,
-      json['account'] as String,
-      Profile_image_urls.fromJson(
-          json['profile_image_urls'] as Map<String, dynamic>),
-      json['comment'] as String,
-      json['is_followed'] as bool,
-    );
-
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'account': instance.account,
-      'profile_image_urls': instance.profileImageUrls,
-      'comment': instance.comment,
-      'is_followed': instance.isFollowed,
-    };
-
-Profile_image_urls _$Profile_image_urlsFromJson(Map<String, dynamic> json) =>
-    Profile_image_urls(
-      json['medium'] as String,
-    );
-
-Map<String, dynamic> _$Profile_image_urlsToJson(Profile_image_urls instance) =>
-    <String, dynamic>{
-      'medium': instance.medium,
     };
 
 Profile _$ProfileFromJson(Map<String, dynamic> json) => Profile(

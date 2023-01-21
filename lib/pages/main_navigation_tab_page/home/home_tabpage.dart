@@ -1,87 +1,76 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/business_component/illust_listview/illust_waterfall_grid.dart';
-import 'package:pixgem/common_provider/lazyload_status_provider.dart';
-import 'package:pixgem/common_provider/loading_request_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pixgem/base/base_page.dart';
+import 'package:pixgem/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/config/constants.dart';
+import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/artwork/detail/arguments/illust_detail_page_args.dart';
-import 'package:pixgem/api_app/api_illusts.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/home/list_provider.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/home/provider/home_provider.dart';
 import 'package:pixgem/routes.dart';
-import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends BaseStatefulPage {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => HomePageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => HomePageState();
 }
 
-class HomePageState extends State with AutomaticKeepAliveClientMixin {
+class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
   int size = 20;
-  bool _isLoadingMore = false; // 是否正在加载更多数据（防止重复获取）
-  final HomeTabPageIllustProvider _illustProvider = HomeTabPageIllustProvider();
 
-  /// 管理懒加载的状态
-  final LazyloadStatusProvider _lazyloadProvider = LazyloadStatusProvider();
   ScrollController controller = ScrollController();
-  String? nextUrl; // 下一页的地址
 
   @override
-  void initState() {
-    super.initState();
-    refreshAndSetData().catchError((onError) {
-      Fluttertoast.showToast(msg: "获取作品失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-      _illustProvider.setLoadingStatus(LoadingStatus.failed);
-    });
-  }
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ChangeNotifierProvider<HomeTabPageIllustProvider>.value(
-      value: _illustProvider,
-      child: ExtendedNestedScrollView(
-        controller: controller,
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              pinned: true,
-              toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
-              title: const Text(
-                "Pixgem",
+    return ExtendedNestedScrollView(
+      controller: controller,
+      floatHeaderSlivers: true,
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return [
+          SliverAppBar(
+            pinned: true,
+            toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
+            title: const Text(
+              "Pixgem",
+            ),
+            // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.keyboard_arrow_up),
+                onPressed: () {
+                  controller.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.decelerate,
+                  );
+                },
+                tooltip: "回到顶部",
               ),
-              // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-              actions: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.keyboard_arrow_up),
-                  onPressed: () {
-                    controller.animateTo(
-                      0,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.decelerate,
-                    );
-                  },
-                  tooltip: "回到顶部",
-                ),
-              ],
-            )
-          ];
-        },
-        body: RefreshIndicator(
+            ],
+          )
+        ];
+      },
+      body: Consumer(builder: (_, ref, __) {
+        PageState pageState = ref.watch(homeStateProvider);
+        switch (pageState) {
+          case PageState.loading:
+            return const RequestLoading();
+          case PageState.error:
+            return RequestLoadingFailed(onRetry: () async => ref.read(homeStateProvider.notifier).init());
+          case PageState.refreshing:
+          case PageState.complete:
+          case PageState.empty:
+        }
+        return RefreshIndicator(
           // 下拉刷新
-          onRefresh: () async {
-            await refreshAndSetData().then((value) {
-              Fluttertoast.showToast(msg: "刷新成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-            }).catchError((onError) {
-              Fluttertoast.showToast(msg: "Error！刷新失败", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-            });
-            // await saveAccount();
-          },
+          onRefresh: () async {},
           child: CustomScrollView(
             physics: const BouncingScrollPhysics(),
             slivers: [
@@ -112,7 +101,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushNamed(RouteNames.leaderboard.name);
+                          Navigator.of(context).pushNamed(RouteNames.ranking.name);
                         },
                         // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
                         child: Row(
@@ -128,22 +117,10 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                 ),
               ),
               // 排行榜卡片列表
-              Selector(
-                builder: (BuildContext context, LoadingStatus loadingStatus, Widget? child) {
-                  switch (loadingStatus) {
-                    case LoadingStatus.loading:
-                    case LoadingStatus.failed:
-                      return _buildRankingUnsuccess(context, loadingStatus);
-                    default:
-                      return buildLeaderboardCardList(context, _illustProvider.rankingList);
-                  }
-                  // if (_illustProvider.loadingStatus == LoadingStatus.success &&
-                  //     _illustProvider.rankingList.isNotEmpty) {
-                  //   return buildLeaderboardCardList(context, _illustProvider.rankingList);
-                  // }
-                },
-                selector: (context, HomeTabPageIllustProvider provider) {
-                  return provider.loadingStatus;
+              Consumer(
+                builder: (context, ref, child) {
+                  var data = ref.watch(homeIllustRankingProvider);
+                  return buildRankingCardList(ref.context, data);
                 },
               ),
               // 推荐头部
@@ -176,67 +153,23 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
               ),
               // 推荐列表
               Consumer(
-                builder: (BuildContext context, HomeTabPageIllustProvider provider, Widget? child) {
-                  switch (provider.loadingStatus) {
-                    case LoadingStatus.loading:
-                    case LoadingStatus.failed:
-                      return SliverToBoxAdapter(
-                        child: Container(),
-                      );
-                    default:
-                  }
-                  return SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    sliver: ChangeNotifierProvider.value(
-                      value: _lazyloadProvider,
-                      child: IllustWaterfallGrid.sliver(
-                        // 普通网格布局（图片）
-                        artworkList: provider.recomendlist,
-                        onLazyLoad: () {
-                          // 不在加载中才能获取下一页的数据，以防重复获取同页数据
-                          if (!_isLoadingMore) {
-                            _isLoadingMore = true;
-                            requestNextIllusts().catchError((onError) {
-                              Fluttertoast.showToast(msg: "获取更多作品失败！", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                            }).whenComplete(() => _isLoadingMore = false);
-                          }
-                        },
-                      ),
-                    ),
+                builder: (context, ref, child) {
+                  var data = ref.watch(homeIllustRecommendedProvider);
+                  return SliverIllustWaterfallGridView(
+                    artworkList: data,
+                    onLazyload: () async => ref.read(homeIllustRecommendedProvider.notifier).next(),
                   );
                 },
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  // 构建排行榜加载中与加载失败显示的样式
-  Widget _buildRankingUnsuccess(BuildContext context, LoadingStatus status) {
-    Widget loadingWidget = const RequestLoading();
-    Widget failedWidget = RequestLoadingFailed(onRetry: () {
-      _illustProvider.setLoadingStatus(LoadingStatus.loading);
-      refreshAndSetData().catchError((_) {
-        _illustProvider.setLoadingStatus(LoadingStatus.failed);
-      });
-    });
-    return SliverToBoxAdapter(
-      child: Container(
-        height: 200,
-        margin: const EdgeInsets.symmetric(horizontal: 12),
-        alignment: Alignment.center,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-        child: status == LoadingStatus.loading ? loadingWidget : failedWidget,
-      ),
+        );
+      }),
     );
   }
 
   // 构建排行榜卡片列表（横向
-  Widget buildLeaderboardCardList(BuildContext context, List<CommonIllust> rankingList) {
+  Widget buildRankingCardList(BuildContext context, List<CommonIllust> rankingList) {
     return SliverToBoxAdapter(
       child: SizedBox(
         height: 200,
@@ -344,24 +277,4 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
       ),
     );
   }
-
-  // 请求并设置数据，返回Future
-  Future refreshAndSetData() async {
-    var body = await ApiIllusts().getFirstRecommendedIllust();
-    nextUrl = body.nextUrl;
-    _illustProvider.resetAll(body.rankingIllusts, body.illusts, LoadingStatus.success);
-  }
-
-  // 获取更多作品
-  Future requestNextIllusts() async {
-    // 获取更多作品
-    if (nextUrl != null) {
-      var result = await ApiIllusts().getNextIllusts(nextUrl!);
-      _illustProvider.addAllToRecomendList(result.illusts); // 添加更多作品
-      nextUrl = result.nextUrl; // 更新nextUrl
-    }
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }

@@ -2,7 +2,8 @@ import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
-import 'package:pixgem/component/buttons/follow_button.dart';
+import 'package:pixgem/config/enums.dart';
+import 'package:pixgem/pages/artwork/detail/widgets/user_follow_button.dart';
 import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
@@ -48,8 +49,8 @@ class DragContentPinned extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).pushNamed(RouteNames.userDetail.name,
-                      arguments:
-                          PreloadUserLeastInfo(detail.user.id, detail.user.name, detail.user.profileImageUrls.medium));
+                      arguments: PreloadUserLeastInfo(
+                          detail.user.id.toString(), detail.user.name, detail.user.profileImageUrls.medium));
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -99,16 +100,10 @@ class DragContentPinned extends StatelessWidget {
                         ),
                       ),
                       // 关注或已关注的按钮
-                      Padding(
-                        padding: const EdgeInsets.only(right: 4.0, left: 4.0),
-                        child: FollowButton(
-                          isFollowed: detail.user.isFollowed!,
-                          userId: detail.user.id.toString(),
-                          followedStyle: FollowButtonStyle(
-                            color: colorScheme.primaryContainer,
-                            textStyle: TextStyle(color: colorScheme.primary, fontSize: 14.0),
-                          ),
-                        ),
+                      UserFollowButton(
+                        userId: detail.user.id.toString(),
+                        followState:
+                            detail.user.isFollowed ?? false ? UserFollowState.followed : UserFollowState.notFollow,
                       ),
                     ],
                   ),

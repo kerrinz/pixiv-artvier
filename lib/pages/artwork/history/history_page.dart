@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/common_provider/illusts_provider.dart';
-import 'package:pixgem/component/base_provider_widget.dart';
-import 'package:pixgem/business_component/illust_listview/illust_waterfall_grid.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pixgem/base/base_page.dart';
+import 'package:pixgem/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/storage/history_store.dart';
+import 'package:pixgem/pages/artwork/history/logic.dart';
+import 'package:pixgem/pages/artwork/history/provider/history_provider.dart';
 
-class ViewHistoryPage extends StatefulWidget {
+class ViewHistoryPage extends BaseStatefulPage {
   const ViewHistoryPage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _HistoryPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _HistoryPageState();
 }
 
-class _HistoryPageState extends State<ViewHistoryPage> {
-  final IllustListProvider _provider = IllustListProvider();
-  final List<CommonIllust> list = [];
+class _HistoryPageState extends BasePageState<ViewHistoryPage> with HistoryPageLogic {
   late ScrollController scrollController;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -26,7 +23,6 @@ class _HistoryPageState extends State<ViewHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    _provider.resetIllusts(HistoryStore.getHistoryIllust(), null);
     return Scaffold(
       appBar: AppBar(
         title: const Text("浏览历史"),
@@ -47,11 +43,8 @@ class _HistoryPageState extends State<ViewHistoryPage> {
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                       TextButton(
+                        onPressed: handleClearHistory,
                         child: Text(LocalizationIntl.of(context).promptConform),
-                        onPressed: () {
-                          HistoryStore.clearIllusts().then((value) => _provider.clearIllusts());
-                          Navigator.of(context).pop();
-                        },
                       ),
                     ],
                   );
@@ -61,14 +54,13 @@ class _HistoryPageState extends State<ViewHistoryPage> {
           ),
         ],
       ),
-      body: ProviderWidget<IllustListProvider>(
-        model: _provider,
-        builder: (BuildContext context, IllustListProvider value, Widget? child) {
-          return IllustWaterfallGrid(
-            artworkList: value.list,
+      body: Consumer(
+        builder: (_, ref, __) {
+          var list = ref.watch(historyArtworksProvider);
+          return IllustWaterfallGridView(
+            artworkList: list,
             scrollController: scrollController,
-            hasMore: false,
-            onLazyLoad: () {},
+            onLazyload: () async => handleLazyload(),
           );
         },
       ),

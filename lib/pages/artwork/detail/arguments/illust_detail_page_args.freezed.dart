@@ -107,8 +107,7 @@ class __$$_IllustDetailPageArgumentsCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_IllustDetailPageArguments implements _IllustDetailPageArguments {
-  const _$_IllustDetailPageArguments(
-      {required this.illustId, required this.detail});
+  const _$_IllustDetailPageArguments({required this.illustId, this.detail});
 
   @override
   final String illustId;
@@ -144,7 +143,7 @@ class _$_IllustDetailPageArguments implements _IllustDetailPageArguments {
 abstract class _IllustDetailPageArguments implements IllustDetailPageArguments {
   const factory _IllustDetailPageArguments(
       {required final String illustId,
-      required final CommonIllust? detail}) = _$_IllustDetailPageArguments;
+      final CommonIllust? detail}) = _$_IllustDetailPageArguments;
 
   @override
   String get illustId;

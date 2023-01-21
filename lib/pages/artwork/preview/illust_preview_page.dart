@@ -2,14 +2,11 @@ import 'dart:io';
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/storage/download_store.dart';
-import 'package:pixgem/global/global.dart';
 import 'package:pixgem/util/save_image_util.dart';
 import 'package:provider/provider.dart';
 
@@ -19,11 +16,11 @@ import 'preview_provider.dart';
 * 传入参数：List<CommonIllust>
 * */
 class PreviewArtworksPage extends StatefulWidget {
-  late final CommonIllust illust; // 图片集合，每张图片有标清和高清两种模式
+  final CommonIllust illust; // 图片集合，每张图片有标清和高清两种模式
 
-  PreviewArtworksPage(Object arguments, {Key? key}) : super(key: key) {
-    illust = arguments as CommonIllust;
-  }
+  const PreviewArtworksPage(Object arguments, {Key? key})
+      : illust = arguments as CommonIllust,
+        super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -105,23 +102,10 @@ class _PreviewArtworksState extends State<PreviewArtworksPage> with SingleTicker
                               onPressed: () async {
                                 bool isPermit = await checkPermissions();
                                 if (!isPermit) return; // 没权限，不下载
-                                switch (GlobalStore.globalProvider.downloadMode) {
-                                  case DownloadStore.MODE_DOWNLOAD_PATH:
-                                    Fluttertoast.showToast(
-                                        msg: "下载到./Download", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                                    break;
-                                  case DownloadStore.MODE_CUSTOM:
-                                    Fluttertoast.showToast(
-                                        msg: "自定义保存路径", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-                                    break;
-                                  default:
-                                    // 保存图片到相册
-                                    await SaveImageUtil.saveIllustToGallery(
-                                      widget.illust,
-                                      imageUrls[_provider.currentPage].original ??
-                                          imageUrls[_provider.currentPage].large,
-                                    );
-                                }
+                                // 保存图片到相册
+                                await SaveImageUtil.saveImageToGallery(
+                                  imageUrls[_provider.currentPage].original ?? imageUrls[_provider.currentPage].large,
+                                );
                               },
                               tooltip: "下载",
                               color: Colors.white,

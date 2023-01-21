@@ -8,9 +8,10 @@ part of 'bookmark_tag.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BookmarkTag _$BookmarkTagFromJson(Map<String, dynamic> json) => BookmarkTag()
-  ..name = json['name'] as String?
-  ..count = json['count'] as int?;
+BookmarkTag _$BookmarkTagFromJson(Map<String, dynamic> json) => BookmarkTag(
+      name: json['name'] as String?,
+      count: json['count'] as int?,
+    );
 
 Map<String, dynamic> _$BookmarkTagToJson(BookmarkTag instance) =>
     <String, dynamic>{
