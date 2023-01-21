@@ -2,34 +2,30 @@ import 'dart:async';
 
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pixgem/base/base_page.dart';
+import 'package:pixgem/global/model/image_download_task_model/image_download_task_model.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model/model_store/downloading_illust.dart';
 import 'package:pixgem/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:pixgem/routes.dart';
-import 'package:pixgem/storage/download_store.dart';
-import 'package:pixgem/global/global.dart';
-import 'package:pixgem/util/save_image_util.dart';
-import 'package:provider/provider.dart';
-import 'download_manage_provider.dart';
 
-class DownloadManagePage extends StatefulWidget {
+class DownloadManagePage extends BaseStatefulPage {
   const DownloadManagePage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => DownloadManagePageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => DownloadManagePageState();
 }
 
-class DownloadManagePageState extends State<DownloadManagePage> with TickerProviderStateMixin {
+/// TODO: 下载功能需要引入数据库后再开发，以下代码几乎半废
+class DownloadManagePageState extends BasePageState<DownloadManagePage> with TickerProviderStateMixin {
   late TabController _tabController;
-  final DownloadManageProvider _downloadManageProvider = DownloadManageProvider();
+
   late Timer _timer;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
-    _downloadManageProvider.setDownloadingIllusts(DownloadStore.getDownloadedIllusts());
-    _downloadManageProvider.setDownloadedIllusts(DownloadStore.getDownloadedIllusts());
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {});
     });
@@ -44,66 +40,57 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ChangeNotifierProvider(
-        create: (BuildContext context) => _downloadManageProvider,
-        child: ExtendedNestedScrollView(
-          onlyOneScrollInBody: true,
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (context, bool innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
-                pinned: true,
-                floating: true,
-                snap: false,
-                title: const Text("我的下载"),
-                toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
-                actions: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.settings),
-                    onPressed: () {
-                      Navigator.pushNamed(context, RouteNames.downloadSettings.name);
-                    },
-                    tooltip: "下载设置",
-                  ),
-                ],
-                bottom: TabBar(
-                  indicatorSize: TabBarIndicatorSize.label,
-                  controller: _tabController,
-                  isScrollable: false,
-                  tabs: const [
-                    Tab(text: "下载中"),
-                    Tab(text: "已完成"),
-                  ],
+      body: ExtendedNestedScrollView(
+        onlyOneScrollInBody: true,
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              pinned: true,
+              floating: true,
+              snap: false,
+              title: const Text("我的下载"),
+              toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  onPressed: () {
+                    Navigator.pushNamed(context, RouteNames.downloadSettings.name);
+                  },
+                  tooltip: "下载设置",
                 ),
+              ],
+              bottom: TabBar(
+                indicatorSize: TabBarIndicatorSize.label,
+                controller: _tabController,
+                isScrollable: false,
+                tabs: const [
+                  Tab(text: "下载中"),
+                  Tab(text: "已完成"),
+                ],
               ),
-            ];
-          },
-          body: TabBarView(
-            controller: _tabController,
-            children: [
-              Selector(
-                builder: (BuildContext context, Map<String, DownloadingIllust> map, Widget? child) =>
-                    _buildDownloadingList(map),
-                selector: (context, DownloadManageProvider provider) => GlobalStore.globalProvider.downloadingIllust,
-              ),
-              Selector(
-                builder: (BuildContext context, List<CommonIllust> list, Widget? child) => _buildDownloadedList(list),
-                selector: (context, DownloadManageProvider provider) => provider.downloadedIllusts,
-              ),
-            ],
-          ),
+            ),
+          ];
+        },
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            _buildDownloadingList([]),
+            _buildDownloadedList([]),
+          ],
         ),
       ),
     );
   }
 
   // 构建下载中的列表
-  Widget _buildDownloadingList(Map<String, DownloadingIllust> map) {
-    var illusts = map.values.toList();
+  Widget _buildDownloadingList(List<ImageDownloadTaskModel> list) {
     return ListView.builder(
       physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       padding: EdgeInsets.zero,
       itemBuilder: (BuildContext context, int index) {
+        var item = list[index];
+        double progress = item.totalBytes == null ? 0 : (item.receivedBytes ?? 0 / item.totalBytes!);
         return Card(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(6.0)),
@@ -119,9 +106,8 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(illusts[index].illust.title,
-                            style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.primary)),
-                        Text("id: ${illusts[index].illust.id.toString()}"),
+                        Text(item.title, style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.primary)),
+                        Text("id: ${item.worksId}"),
                       ],
                     ),
                   ),
@@ -129,7 +115,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     padding: const EdgeInsets.only(left: 12, right: 12, bottom: 6),
                     child: LinearProgressIndicator(
                       backgroundColor: Colors.blue,
-                      value: illusts[index].percentage,
+                      value: progress,
                       minHeight: 1,
                       valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.primary),
                     ),
@@ -144,10 +130,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                     highlightColor: Colors.black12.withOpacity(0.1),
                     onTap: () {
                       Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
-                          arguments: IllustDetailPageArguments(
-                            detail: illusts[index].illust,
-                            illustId: illusts[index].illust.id.toString(),
-                          ));
+                          arguments: IllustDetailPageArguments(illustId: item.worksId));
                     },
                   ),
                 ),
@@ -157,29 +140,17 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
                 bottom: 8,
                 child: InkWell(
                   onTap: () {
-                    if (illusts[index].status == DownloadingStatus.failed) {
-                      String url = map.keys.elementAt(index);
-                      SaveImageUtil.saveIllustToGallery(illusts[index].illust, url);
-                      GlobalStore.globalProvider.downloadingIllust[url]!.status = DownloadingStatus.downloading;
-                    }
+                    // if (DownloadState.failed) {}
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Builder(builder: (context) {
                       return Column(
                         children: [
-                          (illusts[index].status == DownloadingStatus.failed) ? const Icon(Icons.replay) : Container(),
-                          Text("${(illusts[index].percentage * 100).toStringAsFixed(0)}%"),
+                          (item.downloadState == 4) ? const Icon(Icons.replay) : Container(),
+                          Text("${(progress * 100).toStringAsFixed(0)}%"),
                         ],
                       );
-                      // switch (illusts[index].status) {
-                      //   case DownloadingStatus.pause:
-                      //     return Icon(Icons.download_rounded);
-                      //   case DownloadingStatus.failed:
-                      //     return Icon(Icons.replay_rounded);
-                      //   default:
-                      //     return Icon(Icons.pause_rounded);
-                      // }
                     }),
                   ),
                 ),
@@ -188,7 +159,7 @@ class DownloadManagePageState extends State<DownloadManagePage> with TickerProvi
           ),
         );
       },
-      itemCount: illusts.length,
+      itemCount: list.length,
     );
   }
 

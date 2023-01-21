@@ -4,15 +4,28 @@ import 'package:dio/dio.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
 
-import 'package:pixgem/api_app/api_base.dart';
+import 'package:pixgem/base/base_api.dart';
 import 'package:pixgem/model_response/novels/common_novel_list.dart';
 import 'package:pixgem/model_response/user/common_user_previews_list.dart';
 
 class ApiSearch extends ApiBase {
-  /* @description   搜索的热门标签
-   */
-  Future<IllustTrendingTags> getTrendingTags({CancelToken? cancelToken}) async {
-    Response res = await ApiBase.dio.get<String>("/v1/trending-tags/illust",
+  ApiSearch(super.requester);
+
+  /// 插画+漫画的热门标签/趋势
+  Future<IllustTrendingTags> artworksTrendingTags({CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>("/v1/trending-tags/illust",
+        queryParameters: {
+          "filter": "for_ios",
+        },
+        options: Options(responseType: ResponseType.json),
+        cancelToken: cancelToken);
+    return IllustTrendingTags.fromJson(json.decode(res.data));
+  }
+
+  /// 小说的热门标签/趋势
+  /// （数据模型没弄错）
+  Future<IllustTrendingTags> novelsTrendingTags({CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>("/v1/trending-tags/novel",
         queryParameters: {
           "filter": "for_ios",
         },
@@ -24,19 +37,31 @@ class ApiSearch extends ApiBase {
   /// 搜索作品：插画漫画
   Future<CommonIllustList> searchArtworks(
     String searchWord, {
+    // 时间排序
+    String sort = ApiSearchConstants.dateDesc,
+    // 匹配规则
+    String match = ApiSearchConstants.tagPartialMatch,
+    // 作品的发布时间范围，格式“yyyy-MM-dd"
+    String? startDate,
+    String? endDate,
     includeTranslatedTag = true,
-    sort = "date_desc",
-    searchTarget = "partial_match_for_tags",
     CancelToken? cancelToken,
   }) async {
-    Response res = await ApiBase.dio.get<String>(
+    assert([ApiSearchConstants.dateDesc, ApiSearchConstants.dateAsc].contains(sort));
+    assert(
+      [ApiSearchConstants.tagPartialMatch, ApiSearchConstants.tagPerfectMatch, ApiSearchConstants.titleAndDescription]
+          .contains(match),
+    );
+    Response res = await requester.get<String>(
       "/v1/search/illust",
       queryParameters: {
         "include_translated_tag_results": includeTranslatedTag,
         "merge_plain_keyword_results": true,
-        "sort": sort,
         "word": searchWord,
-        "search_target": searchTarget,
+        "sort": sort,
+        "search_target": match,
+        if (startDate != null) "start_date": startDate,
+        if (endDate != null) "end_date": endDate,
         "filter": "for_ios",
       },
       options: Options(responseType: ResponseType.json),
@@ -46,21 +71,33 @@ class ApiSearch extends ApiBase {
   }
 
   /// 搜索作品：小说
-  Future<CommonNovelList> searcNovels(
+  Future<CommonNovelList> searchNovels(
     String searchWord, {
+    // 时间排序
+    String sort = ApiSearchConstants.dateDesc,
+    // 匹配规则
+    String match = ApiSearchConstants.tagPartialMatch,
+    // 作品的发布时间范围，格式“yyyy-MM-dd"
+    String? startDate,
+    String? endDate,
     includeTranslatedTag = true,
-    sort = "date_desc",
-    searchTarget = "partial_match_for_tags",
     CancelToken? cancelToken,
   }) async {
-    Response res = await ApiBase.dio.get<String>(
+    assert([ApiSearchConstants.dateDesc, ApiSearchConstants.dateAsc].contains(sort));
+    assert(
+      [ApiSearchConstants.tagPartialMatch, ApiSearchConstants.tagPerfectMatch, ApiSearchConstants.titleAndDescription]
+          .contains(match),
+    );
+    Response res = await requester.get<String>(
       "/v1/search/novel",
       queryParameters: {
         "include_translated_tag_results": includeTranslatedTag,
         "merge_plain_keyword_results": true,
         "sort": sort,
         "word": searchWord,
-        "search_target": searchTarget,
+        "search_target": match,
+        if (startDate != null) "start_date": startDate,
+        if (endDate != null) "end_date": endDate,
         "filter": "for_ios",
       },
       options: Options(responseType: ResponseType.json),
@@ -74,7 +111,7 @@ class ApiSearch extends ApiBase {
     String searchWord, {
     CancelToken? cancelToken,
   }) async {
-    Response res = await ApiBase.dio.get<String>(
+    Response res = await requester.get<String>(
       "/v1/search/user",
       queryParameters: {
         "word": searchWord,
@@ -85,4 +122,22 @@ class ApiSearch extends ApiBase {
     );
     return CommonUserPreviewsList.fromJson(json.decode(res.data));
   }
+}
+
+/// 搜索的一些常量
+class ApiSearchConstants {
+  /// 标签部分匹配
+  static const tagPartialMatch = "partial_match_for_tags";
+
+  /// 标签完全匹配
+  static const tagPerfectMatch = "exact_match_for_tags";
+
+  /// 标题和简介
+  static const titleAndDescription = "title_and_caption";
+
+  /// 时间升序（由旧到新）
+  static const dateAsc = "date_asc";
+
+  /// 时间降序（最新作品）
+  static const dateDesc = "date_desc";
 }

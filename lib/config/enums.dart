@@ -1,7 +1,10 @@
 /// 页面所处的状态
 enum PageState {
-  /// 加载中
+  /// 首次加载中
   loading,
+
+  /// 刷新中（非首次加载）
+  refreshing,
 
   /// 完成（且非空）
   complete,
@@ -43,6 +46,22 @@ enum CollectState {
   notCollect,
 }
 
+/// 用户关注状态
+enum UserFollowState {
+  /// 请求关注中
+  requestingFollow,
+
+  /// 请求取消关注
+  requestingUnfollow,
+
+  /// 已关注
+  followed,
+
+  /// 未关注
+  notFollow,
+}
+
+/// 作品类型
 enum WorksType {
   illust,
   manga,
@@ -50,8 +69,17 @@ enum WorksType {
   novel,
 }
 
-/// 限制范围
-enum Reveal {
+/// 隐私（可见性）限制
+enum Restrict {
+  /// 公开的
+  public,
+
+  /// 非公开的
+  private,
+}
+
+/// 隐私（可见性）限制，完整版
+enum RestrictAll {
   /// 全部
   all,
 
@@ -60,4 +88,29 @@ enum Reveal {
 
   /// 非公开的
   private,
+}
+
+/// 下载（保存）状态
+enum DownloadState {
+  /// 下载成功
+  success,
+
+  /// 下载中
+  downloading,
+
+  /// 暂停
+  pause,
+
+  /// 等待中
+  waiting,
+
+  /// 下载失败
+  failed,
+}
+
+/// 搜索类型
+enum SearchType {
+  artwork,
+  novel,
+  user,
 }

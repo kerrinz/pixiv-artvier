@@ -4,18 +4,18 @@ import 'package:pixgem/pages/comment/comments_tabpage.dart';
 import 'package:pixgem/pages/artwork/download_manage/download_manage_page.dart';
 import 'package:pixgem/pages/artwork/history/history_page.dart';
 import 'package:pixgem/pages/artwork/detail/detail_page.dart';
-import 'package:pixgem/pages/artwork/leaderboard/illust_leaderboard_page.dart';
+import 'package:pixgem/pages/artwork/ranking/artworks_ranking_page.dart';
 import 'package:pixgem/pages/artwork/preview/illust_preview_page.dart';
 import 'package:pixgem/pages/login/login_by_web_page.dart';
 import 'package:pixgem/pages/login/login_wizard_page.dart';
-import 'package:pixgem/pages/main_navigation.dart';
-import 'package:pixgem/pages/not_found_page.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/main_navigation.dart';
+import 'package:pixgem/pages/framework/not_found/not_found_page.dart';
 import 'package:pixgem/pages/search/result/search_result_page.dart';
 import 'package:pixgem/pages/settings/download/download_setting.dart';
 import 'package:pixgem/pages/settings/language/language_setting.dart';
 import 'package:pixgem/pages/user/collection/my_collection_page.dart';
 import 'package:pixgem/pages/user/following/user_following_page.dart';
-import 'package:pixgem/pages/user/user_detail/user_detail_page.dart';
+import 'package:pixgem/pages/user/detail/user_detail_page.dart';
 import 'package:pixgem/pages/user/works/my_works.dart';
 
 /// [WidgetBuilder] 的改造版，增加传参：[RouteSettings.arguments] 
@@ -32,7 +32,7 @@ enum RouteNames {
   wizard,
 
   loginWeb,
-  leaderboard,
+  ranking,
   artworkDetail,
 
   /// 作品大图预览
@@ -66,7 +66,7 @@ class Routes {
     RouteNames.mainNavigation.name: (context, arguments) => const MainNavigation(),
     RouteNames.wizard.name: (context, arguments) => const LoginWizardPage(),
     RouteNames.loginWeb.name: (context, arguments) => const LoginWebPage(),
-    RouteNames.leaderboard.name: (context, arguments) => const ArtworksLeaderboardPage(),
+    RouteNames.ranking.name: (context, arguments) => const ArtworksRankingPage(),
     RouteNames.artworkDetail.name: (context, arguments) => ArtWorksDetailPage(arguments!),
     RouteNames.artworkImagesPreview.name: (context, arguments) => PreviewArtworksPage(arguments!),
     RouteNames.comments.name: (context, arguments) => CommentsPage(arguments!),

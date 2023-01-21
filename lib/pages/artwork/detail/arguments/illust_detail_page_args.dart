@@ -4,10 +4,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'illust_detail_page_args.freezed.dart';
 
 /// 插画详情页面的传递参数
-@Freezed()
+@Freezed(
+  copyWith: true
+)
 class IllustDetailPageArguments with _$IllustDetailPageArguments {
   const factory IllustDetailPageArguments({
     required String illustId,
-    required CommonIllust? detail,
+    CommonIllust? detail,
   }) = _IllustDetailPageArguments;
 }

@@ -1,81 +1,113 @@
-import 'dart:math';
+import 'dart:io';
 
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pixgem/base/base_page.dart';
+import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/component/trending_tags_grid.dart';
-import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
-import 'package:pixgem/api_app/api_serach.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/search/provider/search_input_provider.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/search/provider/trend_tags_provider.dart';
 import 'package:pixgem/routes.dart';
-import 'package:provider/provider.dart';
 
-import 'search_provider.dart';
-
-class SearchTabPage extends StatefulWidget {
+class SearchTabPage extends BaseStatefulPage {
   const SearchTabPage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
+  BasePageState<BaseStatefulPage> createState() {
     return SearchTabPageState();
   }
 }
 
-class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveClientMixin {
-  final SearchProvider _provider = SearchProvider();
-  final TextEditingController _textController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+class SearchTabPageState extends BasePageState<SearchTabPage>
+    with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
+  late final TextEditingController _textController;
+
+  late final FocusNode _focusNode;
+
+  /// 键盘是否激活状态
+  bool isKeyboardActived = false;
+
+  @override
+  void initState() {
+    _textController = TextEditingController();
+    _focusNode = FocusNode();
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus) {
+        // 失去焦点时标记
+        isKeyboardActived = false;
+      }
+    });
+    // 监听界面高度变化
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    // 页面高度变化（键盘收起或弹出）时
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (Platform.isAndroid && _focusNode.hasFocus) {
+        if (isKeyboardActived) {
+          // 使输入框失去焦点
+          _focusNode.unfocus();
+        }
+        isKeyboardActived = !isKeyboardActived;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _focusNode.unfocus();
+    _focusNode.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => _provider,
-      child: ExtendedNestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              pinned: true,
-              title: _buildSearchBox(context),
-              toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
-              actions: <Widget>[
-                IconButton(
-                  icon: const Text("取消"),
-                  onPressed: () {
-                    _focusNode.unfocus();
-                  },
-                  tooltip: "取消",
-                ),
-              ],
-            )
-          ];
-        },
-        // 内容主体
-        body: RefreshIndicator(
-          onRefresh: () async {
-            return await requestTrendingTags().catchError(((onError) {
-              Fluttertoast.showToast(msg: "刷新失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-            }));
+    return ExtendedNestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return [
+          SliverAppBar(
+            pinned: true,
+            title: _buildSearchBox(context),
+            toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
+            actions: <Widget>[
+              IconButton(
+                icon: const Text("取消"),
+                onPressed: () {
+                  _focusNode.unfocus();
+                },
+                tooltip: "取消",
+              ),
+            ],
+          )
+        ];
+      },
+      // 内容主体
+      body: RefreshIndicator(
+        onRefresh: () async => ref.read,
+        child: Consumer(
+          builder: (_, ref, __) {
+            var data = ref.watch(artworkTrendTagsProvider);
+            return data.when(
+              data: (data) => TrendingTagsGrid(
+                tags: data,
+              ),
+              error: (error, stackTrace) => RequestLoadingFailed(
+                onRetry: () => ref.read(artworkTrendTagsProvider.notifier).retry(),
+              ),
+              loading: () => const RequestLoading(),
+            );
           },
-          child: Selector(
-            selector: (BuildContext context, SearchProvider provider) {
-              return provider.trendTags;
-            },
-            builder: (BuildContext context, List<TrendTags>? tags, Widget? child) {
-              if (tags == null) {
-                // loading
-                return SingleChildScrollView(
-                  child: Container(
-                    height: min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(strokeWidth: 1.0, color: Theme.of(context).colorScheme.secondary),
-                  ),
-                );
-              }
-              return TrendingTagsGrid(
-                tags: tags,
-              );
-            },
-          ),
         ),
       ),
     );
@@ -116,19 +148,14 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
                 // 跳转搜索结果页面
                 Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: value);
               },
-              onChanged: (value) {
-                if (value == "") {
-                  _provider.setIsExistText(false);
-                } else {
-                  _provider.setIsExistText(true);
-                }
-              },
+              onChanged: (value) => ref.read(searchInputProvider.notifier).update((state) => value),
             ),
           ),
           // 清空按钮
-          Selector(
-            builder: (BuildContext context, bool isExistText, Widget? child) {
-              if (!isExistText) {
+          Consumer(
+            builder: (_, ref, __) {
+              String text = ref.watch(searchInputProvider);
+              if (text.isEmpty) {
                 return Container();
               }
               return InkWell(
@@ -139,40 +166,13 @@ class SearchTabPageState extends State<SearchTabPage> with AutomaticKeepAliveCli
                 ),
                 onTap: () {
                   _textController.clear();
-                  _provider.setIsExistText(false);
+                  ref.read(searchInputProvider.notifier).update((state) => "");
                 },
               );
-            },
-            selector: (context, SearchProvider provider) {
-              return provider.isExistText;
             },
           ),
         ],
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // 获取热门标签
-    requestTrendingTags().catchError(((onError) {
-      Fluttertoast.showToast(msg: "加载失败$onError", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-    }));
-  }
-
-  Future requestTrendingTags() async {
-    var resModel = await ApiSearch().getTrendingTags();
-    _provider.setTags(resModel.trendTags);
-    return resModel;
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  void dispose() {
-    super.dispose();
-    _textController.dispose();
   }
 }
