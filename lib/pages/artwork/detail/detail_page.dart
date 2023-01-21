@@ -2,6 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pixgem/business_component/listview/comment_listview/comment_listview_item.dart';
 import 'package:pixgem/component/buttons/blur_button.dart';
 import 'package:pixgem/component/drag_view/drag_vertical_container.dart';
 import 'package:pixgem/component/image/enhance_network_image.dart';
@@ -9,15 +10,15 @@ import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/component/scroll_view/extend_tab_bar_view.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/config/enums.dart';
+import 'package:pixgem/global/provider/shared_preferences_provider.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:pixgem/pages/artwork/detail/logic.dart';
 import 'package:pixgem/pages/artwork/detail/widgets/drag_content_pinned.dart';
 import 'package:pixgem/pages/artwork/detail/widgets/drag_content_scroll.dart';
-import 'package:pixgem/pages/comment/comment_item_widget.dart';
 import 'package:pixgem/pages/artwork/detail/provider/illust_comment_provider.dart';
 import 'package:pixgem/routes.dart';
-import 'package:pixgem/storage/history_store.dart';
+import 'package:pixgem/storage/history_storage.dart';
 
 class ArtWorksDetailPage extends ConsumerStatefulWidget {
   final IllustDetailPageArguments args; // 数据集
@@ -59,7 +60,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
 
   @override
   get artworkDetail => widget.args.detail;
-  
+
   @override
   get artworkId => widget.args.illustId;
 
@@ -67,7 +68,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     if (widget.args.detail != null) {
-      HistoryStore.addIllust(widget.args.detail!); // 保存到历史记录
+      HistoryStorage(ref.read(globalSharedPreferencesProvider)).addIllust(widget.args.detail!); // 保存到历史记录
     }
     _scrollController.addListener(() {
       _scrollOffset = _scrollController.offset;
@@ -446,7 +447,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
           int len = data.length < 3 ? data.length : 3;
           List<Widget> widgets = [];
           for (int i = 0; i < len; i++) {
-            widgets.add(CommentWidget(comment: data[i]));
+            widgets.add(CommentListViewItem(comment: data[i]));
           }
           return Column(children: widgets);
         }),

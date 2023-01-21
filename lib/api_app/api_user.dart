@@ -1,25 +1,46 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:pixgem/common_provider/works_provider.dart';
 import 'package:pixgem/config/constants.dart';
+import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/model_response/illusts/common_illust_list.dart';
 import 'package:pixgem/model_response/novels/common_novel_list.dart';
 import 'package:pixgem/model_response/user/bookmark/bookmark_tag_list.dart';
+import 'package:pixgem/model_response/user/common_user_previews_list.dart';
+import 'package:pixgem/model_response/user/follow/folowing_detail.dart';
 import 'package:pixgem/model_response/user/user_detail.dart';
 import 'package:pixgem/model_response/user/user_previews_list.dart';
 
-import 'package:pixgem/api_app/api_base.dart';
+import 'package:pixgem/base/base_api.dart';
 
 class ApiUser extends ApiBase {
-  /// 关注某个用户，可选公开或者私密
-  Future<bool> addFollowUser(
-      {required userId, String restrict = CONSTANTS.restrict_public, CancelToken? cancelToken}) async {
-    Response res = await ApiBase.dio.post<String>(
+  ApiUser(super.requester);
+
+  /// 获取用户的详细资料
+  Future<UserDetail> userDetail(String userId, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v1/user/detail",
+      queryParameters: {
+        "user_id": userId,
+        "filter": "for_ios",
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return UserDetail.fromJson(json.decode(res.data));
+  }
+
+  /// 关注某个用户，可选公开或者悄悄关注（私密）
+  Future<bool> followUser(
+    String userId, {
+    Restrict restrict = Restrict.public,
+    CancelToken? cancelToken,
+  }) async {
+    Response res = await requester.post<String>(
       "/v1/user/follow/add",
       data: {
         "user_id": userId,
-        "restrict": restrict,
+        "restrict": restrict.name,
       },
       options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
       cancelToken: cancelToken,
@@ -31,8 +52,8 @@ class ApiUser extends ApiBase {
   }
 
   /// 取消关注某个用户
-  Future<bool> deleteFollowUser({required userId, CancelToken? cancelToken}) async {
-    Response res = await ApiBase.dio.post<String>(
+  Future<bool> unfollowUser(String userId, {CancelToken? cancelToken}) async {
+    Response res = await requester.post<String>(
       "/v1/user/follow/delete",
       data: {
         "user_id": userId,
@@ -46,18 +67,17 @@ class ApiUser extends ApiBase {
     return false;
   }
 
-  /// 获取用户的详细资料
-  Future<UserDetail> getUserDetail({required userId, CancelToken? cancelToken}) async {
-    Response res = await ApiBase.dio.get<String>(
-      "/v1/user/detail",
+  /// 关注状态的详细信息（用于查询是否悄悄关注）
+  Future<TheFollowingDetail> userFollowingDetail(String userId, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v1/user/follow/detail",
       queryParameters: {
         "user_id": userId,
-        "filter": "for_ios",
       },
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
-    return UserDetail.fromJson(json.decode(res.data));
+    return TheFollowingDetail.fromJson(json.decode(res.data));
   }
 
   /// 获取用户的漫画（或插画）作品列表
@@ -65,7 +85,7 @@ class ApiUser extends ApiBase {
       {required userId, WorksType worksType = WorksType.illust, CancelToken? cancelToken}) async {
     assert([WorksType.illust, WorksType.manga].contains(worksType));
     String type = worksType == WorksType.illust ? CONSTANTS.type_illusts : CONSTANTS.type_manga;
-    Response res = await ApiBase.dio.get<String>(
+    Response res = await requester.get<String>(
       "/v1/user/illusts",
       queryParameters: {
         "user_id": userId,
@@ -80,7 +100,7 @@ class ApiUser extends ApiBase {
 
   /// 获取用户的小说作品列表
   Future<CommonNovelList> getUserNovels({required userId, CancelToken? cancelToken}) async {
-    Response res = await ApiBase.dio.get<String>(
+    Response res = await requester.get<String>(
       "/v1/user/novels",
       queryParameters: {
         "user_id": userId,
@@ -92,18 +112,17 @@ class ApiUser extends ApiBase {
   }
 
   /// 获取用户收藏的插画列表
-  Future<CommonIllustList> getUserBookmarksIllust({
+  Future<CommonIllustList> artworkCollections({
     required userId,
-    String restrict = CONSTANTS.restrict_public,
+    Restrict restrict = Restrict.public,
     String? tag,
     CancelToken? cancelToken,
   }) async {
-    assert([CONSTANTS.restrict_public, CONSTANTS.restrict_private].contains(restrict));
-    Response res = await ApiBase.dio.get<String>(
+    Response res = await requester.get<String>(
       "/v1/user/bookmarks/illust",
       queryParameters: {
         "user_id": userId,
-        "restrict": restrict,
+        "restrict": restrict.name,
         if (tag != null) "tag": tag,
       },
       options: Options(responseType: ResponseType.json),
@@ -113,18 +132,17 @@ class ApiUser extends ApiBase {
   }
 
   /// 获取用户收藏的小说列表
-  Future<CommonNovelList> getUserBookmarksNovel({
+  Future<CommonNovelList> novelCollections({
     required String userId,
-    String restrict = CONSTANTS.restrict_public,
+    Restrict restrict = Restrict.public,
     String? tag,
     CancelToken? cancelToken,
   }) async {
-    assert([CONSTANTS.restrict_public, CONSTANTS.restrict_private].contains(restrict));
-    Response res = await ApiBase.dio.get<String>(
+    Response res = await requester.get<String>(
       "/v1/user/bookmarks/novel",
       queryParameters: {
         "user_id": userId,
-        "restrict": restrict,
+        "restrict": restrict.name,
         if (tag != null) "tag": tag,
       },
       options: Options(responseType: ResponseType.json),
@@ -136,15 +154,14 @@ class ApiUser extends ApiBase {
   /// 获取某个用户的关注（用户）列表
   Future<UserPreviewsList> getUserFollowing(
     String userId, {
-    String restrict = CONSTANTS.restrict_public,
+    Restrict restrict = Restrict.public,
     CancelToken? cancelToken,
   }) async {
-    assert([CONSTANTS.restrict_public, CONSTANTS.restrict_private].contains(restrict));
-    Response res = await ApiBase.dio.get<String>(
+    Response res = await requester.get<String>(
       "/v1/user/following",
       queryParameters: {
         "user_id": userId,
-        "restrict": restrict,
+        "restrict": restrict.name,
       },
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
@@ -154,7 +171,7 @@ class ApiUser extends ApiBase {
 
   /// 获取推荐用户列表
   Future<UserPreviewsList> getRecommended({CancelToken? cancelToken}) async {
-    Response res = await ApiBase.dio.get<String>(
+    Response res = await requester.get<String>(
       "/v1/user/recommended",
       queryParameters: {
         "filter": "for_ios",
@@ -165,20 +182,39 @@ class ApiUser extends ApiBase {
     return UserPreviewsList.fromJson(json.decode(res.data));
   }
 
-  /// 获取收藏插画的标签列表
-  Future<BookmarkTagList> getBookmarkTags(
+  /// 获取收藏作品的标签列表
+  Future<BookmarkTagList> collectionTags(
     WorksType worksType, {
-    String restrict = CONSTANTS.restrict_public,
+    Restrict restrict = Restrict.public,
     CancelToken? cancelToken,
   }) async {
-    assert([CONSTANTS.restrict_public, CONSTANTS.restrict_private].contains(restrict));
     assert([WorksType.illust, WorksType.novel].contains(worksType));
     String type = (worksType == WorksType.novel ? "novel" : "illust");
-    Response res = await ApiBase.dio.get<String>(
+    Response res = await requester.get<String>(
       "/v1/user/bookmark-tags/$type",
       queryParameters: {
-        "restrict": restrict,
+        "restrict": restrict.name,
       },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return BookmarkTagList.fromJson(json.decode(res.data));
+  }
+
+  /// 获取下一页用户
+  Future<CommonUserPreviewsList> nextPreviewUsers(String nextUrl, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      nextUrl,
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return CommonUserPreviewsList.fromJson(json.decode(res.data));
+  }
+
+  /// 获取下一页标签
+  Future<BookmarkTagList> nextTags(String nextUrl, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      nextUrl,
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );

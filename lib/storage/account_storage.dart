@@ -2,18 +2,18 @@
 
 import 'dart:convert';
 
-import 'package:pixgem/model/model_store/account_profile.dart';
-import 'package:pixgem/storage/base_storage.dart';
+import 'package:pixgem/storage/model/account_profile.dart';
+import 'package:pixgem/base/base_storage.dart';
 
 /// 账号集合的结构：Map<String, AccountProfile>
 /// 单账号结构：AccountProfile
 class AccountStorage extends BaseStorage {
+  AccountStorage(super.sharedPreferences);
+
   // 当前账号id
   static const _currentAccountIdKey = "current_account_id";
   // 已缓存的所有账号的信息
   static const _allAccountsProfileKey = "all_accounts_profile";
-
-  AccountStorage(super.sharedPreferences);
 
   // 设置所有账号信息
   Future setAllAccountsProfile(Map<String, AccountProfile> accounts) async {
@@ -36,7 +36,7 @@ class AccountStorage extends BaseStorage {
   }
 
   // 设置当前所处的账号id
-  Future setCurrentAccountId({required String id}) async {
+  Future setCurrentAccountId(String id) async {
     await prefs.setString(_currentAccountIdKey, id);
   }
 
@@ -54,21 +54,21 @@ class AccountStorage extends BaseStorage {
     return accountsMap[currentId];
   }
 
-  // 退出当前账号
-  Future logoutCurrent() async {
-    String? id = prefs.getString(_currentAccountIdKey);
-    if (id != null) {
-      await prefs.remove(_currentAccountIdKey);
-      await removeAccountProfileById(userId: id);
-    }
-  }
-
   // 删除某个账号的缓存信息
-  Future removeAccountProfileById({required String userId}) async {
+  Future removeAccount({required String userId}) async {
     Map<String, AccountProfile>? map = getAllAccountsProfile();
     if (map != null) {
       map.remove(userId);
       await prefs.setString(_allAccountsProfileKey, AccountsProfile.getAccountsString(map));
+    }
+  }
+
+  // 删除当前账号
+  Future removeCurrentAccount() async {
+    String? id = prefs.getString(_currentAccountIdKey);
+    if (id != null) {
+      await prefs.remove(_currentAccountIdKey);
+      await removeAccount(userId: id);
     }
   }
 }

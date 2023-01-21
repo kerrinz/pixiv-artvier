@@ -1,23 +1,20 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pixgem/model/model_store/account_profile.dart';
-import 'package:pixgem/request/oauth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pixgem/global/provider/current_account_provider.dart';
+import 'package:pixgem/base/base_page.dart';
 import 'package:pixgem/routes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class LoginWebPage extends StatefulWidget {
+class LoginWebPage extends BaseStatefulPage {
   const LoginWebPage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _LoginWebState();
-  }
+  ConsumerState<ConsumerStatefulWidget> createState() => _LoginWebState();
 }
 
-class _LoginWebState extends State {
-  String codeChallenge = "";
-
+class _LoginWebState extends BasePageState<LoginWebPage> {
   @override
   void initState() {
     super.initState();
@@ -34,9 +31,8 @@ class _LoginWebState extends State {
       body: WebView(
         javascriptMode: JavascriptMode.unrestricted,
         onPageFinished: (url) {},
-        onWebViewCreated: (controller) {
-        },
-        initialUrl: OAuth.getLoginWebViewUrl(),
+        onWebViewCreated: (controller) {},
+        initialUrl: ref.read(globalCurrentAccountProvider.notifier).getLoginWebViewUrl(),
         navigationDelegate: (NavigationRequest request) {
           if (request.url.startsWith("pixiv://account/")) {
             // 拦截，拿到code
@@ -77,12 +73,6 @@ class _LoginWebState extends State {
 
   // OAuth2.1登录方式
   Future oAuthLogin(code) async {
-    // 请求用户数据（含token）
-    AccountProfile profile = await OAuth().requestToken(code: code);
-
-    // 刷新一次token
-    var newProfile = await OAuth().refreshToken(profile.refreshToken);
-    // 保存新配置
-    await OAuth().saveTokenToCurrent(newProfile);
+    ref.read(globalCurrentAccountProvider.notifier).oAuthLogin(code);
   }
 }

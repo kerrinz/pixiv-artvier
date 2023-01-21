@@ -14,6 +14,7 @@ CommonUser _$CommonUserFromJson(Map<String, dynamic> json) => CommonUser(
       json['account'] as String,
       Profile_image_urls.fromJson(
           json['profile_image_urls'] as Map<String, dynamic>),
+      json['comment'] as String?,
       json['is_followed'] as bool,
     );
 
@@ -23,6 +24,7 @@ Map<String, dynamic> _$CommonUserToJson(CommonUser instance) =>
       'name': instance.name,
       'account': instance.account,
       'profile_image_urls': instance.profileImageUrls,
+      'comment': instance.comment,
       'is_followed': instance.isFollowed,
     };
 

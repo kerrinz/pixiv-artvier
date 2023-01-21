@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:pixgem/pages/artwork/tab_page/illusts_grid_tabpage.dart';
-import 'package:pixgem/api_app/api_new_artworks.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/newest/sub_tabpage/everybody_newest_tabpage.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/newest/sub_tabpage/followed_newest_tabpage.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/newest/sub_tabpage/friends_newest_tabpage.dart';
 
 class NewArtworksTabPage extends StatefulWidget {
   const NewArtworksTabPage({Key? key}) : super(key: key);
@@ -51,30 +51,10 @@ class NewArtworksTabPageState extends State<NewArtworksTabPage>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: [
-              // 关注的新作
-              IllustGridTabPage(
-                physics: const BouncingScrollPhysics(),
-                onRequest: (CancelToken cancelToken) async {
-                  return await ApiNewArtWork()
-                      .getFollowsNewIllusts(ApiNewArtWork.restrict_all, cancelToken: cancelToken);
-                },
-              ),
-              // 大家的新作
-              IllustGridTabPage(
-                physics: const BouncingScrollPhysics(),
-                onRequest: (CancelToken cancelToken) async {
-                  return await ApiNewArtWork()
-                      .getEveryOnesNewIllusts(ApiNewArtWork.type_illust, cancelToken: cancelToken);
-                },
-              ),
-              // 好P友的新作
-              IllustGridTabPage(
-                physics: const BouncingScrollPhysics(),
-                onRequest: (CancelToken cancelToken) async {
-                  return await ApiNewArtWork().getPFriendsIllusts(ApiNewArtWork.restrict_all, cancelToken: cancelToken);
-                },
-              ),
+            children: const [
+              FollowedNewestTabPage(),
+              EverybodyNewestTabPage(),
+              FriendsNewestTabPage(),
             ],
           ),
         ),

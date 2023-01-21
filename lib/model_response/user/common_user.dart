@@ -20,10 +20,14 @@ part 'common_user.g.dart';
   @JsonKey(name: 'profile_image_urls')
   Profile_image_urls profileImageUrls;
 
+  @JsonKey(name: 'comment')
+  /// 只在用户详情中存在该字段
+  String? comment;
+
   @JsonKey(name: 'is_followed')
   bool isFollowed;
 
-  CommonUser(this.id,this.name,this.account,this.profileImageUrls,this.isFollowed,);
+  CommonUser(this.id,this.name,this.account,this.profileImageUrls,this.comment,this.isFollowed,);
 
   factory CommonUser.fromJson(Map<String, dynamic> srcJson) => _$CommonUserFromJson(srcJson);
 

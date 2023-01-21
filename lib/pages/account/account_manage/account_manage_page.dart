@@ -1,71 +1,53 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/model/model_store/account_profile.dart';
-import 'package:pixgem/request/oauth.dart';
-import 'package:pixgem/routes.dart';
-import 'package:pixgem/storage/account_storage.dart';
-import 'package:pixgem/global/global.dart';
-import 'package:provider/provider.dart';
+import 'package:pixgem/global/provider/current_account_provider.dart';
+import 'package:pixgem/pages/account/account_manage/logic.dart';
+import 'package:pixgem/pages/account/account_manage/provider/account_manage_provider.dart';
+import 'package:pixgem/storage/model/account_profile.dart';
+import 'package:pixgem/base/base_page.dart';
 
-import 'account_manage_provider.dart';
-
-class AccountManagePage extends StatefulWidget {
+class AccountManagePage extends BaseStatefulPage {
   const AccountManagePage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => AccountManagePageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _AccountManagePageState();
 }
 
-class AccountManagePageState extends State<AccountManagePage> {
-  final AccountManageProvider _provider = AccountManageProvider();
-
+class _AccountManagePageState extends BasePageState<AccountManagePage> with AccountManagePageStateLogic {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => _provider,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("多帐号切换"),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(RouteNames.wizard.name);
-              },
-              icon: const Icon(Icons.add),
-              tooltip: "添加帐号",
-            ),
-          ],
-        ),
-        body: Selector(
-          // 帐号列表
-          builder: (BuildContext context, Map<String, AccountProfile>? profilesMap, Widget? child) {
-            if (profilesMap == null) {
-              return SizedBox(
-                  width: 24.0,
-                  height: 24.0,
-                  child: CircularProgressIndicator(strokeWidth: 2.0, color: Theme.of(context).colorScheme.secondary));
-            }
-            return ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()), // ListView内容不足也能搞出回弹效果
-              itemBuilder: (BuildContext context, int index) {
-                var list = profilesMap.values.toList();
-                return _buildAccountCard(context, list[index]);
-              },
-              itemCount: profilesMap.length,
-            );
-          },
-          selector: (BuildContext context, AccountManageProvider provider) {
-            return provider.profilesMap;
-          },
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("多帐号切换"),
+        actions: [
+          IconButton(
+            onPressed: handlePressedAdd,
+            icon: const Icon(Icons.add),
+            tooltip: "添加帐号",
+          ),
+        ],
+      ),
+      body: Consumer(
+        // 帐号列表
+        builder: (_, ref, __) {
+          Map<String, AccountProfile> accountsMap = ref.watch(accountManageProvider);
+          return ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()), // ListView内容不足也能搞出回弹效果
+            itemBuilder: (BuildContext context, int index) {
+              var list = accountsMap.values.toList();
+              return _accountCardWidget(list[index]);
+            },
+            itemCount: accountsMap.length,
+          );
+        },
       ),
     );
   }
 
   // 帐号卡片
-  Widget _buildAccountCard(BuildContext context, AccountProfile profile) {
+  Widget _accountCardWidget(AccountProfile profile) {
     Widget avatar; // 头像的图片widget
     if (profile.user.profileImageUrls == null) {
       // 未登录或者原本就无头像用户
@@ -78,13 +60,7 @@ class AccountManagePageState extends State<AccountManagePage> {
       );
     }
     return InkWell(
-      onTap: () async {
-        // 切换帐号
-        await AccountStorage(GlobalStore.globalSharedPreferences).setCurrentAccountId(id: profile.user.id);
-        var newProfile = await OAuth().refreshToken(profile.refreshToken);
-        await OAuth().saveTokenToCurrent(newProfile);
-        readProfiles();
-      },
+      onTap: () => handleTapAccountCard(profile),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
@@ -125,34 +101,18 @@ class AccountManagePageState extends State<AccountManagePage> {
                 ],
               ),
             ),
-            Builder(builder: (context) {
-              if (profile.user.id != GlobalStore.currentAccount!.user.id) {
-                return IconButton(
-                    onPressed: () {}, icon: Icon(Icons.delete_forever_rounded, color: Colors.grey.shade300));
-              } else {
-                return IconButton(
-                    onPressed: () {}, icon: Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary));
-              }
-            }),
+            profile.user.id != ref.watch(globalCurrentAccountProvider)?.user.id
+                ? IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.delete_forever_rounded, color: Colors.transparent),
+                  )
+                : IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.done_rounded, color: Theme.of(context).colorScheme.secondary),
+                  ),
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    readProfiles();
-  }
-
-  // 读取配置数据
-  void readProfiles() {
-    var profile = AccountStorage(GlobalStore.globalSharedPreferences).getAllAccountsProfile();
-    if (profile != null) {
-      _provider.setAccountProfiles(profile);
-    } else {
-      Fluttertoast.showToast(msg: "读取失败！", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-    }
   }
 }

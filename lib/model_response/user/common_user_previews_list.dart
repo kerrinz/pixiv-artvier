@@ -5,7 +5,7 @@ part 'common_user_previews_list.g.dart';
 
 
 @JsonSerializable()
-/// - 与漫画通用
+/// 用户列表（含有预览作品）
 class CommonUserPreviewsList extends Object {
 
   @JsonKey(name: 'user_previews')

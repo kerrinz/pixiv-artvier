@@ -1,99 +1,86 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pixgem/api_app/api_user.dart';
-import 'package:pixgem/common_provider/global_provider.dart';
-import 'package:pixgem/component/base_provider_widget.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
 import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/component/perference/preferences_navigator_item.dart';
 import 'package:pixgem/config/constants.dart';
+import 'package:pixgem/global/provider/current_account_provider.dart';
+import 'package:pixgem/global/provider/current_user_detail.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/user/preload_user_least_info.dart';
-import 'package:pixgem/model_response/user/user_detail.dart';
-import 'package:pixgem/model/model_store/account_profile.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/logic.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/models.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/user_profile_provider.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy_and_origin.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/theme.dart';
 import 'package:pixgem/routes.dart';
-import 'package:pixgem/storage/account_storage.dart';
-import 'package:pixgem/global/global.dart';
-import 'package:provider/provider.dart';
 
-class ProfileTabPage extends StatefulWidget {
+class ProfileTabPage extends ConsumerStatefulWidget {
   const ProfileTabPage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => ProfileTabPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => ProfileTabPageState();
 }
 
-class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveClientMixin {
-  // 功能项列表的模型
-  final List<IconButtonModelBuilder> _functionItemBuilders = [
-    (context) => IconButtonModel(
-          LocalizationIntl.of(context).history,
-          Icon(Icons.history_rounded, color: Theme.of(context).primaryColor, size: 26),
-          RouteNames.history.name,
-          null,
-        ),
-    (context) => IconButtonModel(
-          LocalizationIntl.of(context).downloads,
-          Icon(Icons.file_download_outlined, color: Theme.of(context).primaryColor, size: 26),
-          RouteNames.downloadManage.name,
-          null,
-        ),
-    (context) => IconButtonModel(
-          LocalizationIntl.of(context).works,
-          Icon(Icons.inventory_2_outlined, color: Theme.of(context).primaryColor, size: 26),
-          RouteNames.myWorks.name,
-          GlobalStore.currentAccount?.user.id,
-        ),
-    (context) => IconButtonModel(
-          LocalizationIntl.of(context).collections,
-          Icon(Icons.favorite_outline_rounded, color: Theme.of(context).primaryColor, size: 26),
-          RouteNames.myBookmarks.name,
-          GlobalStore.currentAccount?.user.id,
-        ),
-    (context) => IconButtonModel(
-          LocalizationIntl.of(context).markers,
-          Icon(Icons.bookmark_border_rounded, color: Theme.of(context).primaryColor, size: 26),
-          "",
-          GlobalStore.currentAccount?.user.id,
-        ),
-  ];
+class ProfileTabPageState extends ConsumerState<ProfileTabPage>
+    with AutomaticKeepAliveClientMixin, ProfileTabPageLogic {
+  /// TODO: 早期烂代码，待整理
+  /// 功能项列表的模型
+  List<IconButtonModelBuilder> get _functionItemBuilders => [
+        (context) => IconButtonModel(
+              LocalizationIntl.of(context).history,
+              Icon(Icons.history_rounded, color: Theme.of(context).primaryColor, size: 26),
+              RouteNames.history.name,
+              null,
+            ),
+        (context) => IconButtonModel(
+              LocalizationIntl.of(context).downloads,
+              Icon(Icons.file_download_outlined, color: Theme.of(context).primaryColor, size: 26),
+              RouteNames.downloadManage.name,
+              null,
+            ),
+        (context) => IconButtonModel(
+              LocalizationIntl.of(context).works,
+              Icon(Icons.inventory_2_outlined, color: Theme.of(context).primaryColor, size: 26),
+              RouteNames.myWorks.name,
+              ref.watch(globalCurrentAccountProvider)?.user.id,
+            ),
+        (context) => IconButtonModel(
+              LocalizationIntl.of(context).collections,
+              Icon(Icons.favorite_outline_rounded, color: Theme.of(context).primaryColor, size: 26),
+              RouteNames.myBookmarks.name,
+              ref.watch(globalCurrentAccountProvider)?.user.id,
+            ),
+        (context) => IconButtonModel(
+              LocalizationIntl.of(context).markers,
+              Icon(Icons.bookmark_border_rounded, color: Theme.of(context).primaryColor, size: 26),
+              "",
+              ref.watch(globalCurrentAccountProvider)?.user.id,
+            ),
+      ];
 
-  // 设置项列表的模型
-  final List<PerferenceBottomSheetBuilder> _perferenceItemBuilders = [
-    (context) => PerferenceBottomSheetModel(
-          LocalizationIntl.of(context).themeSettings,
-          Icon(Icons.color_lens_outlined, color: Theme.of(context).primaryColor),
-          const ThemeSettingsBottomSheetContent(),
-          null,
-        ),
-    (context) => PerferenceBottomSheetModel(
-          LocalizationIntl.of(context).proxyAndOrigin,
-          Icon(Icons.lan_outlined, color: Theme.of(context).primaryColor),
-          const ProxyOriginSettingsBottomSheet(),
-          GlobalStore.currentAccount?.user.id,
-        ),
-  ];
+  /// 设置项列表的模型
+  List<PerferenceBottomSheetBuilder> get _perferenceItemBuilders => [
+        (context) => PerferenceBottomSheetModel(
+              LocalizationIntl.of(context).themeSettings,
+              Icon(Icons.color_lens_outlined, color: Theme.of(context).primaryColor),
+              const ThemeSettingsBottomSheetContent(),
+              null,
+            ),
+        (context) => PerferenceBottomSheetModel(
+              LocalizationIntl.of(context).proxyAndOrigin,
+              Icon(Icons.lan_outlined, color: Theme.of(context).primaryColor),
+              const ProxyOriginSettingsBottomSheet(),
+              ref.watch(globalCurrentAccountProvider)?.user.id,
+            ),
+      ];
 
-  bool _isLightMode(context) => Theme.of(context).colorScheme.brightness == Brightness.light;
-
-  final UserProfileProvider _profileProvider = UserProfileProvider();
-
-  @override
-  void initState() {
-    requestCounts();
-    super.initState();
-  }
+  bool get _isLightMode => Theme.of(context).colorScheme.brightness == Brightness.light;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    readProfile();
     // 顶部区域背景色
-    Color topBackgroundColor = _isLightMode(context)
+    Color topBackgroundColor = _isLightMode
         ? HSLColor.fromColor(Theme.of(context).colorScheme.primary).withLightness(0.66).toColor()
         : HSVColor.fromColor(Theme.of(context).colorScheme.primary).withValue(0.25).toColor();
     return Stack(
@@ -160,36 +147,7 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
                     bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
                     return IconButton(
                       padding: const EdgeInsets.all(8.0),
-                      onPressed: () async {
-                        // 如果APP主题正处于跟随系统设置的情况下
-                        if (GlobalStore.globalProvider.themeMode == ThemeMode.system) {
-                          bool isCancel = true; // 用户是否取消了变更主题的请求
-                          await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(LocalizationIntl.of(context).promptTitle),
-                                content: Text(LocalizationIntl.of(context).themeModePromptContent),
-                                actions: <Widget>[
-                                  TextButton(
-                                      child: Text(LocalizationIntl.of(context).promptCancel),
-                                      onPressed: () => Navigator.pop(context)),
-                                  TextButton(
-                                    child: Text(LocalizationIntl.of(context).promptConform),
-                                    onPressed: () {
-                                      isCancel = false;
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                          if (isCancel) return; // 取消则不变更主题模式
-                        }
-                        // 切换主题模式
-                        GlobalStore.globalProvider.setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark, true);
-                      },
+                      onPressed: () => handleTapThemeMode(isDarkMode),
                       color: Colors.white,
                       icon: Icon(isDarkMode ? Icons.mode_night : Icons.light_mode),
                       tooltip: "切换主题模式",
@@ -206,19 +164,14 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
 
   // 用户信息
   Widget _buildUserInfoContainer(BuildContext context) {
-    Color textColor =
-        _isLightMode(context) ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurface;
-    Color secondTextColor = _isLightMode(context)
+    Color textColor = _isLightMode ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurface;
+    Color secondTextColor = _isLightMode
         ? Theme.of(context).colorScheme.onPrimary.withAlpha(200)
         : Theme.of(context).colorScheme.onSurface.withAlpha(150);
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            var user = PreloadUserLeastInfo(int.parse(GlobalStore.currentAccount!.user.id),
-                GlobalStore.currentAccount!.user.name, GlobalStore.currentAccount!.user.profileImageUrls!.px170x170);
-            Navigator.of(context).pushNamed(RouteNames.userDetail.name, arguments: user);
-          },
+          onTap: handleTapUser,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
             child: Row(
@@ -233,21 +186,24 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
                         child: SizedBox(
                           width: 55,
                           height: 55,
-                          child: Selector(
-                            selector: (BuildContext context, GlobalProvider provider) {
-                              return provider.currentAccount;
-                            },
-                            builder: (BuildContext context, AccountProfile? profile, Widget? child) {
-                              // 未登录或者原本就无头像用户
-                              if (profile == null || profile.user.profileImageUrls == null) {
-                                return const Image(image: AssetImage("assets/images/default_avatar.png"));
-                              }
-                              return EnhanceNetworkImage(
-                                image: ExtendedNetworkImageProvider(
-                                  profile.user.profileImageUrls!.px170x170,
-                                  headers: const {"Referer": CONSTANTS.referer},
-                                ),
-                              );
+                          child: Consumer(
+                            builder: (_, ref, __) {
+                              // 先从登录帐号的鉴权信息里获取
+                              var account = ref.watch(globalCurrentAccountProvider);
+                              // 最终值以网络请求的详细信息为准
+                              var detail = ref.watch(globalCurrentUserDetailProvider);
+
+                              String? avatar =
+                                  detail?.user.profileImageUrls.medium ?? account?.user.profileImageUrls?.px170x170;
+                              return avatar == null
+                                  // 未登录或者原本就无头像用户
+                                  ? const Image(image: AssetImage("assets/images/default_avatar.png"))
+                                  // 正常头像
+                                  : EnhanceNetworkImage(
+                                      image: ExtendedNetworkImageProvider(
+                                      avatar,
+                                      headers: const {"Referer": CONSTANTS.referer},
+                                    ));
                             },
                           ),
                         ),
@@ -255,14 +211,16 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
                       // 昵称、帐号
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: Selector(selector: (BuildContext context, GlobalProvider provider) {
-                          return provider.currentAccount;
-                        }, builder: (BuildContext context, AccountProfile? profile, Widget? child) {
+                        child: Consumer(builder: (_, ref, __) {
+                          // 先从登录帐号的鉴权信息里获取
+                          var account = ref.watch(globalCurrentAccountProvider);
+                          // 最终值以网络请求的详细信息为准
+                          var detail = ref.watch(globalCurrentUserDetailProvider);
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                profile == null ? "..." : profile.user.name,
+                                (detail?.user.name) ?? (account?.user.name) ?? "...",
                                 style: TextStyle(
                                   fontSize: 20,
                                   height: 1.4,
@@ -270,7 +228,7 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
                                 ),
                               ),
                               Text(
-                                profile == null ? "..." : profile.user.mailAddress,
+                                (account?.user.mailAddress) ?? "...",
                                 style: TextStyle(
                                   fontSize: 14,
                                   height: 1.6,
@@ -290,63 +248,65 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
             ),
           ),
         ),
+        // 关注、好P友的统计
         Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, top: 4, bottom: 8),
-          child: ProviderWidget<UserProfileProvider>(
-            model: _profileProvider,
-            builder: (BuildContext context, UserProfileProvider provider, Widget? child) {
-              TextStyle numTextStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: textColor);
-              TextStyle secondTextStyle = TextStyle(fontSize: 12, height: 1.6, color: secondTextColor);
-              return Row(
-                children: [
-                  Expanded(
-                    flex: 1,
+          child: Consumer(builder: ((context, ref, child) {
+            TextStyle numTextStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: textColor);
+            TextStyle secondTextStyle = TextStyle(fontSize: 12, height: 1.6, color: secondTextColor);
+            var detail = ref.watch(globalCurrentUserDetailProvider);
+            return Row(
+              children: [
+                // 好P友数
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    color: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Column(
+                      children: [
+                        Text(detail?.profile.totalMypixivUsers.toString() ?? "...",
+                            style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
+                        Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
+                      ],
+                    ),
+                  ),
+                ),
+                // 关注数
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, RouteNames.userFollowing.name,
+                        arguments: ref.read(globalCurrentAccountProvider)!.user.id),
                     child: Container(
                       color: Colors.transparent,
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Column(
                         children: [
-                          Text(provider.friends?.toString() ?? "...",
-                              style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
-                          Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
+                          Text(detail?.profile.totalFollowUsers.toString() ?? "...", style: numTextStyle),
+                          Text(LocalizationIntl.of(context).following, style: secondTextStyle),
                         ],
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: () => Navigator.pushNamed(context, RouteNames.userFollowing.name,
-                          arguments: GlobalStore.currentAccount?.user.id),
-                      child: Container(
-                        color: Colors.transparent,
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: Column(
-                          children: [
-                            Text(provider.following?.toString() ?? "...", style: numTextStyle),
-                            Text(LocalizationIntl.of(context).following, style: secondTextStyle),
-                          ],
-                        ),
-                      ),
+                ),
+                // 粉丝（API不支持）
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    color: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Column(
+                      children: [
+                        Text("All >", style: numTextStyle),
+                        Text(LocalizationIntl.of(context).followers, style: secondTextStyle),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      color: Colors.transparent,
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Column(
-                        children: [
-                          Text("All >", style: numTextStyle),
-                          Text(LocalizationIntl.of(context).followers, style: secondTextStyle),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
+                ),
+              ],
+            );
+          })),
         ),
       ],
     );
@@ -450,21 +410,6 @@ class ProfileTabPageState extends State<ProfileTabPage> with AutomaticKeepAliveC
         ],
       ),
     );
-  }
-
-  /// 读取账户配置
-  void readProfile() {
-    var profile = AccountStorage(GlobalStore.globalSharedPreferences).getCurrentAccountProfile();
-    if (profile != null) {
-      GlobalStore.changeCurrentAccount(profile);
-    }
-  }
-
-  /// 获取相关用户统计
-  Future requestCounts() async {
-    if (GlobalStore.currentAccount == null) return;
-    UserDetail detail = await ApiUser().getUserDetail(userId: GlobalStore.currentAccount!.user.id.toString());
-    _profileProvider.setAll(0, detail.profile.totalFollowUsers, detail.profile.totalMypixivUsers);
   }
 
   @override
