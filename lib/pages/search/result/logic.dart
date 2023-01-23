@@ -1,31 +1,53 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
 import 'package:pixgem/config/enums.dart';
+import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:pixgem/model_response/novels/common_novel.dart';
+import 'package:pixgem/model_response/user/common_user_previews.dart';
 import 'package:pixgem/pages/search/result/provider/search_filters_provider.dart';
 import 'package:pixgem/pages/search/result/arguments/seach_filter_arguments.dart';
 import 'package:pixgem/pages/search/result/provider/search_result_provider.dart';
+import 'package:pixgem/pages/search/result/search_result_page.dart';
 import 'package:pixgem/pages/search/result/widget/seach_filter_bottom_sheet.dart';
 
-mixin SearchResultPageLogic {
-  late final WidgetRef ref;
+mixin SearchResultPageLogic on State<SearchResultPage> {
+  WidgetRef get ref;
 
-  /// 重新加载数据
-  void _doReload() {
+  /// 搜索框输入的关键词
+  late String searchWord = widget.label;
+
+  /// 搜索插画+漫画
+  late final searchArtworksProvider = AutoDisposeAsyncNotifierProvider<SearchArtworksNotifier, List<CommonIllust>>(
+    () => SearchArtworksNotifier(searchWord: searchWord),
+  );
+
+  /// 搜索小说
+  late final searchNovelsProvider = AutoDisposeAsyncNotifierProvider<SearchNovelsNotifier, List<CommonNovel>>(
+      () => SearchNovelsNotifier(searchWord: searchWord));
+
+  /// 搜索用户
+  late final searchUsersProvider = AutoDisposeAsyncNotifierProvider<SearchUsersNotifier, List<CommonUserPreviews>>(
+      () => SearchUsersNotifier(searchWord: searchWord));
+
+  /// 使用新参数进行搜索
+  void _doSearch(String searchWord) {
     SearchType searchType = ref.read(searchTypeProvider);
     Map doMap = <SearchType, void Function()>{
-      SearchType.artwork: () => ref.read(searchArtworksProvider.notifier).reload(),
-      SearchType.novel: () => ref.read(searchArtworksProvider.notifier).reload(),
-      SearchType.user: () => ref.read(searchArtworksProvider.notifier).reload(),
+      SearchType.artwork: () => ref.read(searchArtworksProvider.notifier).search(searchWord),
+      SearchType.novel: () => ref.read(searchNovelsProvider.notifier).search(searchWord),
+      SearchType.user: () => ref.read(searchUsersProvider.notifier).search(searchWord),
     };
     doMap[searchType]();
   }
 
   /// 搜索输入框的提交
-  void handleInputSubmit() {
-    _doReload();
+  void handleInputSubmit(String value) {
+    searchWord = value;
+    _doSearch(value);
   }
 
-  /// 确定筛选
+  /// 筛选按钮
   void handlePressedFilter() {
     var type = ref.read(searchTypeProvider);
     if (type == SearchType.user) return;
@@ -37,7 +59,7 @@ mixin SearchResultPageLogic {
     ).then((args) {
       if (args == null) return;
       ref.read(searchFilterProvider.notifier).update((state) => args);
-      _doReload();
+      // _doReload();
     });
   }
 

@@ -41,12 +41,6 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
 
   @override
   Widget build(BuildContext context) {
-    // 监听全局小说收藏状态通知器的变化
-    ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
-      if (next != null && next.worksId == novelId) {
-        ref.read(collectStateProvider.notifier).setCollectState(next.state);
-      }
-    });
     // 获取到父组件的最大支撑宽度
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -184,9 +178,16 @@ mixin _NovelListViewItemLogic {
 
   late String novelId;
 
-  late WidgetRef ref;
+  WidgetRef get ref;
 
-  late final collectStateProvider = StateNotifierProvider<CollectNotifier, CollectState>((ref) {
+  late final collectStateProvider = StateNotifierProvider.autoDispose<CollectNotifier, CollectState>((ref) {
+    // 监听全局小说收藏状态通知器的变化
+    ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
+      if (next != null && next.worksId == novelId) {
+        ref.notifier.setCollectState(next.state);
+      }
+    });
+    
     return CollectNotifier(collectState, ref: ref, worksId: novelId, worksType: WorksType.novel);
   });
 

@@ -7,11 +7,18 @@ import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/user/collection/provider/artwork_collections_provider.dart';
 import 'package:pixgem/pages/user/collection/state/collections_state.dart';
 
-class MyCollectArtworksTabPage extends ConsumerWidget {
+class MyCollectArtworksTabPage extends ConsumerStatefulWidget {
   const MyCollectArtworksTabPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyCollectArtworksTabPageState();
+}
+
+class _MyCollectArtworksTabPageState extends ConsumerState<MyCollectArtworksTabPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     ArtworkCollectionsState state = ref.watch(myArtworkCollectionsStateProvider);
     return state.when(
       loading: () => const RequestLoading(),
@@ -28,4 +35,7 @@ class MyCollectArtworksTabPage extends ConsumerWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

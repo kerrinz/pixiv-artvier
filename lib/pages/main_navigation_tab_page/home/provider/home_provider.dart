@@ -6,7 +6,7 @@ import 'package:pixgem/model_response/illusts/common_illust.dart';
 
 /// 首页的加载状态
 final homeStateProvider = StateNotifierProvider<HomeStateNotifier, PageState>((ref) {
-  return HomeStateNotifier(PageState.loading, ref: ref);
+  return HomeStateNotifier(PageState.loading, ref: ref)..init();
 });
 
 /// 首页的加载状态
@@ -70,7 +70,7 @@ class HomeIllustRecommendedNotifier extends BaseStateNotifier<List<CommonIllust>
 
     var data = await ApiIllusts(requester).getNextIllusts(nextUrl!);
     nextUrl = data.nextUrl;
-    state = data.illusts;
+    state = [...state, ...data.illusts];
     return nextUrl != null;
   }
 }

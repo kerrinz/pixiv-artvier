@@ -5,8 +5,6 @@ import 'package:pixgem/business_component/listview/illust_listview/logic.dart';
 import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
-import 'package:pixgem/global/provider/collection_state_provider.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 
 class IllustWaterfallItem extends ConsumerStatefulWidget {
@@ -55,18 +53,12 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
 
   @override
   void dispose() {
-    ref.watch(collectStateProvider.notifier).dispose();
+    // ref.read(collectStateProvider.notifier).dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // 监听全局美术作品收藏状态通知器的变化
-    ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
-      if (next != null && next.worksId == illustId) {
-        ref.read(collectStateProvider.notifier).setCollectState(next.state);
-      }
-    });
     // LayoutBuilder能获取到父组件的最大支撑宽度
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {

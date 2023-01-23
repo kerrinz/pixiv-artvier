@@ -27,7 +27,7 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage> w
           return list.when(
             loading: () => const RequestLoading(),
             error: (Object error, StackTrace stackTrace) => RequestLoadingFailed(
-              onRetry: () async => ref.read(followedNewestPageStateProvider.notifier).initOrRetry(),
+              onRetry: () async => ref.read(followedNewestPageStateProvider.notifier).reload(),
             ),
             data: (List<CommonIllust> data) {
               return IllustWaterfallGridView(

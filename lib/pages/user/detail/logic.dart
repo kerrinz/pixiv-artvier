@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 mixin UserDetailPageLogic {
-  late final WidgetRef ref;
+  WidgetRef get ref;
 
   late final String userId;
 }

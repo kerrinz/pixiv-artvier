@@ -42,7 +42,7 @@ class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>
 
     var result = await ApiIllusts(requester).nextIllustComments(nextUrl!);
     nextUrl = result.nextUrl;
-    state = AsyncValue.data(result.comments);
+    update((p0) => p0..addAll(result.comments));
     return nextUrl != null;
   }
 

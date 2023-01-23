@@ -7,11 +7,17 @@ import 'package:pixgem/model_response/novels/common_novel.dart';
 import 'package:pixgem/pages/user/collection/provider/artwork_collections_provider.dart';
 import 'package:pixgem/pages/user/collection/provider/novel_collections_provider.dart';
 
-class MyCollectNovelsTabPage extends ConsumerWidget {
+class MyCollectNovelsTabPage extends ConsumerStatefulWidget {
   const MyCollectNovelsTabPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyCollectNovelsTabPageState();
+}
+
+class _MyCollectNovelsTabPageState extends ConsumerState<MyCollectNovelsTabPage> with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     var state = ref.watch(myNovelCollectionsStateProvider);
     return state.when(
       loading: () => const RequestLoading(),
@@ -28,4 +34,7 @@ class MyCollectNovelsTabPage extends ConsumerWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
