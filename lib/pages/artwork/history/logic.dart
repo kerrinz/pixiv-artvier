@@ -6,7 +6,7 @@ import 'package:pixgem/pages/artwork/history/provider/history_provider.dart';
 import 'package:pixgem/storage/history_storage.dart';
 
 mixin HistoryPageLogic {
-  late WidgetRef ref;
+  WidgetRef get ref;
 
   /// 弹窗清空历史记录的确定事件
   void handleClearHistory() {

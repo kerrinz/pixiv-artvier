@@ -6,7 +6,7 @@ import 'package:pixgem/pages/user/collection/provider/filter_provider.dart';
 import 'package:pixgem/pages/user/collection/widget/collections_filter_sheets.dart';
 
 mixin MyCollectionPageLogic {
-  late final WidgetRef ref;
+  WidgetRef get ref;
 
   /// 筛选按钮
   void handlePressedFilter() {

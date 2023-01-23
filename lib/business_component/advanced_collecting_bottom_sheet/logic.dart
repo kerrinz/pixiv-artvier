@@ -13,7 +13,7 @@ import 'package:pixgem/global/provider/collection_state_provider.dart';
 typedef TheProvider = AutoDisposeStateNotifierProvider<CollectionTagsNotifier, AdvancedCollectingDataModel>;
 
 mixin AdvancedCollectingBottomSheetLogic {
-  late final WidgetRef ref;
+  WidgetRef get ref;
 
   late String worksId;
 
@@ -28,7 +28,7 @@ mixin AdvancedCollectingBottomSheetLogic {
       ? advancedCollectingNovelDetailProvider(worksId)
       : advancedCollectingArtworkDetailProvider(worksId);
 
-  late final collectingProvider = StateNotifierProvider<CollectNotifier, CollectState>(((ref) {
+  late final collectingProvider = StateNotifierProvider.autoDispose<CollectNotifier, CollectState>(((ref) {
     return CollectNotifier(isCollected ? CollectState.collected : CollectState.notCollect,
         ref: ref, worksId: worksId, worksType: worksType);
   }));

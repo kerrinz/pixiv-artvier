@@ -12,7 +12,6 @@ import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/pages/search/result/logic.dart';
 import 'package:pixgem/pages/search/result/provider/search_filters_provider.dart';
-import 'package:pixgem/pages/search/result/provider/search_result_provider.dart';
 
 class SearchResultPage extends ConsumerStatefulWidget {
   final String label; // 搜索文本内容
@@ -101,9 +100,9 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
               focusedBorder: InputBorder.none,
               isCollapsed: true, // 高度包裹，不会存在默认高度
             ),
-            onChanged: (value) => ref.read(searchResultInputProvider.notifier).update((state) => value),
+            // onChanged: (value) => ref.read(searchResultInputProvider.notifier).update((state) => value),
             // 提交搜索
-            onSubmitted: (value) => handleInputSubmit(),
+            onSubmitted: (value) => handleInputSubmit(value),
           ),
         ),
         actions: [
@@ -111,9 +110,12 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
           Center(
             child: Consumer(
               builder: (_, ref, __) {
+                var type = ref.watch(searchTypeProvider);
                 return IconButton(
-                  icon: const Icon(Icons.filter_alt_outlined),
-                  onPressed: () => handlePressedFilter,
+                  icon: type == SearchType.user
+                      ? const Icon(Icons.filter_alt_off_outlined)
+                      : const Icon(Icons.filter_alt_outlined),
+                  onPressed: type == SearchType.user ? null : handlePressedFilter,
                   tooltip: "more",
                 );
               },
@@ -157,6 +159,7 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
               ),
             ),
           ),
+
           /// 搜索结果
           Consumer(
             builder: (_, ref, __) {
@@ -169,9 +172,11 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
                           artworkList: data,
                           onLazyload: () async => ref.read(searchArtworksProvider.notifier).next(),
                         ),
-                        loading: () => const RequestLoading(),
-                        error: (error, stackTrace) => RequestLoadingFailed(
-                            onRetry: () async => ref.read(searchArtworksProvider.notifier).reload()),
+                        loading: () => const SliverToBoxAdapter(child: RequestLoading()),
+                        error: (error, stackTrace) => SliverToBoxAdapter(
+                          child: RequestLoadingFailed(
+                              onRetry: () async => ref.read(searchArtworksProvider.notifier).reload()),
+                        ),
                       );
                 case SearchType.novel:
                   return ref.watch(searchNovelsProvider).when(
@@ -180,9 +185,11 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
                           novelList: data,
                           onLazyload: () async => ref.read(searchNovelsProvider.notifier).next(),
                         ),
-                        loading: () => const RequestLoading(),
-                        error: (error, stackTrace) =>
-                            RequestLoadingFailed(onRetry: () async => ref.read(searchNovelsProvider.notifier).reload()),
+                        loading: () => const SliverToBoxAdapter(child: RequestLoading()),
+                        error: (error, stackTrace) => SliverToBoxAdapter(
+                          child: RequestLoadingFailed(
+                              onRetry: () async => ref.read(searchNovelsProvider.notifier).reload()),
+                        ),
                       );
                 case SearchType.user:
                   return ref.watch(searchUsersProvider).when(
@@ -191,9 +198,10 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
                           userList: data,
                           onLazyload: () async => ref.read(searchUsersProvider.notifier).next(),
                         ),
-                        loading: () => const RequestLoading(),
-                        error: (error, stackTrace) =>
-                            RequestLoadingFailed(onRetry: () async => ref.read(searchUsersProvider.notifier).reload()),
+                        loading: () => const SliverToBoxAdapter(child: RequestLoading()),
+                        error: (error, stackTrace) => SliverToBoxAdapter(
+                            child: RequestLoadingFailed(
+                                onRetry: () async => ref.read(searchUsersProvider.notifier).reload())),
                       );
               }
             },

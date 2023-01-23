@@ -5,8 +5,6 @@ import 'package:pixgem/business_component/listview/user_vertical_listview/logic.
 import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/model/following_state_changed_arguments%20copy/following_state_changed_arguments.dart';
-import 'package:pixgem/global/provider/follow_state_provider.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/novels/common_novel.dart';
 import 'package:pixgem/model_response/user/common_user_previews.dart';
@@ -70,12 +68,6 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
 
   @override
   Widget build(BuildContext context) {
-    // 监听全局美术作品收藏状态通知器的变化
-    ref.listen<FollowingStateChangedArguments?>(globalFollowingStateChangedProvider, (previous, next) {
-      if (next != null && next.userId == userId) {
-        ref.read(followStateProvider.notifier).setFollowState(next.state);
-      }
-    });
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         var imgWidth = constraints.maxWidth / 3; // 单个图片的宽度

@@ -27,6 +27,8 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
   final EdgeInsets? padding;
   final ScrollPhysics? physics;
 
+  @override
+  late final WidgetRef ref;
   CommentListView({
     Key? key,
     required this.commentList,
@@ -64,6 +66,7 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
   /// 懒加载组件的构建
   Widget lazyloadWidget(WidgetRef ref) => Consumer(
         builder: ((context, ref, _) {
+          var lazyloadState = ref.watch(lazyloadStateProvider);
           Map<LazyloadState, Widget> map = {
             LazyloadState.idle: Container(
               alignment: Alignment.center,

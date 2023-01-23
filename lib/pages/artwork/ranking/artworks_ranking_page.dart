@@ -38,12 +38,12 @@ class ArtworksRankingPageState extends BasePageState<ArtworksRankingPage>
   @override
   void initState() {
     super.initState();
-    _scrollController = PrimaryScrollController.of(context) ?? ScrollController();
     _tabController = TabController(initialIndex: 0, length: _tabsMap.length, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
+    _scrollController = PrimaryScrollController.of(context) ?? ScrollController();
     return Scaffold(
       body: ExtendedNestedScrollView(
         floatHeaderSlivers: true,
@@ -94,7 +94,8 @@ class ArtworksRankingPageState extends BasePageState<ArtworksRankingPage>
 
   @override
   void dispose() {
-    super.dispose();
     _tabController.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 }
