@@ -28,6 +28,9 @@ class UserVerticalListView extends ConsumerWidget with LazyloadLogic, UserVertic
   final double mainAxisSpacing;
   final double crossAxisSpacing;
 
+  @override
+  late final WidgetRef ref;
+
   UserVerticalListView({
     Key? key,
     required this.userList,
@@ -86,6 +89,7 @@ class UserVerticalListView extends ConsumerWidget with LazyloadLogic, UserVertic
   /// 懒加载组件的构建
   Widget lazyloadWidget(WidgetRef ref) => Consumer(
         builder: ((context, ref, _) {
+          var lazyloadState = ref.watch(lazyloadStateProvider);
           Map<LazyloadState, Widget> map = {
             LazyloadState.idle: Container(
               alignment: Alignment.center,

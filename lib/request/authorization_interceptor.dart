@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/global/logger.dart';
@@ -33,5 +35,19 @@ class AuthorizationInterceptor extends InterceptorsWrapper {
     } catch (e) {
       logger.wtf(e);
     }
+  }
+
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    try {
+      if (err.type == DioErrorType.cancel) {
+        logger.i(err.type);
+      } else {
+        logger.w(json.decode(err.response!.data));
+      }
+    } catch (e) {
+      logger.w(err.response);
+    }
+    super.onError(err, handler);
   }
 }

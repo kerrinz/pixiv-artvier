@@ -9,7 +9,7 @@ import 'package:pixgem/pages/artwork/detail/arguments/illust_detail_page_args.da
 import 'package:pixgem/routes.dart';
 
 mixin CommentListViewLogic {
-  late final WidgetRef ref;
+  WidgetRef get ref;
 
   void handleTapItem(CommonIllust illust) {
     if (illust.restrict == 2) {
@@ -28,9 +28,9 @@ mixin CommentListViewItemLogic {
 
   late String illustId;
 
-  late WidgetRef ref;
+  WidgetRef get ref;
 
-  late final collectStateProvider = StateNotifierProvider<CollectNotifier, CollectState>((ref) {
+  late final collectStateProvider = StateNotifierProvider.autoDispose<CollectNotifier, CollectState>((ref) {
     return CollectNotifier(collectState, ref: ref, worksId: illustId, worksType: WorksType.illust);
   });
 

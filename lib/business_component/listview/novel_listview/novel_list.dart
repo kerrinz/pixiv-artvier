@@ -29,6 +29,9 @@ class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogi
   final double mainAxisSpacing;
   final double crossAxisSpacing;
 
+  @override
+  late final WidgetRef ref;
+
   NovelListView({
     Key? key,
     required this.novelList,
@@ -93,6 +96,7 @@ class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogi
   /// 懒加载组件的构建
   Widget lazyloadWidget(WidgetRef ref) => Consumer(
         builder: ((context, ref, _) {
+          var lazyloadState = ref.watch(lazyloadStateProvider);
           Map<LazyloadState, Widget> map = {
             LazyloadState.idle: Container(
               alignment: Alignment.center,

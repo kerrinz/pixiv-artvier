@@ -40,7 +40,7 @@ class FriendsNewestArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<Co
 
     var result = await ApiIllusts(requester).getNextIllusts(nextUrl!);
     nextUrl = result.nextUrl;
-    state = AsyncValue.data(result.illusts);
+    update((p0) => p0..addAll(result.illusts));
 
     return nextUrl != null;
   }
@@ -84,7 +84,7 @@ class FriendsNewestNovelsNotifier extends BaseAutoDisposeAsyncNotifier<List<Comm
 
     var result = await ApiNovels(requester).nextNovels(nextUrl!);
     nextUrl = result.nextUrl;
-    state = AsyncValue.data(result.novels);
+    update((p0) => p0..addAll(result.novels));
 
     return nextUrl != null;
   }

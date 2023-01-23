@@ -32,6 +32,9 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
   final double mainAxisSpacing;
   final double crossAxisSpacing;
 
+  @override
+  late final WidgetRef ref;
+
   IllustWaterfallGridView({
     Key? key,
     required this.artworkList,
@@ -98,6 +101,7 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
   /// 懒加载组件的构建
   Widget lazyloadWidget(WidgetRef ref) => Consumer(
         builder: ((context, ref, _) {
+          var lazyloadState = ref.watch(lazyloadStateProvider);
           Map<LazyloadState, Widget> map = {
             LazyloadState.idle: Container(
               alignment: Alignment.center,

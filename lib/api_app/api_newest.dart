@@ -16,7 +16,7 @@ class ApiNewArtWork extends ApiBase {
     Response res = await requester.get<String>(
       "/v2/illust/follow",
       queryParameters: {
-        "restrict": restrict,
+        "restrict": restrict.name,
       },
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,

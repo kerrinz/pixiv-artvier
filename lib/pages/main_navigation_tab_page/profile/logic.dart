@@ -7,7 +7,7 @@ import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/routes.dart';
 
 mixin ProfileTabPageLogic {
-  late final WidgetRef ref;
+  WidgetRef get ref;
 
   LocalizationIntl get i10n => LocalizationIntl.of(ref.context);
 

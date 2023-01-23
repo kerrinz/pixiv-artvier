@@ -15,7 +15,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 启动之前加载高优先的数据，其他低优先度的数据在BootingPage里进行加载
   await beforeRunApp();
-  // Get the instance of shared preferences
+  // Shared Preferences实例
   final prefs = await SharedPreferences.getInstance();
   // 运行APP，注入Riverpod
   runApp(

@@ -7,11 +7,11 @@ import 'package:pixgem/model_response/illusts/common_illust.dart';
 
 /// 美术作品（插画或漫画）排行
 /// arg: mode
-final artworksRankingProvier = AsyncNotifierProviderFamily<ArtworksRankingNotifier, List<CommonIllust>, String>(
+final artworksRankingProvier = AutoDisposeAsyncNotifierProviderFamily<ArtworksRankingNotifier, List<CommonIllust>, String>(
   () => ArtworksRankingNotifier(),
 );
 
-class ArtworksRankingNotifier extends BaseFamilyAsyncNotifier<List<CommonIllust>, String> {
+class ArtworksRankingNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<CommonIllust>, String> {
   late String mode;
 
   String? nextUrl;
@@ -35,7 +35,7 @@ class ArtworksRankingNotifier extends BaseFamilyAsyncNotifier<List<CommonIllust>
 
     var result = await ApiIllusts(requester).getNextIllusts(nextUrl!);
     nextUrl = result.nextUrl;
-    state = AsyncValue.data(result.illusts);
+    update((p0) => p0..addAll(result.illusts));
 
     return nextUrl != null;
   }

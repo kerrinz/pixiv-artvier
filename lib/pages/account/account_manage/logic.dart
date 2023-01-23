@@ -7,7 +7,7 @@ import 'package:pixgem/routes.dart';
 import 'package:pixgem/storage/model/account_profile.dart';
 
 mixin AccountManagePageStateLogic {
-  late final WidgetRef ref;
+  WidgetRef get ref;
 
   /// 添加帐号
   void handlePressedAdd() {

@@ -32,11 +32,27 @@ class FollowedNewestPageStateNotifier extends BaseStateNotifier<PageState> {
     await ref.read(followedNewestArtworksProvider.notifier).fetch();
   }
 
-  /// 初始化，也可用于失败后的重试
-  Future<void> initOrRetry() async {
+  /// 执行所有请求
+  Future<void> allReload() async {
+    await ref.read(followedNewestArtworksProvider.notifier).reload();
+  }
+
+  /// 初始化
+  Future<void> init() async {
     state = PageState.loading;
     try {
       await allFetch();
+      state = PageState.complete;
+    } catch (e) {
+      state = PageState.error;
+    }
+  }
+
+  /// 重载
+  Future<void> reload() async {
+    state = PageState.loading;
+    try {
+      await allReload();
       state = PageState.complete;
     } catch (e) {
       state = PageState.error;
@@ -74,20 +90,29 @@ class FollowedNewestArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<C
     return result.illusts;
   }
 
+  /// 初始化数据
+  Future<void> reload() async {
+    // Set loading
+    state = const AsyncValue.loading();
+    // Reload
+    state = await AsyncValue.guard(() async {
+      return fetch();
+    });
+  }
+
   /// 下一页
   Future<bool> next() async {
     if (nextUrl == null) return false;
 
     var result = await ApiIllusts(requester).getNextIllusts(nextUrl!);
     nextUrl = result.nextUrl;
-    state = AsyncValue.data(result.illusts);
+    update((p0) => p0..addAll(result.illusts));
+    // state = AsyncValue.data(result.illusts); 错误的示范代码
 
     return nextUrl != null;
   }
 
   Future<void> refresh() async {
-    // Set loading
-    state = const AsyncValue.loading();
     // Reload
     state = await AsyncValue.guard(() async {
       return fetch();

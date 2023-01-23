@@ -57,21 +57,20 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
           )
         ];
       },
-      body: Consumer(builder: (_, ref, __) {
-        PageState pageState = ref.watch(homeStateProvider);
-        switch (pageState) {
-          case PageState.loading:
-            return const RequestLoading();
-          case PageState.error:
-            return RequestLoadingFailed(onRetry: () async => ref.read(homeStateProvider.notifier).init());
-          case PageState.refreshing:
-          case PageState.complete:
-          case PageState.empty:
-        }
-        return RefreshIndicator(
-          // 下拉刷新
-          onRefresh: () async {},
-          child: CustomScrollView(
+      body: RefreshIndicator(
+        onRefresh: () async => ref.read(homeStateProvider.notifier).refresh(),
+        child: Consumer(builder: (_, ref, __) {
+          PageState pageState = ref.watch(homeStateProvider);
+          switch (pageState) {
+            case PageState.loading:
+              return const RequestLoading();
+            case PageState.error:
+              return RequestLoadingFailed(onRetry: () async => ref.read(homeStateProvider.notifier).init());
+            case PageState.refreshing:
+            case PageState.complete:
+            case PageState.empty:
+          }
+          return CustomScrollView(
             physics: const BouncingScrollPhysics(),
             slivers: [
               // 排行榜头部
@@ -157,14 +156,14 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                   var data = ref.watch(homeIllustRecommendedProvider);
                   return SliverIllustWaterfallGridView(
                     artworkList: data,
-                    onLazyload: () async => ref.read(homeIllustRecommendedProvider.notifier).next(),
+                    onLazyload: ref.read(homeIllustRecommendedProvider.notifier).next,
                   );
                 },
               ),
             ],
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 
