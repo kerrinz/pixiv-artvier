@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AdvancedCollectingDataModel {
   List<WorksCollectTag> get tags => throw _privateConstructorUsedError;
   Restrict get restrict => throw _privateConstructorUsedError;
-  bool get isCollected => throw _privateConstructorUsedError;
+  CollectState get collectState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AdvancedCollectingDataModelCopyWith<AdvancedCollectingDataModel>
@@ -33,7 +33,10 @@ abstract class $AdvancedCollectingDataModelCopyWith<$Res> {
       _$AdvancedCollectingDataModelCopyWithImpl<$Res,
           AdvancedCollectingDataModel>;
   @useResult
-  $Res call({List<WorksCollectTag> tags, Restrict restrict, bool isCollected});
+  $Res call(
+      {List<WorksCollectTag> tags,
+      Restrict restrict,
+      CollectState collectState});
 }
 
 /// @nodoc
@@ -52,7 +55,7 @@ class _$AdvancedCollectingDataModelCopyWithImpl<$Res,
   $Res call({
     Object? tags = null,
     Object? restrict = null,
-    Object? isCollected = null,
+    Object? collectState = null,
   }) {
     return _then(_value.copyWith(
       tags: null == tags
@@ -63,10 +66,10 @@ class _$AdvancedCollectingDataModelCopyWithImpl<$Res,
           ? _value.restrict
           : restrict // ignore: cast_nullable_to_non_nullable
               as Restrict,
-      isCollected: null == isCollected
-          ? _value.isCollected
-          : isCollected // ignore: cast_nullable_to_non_nullable
-              as bool,
+      collectState: null == collectState
+          ? _value.collectState
+          : collectState // ignore: cast_nullable_to_non_nullable
+              as CollectState,
     ) as $Val);
   }
 }
@@ -80,7 +83,10 @@ abstract class _$$_AdvancedCollectingDataModelCopyWith<$Res>
       __$$_AdvancedCollectingDataModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<WorksCollectTag> tags, Restrict restrict, bool isCollected});
+  $Res call(
+      {List<WorksCollectTag> tags,
+      Restrict restrict,
+      CollectState collectState});
 }
 
 /// @nodoc
@@ -98,7 +104,7 @@ class __$$_AdvancedCollectingDataModelCopyWithImpl<$Res>
   $Res call({
     Object? tags = null,
     Object? restrict = null,
-    Object? isCollected = null,
+    Object? collectState = null,
   }) {
     return _then(_$_AdvancedCollectingDataModel(
       tags: null == tags
@@ -109,10 +115,10 @@ class __$$_AdvancedCollectingDataModelCopyWithImpl<$Res>
           ? _value.restrict
           : restrict // ignore: cast_nullable_to_non_nullable
               as Restrict,
-      isCollected: null == isCollected
-          ? _value.isCollected
-          : isCollected // ignore: cast_nullable_to_non_nullable
-              as bool,
+      collectState: null == collectState
+          ? _value.collectState
+          : collectState // ignore: cast_nullable_to_non_nullable
+              as CollectState,
     ));
   }
 }
@@ -123,7 +129,7 @@ class _$_AdvancedCollectingDataModel implements _AdvancedCollectingDataModel {
   _$_AdvancedCollectingDataModel(
       {required final List<WorksCollectTag> tags,
       required this.restrict,
-      required this.isCollected})
+      required this.collectState})
       : _tags = tags;
 
   final List<WorksCollectTag> _tags;
@@ -137,11 +143,11 @@ class _$_AdvancedCollectingDataModel implements _AdvancedCollectingDataModel {
   @override
   final Restrict restrict;
   @override
-  final bool isCollected;
+  final CollectState collectState;
 
   @override
   String toString() {
-    return 'AdvancedCollectingDataModel(tags: $tags, restrict: $restrict, isCollected: $isCollected)';
+    return 'AdvancedCollectingDataModel(tags: $tags, restrict: $restrict, collectState: $collectState)';
   }
 
   @override
@@ -152,13 +158,13 @@ class _$_AdvancedCollectingDataModel implements _AdvancedCollectingDataModel {
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.restrict, restrict) ||
                 other.restrict == restrict) &&
-            (identical(other.isCollected, isCollected) ||
-                other.isCollected == isCollected));
+            (identical(other.collectState, collectState) ||
+                other.collectState == collectState));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_tags), restrict, isCollected);
+      const DeepCollectionEquality().hash(_tags), restrict, collectState);
 
   @JsonKey(ignore: true)
   @override
@@ -171,16 +177,17 @@ class _$_AdvancedCollectingDataModel implements _AdvancedCollectingDataModel {
 abstract class _AdvancedCollectingDataModel
     implements AdvancedCollectingDataModel {
   factory _AdvancedCollectingDataModel(
-      {required final List<WorksCollectTag> tags,
-      required final Restrict restrict,
-      required final bool isCollected}) = _$_AdvancedCollectingDataModel;
+          {required final List<WorksCollectTag> tags,
+          required final Restrict restrict,
+          required final CollectState collectState}) =
+      _$_AdvancedCollectingDataModel;
 
   @override
   List<WorksCollectTag> get tags;
   @override
   Restrict get restrict;
   @override
-  bool get isCollected;
+  CollectState get collectState;
   @override
   @JsonKey(ignore: true)
   _$$_AdvancedCollectingDataModelCopyWith<_$_AdvancedCollectingDataModel>

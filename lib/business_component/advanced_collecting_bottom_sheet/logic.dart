@@ -3,14 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/advanced_collecting_bottom_sheet.dart';
 import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
-import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/provider/advanced_collecting_provider.dart';
+import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/provider/collecting_provider.dart';
+import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/provider/states_provider.dart';
 import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/global/logger.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/common/collection_detail.dart';
-import 'package:pixgem/global/provider/collection_state_provider.dart';
-
-typedef TheProvider = AutoDisposeStateNotifierProvider<CollectionTagsNotifier, AdvancedCollectingDataModel>;
 
 mixin AdvancedCollectingBottomSheetLogic {
   WidgetRef get ref;
@@ -19,25 +17,32 @@ mixin AdvancedCollectingBottomSheetLogic {
 
   late WorksType worksType;
 
-  late bool isCollected;
+  bool get isCollected;
 
   late TextEditingController addTagTextController;
 
-  /// 作品收藏详情的Provider
-  TheProvider get detailProvider => worksType == WorksType.novel
-      ? advancedCollectingNovelDetailProvider(worksId)
-      : advancedCollectingArtworkDetailProvider(worksId);
-
-  late final collectingProvider = StateNotifierProvider.autoDispose<CollectNotifier, CollectState>(((ref) {
-    return CollectNotifier(isCollected ? CollectState.collected : CollectState.notCollect,
-        ref: ref, worksId: worksId, worksType: worksType);
-  }));
+  /// 高级收藏展示的内容状态
+  late final statesProvider =
+      AsyncNotifierProvider.autoDispose<AdvancedCollectingStatesNotifier, AdvancedCollectingDataModel>(
+          () => AdvancedCollectingStatesNotifier(worksId: worksId, worksType: WorksType.illust));
 
   /// 收藏事件
   void handlePressedCollecting() {
     try {
-      var args = ref.read(advancedCollectingArtworkDetailProvider(worksId));
-      ref.read(collectingProvider.notifier).collect(args: args);
+      var collectingProvider = worksType == WorksType.novel
+          ? novelAdvancedCollectingProvider(worksId)
+          : artworkAdvancedCollectingProvider(worksId);
+      var states = ref.read(statesProvider).value!;
+      // 标签（名称）列表
+      List<String> tagNameList = [
+        for (WorksCollectTag item in states.tags)
+          if ((item.isRegistered ?? false) && item.name != null) item.name!,
+      ];
+      ref.read(collectingProvider.notifier).collect(
+            oldCollectState: ref.read(collectingProvider)!,
+            restrict: states.restrict,
+            tagNameList: tagNameList,
+          );
       Navigator.pop(ref.context);
     } catch (e) {
       logger.e(e);
@@ -50,30 +55,34 @@ mixin AdvancedCollectingBottomSheetLogic {
     if (inputText.isEmpty) {
       return;
     }
-    var data = ref.read(detailProvider);
+    var data = ref.read(statesProvider).value!;
+    // 统计选择数量
     int countSelected =
         data.tags.fold<int>(0, (previousValue, element) => previousValue + (element.isRegistered ?? false ? 1 : 0));
-    if (countSelected <= AdvancedCollectingBottomSheet.maxSelectedTags) {
+    // 不能超过最大限制
+    if (countSelected < AdvancedCollectingBottomSheet.maxSelectedTags) {
       bool isNotExist = data.tags.every(((element) => element.name != inputText));
+      // 不允许重复
       if (isNotExist) {
-        ref.read(detailProvider.notifier).addTag(inputText, true);
+        ref.read(statesProvider.notifier).addTag(inputText, true);
         addTagTextController.text = "";
       } else {
         Fluttertoast.showToast(msg: LocalizationIntl.of(ref.context).tagAlreadyExists);
       }
+    } else {
+      Fluttertoast.showToast(msg: LocalizationIntl.of(ref.context).tagsReachedMaximun);
     }
   }
 
-  /// 选择标签
+  /// 点击标签项，选择标签
   void handleTapTagsItem(int index, List<WorksCollectTag> tags) {
-    WorksCollectTag tag = tags[index];
-    bool isSelected = tag.isRegistered ?? false;
-    ref.read(detailProvider.notifier).updateTag(index, tag..isRegistered = !isSelected);
+    ref.read(statesProvider.notifier).updateTag(index, newIsSelected: !(tags[index].isRegistered ?? false));
   }
 
   /// 切换隐私限制
   void handleTapRestrictSelection(int selectionIndex) {
-    var allSelection = [Restrict.public, Restrict.private];
-    ref.read(detailProvider.notifier).updateRestrict(allSelection[selectionIndex]);
+    ref.read(statesProvider.notifier).updateRestrict(
+          ref.read(statesProvider).value!.restrict == Restrict.public ? Restrict.private : Restrict.public,
+        );
   }
 }

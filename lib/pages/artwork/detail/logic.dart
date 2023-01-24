@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
 import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
 import 'package:pixgem/config/enums.dart';
+import 'package:pixgem/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/advanced_collecting_bottom_sheet.dart';
@@ -23,16 +24,13 @@ mixin ArtworkDetailPageLogic {
   /// 插画详情页的收藏状态
   /// 可能有多个插画详情页同时存在于页面栈中，因此使用.family为不同插画id做区分
   late final illustDetailCollectStateProvider = StateNotifierProvider.autoDispose<CollectNotifier, CollectState>((ref) {
-    var args = ref.watch(globalArtworkCollectionStateChangedProvider);
-    if (args != null && args.worksId == artworkId) {
-      /// 全局下发来的通知，更新收藏状态
-      return CollectNotifier(
-        args.state,
-        ref: ref,
-        worksId: artworkId,
-        worksType: WorksType.illust,
-      );
-    }
+    // 监听全局美术作品收藏状态通知器的变化
+    ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
+      if (next != null && next.worksId == artworkId) {
+        ref.notifier.setCollectState(next.state);
+      }
+    });
+
     return CollectNotifier(
       artworkDetail!.isBookmarked ? CollectState.collected : CollectState.notCollect,
       ref: ref,
