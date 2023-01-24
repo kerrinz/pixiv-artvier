@@ -44,6 +44,9 @@ class AuthorizationInterceptor extends InterceptorsWrapper {
         logger.i(err.type);
       } else {
         logger.w(json.decode(err.response!.data));
+        logger.w(err.requestOptions.queryParameters);
+        logger.w(err.requestOptions.data.toString());
+        logger.w(err.requestOptions.headers);
       }
     } catch (e) {
       logger.w(err.response);

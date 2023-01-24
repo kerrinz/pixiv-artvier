@@ -56,10 +56,10 @@ class CollectNotifier extends BaseStateNotifier<CollectState> {
     state = newState;
   }
 
-  void notifyGlobal() {
+  void notifyGlobal(CollectState collectState) {
     ref
         .read(globalArtworkCollectionStateChangedProvider.notifier)
-        .update((args) => CollectStateChangedArguments(state: state, worksId: worksId));
+        .update((args) => CollectStateChangedArguments(state: collectState, worksId: worksId));
   }
 
   /// 收藏该作品
@@ -68,27 +68,30 @@ class CollectNotifier extends BaseStateNotifier<CollectState> {
     AdvancedCollectingDataModel? args,
     bool throwException = true,
   }) async {
-    var oldState = state;
-    state = CollectState.collecting;
+    CollectState oldState = state;
+    CollectState newState;
+    notifyGlobal(CollectState.collecting);
     bool result = false;
     var tags = [for (WorksCollectTag item in args?.tags ?? []) item.name!];
+
     try {
       result = worksType == WorksType.novel
           ? await ApiNovels(requester).collectNovel(novelId: worksId, tags: tags, restrict: args?.restrict)
           : await ApiIllusts(requester).collectIllust(illustId: worksId, tags: tags, restrict: args?.restrict);
+      // 分析结果，取得新的收藏状态
+      newState = result ? CollectState.collected : oldState;
+      if (mounted) {
+        state = newState;
+      }
+      notifyGlobal(newState);
     } catch (e) {
-      state = oldState;
-      notifyGlobal();
+      // 复原收藏状态
+      if (mounted) state = oldState;
+      notifyGlobal(oldState);
       if (throwException) {
         rethrow;
       }
     }
-    if (result) {
-      state = CollectState.collected;
-    } else {
-      state = oldState;
-    }
-    notifyGlobal();
     return result;
   }
 
@@ -97,26 +100,28 @@ class CollectNotifier extends BaseStateNotifier<CollectState> {
   Future<bool> uncollect({
     bool throwException = true,
   }) async {
-    var oldState = state;
-    state = CollectState.uncollecting;
+    CollectState oldState = state;
+    CollectState newState;
+    notifyGlobal(CollectState.uncollecting);
     bool result = false;
     try {
       result = worksType == WorksType.novel
           ? await ApiNovels(requester).uncollectNovel(novelId: worksId)
           : await ApiIllusts(requester).uncollectIllust(illustId: worksId);
+      // 分析结果，取得新的收藏状态
+      newState = result ? CollectState.notCollect : oldState;
+      if (mounted) {
+        state = newState;
+      }
+      notifyGlobal(newState);
     } catch (e) {
-      state = oldState;
-      notifyGlobal();
+      // 复原收藏状态
+      if (mounted) state = oldState;
+      notifyGlobal(oldState);
       if (throwException) {
         rethrow;
       }
     }
-    if (result) {
-      state = CollectState.notCollect;
-    } else {
-      state = oldState;
-    }
-    notifyGlobal();
     return result;
   }
 }
