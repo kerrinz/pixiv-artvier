@@ -138,6 +138,8 @@ class LocalizationIntl {
       name: 'addNewTagPlaceholder', desc: 'The placeholder of input tag name to add a new tag');
   String get tagAlreadyExists => Intl.message("Tag already exists!",
       name: 'tagAlreadyExists', desc: 'Prompt the tag already exists by add new tag');
+  String get tagsReachedMaximun => Intl.message("Maximum number of tags reached!",
+      name: 'tagsReachedMaximun', desc: 'Prompt when no more tags are allowed');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {

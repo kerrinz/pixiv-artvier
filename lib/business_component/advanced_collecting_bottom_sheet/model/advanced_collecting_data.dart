@@ -11,6 +11,6 @@ class AdvancedCollectingDataModel with _$AdvancedCollectingDataModel {
   factory AdvancedCollectingDataModel({
     required List<WorksCollectTag> tags,
     required Restrict restrict,
-    required bool isCollected,
+    required CollectState collectState,
   }) = _AdvancedCollectingDataModel;
 }
