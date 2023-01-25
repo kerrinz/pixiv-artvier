@@ -18,6 +18,7 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
   /// 懒加载异步事件
   /// - return bool of hasMore. 需要返回是否还有更多数据
   /// - 当[lazyloadState] = [LazyloadState.loading]/[LazyloadState.noMore] 时**不会执行**此函数
+  @override
   final Future<bool> Function() onLazyload;
 
   /// 赋值后本组件将不再负责懒加载状态，转变为静态组件
@@ -87,7 +88,7 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
               alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: LazyloadingFailedWidget(
-                onRetry: () => onLazyload(),
+                onRetry: () => handleRetry(ref),
               ),
             ),
           };
@@ -111,9 +112,12 @@ class SliverCommentListView extends CommentListView {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     this.ref = ref;
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => itemBuilder(ref, index),
+    return SliverPadding(
+      padding: padding ?? EdgeInsets.zero,
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => itemBuilder(ref, index),
+        ),
       ),
     );
   }

@@ -20,7 +20,7 @@ class _FriendsNewestTabPageState extends BasePageState<FriendsNewestTabPage> wit
   Widget build(BuildContext context) {
     super.build(context);
     return RefreshIndicator(
-      onRefresh: () async {},
+      onRefresh: () async => ref.read(friendsNewestArtworksProvider.notifier).refresh(),
       child: Consumer(
         builder: (context, value, child) {
           var list = ref.watch(friendsNewestArtworksProvider);

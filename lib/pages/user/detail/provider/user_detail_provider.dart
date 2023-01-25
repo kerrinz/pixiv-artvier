@@ -20,7 +20,7 @@ class UserDetailNotifier extends BaseAutoDisposeFamilyAsyncNotifier<UserDetail, 
 
   @override
   FutureOr<UserDetail> build(String arg) async {
-    ref.onDispose(() {
+    ref.onCancel(() {
       if (!_cancelToken.isCancelled) _cancelToken.cancel();
     });
     userId = arg;
