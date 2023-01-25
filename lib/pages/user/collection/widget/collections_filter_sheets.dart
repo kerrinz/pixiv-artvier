@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
 import 'package:pixgem/component/filter/stateless_flow_filter.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/user/bookmark/bookmark_tag.dart';
@@ -77,7 +76,7 @@ class CollectionsFilterSheet extends ConsumerWidget {
           ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 8),
-            child: Text("收藏的标签", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            child: Text("标签筛选", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ),
           // 标签列表
           ScrollConfiguration(
@@ -95,24 +94,20 @@ class CollectionsFilterSheet extends ConsumerWidget {
                 ),
                 child: Consumer(
                   builder: ((_, ref, __) {
-                    var tagsState = ref.watch(collectionsTagsProvider);
-
-                    return tagsState.when(
-                      loading: () => const RequestLoading(),
-                      empty: () => const Center(child: Text("Empty")),
-                      data: (data) => TagListView(
-                        tagList: data
-                          ..insertAll(0, [
-                            // All
-                            BookmarkTag(name: null),
-                            // Uncategorized
-                            BookmarkTag(name: ""),
-                          ]),
-                        onLazyload: () async => ref.read(collectionsTagsProvider.notifier).next(),
-                      ),
-                      error: (error) => RequestLoadingFailed(
-                        onRetry: () => ref.read(collectionsTagsProvider.notifier).reload(),
-                      ),
+                    var data = ref.watch(collectionsTagsProvider);
+                    return TagListView(
+                      tagList: [
+                        // All
+                        BookmarkTag(name: null),
+                        // Uncategorized
+                        BookmarkTag(name: ""),
+                        if (data != null) ...data,
+                      ],
+                      onLazyload: () async {
+                        return data == null
+                            ? ref.watch(collectionsTagsProvider.notifier).fetch()
+                            : ref.watch(collectionsTagsProvider.notifier).next();
+                      },
                     );
                   }),
                 ),

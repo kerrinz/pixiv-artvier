@@ -18,6 +18,7 @@ class TagListView extends ConsumerWidget with LazyloadLogic {
   /// 懒加载异步事件
   /// - return bool of hasMore. 需要返回是否还有更多数据
   /// - 当[lazyloadState] = [LazyloadState.loading]/[LazyloadState.noMore] 时**不会执行**此函数
+  @override
   final Future<bool> Function() onLazyload;
 
   /// 赋值后本组件将不再负责懒加载状态，转变为静态组件
@@ -26,8 +27,6 @@ class TagListView extends ConsumerWidget with LazyloadLogic {
   final ScrollController? scrollController;
   final EdgeInsets? padding;
   final ScrollPhysics? physics;
-
-  late final WidgetRef ref;
 
   TagListView({
     Key? key,
@@ -41,12 +40,12 @@ class TagListView extends ConsumerWidget with LazyloadLogic {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    this.ref = ref;
     return ListView.builder(
       padding: padding,
       controller: scrollController,
       physics: physics,
       itemBuilder: ((context, index) => itemBuilder(ref, index)),
+      itemCount: tagList.length + 1,
     );
   }
 
@@ -60,9 +59,9 @@ class TagListView extends ConsumerWidget with LazyloadLogic {
     var tag = tagList[index];
     return TagListItemWidget(
       count: tag.count,
-      isActived: tag.name == ref.watch(collectionsFilterProvider).tag,
+      isActived: tag.name == ref.watch(cachedCollectionsFilterProvider).tag,
       name: (tag.name?.isEmpty ?? false) ? "未分類" : tag.name ?? "全部",
-      onTap: () => ref.read(collectionsFilterProvider.notifier).update(
+      onTap: () => ref.read(cachedCollectionsFilterProvider.notifier).update(
             (state) => state.copyWith(tag: tag.name),
           ),
     );
@@ -71,6 +70,7 @@ class TagListView extends ConsumerWidget with LazyloadLogic {
   /// 懒加载组件的构建
   Widget lazyloadWidget(WidgetRef ref) => Consumer(
         builder: ((context, ref, _) {
+          var lazyloadState = ref.watch(lazyloadStateProvider);
           Map<LazyloadState, Widget> map = {
             LazyloadState.idle: Container(
               alignment: Alignment.center,
@@ -91,7 +91,7 @@ class TagListView extends ConsumerWidget with LazyloadLogic {
               alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: LazyloadingFailedWidget(
-                onRetry: () => onLazyload(),
+                onRetry: () => handleRetry(ref),
               ),
             ),
           };
@@ -114,9 +114,12 @@ class SliverTagListView extends TagListView {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => itemBuilder(ref, index),
+    return SliverPadding(
+      padding: padding ?? EdgeInsets.zero,
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => itemBuilder(ref, index),
+        ),
       ),
     );
   }

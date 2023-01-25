@@ -21,7 +21,7 @@ class _EverybodyNewestTabPageState extends BasePageState<EverybodyNewestTabPage>
   Widget build(BuildContext context) {
     super.build(context);
     return RefreshIndicator(
-      onRefresh: () async {},
+      onRefresh: () async => ref.read(everybodyNewestIllustsProvider.notifier).refresh(),
       child: Consumer(
         builder: (context, value, child) {
           var list = ref.watch(everybodyNewestIllustsProvider);

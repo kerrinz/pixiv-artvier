@@ -13,9 +13,9 @@ class SearchFilterBottomSheet extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _SearchFilterBottomSheetState();
 }
 
-class _SearchFilterBottomSheetState extends ConsumerState<SearchFilterBottomSheet> {
+class _SearchFilterBottomSheetState extends ConsumerState<SearchFilterBottomSheet> with _Logic {
   /// 将筛选参数变为局部变量
-  SearchFilterArguments get _arguments => ref.read(searchFilterProvider).copyWith();
+  // SearchFilterArguments get _arguments => ref.read(searchFilterProvider).copyWith();
 
   /// 最小收藏数的选择项
   final List<int> _minCollectList = const [
@@ -27,12 +27,8 @@ class _SearchFilterBottomSheetState extends ConsumerState<SearchFilterBottomShee
     20000,
   ];
 
-  /// 滑动条的值
-  double _sliderValue = 0;
-
   @override
   void initState() {
-    _sliderValue = _minCollectList.indexOf(_arguments.minCollectCount ?? _minCollectList[0]).toDouble();
     super.initState();
   }
 
@@ -47,22 +43,27 @@ class _SearchFilterBottomSheetState extends ConsumerState<SearchFilterBottomShee
                 Container(
                   padding: const EdgeInsets.all(16),
                   width: double.infinity,
-                  child: Text("收藏超过${_arguments.minCollectCount ?? _minCollectList[0]}的插画"),
+                  child: Consumer(builder: (_, ref, __) {
+                    var data = ref.watch(filterProvider.select((value) => value.minCollectCount));
+                    return Text("收藏超过${data ?? _minCollectList[0]}的插画");
+                  }),
                 ),
-                Slider(
-                  min: 0,
-                  max: _minCollectList.length.roundToDouble() - 1,
-                  label: _arguments.minCollectCount?.toString() ?? _minCollectList[0].toString(),
-                  onChanged: (double value) {
-                    _sliderValue = value;
-                    int index = value.round();
-                    ref
-                        .read(searchFilterProvider.notifier)
-                        .update((state) => state.copyWith(minCollectCount: _minCollectList[index]));
-                  },
-                  divisions: _minCollectList.length - 1,
-                  value: _sliderValue,
-                ),
+                Consumer(builder: (_, ref, __) {
+                  var data = ref.watch(filterProvider.select((value) => value.minCollectCount));
+                  return Slider(
+                    min: 0,
+                    max: _minCollectList.length.roundToDouble() - 1,
+                    label: data?.toString() ?? _minCollectList[0].toString(),
+                    onChanged: (double value) {
+                      int index = value.round();
+                      ref
+                          .read(filterProvider.notifier)
+                          .update((state) => state.copyWith(minCollectCount: _minCollectList[index]));
+                    },
+                    divisions: _minCollectList.length - 1,
+                    value: _minCollectList.indexOf(data ?? _minCollectList[0]).toDouble(),
+                  );
+                }),
               ],
             );
           },
@@ -75,16 +76,24 @@ class _SearchFilterBottomSheetState extends ConsumerState<SearchFilterBottomShee
           child: CupertinoButton(
             color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.zero,
+            onPressed: handlePressedConform,
             child: Text(
               "确定",
               style: TextStyle(color: Theme.of(context).colorScheme.primary),
             ),
-            onPressed: () {
-              Navigator.of(context).pop(_arguments);
-            },
           ),
         ),
       ],
     );
+  }
+}
+
+mixin _Logic on ConsumerState<SearchFilterBottomSheet> {
+  /// 筛选
+  final filterProvider = StateProvider.autoDispose<SearchFilterArguments>((ref) => ref.read(searchFilterProvider));
+
+  /// 确认筛选
+  void handlePressedConform() {
+    Navigator.of(context).pop(ref.read(filterProvider));
   }
 }
