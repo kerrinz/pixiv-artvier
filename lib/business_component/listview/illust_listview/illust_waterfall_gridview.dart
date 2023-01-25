@@ -20,6 +20,7 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
   /// 懒加载异步事件
   /// - return bool of hasMore. 需要返回是否还有更多数据
   /// - 当[lazyloadState] = [LazyloadState.loading]/[LazyloadState.noMore] 时**不会执行**此函数
+  @override
   final Future<bool> Function() onLazyload;
 
   /// 赋值后本组件将不再负责懒加载状态，转变为静态组件
@@ -122,7 +123,7 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
               alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: LazyloadingFailedWidget(
-                onRetry: () => onLazyload(),
+                onRetry: () => handleRetry(ref),
               ),
             ),
           };
@@ -146,19 +147,22 @@ class SliverIllustWaterfallGridView extends IllustWaterfallGridView {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     this.ref = ref;
-    return SliverWaterfallFlow(
-      gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        mainAxisSpacing: mainAxisSpacing,
-        crossAxisSpacing: crossAxisSpacing,
-        collectGarbage: collectGarbage,
-        viewportBuilder: viewportBuilder,
-        lastChildLayoutTypeBuilder: (index) =>
-            index == artworkList.length ? LastChildLayoutType.fullCrossAxisExtent : LastChildLayoutType.none,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) => itemBuilder(ref, index),
-        childCount: artworkList.length + 1,
+    return SliverPadding(
+      padding: padding ?? EdgeInsets.zero,
+      sliver: SliverWaterfallFlow(
+        gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          mainAxisSpacing: mainAxisSpacing,
+          crossAxisSpacing: crossAxisSpacing,
+          collectGarbage: collectGarbage,
+          viewportBuilder: viewportBuilder,
+          lastChildLayoutTypeBuilder: (index) =>
+              index == artworkList.length ? LastChildLayoutType.fullCrossAxisExtent : LastChildLayoutType.none,
+        ),
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) => itemBuilder(ref, index),
+          childCount: artworkList.length + 1,
+        ),
       ),
     );
   }

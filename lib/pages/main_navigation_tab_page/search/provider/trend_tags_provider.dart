@@ -31,9 +31,19 @@ class ArtworkTrendTagsNotifier extends BaseAutoDisposeAsyncNotifier<List<TrendTa
     }
   }
 
-  /// 重试
-  Future<void> retry() async {
-    await fetch();
+  /// 重载
+  Future<void> reload() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      return await fetch();
+    });
+  }
+
+  /// 刷新
+  Future<void> refresh() async {
+    state = await AsyncValue.guard(() async {
+      return await fetch();
+    });
   }
 }
 
@@ -49,9 +59,20 @@ class NovelTrendTagsNotifier extends BaseAutoDisposeAsyncNotifier<List<TrendTags
     return result.trendTags;
   }
 
-  /// 重试
+  /// 重新载入
   @override
-  Future<void> retry() async {
-    await fetch();
+  Future<void> reload() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      return await fetch();
+    });
+  }
+
+  /// 刷新
+  @override
+  Future<void> refresh() async {
+    state = await AsyncValue.guard(() async {
+      return await fetch();
+    });
   }
 }

@@ -94,7 +94,7 @@ class SearchTabPageState extends BasePageState<SearchTabPage>
       },
       // 内容主体
       body: RefreshIndicator(
-        onRefresh: () async => ref.read,
+        onRefresh: () async => ref.read(artworkTrendTagsProvider.notifier).refresh(),
         child: Consumer(
           builder: (_, ref, __) {
             var data = ref.watch(artworkTrendTagsProvider);
@@ -103,7 +103,7 @@ class SearchTabPageState extends BasePageState<SearchTabPage>
                 tags: data,
               ),
               error: (error, stackTrace) => RequestLoadingFailed(
-                onRetry: () => ref.read(artworkTrendTagsProvider.notifier).retry(),
+                onRetry: () => ref.read(artworkTrendTagsProvider.notifier).reload(),
               ),
               loading: () => const RequestLoading(),
             );

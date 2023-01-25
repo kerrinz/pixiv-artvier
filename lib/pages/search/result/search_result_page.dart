@@ -69,10 +69,10 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _textController.dispose();
     _focusNode.unfocus();
     _focusNode.dispose();
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

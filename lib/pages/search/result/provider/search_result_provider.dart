@@ -13,29 +13,20 @@ import 'package:pixgem/model_response/novels/common_novel.dart';
 import 'package:pixgem/model_response/user/common_user_previews.dart';
 import 'package:pixgem/pages/search/result/provider/search_filters_provider.dart';
 
-class SearchArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIllust>> {
-  SearchArtworksNotifier({required this.searchWord});
-
-  String searchWord;
-
-  String? nextUrl;
-
-  final CancelToken _cancelToken = CancelToken();
-
-  @override
-  FutureOr<List<CommonIllust>> build() async {
-    ref.onDispose(() {
-      if (!_cancelToken.isCancelled) _cancelToken.cancel();
-    });
-    return fetch();
+class SearchArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIllust>>
+    with _SearchResultProviderMixin<List<CommonIllust>> {
+  SearchArtworksNotifier({required String searchWord}) {
+    this.searchWord = searchWord;
   }
 
   /// 初始化数据
+  @override
   Future<List<CommonIllust>> fetch() async {
     var filterArgs = ref.watch(searchFilterProvider);
     try {
       var result = await ApiSearch(requester).searchArtworks(
-        searchWord,
+        // 搜索关键词，再叠加收藏数
+        filterArgs.minCollectCount == null ? searchWord : "$searchWord ${filterArgs.minCollectCount.toString()}users入り",
         sort: filterArgs.sort,
         match: filterArgs.match,
         startDate: filterArgs.startDate,
@@ -51,6 +42,7 @@ class SearchArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIll
   }
 
   /// 下一页
+  @override
   Future<bool> next() async {
     if (nextUrl == null) return false;
 
@@ -60,52 +52,16 @@ class SearchArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIll
 
     return nextUrl != null;
   }
-
-  /// 下拉刷新
-  Future<void> refresh() async {
-    state = await AsyncValue.guard(() async {
-      return fetch();
-    });
-  }
-
-  /// 失败后的重试，或者用于重新加载
-  Future<void> reload() async {
-    // Set loading
-    state = const AsyncValue.loading();
-    // Reload
-    state = await AsyncValue.guard(() async {
-      return fetch();
-    });
-  }
-
-  /// 使用新关键词搜索
-  Future<void> search(String searchWord) async {
-    state = const AsyncValue.loading();
-    this.searchWord = searchWord;
-    state = await AsyncValue.guard(() async {
-      return fetch();
-    });
-  }
 }
 
-class SearchNovelsNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonNovel>> {
-  SearchNovelsNotifier({required this.searchWord});
-
-  String searchWord;
-
-  String? nextUrl;
-
-  final CancelToken _cancelToken = CancelToken();
-
-  @override
-  FutureOr<List<CommonNovel>> build() async {
-    ref.onDispose(() {
-      if (!_cancelToken.isCancelled) _cancelToken.cancel();
-    });
-    return fetch();
+class SearchNovelsNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonNovel>>
+    with _SearchResultProviderMixin<List<CommonNovel>> {
+  SearchNovelsNotifier({required String searchWord}) {
+    this.searchWord = searchWord;
   }
 
   /// 初始化数据
+  @override
   Future<List<CommonNovel>> fetch() async {
     var filterArgs = ref.watch(searchFilterProvider);
     var result = await ApiSearch(requester).searchNovels(
@@ -121,6 +77,7 @@ class SearchNovelsNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonNovel
   }
 
   /// 下一页
+  @override
   Future<bool> next() async {
     if (nextUrl == null) return false;
 
@@ -130,52 +87,16 @@ class SearchNovelsNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonNovel
 
     return nextUrl != null;
   }
-
-  /// 下拉刷新
-  Future<void> refresh() async {
-    state = await AsyncValue.guard(() async {
-      return fetch();
-    });
-  }
-
-  /// 失败后的重试，或者用于重新加载
-  Future<void> reload() async {
-    // Set loading
-    state = const AsyncValue.loading();
-    // Reload
-    state = await AsyncValue.guard(() async {
-      return fetch();
-    });
-  }
-
-  /// 使用新关键词搜索
-  Future<void> search(String searchWord) async {
-    state = const AsyncValue.loading();
-    this.searchWord = searchWord;
-    state = await AsyncValue.guard(() async {
-      return fetch();
-    });
-  }
 }
 
-class SearchUsersNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonUserPreviews>> {
-  SearchUsersNotifier({required this.searchWord});
-
-  String searchWord;
-
-  String? nextUrl;
-
-  final CancelToken _cancelToken = CancelToken();
-
-  @override
-  FutureOr<List<CommonUserPreviews>> build() async {
-    ref.onDispose(() {
-      if (!_cancelToken.isCancelled) _cancelToken.cancel();
-    });
-    return fetch();
+class SearchUsersNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonUserPreviews>>
+    with _SearchResultProviderMixin<List<CommonUserPreviews>> {
+  SearchUsersNotifier({required String searchWord}) {
+    this.searchWord = searchWord;
   }
 
   /// 初始化数据
+  @override
   Future<List<CommonUserPreviews>> fetch() async {
     var result = await ApiSearch(requester).searchUsers(
       searchWord,
@@ -186,6 +107,7 @@ class SearchUsersNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonUserPr
   }
 
   /// 下一页
+  @override
   Future<bool> next() async {
     if (nextUrl == null) return false;
 
@@ -195,6 +117,28 @@ class SearchUsersNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonUserPr
 
     return nextUrl != null;
   }
+}
+
+mixin _SearchResultProviderMixin<State> on BaseAutoDisposeAsyncNotifier<State> {
+  late String searchWord;
+
+  String? nextUrl;
+
+  final CancelToken _cancelToken = CancelToken();
+
+  @override
+  FutureOr<State> build() async {
+    ref.onCancel(() {
+      if (!_cancelToken.isCancelled) _cancelToken.cancel();
+    });
+    return fetch();
+  }
+
+  /// 初始化数据
+  Future<State> fetch();
+
+  /// 下一页
+  Future<bool> next();
 
   /// 下拉刷新
   Future<void> refresh() async {
