@@ -4,11 +4,10 @@ import 'package:pixgem/global/provider/current_account_provider.dart';
 import 'package:pixgem/global/provider/themes_provider.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/profile_tabpage.dart';
 import 'package:pixgem/routes.dart';
 
-mixin ProfileTabPageLogic {
-  WidgetRef get ref;
-
+mixin ProfileTabPageLogic on ConsumerState<ProfileTabPage> {
   LocalizationIntl get i10n => LocalizationIntl.of(ref.context);
 
   /// 点击切换主题模式

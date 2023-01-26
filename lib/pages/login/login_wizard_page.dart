@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy_and_origin.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_and_origin.dart';
 import 'package:pixgem/routes.dart';
 
 /// 登录引导页面，未登录、添加帐号会跳转到这里
