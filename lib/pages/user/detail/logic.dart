@@ -1,7 +1,6 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pixgem/base/base_page.dart';
+import 'package:pixgem/pages/user/detail/user_detail_page.dart';
 
-mixin UserDetailPageLogic {
-  WidgetRef get ref;
-
-  late final String userId;
+mixin UserDetailPageLogic on BasePageState<UserDetailPage> {
+  String get userId;
 }

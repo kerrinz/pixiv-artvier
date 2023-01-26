@@ -17,10 +17,10 @@ import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/pages/artwork/detail/widgets/user_follow_button.dart';
-import 'package:pixgem/pages/user/detail/collections_tabpage.dart';
+import 'package:pixgem/pages/user/detail/tabpage/collections_tabpage.dart';
 import 'package:pixgem/pages/user/detail/logic.dart';
 import 'package:pixgem/pages/user/detail/provider/user_detail_provider.dart';
-import 'package:pixgem/pages/user/detail/works_tabpage.dart';
+import 'package:pixgem/pages/user/detail/tabpage/works_tabpage.dart';
 import 'package:pixgem/routes.dart';
 
 class UserDetailPage extends BaseStatefulPage {
@@ -201,11 +201,11 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
                           controller: _tabController,
                           children: [
                             // 作品列表
-                            WorksTabPage(
+                            UserWorksTabPage(
                               userId: widget.leastInfo.id.toString(),
                             ),
                             // 收藏列表
-                            CollectionsTabPage(
+                            UserCollectionsTabPage(
                               userId: widget.leastInfo.id.toString(),
                             ),
                             Builder(

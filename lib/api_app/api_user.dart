@@ -80,8 +80,10 @@ class ApiUser extends ApiBase {
     return TheFollowingDetail.fromJson(json.decode(res.data));
   }
 
-  /// 获取用户的漫画（或插画）作品列表
-  Future<CommonIllustList> getUserIllusts(
+  /// 获取用户的插画作品列表
+  ///
+  /// [worksType] = [WorksType.manga]]可切换为漫画作品
+  Future<CommonIllustList> illustWorks(
       {required userId, WorksType worksType = WorksType.illust, CancelToken? cancelToken}) async {
     assert([WorksType.illust, WorksType.manga].contains(worksType));
     String type = worksType == WorksType.illust ? CONSTANTS.type_illusts : CONSTANTS.type_manga;
@@ -98,8 +100,13 @@ class ApiUser extends ApiBase {
     return CommonIllustList.fromJson(json.decode(res.data));
   }
 
+  /// 获取用户的漫画作品列表
+  Future<CommonIllustList> mangaWorks({required userId, CancelToken? cancelToken}) {
+    return illustWorks(userId: userId, worksType: WorksType.manga, cancelToken: cancelToken);
+  }
+
   /// 获取用户的小说作品列表
-  Future<CommonNovelList> getUserNovels({required userId, CancelToken? cancelToken}) async {
+  Future<CommonNovelList> novelWorks({required userId, CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
       "/v1/user/novels",
       queryParameters: {
