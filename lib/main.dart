@@ -9,7 +9,6 @@ import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'pages/framework/booting/booting_page.dart';
-import 'global/global.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +31,6 @@ Future<void> main() async {
 }
 
 beforeRunApp() async {
-  GlobalStore.globalSharedPreferences = await SharedPreferences.getInstance();
 }
 
 // 初始化一些APP全局设定，不加载内容

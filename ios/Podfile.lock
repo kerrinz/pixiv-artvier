@@ -3,9 +3,6 @@ PODS:
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
-  - FMDB (2.7.5):
-    - FMDB/standard (= 2.7.5)
-  - FMDB/standard (2.7.5)
   - image_gallery_saver (1.5.0):
     - Flutter
   - package_info (0.0.1):
@@ -16,9 +13,6 @@ PODS:
     - Flutter
   - shared_preferences_ios (0.0.1):
     - Flutter
-  - sqflite (0.0.2):
-    - Flutter
-    - FMDB (>= 2.7.5)
   - Toast (4.0.0)
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
@@ -31,12 +25,10 @@ DEPENDENCIES:
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
-  - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
   trunk:
-    - FMDB
     - Toast
 
 EXTERNAL SOURCES:
@@ -54,21 +46,17 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler/ios"
   shared_preferences_ios:
     :path: ".symlinks/plugins/shared_preferences_ios/ios"
-  sqflite:
-    :path: ".symlinks/plugins/sqflite/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
-  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  fluttertoast: eb263d302cc92e04176c053d2385237e9f43fad0
   image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
-  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 

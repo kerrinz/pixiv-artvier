@@ -10,7 +10,7 @@ import 'package:pixgem/global/provider/current_user_detail.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/logic.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/models.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy_and_origin.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_and_origin.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/theme.dart';
 import 'package:pixgem/routes.dart';
 

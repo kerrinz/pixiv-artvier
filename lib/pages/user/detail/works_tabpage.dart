@@ -150,70 +150,67 @@ class WorksTabPageState extends ConsumerState<WorksTabPage> with AutomaticKeepAl
               minHeight: 46,
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-            sliver: pro.MultiProvider(
-              providers: [
-                pro.ChangeNotifierProvider<WorksProvider>.value(value: _worksProvider),
-                pro.ChangeNotifierProvider<LazyloadStatusProvider>.value(value: _lazyloadProvider),
-              ],
-              child: pro.Consumer<WorksProvider>(
-                builder: (BuildContext context, WorksProvider provider, Widget? child) {
-                  if (provider.loadingStatus == LoadingStatus.loading) {
-                    return const SliverToBoxAdapter(child: RequestLoading());
-                  } else if (provider.loadingStatus == LoadingStatus.failed) {
-                    return SliverToBoxAdapter(
-                      child: RequestLoadingFailed(onRetry: () {
-                        _worksProvider.setLoadingStatus(LoadingStatus.loading);
-                        requestIllusts(WorksType.illust).then((value) {
-                          _worksProvider.resetIllust(value.illusts);
-                          setNextUrl(value.nextUrl);
-                        }).catchError((error) {
-                          // 非取消才能显示Failed
-                          if (error is DioError && error.type == DioErrorType.cancel) return;
-                          _worksProvider.setLoadingStatus(LoadingStatus.failed);
-                        });
-                      }),
+          pro.MultiProvider(
+            providers: [
+              pro.ChangeNotifierProvider<WorksProvider>.value(value: _worksProvider),
+              pro.ChangeNotifierProvider<LazyloadStatusProvider>.value(value: _lazyloadProvider),
+            ],
+            child: pro.Consumer<WorksProvider>(
+              builder: (BuildContext context, WorksProvider provider, Widget? child) {
+                if (provider.loadingStatus == LoadingStatus.loading) {
+                  return const SliverToBoxAdapter(child: RequestLoading());
+                } else if (provider.loadingStatus == LoadingStatus.failed) {
+                  return SliverToBoxAdapter(
+                    child: RequestLoadingFailed(onRetry: () {
+                      _worksProvider.setLoadingStatus(LoadingStatus.loading);
+                      requestIllusts(WorksType.illust).then((value) {
+                        _worksProvider.resetIllust(value.illusts);
+                        setNextUrl(value.nextUrl);
+                      }).catchError((error) {
+                        // 非取消才能显示Failed
+                        if (error is DioError && error.type == DioErrorType.cancel) return;
+                        _worksProvider.setLoadingStatus(LoadingStatus.failed);
+                      });
+                    }),
+                  );
+                }
+                // LoadingStatus.succeed
+                switch (provider.currentWorksType) {
+                  case WorksType.illust:
+                    if (provider.illustList.isEmpty) return _buildEmptyPrompt(context);
+                    return SliverIllustWaterfallGridView(
+                      artworkList: provider.illustList,
+                      onLazyload: () async {
+                        if (isLazyloadRequesting) return false; // 已经在请求了，不要重复请求
+                        if (nextUrl != null) defaultIllustLazyload(WorksType.illust);
+                        return false;
+                      },
                     );
-                  }
-                  // LoadingStatus.succeed
-                  switch (provider.currentWorksType) {
-                    case WorksType.illust:
-                      if (provider.illustList.isEmpty) return _buildEmptyPrompt(context);
-                      return SliverIllustWaterfallGridView(
-                        artworkList: provider.illustList,
-                        onLazyload: () async {
-                          if (isLazyloadRequesting) return false; // 已经在请求了，不要重复请求
-                          if (nextUrl != null) defaultIllustLazyload(WorksType.illust);
-                          return false;
-                        },
-                      );
-                    case WorksType.mangaSeries:
-                    case WorksType.manga:
-                      if (provider.mangaList.isEmpty) return _buildEmptyPrompt(context);
-                      return SliverIllustWaterfallGridView(
-                        artworkList: provider.mangaList,
-                        onLazyload: () async {
-                          if (isLazyloadRequesting) return false; // 已经在请求了，不要重复请求
-                          if (nextUrl != null) defaultIllustLazyload(WorksType.manga);
-                          return false;
-                        },
-                      );
-                    case WorksType.novel:
-                      if (provider.novelList.isEmpty) return _buildEmptyPrompt(context);
-                      return SliverNovelListView(
-                        novelList: provider.novelList,
-                        onLazyload: () async {
-                          if (isLazyloadRequesting) return false; // 已经在请求了，不要重复请求
-                          if (nextUrl != null) defaultNovelLazyload();
-                          return false;
-                        },
-                      );
-                  }
-                },
-              ),
+                  case WorksType.mangaSeries:
+                  case WorksType.manga:
+                    if (provider.mangaList.isEmpty) return _buildEmptyPrompt(context);
+                    return SliverIllustWaterfallGridView(
+                      artworkList: provider.mangaList,
+                      onLazyload: () async {
+                        if (isLazyloadRequesting) return false; // 已经在请求了，不要重复请求
+                        if (nextUrl != null) defaultIllustLazyload(WorksType.manga);
+                        return false;
+                      },
+                    );
+                  case WorksType.novel:
+                    if (provider.novelList.isEmpty) return _buildEmptyPrompt(context);
+                    return SliverNovelListView(
+                      novelList: provider.novelList,
+                      onLazyload: () async {
+                        if (isLazyloadRequesting) return false; // 已经在请求了，不要重复请求
+                        if (nextUrl != null) defaultNovelLazyload();
+                        return false;
+                      },
+                    );
+                }
+              },
             ),
-          ),
+          )
         ],
       ),
     );
