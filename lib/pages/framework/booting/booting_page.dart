@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/global/provider/current_account_provider.dart';
+import 'package:pixgem/global/provider/proxy_provider.dart';
+import 'package:pixgem/request/my_http_overrides.dart';
 import 'package:pixgem/routes.dart';
-import 'package:pixgem/global/global.dart';
 
 /// app启动的加载过渡页面，载入一些数据
 class BootingPage extends ConsumerStatefulWidget {
@@ -43,21 +46,27 @@ class BootingPageState extends ConsumerState<BootingPage> {
   @override
   void initState() {
     super.initState();
-    initData().then((value) {
-      String? id = ref.read(globalCurrentAccountProvider)?.user.id;
-      if (id == null) {
-        // 拦截未登录
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      initData().then((value) {
+        String? id = ref.read(globalCurrentAccountProvider)?.user.id;
+        if (id == null) {
+          // 拦截未登录
+          Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+        }
+      }).catchError((onError) {
         Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
-      } else {
-        Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
-      }
-    }).catchError((onError) {
-      Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
+      });
     });
   }
 
   /// 初始化数据
   Future initData() async {
-    await GlobalStore.init();
+    // await GlobalStore.init();
+
+    // 初始化代理配置（）
+    HttpOverrides.global = MyHttpOverrides();
+    ref.read(globalProxyStateProvider.notifier).applyHttpOverrides();
   }
 }

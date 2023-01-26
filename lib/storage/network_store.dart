@@ -1,40 +1,40 @@
-// ignore_for_file: constant_identifier_names
-
+import 'package:pixgem/base/base_storage.dart';
 import 'package:pixgem/config/constants.dart';
 
-import '../global/global.dart';
+class NetworkStorage extends BaseStorage {
+  NetworkStorage(super.sharedPreferences);
 
-class NetworkStore {
-  static const String PROXY_HOST = "network_proxy_host";
-  static const String PROXY_PORT = "network_proxy_port";
-  static const String PROXY_ENABLE = "network_proxy_enable"; // 是否开启代理
+  static const String proxyHost = "network_proxy_host";
+  static const String proxyPort = "network_proxy_port";
+  static const String proxyEnable = "network_proxy_enable"; // 是否开启代理
 
-  // 设置网络代理
-  static Future<bool> setNetworkProxy(String host, String port) async {
-    bool h = await GlobalStore.globalSharedPreferences.setString(PROXY_HOST, host);
-    return h && await GlobalStore.globalSharedPreferences.setString(PROXY_PORT, port);
+  /// 设置网络代理
+  Future<bool> setNetworkProxy(String host, String port) async {
+    bool h = await sharedPreferences.setString(proxyHost, host);
+    return h && await sharedPreferences.setString(proxyPort, port);
   }
 
-  // 获取完整的网络代理（适合用于应用代理设置），不存在则会获得默认值
-  static String getNetworkProxy() {
-    String h = GlobalStore.globalSharedPreferences.getString(PROXY_HOST) ?? CONSTANTS.proxy_default_host;
-    String p = GlobalStore.globalSharedPreferences.getString(PROXY_PORT) ?? CONSTANTS.proxy_default_port;
+  /// 获取完整的网络代理（适合用于应用代理设置），不存在则会获得默认值
+  /// 格式：[HOST]:[IP]
+  String getNetworkProxy() {
+    String h = sharedPreferences.getString(proxyHost) ?? CONSTANTS.proxy_default_host;
+    String p = sharedPreferences.getString(proxyPort) ?? CONSTANTS.proxy_default_port;
     return "$h:$p";
   }
 
-  static String? getProxyHost() {
-    return GlobalStore.globalSharedPreferences.getString(PROXY_HOST);
+  String? getProxyHost() {
+    return sharedPreferences.getString(proxyHost);
   }
 
-  static String? getProxyPort() {
-    return GlobalStore.globalSharedPreferences.getString(PROXY_PORT);
+  String? getProxyPort() {
+    return sharedPreferences.getString(proxyPort);
   }
 
-  static bool getProxyEnable() {
-    return GlobalStore.globalSharedPreferences.getBool(PROXY_ENABLE) ?? false;
+  bool getProxyEnable() {
+    return sharedPreferences.getBool(proxyEnable) ?? false;
   }
 
-  static Future<bool> setProxyEnable(bool enable) {
-    return GlobalStore.globalSharedPreferences.setBool(PROXY_ENABLE, enable);
+  Future<bool> setProxyEnable(bool enable) {
+    return sharedPreferences.setBool(proxyEnable, enable);
   }
 }
