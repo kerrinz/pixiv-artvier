@@ -15,6 +15,7 @@ class UserFollowButton extends ConsumerWidget with _FollowButtonLogic {
   }) : super(key: key);
 
   final UserFollowState followState;
+
   final String userId;
 
   late final _userFollowProvider = StateNotifierProvider<FollowNotifier, UserFollowState>((ref) {
@@ -26,7 +27,6 @@ class UserFollowButton extends ConsumerWidget with _FollowButtonLogic {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    this.ref = ref;
     ref.listen<FollowingStateChangedArguments?>(globalFollowingStateChangedProvider, (previous, next) {
       // 监听全局通知
       if (next != null) {
@@ -36,46 +36,62 @@ class UserFollowButton extends ConsumerWidget with _FollowButtonLogic {
 
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     Map<UserFollowState, Color> colorMap = {
-      UserFollowState.followed: Theme.of(context).colorScheme.surfaceVariant,
+      UserFollowState.followed: colorScheme.surfaceVariant,
       UserFollowState.notFollow: colorScheme.primary,
-      UserFollowState.requestingFollow: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.6),
-      UserFollowState.requestingUnfollow: colorScheme.primary.withOpacity(0.6),
+      UserFollowState.requestingFollow: colorScheme.primary,
+      UserFollowState.requestingUnfollow: colorScheme.surfaceVariant,
     };
     Map<UserFollowState, Color> textColorMap = {
-      UserFollowState.followed: Theme.of(context).colorScheme.surfaceVariant,
-      UserFollowState.notFollow: colorScheme.primary,
-      UserFollowState.requestingFollow: Theme.of(context).colorScheme.surfaceVariant,
+      UserFollowState.followed: colorScheme.primary,
+      UserFollowState.notFollow: colorScheme.surfaceVariant,
+      UserFollowState.requestingFollow: colorScheme.surfaceVariant,
       UserFollowState.requestingUnfollow: colorScheme.primary,
     };
     Map<UserFollowState, String> textMap = {
       UserFollowState.followed: "已关注",
       UserFollowState.notFollow: "关注",
-      UserFollowState.requestingFollow: "已关注.",
-      UserFollowState.requestingUnfollow: "关注",
+      UserFollowState.requestingFollow: "loading...",
+      UserFollowState.requestingUnfollow: "loading...",
     };
 
     var state = ref.watch(userFollowProvider);
     return Padding(
       padding: const EdgeInsets.only(right: 4.0, left: 4.0),
       child: CupertinoButton(
-        onPressed: handlePressed,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        onPressed: () => handlePressed(ref),
         minSize: 0,
+        pressedOpacity: 1,
         alignment: Alignment.center,
         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         color: colorMap[state],
-        child: Text(textMap[state]!, style: TextStyle(color: textColorMap[state], fontSize: 14.0)),
+        child: SizedBox(
+          height: 16,
+          child: [UserFollowState.requestingFollow, UserFollowState.requestingUnfollow].contains(state)
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 1.0,
+                        color: textColorMap[state],
+                      )),
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(top: 2.0),
+                  child: Text(textMap[state]!, style: TextStyle(color: textColorMap[state], fontSize: 14.0, height: 1)),
+                ),
+        ),
       ),
     );
   }
 }
 
 mixin _FollowButtonLogic {
-  late final WidgetRef ref;
+  StateNotifierProvider<FollowNotifier, UserFollowState> get userFollowProvider;
 
-  late final StateNotifierProvider<FollowNotifier, UserFollowState> userFollowProvider;
-
-  void handlePressed() {
+  void handlePressed(WidgetRef ref) {
     UserFollowState state = ref.read(userFollowProvider);
     if ([UserFollowState.requestingFollow, UserFollowState.requestingUnfollow].contains(state)) {
       return;
