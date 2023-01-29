@@ -5,7 +5,7 @@ import 'package:pixgem/pages/artwork/download_manage/download_manage_page.dart';
 import 'package:pixgem/pages/artwork/history/history_page.dart';
 import 'package:pixgem/pages/artwork/detail/detail_page.dart';
 import 'package:pixgem/pages/artwork/ranking/artworks_ranking_page.dart';
-import 'package:pixgem/pages/artwork/preview/illust_preview_page.dart';
+import 'package:pixgem/pages/artwork/viewer/image_viewer_page.dart';
 import 'package:pixgem/pages/login/login_by_web_page.dart';
 import 'package:pixgem/pages/login/login_wizard_page.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/main_navigation.dart';
@@ -68,7 +68,7 @@ class Routes {
     RouteNames.loginWeb.name: (context, arguments) => const LoginWebPage(),
     RouteNames.ranking.name: (context, arguments) => const ArtworksRankingPage(),
     RouteNames.artworkDetail.name: (context, arguments) => ArtWorksDetailPage(arguments!),
-    RouteNames.artworkImagesPreview.name: (context, arguments) => PreviewArtworksPage(arguments!),
+    RouteNames.artworkImagesPreview.name: (context, arguments) => ImageViewerPage(arguments!),
     RouteNames.comments.name: (context, arguments) => CommentsPage(arguments!),
     RouteNames.userFollowing.name: (context, arguments) => UserFollowingPage(arguments!),
     RouteNames.userDetail.name: (context, arguments) => UserDetailPage(arguments!),

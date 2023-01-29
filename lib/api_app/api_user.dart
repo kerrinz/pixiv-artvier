@@ -159,7 +159,7 @@ class ApiUser extends ApiBase {
   }
 
   /// 获取某个用户的关注（用户）列表
-  Future<UserPreviewsList> getUserFollowing(
+  Future<UserPreviewsList> userFollowings(
     String userId, {
     Restrict restrict = Restrict.public,
     CancelToken? cancelToken,

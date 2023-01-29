@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
@@ -8,8 +9,13 @@ import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/advanced_collecting_bottom_sheet.dart';
 import 'package:pixgem/global/provider/collection_state_provider.dart';
+import 'package:pixgem/pages/artwork/viewer/model/image_quality_url_model.dart';
+import 'package:pixgem/pages/artwork/viewer/model/image_viewer_page_arguments.dart';
+import 'package:pixgem/routes.dart';
 
 mixin ArtworkDetailPageLogic {
+  WidgetRef get ref;
+
   // /// 作品详细信息
   late CommonIllust? artworkDetail;
 
@@ -38,6 +44,22 @@ mixin ArtworkDetailPageLogic {
       worksType: WorksType.illust,
     );
   });
+
+  /// 点击图片查看大图或原图
+  void handleTapImage(CommonIllust detail, int index) {
+    List<ImageQualityUrl> urls = [];
+    if (detail.metaPages.isEmpty) {
+      // 单页作品
+      urls = [ImageQualityUrl(normal: detail.imageUrls.large, original: detail.metaSinglePage.originalImageUrl!)];
+    } else {
+      // 多页作品
+      for (var meta in detail.metaPages) {
+        urls.add(ImageQualityUrl(normal: meta.imageUrls.large, original: meta.imageUrls.original));
+      }
+    }
+    Navigator.of(ref.context).pushNamed(RouteNames.artworkImagesPreview.name,
+        arguments: ImageViewerPageArguments(urlList: urls, index: index));
+  }
 
   /// 点击收藏按钮的事件
   void handleTapCollect(WidgetRef ref) {

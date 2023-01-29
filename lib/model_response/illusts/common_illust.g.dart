@@ -68,10 +68,26 @@ Image_urls _$Image_urlsFromJson(Map<String, dynamic> json) => Image_urls(
       json['square_medium'] as String,
       json['medium'] as String,
       json['large'] as String,
-      json['original'] as String?,
     );
 
 Map<String, dynamic> _$Image_urlsToJson(Image_urls instance) =>
+    <String, dynamic>{
+      'square_medium': instance.squareMedium,
+      'medium': instance.medium,
+      'large': instance.large,
+    };
+
+Meta_Multiple_Image_urls _$Meta_Multiple_Image_urlsFromJson(
+        Map<String, dynamic> json) =>
+    Meta_Multiple_Image_urls(
+      json['square_medium'] as String,
+      json['medium'] as String,
+      json['large'] as String,
+      json['original'] as String,
+    );
+
+Map<String, dynamic> _$Meta_Multiple_Image_urlsToJson(
+        Meta_Multiple_Image_urls instance) =>
     <String, dynamic>{
       'square_medium': instance.squareMedium,
       'medium': instance.medium,
@@ -127,7 +143,8 @@ Map<String, dynamic> _$Meta_single_pageToJson(Meta_single_page instance) =>
     };
 
 MetaPages _$MetaPagesFromJson(Map<String, dynamic> json) => MetaPages(
-      Image_urls.fromJson(json['image_urls'] as Map<String, dynamic>),
+      Meta_Multiple_Image_urls.fromJson(
+          json['image_urls'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MetaPagesToJson(MetaPages instance) => <String, dynamic>{
