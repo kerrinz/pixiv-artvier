@@ -312,26 +312,27 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
     );
   }
 
-  Widget _buildPreviewImages(detail) {
-    List<MetaPages> metaPages = [];
+  Widget _buildPreviewImages(CommonIllust detail) {
+    // 图片链接列表
+    List<String> imageUrls = [];
     if (detail.metaPages.isEmpty) {
-      metaPages.add(MetaPages(detail.imageUrls));
+      imageUrls.add(detail.imageUrls.large);
     } else {
-      metaPages.addAll(detail.metaPages);
+      for (var item in detail.metaPages) {
+        imageUrls.add(item.imageUrls.large);
+      }
     }
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(RouteNames.artworkImagesPreview.name, arguments: detail);
-      },
-      child: Column(
-        children: [
-          for (MetaPages metaPage in metaPages)
-            Builder(builder: (context) {
-              Key? imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
-              return EnhanceNetworkImage(
+    return Column(
+      children: [
+        for (String url in imageUrls)
+          Builder(builder: (context) {
+            Key? imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
+            return GestureDetector(
+              onTap: () => handleTapImage(detail, imageUrls.indexOf(url)),
+              child: EnhanceNetworkImage(
                 key: imgKey,
                 image: ExtendedNetworkImageProvider(
-                  metaPage.imageUrls.large,
+                  url,
                   headers: const {"referer": CONSTANTS.referer},
                   cache: true,
                 ),
@@ -379,10 +380,10 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
                     },
                   );
                 },
-              );
-            }),
-        ],
-      ),
+              ),
+            );
+          }),
+      ],
     );
   }
 

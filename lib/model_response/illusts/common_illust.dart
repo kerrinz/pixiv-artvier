@@ -83,6 +83,7 @@ class CommonIllust extends Object {
 }
 
 
+/// 不管单页还是多页，均通用，但没有原图
 @JsonSerializable()
 class Image_urls extends Object {
 
@@ -95,14 +96,36 @@ class Image_urls extends Object {
   @JsonKey(name: 'large')
   String large;
 
-  @JsonKey(name: 'original')
-  String? original;
-
-  Image_urls(this.squareMedium,this.medium,this.large,this.original);
+  Image_urls(this.squareMedium,this.medium,this.large);
 
   factory Image_urls.fromJson(Map<String, dynamic> srcJson) => _$Image_urlsFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$Image_urlsToJson(this);
+
+}
+
+/// 只有多页的作品才可读
+@JsonSerializable()
+class Meta_Multiple_Image_urls extends Object {
+
+  @JsonKey(name: 'square_medium')
+  String squareMedium;
+
+  @JsonKey(name: 'medium')
+  String medium;
+
+  @JsonKey(name: 'large')
+  String large;
+
+  /// 多页作品的原图
+  @JsonKey(name: 'original')
+  String original;
+
+  Meta_Multiple_Image_urls(this.squareMedium,this.medium,this.large,this.original);
+
+  factory Meta_Multiple_Image_urls.fromJson(Map<String, dynamic> srcJson) => _$Meta_Multiple_Image_urlsFromJson(srcJson);
+
+  Map<String, dynamic> toJson() => _$Meta_Multiple_Image_urlsToJson(this);
 
 }
 
@@ -167,10 +190,11 @@ class Tags extends Object {
 
 }
 
-
+/// 只有单页作品里面才不为空
 @JsonSerializable()
 class Meta_single_page extends Object {
 
+  /// 单页作品的原图
   @JsonKey(name: 'original_image_url')
   String? originalImageUrl;
 
@@ -182,11 +206,12 @@ class Meta_single_page extends Object {
 
 }
 
+/// 只有多页作品里面才不为空
 @JsonSerializable()
 class MetaPages extends Object {
 
   @JsonKey(name: 'image_urls')
-  Image_urls imageUrls;
+  Meta_Multiple_Image_urls imageUrls;
 
   MetaPages(this.imageUrls,);
 
