@@ -168,6 +168,41 @@
     "placeholders_order": [],
     "placeholders": {}
   },
+  "lightBrightness": "浅色",
+  "@lightBrightness": {
+    "description": "Light brightness for app",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "dartBrightness": "深色",
+  "@dartBrightness": {
+    "description": "Dark brightness for app",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "dartModeSettingsTitle": "深色模式设置",
+  "@dartModeSettingsTitle": {
+    "description": "The settings title of dark mode",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "autoSwitchFollowingSystem": "跟随系统自动切换",
+  "@autoSwitchFollowingSystem": {
+    "description": "The options title for brightness following system",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "autoSwitchFollowingSystemDesc": "开启后，将跟随系统设置自动切换浅色或深色",
+  "@autoSwitchFollowingSystemDesc": {
+    "description": "The description of options of following system",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
   "rankings": "排行榜",
   "@rankings": {
     "description": "Function group item.",
