@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
+import 'package:pixgem/l10n/localization_intl.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/theme/widget/brightness_settings_panel.dart';
+
+class ThemeSettingsBottomSheet extends ConsumerWidget {
+  const ThemeSettingsBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var i10n = LocalizationIntl.of(context);
+    return SafeArea(
+      child: Column(
+        children: [
+          const BottomSheetSlideBar(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            child: Text(i10n.dartModeSettingsTitle, style: Theme.of(context).textTheme.titleMedium),
+          ),
+          const BrightnessSettingsPanel(),
+        ],
+      ),
+    );
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2022-10-28T17:10:34.915169",
+  "@@last_modified": "2023-01-29T17:51:07.633346",
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -164,6 +164,41 @@
   "filter": "Filter",
   "@filter": {
     "description": "filter the conditions for list",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "lightBrightness": "Light",
+  "@lightBrightness": {
+    "description": "Light brightness for app",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "dartBrightness": "Dark",
+  "@dartBrightness": {
+    "description": "Dark brightness for app",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "dartModeSettingsTitle": "Dark Mode Settings",
+  "@dartModeSettingsTitle": {
+    "description": "The settings title of dark mode",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "autoSwitchFollowingSystem": "Auto switch following system",
+  "@autoSwitchFollowingSystem": {
+    "description": "The options title for brightness following system",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "autoSwitchFollowingSystemDesc": "Automatically switch between light and dark following the system settings",
+  "@autoSwitchFollowingSystemDesc": {
+    "description": "The description of options of following system",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -605,6 +640,13 @@
   "tagAlreadyExists": "Tag already exists!",
   "@tagAlreadyExists": {
     "description": "Prompt the tag already exists by add new tag",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "tagsReachedMaximun": "Maximum number of tags reached!",
+  "@tagsReachedMaximun": {
+    "description": "Prompt when no more tags are allowed",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}

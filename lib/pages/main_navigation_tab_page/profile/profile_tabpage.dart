@@ -10,8 +10,8 @@ import 'package:pixgem/global/provider/current_user_detail.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/logic.dart';
 import 'package:pixgem/pages/main_navigation_tab_page/profile/models.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_and_origin.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/theme.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_bottom_sheet.dart';
+import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/theme/theme_bottom_sheet.dart';
 import 'package:pixgem/routes.dart';
 
 class ProfileTabPage extends ConsumerStatefulWidget {
@@ -63,7 +63,7 @@ class ProfileTabPageState extends ConsumerState<ProfileTabPage>
         (context) => PerferenceBottomSheetModel(
               LocalizationIntl.of(context).themeSettings,
               Icon(Icons.color_lens_outlined, color: Theme.of(context).primaryColor),
-              const ThemeSettingsBottomSheetContent(),
+              const ThemeSettingsBottomSheet(),
               null,
             ),
         (context) => PerferenceBottomSheetModel(
