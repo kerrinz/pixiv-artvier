@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/component/drag_view/drag_vertical_container.dart';
+import 'package:pixgem/component/drag_view/drag_vertical_panel.dart';
 
 class ArtworkDetailPageLayout extends ConsumerStatefulWidget {
   const ArtworkDetailPageLayout({
     super.key,
     required this.appBar,
+    required this.collectButton,
     required this.viewerContent,
-    required this.bottomContentBuilder,
+    required this.slivers,
+    this.dragController,
     this.isShapedScreen = false,
   });
 
   final Widget appBar;
 
+  final Widget collectButton;
+
+  final DragController? dragController;
+
   /// 图片的浏览区域
   final Widget viewerContent;
 
-  /// 后半（底部）的拖拽区域
-  final Widget Function(ScrollController scrollController) bottomContentBuilder;
+  /// Panel
+  final List<Widget> slivers;
 
   /// 手机屏幕是否异形屏
   ///
@@ -32,7 +39,7 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
   /// 拖拽组件内部滚动内容的控制器
   final ScrollController _scrollController = ScrollController();
 
-  final DragController _dragController = DragController();
+  late DragController _dragController;
 
   double _scrollOffset = 0;
 
@@ -44,34 +51,24 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
   static const double _floatingButtonOffset = 20;
 
   /// 拖拽组件最小内容高度
-  static const double _minRevealHeight = 205;
+  static const double _minRevealHeight = 180;
 
-  bool _isInit = true;
 
-  /// 图片浏览区域的位移
-  final _viewerOffsetProvider = StateProvider.autoDispose<double>((ref) => 0);
+  ColorScheme get colorScheme => Theme.of(context).colorScheme;
 
   @override
   void dispose() {
+    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
+    _dragController = widget.dragController ?? DragController();
     _scrollController.addListener(() {
       _scrollOffset = _scrollController.offset;
-      // 滚动到顶才允许拖拽
-      if (_scrollController.offset > 0) {
-        _dragController.setCanStopover(false);
-      } else {
-        _dragController.setCanStopover(true);
-      }
     });
     _dragController.setDragListener((position, status) {
-      // 更新图片浏览区域的位移量
-      if (ref.read(_viewerOffsetProvider) != position) {
-        ref.read(_viewerOffsetProvider.notifier).update((state) => (_maximumPosition - position) / 1.8);
-      }
       // 保持滚动位置不变，直到拖拽组件视图最大化
       if (position != _minimunPosition) {
         if (_scrollController.hasClients) {
@@ -84,12 +81,12 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
 
   @override
   void didChangeDependencies() {
-    _isInit = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       double statusBarHeight = MediaQuery.of(context).padding.top; // 状态栏高度
       double toolBarHeight = Theme.of(context).appBarTheme.toolbarHeight ?? 50;
       _dragController.updatePositions([
         statusBarHeight + toolBarHeight - _floatingButtonOffset,
+        // MediaQuery.of(context).size.height / 2,
       ]);
     });
     super.didChangeDependencies();
@@ -106,27 +103,59 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
     _maximumPosition = screenHeight - _minRevealHeight;
     return Stack(
       children: [
-        // 浏览区域
-        Container(
-          padding: const EdgeInsets.only(bottom: _minRevealHeight - _floatingButtonOffset - 20),
-          alignment: Alignment.center,
-          color: Colors.black,
-          child: SingleChildScrollView(
-            // padding: const EdgeInsets.only(bottom: 20),
-            physics: const BouncingScrollPhysics(),
-            child: SizedBox(
-              width: double.infinity,
-              child: Consumer(builder: (_, ref, __) {
-                double offset = ref.watch(_viewerOffsetProvider);
-                return Transform.translate(
-                  offset: Offset(0, -offset),
-                  child: widget.viewerContent,
-                );
-              }),
+        DragVerticalPanel(
+          controller: _dragController,
+          height:
+              screenHeight - statusBarHeight - (screenHeight < screenWidth ? 0 : toolBarHeight) + _floatingButtonOffset,
+          defaultPosition: screenHeight - _minRevealHeight,
+          maximumPosition: _maximumPosition,
+          dragStageOffset: 50,
+          body: Container(
+            padding: const EdgeInsets.only(bottom: _minRevealHeight - _floatingButtonOffset - 20),
+            alignment: Alignment.center,
+            color: Colors.black,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: SizedBox(
+                width: double.infinity,
+                child: widget.viewerContent,
+              ),
             ),
           ),
+          panel: Stack(
+            children: [
+              Container(
+                height: double.infinity,
+                margin: const EdgeInsets.only(top: _floatingButtonOffset),
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withAlpha(50),
+                        offset: const Offset(0, -_floatingButtonOffset),
+                        blurRadius: 40,
+                        spreadRadius: 5)
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  child: CustomScrollView(
+                    controller: _scrollController,
+                    physics: const ClampingScrollPhysics(),
+                    slivers: widget.slivers,
+                  ),
+                ),
+              ),
+              // 收藏按钮
+              Positioned(
+                right: 20,
+                child: widget.collectButton,
+              ),
+            ],
+          ),
         ),
-        // 顶部阴影渐变区域
+        // 状态栏阴影渐变
         Positioned(
           top: 0,
           left: 0,
@@ -142,22 +171,12 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
             ),
           ),
         ),
-        // appbar/toolbar
+        // Appbar
         Positioned(
           top: 0,
           left: 0,
           right: 0,
           child: widget.appBar,
-        ),
-        // 拖拽抽屉区域
-        DragVerticalContainer(
-          controller: _dragController,
-          height:
-              screenHeight - statusBarHeight - (screenHeight < screenWidth ? 0 : toolBarHeight) + _floatingButtonOffset,
-          defaultPosition: screenHeight - _minRevealHeight,
-          maximumPosition: _maximumPosition,
-          dragStageOffset: 50,
-          child: widget.bottomContentBuilder(_scrollController),
         ),
       ],
     );

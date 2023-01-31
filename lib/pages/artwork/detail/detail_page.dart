@@ -1,5 +1,4 @@
 import 'package:extended_image/extended_image.dart';
-import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:pixgem/component/badge.dart';
 import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
 import 'package:pixgem/component/buttons/blur_button.dart';
+import 'package:pixgem/component/drag_view/drag_vertical_container.dart';
 import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/component/viewport/delayed_build_until_viewport.dart';
@@ -38,12 +38,9 @@ class ArtWorksDetailPage extends ConsumerStatefulWidget {
 
 class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
     with TickerProviderStateMixin, ArtworkDetailPageLogic {
-  late TabController _tabController;
+  late final TabController _tabController;
 
-  late BuildContext _contextDragMin;
-
-  /// 收藏按钮的高度偏移量
-  static const double _floatingButtonOffset = 20;
+  late final DragController _dragController;
 
   @override
   get artworkDetail => widget.args.detail;
@@ -57,6 +54,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    _dragController = DragController();
     if (widget.args.detail != null) {
       HistoryStorage(ref.read(globalSharedPreferencesProvider)).addIllust(widget.args.detail!); // 保存到历史记录
     }
@@ -72,6 +70,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
     return Scaffold(
       body: ArtworkDetailPageLayout(
           isShapedScreen: false,
+          dragController: _dragController,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
@@ -91,96 +90,63 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
             ],
           ),
           viewerContent: _buildPreviewImages(detail),
-          bottomContentBuilder: (ScrollController scrollController) {
-            return Stack(
-              children: [
-                Container(
-                  height: double.infinity,
-                  margin: const EdgeInsets.only(top: _floatingButtonOffset),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withAlpha(50),
-                          offset: const Offset(0, -_floatingButtonOffset),
-                          blurRadius: 40,
-                          spreadRadius: 5)
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 1),
-                        child: BottomSheetSlideBar(width: 48, height: 3),
-                      ),
-                      Expanded(
-                        child: CustomScrollView(
-                          controller: scrollController,
-                          slivers: [
-                            // 概述信息，吸顶
-                            SliverStickyHeader(
-                              // 作品的标题
-                              header: Container(
-                                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
-                                color: colorScheme.surface,
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(detail.title,
-                                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                                ),
-                              ),
-                              // 概述信息
-                              sliver: SliverToBoxAdapter(
-                                child: Column(
-                                  children: [
-                                    // 作者卡片
-                                    AuthorCardWidget(detail: detail, tabController: _tabController),
-                                    _buildInformation(detail),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            // 评论区域，吸顶
-                            SliverStickyHeader(
-                              // 评论的标题栏
-                              header: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                                color: colorScheme.surface,
-                                child: Text("评论", style: textTheme.titleMedium),
-                              ),
-                              // 评论列表（预览部分）
-                              sliver: SliverToBoxAdapter(child: CommentsPreviewContentWidget(artworkId: artworkId)),
-                            ),
-                            // 相关作品区域，吸顶
-                            SliverStickyHeader(
-                              // 相关作品的标题栏
-                              header: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                                color: colorScheme.surface,
-                                child: Text("相关作品", style: textTheme.titleMedium),
-                              ),
-                              // 相关作品列表
-                              sliver: SliverDelayedBuildUntilViewportWidget(
-                                placeholderWidget: const SliverToBoxAdapter(child: RequestLoading()),
-                                child: RelatedArtworksContentWidget(worksId: artworkId),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+          collectButton: _collectButton(),
+          slivers: [
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.only(top: 1),
+                child: BottomSheetSlideBar(width: 48, height: 3),
+              ),
+            ),
+            // 作品标题吸顶
+            SliverStickyHeader(
+              // 作品的标题
+              header: Container(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
+                color: colorScheme.surface,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(detail.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                 ),
-                // 悬浮收藏按钮
-                Positioned(
-                  right: 20,
-                  child: _collectButton(),
+              ),
+              // 概述信息
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    // 作者卡片
+                    AuthorCardWidget(detail: detail, tabController: _tabController),
+                    _buildInformation(detail),
+                  ],
                 ),
-              ],
-            );
-          }),
+              ),
+            ),
+            // 评论区域，吸顶
+            SliverStickyHeader(
+              // 评论的标题栏
+              header: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                color: colorScheme.surface,
+                child: Text("评论", style: textTheme.titleMedium),
+              ),
+              // 评论列表（预览部分）
+              sliver: SliverToBoxAdapter(child: CommentsPreviewContentWidget(artworkId: artworkId)),
+            ),
+            // 相关作品区域，吸顶
+            SliverStickyHeader(
+              // 相关作品的标题栏
+              header: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                color: colorScheme.surface,
+                child: Text("相关作品", style: textTheme.titleMedium),
+              ),
+              // 相关作品列表
+              sliver: SliverDelayedBuildUntilViewportWidget(
+                placeholderWidget: const SliverToBoxAdapter(child: RequestLoading()),
+                child: RelatedArtworksContentWidget(worksId: artworkId),
+              ),
+            ),
+          ]),
     );
   }
 
@@ -324,15 +290,13 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
                   // ID
                   Expanded(
                       flex: 1,
-                      child:
-                          Text("id: ${detail.id}", style: textTheme.bodyMedium?.copyWith(color: Colors.grey))),
+                      child: Text("id: ${detail.id}", style: textTheme.bodyMedium?.copyWith(color: Colors.grey))),
                   // 收藏数
                   Expanded(
                     flex: 1,
                     child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       const Icon(Icons.favorite, size: 18, color: Colors.grey),
-                      Text(" ${detail.totalBookmarks}",
-                          style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
+                      Text(" ${detail.totalBookmarks}", style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
                     ]),
                   ),
                   // 浏览数
@@ -361,7 +325,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 2.0),
             child: Wrap(
-              spacing: 4,
+              spacing: 6,
               runSpacing: 8,
               children: [
                 // 遍历Tag
