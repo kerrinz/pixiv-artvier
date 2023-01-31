@@ -134,9 +134,9 @@ class DragVerticalContainer extends StatefulWidget {
 }
 
 class _DragContainerState extends State<DragVerticalContainer> with SingleTickerProviderStateMixin {
-  static const Duration kFadeOutDuration = Duration(milliseconds: 250);
+  static const Duration kFadeOutDuration = Duration(milliseconds: 500);
 
-  static const Duration kFadeInDuration = Duration(milliseconds: 250);
+  static const Duration kFadeInDuration = Duration(milliseconds: 500);
 
   /// 默认位置
   double get defaultY => widget.defaultPosition;
@@ -176,6 +176,12 @@ class _DragContainerState extends State<DragVerticalContainer> with SingleTicker
     // 初始化动画相关配置
     animationController =
         AnimationController(vsync: this, duration: kFadeInDuration, reverseDuration: kFadeOutDuration);
+    // 动画执行期间也要通知监听器
+    animationController.addListener(() {
+      if (dragController.dragListener != null) {
+        dragController.dragListener!(positionY, DragStatus.update);
+      }
+    });
     curve = CurvedAnimation(parent: animationController, curve: Curves.fastLinearToSlowEaseIn);
     animation = tween.animate(curve)
       ..addListener(() {
@@ -226,21 +232,30 @@ class _DragContainerState extends State<DragVerticalContainer> with SingleTicker
           canDrag = true; // 滚动结束时"释放"该标记
           return false;
         }),
-        child: NotificationListener<ScrollStartNotification>(
+        child: NotificationListener<ScrollUpdateNotification>(
           onNotification: ((notification) {
-            // 非已滚动到顶，不让滚动事件引发拖拽事件
-            if (notification.metrics.extentBefore != 0) {
+            // 页面往顶部方向移动，禁止本组件发生拖拽
+            if ((notification.dragDetails?.delta.dy ?? 0.0) > 0.0) {
               canDrag = false;
             }
             return false;
           }),
-          child: Transform.translate(
-            offset: Offset(0.0, positionY),
-            child: RawGestureDetector(
-              gestures: {MyVerticalDragGestureRecognizer: _getRecognizer()},
-              child: SizedBox(
-                height: widget.height,
-                child: widget.child,
+          child: NotificationListener<ScrollStartNotification>(
+            onNotification: ((notification) {
+              // 非已滚动到顶，不让滚动事件引发拖拽事件
+              if (notification.metrics.extentBefore != 0) {
+                canDrag = false;
+              }
+              return false;
+            }),
+            child: Transform.translate(
+              offset: Offset(0.0, positionY),
+              child: RawGestureDetector(
+                gestures: {MyVerticalDragGestureRecognizer: _getRecognizer()},
+                child: SizedBox(
+                  height: widget.height,
+                  child: widget.child,
+                ),
               ),
             ),
           ),

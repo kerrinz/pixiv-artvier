@@ -46,10 +46,16 @@ class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>
     return nextUrl != null;
   }
 
-  Future<void> refresh() async {
+  Future<void> reload() async {
     // Set loading
     state = const AsyncValue.loading();
     // Reload
+    state = await AsyncValue.guard(() async {
+      return fetch();
+    });
+  }
+  
+  Future<void> refresh() async {
     state = await AsyncValue.guard(() async {
       return fetch();
     });

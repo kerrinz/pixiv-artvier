@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:pixgem/pages/account/account_manage/account_manage_page.dart';
-import 'package:pixgem/pages/comment/comments_tabpage.dart';
+import 'package:pixgem/pages/comment/comments_page.dart';
 import 'package:pixgem/pages/artwork/download_manage/download_manage_page.dart';
 import 'package:pixgem/pages/artwork/history/history_page.dart';
 import 'package:pixgem/pages/artwork/detail/detail_page.dart';

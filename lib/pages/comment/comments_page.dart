@@ -21,27 +21,33 @@ class CommentsPage extends BaseStatefulPage {
 }
 
 class _CommentsPageState extends BasePageState<CommentsPage> {
-  ScrollController scrollController = ScrollController();
-
   String get worksId => widget.worksId;
+
+  Refreshable<CommentsNotifier> get commentsNotifier => commentListProvider(worksId).notifier;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: ((context, ref, child) {
-        var asyncData = ref.watch(commentListProvider(worksId));
-        return asyncData.when(
-          loading: () => const RequestLoading(),
-          error: (Object error, StackTrace stackTrace) => RequestLoadingFailed(onRetry: () {}),
-          data: (List<Comments> comments) => RefreshIndicator(
-            onRefresh: () => ref.read(commentListProvider(worksId).notifier).refresh(),
-            child: CommentListView(
-              commentList: comments,
-              onLazyload: () async => ref.read(commentListProvider(worksId).notifier).next(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("全部评论"),
+      ),
+      body: Consumer(
+        builder: ((context, ref, child) {
+          var asyncData = ref.watch(commentListProvider(worksId));
+          return asyncData.when(
+            loading: () => const RequestLoading(),
+            error: (Object error, StackTrace stackTrace) =>
+                RequestLoadingFailed(onRetry: () async => ref.read(commentsNotifier).reload()),
+            data: (List<Comments> comments) => RefreshIndicator(
+              onRefresh: () => ref.read(commentsNotifier).refresh(),
+              child: CommentListView(
+                commentList: comments,
+                onLazyload: () async => ref.read(commentsNotifier).next(),
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }
