@@ -47,6 +47,7 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
       padding: padding,
       controller: scrollController,
       physics: physics,
+      itemCount: commentList.length + 1,
       itemBuilder: ((context, index) => itemBuilder(ref, index)),
     );
   }

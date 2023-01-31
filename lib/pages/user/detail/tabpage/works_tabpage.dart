@@ -4,7 +4,7 @@ import 'package:pixgem/business_component/listview/illust_listview/illust_waterf
 import 'package:pixgem/business_component/listview/novel_listview/novel_list.dart';
 import 'package:pixgem/component/filter/stateless_flow_filter.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/component/sliver_delegates/widget_delegate.dart';
+import 'package:pixgem/component/sliver_persistent_header/widget_delegate.dart';
 import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/l10n/localization_intl.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';

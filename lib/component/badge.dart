@@ -11,7 +11,7 @@ class Badge extends StatelessWidget {
     required this.child,
     this.color,
     this.onTap,
-    this.padding,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
   }) : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class Badge extends StatelessWidget {
     return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
       if (onTap == null) {
         return Container(
-          padding: padding ?? const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          padding: padding,
           decoration: BoxDecoration(
             color: color ?? Theme.of(context).colorScheme.primary,
             borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -34,8 +34,8 @@ class Badge extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           borderRadius: const BorderRadius.all(Radius.circular(20)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: Container(
+            padding: padding,
             child: child,
           ),
         ),

@@ -22,11 +22,6 @@ mixin ArtworkDetailPageLogic {
   /// 作品ID
   late String artworkId;
 
-  /// 相关作品列表的懒加载状态
-  final relatedLazyloadProvider = StateProvider<LazyloadState>((ref) {
-    return LazyloadState.loading;
-  });
-
   /// 插画详情页的收藏状态
   /// 可能有多个插画详情页同时存在于页面栈中，因此使用.family为不同插画id做区分
   late final illustDetailCollectStateProvider = StateNotifierProvider.autoDispose<CollectNotifier, CollectState>((ref) {

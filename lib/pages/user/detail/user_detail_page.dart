@@ -8,7 +8,7 @@ import 'package:pixgem/base/base_page.dart';
 import 'package:pixgem/business_component/page_layout/banner_appbar_page_layout.dart';
 import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/component/sliver_delegates/tab_bar_delegate.dart';
+import 'package:pixgem/component/sliver_persistent_header/tab_bar_delegate.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/model_response/user/preload_user_least_info.dart';
 import 'package:pixgem/pages/user/detail/tabpage/collections_tabpage.dart';
