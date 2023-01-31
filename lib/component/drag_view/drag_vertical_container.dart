@@ -40,6 +40,9 @@ class DragController extends ChangeNotifier {
   /// - 如果为false，则[stopoverPositions]将只有最后一个元素（即最小位置）生效
   bool canStopover = true;
 
+  /// 是否允许拖拽（在特定Scroll事件的情况下会禁止拖拽）
+  bool canDrag = true;
+
   void setDragToCallback(DragCallback callback) {
     _dragToCallback = callback;
   }
@@ -65,6 +68,11 @@ class DragController extends ChangeNotifier {
   /// 设置是否支持中途停留
   void setCanStopover(bool canStopover) {
     this.canStopover = canStopover;
+  }
+
+  /// 设置是否可以拖拽
+  void setCanDrag(bool canDrag) {
+    this.canDrag = canDrag;
   }
 }
 
@@ -115,11 +123,15 @@ class DragVerticalContainer extends StatefulWidget {
 
   final DragController? controller;
 
+  /// 是否可以自由拖拽停留，如果开启，则不会在松手时强制寻找最近的点
+  // final bool canCustomizedStopover;
+
   const DragVerticalContainer({
     Key? key,
     this.child,
     this.controller,
     this.width = double.infinity,
+    // this.canCustomizedStopover = false,
     required this.height,
     required this.defaultPosition,
     required this.dragStageOffset,
@@ -129,11 +141,25 @@ class DragVerticalContainer extends StatefulWidget {
 
   final Widget? child;
 
+  Widget panelBuilder(BuildContext context, double positionY,
+      GestureRecognizerFactoryWithHandlers<MyVerticalDragGestureRecognizer> recognizer) {
+    return Transform.translate(
+      offset: Offset(0.0, positionY),
+      child: RawGestureDetector(
+        gestures: {MyVerticalDragGestureRecognizer: recognizer},
+        child: SizedBox(
+          height: height,
+          child: child,
+        ),
+      ),
+    );
+  }
+
   @override
-  State<StatefulWidget> createState() => _DragContainerState();
+  State<StatefulWidget> createState() => DragContainerState();
 }
 
-class _DragContainerState extends State<DragVerticalContainer> with SingleTickerProviderStateMixin {
+class DragContainerState extends State<DragVerticalContainer> with SingleTickerProviderStateMixin {
   static const Duration kFadeOutDuration = Duration(milliseconds: 500);
 
   static const Duration kFadeInDuration = Duration(milliseconds: 500);
@@ -142,7 +168,7 @@ class _DragContainerState extends State<DragVerticalContainer> with SingleTicker
   double get defaultY => widget.defaultPosition;
 
   /// 最小位置（无法再上拉）
-  double get min => dragController.extendPositions.lastWhere((element) => true, orElse: () => max);
+  double get min => dragController.extendPositions.firstWhere((element) => true, orElse: () => max);
 
   double get max => widget.maximumPosition;
 
@@ -155,9 +181,6 @@ class _DragContainerState extends State<DragVerticalContainer> with SingleTicker
   /// 缓存上一次的位置
   late double lastPositionY;
 
-  /// 是否允许拖拽（在特定Scroll事件的情况下会禁止拖拽）
-  bool canDrag = true;
-
   /// 动画控制相关
   late final AnimationController animationController;
   late Animation<double> animation;
@@ -166,6 +189,8 @@ class _DragContainerState extends State<DragVerticalContainer> with SingleTicker
 
   /// 拖动的控制器
   late DragController dragController;
+
+  bool get canDrag => dragController.canDrag;
 
   @override
   void initState() {
@@ -223,20 +248,20 @@ class _DragContainerState extends State<DragVerticalContainer> with SingleTicker
       onNotification: ((notification) {
         // 滚动抵达顶部边界，允许触发拖拽事件
         if (notification.metrics.extentBefore == 0) {
-          canDrag = true;
+          dragController.setCanDrag(true);
         }
         return false;
       }),
       child: NotificationListener<ScrollEndNotification>(
         onNotification: ((notification) {
-          canDrag = true; // 滚动结束时"释放"该标记
+          dragController.setCanDrag(true);
           return false;
         }),
         child: NotificationListener<ScrollUpdateNotification>(
           onNotification: ((notification) {
             // 页面往顶部方向移动，禁止本组件发生拖拽
             if ((notification.dragDetails?.delta.dy ?? 0.0) > 0.0) {
-              canDrag = false;
+              dragController.setCanDrag(false);
             }
             return false;
           }),
@@ -244,27 +269,18 @@ class _DragContainerState extends State<DragVerticalContainer> with SingleTicker
             onNotification: ((notification) {
               // 非已滚动到顶，不让滚动事件引发拖拽事件
               if (notification.metrics.extentBefore != 0) {
-                canDrag = false;
+                dragController.setCanDrag(false);
               }
               return false;
             }),
-            child: Transform.translate(
-              offset: Offset(0.0, positionY),
-              child: RawGestureDetector(
-                gestures: {MyVerticalDragGestureRecognizer: _getRecognizer()},
-                child: SizedBox(
-                  height: widget.height,
-                  child: widget.child,
-                ),
-              ),
-            ),
+            child: widget.panelBuilder(context, positionY, recognizer()),
           ),
         ),
       ),
     );
   }
 
-  GestureRecognizerFactoryWithHandlers<MyVerticalDragGestureRecognizer> _getRecognizer() {
+  GestureRecognizerFactoryWithHandlers<MyVerticalDragGestureRecognizer> recognizer() {
     return GestureRecognizerFactoryWithHandlers(
       () => MyVerticalDragGestureRecognizer(),
       (instance) => instance
