@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:pixgem/api_app/api_novels.dart';
-import 'package:pixgem/base/base_provider.dart';
+import 'package:pixgem/base/base_provider/base_notifier.dart';
 import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
 import 'package:pixgem/global/provider/collection_state_provider.dart';
@@ -31,10 +31,6 @@ class _AdvancedCollectNotifier extends BaseStateNotifier<CollectState?> {
 
   /// 作品类型，小说使用[WorksType.novel]，插画与漫画使用[WorksType.illust]
   final WorksType worksType;
-
-  void update(CollectState newState) {
-    state = newState;
-  }
 
   void notifyGlobal(CollectState collectState) {
     ref

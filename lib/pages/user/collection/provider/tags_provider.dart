@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/api_app/api_user.dart';
-import 'package:pixgem/base/base_provider.dart';
+import 'package:pixgem/base/base_provider/base_notifier.dart';
 import 'package:pixgem/model_response/user/bookmark/bookmark_tag.dart';
 import 'package:pixgem/pages/user/collection/model/collections_filter_model.dart';
 import 'package:pixgem/pages/user/collection/provider/filter_provider.dart';

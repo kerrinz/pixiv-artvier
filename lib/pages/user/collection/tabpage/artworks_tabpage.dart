@@ -5,7 +5,6 @@ import 'package:pixgem/component/loading/request_loading.dart';
 import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/pages/user/collection/provider/artwork_collections_provider.dart';
-import 'package:pixgem/pages/user/collection/state/collections_state.dart';
 
 class MyCollectArtworksTabPage extends ConsumerStatefulWidget {
   const MyCollectArtworksTabPage({super.key});
@@ -19,21 +18,17 @@ class _MyCollectArtworksTabPageState extends ConsumerState<MyCollectArtworksTabP
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    ArtworkCollectionsState state = ref.watch(myArtworkCollectionsStateProvider);
-    return state.when(
-      loading: () => const RequestLoading(),
-      data: (List<CommonIllust> artworks) => IllustWaterfallGridView(
-        artworkList: artworks,
-        lazyloadState: LazyloadState.idle,
-        onLazyload: () async => ref.read(myArtworkCollectionsStateProvider.notifier).next(),
-      ),
-      empty: () => const Center(
-        child: Text("Empty."),
-      ),
-      error: (String error) => RequestLoadingFailed(
-        onRetry: () async => ref.read(myArtworkCollectionsStateProvider.notifier).reload(),
-      ),
-    );
+    return ref.watch(myArtworkCollectionsStateProvider).when(
+          loading: () => const RequestLoading(),
+          data: (List<CommonIllust> artworks) => IllustWaterfallGridView(
+            artworkList: artworks,
+            lazyloadState: LazyloadState.idle,
+            onLazyload: () async => ref.read(myArtworkCollectionsStateProvider.notifier).next(),
+          ),
+          error: (_, __) => RequestLoadingFailed(
+            onRetry: () async => ref.read(myArtworkCollectionsStateProvider.notifier).reload(),
+          ),
+        );
   }
 
   @override

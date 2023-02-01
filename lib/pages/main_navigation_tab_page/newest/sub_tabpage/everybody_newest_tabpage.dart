@@ -28,7 +28,7 @@ class _EverybodyNewestTabPageState extends BasePageState<EverybodyNewestTabPage>
           return list.when(
             loading: () => const RequestLoading(),
             error: (Object error, StackTrace stackTrace) => RequestLoadingFailed(
-              onRetry: () async => ref.read(everybodyNewestIllustsProvider.notifier).retry(),
+              onRetry: () async => ref.read(everybodyNewestIllustsProvider.notifier).reload(),
             ),
             data: (List<CommonIllust> data) {
               return IllustWaterfallGridView(

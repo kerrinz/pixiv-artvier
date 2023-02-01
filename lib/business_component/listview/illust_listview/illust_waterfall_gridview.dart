@@ -93,8 +93,13 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
     }
     var illust = artworkList[index];
     return IllustWaterfallItem(
-      illust: artworkList[index],
-      collectState: illust.isBookmarked ? CollectState.collected : CollectState.notCollect,
+      worksId: illust.id.toString(),
+      imageUrl: illust.imageUrls.medium,
+      imageHeight: illust.height,
+      imageWidth: illust.width,
+      title: illust.title,
+      author: illust.user.name,
+      collectState: illust.collectState ?? (illust.isBookmarked ? CollectState.collected : CollectState.notCollect),
       onTap: () => handleTapItem(illust),
     );
   }
