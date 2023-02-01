@@ -1,11 +1,26 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
-import 'package:pixgem/base/base_provider.dart';
+import 'package:pixgem/base/base_provider/base_notifier.dart';
 import 'package:pixgem/config/enums.dart';
+import 'package:pixgem/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
+import 'package:pixgem/global/provider/collection_state_provider.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 
 /// 首页的加载状态
 final homeStateProvider = StateNotifierProvider<HomeStateNotifier, PageState>((ref) {
+  // // 监听全局收藏状态的变化，更新列表
+  ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
+    if (next != null) {
+      var list = ref.read(homeIllustRecommendedProvider);
+      int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
+      if (index >= 0 && index < list.length) {
+        var newItem = list[index]
+          ..isBookmarked = next.state == CollectState.collected
+          ..collectState = next.state;
+        ref.read(homeIllustRecommendedProvider.notifier).update(list..[index] = newItem);
+      }
+    }
+  });
   return HomeStateNotifier(PageState.loading, ref: ref)..init();
 });
 

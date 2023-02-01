@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/api_app/api_user.dart';
-import 'package:pixgem/base/base_provider.dart';
+import 'package:pixgem/base/base_provider/base_notifier.dart';
 import 'package:pixgem/config/enums.dart';
 import 'package:pixgem/global/logger.dart';
 import 'package:pixgem/model_response/user/common_user_previews.dart';

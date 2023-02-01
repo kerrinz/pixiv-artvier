@@ -2,50 +2,34 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pixgem/api_app/api_illusts.dart';
-import 'package:pixgem/base/base_provider.dart';
+import 'package:pixgem/base/base_provider/base_notifier.dart';
+import 'package:pixgem/base/base_provider/illust_list_notifier.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 
 /// 美术作品（插画或漫画）排行
 /// arg: mode
-final artworksRankingProvier = AutoDisposeAsyncNotifierProviderFamily<ArtworksRankingNotifier, List<CommonIllust>, String>(
+final artworksRankingProvier =
+    AsyncNotifierProvider.autoDispose.family<ArtworksRankingNotifier, List<CommonIllust>, String>(
   () => ArtworksRankingNotifier(),
 );
 
-class ArtworksRankingNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<CommonIllust>, String> {
+class ArtworksRankingNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<CommonIllust>, String>
+    with IllustListAsyncNotifierMixin {
   late String mode;
-
-  String? nextUrl;
 
   @override
   FutureOr<List<CommonIllust>> build(String arg) async {
     mode = arg;
+    beforeBuild(ref);
     return fetch();
   }
 
   /// 初始化数据
+  @override
   Future<List<CommonIllust>> fetch() async {
-    var result = await ApiIllusts(requester).getIllustRanking(mode: mode);
+    var result = await ApiIllusts(requester).getIllustRanking(mode: mode, cancelToken: cancelToken);
     nextUrl = result.nextUrl;
     return result.illusts;
   }
 
-  /// 下一页
-  Future<bool> next() async {
-    if (nextUrl == null) return false;
-
-    var result = await ApiIllusts(requester).getNextIllusts(nextUrl!);
-    nextUrl = result.nextUrl;
-    update((p0) => p0..addAll(result.illusts));
-
-    return nextUrl != null;
-  }
-
-  Future<void> refresh() async {
-    // Set loading
-    state = const AsyncValue.loading();
-    // Reload
-    state = await AsyncValue.guard(() async {
-      return fetch();
-    });
-  }
 }

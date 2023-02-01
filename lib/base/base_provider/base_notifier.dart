@@ -18,13 +18,17 @@ mixin _BaseNotifiersMixin {
   SharedPreferences get prefs => read(globalSharedPreferencesProvider);
 }
 
-abstract class BaseStateNotifier<T> extends StateNotifier<T> with _BaseNotifiersMixin implements _NeedReader {
+abstract class BaseStateNotifier<State> extends StateNotifier<State> with _BaseNotifiersMixin implements _NeedReader {
   BaseStateNotifier(super.state, {required this.ref});
 
   final Ref ref;
 
   @override
   Reader get read => ref.read;
+  
+  update(State state) {
+    this.state = state;
+  }
 }
 
 abstract class BaseAsyncNotifier<State> extends AsyncNotifier<State> with _BaseNotifiersMixin {

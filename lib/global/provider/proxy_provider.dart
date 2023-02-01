@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/base/base_provider.dart';
+import 'package:pixgem/base/base_provider/base_notifier.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/global/model/proxy_options/proxy_state_model.dart';
 import 'package:pixgem/global/provider/shared_preferences_provider.dart';

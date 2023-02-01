@@ -18,21 +18,17 @@ class _MyCollectNovelsTabPageState extends ConsumerState<MyCollectNovelsTabPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var state = ref.watch(myNovelCollectionsStateProvider);
-    return state.when(
-      loading: () => const RequestLoading(),
-      data: (List<CommonNovel> list) => NovelListView(
-        novelList: list,
-        lazyloadState: LazyloadState.idle,
-        onLazyload: () async => ref.read(myArtworkCollectionsStateProvider.notifier).next(),
-      ),
-      empty: () => const Center(
-        child: Text("Empty."),
-      ),
-      error: (String error) => RequestLoadingFailed(
-        onRetry: () async => ref.read(myArtworkCollectionsStateProvider.notifier).reload(),
-      ),
-    );
+    return ref.watch(myNovelCollectionsStateProvider).when(
+          loading: () => const RequestLoading(),
+          data: (List<CommonNovel> list) => NovelListView(
+            novelList: list,
+            lazyloadState: LazyloadState.idle,
+            onLazyload: () async => ref.read(myArtworkCollectionsStateProvider.notifier).next(),
+          ),
+          error: (_, __) => RequestLoadingFailed(
+            onRetry: () async => ref.read(myArtworkCollectionsStateProvider.notifier).reload(),
+          ),
+        );
   }
 
   @override

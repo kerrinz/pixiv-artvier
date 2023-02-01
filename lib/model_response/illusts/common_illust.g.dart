@@ -36,6 +36,7 @@ CommonIllust _$CommonIllustFromJson(Map<String, dynamic> json) => CommonIllust(
       json['is_bookmarked'] as bool,
       json['visible'] as bool,
       json['is_muted'] as bool,
+      $enumDecodeNullable(_$CollectStateEnumMap, json['collectState']),
     );
 
 Map<String, dynamic> _$CommonIllustToJson(CommonIllust instance) =>
@@ -60,9 +61,17 @@ Map<String, dynamic> _$CommonIllustToJson(CommonIllust instance) =>
       'total_view': instance.totalView,
       'total_bookmarks': instance.totalBookmarks,
       'is_bookmarked': instance.isBookmarked,
+      'collectState': _$CollectStateEnumMap[instance.collectState],
       'visible': instance.visible,
       'is_muted': instance.isMuted,
     };
+
+const _$CollectStateEnumMap = {
+  CollectState.collecting: 'collecting',
+  CollectState.uncollecting: 'uncollecting',
+  CollectState.collected: 'collected',
+  CollectState.notCollect: 'notCollect',
+};
 
 Image_urls _$Image_urlsFromJson(Map<String, dynamic> json) => Image_urls(
       json['square_medium'] as String,

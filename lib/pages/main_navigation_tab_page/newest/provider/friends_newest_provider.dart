@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/api_app/api_illusts.dart';
 import 'package:pixgem/api_app/api_newest.dart';
-import 'package:pixgem/api_app/api_novels.dart';
-import 'package:pixgem/base/base_provider.dart';
+import 'package:pixgem/base/base_provider/base_notifier.dart';
+import 'package:pixgem/base/base_provider/illust_list_notifier.dart';
+import 'package:pixgem/base/base_provider/novel_list_notifier.dart';
 import 'package:pixgem/model_response/illusts/common_illust.dart';
 import 'package:pixgem/model_response/novels/common_novel.dart';
 
@@ -19,90 +19,36 @@ final friendsNewestNovelsProvider =
   return FriendsNewestNovelsNotifier();
 });
 
-class FriendsNewestArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIllust>> {
-  String? nextUrl;
-
+class FriendsNewestArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIllust>>
+    with IllustListAsyncNotifierMixin {
   @override
   FutureOr<List<CommonIllust>> build() async {
+    beforeBuild(ref);
     return fetch();
   }
 
   /// 初始化数据
+  @override
   Future<List<CommonIllust>> fetch() async {
-    var result = await ApiNewArtWork(requester).friendsNewestArtworks();
+    var result = await ApiNewArtWork(requester).friendsNewestArtworks(cancelToken: cancelToken);
     nextUrl = result.nextUrl;
     return result.illusts;
   }
-
-  /// 下一页
-  Future<bool> next() async {
-    if (nextUrl == null) return false;
-
-    var result = await ApiIllusts(requester).getNextIllusts(nextUrl!);
-    nextUrl = result.nextUrl;
-    update((p0) => p0..addAll(result.illusts));
-
-    return nextUrl != null;
-  }
-
-  /// 下拉刷新
-  Future<void> refresh() async {
-    state = await AsyncValue.guard(() async {
-      return fetch();
-    });
-  }
-
-  /// 失败后的重试
-  Future<void> retry() async {
-    // Set loading
-    state = const AsyncValue.loading();
-    // Reload
-    state = await AsyncValue.guard(() async {
-      return fetch();
-    });
-  }
 }
 
-class FriendsNewestNovelsNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonNovel>> {
-  String? nextUrl;
-
+class FriendsNewestNovelsNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonNovel>>
+    with NovelListAsyncNotifierMixin {
   @override
   FutureOr<List<CommonNovel>> build() async {
+    beforeBuild(ref);
     return fetch();
   }
 
   /// 初始化数据
+  @override
   Future<List<CommonNovel>> fetch() async {
-    var result = await ApiNewArtWork(requester).friendsNewestNovels();
+    var result = await ApiNewArtWork(requester).friendsNewestNovels(cancelToken: cancelToken);
     nextUrl = result.nextUrl;
     return result.novels;
-  }
-
-  /// 下一页
-  Future<bool> next() async {
-    if (nextUrl == null) return false;
-
-    var result = await ApiNovels(requester).nextNovels(nextUrl!);
-    nextUrl = result.nextUrl;
-    update((p0) => p0..addAll(result.novels));
-
-    return nextUrl != null;
-  }
-
-  /// 下拉刷新
-  Future<void> refresh() async {
-    state = await AsyncValue.guard(() async {
-      return fetch();
-    });
-  }
-
-  /// 失败后的重试
-  Future<void> retry() async {
-    // Set loading
-    state = const AsyncValue.loading();
-    // Reload
-    state = await AsyncValue.guard(() async {
-      return fetch();
-    });
   }
 }

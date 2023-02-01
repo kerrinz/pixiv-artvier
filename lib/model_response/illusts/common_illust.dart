@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:pixgem/config/enums.dart';
 
 part 'common_illust.g.dart';
 
@@ -67,6 +68,8 @@ class CommonIllust extends Object {
 
   @JsonKey(name: 'is_bookmarked')
   bool isBookmarked;
+  
+  CollectState? collectState;
 
   @JsonKey(name: 'visible')
   bool visible;
@@ -74,7 +77,7 @@ class CommonIllust extends Object {
   @JsonKey(name: 'is_muted')
   bool isMuted;
 
-  CommonIllust(this.id,this.title,this.type,this.imageUrls,this.caption,this.restrict,this.user,this.tags,this.tools,this.createDate,this.pageCount,this.width,this.height,this.sanityLevel,this.xRestrict,this.metaSinglePage,this.metaPages,this.totalView,this.totalBookmarks,this.isBookmarked,this.visible,this.isMuted,);
+  CommonIllust(this.id,this.title,this.type,this.imageUrls,this.caption,this.restrict,this.user,this.tags,this.tools,this.createDate,this.pageCount,this.width,this.height,this.sanityLevel,this.xRestrict,this.metaSinglePage,this.metaPages,this.totalView,this.totalBookmarks,this.isBookmarked,this.visible,this.isMuted,this.collectState);
 
   factory CommonIllust.fromJson(Map<String, dynamic> srcJson) => _$CommonIllustFromJson(srcJson);
 

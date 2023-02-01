@@ -25,15 +25,15 @@ class _ArtworksRankingTabPageState extends BasePageState<ArtworksRankingTabPage>
   Widget build(BuildContext context) {
     super.build(context);
     return RefreshIndicator(
-      onRefresh: () async {},
+      onRefresh: () async => ref.read(artworksRankingProvier(mode).notifier).refresh(),
       child: Consumer(
         builder: (context, value, child) {
           var asyncList = ref.watch(artworksRankingProvier(mode));
           return asyncList.when(
             loading: () => const RequestLoading(),
-            error: (Object error, StackTrace stackTrace) => RequestLoadingFailed(onRetry: () {
-              //
-            }),
+            error: (Object error, StackTrace stackTrace) => RequestLoadingFailed(
+              onRetry: () => ref.read(artworksRankingProvier(mode).notifier).reload(),
+            ),
             data: (List<CommonIllust> data) {
               return IllustWaterfallGridView(
                 artworkList: data,

@@ -5,18 +5,32 @@ import 'package:pixgem/business_component/listview/illust_listview/logic.dart';
 import 'package:pixgem/component/image/enhance_network_image.dart';
 import 'package:pixgem/config/constants.dart';
 import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
 
 class IllustWaterfallItem extends ConsumerStatefulWidget {
   const IllustWaterfallItem({
     Key? key,
-    required this.illust,
+    required this.worksId,
+    required this.imageUrl,
+    required this.imageWidth,
+    required this.imageHeight,
+    required this.title,
+    required this.author,
     required this.collectState,
     required this.onTap,
     this.onTapCollect,
   }) : super(key: key);
 
-  final CommonIllust illust;
+  final String worksId;
+
+  final String imageUrl;
+
+  final String title;
+
+  final String author;
+
+  final int imageWidth;
+
+  final int imageHeight;
 
   /// 收藏状态
   final CollectState collectState;
@@ -25,7 +39,7 @@ class IllustWaterfallItem extends ConsumerStatefulWidget {
   final VoidCallback onTap;
 
   /// 点击收藏的事件
-  final Function? onTapCollect;
+  final void Function()? onTapCollect;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _IllustWaterfallItemState();
@@ -36,7 +50,7 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
   CollectState get collectState => widget.collectState;
 
   @override
-  String get illustId => widget.illust.id.toString();
+  String get illustId => widget.worksId;
 
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
 
@@ -52,17 +66,11 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
   }
 
   @override
-  void dispose() {
-    // ref.read(collectStateProvider.notifier).dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     // LayoutBuilder能获取到父组件的最大支撑宽度
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        double height = (widget.illust.height.toDouble() * constraints.maxWidth) / widget.illust.width;
+        double height = (widget.imageHeight.toDouble() * constraints.maxWidth) / widget.imageWidth;
         // 最高高度（太高了就阉割掉）
         double maxConstraintHeight = constraints.maxWidth * 3;
         return Card(
@@ -85,20 +93,20 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                     height: height < maxConstraintHeight ? height : maxConstraintHeight,
                     child: EnhanceNetworkImage(
                       image: ExtendedNetworkImageProvider(
-                        widget.illust.imageUrls.medium,
+                        widget.imageUrl,
                         cache: true,
                         headers: const {"Referer": CONSTANTS.referer},
                       ),
                       fit: BoxFit.cover,
-                      width: widget.illust.width.toDouble(),
-                      height: widget.illust.height.toDouble(),
+                      width: widget.imageWidth.toDouble(),
+                      height: widget.imageHeight.toDouble(),
                     ),
                   ),
                   // 标题
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0, right: 34.0, top: 4.0),
                     child: Text(
-                      widget.illust.title,
+                      widget.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
@@ -108,7 +116,7 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0, right: 34.0, bottom: 4.0),
                     child: Text(
-                      widget.illust.user.name,
+                      widget.author,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 12, color: colorScheme.onSurface.withAlpha(150)),
@@ -147,7 +155,7 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
   Widget _collectButton() {
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(12)),
-      onTap: handleTapCollect,
+      onTap: widget.onTapCollect ?? handleTapCollect,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Consumer(builder: (_, ref, __) {
