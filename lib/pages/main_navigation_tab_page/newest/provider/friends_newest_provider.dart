@@ -23,7 +23,8 @@ class FriendsNewestArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<Co
     with IllustListAsyncNotifierMixin {
   @override
   FutureOr<List<CommonIllust>> build() async {
-    beforeBuild(ref);
+    handleDispose(ref);
+    handleCollectState(ref);
     return fetch();
   }
 
