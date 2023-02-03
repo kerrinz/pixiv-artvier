@@ -26,7 +26,8 @@ class FollowedNewestArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<C
   @override
   FutureOr<List<CommonIllust>> build() async {
     restrictFilter = ref.watch(followedNewestRestrictAllProvider);
-    beforeBuild(ref);
+    handleDispose(ref);
+    handleCollectState(ref);
     return fetch();
   }
 

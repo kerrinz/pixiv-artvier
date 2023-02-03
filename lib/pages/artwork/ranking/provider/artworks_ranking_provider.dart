@@ -20,7 +20,8 @@ class ArtworksRankingNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Co
   @override
   FutureOr<List<CommonIllust>> build(String arg) async {
     mode = arg;
-    beforeBuild(ref);
+    handleDispose(ref);
+    handleCollectState(ref);
     return fetch();
   }
 

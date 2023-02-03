@@ -35,7 +35,8 @@ class EverybodyNewestArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<
 
   @override
   FutureOr<List<CommonIllust>> build() async {
-    beforeBuild(ref);
+    handleDispose(ref);
+    handleCollectState(ref);
     return fetch();
   }
 

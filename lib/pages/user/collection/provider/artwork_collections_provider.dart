@@ -22,7 +22,8 @@ class _MyArtworkCollectionsStateNotifier extends BaseAutoDisposeAsyncNotifier<Li
 
   @override
   FutureOr<List<CommonIllust>> build() {
-    beforeBuild(ref);
+    handleCancel(ref);
+    handleCollectState(ref);
     userId = ref.watch(globalCurrentAccountProvider)!.user.id;
     filterModel = ref.watch(collectionsFilterProvider);
     return fetch();

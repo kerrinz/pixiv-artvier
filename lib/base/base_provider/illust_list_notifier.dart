@@ -30,11 +30,29 @@ mixin IllustListAsyncNotifierMixin implements AsyncListNotifier<State> {
     FutureOr<State> Function(Object err, StackTrace stackTrace)? onError,
   });
 
-  beforeBuild(Ref ref) {
+  /// Notifier生命周期在Cancel时触发
+  ///
+  /// 注意：
+  /// - 使用[AsyncValue.guard] 也会触发
+  /// - 
+  handleCancel(Ref ref) {
     ref.onCancel(() {
       if (!cancelToken.isCancelled) cancelToken.cancel();
     });
-    // // 监听全局收藏状态的变化，更新列表
+  }
+
+  /// Notifier生命周期在Dispose时触发
+  /// 
+  /// - [AsyncValue.guard] 不会触发
+  /// - 如果 [build] 中使用了 [ref.watch]，请使用 [handleCancel]
+  handleDispose(Ref ref) {
+    ref.onDispose(() {
+      if (!cancelToken.isCancelled) cancelToken.cancel();
+    });
+  }
+
+  /// 监听全局收藏状态的变化，更新列表
+  handleCollectState(Ref ref) {
     ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
       if (next != null && state.hasValue) {
         var value = (state.value ?? []);

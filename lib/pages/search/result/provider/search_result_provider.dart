@@ -25,7 +25,8 @@ class SearchArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIll
 
   @override
   FutureOr<List<CommonIllust>> build() {
-    beforeBuild(ref);
+    handleCancel(ref);
+    handleCollectState(ref);
     filterArgs = ref.watch(searchFilterProvider);
     return fetch();
   }

@@ -16,7 +16,8 @@ class RelatedArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIl
 
   @override
   FutureOr<List<CommonIllust>> build() async {
-    beforeBuild(ref);
+    handleCancel(ref);
+    handleCollectState(ref);
     return fetch();
   }
 
