@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
+import 'package:artvier/l10n/localization_intl.dart';
 
 /// 可收起、展开的文字组件，用于展开更多文本
 class CollapsibleText extends StatefulWidget {

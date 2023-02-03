@@ -2,12 +2,12 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/pages/user/collection/provider/filter_provider.dart';
-import 'package:pixgem/pages/user/collection/logic.dart';
-import 'package:pixgem/pages/user/collection/tabpage/artworks_tabpage.dart';
-import 'package:pixgem/pages/user/collection/tabpage/novels_tabpage.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/pages/user/collection/provider/filter_provider.dart';
+import 'package:artvier/pages/user/collection/logic.dart';
+import 'package:artvier/pages/user/collection/tabpage/artworks_tabpage.dart';
+import 'package:artvier/pages/user/collection/tabpage/novels_tabpage.dart';
 
 class MyBookmarksPage extends BaseStatefulPage {
   final String userId;

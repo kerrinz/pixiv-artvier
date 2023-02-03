@@ -1,11 +1,11 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/component/buttons/blur_button.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/pages/artwork/detail/widgets/user_follow_button.dart';
-import 'package:pixgem/pages/user/detail/provider/user_detail_provider.dart';
+import 'package:artvier/component/buttons/blur_button.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/pages/artwork/detail/widgets/user_follow_button.dart';
+import 'package:artvier/pages/user/detail/provider/user_detail_provider.dart';
 
 class UserDetailPageAppBarWidget extends ConsumerWidget {
   const UserDetailPageAppBarWidget({

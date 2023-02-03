@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/api_app/api_user.dart';
-import 'package:pixgem/base/base_provider/base_notifier.dart';
-import 'package:pixgem/base/base_provider/illust_list_notifier.dart';
-import 'package:pixgem/global/provider/current_account_provider.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/pages/user/collection/model/collections_filter_model.dart';
-import 'package:pixgem/pages/user/collection/provider/filter_provider.dart';
+import 'package:artvier/api_app/api_user.dart';
+import 'package:artvier/base/base_provider/base_notifier.dart';
+import 'package:artvier/base/base_provider/illust_list_notifier.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
+import 'package:artvier/pages/user/collection/model/collections_filter_model.dart';
+import 'package:artvier/pages/user/collection/provider/filter_provider.dart';
 
 /// 收藏页面（美术作品）的加载状态
 final myArtworkCollectionsStateProvider =

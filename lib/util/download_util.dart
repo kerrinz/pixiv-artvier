@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
-import 'package:pixgem/global/logger.dart';
+import 'package:artvier/global/logger.dart';
 
 /// Copy from https://blog.csdn.net/weixin_45952652/article/details/118297876
 class DownloadUtil {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
+import 'package:artvier/l10n/localization_intl.dart';
 
 /// 浅色或深色模式的选择项
 class BrightnessSelectWidget extends StatelessWidget {

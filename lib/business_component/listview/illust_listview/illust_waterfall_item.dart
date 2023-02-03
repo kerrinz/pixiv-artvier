@@ -1,10 +1,10 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/business_component/listview/illust_listview/logic.dart';
-import 'package:pixgem/component/image/enhance_network_image.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/config/enums.dart';
+import 'package:artvier/business_component/listview/illust_listview/logic.dart';
+import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/config/enums.dart';
 
 class IllustWaterfallItem extends ConsumerStatefulWidget {
   const IllustWaterfallItem({

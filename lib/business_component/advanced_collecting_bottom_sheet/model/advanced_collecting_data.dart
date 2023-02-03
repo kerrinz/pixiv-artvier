@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/common/collection_detail.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/common/collection_detail.dart';
 
 part 'advanced_collecting_data.freezed.dart';
 

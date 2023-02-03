@@ -1,9 +1,9 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pixgem/component/image/enhance_network_image.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/model_response/illusts/illust_trending_tags.dart';
+import 'package:artvier/routes.dart';
 
 class TrendingTagsGrid extends StatefulWidget {
   final List<TrendTags> tags;

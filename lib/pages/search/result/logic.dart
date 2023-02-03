@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model_response/novels/common_novel.dart';
-import 'package:pixgem/model_response/user/common_user_previews.dart';
-import 'package:pixgem/pages/search/result/provider/search_filters_provider.dart';
-import 'package:pixgem/pages/search/result/arguments/seach_filter_arguments.dart';
-import 'package:pixgem/pages/search/result/provider/search_result_provider.dart';
-import 'package:pixgem/pages/search/result/search_result_page.dart';
-import 'package:pixgem/pages/search/result/widget/seach_filter_bottom_sheet.dart';
+import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
+import 'package:artvier/model_response/novels/common_novel.dart';
+import 'package:artvier/model_response/user/common_user_previews.dart';
+import 'package:artvier/pages/search/result/provider/search_filters_provider.dart';
+import 'package:artvier/pages/search/result/arguments/seach_filter_arguments.dart';
+import 'package:artvier/pages/search/result/provider/search_result_provider.dart';
+import 'package:artvier/pages/search/result/search_result_page.dart';
+import 'package:artvier/pages/search/result/widget/seach_filter_bottom_sheet.dart';
 
 mixin SearchResultPageLogic on State<SearchResultPage> {
   WidgetRef get ref;

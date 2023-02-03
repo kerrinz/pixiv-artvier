@@ -4,20 +4,20 @@ import 'package:extended_image/extended_image.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/business_component/page_layout/banner_appbar_page_layout.dart';
-import 'package:pixgem/component/image/enhance_network_image.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/component/sliver_persistent_header/tab_bar_delegate.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/model_response/user/preload_user_least_info.dart';
-import 'package:pixgem/pages/user/detail/tabpage/collections_tabpage.dart';
-import 'package:pixgem/pages/user/detail/logic.dart';
-import 'package:pixgem/pages/user/detail/provider/user_detail_provider.dart';
-import 'package:pixgem/pages/user/detail/tabpage/more_information_tabpage.dart';
-import 'package:pixgem/pages/user/detail/tabpage/works_tabpage.dart';
-import 'package:pixgem/pages/user/detail/widget/appbar.dart';
-import 'package:pixgem/pages/user/detail/widget/user_panel_widget.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/business_component/page_layout/banner_appbar_page_layout.dart';
+import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/component/loading/request_loading.dart';
+import 'package:artvier/component/sliver_persistent_header/tab_bar_delegate.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/model_response/user/preload_user_least_info.dart';
+import 'package:artvier/pages/user/detail/tabpage/collections_tabpage.dart';
+import 'package:artvier/pages/user/detail/logic.dart';
+import 'package:artvier/pages/user/detail/provider/user_detail_provider.dart';
+import 'package:artvier/pages/user/detail/tabpage/more_information_tabpage.dart';
+import 'package:artvier/pages/user/detail/tabpage/works_tabpage.dart';
+import 'package:artvier/pages/user/detail/widget/appbar.dart';
+import 'package:artvier/pages/user/detail/widget/user_panel_widget.dart';
 
 class UserDetailPage extends BaseStatefulPage {
   /// 用户信息（精简版）

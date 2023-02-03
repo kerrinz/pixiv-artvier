@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/model/following_state_changed_arguments%20copy/following_state_changed_arguments.dart';
-import 'package:pixgem/global/provider/follow_state_provider.dart';
-import 'package:pixgem/pages/user/detail/provider/user_detail_provider.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/model/following_state_changed_arguments%20copy/following_state_changed_arguments.dart';
+import 'package:artvier/global/provider/follow_state_provider.dart';
+import 'package:artvier/pages/user/detail/provider/user_detail_provider.dart';
 
 /// 用户详情页的关注状态
 final userFollowStateProvider =

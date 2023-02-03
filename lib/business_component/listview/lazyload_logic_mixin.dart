@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/config/enums.dart';
+import 'package:artvier/config/enums.dart';
 
 mixin LazyloadLogic {
   Future<bool> Function() get onLazyload;

@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/global/logger.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/global/logger.dart';
 
 typedef ProgressCallback = void Function(int received, int total);
 

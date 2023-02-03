@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/component/perference/perference_single_choise_panel.dart';
+import 'package:artvier/component/perference/perference_single_choise_panel.dart';
 
 class LanguageSettingPage extends StatefulWidget {
   const LanguageSettingPage({Key? key}) : super(key: key);

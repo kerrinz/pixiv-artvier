@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
+import 'package:artvier/component/bottom_sheet/slide_bar.dart';
 
 /// 拖拽事件的动作状态
 enum DragStatus {

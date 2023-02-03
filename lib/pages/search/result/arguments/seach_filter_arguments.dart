@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pixgem/api_app/api_serach.dart';
+import 'package:artvier/api_app/api_serach.dart';
 
 part 'seach_filter_arguments.freezed.dart';
 

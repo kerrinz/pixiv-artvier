@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/component/drag_view/drag_vertical_container.dart';
-import 'package:pixgem/component/drag_view/drag_vertical_panel.dart';
+import 'package:artvier/component/drag_view/drag_vertical_container.dart';
+import 'package:artvier/component/drag_view/drag_vertical_panel.dart';
 
 class ArtworkDetailPageLayout extends ConsumerStatefulWidget {
   const ArtworkDetailPageLayout({

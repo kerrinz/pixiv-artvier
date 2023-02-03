@@ -3,12 +3,12 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/component/image/enhance_network_image.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/model_response/illusts/illust_comments.dart';
-import 'package:pixgem/pages/artwork/detail/provider/illust_comment_provider.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/component/loading/request_loading.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/model_response/illusts/illust_comments.dart';
+import 'package:artvier/pages/artwork/detail/provider/illust_comment_provider.dart';
+import 'package:artvier/routes.dart';
 
 /// 评论预览区域，仅含小部分评论
 class CommentsPreviewContentWidget extends ConsumerWidget {

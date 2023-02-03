@@ -1,14 +1,14 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/business_component/listview/user_vertical_listview/user_vertical_listview.dart';
-import 'package:pixgem/component/filter/stateless_flow_filter.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/user/common_user_previews.dart';
-import 'package:pixgem/pages/user/following/provider/user_following_provider.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/business_component/listview/user_vertical_listview/user_vertical_listview.dart';
+import 'package:artvier/component/filter/stateless_flow_filter.dart';
+import 'package:artvier/component/loading/request_loading.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/model_response/user/common_user_previews.dart';
+import 'package:artvier/pages/user/following/provider/user_following_provider.dart';
 
 class UserFollowingPage extends BasePage {
   UserFollowingPage(Object arguments, {Key? key})

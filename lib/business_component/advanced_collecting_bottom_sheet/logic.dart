@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/advanced_collecting_bottom_sheet.dart';
-import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
-import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/provider/collecting_provider.dart';
-import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/provider/states_provider.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/logger.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/common/collection_detail.dart';
+import 'package:artvier/business_component/advanced_collecting_bottom_sheet/advanced_collecting_bottom_sheet.dart';
+import 'package:artvier/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
+import 'package:artvier/business_component/advanced_collecting_bottom_sheet/provider/collecting_provider.dart';
+import 'package:artvier/business_component/advanced_collecting_bottom_sheet/provider/states_provider.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/logger.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/model_response/common/collection_detail.dart';
 
 mixin AdvancedCollectingBottomSheetLogic {
   WidgetRef get ref;

@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/api_app/api_user.dart';
-import 'package:pixgem/base/base_provider/base_notifier.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/model/following_state_changed_arguments%20copy/following_state_changed_arguments.dart';
+import 'package:artvier/api_app/api_user.dart';
+import 'package:artvier/base/base_provider/base_notifier.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/model/following_state_changed_arguments%20copy/following_state_changed_arguments.dart';
 
 /// 全局Provider，用于通知某个用户的关注状态发生改变。
 ///

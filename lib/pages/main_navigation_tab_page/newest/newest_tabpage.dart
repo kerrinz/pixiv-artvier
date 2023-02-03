@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/newest/sub_tabpage/everybody_newest_tabpage.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/newest/sub_tabpage/followed_newest_tabpage.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/newest/sub_tabpage/friends_newest_tabpage.dart';
+import 'package:artvier/pages/main_navigation_tab_page/newest/sub_tabpage/everybody_newest_tabpage.dart';
+import 'package:artvier/pages/main_navigation_tab_page/newest/sub_tabpage/followed_newest_tabpage.dart';
+import 'package:artvier/pages/main_navigation_tab_page/newest/sub_tabpage/friends_newest_tabpage.dart';
 
 class NewArtworksTabPage extends StatefulWidget {
   const NewArtworksTabPage({Key? key}) : super(key: key);

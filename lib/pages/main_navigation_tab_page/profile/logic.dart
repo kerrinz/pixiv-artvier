@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/global/provider/current_account_provider.dart';
-import 'package:pixgem/global/provider/themes_provider.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/user/preload_user_least_info.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/profile_tabpage.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
+import 'package:artvier/global/provider/themes_provider.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/model_response/user/preload_user_least_info.dart';
+import 'package:artvier/pages/main_navigation_tab_page/profile/profile_tabpage.dart';
+import 'package:artvier/routes.dart';
 
 mixin ProfileTabPageLogic on ConsumerState<ProfileTabPage> {
   LocalizationIntl get i10n => LocalizationIntl.of(ref.context);

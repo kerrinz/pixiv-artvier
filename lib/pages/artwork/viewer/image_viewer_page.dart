@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/pages/artwork/viewer/logic.dart';
-import 'package:pixgem/pages/artwork/viewer/model/image_quality_url_model.dart';
-import 'package:pixgem/pages/artwork/viewer/model/image_viewer_page_arguments.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/pages/artwork/viewer/logic.dart';
+import 'package:artvier/pages/artwork/viewer/model/image_quality_url_model.dart';
+import 'package:artvier/pages/artwork/viewer/model/image_viewer_page_arguments.dart';
 
 /// 图片浏览
 class ImageViewerPage extends BaseStatefulPage {

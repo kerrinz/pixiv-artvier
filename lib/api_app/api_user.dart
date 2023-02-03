@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/model_response/novels/common_novel_list.dart';
-import 'package:pixgem/model_response/user/bookmark/bookmark_tag_list.dart';
-import 'package:pixgem/model_response/user/common_user_previews_list.dart';
-import 'package:pixgem/model_response/user/follow/folowing_detail.dart';
-import 'package:pixgem/model_response/user/user_detail.dart';
-import 'package:pixgem/model_response/user/user_previews_list.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/illusts/common_illust_list.dart';
+import 'package:artvier/model_response/novels/common_novel_list.dart';
+import 'package:artvier/model_response/user/bookmark/bookmark_tag_list.dart';
+import 'package:artvier/model_response/user/common_user_previews_list.dart';
+import 'package:artvier/model_response/user/follow/folowing_detail.dart';
+import 'package:artvier/model_response/user/user_detail.dart';
+import 'package:artvier/model_response/user/user_previews_list.dart';
 
-import 'package:pixgem/base/base_api.dart';
+import 'package:artvier/base/base_api.dart';
 
 class ApiUser extends ApiBase {
   ApiUser(super.requester);

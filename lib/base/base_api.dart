@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/request/http_requester.dart';
+import 'package:artvier/request/http_requester.dart';
 
 /// Http请求工具，但需要鉴权
 final httpRequesterProvider = Provider((ref) => HttpRequester.withAuthorization(ref));

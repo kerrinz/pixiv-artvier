@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/model/following_state_changed_arguments%20copy/following_state_changed_arguments.dart';
-import 'package:pixgem/global/provider/follow_state_provider.dart';
-import 'package:pixgem/model_response/user/common_user_previews.dart';
-import 'package:pixgem/model_response/user/preload_user_least_info.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/model/following_state_changed_arguments%20copy/following_state_changed_arguments.dart';
+import 'package:artvier/global/provider/follow_state_provider.dart';
+import 'package:artvier/model_response/user/common_user_previews.dart';
+import 'package:artvier/model_response/user/preload_user_least_info.dart';
+import 'package:artvier/routes.dart';
 
 mixin UserVerticalListViewLogic {
   WidgetRef get ref;

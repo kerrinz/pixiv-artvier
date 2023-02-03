@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/model/following_state_changed_arguments%20copy/following_state_changed_arguments.dart';
-import 'package:pixgem/global/provider/follow_state_provider.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/model/following_state_changed_arguments%20copy/following_state_changed_arguments.dart';
+import 'package:artvier/global/provider/follow_state_provider.dart';
 
 /// 关注或已关注的按钮
 class UserFollowButton extends ConsumerWidget with _FollowButtonLogic {

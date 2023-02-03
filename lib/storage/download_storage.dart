@@ -1,5 +1,5 @@
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/base/base_storage.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/base/base_storage.dart';
 
 /// 废弃，后续转用数据库
 class DownloadStorage extends BaseStorage {

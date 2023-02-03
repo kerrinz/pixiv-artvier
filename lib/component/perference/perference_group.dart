@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/component/perference/perference_item.dart';
+import 'package:artvier/component/perference/perference_item.dart';
 
 typedef ItemBuilder = Widget Function(int index);
 

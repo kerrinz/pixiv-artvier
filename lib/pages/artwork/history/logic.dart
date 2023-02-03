@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/global/provider/shared_preferences_provider.dart';
-import 'package:pixgem/pages/artwork/history/provider/history_provider.dart';
-import 'package:pixgem/storage/history_storage.dart';
+import 'package:artvier/global/provider/shared_preferences_provider.dart';
+import 'package:artvier/pages/artwork/history/provider/history_provider.dart';
+import 'package:artvier/storage/history_storage.dart';
 
 mixin HistoryPageLogic {
   WidgetRef get ref;

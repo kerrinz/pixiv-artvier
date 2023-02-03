@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/component/drag_view/drag_vertical_container.dart';
+import 'package:artvier/component/drag_view/drag_vertical_container.dart';
 
 class DragVerticalPanel extends DragVerticalContainer {
   const DragVerticalPanel({

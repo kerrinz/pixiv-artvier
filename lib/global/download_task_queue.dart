@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:pixgem/config/enums.dart';
+import 'package:artvier/config/enums.dart';
 
 typedef RequestExecution = Future<Response> Function(CancelToken cancelToken);
 

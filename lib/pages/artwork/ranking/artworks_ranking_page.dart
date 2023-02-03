@@ -1,10 +1,10 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/pages/artwork/ranking/logic.dart';
-import 'package:pixgem/pages/artwork/ranking/artworks_tabpage.dart';
-import 'package:pixgem/config/ranking_mode_constants.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/pages/artwork/ranking/logic.dart';
+import 'package:artvier/pages/artwork/ranking/artworks_tabpage.dart';
+import 'package:artvier/config/ranking_mode_constants.dart';
 
 class ArtworksRankingPage extends BaseStatefulPage {
   const ArtworksRankingPage({Key? key}) : super(key: key);

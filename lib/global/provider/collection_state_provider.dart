@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/api_app/api_illusts.dart';
-import 'package:pixgem/api_app/api_novels.dart';
-import 'package:pixgem/base/base_provider/base_notifier.dart';
-import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
-import 'package:pixgem/model_response/common/collection_detail.dart';
+import 'package:artvier/api_app/api_illusts.dart';
+import 'package:artvier/api_app/api_novels.dart';
+import 'package:artvier/base/base_provider/base_notifier.dart';
+import 'package:artvier/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
+import 'package:artvier/model_response/common/collection_detail.dart';
 
 /// 全局Provider，用于通知美术作品（插画与漫画）的收藏状态发生改变。
 ///

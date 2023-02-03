@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/logic.dart';
-import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/provider/collecting_provider.dart';
-import 'package:pixgem/business_component/advanced_collecting_bottom_sheet/widget/tag_list_item_widget.dart';
-import 'package:pixgem/component/filter/stateless_flow_filter.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
+import 'package:artvier/business_component/advanced_collecting_bottom_sheet/logic.dart';
+import 'package:artvier/business_component/advanced_collecting_bottom_sheet/provider/collecting_provider.dart';
+import 'package:artvier/business_component/advanced_collecting_bottom_sheet/widget/tag_list_item_widget.dart';
+import 'package:artvier/component/filter/stateless_flow_filter.dart';
+import 'package:artvier/component/loading/request_loading.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/l10n/localization_intl.dart';
 
 /// 高级收藏的弹窗，支持插画漫画小说
 class AdvancedCollectingBottomSheet extends ConsumerStatefulWidget {

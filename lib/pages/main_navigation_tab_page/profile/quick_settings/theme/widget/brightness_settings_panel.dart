@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/component/perference/perference_container.dart';
-import 'package:pixgem/component/perference/perference_group.dart';
-import 'package:pixgem/component/perference/perference_item.dart';
-import 'package:pixgem/global/provider/themes_provider.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/theme/widget/brightness_select_widget.dart';
+import 'package:artvier/component/perference/perference_container.dart';
+import 'package:artvier/component/perference/perference_group.dart';
+import 'package:artvier/component/perference/perference_item.dart';
+import 'package:artvier/global/provider/themes_provider.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/theme/widget/brightness_select_widget.dart';
 
 class BrightnessSettingsPanel extends ConsumerWidget with _Logic {
   const BrightnessSettingsPanel({super.key});

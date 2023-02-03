@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/common/collection_detail.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/model_response/illusts/illust_comments.dart';
-import 'package:pixgem/model_response/illusts/recommended/illust_recommended.dart';
-import 'package:pixgem/base/base_api.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/common/collection_detail.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
+import 'package:artvier/model_response/illusts/common_illust_list.dart';
+import 'package:artvier/model_response/illusts/illust_comments.dart';
+import 'package:artvier/model_response/illusts/recommended/illust_recommended.dart';
+import 'package:artvier/base/base_api.dart';
 
 class ApiIllusts extends ApiBase {
   ApiIllusts(super.requester);

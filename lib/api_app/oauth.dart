@@ -7,11 +7,11 @@ import 'package:crypto/crypto.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/global/provider/current_account_provider.dart';
-import 'package:pixgem/global/provider/shared_preferences_provider.dart';
-import 'package:pixgem/storage/model/account_profile.dart';
-import 'package:pixgem/request/http_requester.dart';
-import 'package:pixgem/storage/account_storage.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
+import 'package:artvier/global/provider/shared_preferences_provider.dart';
+import 'package:artvier/storage/model/account_profile.dart';
+import 'package:artvier/request/http_requester.dart';
+import 'package:artvier/storage/account_storage.dart';
 
 typedef Read = T Function<T>(ProviderListenable<T> provider);
 

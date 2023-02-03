@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
+import 'package:artvier/l10n/localization_intl.dart';
 
 abstract class BasePage extends ConsumerWidget {
   const BasePage({super.key});

@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pixgem/model_response/novels/common_novel.dart'; 
+import 'package:artvier/model_response/novels/common_novel.dart'; 
   
 part 'novels_recommended.g.dart';
 

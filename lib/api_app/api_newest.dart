@@ -3,10 +3,10 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/base/base_api.dart';
-import 'package:pixgem/model_response/novels/common_novel_list.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/illusts/common_illust_list.dart';
+import 'package:artvier/base/base_api.dart';
+import 'package:artvier/model_response/novels/common_novel_list.dart';
 
 class ApiNewArtWork extends ApiBase {
   ApiNewArtWork(super.requester);

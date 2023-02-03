@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/global/provider/themes_provider.dart';
-import 'package:pixgem/global/themes.dart';
-import 'package:pixgem/global/provider/shared_preferences_provider.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/global/provider/themes_provider.dart';
+import 'package:artvier/global/themes.dart';
+import 'package:artvier/global/provider/shared_preferences_provider.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'pages/framework/booting/booting_page.dart';
 
@@ -47,7 +47,7 @@ class MyAppState extends ConsumerState<MyApp> {
     ThemeData themeDataLight = Themes.match(ThemeTypes.purple, Brightness.light).themeData;
     ThemeData themeDataDark = Themes.match(ThemeTypes.purple, Brightness.dark).themeData;
     return MaterialApp(
-      title: 'Pixgem',
+      title: 'Artvier',
       debugShowCheckedModeBanner: false, // 禁用Debug角标
       onGenerateRoute: (RouteSettings settings) {
         RouteWidgetBuilder builder = Routes.match(context, settings.name);

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/base/base_api.dart';
-import 'package:pixgem/global/provider/shared_preferences_provider.dart';
-import 'package:pixgem/request/http_requester.dart';
+import 'package:artvier/base/base_api.dart';
+import 'package:artvier/global/provider/shared_preferences_provider.dart';
+import 'package:artvier/request/http_requester.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 typedef Reader = T Function<T>(ProviderListenable<T> provider);

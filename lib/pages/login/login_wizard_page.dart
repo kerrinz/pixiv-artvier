@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_bottom_sheet.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
+import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_bottom_sheet.dart';
+import 'package:artvier/routes.dart';
 
 /// 登录引导页面，未登录、添加帐号会跳转到这里
 class LoginWizardPage extends StatelessWidget {
@@ -23,7 +23,7 @@ class LoginWizardPage extends StatelessWidget {
           children: [
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Text("Pixgem", style: TextStyle(fontSize: 32)),
+              child: Text("Artvier", style: TextStyle(fontSize: 32)),
             ),
             const Text.rich(TextSpan(text: "（代理设置不对登录生效）")),
             Row(

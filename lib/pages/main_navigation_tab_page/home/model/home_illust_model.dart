@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
 
 part 'home_illust_model.freezed.dart';
 

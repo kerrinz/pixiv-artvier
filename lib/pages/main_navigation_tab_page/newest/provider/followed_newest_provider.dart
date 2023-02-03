@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/api_app/api_newest.dart';
-import 'package:pixgem/base/base_provider/base_notifier.dart';
-import 'package:pixgem/base/base_provider/illust_list_notifier.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:artvier/api_app/api_newest.dart';
+import 'package:artvier/base/base_provider/base_notifier.dart';
+import 'package:artvier/base/base_provider/illust_list_notifier.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
 
 /// 关注用户最新作品的筛选条件
 final followedNewestRestrictAllProvider = StateProvider.autoDispose<RestrictAll>((ref) {

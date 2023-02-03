@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/api_app/api_illusts.dart';
-import 'package:pixgem/base/base_provider/base_notifier.dart';
-import 'package:pixgem/base/base_provider/illust_list_notifier.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:artvier/api_app/api_illusts.dart';
+import 'package:artvier/base/base_provider/base_notifier.dart';
+import 'package:artvier/base/base_provider/illust_list_notifier.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
 
 /// 美术作品（插画或漫画）排行
 /// arg: mode

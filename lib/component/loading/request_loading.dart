@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
+import 'package:artvier/l10n/localization_intl.dart';
 
 class RequestLoading extends StatelessWidget {
   const RequestLoading({Key? key}) : super(key: key);

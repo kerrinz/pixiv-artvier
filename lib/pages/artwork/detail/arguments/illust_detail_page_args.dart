@@ -1,4 +1,4 @@
-import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'illust_detail_page_args.freezed.dart';

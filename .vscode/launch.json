@@ -2,11 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "pixgem",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
             "name": "Run",
             "program": "lib/main.dart",
             "request": "launch",
