@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/base/base_provider/base_notifier.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/global/model/proxy_options/proxy_state_model.dart';
-import 'package:pixgem/global/provider/shared_preferences_provider.dart';
-import 'package:pixgem/request/my_http_overrides.dart';
-import 'package:pixgem/storage/network_store.dart';
+import 'package:artvier/base/base_provider/base_notifier.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/global/model/proxy_options/proxy_state_model.dart';
+import 'package:artvier/global/provider/shared_preferences_provider.dart';
+import 'package:artvier/request/my_http_overrides.dart';
+import 'package:artvier/storage/network_store.dart';
 
 /// 全局代理配置
 final globalProxyStateProvider = StateNotifierProvider<_HttpProxyNotifier, ProxyStateModel>((ref) {

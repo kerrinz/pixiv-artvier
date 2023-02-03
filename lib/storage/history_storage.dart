@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:pixgem/base/base_storage.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:artvier/base/base_storage.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
 
 class HistoryStorage extends BaseStorage {
   HistoryStorage(super.sharedPreferences);

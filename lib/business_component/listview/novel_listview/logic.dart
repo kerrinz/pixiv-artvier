@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/model_response/novels/common_novel.dart';
+import 'package:artvier/model_response/novels/common_novel.dart';
 
 mixin NovelListViewLogic {
   WidgetRef get ref;

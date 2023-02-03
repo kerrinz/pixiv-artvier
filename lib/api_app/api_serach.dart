@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:pixgem/model_response/illusts/common_illust_list.dart';
-import 'package:pixgem/model_response/illusts/illust_trending_tags.dart';
+import 'package:artvier/model_response/illusts/common_illust_list.dart';
+import 'package:artvier/model_response/illusts/illust_trending_tags.dart';
 
-import 'package:pixgem/base/base_api.dart';
-import 'package:pixgem/model_response/novels/common_novel_list.dart';
-import 'package:pixgem/model_response/user/common_user_previews_list.dart';
+import 'package:artvier/base/base_api.dart';
+import 'package:artvier/model_response/novels/common_novel_list.dart';
+import 'package:artvier/model_response/user/common_user_previews_list.dart';
 
 class ApiSearch extends ApiBase {
   ApiSearch(super.requester);

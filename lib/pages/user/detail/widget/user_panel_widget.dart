@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/component/text/collapsible_text.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/user/user_detail.dart';
-import 'package:pixgem/pages/artwork/detail/widgets/user_follow_button.dart';
-import 'package:pixgem/pages/user/detail/provider/user_detail_provider.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/component/text/collapsible_text.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/model_response/user/user_detail.dart';
+import 'package:artvier/pages/artwork/detail/widgets/user_follow_button.dart';
+import 'package:artvier/pages/user/detail/provider/user_detail_provider.dart';
+import 'package:artvier/routes.dart';
 
 /// 用户详情页的用户面板组件
 class UserDetailPageUserPanelWidget extends ConsumerWidget {

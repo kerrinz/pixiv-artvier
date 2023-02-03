@@ -1,15 +1,15 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/business_component/listview/user_vertical_listview/logic.dart';
-import 'package:pixgem/component/image/enhance_network_image.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model_response/novels/common_novel.dart';
-import 'package:pixgem/model_response/user/common_user_previews.dart';
-import 'package:pixgem/model_response/user/preload_user_least_info.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/business_component/listview/user_vertical_listview/logic.dart';
+import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
+import 'package:artvier/model_response/novels/common_novel.dart';
+import 'package:artvier/model_response/user/common_user_previews.dart';
+import 'package:artvier/model_response/user/preload_user_least_info.dart';
+import 'package:artvier/routes.dart';
 
 class UserVerticalListViewItem extends ConsumerStatefulWidget {
   const UserVerticalListViewItem({

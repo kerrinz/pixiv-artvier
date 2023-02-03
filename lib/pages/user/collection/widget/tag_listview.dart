@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/business_component/listview/lazyload_logic_mixin.dart';
-import 'package:pixgem/component/loading/lazyloading.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/user/bookmark/bookmark_tag.dart';
-import 'package:pixgem/pages/user/collection/provider/filter_provider.dart';
-import 'package:pixgem/pages/user/collection/widget/tag_list_item.dart';
+import 'package:artvier/business_component/listview/lazyload_logic_mixin.dart';
+import 'package:artvier/component/loading/lazyloading.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/user/bookmark/bookmark_tag.dart';
+import 'package:artvier/pages/user/collection/provider/filter_provider.dart';
+import 'package:artvier/pages/user/collection/widget/tag_list_item.dart';
 
 /// 标签列表
 /// - 默认为非静态组件！

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/pages/user/collection/provider/artwork_collections_provider.dart';
+import 'package:artvier/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
+import 'package:artvier/component/loading/request_loading.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
+import 'package:artvier/pages/user/collection/provider/artwork_collections_provider.dart';
 
 class MyCollectArtworksTabPage extends ConsumerStatefulWidget {
   const MyCollectArtworksTabPage({super.key});

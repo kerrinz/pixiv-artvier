@@ -1,12 +1,12 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/business_component/listview/lazyload_logic_mixin.dart';
-import 'package:pixgem/business_component/listview/novel_listview/logic.dart';
-import 'package:pixgem/business_component/listview/novel_listview/novel_list_item.dart';
-import 'package:pixgem/component/loading/lazyloading.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/novels/common_novel.dart';
+import 'package:artvier/business_component/listview/lazyload_logic_mixin.dart';
+import 'package:artvier/business_component/listview/novel_listview/logic.dart';
+import 'package:artvier/business_component/listview/novel_listview/novel_list_item.dart';
+import 'package:artvier/component/loading/lazyloading.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 /// 小说的瀑布流列表

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/pages/search/result/arguments/seach_filter_arguments.dart';
-import 'package:pixgem/pages/search/result/provider/search_filters_provider.dart';
+import 'package:artvier/pages/search/result/arguments/seach_filter_arguments.dart';
+import 'package:artvier/pages/search/result/provider/search_filters_provider.dart';
 
 class SearchFilterBottomSheet extends ConsumerStatefulWidget {
   const SearchFilterBottomSheet({

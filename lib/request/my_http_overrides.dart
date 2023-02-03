@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:pixgem/global/logger.dart';
+import 'package:artvier/global/logger.dart';
 
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 

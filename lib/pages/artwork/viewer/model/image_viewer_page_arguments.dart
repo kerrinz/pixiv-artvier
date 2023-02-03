@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pixgem/pages/artwork/viewer/model/image_quality_url_model.dart';
+import 'package:artvier/pages/artwork/viewer/model/image_quality_url_model.dart';
 
 part 'image_viewer_page_arguments.freezed.dart';
 

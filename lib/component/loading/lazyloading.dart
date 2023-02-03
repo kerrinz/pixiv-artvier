@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
+import 'package:artvier/l10n/localization_intl.dart';
 
 class LazyloadingWidget extends StatelessWidget {
   const LazyloadingWidget({Key? key}) : super(key: key);

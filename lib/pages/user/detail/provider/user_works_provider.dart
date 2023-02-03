@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/api_app/api_illusts.dart';
-import 'package:pixgem/api_app/api_novels.dart';
-import 'package:pixgem/api_app/api_user.dart';
-import 'package:pixgem/base/base_provider/base_notifier.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model_response/novels/common_novel.dart';
+import 'package:artvier/api_app/api_illusts.dart';
+import 'package:artvier/api_app/api_novels.dart';
+import 'package:artvier/api_app/api_user.dart';
+import 'package:artvier/base/base_provider/base_notifier.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
+import 'package:artvier/model_response/novels/common_novel.dart';
 
 /// 其他用户发布的作品（插画漫画）
 class UserIllustWorksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIllust>> {

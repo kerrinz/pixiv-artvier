@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/component/badge.dart';
-import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
-import 'package:pixgem/component/perference/perference_single_choise_panel.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/global/provider/proxy_provider.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy/logic.dart';
+import 'package:artvier/component/badge.dart';
+import 'package:artvier/component/bottom_sheet/slide_bar.dart';
+import 'package:artvier/component/perference/perference_single_choise_panel.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/global/provider/proxy_provider.dart';
+import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/proxy/logic.dart';
 
 class ProxyOriginSettingsBottomSheet extends ConsumerStatefulWidget {
   const ProxyOriginSettingsBottomSheet({Key? key}) : super(key: key);

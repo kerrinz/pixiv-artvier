@@ -2,16 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
-import 'package:pixgem/business_component/listview/novel_listview/novel_list.dart';
-import 'package:pixgem/business_component/listview/user_vertical_listview/user_vertical_listview.dart';
-import 'package:pixgem/component/filter/stateless_flow_filter.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/component/sliver_persistent_header/widget_delegate.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/pages/search/result/logic.dart';
-import 'package:pixgem/pages/search/result/provider/search_filters_provider.dart';
+import 'package:artvier/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
+import 'package:artvier/business_component/listview/novel_listview/novel_list.dart';
+import 'package:artvier/business_component/listview/user_vertical_listview/user_vertical_listview.dart';
+import 'package:artvier/component/filter/stateless_flow_filter.dart';
+import 'package:artvier/component/loading/request_loading.dart';
+import 'package:artvier/component/sliver_persistent_header/widget_delegate.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/pages/search/result/logic.dart';
+import 'package:artvier/pages/search/result/provider/search_filters_provider.dart';
 
 class SearchResultPage extends ConsumerStatefulWidget {
   final String label; // 搜索文本内容

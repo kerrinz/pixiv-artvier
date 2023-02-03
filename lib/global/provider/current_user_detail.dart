@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/api_app/api_user.dart';
-import 'package:pixgem/base/base_provider/base_notifier.dart';
-import 'package:pixgem/global/provider/current_account_provider.dart';
-import 'package:pixgem/model_response/user/user_detail.dart';
+import 'package:artvier/api_app/api_user.dart';
+import 'package:artvier/base/base_provider/base_notifier.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
+import 'package:artvier/model_response/user/user_detail.dart';
 
 /// 当前用户的详细信息
 final globalCurrentUserDetailProvider = StateNotifierProvider.autoDispose<CurrentUserDetailNotifier, UserDetail?>((ref) {

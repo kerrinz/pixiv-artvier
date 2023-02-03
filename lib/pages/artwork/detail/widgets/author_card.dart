@@ -1,13 +1,13 @@
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/pages/artwork/detail/widgets/user_follow_button.dart';
-import 'package:pixgem/component/image/enhance_network_image.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/model_response/user/preload_user_least_info.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/pages/artwork/detail/widgets/user_follow_button.dart';
+import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
+import 'package:artvier/model_response/user/preload_user_least_info.dart';
+import 'package:artvier/routes.dart';
 
 /// Artworks Detail Page
 ///

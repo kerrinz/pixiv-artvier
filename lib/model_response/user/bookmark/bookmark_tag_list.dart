@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pixgem/model_response/user/bookmark/bookmark_tag.dart'; 
+import 'package:artvier/model_response/user/bookmark/bookmark_tag.dart'; 
       
 part 'bookmark_tag_list.g.dart';
     

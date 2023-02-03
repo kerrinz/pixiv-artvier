@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/business_component/listview/illust_listview/illust_waterfall_item.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
-import 'package:pixgem/global/provider/collection_state_provider.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/pages/artwork/detail/arguments/illust_detail_page_args.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/business_component/listview/illust_listview/illust_waterfall_item.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
+import 'package:artvier/global/provider/collection_state_provider.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
+import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
+import 'package:artvier/routes.dart';
 
 mixin IllustWaterfallGridViewLogic {
   WidgetRef get ref;

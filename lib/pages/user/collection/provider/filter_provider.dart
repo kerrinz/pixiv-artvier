@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/pages/user/collection/model/collections_filter_model.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/pages/user/collection/model/collections_filter_model.dart';
 
 /// 收藏作品的筛选条件（会影响收藏作品列表）
 final collectionsFilterProvider = StateProvider.autoDispose<CollectionsFilterModel>(

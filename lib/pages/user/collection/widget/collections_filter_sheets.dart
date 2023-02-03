@@ -3,15 +3,15 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/component/bottom_sheet/slide_bar.dart';
-import 'package:pixgem/component/filter/stateless_flow_filter.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/user/bookmark/bookmark_tag.dart';
-import 'package:pixgem/pages/user/collection/model/collections_filter_model.dart';
-import 'package:pixgem/pages/user/collection/provider/filter_provider.dart';
-import 'package:pixgem/pages/user/collection/provider/tags_provider.dart';
-import 'package:pixgem/pages/user/collection/widget/tag_listview.dart';
+import 'package:artvier/component/bottom_sheet/slide_bar.dart';
+import 'package:artvier/component/filter/stateless_flow_filter.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/model_response/user/bookmark/bookmark_tag.dart';
+import 'package:artvier/pages/user/collection/model/collections_filter_model.dart';
+import 'package:artvier/pages/user/collection/provider/filter_provider.dart';
+import 'package:artvier/pages/user/collection/provider/tags_provider.dart';
+import 'package:artvier/pages/user/collection/widget/tag_listview.dart';
 
 /// 我的收藏页面的筛选弹窗
 class CollectionsFilterSheet extends ConsumerWidget {
