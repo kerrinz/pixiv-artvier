@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/routes.dart';
 
 class NotFoundPage extends StatelessWidget {
   const NotFoundPage({Key? key}) : super(key: key);

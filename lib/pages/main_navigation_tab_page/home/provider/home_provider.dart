@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/api_app/api_illusts.dart';
-import 'package:pixgem/base/base_provider/base_notifier.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
-import 'package:pixgem/global/provider/collection_state_provider.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
+import 'package:artvier/api_app/api_illusts.dart';
+import 'package:artvier/base/base_provider/base_notifier.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
+import 'package:artvier/global/provider/collection_state_provider.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
 
 /// 首页的加载状态
 final homeStateProvider = StateNotifierProvider<HomeStateNotifier, PageState>((ref) {

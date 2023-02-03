@@ -1,15 +1,15 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/pages/artwork/detail/arguments/illust_detail_page_args.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/home/provider/home_provider.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
+import 'package:artvier/component/loading/request_loading.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
+import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
+import 'package:artvier/pages/main_navigation_tab_page/home/provider/home_provider.dart';
+import 'package:artvier/routes.dart';
 
 class HomePage extends BaseStatefulPage {
   const HomePage({Key? key}) : super(key: key);
@@ -38,7 +38,7 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
             pinned: true,
             toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
             title: const Text(
-              "Pixgem",
+              "Artvier",
             ),
             // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
             actions: <Widget>[

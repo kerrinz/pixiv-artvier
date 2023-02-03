@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/global/provider/current_account_provider.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/routes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginWebPage extends BaseStatefulPage {

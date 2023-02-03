@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/global/model/image_download_task_model/image_download_task_model.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/pages/artwork/detail/arguments/illust_detail_page_args.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/global/model/image_download_task_model/image_download_task_model.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
+import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
+import 'package:artvier/routes.dart';
 
 class DownloadManagePage extends BaseStatefulPage {
   const DownloadManagePage({Key? key}) : super(key: key);

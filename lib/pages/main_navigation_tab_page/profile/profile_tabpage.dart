@@ -1,18 +1,18 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
-import 'package:pixgem/component/image/enhance_network_image.dart';
-import 'package:pixgem/component/perference/preferences_navigator_item.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/global/provider/current_account_provider.dart';
-import 'package:pixgem/global/provider/current_user_detail.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/logic.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/models.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_bottom_sheet.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/quick_settings/theme/theme_bottom_sheet.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
+import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/component/perference/preferences_navigator_item.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
+import 'package:artvier/global/provider/current_user_detail.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/pages/main_navigation_tab_page/profile/logic.dart';
+import 'package:artvier/pages/main_navigation_tab_page/profile/models.dart';
+import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_bottom_sheet.dart';
+import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/theme/theme_bottom_sheet.dart';
+import 'package:artvier/routes.dart';
 
 class ProfileTabPage extends ConsumerStatefulWidget {
   const ProfileTabPage({Key? key}) : super(key: key);
@@ -197,7 +197,7 @@ class ProfileTabPageState extends ConsumerState<ProfileTabPage>
                                   detail?.user.profileImageUrls.medium ?? account?.user.profileImageUrls?.px170x170;
                               return avatar == null
                                   // 未登录或者原本就无头像用户
-                                  ? const Image(image: AssetImage("assets/images/default_avatar.png"))
+                                  ? const Image(image: AssetImage("assets/image/default_avatar.png"))
                                   // 正常头像
                                   : EnhanceNetworkImage(
                                       image: ExtendedNetworkImageProvider(

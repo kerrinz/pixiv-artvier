@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pixgem/model_response/novels/common_novel.dart';
+import 'package:artvier/model_response/novels/common_novel.dart';
 
 part 'common_novel_list.g.dart';
 

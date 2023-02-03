@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:pixgem/component/layout/size_reporting_widget.dart';
-import 'package:pixgem/component/scroll_view/extend_page_view.dart';
+import 'package:artvier/component/layout/size_reporting_widget.dart';
+import 'package:artvier/component/scroll_view/extend_page_view.dart';
 
 class ExtendTabBarView extends StatefulWidget {
   /// Creates a page view with one child per tab.

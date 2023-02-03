@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/global/logger.dart';
-import 'package:pixgem/pages/artwork/viewer/image_viewer_page.dart';
-import 'package:pixgem/pages/artwork/viewer/model/image_quality_url_model.dart';
-import 'package:pixgem/pages/artwork/viewer/model/image_viewer_state.dart';
-import 'package:pixgem/util/save_image_util.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/global/logger.dart';
+import 'package:artvier/pages/artwork/viewer/image_viewer_page.dart';
+import 'package:artvier/pages/artwork/viewer/model/image_quality_url_model.dart';
+import 'package:artvier/pages/artwork/viewer/model/image_viewer_state.dart';
+import 'package:artvier/util/save_image_util.dart';
 
 mixin ImageViewerPageLogic on BasePageState<ImageViewerPage> {
   @override

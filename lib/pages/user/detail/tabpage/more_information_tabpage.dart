@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/user/user_detail.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/model_response/user/user_detail.dart';
 
 class UserMoreInformationTabPage extends ConsumerWidget {
   const UserMoreInformationTabPage({super.key, required this.detail});

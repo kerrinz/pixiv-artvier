@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/business_component/listview/comment_listview/comment_listview_item.dart';
-import 'package:pixgem/business_component/listview/comment_listview/logic.dart';
-import 'package:pixgem/business_component/listview/lazyload_logic_mixin.dart';
-import 'package:pixgem/component/loading/lazyloading.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/model_response/illusts/illust_comments.dart';
+import 'package:artvier/business_component/listview/comment_listview/comment_listview_item.dart';
+import 'package:artvier/business_component/listview/comment_listview/logic.dart';
+import 'package:artvier/business_component/listview/lazyload_logic_mixin.dart';
+import 'package:artvier/component/loading/lazyloading.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/model_response/illusts/illust_comments.dart';
 
 /// 插画瀑布流
 /// - 默认为非静态组件！

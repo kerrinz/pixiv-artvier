@@ -1,12 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.pixgem">
+    package="org.augenblick.artvier">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
    <application
-        android:label="pixgem"
+        android:label="Artvier"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:exported="true"

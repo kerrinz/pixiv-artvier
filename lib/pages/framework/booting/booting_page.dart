@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/global/provider/current_account_provider.dart';
-import 'package:pixgem/global/provider/proxy_provider.dart';
-import 'package:pixgem/request/my_http_overrides.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
+import 'package:artvier/global/provider/proxy_provider.dart';
+import 'package:artvier/request/my_http_overrides.dart';
+import 'package:artvier/routes.dart';
 
 /// app启动的加载过渡页面，载入一些数据
 class BootingPage extends ConsumerStatefulWidget {
@@ -26,7 +26,7 @@ class BootingPageState extends ConsumerState<BootingPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "Pixgem",
+              "Artvier",
               style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500),
             ),
             Padding(

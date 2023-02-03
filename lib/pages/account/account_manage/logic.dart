@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/global/logger.dart';
-import 'package:pixgem/pages/account/account_manage/provider/account_manage_provider.dart';
-import 'package:pixgem/routes.dart';
-import 'package:pixgem/storage/model/account_profile.dart';
+import 'package:artvier/global/logger.dart';
+import 'package:artvier/pages/account/account_manage/provider/account_manage_provider.dart';
+import 'package:artvier/routes.dart';
+import 'package:artvier/storage/model/account_profile.dart';
 
 mixin AccountManagePageStateLogic {
   WidgetRef get ref;

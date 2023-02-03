@@ -1,5 +1,5 @@
-import 'package:pixgem/base/base_storage.dart';
-import 'package:pixgem/config/constants.dart';
+import 'package:artvier/base/base_storage.dart';
+import 'package:artvier/config/constants.dart';
 
 class NetworkStorage extends BaseStorage {
   NetworkStorage(super.sharedPreferences);

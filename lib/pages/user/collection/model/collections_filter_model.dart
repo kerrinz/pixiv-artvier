@@ -1,4 +1,4 @@
-import 'package:pixgem/config/enums.dart';
+import 'package:artvier/config/enums.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'collections_filter_model.freezed.dart';

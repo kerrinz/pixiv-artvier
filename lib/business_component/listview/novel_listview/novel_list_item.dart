@@ -2,14 +2,14 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/component/badge.dart';
-import 'package:pixgem/component/image/enhance_network_image.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
-import 'package:pixgem/global/provider/collection_state_provider.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/model_response/novels/common_novel.dart';
+import 'package:artvier/component/badge.dart';
+import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
+import 'package:artvier/global/provider/collection_state_provider.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/model_response/novels/common_novel.dart';
 
 /// 小说瀑布流对应的列表项
 class NovelWaterfallItem extends ConsumerStatefulWidget {

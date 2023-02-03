@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/global/logger.dart';
-import 'package:pixgem/global/provider/current_account_provider.dart';
-import 'package:pixgem/api_app/oauth.dart';
+import 'package:artvier/global/logger.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
+import 'package:artvier/api_app/oauth.dart';
 
 class AuthorizationInterceptor extends InterceptorsWrapper {
   AuthorizationInterceptor(this.ref);

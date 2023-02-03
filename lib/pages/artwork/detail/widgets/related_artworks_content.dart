@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/model_response/illusts/common_illust.dart';
-import 'package:pixgem/pages/artwork/detail/provider/illust_related_provider.dart';
+import 'package:artvier/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
+import 'package:artvier/component/loading/request_loading.dart';
+import 'package:artvier/model_response/illusts/common_illust.dart';
+import 'package:artvier/pages/artwork/detail/provider/illust_related_provider.dart';
 
 /// 相关作品（插画漫画）
 class RelatedArtworksContentWidget extends ConsumerWidget {

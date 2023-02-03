@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/api_app/api_novels.dart';
-import 'package:pixgem/base/base_provider/list_notifier.dart';
-import 'package:pixgem/config/enums.dart';
-import 'package:pixgem/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
-import 'package:pixgem/global/provider/collection_state_provider.dart';
-import 'package:pixgem/model_response/novels/common_novel.dart';
-import 'package:pixgem/request/http_requester.dart';
+import 'package:artvier/api_app/api_novels.dart';
+import 'package:artvier/base/base_provider/list_notifier.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
+import 'package:artvier/global/provider/collection_state_provider.dart';
+import 'package:artvier/model_response/novels/common_novel.dart';
+import 'package:artvier/request/http_requester.dart';
 
 typedef State = List<CommonNovel>;
 

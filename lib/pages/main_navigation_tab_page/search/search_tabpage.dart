@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/component/trending_tags_grid.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/search/provider/search_input_provider.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/search/provider/trend_tags_provider.dart';
-import 'package:pixgem/routes.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/loading/request_loading.dart';
+import 'package:artvier/component/trending_tags_grid.dart';
+import 'package:artvier/pages/main_navigation_tab_page/search/provider/search_input_provider.dart';
+import 'package:artvier/pages/main_navigation_tab_page/search/provider/trend_tags_provider.dart';
+import 'package:artvier/routes.dart';
 
 class SearchTabPage extends BaseStatefulPage {
   const SearchTabPage({Key? key}) : super(key: key);

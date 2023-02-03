@@ -1,11 +1,11 @@
 /* APP主体内容框架：分页框架 （APP视觉上的起始页面）*/
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/home/home_tabpage.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/profile/profile_tabpage.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/newest/newest_tabpage.dart';
-import 'package:pixgem/pages/main_navigation_tab_page/search/search_tabpage.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/pages/main_navigation_tab_page/home/home_tabpage.dart';
+import 'package:artvier/pages/main_navigation_tab_page/profile/profile_tabpage.dart';
+import 'package:artvier/pages/main_navigation_tab_page/newest/newest_tabpage.dart';
+import 'package:artvier/pages/main_navigation_tab_page/search/search_tabpage.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({Key? key}) : super(key: key);

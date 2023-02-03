@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/business_component/listview/comment_listview/comment_listview.dart';
-import 'package:pixgem/component/loading/request_loading.dart';
-import 'package:pixgem/model_response/illusts/illust_comments.dart';
-import 'package:pixgem/pages/comment/provider/comment_list_provider.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/business_component/listview/comment_listview/comment_listview.dart';
+import 'package:artvier/component/loading/request_loading.dart';
+import 'package:artvier/model_response/illusts/illust_comments.dart';
+import 'package:artvier/pages/comment/provider/comment_list_provider.dart';
 
 class CommentsPage extends BaseStatefulPage {
   /// 作品id

@@ -1,6 +1,6 @@
 // import 'dart:io';
-// import 'package:pixgem/request/my_http_overrides.dart';
-// import 'package:pixgem/storage/network_store.dart';
+// import 'package:artvier/request/my_http_overrides.dart';
+// import 'package:artvier/storage/network_store.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 // class GlobalStore {

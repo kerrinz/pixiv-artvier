@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pixgem/model_response/user/common_user_previews.dart'; 
+import 'package:artvier/model_response/user/common_user_previews.dart'; 
   
 part 'user_previews_list.g.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/base/base_page.dart';
-import 'package:pixgem/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
-import 'package:pixgem/l10n/localization_intl.dart';
-import 'package:pixgem/pages/artwork/history/logic.dart';
-import 'package:pixgem/pages/artwork/history/provider/history_provider.dart';
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
+import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/pages/artwork/history/logic.dart';
+import 'package:artvier/pages/artwork/history/provider/history_provider.dart';
 
 class ViewHistoryPage extends BaseStatefulPage {
   const ViewHistoryPage({Key? key}) : super(key: key);

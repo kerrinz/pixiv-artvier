@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/component/bottom_sheet/bottom_sheets.dart';
-import 'package:pixgem/pages/user/collection/model/collections_filter_model.dart';
-import 'package:pixgem/pages/user/collection/provider/filter_provider.dart';
-import 'package:pixgem/pages/user/collection/widget/collections_filter_sheets.dart';
+import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
+import 'package:artvier/pages/user/collection/model/collections_filter_model.dart';
+import 'package:artvier/pages/user/collection/provider/filter_provider.dart';
+import 'package:artvier/pages/user/collection/widget/collections_filter_sheets.dart';
 
 mixin MyCollectionPageLogic {
   WidgetRef get ref;

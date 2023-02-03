@@ -1,12 +1,12 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/config/constants.dart';
-import 'package:pixgem/global/provider/current_account_provider.dart';
-import 'package:pixgem/pages/account/account_manage/logic.dart';
-import 'package:pixgem/pages/account/account_manage/provider/account_manage_provider.dart';
-import 'package:pixgem/storage/model/account_profile.dart';
-import 'package:pixgem/base/base_page.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
+import 'package:artvier/pages/account/account_manage/logic.dart';
+import 'package:artvier/pages/account/account_manage/provider/account_manage_provider.dart';
+import 'package:artvier/storage/model/account_profile.dart';
+import 'package:artvier/base/base_page.dart';
 
 class AccountManagePage extends BaseStatefulPage {
   const AccountManagePage({Key? key}) : super(key: key);
@@ -51,7 +51,7 @@ class _AccountManagePageState extends BasePageState<AccountManagePage> with Acco
     Widget avatar; // 头像的图片widget
     if (profile.user.profileImageUrls == null) {
       // 未登录或者原本就无头像用户
-      avatar = const Image(image: AssetImage("assets/images/default_avatar.png"));
+      avatar = const Image(image: AssetImage("assets/image/default_avatar.png"));
     } else {
       avatar = ExtendedImage.network(
         profile.user.profileImageUrls!.px170x170,

@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixgem/config/http_base_options.dart';
-import 'package:pixgem/global/provider/current_account_provider.dart';
-import 'package:pixgem/storage/model/account_profile.dart';
-import 'package:pixgem/request/authorization_interceptor.dart';
+import 'package:artvier/config/http_base_options.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
+import 'package:artvier/storage/model/account_profile.dart';
+import 'package:artvier/request/authorization_interceptor.dart';
 
 /// 轻度封装的HTTP 请求工具。
 ///

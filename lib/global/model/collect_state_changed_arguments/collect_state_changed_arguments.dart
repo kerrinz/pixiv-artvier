@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pixgem/config/enums.dart';
+import 'package:artvier/config/enums.dart';
 
 part 'collect_state_changed_arguments.freezed.dart';
 
