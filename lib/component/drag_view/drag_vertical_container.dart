@@ -190,6 +190,9 @@ class DragContainerState extends State<DragVerticalContainer> with SingleTickerP
   /// 拖动的控制器
   late DragController dragController;
 
+  /// 手势
+  late MyVerticalDragGestureRecognizer _recognizer;
+
   bool get canDrag => dragController.canDrag;
 
   @override
@@ -197,7 +200,7 @@ class DragContainerState extends State<DragVerticalContainer> with SingleTickerP
     // 初始化默认位置
     positionY = defaultY;
     lastPositionY = defaultY;
-
+    _recognizer = MyVerticalDragGestureRecognizer();
     // 初始化动画相关配置
     animationController =
         AnimationController(vsync: this, duration: kFadeInDuration, reverseDuration: kFadeOutDuration);
@@ -282,7 +285,7 @@ class DragContainerState extends State<DragVerticalContainer> with SingleTickerP
 
   GestureRecognizerFactoryWithHandlers<MyVerticalDragGestureRecognizer> recognizer() {
     return GestureRecognizerFactoryWithHandlers(
-      () => MyVerticalDragGestureRecognizer(),
+      () => _recognizer,
       (instance) => instance
         ..onStart = _onStart
         ..onUpdate = _onUpdate
@@ -363,6 +366,8 @@ class DragContainerState extends State<DragVerticalContainer> with SingleTickerP
   @override
   void dispose() {
     dragController.dispose();
+    animationController.dispose();
+    _recognizer.dispose();
     super.dispose();
   }
 }

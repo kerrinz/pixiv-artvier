@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -171,10 +173,11 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
   Widget buildRankingCardList(BuildContext context, List<CommonIllust> rankingList) {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 200,
+        height: min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height) / 2,
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.only(left: 2, right: 12),
           itemBuilder: (context, index) {
             return Card(
               margin: const EdgeInsets.only(left: 10),

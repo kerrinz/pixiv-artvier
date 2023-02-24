@@ -98,7 +98,7 @@ class PurpleTheme extends BaseTheme {
         onError: Color(0xffffffff),
         errorContainer: Color(0xffF9DEDC),
         onErrorContainer: Color(0xff410E0B),
-        background: Color(0xffF0F1F2),
+        background: Color(0xffF5F5F5),
         onBackground: Color(0xff1C1B1F),
         surface: Color(0xffffffff),
         onSurface: Color(0xff313033),
