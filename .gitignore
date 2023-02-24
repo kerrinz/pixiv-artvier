@@ -47,3 +47,7 @@ app.*.map.json
 
 # XCode will place build artifacts here
 /ios/build
+
+# KeyStore
+*.jks
+/android/key.properties

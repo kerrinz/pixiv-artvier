@@ -6,10 +6,7 @@ class RequestLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: const CircularProgressIndicator(strokeWidth: 1.0),
-    );
+    return Center(child: Image.asset("assets/icon/page_loading.gif", height: 200));
   }
 }
 

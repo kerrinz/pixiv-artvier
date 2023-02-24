@@ -24,7 +24,6 @@ class RelatedArtworksContentWidget extends ConsumerWidget {
     return Consumer(builder: (_, ref, __) {
       return ref.watch(illustRelatedProvider).when(
             data: (data) => SliverIllustWaterfallGridView(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
               artworkList: data,
               onLazyload: () async => ref.read(illustRelatedProvider.notifier).next(),
             ),
