@@ -42,11 +42,11 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
     required this.onLazyload,
     this.lazyloadState,
     this.crossAxisCount = 2,
-    this.mainAxisSpacing = 8,
-    this.crossAxisSpacing = 8,
+    this.mainAxisSpacing = 10,
+    this.crossAxisSpacing = 10,
     this.scrollController,
     this.physics,
-    this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
   }) : super(key: key);
 
   @override
@@ -99,6 +99,7 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
       imageWidth: illust.width,
       title: illust.title,
       author: illust.user.name,
+      totalCollected: illust.totalBookmarks,
       collectState: illust.collectState ?? (illust.isBookmarked ? CollectState.collected : CollectState.notCollect),
       onTap: () => handleTapItem(illust),
     );

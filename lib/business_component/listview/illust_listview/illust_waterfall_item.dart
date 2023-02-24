@@ -1,3 +1,4 @@
+import 'package:artvier/util/string_util.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +16,7 @@ class IllustWaterfallItem extends ConsumerStatefulWidget {
     required this.imageHeight,
     required this.title,
     required this.author,
+    required this.totalCollected,
     required this.collectState,
     required this.onTap,
     this.onTapCollect,
@@ -27,6 +29,8 @@ class IllustWaterfallItem extends ConsumerStatefulWidget {
   final String title;
 
   final String author;
+
+  final int totalCollected;
 
   final int imageWidth;
 
@@ -73,82 +77,98 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
         double height = (widget.imageHeight.toDouble() * constraints.maxWidth) / widget.imageWidth;
         // 最高高度（太高了就阉割掉）
         double maxConstraintHeight = constraints.maxWidth * 3;
-        return Card(
-          elevation: 8.0,
-          margin: EdgeInsets.zero,
-          shadowColor: colorScheme.secondary.withAlpha(50),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: Stack(
-            fit: StackFit.loose,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 图片
-                  SizedBox(
-                    width: double.infinity,
-                    height: height < maxConstraintHeight ? height : maxConstraintHeight,
-                    child: EnhanceNetworkImage(
-                      image: ExtendedNetworkImageProvider(
-                        widget.imageUrl,
-                        cache: true,
-                        headers: const {"Referer": CONSTANTS.referer},
+        return Stack(
+          fit: StackFit.loose,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 图片
+                Container(
+                  width: double.infinity,
+                  height: height < maxConstraintHeight ? height : maxConstraintHeight,
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface,
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    border: Border.all(strokeAlign: StrokeAlign.outside, color: colorScheme.outline.withAlpha(50)),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: EnhanceNetworkImage(
+                    fit: BoxFit.cover,
+                    width: widget.imageWidth.toDouble(),
+                    height: widget.imageHeight.toDouble(),
+                    image: ExtendedNetworkImageProvider(
+                      widget.imageUrl,
+                      cache: true,
+                      headers: const {"Referer": CONSTANTS.referer},
+                    ),
+                  ),
+                ),
+                // 标题
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Text(
+                    widget.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                // 作者
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        StringUtil.breakChars(widget.author),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
-                      fit: BoxFit.cover,
-                      width: widget.imageWidth.toDouble(),
-                      height: widget.imageHeight.toDouble(),
                     ),
-                  ),
-                  // 标题
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 34.0, top: 4.0),
-                    child: Text(
-                      widget.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  // 作者
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 34.0, bottom: 4.0),
-                    child: Text(
-                      widget.author,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 12, color: colorScheme.onSurface.withAlpha(150)),
-                    ),
-                  ),
-                ],
-              ),
-              // 交互效果层
-              Positioned.fill(
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    splashColor: Colors.black12.withOpacity(0.15),
-                    highlightColor: Colors.black12.withOpacity(0.1),
+                    const SizedBox(width: 48, height: 30)
+                  ],
+                ),
+              ],
+            ),
+            // 交互效果层
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  splashColor: Colors.black12.withOpacity(0.15),
+                  highlightColor: Colors.black12.withOpacity(0.1),
+                  onTap: () {},
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: widget.onTap,
                   ),
                 ),
               ),
-              // 收藏按钮
-              Positioned(
-                top: height,
-                bottom: 0,
-                right: 4,
-                child: Center(
-                  child: _collectButton(),
-                ),
-              ),
-            ],
-          ),
+            ),
+            // 收藏按钮
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: _collectButton(),
+            )
+          ],
         );
       },
     );
+  }
+
+  /// 格式化总收藏量
+  String formatTotalCollected(int number) {
+    if (number > 1000000) {
+      return "${(number / 1000000).floor()}M";
+    }
+    if (number > 1000) {
+      return "${(number / 1000).floor()}K";
+    } else {
+      return number.toString();
+    }
   }
 
   /// 收藏按钮
@@ -159,34 +179,42 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Consumer(builder: (_, ref, __) {
-          const double size = 28;
+          const double size = 22;
           CollectState state = ref.watch(collectStateProvider);
-          switch (state) {
-            case CollectState.collecting:
-              return const Icon(
-                Icons.favorite,
-                color: Colors.grey,
-                size: size,
-              );
-            case CollectState.uncollecting:
-              return Icon(
-                Icons.favorite,
-                color: Colors.red.shade200,
-                size: size,
-              );
-            case CollectState.collected:
-              return const Icon(
-                Icons.favorite,
-                color: Colors.red,
-                size: size,
-              );
-            case CollectState.notCollect:
-              return const Icon(
-                Icons.favorite_border_outlined,
-                color: Colors.grey,
-                size: size,
-              );
-          }
+          Map<CollectState, Icon> map = {
+            CollectState.collecting: Icon(
+              Icons.favorite,
+              color: Colors.grey.withAlpha(150),
+              size: size,
+            ),
+            CollectState.uncollecting: Icon(
+              Icons.favorite,
+              color: Colors.red.shade200,
+              size: size,
+            ),
+            CollectState.collected: const Icon(
+              Icons.favorite,
+              color: Colors.red,
+              size: size,
+            ),
+            CollectState.notCollect: Icon(
+              Icons.favorite_border_outlined,
+              color: Colors.grey.withAlpha(150),
+              size: size,
+            )
+          };
+          return Row(
+            children: [
+              Text(
+                formatTotalCollected(widget.totalCollected),
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 2.0),
+                child: map[state]!,
+              ),
+            ],
+          );
         }),
       ),
     );
