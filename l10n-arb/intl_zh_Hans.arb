@@ -147,16 +147,16 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "requestFailed": "请求失败",
+  "requestFailed": "网络不给力，请尝试重新加载",
   "@requestFailed": {
     "description": "Request data failed",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
-  "retry": "重试",
-  "@retry": {
-    "description": "",
+  "retryOnFailure": "点击重试",
+  "@retryOnFailure": {
+    "description": "Text of retry button for failed requests",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}

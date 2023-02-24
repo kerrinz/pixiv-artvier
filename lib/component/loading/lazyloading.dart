@@ -28,7 +28,7 @@ class LazyloadingFailedWidget extends StatelessWidget {
       direction: Axis.vertical,
       children: [
         Text(LocalizationIntl.of(context).requestFailed),
-        TextButton(onPressed: onRetry, child: Text(LocalizationIntl.of(context).retry)),
+        TextButton(onPressed: onRetry, child: Text(LocalizationIntl.of(context).retryOnFailure)),
       ],
     );
   }

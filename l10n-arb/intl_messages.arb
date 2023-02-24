@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2023-01-29T17:51:07.633346",
+  "@@last_modified": "2023-02-24T22:12:54.763651",
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -147,16 +147,16 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "requestFailed": "Request Failed",
+  "requestFailed": "Poor network, please try reloading",
   "@requestFailed": {
-    "description": "Request data failed",
+    "description": "Request failed",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
   },
-  "retry": "Retry",
-  "@retry": {
-    "description": "",
+  "retryOnFailure": "Click to try again",
+  "@retryOnFailure": {
+    "description": "Text of retry button for failed requests",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
