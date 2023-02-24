@@ -45,8 +45,10 @@ class LocalizationIntl {
   String get yes => Intl.message('Yes', name: 'yes', desc: '');
   String get not => Intl.message('Not', name: 'not', desc: '');
   String get loadingFailed => Intl.message('Loading Failed', name: 'loadingFailed', desc: 'Image loading failed');
-  String get requestFailed => Intl.message('Request Failed', name: 'requestFailed', desc: 'Request data failed');
-  String get retry => Intl.message('Retry', name: 'retry', desc: '');
+  String get requestFailed =>
+      Intl.message('Poor network, please try reloading', name: 'requestFailed', desc: 'Request failed');
+  String get retryOnFailure =>
+      Intl.message('Click to try again', name: 'retryOnFailure', desc: 'Text of retry button for failed requests');
   String get filter => Intl.message("Filter", name: 'filter', desc: 'filter the conditions for list');
   // 深色模式、主题相关
   String get lightBrightness => Intl.message("Light", name: 'lightBrightness', desc: 'Light brightness for app');
@@ -55,10 +57,9 @@ class LocalizationIntl {
       Intl.message("Dark Mode Settings", name: 'dartModeSettingsTitle', desc: 'The settings title of dark mode');
   String get autoSwitchFollowingSystem => Intl.message("Auto switch following system",
       name: 'autoSwitchFollowingSystem', desc: 'The options title for brightness following system');
-  String get autoSwitchFollowingSystemDesc => Intl.message(
-      "Automatically switch between light and dark following the system settings",
-      name: 'autoSwitchFollowingSystemDesc',
-      desc: 'The description of options of following system');
+  String get autoSwitchFollowingSystemDesc =>
+      Intl.message("Automatically switch between light and dark following the system settings",
+          name: 'autoSwitchFollowingSystemDesc', desc: 'The description of options of following system');
   // 首页
   String get rankings => Intl.message('Rankings', name: 'rankings', desc: 'Function group item.');
   String get dailyRankings =>
