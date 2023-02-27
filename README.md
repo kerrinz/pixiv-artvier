@@ -14,7 +14,7 @@
 一个 pixiv 第三方 app，同时支持Android、IOS系统，仅用于学习交流使用。
 
 ## 安装方式
-目前还在开发中，打算完善度较高后再发布。
+目前还在开发中，大四毕业时期有点繁忙，打算后续完善度较高后再发布。
 
 ## 完成度 / 计划
 
@@ -26,7 +26,7 @@
 - [ ] 主题配色
 - [ ] 语言切换（目前仅支持跟随系统）
 - [ ] 下载管理
-- [ ] 直连，即绕过SNI阻断
+- [ ] 直连
 
 ### 作品或页面功能
 
@@ -44,13 +44,13 @@
 
 ## 部分截图展示
 
-| 首页（Android） | 个人页（IOS） |
+| 首页（IOS） | 个人页（IOS） |
 |:---:|:---:|
-|![](https://yleen.cc/files/images/artvier/home_230203.jpg)|![](https://yleen.cc/files/images/artvier/profile_230203.PNG)
+|![](https://yleen.cc/files/images/artvier/home_230227.jpg)|![](https://yleen.cc/files/images/artvier/profile_230227.jpg)
 
 | 用户详情页（IOS） | 作品详情页（IOS） |
 |:---:|:---:|
-|![](https://yleen.cc/files/images/artvier/user_detail_230203.PNG)|![](https://yleen.cc/files/images/artvier/illust_detail_230203.PNG)
+|![](https://yleen.cc/files/images/artvier/user_detail_230227.jpg)|![](https://yleen.cc/files/images/artvier/illust_detail_230227.jpg)
 
 ## 免责声明
 
