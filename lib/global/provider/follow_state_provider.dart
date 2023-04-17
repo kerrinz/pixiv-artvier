@@ -32,11 +32,6 @@ final globalFollowingStateChangedProvider = StateProvider<FollowingStateChangedA
 class FollowNotifier extends BaseStateNotifier<UserFollowState> {
   FollowNotifier(super.state, {required super.ref, required this.userId});
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   final String userId;
 
   void setFollowState(UserFollowState newState) {
