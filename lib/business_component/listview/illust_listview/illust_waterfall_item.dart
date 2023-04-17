@@ -90,7 +90,7 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                   decoration: BoxDecoration(
                     color: colorScheme.surface,
                     borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                    border: Border.all(strokeAlign: StrokeAlign.outside, color: colorScheme.outline.withAlpha(50)),
+                    border: Border.all(strokeAlign: BorderSide.strokeAlignOutside, color: colorScheme.outline.withAlpha(50)),
                   ),
                   clipBehavior: Clip.antiAlias,
                   child: EnhanceNetworkImage(

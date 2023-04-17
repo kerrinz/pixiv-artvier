@@ -20,7 +20,7 @@ class BootingPageState extends ConsumerState<BootingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Theme.of(context).bottomAppBarColor,
+        color: BottomAppBarTheme.of(context).color,
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -131,7 +131,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
   Widget _seriesInfo() {
     return Row(
       children: [
-        Badge(
+        MyBadge(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
           color: Colors.amber,
           child: Text(

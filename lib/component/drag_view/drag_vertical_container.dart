@@ -439,7 +439,7 @@ class _TextPageState2 extends State<TestPage> {
     bool isHorizontal = MediaQuery.of(context).size.height < MediaQuery.of(context).size.width;
     minimunPosition = MediaQuery.of(context).padding.top + (isHorizontal ? 0 : 50);
     if (!flagControllerInit) {
-      scrollController = PrimaryScrollController.of(context) ?? ScrollController();
+      scrollController = PrimaryScrollController.of(context);
       scrollController!.addListener(() {
         scrollOffset = scrollController!.offset;
         // 滚动到顶才允许拖拽

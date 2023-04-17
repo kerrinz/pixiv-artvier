@@ -18,7 +18,7 @@ class _HistoryPageState extends BasePageState<ViewHistoryPage> with HistoryPageL
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    scrollController = PrimaryScrollController.of(context) ?? ScrollController();
+    scrollController = PrimaryScrollController.of(context);
   }
 
   @override
