@@ -43,7 +43,7 @@ class ArtworksRankingPageState extends BasePageState<ArtworksRankingPage>
 
   @override
   Widget build(BuildContext context) {
-    _scrollController = PrimaryScrollController.of(context) ?? ScrollController();
+    _scrollController = PrimaryScrollController.of(context);
     return Scaffold(
       body: ExtendedNestedScrollView(
         floatHeaderSlivers: true,

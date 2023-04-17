@@ -34,32 +34,38 @@ abstract class BaseTheme {
 
   ColorScheme darkColorScheme;
 
-  ColorScheme get colorScheme => (_brightness == Brightness.light ? lightColorScheme : darkColorScheme);
+  ColorScheme get colorScheme =>
+      (_brightness == Brightness.light ? lightColorScheme : darkColorScheme);
 
   bool get isLight => _brightness == Brightness.light;
 
   get textThemeOnLight => const TextTheme(
-        bodyText1: TextStyle(color: Color(0xff000000), fontSize: 14),
-        bodyText2: TextStyle(color: Color(0xff222222), fontSize: 14),
-        caption: TextStyle(color: Color(0xff222222), fontSize: 12),
+        bodyLarge: TextStyle(color: Color(0xff000000), fontSize: 14),
+        bodyMedium: TextStyle(color: Color(0xff222222), fontSize: 14),
+        bodySmall: TextStyle(color: Color(0xff222222), fontSize: 12),
       );
 
   /// 主题的核心配置，默认主题配置都在这里定义
   get themeData => ThemeData(
         colorScheme: colorScheme,
         primaryColor: colorScheme.primary,
-        backgroundColor: colorScheme.background,
         scaffoldBackgroundColor: colorScheme.background,
         appBarTheme: AppBarTheme(
           toolbarHeight: 50,
           scrolledUnderElevation: 0,
           color: colorScheme.surface,
-          titleTextStyle: TextStyle(fontSize: 18, color: colorScheme.onSurface, fontWeight: FontWeight.w600),
+          titleTextStyle: TextStyle(
+              fontSize: 18,
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.w600),
         ),
         tabBarTheme: TabBarTheme(
-          labelColor: colorScheme.brightness == Brightness.light ? Colors.black : Colors.white,
+          labelColor: colorScheme.brightness == Brightness.light
+              ? Colors.black
+              : Colors.white,
           unselectedLabelColor: colorScheme.onSurface.withAlpha(150),
-          labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          labelStyle:
+              const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           unselectedLabelStyle: const TextStyle(fontSize: 14),
           indicatorSize: TabBarIndicatorSize.label,
         ),
@@ -78,7 +84,8 @@ abstract class BaseTheme {
 }
 
 class PurpleTheme extends BaseTheme {
-  PurpleTheme(Brightness brightness) : super(brightness, lightColorScheme_, darkColorScheme_);
+  PurpleTheme(Brightness brightness)
+      : super(brightness, lightColorScheme_, darkColorScheme_);
 
   static get lightColorScheme_ => const ColorScheme(
         brightness: Brightness.light,

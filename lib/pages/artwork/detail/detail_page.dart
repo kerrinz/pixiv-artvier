@@ -343,7 +343,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Badge(
+        MyBadge(
           color: colorScheme.primary.withAlpha(32),
           padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
           onTap: () {

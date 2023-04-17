@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Badge extends StatelessWidget {
+class MyBadge extends StatelessWidget {
   final Widget child;
   final Color? color;
   final GestureTapCallback? onTap;
   final EdgeInsets? padding;
 
-  const Badge({
+  const MyBadge({
     Key? key,
     required this.child,
     this.color,

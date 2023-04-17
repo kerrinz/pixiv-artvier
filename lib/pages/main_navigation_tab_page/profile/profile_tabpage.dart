@@ -105,8 +105,8 @@ class ProfileTabPageState extends ConsumerState<ProfileTabPage>
                     colors: [
                       topBackgroundColor,
                       topBackgroundColor,
-                      Theme.of(context).backgroundColor,
-                      Theme.of(context).backgroundColor,
+                      Theme.of(context).colorScheme.background,
+                      Theme.of(context).colorScheme.background,
                     ],
                     stops: const [0, 0.6, 0.6, 1],
                     begin: Alignment.topCenter,

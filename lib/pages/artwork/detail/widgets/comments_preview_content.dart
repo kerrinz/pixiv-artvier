@@ -64,7 +64,7 @@ class CommentsPreviewContentWidget extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 8),
             color: colorScheme.primary.withAlpha(32),
             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-            child: Text("更多评论 >", style: textTheme.button?.copyWith(color: colorScheme.primary)),
+            child: Text("更多评论 >", style: textTheme.labelLarge?.copyWith(color: colorScheme.primary)),
             onPressed: () => Navigator.of(context).pushNamed(RouteNames.comments.name, arguments: artworkId),
           ),
         ),

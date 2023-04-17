@@ -29,7 +29,7 @@ class BottomSheetSelectItem extends StatelessWidget {
         borderRadius: BorderRadius.zero,
         onPressed: onTap,
         child: DefaultTextStyle(
-          style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
+          style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color),
           child: text,
         ),
       ),

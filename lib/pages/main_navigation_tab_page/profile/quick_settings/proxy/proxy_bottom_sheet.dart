@@ -81,7 +81,7 @@ class SettingNetworkPageState extends ConsumerState<ProxyOriginSettingsBottomShe
       alignment: Alignment.centerLeft,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Badge(
+        child: MyBadge(
           onTap: () {
             _hostController.text = ref.read(inputProxyHostProvider) ?? "";
             _portController.text = ref.read(inputProxyPortProvider) ?? "";

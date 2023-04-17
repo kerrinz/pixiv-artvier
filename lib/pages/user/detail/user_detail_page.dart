@@ -83,7 +83,7 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_hasMountedListener) {
-      _scrollController = PrimaryScrollController.of(context) ?? ScrollController();
+      _scrollController = PrimaryScrollController.of(context);
       _scrollController.addListener(_handleScroll);
       _hasMountedListener = true;
     }
