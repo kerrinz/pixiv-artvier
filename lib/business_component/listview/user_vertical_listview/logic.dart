@@ -34,17 +34,4 @@ mixin UserVerticalListViewItemLogic {
     });
     return FollowNotifier(followState, ref: ref, userId: userId);
   });
-
-  // TODO: 未使用的方法
-  void handleTapFollowButton() {
-    var state = ref.read(followStateProvider);
-    if (state == CollectState.notCollect) {
-      // 当前未关注，添加关注
-      ref.read(followStateProvider.notifier).follow(restrict: Restrict.public);
-    }
-    if (state == CollectState.collected) {
-      // 当前已关注，移除关注
-      ref.read(followStateProvider.notifier).unfollow();
-    }
-  }
 }
