@@ -23,9 +23,9 @@ class NotFoundPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Row(
+                  child: const Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: const [
+                    children: [
                       Icon(Icons.arrow_back_ios_new_rounded, size: 18),
                       Text("Back"),
                     ],
@@ -35,9 +35,9 @@ class NotFoundPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
                   },
-                  child: Row(
+                  child: const Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: const [
+                    children: [
                       Icon(Icons.home_outlined, size: 20),
                       Text("Home"),
                     ],

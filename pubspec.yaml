@@ -43,7 +43,7 @@ dependencies:
   fluttertoast: ^8.0.8
   freezed_annotation: ^2.2.0 # 模板代码生成
   image_gallery_saver: ^1.7.1 # 图片保存
-  intl: ^0.17.0 # 国际化
+  intl: ^0.18.0 # 国际化
   json_annotation: ^4.7.0
   logger: ^1.1.0 # 输出日志
   package_info: ^2.0.2 # 获取本App的信息

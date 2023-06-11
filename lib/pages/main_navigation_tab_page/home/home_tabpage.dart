@@ -83,11 +83,11 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                     direction: Axis.horizontal,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Expanded(
+                      const Expanded(
                         flex: 1,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
+                          children: [
                             Icon(
                               Icons.leaderboard_rounded,
                               color: Colors.amber,
@@ -105,9 +105,9 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                           Navigator.of(context).pushNamed(RouteNames.ranking.name);
                         },
                         // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
-                        child: Row(
+                        child: const Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
+                          children: [
                             Text("更多"),
                             Icon(Icons.chevron_right),
                           ],
@@ -125,9 +125,9 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                 },
               ),
               // 推荐头部
-              SliverToBoxAdapter(
+              const SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 12, top: 16, bottom: 8),
+                  padding: EdgeInsets.only(left: 12, top: 16, bottom: 8),
                   child: Flex(
                     direction: Axis.horizontal,
                     children: [
@@ -135,7 +135,7 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                         flex: 1,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
+                          children: [
                             Icon(
                               Icons.favorite_rounded,
                               color: Colors.deepOrange,

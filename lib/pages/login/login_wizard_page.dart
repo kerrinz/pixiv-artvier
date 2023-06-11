@@ -36,8 +36,8 @@ class LoginWizardPage extends StatelessWidget {
                       child: const ProxyOriginSettingsBottomSheet(),
                     );
                   },
-                  child: Row(
-                    children: const [
+                  child: const Row(
+                    children: [
                       Text("设置网络代理"),
                       Icon(Icons.arrow_right_rounded),
                     ],
