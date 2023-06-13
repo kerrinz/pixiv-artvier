@@ -197,10 +197,10 @@ packages:
     dependency: "direct main"
     description:
       name: extended_image
-      sha256: a6b738d9b8d5513be72c545cc3e9c5c451fbee77c8db3cbec7c32ae85b82fb93
+      sha256: e77d18f956649ba6e5ecebd0cb68542120886336a75ee673788145bd4c3f0767
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.4.1"
+    version: "8.0.2"
   extended_image_library:
     dependency: transitive
     description:
@@ -517,14 +517,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
-  package_info:
-    dependency: "direct main"
-    description:
-      name: package_info
-      sha256: "6c07d9d82c69e16afeeeeb6866fe43985a20b3b50df243091bfc4a4ad2b03b75"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.2"
   path:
     dependency: transitive
     description:
@@ -585,10 +577,26 @@ packages:
     dependency: "direct main"
     description:
       name: permission_handler
-      sha256: "807decc36e5ffeac0f9f79c2f56b2a0e1a164996e6b1808031e2bf148cbd8d8d"
+      sha256: "1b6b3e73f0bcbc856548bbdfb1c33084a401c4f143e220629a9055233d76c331"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "8.1.6"
+    version: "10.3.0"
+  permission_handler_android:
+    dependency: transitive
+    description:
+      name: permission_handler_android
+      sha256: "8f6a95ccbca13766882f95d32684d7c9bfe6c45650c32bedba948ef1c6a4ddf7"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "10.2.3"
+  permission_handler_apple:
+    dependency: transitive
+    description:
+      name: permission_handler_apple
+      sha256: "08dcb6ce628ac0b257e429944b4c652c2a4e6af725bdf12b498daa2c6b2b1edb"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "9.1.0"
   permission_handler_platform_interface:
     dependency: transitive
     description:
@@ -597,6 +605,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.10.0"
+  permission_handler_windows:
+    dependency: transitive
+    description:
+      name: permission_handler_windows
+      sha256: f67cab14b4328574938ecea2db3475dad7af7ead6afab6338772c5f88963e38b
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.2"
   petitparser:
     dependency: transitive
     description:
@@ -609,10 +625,10 @@ packages:
     dependency: "direct main"
     description:
       name: photo_view
-      sha256: "26cb153080a2673bebccaf72d3283e82f8f41a47fe5f9bc5ba8634d2e8a9fc8e"
+      sha256: "8036802a00bae2a78fc197af8a158e3e2f7b500561ed23b4c458107685e645bb"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.13.0"
+    version: "0.14.0"
   platform:
     dependency: transitive
     description:
