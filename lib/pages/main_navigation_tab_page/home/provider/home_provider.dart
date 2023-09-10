@@ -1,3 +1,4 @@
+import 'package:artvier/pages/main_navigation_tab_page/home/provider/home_pixivision_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/api_illusts.dart';
 import 'package:artvier/base/base_provider/base_notifier.dart';
@@ -7,7 +8,7 @@ import 'package:artvier/global/provider/collection_state_provider.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 
 /// 首页的加载状态
-final homeStateProvider = StateNotifierProvider<HomeStateNotifier, PageState>((ref) {
+final   homeStateProvider = StateNotifierProvider<HomeStateNotifier, PageState>((ref) {
   // // 监听全局收藏状态的变化，更新列表
   ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
     if (next != null) {
@@ -31,6 +32,7 @@ class HomeStateNotifier extends BaseStateNotifier<PageState> {
   /// 执行所有请求
   Future<void> allFetch() async {
     await ref.read(homeIllustRecommendedProvider.notifier).fetch();
+    await ref.read(homePixivisionProvider.notifier).fetch();
   }
 
   /// 初始化，也可用于失败后的重试
