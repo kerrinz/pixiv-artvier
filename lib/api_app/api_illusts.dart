@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:artvier/model_response/illusts/pixivision/spotlight_articles.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/common/collection_detail.dart';
@@ -87,6 +88,33 @@ class ApiIllusts extends ApiBase {
       cancelToken: cancelToken,
     );
     return CommonIllustList.fromJson(json.decode(res.data));
+  }
+
+  // 获取插画亮点 Pixivision
+  Future<SpotlightArticles> illustPixivision({CancelToken? cancelToken}) async {
+    var query = <String, dynamic>{};
+    query.addAll({
+      "filter": "for_ios",
+      "category": "all",
+    });
+    Response res = await requester.get<String>(
+      "/v1/spotlight/articles",
+      queryParameters: query,
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return SpotlightArticles.fromJson(json.decode(res.data));
+  }
+
+  /// 获取下一页插画亮点 Pixivision
+  /// - [nextUrl] 下一页的链接地址
+  Future<SpotlightArticles> nextIllustPixivision(String nextUrl, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      nextUrl,
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return SpotlightArticles.fromJson(json.decode(res.data));
   }
 
   /// 高级收藏的时候，获取标签列表（含画作标签 + 用户收藏里已有的标签）
