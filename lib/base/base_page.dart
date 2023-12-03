@@ -13,4 +13,7 @@ abstract class BaseStatefulPage extends ConsumerStatefulWidget {
 abstract class BasePageState<T extends ConsumerStatefulWidget> extends ConsumerState<T> {
   LocalizationIntl get i10n => LocalizationIntl.of(context);
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
+  
+  /// Toolbar height + StatusBar height
+  double get toolBarFullHeight => (Theme.of(context).appBarTheme.toolbarHeight ?? 0) + MediaQuery.paddingOf(context).top;
 }
