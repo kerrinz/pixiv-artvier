@@ -10,20 +10,20 @@ class BannerAppBarPageLayout extends ConsumerStatefulWidget {
   const BannerAppBarPageLayout({
     super.key,
     required this.appBarBuilder,
-    required this.bannerWidget,
-    required this.bannerHeight,
+    this.bannerWidget,
+    this.bannerHeight,
     required this.appBarStartBuilderOffset,
     required this.appBarEndBuilderOffset,
     required this.body,
     this.scrollController,
-  });
+  }) : assert((bannerWidget == null && bannerHeight == null) || (bannerWidget != null && bannerHeight != null));
 
   final ScrollController? scrollController;
 
   final AppBarBuilder appBarBuilder;
 
   /// 封面图区域的Widget，其管理状态可在内部自行实现
-  final Widget bannerWidget;
+  final Widget? bannerWidget;
 
   /// 主体内容，需要自行添加的padding-top，以避免遮挡banner
   ///
@@ -31,7 +31,7 @@ class BannerAppBarPageLayout extends ConsumerStatefulWidget {
   final Widget body;
 
   /// 封面图高度（仅用于滚动计算，不影响实际组件高度）
-  final double bannerHeight;
+  final double? bannerHeight;
 
   /// AppBar开始实时构建时，所处的垂直滚动位置
   final double appBarStartBuilderOffset;
@@ -52,7 +52,7 @@ class _BannerAppBarPageLayoutState extends ConsumerState<BannerAppBarPageLayout>
   bool _hasMountedListener = false;
 
   /// 背景封面图的高度
-  double get _bannerHeight => widget.bannerHeight;
+  double? get _bannerHeight => widget.bannerHeight;
 
   /// 用于AppBar构建的滚动位置监听器
   final ValueNotifier<double> _appBarOffsetNotifier = ValueNotifier<double>(0);
@@ -72,7 +72,7 @@ class _BannerAppBarPageLayoutState extends ConsumerState<BannerAppBarPageLayout>
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_hasMountedListener) {
-      _scrollController = PrimaryScrollController.of(context);
+      _scrollController = widget.scrollController ?? PrimaryScrollController.of(context);
       _scrollController.addListener(_handleScroll);
       _hasMountedListener = true;
     }
@@ -90,10 +90,12 @@ class _BannerAppBarPageLayoutState extends ConsumerState<BannerAppBarPageLayout>
       _appBarOffsetNotifier.value = offset;
     }
     // 更新banner的位置
-    if (offset > _bannerHeight) {
-      if (_bannerffsetNotifier.value != _bannerHeight) _bannerffsetNotifier.value = _bannerHeight;
-    } else {
-      _bannerffsetNotifier.value = offset;
+    if (_bannerHeight != null) {
+      if (offset > _bannerHeight!) {
+        if (_bannerffsetNotifier.value != _bannerHeight) _bannerffsetNotifier.value = _bannerHeight!;
+      } else {
+        _bannerffsetNotifier.value = offset;
+      }
     }
   }
 
@@ -108,18 +110,19 @@ class _BannerAppBarPageLayoutState extends ConsumerState<BannerAppBarPageLayout>
     return Stack(
       children: [
         /// 顶部封面图
-        ValueListenableBuilder<double>(
-            valueListenable: _bannerffsetNotifier,
-            builder: (_, value, __) {
-              return Transform.translate(
-                offset: Offset(0, -value),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: _bannerHeight,
-                  child: widget.bannerWidget,
-                ),
-              );
-            }),
+        if (widget.bannerWidget != null)
+          ValueListenableBuilder<double>(
+              valueListenable: _bannerffsetNotifier,
+              builder: (_, value, __) {
+                return Transform.translate(
+                  offset: Offset(0, -value),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: _bannerHeight,
+                    child: widget.bannerWidget,
+                  ),
+                );
+              }),
         // 主体内容
         widget.body,
         // 固定顶部的AppBar

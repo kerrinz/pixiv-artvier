@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:artvier/business_component/page_layout/banner_appbar_page_layout.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/widgets/pixivision_carousel.dart';
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/base/base_page.dart';
@@ -24,42 +24,31 @@ class HomePage extends BaseStatefulPage {
 class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
   int size = 20;
 
-  ScrollController controller = ScrollController();
+  late ScrollController _scrollController;
+
+  /// 是否已经挂载了 ScrollController
+  bool _hasMountedScroll = false;
 
   @override
   bool get wantKeepAlive => true;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_hasMountedScroll) {
+      _scrollController = ScrollController();
+      _hasMountedScroll = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ExtendedNestedScrollView(
-      controller: controller,
-      floatHeaderSlivers: true,
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return [
-          SliverAppBar(
-            pinned: true,
-            toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
-            title: const Text(
-              "Artvier",
-            ),
-            // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.keyboard_arrow_up),
-                onPressed: () {
-                  controller.animateTo(
-                    0,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.decelerate,
-                  );
-                },
-                tooltip: "回到顶部",
-              ),
-            ],
-          )
-        ];
-      },
+    return BannerAppBarPageLayout(
+      appBarStartBuilderOffset: 100,
+      appBarEndBuilderOffset: 200,
+      appBarBuilder: _buildAppBar,
+      scrollController: _scrollController,
       body: RefreshIndicator(
         onRefresh: () async => ref.read(homeStateProvider.notifier).refresh(),
         child: Consumer(builder: (_, ref, __) {
@@ -75,12 +64,13 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
           }
           return CustomScrollView(
             physics: const BouncingScrollPhysics(),
+            controller: _scrollController,
             slivers: [
               // 轮播图
-              const SliverToBoxAdapter(
+              SliverToBoxAdapter(
                 child: SizedBox(
-                  height: 220,
-                  child: PixivsionCarousel(),
+                  height: toolBarFullHeight + 160,
+                  child: const PixivsionCarousel(),
                 ),
               ),
               // 排行榜头部
@@ -177,11 +167,48 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
     );
   }
 
+  /// 根据滚动偏移，渲染 AppBar
+  Widget _buildAppBar(double offset) {
+    double bgOpacity = 0.0;
+    if (offset >= 100) {
+      bgOpacity = (offset - 100) / 100;
+    } else {
+      bgOpacity = 0;
+    }
+    Color textColor = Colors.white;
+    if (colorScheme.brightness == Brightness.light && bgOpacity > 0.5) {
+      textColor = Colors.black;
+    }
+
+    return AppBar(
+      backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(bgOpacity),
+      toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
+      titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle!.copyWith(color: textColor),
+      title: const Text(
+        "Artvier",
+      ),
+      // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.keyboard_arrow_up, color: textColor),
+          onPressed: () {
+            _scrollController.animateTo(
+              0,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.decelerate,
+            );
+          },
+          tooltip: "回到顶部",
+        ),
+      ],
+    );
+  }
+
   // 构建排行榜卡片列表（横向
   Widget buildRankingCardList(BuildContext context, List<CommonIllust> rankingList) {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height) / 2,
+        height: min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height) / 2.5,
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
@@ -207,7 +234,7 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                     right: 0,
                     bottom: 0,
                     child: Container(
-                      height: 80,
+                      height: 60,
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(colors: [
                           Color(0x00000000),
@@ -227,10 +254,10 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                         children: [
                           // 作品标题
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 6),
+                            padding: const EdgeInsets.only(bottom: 4),
                             child: Text(
                               rankingList[index].title,
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white),
                             ),
                           ),
                           Row(
@@ -251,7 +278,7 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                                 child: Text(
                                   rankingList[index].user.name,
                                   style:
-                                      const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white),
+                                      const TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.white),
                                 ),
                               ),
                             ],
