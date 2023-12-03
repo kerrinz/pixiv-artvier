@@ -1,4 +1,6 @@
-import 'package:artvier/pages/main_navigation_tab_page/home/provider/home_pixivision_provider.dart';
+import 'dart:async';
+
+import 'package:artvier/model_response/illusts/pixivision/spotlight_articles.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/api_illusts.dart';
 import 'package:artvier/base/base_provider/base_notifier.dart';
@@ -8,7 +10,7 @@ import 'package:artvier/global/provider/collection_state_provider.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 
 /// 首页的加载状态
-final   homeStateProvider = StateNotifierProvider<HomeStateNotifier, PageState>((ref) {
+final homeStateProvider = StateNotifierProvider<HomeStateNotifier, PageState>((ref) {
   // // 监听全局收藏状态的变化，更新列表
   ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
     if (next != null) {
@@ -89,5 +91,23 @@ class HomeIllustRecommendedNotifier extends BaseStateNotifier<List<CommonIllust>
     nextUrl = data.nextUrl;
     state = [...state, ...data.illusts];
     return nextUrl != null;
+  }
+}
+
+/// 首页推荐插画
+final homePixivisionProvider = StateNotifierProvider<HomePixivisionNotifier, List<SpotlightArticle>>((ref) {
+  return HomePixivisionNotifier([], ref: ref);
+});
+
+/// 首页推荐插画
+class HomePixivisionNotifier extends BaseStateNotifier<List<SpotlightArticle>> {
+  HomePixivisionNotifier(super.state, {required super.ref});
+
+  String? nextUrl;
+
+  fetch() async {
+    var data = await ApiIllusts(requester).illustPixivision();
+    nextUrl = data.nextUrl;
+    state = data.spotlightArticles;
   }
 }
