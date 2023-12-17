@@ -30,8 +30,7 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 }
 
-beforeRunApp() async {
-}
+beforeRunApp() async {}
 
 // 初始化一些APP全局设定，不加载内容
 class MyApp extends ConsumerStatefulWidget {
@@ -68,15 +67,20 @@ class MyAppState extends ConsumerState<MyApp> {
       // locale: LocalizationIntl.supportedLocales[0],
       // 切换系统语言时的回调函数
       localeListResolutionCallback: (locales, supportedLocales) {
-        if (locales == null) return const Locale('en'); // 获取不到系统语言时的默认App语言
-        for (Locale locale in locales) {
-          Locale formatLocale = Locale.fromSubtags(
-            languageCode: locale.languageCode,
-            scriptCode: locale.scriptCode,
-          ); // 不考虑countryCode
-          if (supportedLocales.contains(formatLocale)) return formatLocale;
+        if (locales == null) return const Locale('en', 'US'); // 获取不到系统语言时的默认App语言
+        var formatLocales = locales
+            .map((locale) => Locale.fromSubtags(languageCode: locale.languageCode, countryCode: locale.countryCode));
+        // 精确匹配，语言+地区
+        for (Locale locale in formatLocales) {
+          if (supportedLocales.contains(locale)) return locale;
         }
-        return const Locale('en');
+        // 模糊匹配，仅语言
+        for (Locale locale in formatLocales) {
+          for (Locale supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode) return locale;
+          }
+        }
+        return const Locale('en', "US");
       },
     );
   }

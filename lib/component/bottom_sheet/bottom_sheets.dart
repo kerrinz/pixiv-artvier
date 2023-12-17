@@ -15,7 +15,8 @@ class BottomSheets {
       isScrollControlled: true,
       enableDrag: enableDrag,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black38, // 遮罩层颜色
+      elevation: 0,
+      barrierColor: Colors.black54, // 遮罩层颜色
       builder: (BuildContext context) {
         return Stack(
           children: [
