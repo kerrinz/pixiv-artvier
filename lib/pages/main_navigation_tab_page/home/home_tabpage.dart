@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:artvier/business_component/page_layout/banner_appbar_page_layout.dart';
+import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/widgets/pixivision_carousel.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/base/base_page.dart';
@@ -206,106 +208,114 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
 
   // 构建排行榜卡片列表（横向
   Widget buildRankingCardList(BuildContext context, List<CommonIllust> rankingList) {
+    double height = min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height) / 2.5;
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height) / 2.5,
+        height: height,
         child: ListView.builder(
+          shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(left: 2, right: 12),
+          padding: const EdgeInsets.only(left: 8, right: 8),
           itemBuilder: (context, index) {
-            return Card(
-              margin: const EdgeInsets.only(left: 10),
-              elevation: 2.0,
-              shadowColor: Colors.black,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: Stack(
-                children: [
-                  Image.network(
-                    rankingList[index].imageUrls.squareMedium,
-                    headers: const {"referer": CONSTANTS.referer_artworks_base},
-                  ),
-                  // 阴影
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      height: 60,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                          Color(0x00000000),
-                          Color(0x33000000),
-                          Color(0x6C000000),
-                        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+            return SizedBox(
+              width: height,
+              height: height,
+              child: Card(
+                elevation: 0,
+                shadowColor: Colors.transparent,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                color: colorScheme.surface,
+                clipBehavior: Clip.antiAlias,
+                child: Stack(
+                  children: [
+                    EnhanceNetworkImage(
+                      image: ExtendedNetworkImageProvider(
+                        rankingList[index].imageUrls.squareMedium,
+                        headers: const {"referer": CONSTANTS.referer_artworks_base},
                       ),
                     ),
-                  ),
-                  // 描述信息
-                  Positioned(
-                    bottom: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // 作品标题
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 4),
-                            child: Text(
-                              rankingList[index].title,
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              // 作者头像
-                              ClipOval(
-                                child: Image.network(
-                                  rankingList[index].user.profileImageUrls.medium,
-                                  headers: const {"Referer": CONSTANTS.referer},
-                                  fit: BoxFit.cover,
-                                  width: 20,
-                                  height: 20,
-                                ),
+                    // 阴影
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        height: 60,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(colors: [
+                            Color(0x00000000),
+                            Color(0x33000000),
+                            Color(0x6C000000),
+                          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                        ),
+                      ),
+                    ),
+                    // 描述信息
+                    Positioned(
+                      bottom: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // 作品标题
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: Text(
+                                rankingList[index].title,
+                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 4),
-                                child: Text(
-                                  rankingList[index].user.name,
-                                  style:
-                                      const TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        splashColor: Colors.black12.withOpacity(0.15),
-                        highlightColor: Colors.black12.withOpacity(0.1),
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            RouteNames.artworkDetail.name,
-                            arguments: IllustDetailPageArguments(
-                              illustId: rankingList[index].id.toString(),
-                              detail: rankingList[index],
                             ),
-                          );
-                        },
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                // 作者头像
+                                ClipOval(
+                                  child: Image.network(
+                                    rankingList[index].user.profileImageUrls.medium,
+                                    headers: const {"Referer": CONSTANTS.referer},
+                                    fit: BoxFit.cover,
+                                    width: 20,
+                                    height: 20,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 4),
+                                  child: Text(
+                                    rankingList[index].user.name,
+                                    style:
+                                        const TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    Positioned.fill(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          splashColor: Colors.black12.withOpacity(0.15),
+                          highlightColor: Colors.black12.withOpacity(0.1),
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              RouteNames.artworkDetail.name,
+                              arguments: IllustDetailPageArguments(
+                                illustId: rankingList[index].id.toString(),
+                                detail: rankingList[index],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },
