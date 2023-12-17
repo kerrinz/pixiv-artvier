@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2023-02-24T22:12:54.763651",
+  "@@last_modified": "2023-12-17T22:31:11.553845",
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",

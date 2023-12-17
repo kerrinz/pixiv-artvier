@@ -5,8 +5,8 @@ import 'messages_all.dart';
 class LocalizationIntl {
   // App 支持的语言，不考虑countryCode
   static List<Locale> supportedLocales = const [
-    Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans"),
-    Locale.fromSubtags(languageCode: "en"),
+    Locale("zh", "CN"),
+    Locale("en", "US"),
   ];
 
   static Future<LocalizationIntl> load(Locale locale) {
