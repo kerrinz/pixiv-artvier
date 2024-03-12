@@ -1,3 +1,4 @@
+import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -31,13 +32,23 @@ mixin ArtworkDetailPageLogic {
         ref.notifier.setCollectState(next.state);
       }
     });
-
-    return CollectNotifier(
-      artworkDetail!.isBookmarked ? CollectState.collected : CollectState.notCollect,
-      ref: ref,
-      worksId: artworkId,
-      worksType: WorksType.illust,
-    );
+    if (artworkDetail != null) {
+      return CollectNotifier(
+        artworkDetail!.isBookmarked ? CollectState.collected : CollectState.notCollect,
+        ref: ref,
+        worksId: artworkId,
+        worksType: WorksType.illust,
+      );
+    } else {
+      // TODO: 有点混乱，虽然能跑（
+      var detail = ref.watch(illustDetailProvider(artworkId)).value!.illust;
+      return CollectNotifier(
+        detail.isBookmarked ? CollectState.collected : CollectState.notCollect,
+        ref: ref,
+        worksId: artworkId,
+        worksType: WorksType.illust,
+      );
+    }
   });
 
   /// 点击图片查看大图或原图

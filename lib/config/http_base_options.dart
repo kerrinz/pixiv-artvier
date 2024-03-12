@@ -5,6 +5,7 @@ class HttpBaseOptions {
   static const String baseUrlHost = 'app-api.pixiv.net';
   // static const String baseUrlIp = '210.140.131.199'; // www.pixiv.net
   // static const String baseUrlIp = '104.18.30.199'; // app-api.pixiv.net
+  static const String pixivisionUrlHost = 'www.pixivision.net';
 
   // 时间单位：毫秒 ms
   static const int connectTimeout = 12000;

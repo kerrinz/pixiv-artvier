@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/global/logger.dart';
@@ -43,10 +41,11 @@ class AuthorizationInterceptor extends InterceptorsWrapper {
       if (err.type == DioErrorType.cancel) {
         logger.i(err.type);
       } else {
-        logger.w(json.decode(err.response!.data));
-        logger.w(err.requestOptions.queryParameters);
-        logger.w(err.requestOptions.data.toString());
-        logger.w(err.requestOptions.headers);
+        logger.w(err.toString());
+        // logger.w(json.decode(err.response!.data));
+        // logger.w(err.requestOptions.queryParameters);
+        // logger.w(err.requestOptions.data.toString());
+        // logger.w(err.requestOptions.headers);
       }
     } catch (e) {
       logger.w(err.response);

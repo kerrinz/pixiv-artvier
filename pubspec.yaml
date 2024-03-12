@@ -42,6 +42,7 @@ dependencies:
   flutter_sticky_header: ^0.6.5 # 多个header的吸顶效果
   fluttertoast: ^8.0.8
   freezed_annotation: ^2.2.0 # 模板代码生成
+  html: ^0.15.4 # 解析 HTML
   image_gallery_saver: ^1.7.1 # 图片保存
   intl: ^0.18.0 # 国际化
   json_annotation: ^4.7.0
