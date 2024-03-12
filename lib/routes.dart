@@ -1,3 +1,5 @@
+import 'package:artvier/pages/artwork/pixivision/illust_pixivision_page.dart';
+import 'package:artvier/pages/artwork/pixivision/pixivision_webview_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:artvier/pages/account/account_manage/account_manage_page.dart';
 import 'package:artvier/pages/comment/comments_page.dart';
@@ -33,7 +35,11 @@ enum RouteNames {
 
   loginWeb,
   ranking,
+
+  // 插画
   artworkDetail,
+  artworkPixivitionWebView,
+  artworkPixivition,
 
   /// 作品大图预览
   artworkImagesPreview,
@@ -69,6 +75,8 @@ class Routes {
     RouteNames.ranking.name: (context, arguments) => const ArtworksRankingPage(),
     RouteNames.artworkDetail.name: (context, arguments) => ArtWorksDetailPage(arguments!),
     RouteNames.artworkImagesPreview.name: (context, arguments) => ImageViewerPage(arguments!),
+    RouteNames.artworkPixivitionWebView.name: (context, arguments) => PixivisionWebViewPage(arguments!),
+    RouteNames.artworkPixivition.name: (context, arguments) => IllustPixivisionPage(arguments!),
     RouteNames.comments.name: (context, arguments) => CommentsPage(arguments!),
     RouteNames.userFollowing.name: (context, arguments) => UserFollowingPage(arguments!),
     RouteNames.userDetail.name: (context, arguments) => UserDetailPage(arguments!),
