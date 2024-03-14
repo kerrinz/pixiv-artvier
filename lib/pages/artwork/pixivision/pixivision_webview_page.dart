@@ -37,7 +37,7 @@ class _LoginWebState extends BasePageState<PixivisionWebViewPage> {
         javascriptMode: JavascriptMode.unrestricted,
         onPageFinished: (url) {},
         onWebViewCreated: (controller) {},
-        initialUrl: "${HttpBaseOptions.pixivisionUrlHost}/${widget.arguments.language}/${widget.arguments.id}",
+        initialUrl: "${HttpBaseOptions.pixivisionHost}/${widget.arguments.language}/${widget.arguments.id}",
         navigationDelegate: (NavigationRequest request) {
           if (request.url.startsWith("pixiv://account/")) {
             return NavigationDecision.prevent;
