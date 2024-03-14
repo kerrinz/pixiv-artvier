@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';
-import 'package:artvier/global/provider/proxy_provider.dart';
+import 'package:artvier/global/provider/network_provider.dart';
 import 'package:artvier/request/my_http_overrides.dart';
 import 'package:artvier/routes.dart';
 

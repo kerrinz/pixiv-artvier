@@ -1,11 +1,12 @@
 /// Http请求的默认参数
 class HttpBaseOptions {
-  static get baseUrl => 'https://$baseUrlHost';
+  static get baseUrl => 'https://$appApiHost';
 
-  static const String baseUrlHost = 'app-api.pixiv.net';
-  // static const String baseUrlIp = '210.140.131.199'; // www.pixiv.net
-  // static const String baseUrlIp = '104.18.30.199'; // app-api.pixiv.net
-  static const String pixivisionUrlHost = 'www.pixivision.net';
+  static const String appApiHost = "app-api.pixiv.net";
+  static const String appApiIp = "210.140.92.183";
+  static const String oauthHost = "oauth.secure.pixiv.net";
+  static const String oauthIp = "";
+  static const String pixivisionHost = "www.pixivision.net";
 
   // 时间单位：毫秒 ms
   static const int connectTimeout = 12000;
@@ -14,6 +15,10 @@ class HttpBaseOptions {
 
   static const Map<String, String> headers = {
     "User-Agent": "PixivIOSApp/7.12.5 (iOS 14.6; iPhone11,2)",
-    "accept-language": "zh-cn",
+    "App-OS": "ios",
+    "App-OS-Version": "11.0",
+    "App-Version": "6.54.0",
+    "Accept-Language": "zh-CN",
+    "Host": appApiHost
   };
 }
