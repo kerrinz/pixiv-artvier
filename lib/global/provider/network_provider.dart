@@ -46,3 +46,4 @@ class _HttpProxyNotifier extends BaseStateNotifier<ProxyStateModel> {
     return result;
   }
 }
+

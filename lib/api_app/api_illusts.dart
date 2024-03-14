@@ -107,17 +107,6 @@ class ApiIllusts extends ApiBase {
     return SpotlightArticles.fromJson(json.decode(res.data));
   }
 
-  /// 获取下一页插画亮点 Pixivision
-  /// - [nextUrl] 下一页的链接地址
-  Future<SpotlightArticles> nextIllustPixivision(String nextUrl, {CancelToken? cancelToken}) async {
-    Response res = await requester.get<String>(
-      nextUrl,
-      options: Options(responseType: ResponseType.json),
-      cancelToken: cancelToken,
-    );
-    return SpotlightArticles.fromJson(json.decode(res.data));
-  }
-
   /// 高级收藏的时候，获取标签列表（含画作标签 + 用户收藏里已有的标签）
   Future<TheCollectionDetail> illustCollectionDetail(String illustId, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
@@ -196,7 +185,7 @@ class ApiIllusts extends ApiBase {
   /// 获取 Pixivisiton 插画网页
   Future<String> illustPixvisionWebContent(String language, int id, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
-      "https://${HttpBaseOptions.pixivisionUrlHost}/$language/a/$id",
+      "https://${HttpBaseOptions.pixivisionHost}/$language/a/$id",
       options: Options(responseType: ResponseType.plain),
       cancelToken: cancelToken,
     );
