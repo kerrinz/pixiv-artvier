@@ -1,3 +1,4 @@
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
@@ -41,7 +42,7 @@ class TrendingTagsGridState extends State<TrendingTagsGrid> {
           borderRadius: BorderRadius.circular(4),
           child: EnhanceNetworkImage(
             image: ExtendedNetworkImageProvider(
-              item.illust.imageUrls.squareMedium,
+              HttpHostOverrides().pxImgUrl(item.illust.imageUrls.squareMedium),
               headers: const {"referer": CONSTANTS.referer},
               cache: true,
             ),

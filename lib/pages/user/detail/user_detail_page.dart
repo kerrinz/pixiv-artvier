@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
@@ -233,7 +234,7 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
             imageFilter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
             child: EnhanceNetworkImage(
               image: ExtendedNetworkImageProvider(
-                widget.leastInfo.avatar,
+                HttpHostOverrides().pxImgUrl(widget.leastInfo.avatar),
                 headers: const {"Referer": CONSTANTS.referer},
               ),
               width: double.infinity,
@@ -245,7 +246,8 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
         }
         // 正常的封面图
         return EnhanceNetworkImage(
-          image: ExtendedNetworkImageProvider(bg, headers: const {"Referer": CONSTANTS.referer}),
+          image: ExtendedNetworkImageProvider(HttpHostOverrides().pxImgUrl(bg),
+              headers: const {"Referer": CONSTANTS.referer}),
           width: double.infinity,
           fit: BoxFit.cover,
           color: const Color(0x33000000),

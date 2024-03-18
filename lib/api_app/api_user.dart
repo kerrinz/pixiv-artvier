@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/enums.dart';
@@ -211,7 +212,7 @@ class ApiUser extends ApiBase {
   /// 获取下一页用户
   Future<CommonUserPreviewsList> nextPreviewUsers(String nextUrl, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
-      nextUrl,
+      HttpHostOverrides().appApiUrl(nextUrl),
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
@@ -221,7 +222,7 @@ class ApiUser extends ApiBase {
   /// 获取下一页标签
   Future<BookmarkTagList> nextTags(String nextUrl, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
-      nextUrl,
+      HttpHostOverrides().appApiUrl(nextUrl),
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );

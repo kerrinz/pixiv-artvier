@@ -1,3 +1,4 @@
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class AuthorCardWidget extends StatelessWidget {
                     child: ClipOval(
                       child: EnhanceNetworkImage(
                         image: ExtendedNetworkImageProvider(
-                          detail.user.profileImageUrls.medium,
+                          HttpHostOverrides().pxImgUrl(detail.user.profileImageUrls.medium),
                           headers: const {"Referer": CONSTANTS.referer},
                         ),
                         fit: BoxFit.cover,

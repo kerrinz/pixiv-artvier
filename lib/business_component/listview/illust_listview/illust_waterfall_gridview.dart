@@ -1,3 +1,4 @@
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -74,7 +75,7 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
     // print('collect garbage : $garbages');
     for (var index in garbages) {
       final provider = ExtendedNetworkImageProvider(
-        artworkList[index].imageUrls.medium,
+        HttpHostOverrides().pxImgUrl(artworkList[index].imageUrls.medium),
       );
       provider.evict();
     }

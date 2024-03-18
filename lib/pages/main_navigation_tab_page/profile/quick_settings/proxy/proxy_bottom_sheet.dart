@@ -1,13 +1,15 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/bottom_sheet/slide_bar.dart';
 import 'package:artvier/component/perference/perference_single_choise_panel.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/provider/network_provider.dart';
 import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/proxy/logic.dart';
+import 'package:artvier/request/http_host_overrides.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProxyOriginSettingsBottomSheet extends ConsumerStatefulWidget {
   const ProxyOriginSettingsBottomSheet({Key? key}) : super(key: key);
@@ -16,7 +18,7 @@ class ProxyOriginSettingsBottomSheet extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => SettingNetworkPageState();
 }
 
-class SettingNetworkPageState extends ConsumerState<ProxyOriginSettingsBottomSheet> with ProxyLogic {
+class SettingNetworkPageState extends BasePageState<ProxyOriginSettingsBottomSheet> with ProxyLogic {
   late TextEditingController _hostController;
   late TextEditingController _portController;
 
@@ -41,32 +43,73 @@ class SettingNetworkPageState extends ConsumerState<ProxyOriginSettingsBottomShe
       children: [
         const BottomSheetSlideBar(),
         Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 24),
+          padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 24),
           child: Consumer(builder: (_, ref, __) {
             bool isEnabled = ref.watch(globalProxyStateProvider.select((value) => value.isProxyEnabled));
-            return PerferenceSingleChoisePanel(
-              title: 'HTTP网络代理',
-              selectedindex: isEnabled ? 1 : 0,
-              onSelect: (index) {
-                switch (index) {
-                  case 0:
-                    handleProxyEnable(ref, proxyEnabled: false);
-                    break;
-                  case 1:
-                    handleProxyEnable(ref, proxyEnabled: true);
-                }
-              },
-              widgets: <Widget>[
-                const Text(
-                  "不使用代理（默认）",
-                  style: TextStyle(fontSize: 16),
-                ),
-                Row(
-                  children: [
-                    const Text("自定义代理", style: TextStyle(fontSize: 16)),
-                    Expanded(child: _buildProxyBadge(context)),
+            return Column(
+              children: [
+                PerferenceSingleChoisePanel(
+                  title: 'HTTP网络代理',
+                  selectedindex: isEnabled ? 1 : 0,
+                  onSelect: (index) {
+                    switch (index) {
+                      case 0:
+                        handleProxyEnable(ref, proxyEnabled: false);
+                        break;
+                      case 1:
+                        handleProxyEnable(ref, proxyEnabled: true);
+                    }
+                  },
+                  widgets: <Widget>[
+                    Text(
+                      i10n.defaultNoProxy,
+                      style: textTheme.labelMedium,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          i10n.customProxy,
+                          style: textTheme.labelMedium,
+                        ),
+                        Expanded(child: _buildProxyBadge(context)),
+                      ],
+                    ),
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            i10n.enableDirectConnection,
+                            style: textTheme.titleMedium,
+                          ),
+                          Text(
+                            i10n.directConnectionHint,
+                            style: textTheme.labelSmall?.copyWith(
+                              color: textTheme.labelSmall?.color?.withOpacity(0.5),
+                            ),
+                          ),
+                        ],
+                      )),
+                      Builder(builder: (context) {
+                        bool enable = ref.watch(globalDirectConnectionProvider);
+                        return CupertinoSwitch(
+                          value: enable,
+                          activeColor: Theme.of(context).colorScheme.primary,
+                          onChanged: (value) async {
+                            await ref.watch(globalDirectConnectionProvider.notifier).toggleDirect();
+                            HttpHostOverrides().reload();
+                          },
+                        );
+                      })
+                    ],
+                  ),
+                )
               ],
             );
           }),
@@ -90,7 +133,7 @@ class SettingNetworkPageState extends ConsumerState<ProxyOriginSettingsBottomShe
                 barrierDismissible: false,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text("自定义代理"),
+                    title: Text(i10n.customProxy),
                     content: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,7 +211,7 @@ class SettingNetworkPageState extends ConsumerState<ProxyOriginSettingsBottomShe
                 String? proxy = ref.watch(globalProxyStateProvider.select((value) => "${value.host}:${value.port}"));
                 return Text(
                   proxy ?? "${CONSTANTS.proxy_default_host}:${CONSTANTS.proxy_default_port}",
-                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 12),
+                  style: textTheme.labelSmall?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
                 );
               }),
               Padding(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/base/base_api.dart';
 import 'package:artvier/config/enums.dart';
@@ -33,7 +34,7 @@ class ApiNovels extends ApiBase {
   /// - [nextUrl] 下一页的链接地址
   Future<CommonNovelList> nextNovels(String nextUrl, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
-      nextUrl,
+      HttpHostOverrides().appApiUrl(nextUrl),
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );

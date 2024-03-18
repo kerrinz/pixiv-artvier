@@ -26,13 +26,14 @@ class PerferenceSingleChoisePanel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
           child: Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         ),
         SizedBox(
           width: double.infinity,
           child: Card(
             elevation: 1.5,
+            margin: EdgeInsets.zero,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
               side: BorderSide(width: 1, color: Colors.white12),

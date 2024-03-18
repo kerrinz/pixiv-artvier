@@ -1,3 +1,4 @@
+import 'package:artvier/global/variable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,6 +17,7 @@ Future<void> main() async {
   await beforeRunApp();
   // Shared Preferences实例
   final prefs = await SharedPreferences.getInstance();
+  globalSharedPreferences = prefs;
   // 运行APP，注入Riverpod
   runApp(
     ProviderScope(

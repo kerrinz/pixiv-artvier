@@ -1,3 +1,4 @@
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,7 +55,7 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: ExtendedNetworkImageProvider(
-                        avatarUrl,
+                        HttpHostOverrides().pxImgUrl(avatarUrl),
                         headers: {"Referer": CONSTANTS.referer},
                       ),
                     ),
