@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:artvier/business_component/page_layout/banner_appbar_page_layout.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/widgets/pixivision_carousel.dart';
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -233,7 +234,7 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                   children: [
                     EnhanceNetworkImage(
                       image: ExtendedNetworkImageProvider(
-                        rankingList[index].imageUrls.squareMedium,
+                        HttpHostOverrides().pxImgUrl(rankingList[index].imageUrls.squareMedium),
                         headers: const {"referer": CONSTANTS.referer_artworks_base},
                       ),
                     ),

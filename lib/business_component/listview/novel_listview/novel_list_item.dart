@@ -1,3 +1,4 @@
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -116,7 +117,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
       borderRadius: const BorderRadius.all(Radius.circular(4)),
       child: EnhanceNetworkImage(
         image: ExtendedNetworkImageProvider(
-          widget.novel.imageUrls.medium,
+          HttpHostOverrides().pxImgUrl(widget.novel.imageUrls.medium),
           headers: const {"Referer": CONSTANTS.referer},
           cache: true,
         ),

@@ -2,6 +2,7 @@ import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/model_response/user/preload_user_least_info.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/routes.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class PixivisionIllustCard extends ConsumerWidget {
                     child: ClipOval(
                       child: EnhanceNetworkImage(
                         image: ExtendedNetworkImageProvider(
-                          authorAvatarUrl,
+                          HttpHostOverrides().pxImgUrl(authorAvatarUrl),
                           headers: const {"Referer": CONSTANTS.referer},
                           cache: true,
                         ),
@@ -81,7 +82,7 @@ class PixivisionIllustCard extends ConsumerWidget {
               ),
               child: EnhanceNetworkImage(
                 image: ExtendedNetworkImageProvider(
-                  illustUrl,
+                  HttpHostOverrides().pxImgUrl(illustUrl),
                   headers: const {"Referer": CONSTANTS.referer},
                   cache: true,
                 ),

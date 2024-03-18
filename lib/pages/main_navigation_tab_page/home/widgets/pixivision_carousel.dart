@@ -3,6 +3,7 @@ import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/pages/artwork/pixivision/model/pixivision_webview_page_arguments.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/provider/home_provider.dart';
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/routes.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class PixivsionCarousel extends ConsumerWidget {
                     height: 100,
                     width: double.infinity,
                     image: ExtendedNetworkImageProvider(
-                      list[index].thumbnail,
+                      HttpHostOverrides().pxImgUrl(list[index].thumbnail),
                       headers: const {"Referer": CONSTANTS.referer},
                     ),
                     fit: BoxFit.cover,
@@ -81,7 +82,7 @@ class PixivsionCarousel extends ConsumerWidget {
           children: [
             EnhanceNetworkImage(
               image: ExtendedNetworkImageProvider(
-                list[index].thumbnail,
+                HttpHostOverrides().pxImgUrl(list[index].thumbnail),
                 headers: const {"Referer": CONSTANTS.referer},
               ),
               width: double.infinity,

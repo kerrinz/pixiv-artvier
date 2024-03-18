@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/model_response/illusts/illust_detail.dart';
 import 'package:artvier/model_response/illusts/pixivision/spotlight_articles.dart';
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/common/collection_detail.dart';
@@ -164,7 +165,7 @@ class ApiIllusts extends ApiBase {
   /// - [nextUrl] 下一页的链接地址
   Future<CommonIllustList> getNextIllusts(String nextUrl, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
-      nextUrl,
+      HttpHostOverrides().appApiUrl(nextUrl),
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
@@ -175,7 +176,7 @@ class ApiIllusts extends ApiBase {
   /// - [nextUrl] 下一页的链接地址
   Future<IllustComments> nextIllustComments(String nextUrl, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
-      nextUrl,
+      HttpHostOverrides().appApiUrl(nextUrl),
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
@@ -185,8 +186,11 @@ class ApiIllusts extends ApiBase {
   /// 获取 Pixivisiton 插画网页
   Future<String> illustPixvisionWebContent(String language, int id, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
-      "https://${HttpBaseOptions.pixivisionHost}/$language/a/$id",
-      options: Options(responseType: ResponseType.plain),
+      HttpHostOverrides().pixivisionUrl("https://${HttpBaseOptions.pixivisionHost}/$language/a/$id"),
+      options: Options(
+        responseType: ResponseType.plain,
+        headers: HttpBaseOptions.pixivisionHeaders,
+      ),
       cancelToken: cancelToken,
     );
     return res.data;

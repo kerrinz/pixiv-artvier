@@ -1,4 +1,5 @@
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -181,7 +182,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
               child: EnhanceNetworkImage(
                 key: imgKey,
                 image: ExtendedNetworkImageProvider(
-                  url,
+                  HttpHostOverrides().pxImgUrl(url),
                   headers: const {"referer": CONSTANTS.referer},
                   cache: true,
                 ),

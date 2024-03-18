@@ -1,3 +1,4 @@
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -201,7 +202,7 @@ class ProfileTabPageState extends ConsumerState<ProfileTabPage>
                                   // 正常头像
                                   : EnhanceNetworkImage(
                                       image: ExtendedNetworkImageProvider(
-                                      avatar,
+                                      HttpHostOverrides().pxImgUrl(avatar),
                                       headers: const {"Referer": CONSTANTS.referer},
                                     ));
                             },

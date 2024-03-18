@@ -343,6 +343,34 @@
     "placeholders_order": [],
     "placeholders": {}
   },
+  "defaultNoProxy": "不使用代理（默认）",
+  "@defaultNoProxy": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "customProxy": "自定义代理",
+  "@customProxy": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "enableDirectConnection": "开启直连 (实验性)",
+  "@enableDirectConnection": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "directConnectionHint": "该功能暂不支持登录账号",
+  "@directConnectionHint": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
   "follow": "关注",
   "@follow": {
     "description": "",

@@ -1,3 +1,4 @@
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -99,7 +100,7 @@ class _CommentItem extends ConsumerWidget {
                 child: ClipOval(
                   child: EnhanceNetworkImage(
                     image: ExtendedNetworkImageProvider(
-                      comment.user.profileImageUrls.medium,
+                      HttpHostOverrides().pxImgUrl(comment.user.profileImageUrls.medium),
                       headers: const {"Referer": CONSTANTS.referer},
                     ),
                     fit: BoxFit.cover,
@@ -132,7 +133,7 @@ class _CommentItem extends ConsumerWidget {
               if (comment.stamp != null) {
                 return EnhanceNetworkImage(
                   image: ExtendedNetworkImageProvider(
-                    comment.stamp!.stampUrl,
+                    HttpHostOverrides().pxImgUrl(comment.stamp!.stampUrl),
                     headers: const {"Referer": CONSTANTS.referer},
                   ),
                   height: 50,

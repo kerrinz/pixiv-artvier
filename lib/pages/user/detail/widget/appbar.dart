@@ -1,3 +1,4 @@
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,7 +68,7 @@ class UserDetailPageAppBarWidget extends ConsumerWidget {
                   fit: BoxFit.cover,
                   filterQuality: FilterQuality.none,
                   image: ExtendedNetworkImageProvider(
-                    avatarUrl,
+                    HttpHostOverrides().pxImgUrl(avatarUrl),
                     headers: const {"Referer": CONSTANTS.referer},
                   ),
                 ),

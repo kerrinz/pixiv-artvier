@@ -11,12 +11,12 @@ import 'package:artvier/request/authorization_interceptor.dart';
 class HttpRequester {
   /// 默认构造函数，只使用默认配置
   HttpRequester(this.ref, {BaseOptions? baseOptions}) {
-    _dio = Dio(baseOptions ?? _defaultBaseOptions);
+    _dio = Dio(baseOptions ?? defaultBaseOptions);
   }
 
   /// 携带鉴权的构造函数
   HttpRequester.withAuthorization(this.ref, {BaseOptions? baseOptions}) {
-    _dio = Dio(baseOptions ?? _defaultBaseOptions);
+    _dio = Dio(baseOptions ?? defaultBaseOptions);
     _dio.interceptors.clear();
     _dio.interceptors.add(AuthorizationInterceptor(ref));
     // TODO: 可能可以使用watch替代，待测试
@@ -39,12 +39,12 @@ class HttpRequester {
   BaseOptions get baseOptions => _dio.options;
 
   /// 默认配置
-  BaseOptions get _defaultBaseOptions => BaseOptions(
+  static BaseOptions get defaultBaseOptions => BaseOptions(
         baseUrl: HttpBaseOptions.baseUrl,
         connectTimeout: HttpBaseOptions.connectTimeout,
         receiveTimeout: HttpBaseOptions.receiveTimeout,
         sendTimeout: HttpBaseOptions.sendTimeout,
-        headers: HttpBaseOptions.headers,
+        headers: HttpBaseOptions.baseHeaders,
         contentType: Headers.jsonContentType,
       );
 

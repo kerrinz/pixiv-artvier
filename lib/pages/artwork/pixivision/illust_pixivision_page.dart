@@ -8,6 +8,7 @@ import 'package:artvier/pages/artwork/pixivision/logic.dart';
 import 'package:artvier/pages/artwork/pixivision/model/pixivision_body_illust_item.dart';
 import 'package:artvier/pages/artwork/pixivision/model/pixivision_webview_page_arguments.dart';
 import 'package:artvier/pages/artwork/pixivision/widgets/pixivision_illust_card.dart';
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
@@ -141,7 +142,7 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
   Widget _bannerWidget() {
     return EnhanceNetworkImage(
       image: ExtendedNetworkImageProvider(
-        widget.arguments.coverUrl,
+        HttpHostOverrides().pxImgUrl(widget.arguments.coverUrl),
         headers: const {"Referer": CONSTANTS.referer},
         cache: true,
       ),

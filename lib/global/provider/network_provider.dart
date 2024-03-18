@@ -23,6 +23,14 @@ final globalProxyStateProvider = StateNotifierProvider<_HttpProxyNotifier, Proxy
   // return ProxyStateModel(isProxyEnabled: isEnabled, host: host, port: port);
 });
 
+/// 直连
+final globalDirectConnectionProvider = StateNotifierProvider<_DirectConnectionNotifier, bool>((ref) {
+  var prefs = ref.watch(globalSharedPreferencesProvider);
+  var storage = NetworkStorage(prefs);
+  bool isEnabled = storage.getDirectEnable();
+  return _DirectConnectionNotifier(isEnabled, ref: ref);
+});
+
 class _HttpProxyNotifier extends BaseStateNotifier<ProxyStateModel> {
   _HttpProxyNotifier(super.state, {required super.ref});
 
@@ -47,3 +55,22 @@ class _HttpProxyNotifier extends BaseStateNotifier<ProxyStateModel> {
   }
 }
 
+class _DirectConnectionNotifier extends BaseStateNotifier<bool> {
+  _DirectConnectionNotifier(super.state, {required super.ref});
+
+  Future<bool> openDirect() async {
+    state = true;
+    var storage = NetworkStorage(prefs);
+    return await storage.setDirectEnable(true);
+  }
+
+  Future<bool> closeDirect() async {
+    state = false;
+    var storage = NetworkStorage(prefs);
+    return await storage.setDirectEnable(false);
+  }
+
+  Future<bool> toggleDirect() async {
+    return state ? closeDirect() : openDirect();
+  }
+}

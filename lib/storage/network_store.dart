@@ -8,6 +8,8 @@ class NetworkStorage extends BaseStorage {
   static const String proxyPort = "network_proxy_port";
   static const String proxyEnable = "network_proxy_enable"; // 是否开启代理
 
+  static const String directEnable = "direct_enable";
+
   /// 设置网络代理
   Future<bool> setNetworkProxy(String host, String port) async {
     bool h = await sharedPreferences.setString(proxyHost, host);
@@ -36,5 +38,13 @@ class NetworkStorage extends BaseStorage {
 
   Future<bool> setProxyEnable(bool enable) {
     return sharedPreferences.setBool(proxyEnable, enable);
+  }
+
+  Future<bool> setDirectEnable(bool enable) async {
+    return await sharedPreferences.setBool(directEnable, enable);
+  }
+
+  bool getDirectEnable() {
+    return sharedPreferences.getBool(directEnable) ?? false;
   }
 }
