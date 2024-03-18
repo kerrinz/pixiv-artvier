@@ -1,3 +1,4 @@
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -124,7 +125,7 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
                       child: ClipOval(
                         child: EnhanceNetworkImage(
                           image: ExtendedNetworkImageProvider(
-                            userData.user.profileImageUrls.medium,
+                            HttpHostOverrides().pxImgUrl(userData.user.profileImageUrls.medium),
                             headers: const {"referer": CONSTANTS.referer},
                             cache: true,
                           ),
@@ -178,7 +179,7 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
   Widget _imageWidget(String url) {
     return EnhanceNetworkImage(
       image: ExtendedNetworkImageProvider(
-        url,
+        HttpHostOverrides().pxImgUrl(url),
         headers: const {"referer": CONSTANTS.referer},
         cache: true,
       ),

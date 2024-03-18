@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2023-12-17T22:31:11.553845",
+  "@@last_modified": "2024-03-18T22:58:19.396465",
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -339,6 +339,34 @@
   "themeModePromptContent": "Manually switching theme mode will turn off the auto-follow system mode, are you sure to switch?",
   "@themeModePromptContent": {
     "description": "Switch theme mode in tool bar when currently in auto-follow system mode",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "defaultNoProxy": "No proxy (default)",
+  "@defaultNoProxy": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "customProxy": "Custom proxy",
+  "@customProxy": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "enableDirectConnection": "Enable direct connection (preview)",
+  "@enableDirectConnection": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "directConnectionHint": "This feature does not currently support login accounts",
+  "@directConnectionHint": {
+    "description": "",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}

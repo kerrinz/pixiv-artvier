@@ -15,7 +15,7 @@ class AuthorizationInterceptor extends InterceptorsWrapper {
       var profile = ref.read(globalCurrentAccountProvider);
       if (profile == null) {
         // 未登录，打断施法
-      } else if (DateTime.now().millisecondsSinceEpoch > (profile.expiredTimestamp ?? 0)) {
+      } else if (profile.accessToken == "" || DateTime.now().millisecondsSinceEpoch > (profile.expiredTimestamp ?? 0)) {
         // token过期了，先获取含新token的profile
         profile = await OAuth(ref).refreshToken(profile.refreshToken);
         // 更新本地帐号信息
@@ -41,11 +41,12 @@ class AuthorizationInterceptor extends InterceptorsWrapper {
       if (err.type == DioErrorType.cancel) {
         logger.i(err.type);
       } else {
-        logger.w(err.toString());
-        // logger.w(json.decode(err.response!.data));
-        // logger.w(err.requestOptions.queryParameters);
-        // logger.w(err.requestOptions.data.toString());
-        // logger.w(err.requestOptions.headers);
+        // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
+        logger.w("Request error.\n" +
+            "${err.toString()}\n" +
+            "Request uri: ${err.requestOptions.uri}\n" +
+            "Request params: ${err.requestOptions.queryParameters.toString()}\n" +
+            "Request header: ${err.requestOptions.headers}\n");
       }
     } catch (e) {
       logger.w(err.response);

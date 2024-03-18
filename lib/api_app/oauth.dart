@@ -3,6 +3,8 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:artvier/config/http_base_options.dart';
+import 'package:artvier/global/provider/network_provider.dart';
 import 'package:crypto/crypto.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
@@ -16,10 +18,17 @@ import 'package:artvier/storage/account_storage.dart';
 typedef Read = T Function<T>(ProviderListenable<T> provider);
 
 /// 鉴权专用的Http请求工具
-final oAuthHttpRequesterProvider = Provider.autoDispose(((ref) => HttpRequester(ref, baseOptions: OAuth.baseOptions)));
-
-/// 在无法创建OAuth时，使用该Provider代替
-final oAuthProvider = Provider.autoDispose(((ref) => OAuth(ref)));
+final oAuthHttpRequesterProvider = StateProvider<HttpRequester>((ref) {
+  bool directEnable = ref.watch(globalDirectConnectionProvider.select((value) => value));
+  if (directEnable) {
+    return HttpRequester(
+      ref,
+      baseOptions: OAuth.baseOptions.copyWith(baseUrl: "https://${HttpBaseOptions.oauthIp}"),
+    );
+  } else {
+    return HttpRequester(ref, baseOptions: OAuth.baseOptions);
+  }
+});
 
 class OAuth {
   OAuth(this.ref) {
@@ -30,8 +39,10 @@ class OAuth {
     String timeHash = getXClientHash(xClientTime: time);
 
     // 携带时间戳校验
+    var requester = ref.read(oAuthHttpRequesterProvider);
     requester.replaceBaseOption(
-      OAuth.baseOptions.copyWith(headers: {
+      requester.baseOptions.copyWith(headers: {
+        ...requester.baseOptions.headers,
         "x-client-time": time,
         "x-client-hash": timeHash,
       }),
@@ -44,7 +55,7 @@ class OAuth {
   HttpRequester get requester => ref.read(oAuthHttpRequesterProvider);
 
   // BaseUrl
-  static const String baseOauthUrlHost = "oauth.secure.pixiv.net";
+  static const String baseOauthUrlHost = HttpBaseOptions.oauthHost;
   // 哈希盐值
   static const String hashSalt = "28c1fdd170a5204386cb1313c7077b34f83e4aaf4aa829ce78c231e05b0bae2c";
   // 初次校验获取token
@@ -67,12 +78,12 @@ class OAuth {
   static late int requestTime; // 发起请求的时间戳，(用于标记token过期时间？)
 
   static BaseOptions get baseOptions => BaseOptions(
-        baseUrl: 'https://$baseOauthUrlHost',
+        baseUrl: 'https://${HttpBaseOptions.oauthHost}',
         connectTimeout: 10000,
         receiveTimeout: 10000,
         sendTimeout: 10000,
         contentType: Headers.jsonContentType,
-        headers: {},
+        headers: HttpBaseOptions.oauthHeaders,
       );
 
   // 获取登录链接
