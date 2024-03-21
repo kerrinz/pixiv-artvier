@@ -21,6 +21,12 @@ class LocalizationIntl {
     return Localizations.of<LocalizationIntl>(context, LocalizationIntl)!;
   }
 
+  // 引导页
+  String get tokenLogin => Intl.message('Token login', name: 'tokenLogin', desc: 'Button and title of login by token');
+  String get webLogin => Intl.message('Web login', name: 'webLogin', desc: 'Button and title of login by web');
+  String get login => Intl.message('Login', name: 'login', desc: 'An action of login account');
+  String get loginFailed => Intl.message('Login failed!', name: 'loginFailed', desc: 'Toast message when login failed');
+
   // 程序框架
   String get doubleBackToExitPrompt => Intl.message('Double back to confirm exit.',
       name: 'doubleBackToExitPrompt', desc: 'Prompt when click back on main page');
@@ -29,6 +35,7 @@ class LocalizationIntl {
   String get navDynamic => Intl.message('Dynamic', name: 'navDynamic', desc: 'BottomNavigationBar');
   String get navProfile => Intl.message('Profile', name: 'navProfile', desc: 'BottomNavigationBar');
   // 通用
+  String get account => Intl.message('Account', name: 'account', desc: 'Title of user account');
   String get illust => Intl.message('Illust', name: 'illust', desc: 'An option of works type');
   String get manga => Intl.message('Manga', name: 'manga', desc: 'An option of works type');
   String get novels => Intl.message('Novels', name: 'novels', desc: 'An option of works type');
@@ -50,6 +57,10 @@ class LocalizationIntl {
   String get retryOnFailure =>
       Intl.message('Click to try again', name: 'retryOnFailure', desc: 'Text of retry button for failed requests');
   String get filter => Intl.message("Filter", name: 'filter', desc: 'filter the conditions for list');
+  String get settings => Intl.message('Settings', name: 'settings', desc: '');
+  String get aboutApp =>
+      Intl.message('About app', name: 'aboutApp', desc: 'Button link or page title to about app page');
+
   // 深色模式、主题相关
   String get lightBrightness => Intl.message("Light", name: 'lightBrightness', desc: 'Light brightness for app');
   String get dartBrightness => Intl.message("Dark", name: 'dartBrightness', desc: 'Dark brightness for app');
@@ -60,6 +71,7 @@ class LocalizationIntl {
   String get autoSwitchFollowingSystemDesc =>
       Intl.message("Automatically switch between light and dark following the system settings",
           name: 'autoSwitchFollowingSystemDesc', desc: 'The description of options of following system');
+
   // 首页
   String get rankings => Intl.message('Rankings', name: 'rankings', desc: 'Function group item.');
   String get dailyRankings =>
@@ -84,20 +96,21 @@ class LocalizationIntl {
   String get muteSettings =>
       Intl.message('Mute settings', name: 'muteSettings', desc: 'A preference item of hide certain users and tags');
   String get themeSettings => Intl.message('Theme settings', name: 'themeSettings', desc: 'A preference item');
-  String get proxyAndOrigin => Intl.message('proxy & origin',
-      name: 'proxyAndOrigin', desc: 'A preference item of configure network proxy and image origin');
+  String get networkSettings =>
+      Intl.message('Network settings', name: 'networkSettings', desc: 'A preference item of configure network');
   String get otherSettings => Intl.message('Other settings', name: 'otherSettings', desc: 'A preference item');
   String get themeModePromptContent =>
       Intl.message('Manually switching theme mode will turn off the auto-follow system mode, are you sure to switch?',
           name: 'themeModePromptContent',
           desc: 'Switch theme mode in tool bar when currently in auto-follow system mode');
   // 设置
+  String get accountManage => Intl.message('Account manage', name: 'accountManage', desc: 'Manage all of my accounts');
   String get defaultNoProxy => Intl.message('No proxy (default)', name: 'defaultNoProxy', desc: '');
   String get customProxy => Intl.message('Custom proxy', name: 'customProxy', desc: '');
   String get enableDirectConnection =>
       Intl.message('Enable direct connection (preview)', name: 'enableDirectConnection', desc: '');
   String get directConnectionHint =>
-      Intl.message('This feature does not currently support login accounts', name: 'directConnectionHint', desc: '');
+      Intl.message('This feature does not currently support login by web', name: 'directConnectionHint', desc: '');
 
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');

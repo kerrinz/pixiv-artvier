@@ -46,7 +46,7 @@ class BrightnessSettingsPanel extends ConsumerWidget with _Logic {
           var themeMode = ref.watch(globalThemeModeProvider);
           return PerferenceGroup(items: [
             PerferenceItem(
-              leftWidget: Column(
+              text: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(i10n.autoSwitchFollowingSystem, style: const TextStyle(fontSize: 16)),
@@ -55,7 +55,7 @@ class BrightnessSettingsPanel extends ConsumerWidget with _Logic {
                 ],
               ),
               // 跟随系统的开关
-              rightWidget: CupertinoSwitch(
+              value: CupertinoSwitch(
                 value: themeMode == ThemeMode.system,
                 onChanged: (value) => handleSwitchSystem(ref, value),
                 activeColor: Theme.of(context).colorScheme.primary,

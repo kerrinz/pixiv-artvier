@@ -1,5 +1,33 @@
 {
-  "@@last_modified": "2024-03-18T22:58:19.396465",
+  "@@last_modified": "2024-03-21T23:30:57.760006",
+  "tokenLogin": "Token login",
+  "@tokenLogin": {
+    "description": "Button and title of login by token",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "webLogin": "Web login",
+  "@webLogin": {
+    "description": "Button and title of login by web",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "login": "Login",
+  "@login": {
+    "description": "An action of login account",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "loginFailed": "Login failed!",
+  "@loginFailed": {
+    "description": "Toast message when login failed",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
   "doubleBackToExitPrompt": "Double back to confirm exit.",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -31,6 +59,13 @@
   "navProfile": "Profile",
   "@navProfile": {
     "description": "BottomNavigationBar",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "account": "Account",
+  "@account": {
+    "description": "Title of user account",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -164,6 +199,20 @@
   "filter": "Filter",
   "@filter": {
     "description": "filter the conditions for list",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "aboutApp": "About app",
+  "@aboutApp": {
+    "description": "Button link or page title to about app page",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -322,9 +371,9 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "proxyAndOrigin": "proxy & origin",
-  "@proxyAndOrigin": {
-    "description": "A preference item of configure network proxy and image origin",
+  "networkSettings": "Network settings",
+  "@networkSettings": {
+    "description": "A preference item of configure network",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -339,6 +388,13 @@
   "themeModePromptContent": "Manually switching theme mode will turn off the auto-follow system mode, are you sure to switch?",
   "@themeModePromptContent": {
     "description": "Switch theme mode in tool bar when currently in auto-follow system mode",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "accountManage": "Account manage",
+  "@accountManage": {
+    "description": "Manage all of my accounts",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -364,7 +420,7 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "directConnectionHint": "This feature does not currently support login accounts",
+  "directConnectionHint": "This feature does not currently support login by web",
   "@directConnectionHint": {
     "description": "",
     "type": "text",
