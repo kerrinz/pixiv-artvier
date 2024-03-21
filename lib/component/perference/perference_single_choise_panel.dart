@@ -9,12 +9,14 @@ typedef OnSelectCallback = Function(int selectedIndex);
 class PerferenceSingleChoisePanel extends StatelessWidget {
   final List<Widget> widgets; // 选择项
   final String title; // 标题
+  final String? caption; // 标题
   final int? selectedindex; // 已选项
   final OnSelectCallback onSelect;
 
   const PerferenceSingleChoisePanel({
     Key? key,
     required this.title,
+    this.caption,
     required this.widgets,
     required this.onSelect,
     this.selectedindex,
@@ -27,7 +29,20 @@ class PerferenceSingleChoisePanel extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
-          child: Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: Theme.of(context).textTheme.titleMedium),
+              if (caption != null)
+                Text(
+                  caption!,
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelSmall
+                      ?.copyWith(color: Theme.of(context).textTheme.labelSmall?.color?.withOpacity(0.5)),
+                ),
+            ],
+          ),
         ),
         SizedBox(
           width: double.infinity,
