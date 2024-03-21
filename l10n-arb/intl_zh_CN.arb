@@ -1,5 +1,33 @@
 {
   "@@last_modified": "2022-09-14T19:11:57.036382",
+  "tokenLogin": "Token 登录",
+  "@tokenLogin": {
+    "description": "Button and title of login by token",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "webLogin": "网页登录",
+  "@webLogin": {
+    "description": "Button and title of login by web",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "login": "登录",
+  "@login": {
+    "description": "An action of login account",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "loginFailed": "登录失败！",
+  "@loginFailed": {
+    "description": "Toast message when login failed",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
   "doubleBackToExitPrompt": "连续返回两次退出程序",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
@@ -31,6 +59,13 @@
   "navProfile": "我的",
   "@navProfile": {
     "description": "BottomNavigationBar",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "account": "账号",
+  "@account": {
+    "description": "Title of user account",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -164,6 +199,20 @@
   "filter": "筛选",
   "@filter": {
     "description": "filter the conditions for list",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "settings": "设置",
+  "@settings": {
+    "description": "",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "aboutApp": "关于应用",
+  "@aboutApp": {
+    "description": "Button link or page title to about app page",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -322,9 +371,9 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "proxyAndOrigin": "代理&图片源",
-  "@proxyAndOrigin": {
-    "description": "A preference item of configure network proxy and image origin",
+  "networkSettings": "网络设置",
+  "@network": {
+    "description": "A preference item of configure network",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -339,6 +388,13 @@
   "themeModePromptContent": "手动切换主题模式将关闭自动跟随系统，确定切换吗？",
   "@themeModePromptContent": {
     "description": "Switch theme mode in tool bar when currently in auto-follow system mode",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "accountManage": "账号管理",
+  "@accountManage": {
+    "description": "Manage all of my accounts",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
@@ -364,7 +420,7 @@
     "placeholders_order": [],
     "placeholders": {}
   },
-  "directConnectionHint": "该功能暂不支持登录账号",
+  "directConnectionHint": "该功能暂不支持网页登录",
   "@directConnectionHint": {
     "description": "",
     "type": "text",
@@ -668,6 +724,13 @@
   "tagAlreadyExists": "该标签已存在！",
   "@tagAlreadyExists": {
     "description": "Prompt the tag already exists by add new tag",
+    "type": "text",
+    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "tagsReachedMaximun": "已达到最大标签数!",
+  "@tagsReachedMaximun": {
+    "description": "Prompt when no more tags are allowed",
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}

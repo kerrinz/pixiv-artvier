@@ -6,15 +6,18 @@ import 'package:flutter/material.dart';
 class PerferenceItem extends StatelessWidget {
   const PerferenceItem({
     Key? key,
-    required this.leftWidget,
-    required this.rightWidget,
+    this.icon,
+    required this.text,
+    this.value,
     this.onTap,
     this.borderRadius = BorderRadius.zero,
   }) : super(key: key);
 
-  final Widget leftWidget;
+  final Widget? icon;
 
-  final Widget rightWidget;
+  final Widget text;
+
+  final Widget? value;
 
   final void Function()? onTap;
 
@@ -32,10 +35,24 @@ class PerferenceItem extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: leftWidget,
+                child: icon == null
+                    ? text
+                    : Row(
+                        children: [
+                          icon!,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: text,
+                          ),
+                        ],
+                      ),
               ),
-              rightWidget,
-              Container()
+              value ??
+                  Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
+                    size: 12,
+                  ),
             ],
           ),
         ),

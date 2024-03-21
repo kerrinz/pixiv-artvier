@@ -1,3 +1,4 @@
+import 'package:artvier/base/base_page.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class ProfileTabPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => ProfileTabPageState();
 }
 
-class ProfileTabPageState extends ConsumerState<ProfileTabPage>
+class ProfileTabPageState extends BasePageState<ProfileTabPage>
     with AutomaticKeepAliveClientMixin, ProfileTabPageLogic {
   /// TODO: 早期烂代码，待整理
   /// 功能项列表的模型
@@ -68,7 +69,7 @@ class ProfileTabPageState extends ConsumerState<ProfileTabPage>
               null,
             ),
         (context) => PerferenceBottomSheetModel(
-              LocalizationIntl.of(context).proxyAndOrigin,
+              LocalizationIntl.of(context).networkSettings,
               Icon(Icons.lan_outlined, color: Theme.of(context).primaryColor),
               const ProxyOriginSettingsBottomSheet(),
               ref.watch(globalCurrentAccountProvider)?.user.id,
@@ -117,6 +118,7 @@ class ProfileTabPageState extends ConsumerState<ProfileTabPage>
                 child: _buildFunctionCardContianer(context),
               ),
               _buildPreferenceSettings(context),
+              _otherSettings(context),
             ],
           ),
         ),
@@ -361,7 +363,7 @@ class ProfileTabPageState extends ConsumerState<ProfileTabPage>
   // 快捷设置
   Widget _buildPreferenceSettings(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
         color: Theme.of(context).colorScheme.surface,
@@ -408,6 +410,35 @@ class ProfileTabPageState extends ConsumerState<ProfileTabPage>
               },
               padding: const EdgeInsets.only(left: 20, right: 12, top: 14, bottom: 14),
             ),
+        ],
+      ),
+    );
+  }
+
+  Widget _otherSettings(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        color: Theme.of(context).colorScheme.surface,
+      ),
+      child: Column(
+        children: [
+          PreferencesNavigatorItem(
+            icon: Icon(Icons.settings, color: colorScheme.primary),
+            text: Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: Text(
+                i10n.settings,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+              ),
+            ),
+            onTap: () => Navigator.of(context).pushNamed(RouteNames.allSettings.name),
+            padding: const EdgeInsets.only(left: 20, right: 12, top: 14, bottom: 14),
+          ),
         ],
       ),
     );

@@ -10,46 +10,56 @@ class PerferenceGroup extends StatelessWidget {
   const PerferenceGroup({
     Key? key,
     required this.items,
+    this.padding,
   }) : super(key: key);
 
   final List<PerferenceItem> items;
 
+  final EdgeInsets? padding;
+
   @override
   Widget build(BuildContext context) {
     int len = items.length;
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-      child: len == 1
-          // 单项
-          ? items[0]
-          // 多项
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (int index = 0; index < len; index++) ..._itemBuilder(len, index),
-              ],
-            ),
+    return Container(
+      margin: padding,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        color: Theme.of(context).colorScheme.surface,
+      ),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+        child: len == 1
+            // 单项
+            ? items[0]
+            // 多项
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (int index = 0; index < len; index++) ..._itemBuilder(context, len, index),
+                ],
+              ),
+      ),
     );
   }
 
-  List<Widget> _itemBuilder(int length, int index) {
+  List<Widget> _itemBuilder(context, int length, int index) {
     if (index == 0) {
       return [items[index]];
     }
     return [
-      _dividerWidget(),
+      _dividerWidget(context),
       items[index],
     ];
   }
 
   /// 分割线
-  Widget _dividerWidget() {
+  Widget _dividerWidget(context) {
     return SizedBox(
       width: double.infinity,
       height: 1,
       child: DecoratedBox(
           decoration: BoxDecoration(
-        color: Colors.grey[300],
+        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
       )),
     );
   }

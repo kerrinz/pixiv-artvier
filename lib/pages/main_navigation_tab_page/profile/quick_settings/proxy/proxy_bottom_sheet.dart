@@ -47,9 +47,11 @@ class SettingNetworkPageState extends BasePageState<ProxyOriginSettingsBottomShe
           child: Consumer(builder: (_, ref, __) {
             bool isEnabled = ref.watch(globalProxyStateProvider.select((value) => value.isProxyEnabled));
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PerferenceSingleChoisePanel(
                   title: 'HTTP网络代理',
+                  caption: '（代理设置不对网页登录生效）',
                   selectedindex: isEnabled ? 1 : 0,
                   onSelect: (index) {
                     switch (index) {

@@ -1,5 +1,8 @@
 import 'package:artvier/pages/artwork/pixivision/illust_pixivision_page.dart';
 import 'package:artvier/pages/artwork/pixivision/pixivision_webview_page.dart';
+import 'package:artvier/pages/settings/about/about_app_page.dart';
+import 'package:artvier/pages/settings/all_settings/all_settings_page.dart';
+import 'package:artvier/pages/settings/develop/developer_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:artvier/pages/account/account_manage/account_manage_page.dart';
 import 'package:artvier/pages/comment/comments_page.dart';
@@ -58,10 +61,15 @@ enum RouteNames {
 
   accountManage,
   downloadManage,
+
+
+  allSettings,
   downloadSettings,
   themeSettings,
   networkSettings,
   languageSettings,
+  developerSettings,
+  aboutApp,
 }
 
 class RouteItem<T> {}
@@ -86,8 +94,11 @@ class Routes {
     RouteNames.history.name: (context, arguments) => const ViewHistoryPage(),
     RouteNames.accountManage.name: (context, arguments) => const AccountManagePage(),
     RouteNames.downloadManage.name: (context, arguments) => const DownloadManagePage(),
+    RouteNames.allSettings.name: (context, arguments) => const AllSettingsPage(),
     RouteNames.downloadSettings.name: (context, arguments) => const SettingDownload(),
     RouteNames.languageSettings.name: (context, arguments) => const LanguageSettingPage(),
+    RouteNames.developerSettings.name: (context, arguments) => const DeveloperPage(),
+    RouteNames.aboutApp.name: (context, arguments) => const AboutAppPage(),
   };
 
   static RouteWidgetBuilder match(BuildContext context, String? name) {

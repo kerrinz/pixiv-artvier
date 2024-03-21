@@ -47,6 +47,20 @@ class CurrentAccountNotifier extends StateNotifier<AccountProfile?> {
     }
   }
 
+  /// 使用 refresh_token 登录
+  Future<bool> loginByRefreshToken(String refreshToken) async {
+    try {
+      // 刷新一次token
+      var newProfile = await OAuth(ref).refreshToken(refreshToken);
+      // 保存并使用新帐号信息
+      await OAuth(ref).saveAndLoginToken(newProfile);
+      return true;
+    } catch (e) {
+      logger.e(e);
+      return false;
+    }
+  }
+
   String getLoginWebViewUrl() {
     codeVerifier = OAuth.createCodeVerifier();
     return OAuth.getLoginWebViewUrl(codeVerifier!);

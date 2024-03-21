@@ -20,12 +20,12 @@ class _AccountManagePageState extends BasePageState<AccountManagePage> with Acco
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("多帐号切换"),
+        title: const Text("账号管理"),
         actions: [
           IconButton(
             onPressed: handlePressedAdd,
             icon: const Icon(Icons.add),
-            tooltip: "添加帐号",
+            tooltip: "添加账号",
           ),
         ],
       ),

@@ -4,6 +4,11 @@ import 'package:artvier/l10n/localization_intl.dart';
 
 abstract class BasePage extends ConsumerWidget {
   const BasePage({super.key});
+
+  LocalizationIntl i10n(context) => LocalizationIntl.of(context);
+
+  ColorScheme colorScheme(context) => Theme.of(context).colorScheme;
+  TextTheme textTheme(context) => Theme.of(context).textTheme;
 }
 
 abstract class BaseStatefulPage extends ConsumerStatefulWidget {
