@@ -275,9 +275,11 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                               children: [
                                 // 作者头像
                                 ClipOval(
-                                  child: Image.network(
-                                    rankingList[index].user.profileImageUrls.medium,
-                                    headers: const {"Referer": CONSTANTS.referer},
+                                  child: EnhanceNetworkImage(
+                                    image: ExtendedNetworkImageProvider(
+                                      HttpHostOverrides().pxImgUrl(rankingList[index].user.profileImageUrls.medium),
+                                      headers: const {"Referer": CONSTANTS.referer},
+                                    ),
                                     fit: BoxFit.cover,
                                     width: 20,
                                     height: 20,
