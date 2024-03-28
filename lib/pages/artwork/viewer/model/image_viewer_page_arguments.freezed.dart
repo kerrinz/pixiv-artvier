@@ -12,7 +12,7 @@ part of 'image_viewer_page_arguments.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ImageViewerPageArguments {
@@ -67,24 +67,25 @@ class _$ImageViewerPageArgumentsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ImageViewerPageArgumentsCopyWith<$Res>
+abstract class _$$ImageViewerPageArgumentsImplCopyWith<$Res>
     implements $ImageViewerPageArgumentsCopyWith<$Res> {
-  factory _$$_ImageViewerPageArgumentsCopyWith(
-          _$_ImageViewerPageArguments value,
-          $Res Function(_$_ImageViewerPageArguments) then) =
-      __$$_ImageViewerPageArgumentsCopyWithImpl<$Res>;
+  factory _$$ImageViewerPageArgumentsImplCopyWith(
+          _$ImageViewerPageArgumentsImpl value,
+          $Res Function(_$ImageViewerPageArgumentsImpl) then) =
+      __$$ImageViewerPageArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<ImageQualityUrl> urlList, int index});
 }
 
 /// @nodoc
-class __$$_ImageViewerPageArgumentsCopyWithImpl<$Res>
+class __$$ImageViewerPageArgumentsImplCopyWithImpl<$Res>
     extends _$ImageViewerPageArgumentsCopyWithImpl<$Res,
-        _$_ImageViewerPageArguments>
-    implements _$$_ImageViewerPageArgumentsCopyWith<$Res> {
-  __$$_ImageViewerPageArgumentsCopyWithImpl(_$_ImageViewerPageArguments _value,
-      $Res Function(_$_ImageViewerPageArguments) _then)
+        _$ImageViewerPageArgumentsImpl>
+    implements _$$ImageViewerPageArgumentsImplCopyWith<$Res> {
+  __$$ImageViewerPageArgumentsImplCopyWithImpl(
+      _$ImageViewerPageArgumentsImpl _value,
+      $Res Function(_$ImageViewerPageArgumentsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -93,7 +94,7 @@ class __$$_ImageViewerPageArgumentsCopyWithImpl<$Res>
     Object? urlList = null,
     Object? index = null,
   }) {
-    return _then(_$_ImageViewerPageArguments(
+    return _then(_$ImageViewerPageArgumentsImpl(
       urlList: null == urlList
           ? _value._urlList
           : urlList // ignore: cast_nullable_to_non_nullable
@@ -108,8 +109,8 @@ class __$$_ImageViewerPageArgumentsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ImageViewerPageArguments implements _ImageViewerPageArguments {
-  const _$_ImageViewerPageArguments(
+class _$ImageViewerPageArgumentsImpl implements _ImageViewerPageArguments {
+  const _$ImageViewerPageArgumentsImpl(
       {required final List<ImageQualityUrl> urlList, required this.index})
       : _urlList = urlList;
 
@@ -134,10 +135,10 @@ class _$_ImageViewerPageArguments implements _ImageViewerPageArguments {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageViewerPageArguments &&
+            other is _$ImageViewerPageArgumentsImpl &&
             const DeepCollectionEquality().equals(other._urlList, _urlList) &&
             (identical(other.index, index) || other.index == index));
   }
@@ -149,15 +150,15 @@ class _$_ImageViewerPageArguments implements _ImageViewerPageArguments {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ImageViewerPageArgumentsCopyWith<_$_ImageViewerPageArguments>
-      get copyWith => __$$_ImageViewerPageArgumentsCopyWithImpl<
-          _$_ImageViewerPageArguments>(this, _$identity);
+  _$$ImageViewerPageArgumentsImplCopyWith<_$ImageViewerPageArgumentsImpl>
+      get copyWith => __$$ImageViewerPageArgumentsImplCopyWithImpl<
+          _$ImageViewerPageArgumentsImpl>(this, _$identity);
 }
 
 abstract class _ImageViewerPageArguments implements ImageViewerPageArguments {
   const factory _ImageViewerPageArguments(
       {required final List<ImageQualityUrl> urlList,
-      required final int index}) = _$_ImageViewerPageArguments;
+      required final int index}) = _$ImageViewerPageArgumentsImpl;
 
   @override
 
@@ -169,6 +170,6 @@ abstract class _ImageViewerPageArguments implements ImageViewerPageArguments {
   int get index;
   @override
   @JsonKey(ignore: true)
-  _$$_ImageViewerPageArgumentsCopyWith<_$_ImageViewerPageArguments>
+  _$$ImageViewerPageArgumentsImplCopyWith<_$ImageViewerPageArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

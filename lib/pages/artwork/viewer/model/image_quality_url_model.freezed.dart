@@ -12,7 +12,7 @@ part of 'image_quality_url_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ImageQualityUrl {
@@ -66,22 +66,22 @@ class _$ImageQualityUrlCopyWithImpl<$Res, $Val extends ImageQualityUrl>
 }
 
 /// @nodoc
-abstract class _$$_ImageQualityUrlCopyWith<$Res>
+abstract class _$$ImageQualityUrlImplCopyWith<$Res>
     implements $ImageQualityUrlCopyWith<$Res> {
-  factory _$$_ImageQualityUrlCopyWith(
-          _$_ImageQualityUrl value, $Res Function(_$_ImageQualityUrl) then) =
-      __$$_ImageQualityUrlCopyWithImpl<$Res>;
+  factory _$$ImageQualityUrlImplCopyWith(_$ImageQualityUrlImpl value,
+          $Res Function(_$ImageQualityUrlImpl) then) =
+      __$$ImageQualityUrlImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String normal, String original});
 }
 
 /// @nodoc
-class __$$_ImageQualityUrlCopyWithImpl<$Res>
-    extends _$ImageQualityUrlCopyWithImpl<$Res, _$_ImageQualityUrl>
-    implements _$$_ImageQualityUrlCopyWith<$Res> {
-  __$$_ImageQualityUrlCopyWithImpl(
-      _$_ImageQualityUrl _value, $Res Function(_$_ImageQualityUrl) _then)
+class __$$ImageQualityUrlImplCopyWithImpl<$Res>
+    extends _$ImageQualityUrlCopyWithImpl<$Res, _$ImageQualityUrlImpl>
+    implements _$$ImageQualityUrlImplCopyWith<$Res> {
+  __$$ImageQualityUrlImplCopyWithImpl(
+      _$ImageQualityUrlImpl _value, $Res Function(_$ImageQualityUrlImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -90,7 +90,7 @@ class __$$_ImageQualityUrlCopyWithImpl<$Res>
     Object? normal = null,
     Object? original = null,
   }) {
-    return _then(_$_ImageQualityUrl(
+    return _then(_$ImageQualityUrlImpl(
       normal: null == normal
           ? _value.normal
           : normal // ignore: cast_nullable_to_non_nullable
@@ -105,8 +105,8 @@ class __$$_ImageQualityUrlCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ImageQualityUrl implements _ImageQualityUrl {
-  const _$_ImageQualityUrl({required this.normal, required this.original});
+class _$ImageQualityUrlImpl implements _ImageQualityUrl {
+  const _$ImageQualityUrlImpl({required this.normal, required this.original});
 
   /// 普通画质
   @override
@@ -122,10 +122,10 @@ class _$_ImageQualityUrl implements _ImageQualityUrl {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageQualityUrl &&
+            other is _$ImageQualityUrlImpl &&
             (identical(other.normal, normal) || other.normal == normal) &&
             (identical(other.original, original) ||
                 other.original == original));
@@ -137,14 +137,15 @@ class _$_ImageQualityUrl implements _ImageQualityUrl {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ImageQualityUrlCopyWith<_$_ImageQualityUrl> get copyWith =>
-      __$$_ImageQualityUrlCopyWithImpl<_$_ImageQualityUrl>(this, _$identity);
+  _$$ImageQualityUrlImplCopyWith<_$ImageQualityUrlImpl> get copyWith =>
+      __$$ImageQualityUrlImplCopyWithImpl<_$ImageQualityUrlImpl>(
+          this, _$identity);
 }
 
 abstract class _ImageQualityUrl implements ImageQualityUrl {
   const factory _ImageQualityUrl(
       {required final String normal,
-      required final String original}) = _$_ImageQualityUrl;
+      required final String original}) = _$ImageQualityUrlImpl;
 
   @override
 
@@ -156,6 +157,6 @@ abstract class _ImageQualityUrl implements ImageQualityUrl {
   String get original;
   @override
   @JsonKey(ignore: true)
-  _$$_ImageQualityUrlCopyWith<_$_ImageQualityUrl> get copyWith =>
+  _$$ImageQualityUrlImplCopyWith<_$ImageQualityUrlImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

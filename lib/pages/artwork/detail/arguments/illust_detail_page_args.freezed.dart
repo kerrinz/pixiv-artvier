@@ -12,7 +12,7 @@ part of 'illust_detail_page_args.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$IllustDetailPageArguments {
@@ -64,25 +64,25 @@ class _$IllustDetailPageArgumentsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_IllustDetailPageArgumentsCopyWith<$Res>
+abstract class _$$IllustDetailPageArgumentsImplCopyWith<$Res>
     implements $IllustDetailPageArgumentsCopyWith<$Res> {
-  factory _$$_IllustDetailPageArgumentsCopyWith(
-          _$_IllustDetailPageArguments value,
-          $Res Function(_$_IllustDetailPageArguments) then) =
-      __$$_IllustDetailPageArgumentsCopyWithImpl<$Res>;
+  factory _$$IllustDetailPageArgumentsImplCopyWith(
+          _$IllustDetailPageArgumentsImpl value,
+          $Res Function(_$IllustDetailPageArgumentsImpl) then) =
+      __$$IllustDetailPageArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String illustId, CommonIllust? detail});
 }
 
 /// @nodoc
-class __$$_IllustDetailPageArgumentsCopyWithImpl<$Res>
+class __$$IllustDetailPageArgumentsImplCopyWithImpl<$Res>
     extends _$IllustDetailPageArgumentsCopyWithImpl<$Res,
-        _$_IllustDetailPageArguments>
-    implements _$$_IllustDetailPageArgumentsCopyWith<$Res> {
-  __$$_IllustDetailPageArgumentsCopyWithImpl(
-      _$_IllustDetailPageArguments _value,
-      $Res Function(_$_IllustDetailPageArguments) _then)
+        _$IllustDetailPageArgumentsImpl>
+    implements _$$IllustDetailPageArgumentsImplCopyWith<$Res> {
+  __$$IllustDetailPageArgumentsImplCopyWithImpl(
+      _$IllustDetailPageArgumentsImpl _value,
+      $Res Function(_$IllustDetailPageArgumentsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -91,7 +91,7 @@ class __$$_IllustDetailPageArgumentsCopyWithImpl<$Res>
     Object? illustId = null,
     Object? detail = freezed,
   }) {
-    return _then(_$_IllustDetailPageArguments(
+    return _then(_$IllustDetailPageArgumentsImpl(
       illustId: null == illustId
           ? _value.illustId
           : illustId // ignore: cast_nullable_to_non_nullable
@@ -106,8 +106,8 @@ class __$$_IllustDetailPageArgumentsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_IllustDetailPageArguments implements _IllustDetailPageArguments {
-  const _$_IllustDetailPageArguments({required this.illustId, this.detail});
+class _$IllustDetailPageArgumentsImpl implements _IllustDetailPageArguments {
+  const _$IllustDetailPageArgumentsImpl({required this.illustId, this.detail});
 
   @override
   final String illustId;
@@ -120,10 +120,10 @@ class _$_IllustDetailPageArguments implements _IllustDetailPageArguments {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_IllustDetailPageArguments &&
+            other is _$IllustDetailPageArgumentsImpl &&
             (identical(other.illustId, illustId) ||
                 other.illustId == illustId) &&
             (identical(other.detail, detail) || other.detail == detail));
@@ -135,15 +135,15 @@ class _$_IllustDetailPageArguments implements _IllustDetailPageArguments {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_IllustDetailPageArgumentsCopyWith<_$_IllustDetailPageArguments>
-      get copyWith => __$$_IllustDetailPageArgumentsCopyWithImpl<
-          _$_IllustDetailPageArguments>(this, _$identity);
+  _$$IllustDetailPageArgumentsImplCopyWith<_$IllustDetailPageArgumentsImpl>
+      get copyWith => __$$IllustDetailPageArgumentsImplCopyWithImpl<
+          _$IllustDetailPageArgumentsImpl>(this, _$identity);
 }
 
 abstract class _IllustDetailPageArguments implements IllustDetailPageArguments {
   const factory _IllustDetailPageArguments(
       {required final String illustId,
-      final CommonIllust? detail}) = _$_IllustDetailPageArguments;
+      final CommonIllust? detail}) = _$IllustDetailPageArgumentsImpl;
 
   @override
   String get illustId;
@@ -151,6 +151,6 @@ abstract class _IllustDetailPageArguments implements IllustDetailPageArguments {
   CommonIllust? get detail;
   @override
   @JsonKey(ignore: true)
-  _$$_IllustDetailPageArgumentsCopyWith<_$_IllustDetailPageArguments>
+  _$$IllustDetailPageArgumentsImplCopyWith<_$IllustDetailPageArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

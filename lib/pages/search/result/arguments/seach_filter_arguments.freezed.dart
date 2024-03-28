@@ -12,7 +12,7 @@ part of 'seach_filter_arguments.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SearchFilterArguments {
@@ -96,11 +96,12 @@ class _$SearchFilterArgumentsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_SearchFilterArgumentsCopyWith<$Res>
+abstract class _$$SearchFilterArgumentsImplCopyWith<$Res>
     implements $SearchFilterArgumentsCopyWith<$Res> {
-  factory _$$_SearchFilterArgumentsCopyWith(_$_SearchFilterArguments value,
-          $Res Function(_$_SearchFilterArguments) then) =
-      __$$_SearchFilterArgumentsCopyWithImpl<$Res>;
+  factory _$$SearchFilterArgumentsImplCopyWith(
+          _$SearchFilterArgumentsImpl value,
+          $Res Function(_$SearchFilterArgumentsImpl) then) =
+      __$$SearchFilterArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -112,11 +113,12 @@ abstract class _$$_SearchFilterArgumentsCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SearchFilterArgumentsCopyWithImpl<$Res>
-    extends _$SearchFilterArgumentsCopyWithImpl<$Res, _$_SearchFilterArguments>
-    implements _$$_SearchFilterArgumentsCopyWith<$Res> {
-  __$$_SearchFilterArgumentsCopyWithImpl(_$_SearchFilterArguments _value,
-      $Res Function(_$_SearchFilterArguments) _then)
+class __$$SearchFilterArgumentsImplCopyWithImpl<$Res>
+    extends _$SearchFilterArgumentsCopyWithImpl<$Res,
+        _$SearchFilterArgumentsImpl>
+    implements _$$SearchFilterArgumentsImplCopyWith<$Res> {
+  __$$SearchFilterArgumentsImplCopyWithImpl(_$SearchFilterArgumentsImpl _value,
+      $Res Function(_$SearchFilterArgumentsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -128,7 +130,7 @@ class __$$_SearchFilterArgumentsCopyWithImpl<$Res>
     Object? sort = null,
     Object? match = null,
   }) {
-    return _then(_$_SearchFilterArguments(
+    return _then(_$SearchFilterArgumentsImpl(
       minCollectCount: freezed == minCollectCount
           ? _value.minCollectCount
           : minCollectCount // ignore: cast_nullable_to_non_nullable
@@ -155,8 +157,8 @@ class __$$_SearchFilterArgumentsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SearchFilterArguments implements _SearchFilterArguments {
-  const _$_SearchFilterArguments(
+class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
+  const _$SearchFilterArgumentsImpl(
       {this.minCollectCount,
       this.startDate,
       this.endDate,
@@ -191,10 +193,10 @@ class _$_SearchFilterArguments implements _SearchFilterArguments {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SearchFilterArguments &&
+            other is _$SearchFilterArgumentsImpl &&
             (identical(other.minCollectCount, minCollectCount) ||
                 other.minCollectCount == minCollectCount) &&
             (identical(other.startDate, startDate) ||
@@ -211,9 +213,9 @@ class _$_SearchFilterArguments implements _SearchFilterArguments {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SearchFilterArgumentsCopyWith<_$_SearchFilterArguments> get copyWith =>
-      __$$_SearchFilterArgumentsCopyWithImpl<_$_SearchFilterArguments>(
-          this, _$identity);
+  _$$SearchFilterArgumentsImplCopyWith<_$SearchFilterArgumentsImpl>
+      get copyWith => __$$SearchFilterArgumentsImplCopyWithImpl<
+          _$SearchFilterArgumentsImpl>(this, _$identity);
 }
 
 abstract class _SearchFilterArguments implements SearchFilterArguments {
@@ -222,7 +224,7 @@ abstract class _SearchFilterArguments implements SearchFilterArguments {
       final String? startDate,
       final String? endDate,
       final String sort,
-      final String match}) = _$_SearchFilterArguments;
+      final String match}) = _$SearchFilterArgumentsImpl;
 
   @override
 
@@ -246,6 +248,6 @@ abstract class _SearchFilterArguments implements SearchFilterArguments {
   String get match;
   @override
   @JsonKey(ignore: true)
-  _$$_SearchFilterArgumentsCopyWith<_$_SearchFilterArguments> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SearchFilterArgumentsImplCopyWith<_$SearchFilterArgumentsImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

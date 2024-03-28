@@ -12,7 +12,7 @@ part of 'following_state_changed_arguments.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$FollowingStateChangedArguments {
@@ -66,25 +66,25 @@ class _$FollowingStateChangedArgumentsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_FollowingStateChangedArgumentsCopyWith<$Res>
+abstract class _$$FollowingStateChangedArgumentsImplCopyWith<$Res>
     implements $FollowingStateChangedArgumentsCopyWith<$Res> {
-  factory _$$_FollowingStateChangedArgumentsCopyWith(
-          _$_FollowingStateChangedArguments value,
-          $Res Function(_$_FollowingStateChangedArguments) then) =
-      __$$_FollowingStateChangedArgumentsCopyWithImpl<$Res>;
+  factory _$$FollowingStateChangedArgumentsImplCopyWith(
+          _$FollowingStateChangedArgumentsImpl value,
+          $Res Function(_$FollowingStateChangedArgumentsImpl) then) =
+      __$$FollowingStateChangedArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String userId, UserFollowState state});
 }
 
 /// @nodoc
-class __$$_FollowingStateChangedArgumentsCopyWithImpl<$Res>
+class __$$FollowingStateChangedArgumentsImplCopyWithImpl<$Res>
     extends _$FollowingStateChangedArgumentsCopyWithImpl<$Res,
-        _$_FollowingStateChangedArguments>
-    implements _$$_FollowingStateChangedArgumentsCopyWith<$Res> {
-  __$$_FollowingStateChangedArgumentsCopyWithImpl(
-      _$_FollowingStateChangedArguments _value,
-      $Res Function(_$_FollowingStateChangedArguments) _then)
+        _$FollowingStateChangedArgumentsImpl>
+    implements _$$FollowingStateChangedArgumentsImplCopyWith<$Res> {
+  __$$FollowingStateChangedArgumentsImplCopyWithImpl(
+      _$FollowingStateChangedArgumentsImpl _value,
+      $Res Function(_$FollowingStateChangedArgumentsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -93,7 +93,7 @@ class __$$_FollowingStateChangedArgumentsCopyWithImpl<$Res>
     Object? userId = null,
     Object? state = null,
   }) {
-    return _then(_$_FollowingStateChangedArguments(
+    return _then(_$FollowingStateChangedArgumentsImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -108,9 +108,9 @@ class __$$_FollowingStateChangedArgumentsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_FollowingStateChangedArguments
+class _$FollowingStateChangedArgumentsImpl
     implements _FollowingStateChangedArguments {
-  const _$_FollowingStateChangedArguments(
+  const _$FollowingStateChangedArgumentsImpl(
       {required this.userId, required this.state});
 
   @override
@@ -124,10 +124,10 @@ class _$_FollowingStateChangedArguments
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FollowingStateChangedArguments &&
+            other is _$FollowingStateChangedArgumentsImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.state, state) || other.state == state));
   }
@@ -138,9 +138,10 @@ class _$_FollowingStateChangedArguments
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FollowingStateChangedArgumentsCopyWith<_$_FollowingStateChangedArguments>
-      get copyWith => __$$_FollowingStateChangedArgumentsCopyWithImpl<
-          _$_FollowingStateChangedArguments>(this, _$identity);
+  _$$FollowingStateChangedArgumentsImplCopyWith<
+          _$FollowingStateChangedArgumentsImpl>
+      get copyWith => __$$FollowingStateChangedArgumentsImplCopyWithImpl<
+          _$FollowingStateChangedArgumentsImpl>(this, _$identity);
 }
 
 abstract class _FollowingStateChangedArguments
@@ -148,7 +149,7 @@ abstract class _FollowingStateChangedArguments
   const factory _FollowingStateChangedArguments(
           {required final String userId,
           required final UserFollowState state}) =
-      _$_FollowingStateChangedArguments;
+      _$FollowingStateChangedArgumentsImpl;
 
   @override
   String get userId;
@@ -156,6 +157,7 @@ abstract class _FollowingStateChangedArguments
   UserFollowState get state;
   @override
   @JsonKey(ignore: true)
-  _$$_FollowingStateChangedArgumentsCopyWith<_$_FollowingStateChangedArguments>
+  _$$FollowingStateChangedArgumentsImplCopyWith<
+          _$FollowingStateChangedArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

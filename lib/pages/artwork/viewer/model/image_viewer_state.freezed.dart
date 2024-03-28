@@ -12,7 +12,7 @@ part of 'image_viewer_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ImageViewerPageState {
@@ -67,22 +67,22 @@ class _$ImageViewerPageStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ImageViewerPageStateCopyWith<$Res>
+abstract class _$$ImageViewerPageStateImplCopyWith<$Res>
     implements $ImageViewerPageStateCopyWith<$Res> {
-  factory _$$_ImageViewerPageStateCopyWith(_$_ImageViewerPageState value,
-          $Res Function(_$_ImageViewerPageState) then) =
-      __$$_ImageViewerPageStateCopyWithImpl<$Res>;
+  factory _$$ImageViewerPageStateImplCopyWith(_$ImageViewerPageStateImpl value,
+          $Res Function(_$ImageViewerPageStateImpl) then) =
+      __$$ImageViewerPageStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int pageIndex, bool isOriginal});
 }
 
 /// @nodoc
-class __$$_ImageViewerPageStateCopyWithImpl<$Res>
-    extends _$ImageViewerPageStateCopyWithImpl<$Res, _$_ImageViewerPageState>
-    implements _$$_ImageViewerPageStateCopyWith<$Res> {
-  __$$_ImageViewerPageStateCopyWithImpl(_$_ImageViewerPageState _value,
-      $Res Function(_$_ImageViewerPageState) _then)
+class __$$ImageViewerPageStateImplCopyWithImpl<$Res>
+    extends _$ImageViewerPageStateCopyWithImpl<$Res, _$ImageViewerPageStateImpl>
+    implements _$$ImageViewerPageStateImplCopyWith<$Res> {
+  __$$ImageViewerPageStateImplCopyWithImpl(_$ImageViewerPageStateImpl _value,
+      $Res Function(_$ImageViewerPageStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -91,7 +91,7 @@ class __$$_ImageViewerPageStateCopyWithImpl<$Res>
     Object? pageIndex = null,
     Object? isOriginal = null,
   }) {
-    return _then(_$_ImageViewerPageState(
+    return _then(_$ImageViewerPageStateImpl(
       pageIndex: null == pageIndex
           ? _value.pageIndex
           : pageIndex // ignore: cast_nullable_to_non_nullable
@@ -106,8 +106,8 @@ class __$$_ImageViewerPageStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ImageViewerPageState implements _ImageViewerPageState {
-  const _$_ImageViewerPageState(
+class _$ImageViewerPageStateImpl implements _ImageViewerPageState {
+  const _$ImageViewerPageStateImpl(
       {required this.pageIndex, required this.isOriginal});
 
   /// 当前图片索引
@@ -124,10 +124,10 @@ class _$_ImageViewerPageState implements _ImageViewerPageState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageViewerPageState &&
+            other is _$ImageViewerPageStateImpl &&
             (identical(other.pageIndex, pageIndex) ||
                 other.pageIndex == pageIndex) &&
             (identical(other.isOriginal, isOriginal) ||
@@ -140,15 +140,16 @@ class _$_ImageViewerPageState implements _ImageViewerPageState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ImageViewerPageStateCopyWith<_$_ImageViewerPageState> get copyWith =>
-      __$$_ImageViewerPageStateCopyWithImpl<_$_ImageViewerPageState>(
-          this, _$identity);
+  _$$ImageViewerPageStateImplCopyWith<_$ImageViewerPageStateImpl>
+      get copyWith =>
+          __$$ImageViewerPageStateImplCopyWithImpl<_$ImageViewerPageStateImpl>(
+              this, _$identity);
 }
 
 abstract class _ImageViewerPageState implements ImageViewerPageState {
   const factory _ImageViewerPageState(
       {required final int pageIndex,
-      required final bool isOriginal}) = _$_ImageViewerPageState;
+      required final bool isOriginal}) = _$ImageViewerPageStateImpl;
 
   @override
 
@@ -160,6 +161,6 @@ abstract class _ImageViewerPageState implements ImageViewerPageState {
   bool get isOriginal;
   @override
   @JsonKey(ignore: true)
-  _$$_ImageViewerPageStateCopyWith<_$_ImageViewerPageState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ImageViewerPageStateImplCopyWith<_$ImageViewerPageStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

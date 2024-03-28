@@ -12,7 +12,7 @@ part of 'image_download_task_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ImageDownloadTaskModel _$ImageDownloadTaskModelFromJson(
     Map<String, dynamic> json) {
@@ -116,11 +116,12 @@ class _$ImageDownloadTaskModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ImageDownloadTaskModelCopyWith<$Res>
+abstract class _$$ImageDownloadTaskModelImplCopyWith<$Res>
     implements $ImageDownloadTaskModelCopyWith<$Res> {
-  factory _$$_ImageDownloadTaskModelCopyWith(_$_ImageDownloadTaskModel value,
-          $Res Function(_$_ImageDownloadTaskModel) then) =
-      __$$_ImageDownloadTaskModelCopyWithImpl<$Res>;
+  factory _$$ImageDownloadTaskModelImplCopyWith(
+          _$ImageDownloadTaskModelImpl value,
+          $Res Function(_$ImageDownloadTaskModelImpl) then) =
+      __$$ImageDownloadTaskModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -134,12 +135,13 @@ abstract class _$$_ImageDownloadTaskModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ImageDownloadTaskModelCopyWithImpl<$Res>
+class __$$ImageDownloadTaskModelImplCopyWithImpl<$Res>
     extends _$ImageDownloadTaskModelCopyWithImpl<$Res,
-        _$_ImageDownloadTaskModel>
-    implements _$$_ImageDownloadTaskModelCopyWith<$Res> {
-  __$$_ImageDownloadTaskModelCopyWithImpl(_$_ImageDownloadTaskModel _value,
-      $Res Function(_$_ImageDownloadTaskModel) _then)
+        _$ImageDownloadTaskModelImpl>
+    implements _$$ImageDownloadTaskModelImplCopyWith<$Res> {
+  __$$ImageDownloadTaskModelImplCopyWithImpl(
+      _$ImageDownloadTaskModelImpl _value,
+      $Res Function(_$ImageDownloadTaskModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -153,7 +155,7 @@ class __$$_ImageDownloadTaskModelCopyWithImpl<$Res>
     Object? url = null,
     Object? title = null,
   }) {
-    return _then(_$_ImageDownloadTaskModel(
+    return _then(_$ImageDownloadTaskModelImpl(
       worksId: null == worksId
           ? _value.worksId
           : worksId // ignore: cast_nullable_to_non_nullable
@@ -188,8 +190,8 @@ class __$$_ImageDownloadTaskModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ImageDownloadTaskModel implements _ImageDownloadTaskModel {
-  const _$_ImageDownloadTaskModel(
+class _$ImageDownloadTaskModelImpl implements _ImageDownloadTaskModel {
+  const _$ImageDownloadTaskModelImpl(
       {required this.worksId,
       required this.pIndex,
       required this.downloadState,
@@ -198,8 +200,8 @@ class _$_ImageDownloadTaskModel implements _ImageDownloadTaskModel {
       required this.url,
       required this.title});
 
-  factory _$_ImageDownloadTaskModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ImageDownloadTaskModelFromJson(json);
+  factory _$ImageDownloadTaskModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ImageDownloadTaskModelImplFromJson(json);
 
   /// 所属作品的ID
   @override
@@ -231,10 +233,10 @@ class _$_ImageDownloadTaskModel implements _ImageDownloadTaskModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageDownloadTaskModel &&
+            other is _$ImageDownloadTaskModelImpl &&
             (identical(other.worksId, worksId) || other.worksId == worksId) &&
             (identical(other.pIndex, pIndex) || other.pIndex == pIndex) &&
             (identical(other.downloadState, downloadState) ||
@@ -255,13 +257,13 @@ class _$_ImageDownloadTaskModel implements _ImageDownloadTaskModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ImageDownloadTaskModelCopyWith<_$_ImageDownloadTaskModel> get copyWith =>
-      __$$_ImageDownloadTaskModelCopyWithImpl<_$_ImageDownloadTaskModel>(
-          this, _$identity);
+  _$$ImageDownloadTaskModelImplCopyWith<_$ImageDownloadTaskModelImpl>
+      get copyWith => __$$ImageDownloadTaskModelImplCopyWithImpl<
+          _$ImageDownloadTaskModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ImageDownloadTaskModelToJson(
+    return _$$ImageDownloadTaskModelImplToJson(
       this,
     );
   }
@@ -275,10 +277,10 @@ abstract class _ImageDownloadTaskModel implements ImageDownloadTaskModel {
       final double? receivedBytes,
       final double? totalBytes,
       required final String url,
-      required final String title}) = _$_ImageDownloadTaskModel;
+      required final String title}) = _$ImageDownloadTaskModelImpl;
 
   factory _ImageDownloadTaskModel.fromJson(Map<String, dynamic> json) =
-      _$_ImageDownloadTaskModel.fromJson;
+      _$ImageDownloadTaskModelImpl.fromJson;
 
   @override
 
@@ -306,6 +308,6 @@ abstract class _ImageDownloadTaskModel implements ImageDownloadTaskModel {
   String get title;
   @override
   @JsonKey(ignore: true)
-  _$$_ImageDownloadTaskModelCopyWith<_$_ImageDownloadTaskModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ImageDownloadTaskModelImplCopyWith<_$ImageDownloadTaskModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

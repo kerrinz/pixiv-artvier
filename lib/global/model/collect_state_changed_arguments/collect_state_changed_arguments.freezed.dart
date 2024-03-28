@@ -12,7 +12,7 @@ part of 'collect_state_changed_arguments.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CollectStateChangedArguments {
@@ -66,25 +66,25 @@ class _$CollectStateChangedArgumentsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_CollectStateChangedArgumentsCopyWith<$Res>
+abstract class _$$CollectStateChangedArgumentsImplCopyWith<$Res>
     implements $CollectStateChangedArgumentsCopyWith<$Res> {
-  factory _$$_CollectStateChangedArgumentsCopyWith(
-          _$_CollectStateChangedArguments value,
-          $Res Function(_$_CollectStateChangedArguments) then) =
-      __$$_CollectStateChangedArgumentsCopyWithImpl<$Res>;
+  factory _$$CollectStateChangedArgumentsImplCopyWith(
+          _$CollectStateChangedArgumentsImpl value,
+          $Res Function(_$CollectStateChangedArgumentsImpl) then) =
+      __$$CollectStateChangedArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String worksId, CollectState state});
 }
 
 /// @nodoc
-class __$$_CollectStateChangedArgumentsCopyWithImpl<$Res>
+class __$$CollectStateChangedArgumentsImplCopyWithImpl<$Res>
     extends _$CollectStateChangedArgumentsCopyWithImpl<$Res,
-        _$_CollectStateChangedArguments>
-    implements _$$_CollectStateChangedArgumentsCopyWith<$Res> {
-  __$$_CollectStateChangedArgumentsCopyWithImpl(
-      _$_CollectStateChangedArguments _value,
-      $Res Function(_$_CollectStateChangedArguments) _then)
+        _$CollectStateChangedArgumentsImpl>
+    implements _$$CollectStateChangedArgumentsImplCopyWith<$Res> {
+  __$$CollectStateChangedArgumentsImplCopyWithImpl(
+      _$CollectStateChangedArgumentsImpl _value,
+      $Res Function(_$CollectStateChangedArgumentsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -93,7 +93,7 @@ class __$$_CollectStateChangedArgumentsCopyWithImpl<$Res>
     Object? worksId = null,
     Object? state = null,
   }) {
-    return _then(_$_CollectStateChangedArguments(
+    return _then(_$CollectStateChangedArgumentsImpl(
       worksId: null == worksId
           ? _value.worksId
           : worksId // ignore: cast_nullable_to_non_nullable
@@ -108,8 +108,9 @@ class __$$_CollectStateChangedArgumentsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CollectStateChangedArguments implements _CollectStateChangedArguments {
-  const _$_CollectStateChangedArguments(
+class _$CollectStateChangedArgumentsImpl
+    implements _CollectStateChangedArguments {
+  const _$CollectStateChangedArgumentsImpl(
       {required this.worksId, required this.state});
 
   @override
@@ -123,10 +124,10 @@ class _$_CollectStateChangedArguments implements _CollectStateChangedArguments {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CollectStateChangedArguments &&
+            other is _$CollectStateChangedArgumentsImpl &&
             (identical(other.worksId, worksId) || other.worksId == worksId) &&
             (identical(other.state, state) || other.state == state));
   }
@@ -137,16 +138,17 @@ class _$_CollectStateChangedArguments implements _CollectStateChangedArguments {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CollectStateChangedArgumentsCopyWith<_$_CollectStateChangedArguments>
-      get copyWith => __$$_CollectStateChangedArgumentsCopyWithImpl<
-          _$_CollectStateChangedArguments>(this, _$identity);
+  _$$CollectStateChangedArgumentsImplCopyWith<
+          _$CollectStateChangedArgumentsImpl>
+      get copyWith => __$$CollectStateChangedArgumentsImplCopyWithImpl<
+          _$CollectStateChangedArgumentsImpl>(this, _$identity);
 }
 
 abstract class _CollectStateChangedArguments
     implements CollectStateChangedArguments {
   const factory _CollectStateChangedArguments(
       {required final String worksId,
-      required final CollectState state}) = _$_CollectStateChangedArguments;
+      required final CollectState state}) = _$CollectStateChangedArgumentsImpl;
 
   @override
   String get worksId;
@@ -154,6 +156,7 @@ abstract class _CollectStateChangedArguments
   CollectState get state;
   @override
   @JsonKey(ignore: true)
-  _$$_CollectStateChangedArgumentsCopyWith<_$_CollectStateChangedArguments>
+  _$$CollectStateChangedArgumentsImplCopyWith<
+          _$CollectStateChangedArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

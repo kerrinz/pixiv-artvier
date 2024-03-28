@@ -1,5 +1,6 @@
 /* APP主体内容框架：分页框架 （APP视觉上的起始页面）*/
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/l10n/localization_intl.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/home_tabpage.dart';
@@ -30,18 +31,21 @@ class MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (_) {
         // 拦截短时间内的单按返回
         if (_lastPressedBack == null || DateTime.now().difference(_lastPressedBack!) > const Duration(seconds: 1)) {
           // 两次点击间隔超过1秒则重新计时
           _lastPressedBack = DateTime.now();
           Fluttertoast.showToast(
-              msg: LocalizationIntl.of(context).doubleBackToExitPrompt, toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-          return false;
+              msg: LocalizationIntl.of(context).doubleBackToExitPrompt,
+              toastLength: Toast.LENGTH_SHORT,
+              fontSize: 16.0);
+        } else {
+          // 短时间内双击返回退出 APP
+          SystemNavigator.pop();
         }
-        // 短时间内双击返回加通过
-        return true;
       },
       child: Scaffold(
         body: PageView.builder(

@@ -12,7 +12,7 @@ part of 'proxy_state_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ProxyStateModel {
@@ -74,22 +74,22 @@ class _$ProxyStateModelCopyWithImpl<$Res, $Val extends ProxyStateModel>
 }
 
 /// @nodoc
-abstract class _$$_ProxyStateModelCopyWith<$Res>
+abstract class _$$ProxyStateModelImplCopyWith<$Res>
     implements $ProxyStateModelCopyWith<$Res> {
-  factory _$$_ProxyStateModelCopyWith(
-          _$_ProxyStateModel value, $Res Function(_$_ProxyStateModel) then) =
-      __$$_ProxyStateModelCopyWithImpl<$Res>;
+  factory _$$ProxyStateModelImplCopyWith(_$ProxyStateModelImpl value,
+          $Res Function(_$ProxyStateModelImpl) then) =
+      __$$ProxyStateModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String host, String port, bool isProxyEnabled});
 }
 
 /// @nodoc
-class __$$_ProxyStateModelCopyWithImpl<$Res>
-    extends _$ProxyStateModelCopyWithImpl<$Res, _$_ProxyStateModel>
-    implements _$$_ProxyStateModelCopyWith<$Res> {
-  __$$_ProxyStateModelCopyWithImpl(
-      _$_ProxyStateModel _value, $Res Function(_$_ProxyStateModel) _then)
+class __$$ProxyStateModelImplCopyWithImpl<$Res>
+    extends _$ProxyStateModelCopyWithImpl<$Res, _$ProxyStateModelImpl>
+    implements _$$ProxyStateModelImplCopyWith<$Res> {
+  __$$ProxyStateModelImplCopyWithImpl(
+      _$ProxyStateModelImpl _value, $Res Function(_$ProxyStateModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -99,7 +99,7 @@ class __$$_ProxyStateModelCopyWithImpl<$Res>
     Object? port = null,
     Object? isProxyEnabled = null,
   }) {
-    return _then(_$_ProxyStateModel(
+    return _then(_$ProxyStateModelImpl(
       host: null == host
           ? _value.host
           : host // ignore: cast_nullable_to_non_nullable
@@ -118,8 +118,8 @@ class __$$_ProxyStateModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ProxyStateModel implements _ProxyStateModel {
-  const _$_ProxyStateModel(
+class _$ProxyStateModelImpl implements _ProxyStateModel {
+  const _$ProxyStateModelImpl(
       {required this.host, required this.port, required this.isProxyEnabled});
 
   /// 主机
@@ -140,10 +140,10 @@ class _$_ProxyStateModel implements _ProxyStateModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ProxyStateModel &&
+            other is _$ProxyStateModelImpl &&
             (identical(other.host, host) || other.host == host) &&
             (identical(other.port, port) || other.port == port) &&
             (identical(other.isProxyEnabled, isProxyEnabled) ||
@@ -156,15 +156,16 @@ class _$_ProxyStateModel implements _ProxyStateModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ProxyStateModelCopyWith<_$_ProxyStateModel> get copyWith =>
-      __$$_ProxyStateModelCopyWithImpl<_$_ProxyStateModel>(this, _$identity);
+  _$$ProxyStateModelImplCopyWith<_$ProxyStateModelImpl> get copyWith =>
+      __$$ProxyStateModelImplCopyWithImpl<_$ProxyStateModelImpl>(
+          this, _$identity);
 }
 
 abstract class _ProxyStateModel implements ProxyStateModel {
   const factory _ProxyStateModel(
       {required final String host,
       required final String port,
-      required final bool isProxyEnabled}) = _$_ProxyStateModel;
+      required final bool isProxyEnabled}) = _$ProxyStateModelImpl;
 
   @override
 
@@ -180,6 +181,6 @@ abstract class _ProxyStateModel implements ProxyStateModel {
   bool get isProxyEnabled;
   @override
   @JsonKey(ignore: true)
-  _$$_ProxyStateModelCopyWith<_$_ProxyStateModel> get copyWith =>
+  _$$ProxyStateModelImplCopyWith<_$ProxyStateModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
