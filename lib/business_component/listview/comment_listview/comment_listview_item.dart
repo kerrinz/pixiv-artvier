@@ -8,9 +8,9 @@ import 'package:artvier/model_response/illusts/illust_comments.dart';
 
 class CommentListViewItem extends ConsumerWidget {
   const CommentListViewItem({
-    Key? key,
+    super.key,
     required this.comment,
-  }) : super(key: key);
+  });
 
   final Comments comment;
 

@@ -32,7 +32,7 @@ class CollapsibleText extends StatefulWidget {
   final MainAxisAlignment buttonAxisAlignment;
 
   const CollapsibleText({
-    Key? key,
+    super.key,
     required this.text,
     this.style = const TextStyle(fontSize: 12),
     this.textAlign = TextAlign.start,
@@ -46,8 +46,7 @@ class CollapsibleText extends StatefulWidget {
     this.buttonAxisAlignment = MainAxisAlignment.end,
   })  : assert(collapsedMaxLine == null || collapsedMaxLine > 0),
         assert(!isCollapsedInitially || collapsedMaxLine != null,
-            "Initially collapsed must ensure that collapsedMaxLine is not null."),
-        super(key: key);
+            "Initially collapsed must ensure that collapsedMaxLine is not null.");
 
   @override
   State<StatefulWidget> createState() => _CollapsibleTextState();

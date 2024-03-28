@@ -11,9 +11,8 @@ class PixivisionWebViewPage extends BaseStatefulPage {
   /// 图片链接列表（每项含有多种画质链接）
   final PixivisionWebViewPageArguments arguments;
 
-  const PixivisionWebViewPage(Object arg, {Key? key})
-      : arguments = arg as PixivisionWebViewPageArguments,
-        super(key: key);
+  const PixivisionWebViewPage(Object arg, {super.key})
+      : arguments = arg as PixivisionWebViewPageArguments;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _LoginWebState();

@@ -15,9 +15,8 @@ class ImageViewerPage extends BaseStatefulPage {
   /// 图片链接列表（每项含有多种画质链接）
   final ImageViewerPageArguments arguments;
 
-  const ImageViewerPage(Object arg, {Key? key})
-      : arguments = arg as ImageViewerPageArguments,
-        super(key: key);
+  const ImageViewerPage(Object arg, {super.key})
+      : arguments = arg as ImageViewerPageArguments;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {

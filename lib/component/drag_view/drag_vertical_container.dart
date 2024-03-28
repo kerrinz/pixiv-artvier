@@ -127,7 +127,7 @@ class DragVerticalContainer extends StatefulWidget {
   // final bool canCustomizedStopover;
 
   const DragVerticalContainer({
-    Key? key,
+    super.key,
     this.child,
     this.controller,
     this.width = double.infinity,
@@ -136,8 +136,7 @@ class DragVerticalContainer extends StatefulWidget {
     required this.defaultPosition,
     required this.dragStageOffset,
     required this.maximumPosition,
-  })  : assert(defaultPosition <= maximumPosition),
-        super(key: key);
+  }) : assert(defaultPosition <= maximumPosition);
 
   final Widget? child;
 
@@ -373,7 +372,7 @@ class DragContainerState extends State<DragVerticalContainer> with SingleTickerP
 }
 
 class MyVerticalDragGestureRecognizer extends VerticalDragGestureRecognizer {
-  MyVerticalDragGestureRecognizer({Object? debugOwner}) : super(debugOwner: debugOwner);
+  MyVerticalDragGestureRecognizer({super.debugOwner});
 
   @override
   void rejectGesture(int pointer) {
@@ -392,7 +391,7 @@ class CusBehavior extends ScrollBehavior {
 }
 
 class TestPage extends StatefulWidget {
-  const TestPage({Key? key}) : super(key: key);
+  const TestPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _TextPageState2();

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 class SingleLineFittedBox extends StatelessWidget {
   /// This widget is quoted from https://book.flutterchina.club/chapter5/fittedbox.html#_5-6-1-fittedbox
-  const SingleLineFittedBox({Key? key, this.child}) : super(key: key);
+  const SingleLineFittedBox({super.key, this.child});
   final Widget? child;
 
   @override

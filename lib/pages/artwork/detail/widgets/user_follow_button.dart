@@ -9,10 +9,10 @@ import 'package:artvier/global/provider/follow_state_provider.dart';
 /// 关注或已关注的按钮
 class UserFollowButton extends ConsumerWidget with _FollowButtonLogic {
   UserFollowButton({
-    Key? key,
+    super.key,
     required this.followState,
     required this.userId,
-  }) : super(key: key);
+  });
 
   final UserFollowState followState;
 

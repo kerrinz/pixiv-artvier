@@ -14,11 +14,11 @@ import 'package:artvier/routes.dart';
 
 class UserVerticalListViewItem extends ConsumerStatefulWidget {
   const UserVerticalListViewItem({
-    Key? key,
+    super.key,
     required this.user,
     required this.followState,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final CommonUserPreviews user;
 

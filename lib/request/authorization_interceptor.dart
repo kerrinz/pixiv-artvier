@@ -31,7 +31,7 @@ class AuthorizationInterceptor extends InterceptorsWrapper {
       logger.e(e);
       handler.reject(e); // reject if error
     } catch (e) {
-      logger.wtf(e);
+      logger.f(e);
     }
   }
 

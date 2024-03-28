@@ -7,24 +7,15 @@ import 'dart:ui' as ui;
 
 class MyFlexibleSpaceBar extends FlexibleSpaceBar {
   const MyFlexibleSpaceBar({
-    Key? key,
-    Widget? title,
-    Widget? background,
-    bool? centerTitle,
+    super.key,
+    super.title,
+    super.background,
+    super.centerTitle,
     EdgeInsetsGeometry? titlePadding,
-    CollapseMode collapseMode = CollapseMode.parallax,
-    List<StretchMode> stretchModes = const <StretchMode>[StretchMode.zoomBackground],
-    double expandedTitleScale = 1.5,
-  }) : assert(expandedTitleScale >= 1),
-        super(
-          key: key,
-          title: title,
-          background: background,
-          centerTitle: centerTitle,
-          collapseMode: collapseMode,
-          stretchModes: stretchModes,
-          expandedTitleScale: expandedTitleScale,
-        );
+    super.collapseMode,
+    super.stretchModes,
+    super.expandedTitleScale,
+  }) : assert(expandedTitleScale >= 1);
 
   @override
   State<FlexibleSpaceBar> createState() => _MyFlexibleSpaceBarState();

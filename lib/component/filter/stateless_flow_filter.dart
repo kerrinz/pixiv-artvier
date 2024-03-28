@@ -7,7 +7,7 @@ typedef IndexTap = void Function(int tapIndex);
 
 abstract class FlowFilterStatefulWidget extends StatelessWidget {
   FlowFilterStatefulWidget({
-    Key? key,
+    super.key,
     this.initialIndexes = const {0},
     required this.itemCount,
     this.maxSelectedCount,
@@ -18,8 +18,7 @@ abstract class FlowFilterStatefulWidget extends StatelessWidget {
     this.alignment = WrapAlignment.start,
     this.runAlignment = WrapAlignment.start,
   })  : assert(maxSelectedCount == null || (0 < maxSelectedCount && maxSelectedCount <= itemCount)),
-        assert(initialIndexes.every((int item) => 0 <= item && item < itemCount)),
-        super(key: key);
+        assert(initialIndexes.every((int item) => 0 <= item && item < itemCount));
 
   /// 初始化时被选择的索引，范围：[0 ~ unselectedWidgets.length]
   final Set<int> initialIndexes;
@@ -95,14 +94,14 @@ class StatelessTextFlowFilter extends FlowFilterStatefulWidget {
   final BoxDecoration? unselectedDecoration;
 
   StatelessTextFlowFilter({
-    Key? key,
-    Set<int> initialIndexes = const {0},
+    super.key,
+    super.initialIndexes,
     required this.texts,
-    required IndexTap onTap,
-    int? maxSelectedCount,
-    Axis direction = Axis.horizontal,
-    double spacing = 4,
-    double runSpacing = 0,
+    required super.onTap,
+    super.maxSelectedCount,
+    super.direction,
+    super.spacing = 4,
+    super.runSpacing,
     this.selectedTextStyle,
     this.unselectedTextStyle,
     this.selectedBackground,
@@ -113,19 +112,10 @@ class StatelessTextFlowFilter extends FlowFilterStatefulWidget {
     this.textBorderRadius = const BorderRadius.all(Radius.circular(8)),
     this.selectedDecoration,
     this.unselectedDecoration,
-    WrapAlignment alignment = WrapAlignment.start,
-    WrapAlignment runAlignment = WrapAlignment.start,
+    super.alignment,
+    super.runAlignment,
   }) : super(
-          key: key,
-          initialIndexes: initialIndexes,
           itemCount: texts.length,
-          onTap: onTap,
-          maxSelectedCount: maxSelectedCount,
-          direction: direction,
-          spacing: spacing,
-          runSpacing: runSpacing,
-          alignment: alignment,
-          runAlignment: runAlignment,
         );
 
   @override
