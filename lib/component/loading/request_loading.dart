@@ -3,7 +3,7 @@ import 'package:artvier/l10n/localization_intl.dart';
 
 /// 网络请求加载中显示的组件
 class RequestLoading extends StatelessWidget {
-  const RequestLoading({Key? key}) : super(key: key);
+  const RequestLoading({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,9 @@ class RequestLoadingFailed extends StatelessWidget {
   final VoidCallback onRetry;
 
   const RequestLoadingFailed({
-    Key? key,
+    super.key,
     required this.onRetry,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

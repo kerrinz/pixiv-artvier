@@ -8,10 +8,10 @@ typedef ItemBuilder = Widget Function(int index);
 /// 设置项无需设置圆角，本组件已进行处理
 class PerferenceGroup extends StatelessWidget {
   const PerferenceGroup({
-    Key? key,
+    super.key,
     required this.items,
     this.padding,
-  }) : super(key: key);
+  });
 
   final List<PerferenceItem> items;
 

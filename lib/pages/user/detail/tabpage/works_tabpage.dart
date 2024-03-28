@@ -15,9 +15,9 @@ class UserWorksTabPage extends ConsumerStatefulWidget {
   final String userId;
 
   const UserWorksTabPage({
-    Key? key,
+    super.key,
     required this.userId,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => UserWorksTabPageState();

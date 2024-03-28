@@ -15,11 +15,11 @@ import 'package:artvier/model_response/novels/common_novel.dart';
 /// 小说瀑布流对应的列表项
 class NovelWaterfallItem extends ConsumerStatefulWidget {
   const NovelWaterfallItem({
-    Key? key,
+    super.key,
     required this.novel,
     required this.collectState,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final CommonNovel novel;
 

@@ -76,9 +76,8 @@ class CommentsPreviewContentWidget extends ConsumerWidget {
 
 class _CommentItem extends ConsumerWidget {
   const _CommentItem({
-    Key? key,
     required this.comment,
-  }) : super(key: key);
+  });
 
   final Comments comment;
 

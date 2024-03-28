@@ -5,7 +5,7 @@ import 'package:artvier/l10n/localization_intl.dart';
 import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/theme/widget/brightness_settings_panel.dart';
 
 class ThemeSettingsBottomSheet extends ConsumerWidget {
-  const ThemeSettingsBottomSheet({Key? key}) : super(key: key);
+  const ThemeSettingsBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

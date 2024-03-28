@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:artvier/l10n/localization_intl.dart';
 
 class LazyloadingWidget extends StatelessWidget {
-  const LazyloadingWidget({Key? key}) : super(key: key);
+  const LazyloadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,9 @@ class LazyloadingFailedWidget extends StatelessWidget {
   final VoidCallback onRetry;
 
   const LazyloadingFailedWidget({
-    Key? key,
+    super.key,
     required this.onRetry,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -29,14 +29,14 @@ class TagListView extends ConsumerWidget with LazyloadLogic {
   final ScrollPhysics? physics;
 
   TagListView({
-    Key? key,
+    super.key,
     required this.tagList,
     required this.onLazyload,
     this.lazyloadState,
     this.scrollController,
     this.physics,
     this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

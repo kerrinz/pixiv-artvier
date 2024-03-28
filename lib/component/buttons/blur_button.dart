@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class BlurButton extends StatefulWidget {
   const BlurButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.child,
     this.borderRadius,
@@ -19,7 +19,7 @@ class BlurButton extends StatefulWidget {
     this.alignment = Alignment.center,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final Alignment alignment;
 

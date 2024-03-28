@@ -18,7 +18,7 @@ class AuthorCardWidget extends StatelessWidget {
 
   final TabController tabController;
 
-  const AuthorCardWidget({Key? key, required this.detail, required this.tabController}) : super(key: key);
+  const AuthorCardWidget({super.key, required this.detail, required this.tabController});
 
   @override
   Widget build(BuildContext context) {

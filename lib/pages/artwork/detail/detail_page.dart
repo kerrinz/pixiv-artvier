@@ -28,9 +28,8 @@ import 'package:artvier/storage/history_storage.dart';
 class ArtWorksDetailPage extends ConsumerStatefulWidget {
   final IllustDetailPageArguments args; // 数据集
 
-  const ArtWorksDetailPage(Object arguments, {Key? key})
-      : args = arguments as IllustDetailPageArguments,
-        super(key: key);
+  const ArtWorksDetailPage(Object arguments, {super.key})
+      : args = arguments as IllustDetailPageArguments;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {

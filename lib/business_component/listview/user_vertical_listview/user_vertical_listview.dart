@@ -33,7 +33,7 @@ class UserVerticalListView extends ConsumerWidget with LazyloadLogic, UserVertic
   late final WidgetRef ref;
 
   UserVerticalListView({
-    Key? key,
+    super.key,
     required this.userList,
     required this.onLazyload,
     this.lazyloadState,
@@ -43,7 +43,7 @@ class UserVerticalListView extends ConsumerWidget with LazyloadLogic, UserVertic
     this.scrollController,
     this.physics,
     this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

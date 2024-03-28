@@ -11,9 +11,8 @@ import 'package:artvier/model_response/user/common_user_previews.dart';
 import 'package:artvier/pages/user/following/provider/user_following_provider.dart';
 
 class UserFollowingPage extends BasePage {
-  UserFollowingPage(Object arguments, {Key? key})
-      : userId = arguments as String,
-        super(key: key);
+  UserFollowingPage(Object arguments, {super.key})
+      : userId = arguments as String;
 
   final String userId;
 

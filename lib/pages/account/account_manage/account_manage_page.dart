@@ -10,7 +10,7 @@ import 'package:artvier/storage/model/account_profile.dart';
 import 'package:artvier/base/base_page.dart';
 
 class AccountManagePage extends BaseStatefulPage {
-  const AccountManagePage({Key? key}) : super(key: key);
+  const AccountManagePage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AccountManagePageState();

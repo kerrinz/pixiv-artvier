@@ -8,7 +8,7 @@ import 'package:artvier/routes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginWebPage extends BaseStatefulPage {
-  const LoginWebPage({Key? key}) : super(key: key);
+  const LoginWebPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _LoginWebState();

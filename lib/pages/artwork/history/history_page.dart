@@ -7,7 +7,7 @@ import 'package:artvier/pages/artwork/history/logic.dart';
 import 'package:artvier/pages/artwork/history/provider/history_provider.dart';
 
 class ViewHistoryPage extends BaseStatefulPage {
-  const ViewHistoryPage({Key? key}) : super(key: key);
+  const ViewHistoryPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _HistoryPageState();

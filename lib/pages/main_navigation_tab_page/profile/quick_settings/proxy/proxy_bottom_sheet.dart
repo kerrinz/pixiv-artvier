@@ -12,7 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ProxyOriginSettingsBottomSheet extends ConsumerStatefulWidget {
-  const ProxyOriginSettingsBottomSheet({Key? key}) : super(key: key);
+  const ProxyOriginSettingsBottomSheet({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => SettingNetworkPageState();
