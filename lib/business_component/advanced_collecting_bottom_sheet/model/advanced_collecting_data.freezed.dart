@@ -12,7 +12,7 @@ part of 'advanced_collecting_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AdvancedCollectingDataModel {
@@ -75,12 +75,12 @@ class _$AdvancedCollectingDataModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_AdvancedCollectingDataModelCopyWith<$Res>
+abstract class _$$AdvancedCollectingDataModelImplCopyWith<$Res>
     implements $AdvancedCollectingDataModelCopyWith<$Res> {
-  factory _$$_AdvancedCollectingDataModelCopyWith(
-          _$_AdvancedCollectingDataModel value,
-          $Res Function(_$_AdvancedCollectingDataModel) then) =
-      __$$_AdvancedCollectingDataModelCopyWithImpl<$Res>;
+  factory _$$AdvancedCollectingDataModelImplCopyWith(
+          _$AdvancedCollectingDataModelImpl value,
+          $Res Function(_$AdvancedCollectingDataModelImpl) then) =
+      __$$AdvancedCollectingDataModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -90,13 +90,13 @@ abstract class _$$_AdvancedCollectingDataModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AdvancedCollectingDataModelCopyWithImpl<$Res>
+class __$$AdvancedCollectingDataModelImplCopyWithImpl<$Res>
     extends _$AdvancedCollectingDataModelCopyWithImpl<$Res,
-        _$_AdvancedCollectingDataModel>
-    implements _$$_AdvancedCollectingDataModelCopyWith<$Res> {
-  __$$_AdvancedCollectingDataModelCopyWithImpl(
-      _$_AdvancedCollectingDataModel _value,
-      $Res Function(_$_AdvancedCollectingDataModel) _then)
+        _$AdvancedCollectingDataModelImpl>
+    implements _$$AdvancedCollectingDataModelImplCopyWith<$Res> {
+  __$$AdvancedCollectingDataModelImplCopyWithImpl(
+      _$AdvancedCollectingDataModelImpl _value,
+      $Res Function(_$AdvancedCollectingDataModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +106,7 @@ class __$$_AdvancedCollectingDataModelCopyWithImpl<$Res>
     Object? restrict = null,
     Object? collectState = null,
   }) {
-    return _then(_$_AdvancedCollectingDataModel(
+    return _then(_$AdvancedCollectingDataModelImpl(
       tags: null == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -125,8 +125,9 @@ class __$$_AdvancedCollectingDataModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AdvancedCollectingDataModel implements _AdvancedCollectingDataModel {
-  _$_AdvancedCollectingDataModel(
+class _$AdvancedCollectingDataModelImpl
+    implements _AdvancedCollectingDataModel {
+  _$AdvancedCollectingDataModelImpl(
       {required final List<WorksCollectTag> tags,
       required this.restrict,
       required this.collectState})
@@ -151,10 +152,10 @@ class _$_AdvancedCollectingDataModel implements _AdvancedCollectingDataModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AdvancedCollectingDataModel &&
+            other is _$AdvancedCollectingDataModelImpl &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.restrict, restrict) ||
                 other.restrict == restrict) &&
@@ -169,9 +170,9 @@ class _$_AdvancedCollectingDataModel implements _AdvancedCollectingDataModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AdvancedCollectingDataModelCopyWith<_$_AdvancedCollectingDataModel>
-      get copyWith => __$$_AdvancedCollectingDataModelCopyWithImpl<
-          _$_AdvancedCollectingDataModel>(this, _$identity);
+  _$$AdvancedCollectingDataModelImplCopyWith<_$AdvancedCollectingDataModelImpl>
+      get copyWith => __$$AdvancedCollectingDataModelImplCopyWithImpl<
+          _$AdvancedCollectingDataModelImpl>(this, _$identity);
 }
 
 abstract class _AdvancedCollectingDataModel
@@ -180,7 +181,7 @@ abstract class _AdvancedCollectingDataModel
           {required final List<WorksCollectTag> tags,
           required final Restrict restrict,
           required final CollectState collectState}) =
-      _$_AdvancedCollectingDataModel;
+      _$AdvancedCollectingDataModelImpl;
 
   @override
   List<WorksCollectTag> get tags;
@@ -190,6 +191,6 @@ abstract class _AdvancedCollectingDataModel
   CollectState get collectState;
   @override
   @JsonKey(ignore: true)
-  _$$_AdvancedCollectingDataModelCopyWith<_$_AdvancedCollectingDataModel>
+  _$$AdvancedCollectingDataModelImplCopyWith<_$AdvancedCollectingDataModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -8,9 +8,9 @@ part of 'image_download_task_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ImageDownloadTaskModel _$$_ImageDownloadTaskModelFromJson(
+_$ImageDownloadTaskModelImpl _$$ImageDownloadTaskModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_ImageDownloadTaskModel(
+    _$ImageDownloadTaskModelImpl(
       worksId: json['worksId'] as String,
       pIndex: json['pIndex'] as int,
       downloadState: json['downloadState'] as int,
@@ -20,8 +20,8 @@ _$_ImageDownloadTaskModel _$$_ImageDownloadTaskModelFromJson(
       title: json['title'] as String,
     );
 
-Map<String, dynamic> _$$_ImageDownloadTaskModelToJson(
-        _$_ImageDownloadTaskModel instance) =>
+Map<String, dynamic> _$$ImageDownloadTaskModelImplToJson(
+        _$ImageDownloadTaskModelImpl instance) =>
     <String, dynamic>{
       'worksId': instance.worksId,
       'pIndex': instance.pIndex,

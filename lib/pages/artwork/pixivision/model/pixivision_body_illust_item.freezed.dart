@@ -12,7 +12,7 @@ part of 'pixivision_body_illust_item.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PixivisionBodyIllustItem {
@@ -105,12 +105,12 @@ class _$PixivisionBodyIllustItemCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PixivisionBodyIllustItemCopyWith<$Res>
+abstract class _$$PixivisionBodyIllustItemImplCopyWith<$Res>
     implements $PixivisionBodyIllustItemCopyWith<$Res> {
-  factory _$$_PixivisionBodyIllustItemCopyWith(
-          _$_PixivisionBodyIllustItem value,
-          $Res Function(_$_PixivisionBodyIllustItem) then) =
-      __$$_PixivisionBodyIllustItemCopyWithImpl<$Res>;
+  factory _$$PixivisionBodyIllustItemImplCopyWith(
+          _$PixivisionBodyIllustItemImpl value,
+          $Res Function(_$PixivisionBodyIllustItemImpl) then) =
+      __$$PixivisionBodyIllustItemImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -123,12 +123,13 @@ abstract class _$$_PixivisionBodyIllustItemCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PixivisionBodyIllustItemCopyWithImpl<$Res>
+class __$$PixivisionBodyIllustItemImplCopyWithImpl<$Res>
     extends _$PixivisionBodyIllustItemCopyWithImpl<$Res,
-        _$_PixivisionBodyIllustItem>
-    implements _$$_PixivisionBodyIllustItemCopyWith<$Res> {
-  __$$_PixivisionBodyIllustItemCopyWithImpl(_$_PixivisionBodyIllustItem _value,
-      $Res Function(_$_PixivisionBodyIllustItem) _then)
+        _$PixivisionBodyIllustItemImpl>
+    implements _$$PixivisionBodyIllustItemImplCopyWith<$Res> {
+  __$$PixivisionBodyIllustItemImplCopyWithImpl(
+      _$PixivisionBodyIllustItemImpl _value,
+      $Res Function(_$PixivisionBodyIllustItemImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -141,7 +142,7 @@ class __$$_PixivisionBodyIllustItemCopyWithImpl<$Res>
     Object? authorAvatar = null,
     Object? authorId = null,
   }) {
-    return _then(_$_PixivisionBodyIllustItem(
+    return _then(_$PixivisionBodyIllustItemImpl(
       illustTitle: null == illustTitle
           ? _value.illustTitle
           : illustTitle // ignore: cast_nullable_to_non_nullable
@@ -172,8 +173,8 @@ class __$$_PixivisionBodyIllustItemCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PixivisionBodyIllustItem implements _PixivisionBodyIllustItem {
-  const _$_PixivisionBodyIllustItem(
+class _$PixivisionBodyIllustItemImpl implements _PixivisionBodyIllustItem {
+  const _$PixivisionBodyIllustItemImpl(
       {required this.illustTitle,
       required this.illustId,
       required this.illustUrl,
@@ -211,10 +212,10 @@ class _$_PixivisionBodyIllustItem implements _PixivisionBodyIllustItem {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PixivisionBodyIllustItem &&
+            other is _$PixivisionBodyIllustItemImpl &&
             (identical(other.illustTitle, illustTitle) ||
                 other.illustTitle == illustTitle) &&
             (identical(other.illustId, illustId) ||
@@ -236,9 +237,9 @@ class _$_PixivisionBodyIllustItem implements _PixivisionBodyIllustItem {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PixivisionBodyIllustItemCopyWith<_$_PixivisionBodyIllustItem>
-      get copyWith => __$$_PixivisionBodyIllustItemCopyWithImpl<
-          _$_PixivisionBodyIllustItem>(this, _$identity);
+  _$$PixivisionBodyIllustItemImplCopyWith<_$PixivisionBodyIllustItemImpl>
+      get copyWith => __$$PixivisionBodyIllustItemImplCopyWithImpl<
+          _$PixivisionBodyIllustItemImpl>(this, _$identity);
 }
 
 abstract class _PixivisionBodyIllustItem implements PixivisionBodyIllustItem {
@@ -248,7 +249,7 @@ abstract class _PixivisionBodyIllustItem implements PixivisionBodyIllustItem {
       required final String illustUrl,
       required final String authorName,
       required final String authorAvatar,
-      required final String authorId}) = _$_PixivisionBodyIllustItem;
+      required final String authorId}) = _$PixivisionBodyIllustItemImpl;
 
   @override
 
@@ -276,6 +277,6 @@ abstract class _PixivisionBodyIllustItem implements PixivisionBodyIllustItem {
   String get authorId;
   @override
   @JsonKey(ignore: true)
-  _$$_PixivisionBodyIllustItemCopyWith<_$_PixivisionBodyIllustItem>
+  _$$PixivisionBodyIllustItemImplCopyWith<_$PixivisionBodyIllustItemImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

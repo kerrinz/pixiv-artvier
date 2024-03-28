@@ -12,7 +12,7 @@ part of 'home_illust_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$HomeIllustModel {
@@ -63,22 +63,22 @@ class _$HomeIllustModelCopyWithImpl<$Res, $Val extends HomeIllustModel>
 }
 
 /// @nodoc
-abstract class _$$_HomeIllustModelCopyWith<$Res>
+abstract class _$$HomeIllustModelImplCopyWith<$Res>
     implements $HomeIllustModelCopyWith<$Res> {
-  factory _$$_HomeIllustModelCopyWith(
-          _$_HomeIllustModel value, $Res Function(_$_HomeIllustModel) then) =
-      __$$_HomeIllustModelCopyWithImpl<$Res>;
+  factory _$$HomeIllustModelImplCopyWith(_$HomeIllustModelImpl value,
+          $Res Function(_$HomeIllustModelImpl) then) =
+      __$$HomeIllustModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<CommonIllust> ranking, List<CommonIllust> recommended});
 }
 
 /// @nodoc
-class __$$_HomeIllustModelCopyWithImpl<$Res>
-    extends _$HomeIllustModelCopyWithImpl<$Res, _$_HomeIllustModel>
-    implements _$$_HomeIllustModelCopyWith<$Res> {
-  __$$_HomeIllustModelCopyWithImpl(
-      _$_HomeIllustModel _value, $Res Function(_$_HomeIllustModel) _then)
+class __$$HomeIllustModelImplCopyWithImpl<$Res>
+    extends _$HomeIllustModelCopyWithImpl<$Res, _$HomeIllustModelImpl>
+    implements _$$HomeIllustModelImplCopyWith<$Res> {
+  __$$HomeIllustModelImplCopyWithImpl(
+      _$HomeIllustModelImpl _value, $Res Function(_$HomeIllustModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_HomeIllustModelCopyWithImpl<$Res>
     Object? ranking = null,
     Object? recommended = null,
   }) {
-    return _then(_$_HomeIllustModel(
+    return _then(_$HomeIllustModelImpl(
       ranking: null == ranking
           ? _value._ranking
           : ranking // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_HomeIllustModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_HomeIllustModel implements _HomeIllustModel {
-  const _$_HomeIllustModel(
+class _$HomeIllustModelImpl implements _HomeIllustModel {
+  const _$HomeIllustModelImpl(
       {required final List<CommonIllust> ranking,
       required final List<CommonIllust> recommended})
       : _ranking = ranking,
@@ -131,10 +131,10 @@ class _$_HomeIllustModel implements _HomeIllustModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HomeIllustModel &&
+            other is _$HomeIllustModelImpl &&
             const DeepCollectionEquality().equals(other._ranking, _ranking) &&
             const DeepCollectionEquality()
                 .equals(other._recommended, _recommended));
@@ -149,14 +149,15 @@ class _$_HomeIllustModel implements _HomeIllustModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HomeIllustModelCopyWith<_$_HomeIllustModel> get copyWith =>
-      __$$_HomeIllustModelCopyWithImpl<_$_HomeIllustModel>(this, _$identity);
+  _$$HomeIllustModelImplCopyWith<_$HomeIllustModelImpl> get copyWith =>
+      __$$HomeIllustModelImplCopyWithImpl<_$HomeIllustModelImpl>(
+          this, _$identity);
 }
 
 abstract class _HomeIllustModel implements HomeIllustModel {
   const factory _HomeIllustModel(
       {required final List<CommonIllust> ranking,
-      required final List<CommonIllust> recommended}) = _$_HomeIllustModel;
+      required final List<CommonIllust> recommended}) = _$HomeIllustModelImpl;
 
   @override
   List<CommonIllust> get ranking;
@@ -164,6 +165,6 @@ abstract class _HomeIllustModel implements HomeIllustModel {
   List<CommonIllust> get recommended;
   @override
   @JsonKey(ignore: true)
-  _$$_HomeIllustModelCopyWith<_$_HomeIllustModel> get copyWith =>
+  _$$HomeIllustModelImplCopyWith<_$HomeIllustModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
