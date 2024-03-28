@@ -12,7 +12,7 @@ part of 'collections_filter_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CollectionsFilterModel {
@@ -75,23 +75,25 @@ class _$CollectionsFilterModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_CollectionsFilterModelCopyWith<$Res>
+abstract class _$$CollectionsFilterModelImplCopyWith<$Res>
     implements $CollectionsFilterModelCopyWith<$Res> {
-  factory _$$_CollectionsFilterModelCopyWith(_$_CollectionsFilterModel value,
-          $Res Function(_$_CollectionsFilterModel) then) =
-      __$$_CollectionsFilterModelCopyWithImpl<$Res>;
+  factory _$$CollectionsFilterModelImplCopyWith(
+          _$CollectionsFilterModelImpl value,
+          $Res Function(_$CollectionsFilterModelImpl) then) =
+      __$$CollectionsFilterModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Restrict restrict, String? tag, WorksType worksType});
 }
 
 /// @nodoc
-class __$$_CollectionsFilterModelCopyWithImpl<$Res>
+class __$$CollectionsFilterModelImplCopyWithImpl<$Res>
     extends _$CollectionsFilterModelCopyWithImpl<$Res,
-        _$_CollectionsFilterModel>
-    implements _$$_CollectionsFilterModelCopyWith<$Res> {
-  __$$_CollectionsFilterModelCopyWithImpl(_$_CollectionsFilterModel _value,
-      $Res Function(_$_CollectionsFilterModel) _then)
+        _$CollectionsFilterModelImpl>
+    implements _$$CollectionsFilterModelImplCopyWith<$Res> {
+  __$$CollectionsFilterModelImplCopyWithImpl(
+      _$CollectionsFilterModelImpl _value,
+      $Res Function(_$CollectionsFilterModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +103,7 @@ class __$$_CollectionsFilterModelCopyWithImpl<$Res>
     Object? tag = freezed,
     Object? worksType = null,
   }) {
-    return _then(_$_CollectionsFilterModel(
+    return _then(_$CollectionsFilterModelImpl(
       restrict: null == restrict
           ? _value.restrict
           : restrict // ignore: cast_nullable_to_non_nullable
@@ -120,8 +122,8 @@ class __$$_CollectionsFilterModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CollectionsFilterModel implements _CollectionsFilterModel {
-  const _$_CollectionsFilterModel(
+class _$CollectionsFilterModelImpl implements _CollectionsFilterModel {
+  const _$CollectionsFilterModelImpl(
       {this.restrict = Restrict.public, this.tag, required this.worksType});
 
   /// 隐私
@@ -143,10 +145,10 @@ class _$_CollectionsFilterModel implements _CollectionsFilterModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CollectionsFilterModel &&
+            other is _$CollectionsFilterModelImpl &&
             (identical(other.restrict, restrict) ||
                 other.restrict == restrict) &&
             (identical(other.tag, tag) || other.tag == tag) &&
@@ -160,16 +162,16 @@ class _$_CollectionsFilterModel implements _CollectionsFilterModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CollectionsFilterModelCopyWith<_$_CollectionsFilterModel> get copyWith =>
-      __$$_CollectionsFilterModelCopyWithImpl<_$_CollectionsFilterModel>(
-          this, _$identity);
+  _$$CollectionsFilterModelImplCopyWith<_$CollectionsFilterModelImpl>
+      get copyWith => __$$CollectionsFilterModelImplCopyWithImpl<
+          _$CollectionsFilterModelImpl>(this, _$identity);
 }
 
 abstract class _CollectionsFilterModel implements CollectionsFilterModel {
   const factory _CollectionsFilterModel(
       {final Restrict restrict,
       final String? tag,
-      required final WorksType worksType}) = _$_CollectionsFilterModel;
+      required final WorksType worksType}) = _$CollectionsFilterModelImpl;
 
   @override
 
@@ -185,6 +187,6 @@ abstract class _CollectionsFilterModel implements CollectionsFilterModel {
   WorksType get worksType;
   @override
   @JsonKey(ignore: true)
-  _$$_CollectionsFilterModelCopyWith<_$_CollectionsFilterModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$CollectionsFilterModelImplCopyWith<_$CollectionsFilterModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

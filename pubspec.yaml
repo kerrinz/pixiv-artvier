@@ -61,10 +61,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  analyzer: ^6.4.1
   build_runner: ^2.3.3 # 构建工具，命令：flutter packages pub run build_runner build
   flutter_lints: ^2.0.1
   freezed: ^2.3.2 # 模板代码生成工具
-  intl_generator: ^0.4.1 # 国际化
+  intl_translation: ^0.19.0 # 国际化
   json_serializable: ^6.5.4 # json序列化
   source_gen: ^1.2.6 # 让工具生成的代码忽视lints
 # For information on the generic Dart part of this file, see the

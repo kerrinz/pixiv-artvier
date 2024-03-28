@@ -12,7 +12,7 @@ part of 'pixivision_webview_page_arguments.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PixivisionWebViewPageArguments {
@@ -85,25 +85,25 @@ class _$PixivisionWebViewPageArgumentsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PixivisionWebViewPageArgumentsCopyWith<$Res>
+abstract class _$$PixivisionWebViewPageArgumentsImplCopyWith<$Res>
     implements $PixivisionWebViewPageArgumentsCopyWith<$Res> {
-  factory _$$_PixivisionWebViewPageArgumentsCopyWith(
-          _$_PixivisionWebViewPageArguments value,
-          $Res Function(_$_PixivisionWebViewPageArguments) then) =
-      __$$_PixivisionWebViewPageArgumentsCopyWithImpl<$Res>;
+  factory _$$PixivisionWebViewPageArgumentsImplCopyWith(
+          _$PixivisionWebViewPageArgumentsImpl value,
+          $Res Function(_$PixivisionWebViewPageArgumentsImpl) then) =
+      __$$PixivisionWebViewPageArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String language, int id, String title, String coverUrl});
 }
 
 /// @nodoc
-class __$$_PixivisionWebViewPageArgumentsCopyWithImpl<$Res>
+class __$$PixivisionWebViewPageArgumentsImplCopyWithImpl<$Res>
     extends _$PixivisionWebViewPageArgumentsCopyWithImpl<$Res,
-        _$_PixivisionWebViewPageArguments>
-    implements _$$_PixivisionWebViewPageArgumentsCopyWith<$Res> {
-  __$$_PixivisionWebViewPageArgumentsCopyWithImpl(
-      _$_PixivisionWebViewPageArguments _value,
-      $Res Function(_$_PixivisionWebViewPageArguments) _then)
+        _$PixivisionWebViewPageArgumentsImpl>
+    implements _$$PixivisionWebViewPageArgumentsImplCopyWith<$Res> {
+  __$$PixivisionWebViewPageArgumentsImplCopyWithImpl(
+      _$PixivisionWebViewPageArgumentsImpl _value,
+      $Res Function(_$PixivisionWebViewPageArgumentsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -114,7 +114,7 @@ class __$$_PixivisionWebViewPageArgumentsCopyWithImpl<$Res>
     Object? title = null,
     Object? coverUrl = null,
   }) {
-    return _then(_$_PixivisionWebViewPageArguments(
+    return _then(_$PixivisionWebViewPageArgumentsImpl(
       language: null == language
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
@@ -137,9 +137,9 @@ class __$$_PixivisionWebViewPageArgumentsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PixivisionWebViewPageArguments
+class _$PixivisionWebViewPageArgumentsImpl
     implements _PixivisionWebViewPageArguments {
-  const _$_PixivisionWebViewPageArguments(
+  const _$PixivisionWebViewPageArgumentsImpl(
       {required this.language,
       required this.id,
       required this.title,
@@ -167,10 +167,10 @@ class _$_PixivisionWebViewPageArguments
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PixivisionWebViewPageArguments &&
+            other is _$PixivisionWebViewPageArgumentsImpl &&
             (identical(other.language, language) ||
                 other.language == language) &&
             (identical(other.id, id) || other.id == id) &&
@@ -185,9 +185,10 @@ class _$_PixivisionWebViewPageArguments
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PixivisionWebViewPageArgumentsCopyWith<_$_PixivisionWebViewPageArguments>
-      get copyWith => __$$_PixivisionWebViewPageArgumentsCopyWithImpl<
-          _$_PixivisionWebViewPageArguments>(this, _$identity);
+  _$$PixivisionWebViewPageArgumentsImplCopyWith<
+          _$PixivisionWebViewPageArgumentsImpl>
+      get copyWith => __$$PixivisionWebViewPageArgumentsImplCopyWithImpl<
+          _$PixivisionWebViewPageArgumentsImpl>(this, _$identity);
 }
 
 abstract class _PixivisionWebViewPageArguments
@@ -196,7 +197,7 @@ abstract class _PixivisionWebViewPageArguments
       {required final String language,
       required final int id,
       required final String title,
-      required final String coverUrl}) = _$_PixivisionWebViewPageArguments;
+      required final String coverUrl}) = _$PixivisionWebViewPageArgumentsImpl;
 
   @override
 
@@ -216,6 +217,7 @@ abstract class _PixivisionWebViewPageArguments
   String get coverUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_PixivisionWebViewPageArgumentsCopyWith<_$_PixivisionWebViewPageArguments>
+  _$$PixivisionWebViewPageArgumentsImplCopyWith<
+          _$PixivisionWebViewPageArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
