@@ -16,9 +16,8 @@ import 'package:artvier/pages/search/result/provider/search_filters_provider.dar
 class SearchResultPage extends ConsumerStatefulWidget {
   final String label; // 搜索文本内容
 
-  const SearchResultPage(Object arguments, {Key? key})
-      : label = arguments as String,
-        super(key: key);
+  const SearchResultPage(Object arguments, {super.key})
+      : label = arguments as String;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => SearchResultPageState();

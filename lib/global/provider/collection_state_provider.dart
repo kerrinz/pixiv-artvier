@@ -41,11 +41,11 @@ final globalNovelCollectionStateChangedProvider = StateProvider<CollectStateChan
 /// 收藏状态
 class CollectNotifier extends BaseStateNotifier<CollectState> {
   CollectNotifier(
-    CollectState state, {
+    super.state, {
     required super.ref,
     required this.worksId,
     required this.worksType,
-  }) : super(state);
+  });
 
   final String worksId;
 

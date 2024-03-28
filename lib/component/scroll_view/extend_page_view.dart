@@ -147,11 +147,10 @@ class ExpandablePageView extends StatefulWidget {
     this.scrollBehavior,
     this.scrollDirection = Axis.horizontal,
     this.padEnds = true,
-    Key? key,
+    super.key,
   })  : assert(estimatedPageSize >= 0.0),
         itemBuilder = null,
-        itemCount = null,
-        super(key: key);
+        itemCount = null;
 
   const ExpandablePageView.builder({
     required int this.itemCount,
@@ -173,10 +172,9 @@ class ExpandablePageView extends StatefulWidget {
     this.scrollBehavior,
     this.scrollDirection = Axis.horizontal,
     this.padEnds = true,
-    Key? key,
+    super.key,
   })  : assert(estimatedPageSize >= 0.0),
-        children = null,
-        super(key: key);
+        children = null;
 
   @override
   State<ExpandablePageView> createState() => _ExpandablePageViewState();

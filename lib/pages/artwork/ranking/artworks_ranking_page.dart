@@ -7,7 +7,7 @@ import 'package:artvier/pages/artwork/ranking/artworks_tabpage.dart';
 import 'package:artvier/config/ranking_mode_constants.dart';
 
 class ArtworksRankingPage extends BaseStatefulPage {
-  const ArtworksRankingPage({Key? key}) : super(key: key);
+  const ArtworksRankingPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => ArtworksRankingPageState();

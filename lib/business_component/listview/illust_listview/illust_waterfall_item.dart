@@ -10,7 +10,7 @@ import 'package:artvier/config/enums.dart';
 
 class IllustWaterfallItem extends ConsumerStatefulWidget {
   const IllustWaterfallItem({
-    Key? key,
+    super.key,
     required this.worksId,
     required this.imageUrl,
     required this.imageWidth,
@@ -21,7 +21,7 @@ class IllustWaterfallItem extends ConsumerStatefulWidget {
     required this.collectState,
     required this.onTap,
     this.onTapCollect,
-  }) : super(key: key);
+  });
 
   final String worksId;
 

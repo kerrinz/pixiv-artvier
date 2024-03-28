@@ -38,7 +38,7 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
   late final WidgetRef ref;
 
   IllustWaterfallGridView({
-    Key? key,
+    super.key,
     required this.artworkList,
     required this.onLazyload,
     this.lazyloadState,
@@ -48,7 +48,7 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
     this.scrollController,
     this.physics,
     this.padding = const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

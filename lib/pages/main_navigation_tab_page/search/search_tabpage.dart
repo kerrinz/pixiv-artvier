@@ -11,7 +11,7 @@ import 'package:artvier/pages/main_navigation_tab_page/search/provider/trend_tag
 import 'package:artvier/routes.dart';
 
 class SearchTabPage extends BaseStatefulPage {
-  const SearchTabPage({Key? key}) : super(key: key);
+  const SearchTabPage({super.key});
 
   @override
   BasePageState<BaseStatefulPage> createState() {

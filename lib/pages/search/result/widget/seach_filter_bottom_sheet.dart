@@ -6,8 +6,8 @@ import 'package:artvier/pages/search/result/provider/search_filters_provider.dar
 
 class SearchFilterBottomSheet extends ConsumerStatefulWidget {
   const SearchFilterBottomSheet({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SearchFilterBottomSheetState();

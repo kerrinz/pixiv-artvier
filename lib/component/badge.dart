@@ -7,12 +7,12 @@ class MyBadge extends StatelessWidget {
   final EdgeInsets? padding;
 
   const MyBadge({
-    Key? key,
+    super.key,
     required this.child,
     this.color,
     this.onTap,
     this.padding = const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

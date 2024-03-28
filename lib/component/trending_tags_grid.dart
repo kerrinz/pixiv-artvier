@@ -9,7 +9,7 @@ import 'package:artvier/routes.dart';
 class TrendingTagsGrid extends StatefulWidget {
   final List<TrendTags> tags;
 
-  const TrendingTagsGrid({Key? key, required this.tags}) : super(key: key);
+  const TrendingTagsGrid({super.key, required this.tags});
 
   @override
   State<StatefulWidget> createState() => TrendingTagsGridState();

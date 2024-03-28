@@ -36,7 +36,7 @@ beforeRunApp() async {}
 
 // 初始化一些APP全局设定，不加载内容
 class MyApp extends ConsumerStatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => MyAppState();

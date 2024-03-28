@@ -10,9 +10,8 @@ class CommentsPage extends BaseStatefulPage {
   /// 作品id
   final String worksId;
 
-  const CommentsPage(Object arguments, {Key? key})
-      : worksId = arguments as String,
-        super(key: key);
+  const CommentsPage(Object arguments, {super.key})
+      : worksId = arguments as String;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {

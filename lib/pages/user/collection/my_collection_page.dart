@@ -12,9 +12,8 @@ import 'package:artvier/pages/user/collection/tabpage/novels_tabpage.dart';
 class MyBookmarksPage extends BaseStatefulPage {
   final String userId;
 
-  const MyBookmarksPage(Object arguments, {Key? key})
-      : userId = arguments as String,
-        super(key: key);
+  const MyBookmarksPage(Object arguments, {super.key})
+      : userId = arguments as String;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MyCollectionsState();

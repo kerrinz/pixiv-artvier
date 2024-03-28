@@ -10,7 +10,7 @@ import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.d
 import 'package:artvier/routes.dart';
 
 class DownloadManagePage extends BaseStatefulPage {
-  const DownloadManagePage({Key? key}) : super(key: key);
+  const DownloadManagePage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => DownloadManagePageState();

@@ -18,7 +18,7 @@ import 'package:artvier/pages/main_navigation_tab_page/home/provider/home_provid
 import 'package:artvier/routes.dart';
 
 class HomePage extends BaseStatefulPage {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => HomePageState();

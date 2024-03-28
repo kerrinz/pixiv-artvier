@@ -4,10 +4,10 @@ import 'package:flutter/widgets.dart';
 class LayoutLogPrint<T> extends StatelessWidget {
   /// This widget is quoted from https://book.flutterchina.club/chapter4/layoutbuilder.html#_4-8-1-layoutbuilder
   const LayoutLogPrint({
-    Key? key,
+    super.key,
     this.tag,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final T? tag; //指定日志tag
@@ -30,10 +30,10 @@ class LayoutLogPrint<T> extends StatelessWidget {
 class SliverLayoutLogPrint<T> extends StatelessWidget {
   /// This widget is quoted from https://book.flutterchina.club/chapter4/layoutbuilder.html#_4-8-1-layoutbuilder
   const SliverLayoutLogPrint({
-    Key? key,
+    super.key,
     this.tag,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final T? tag; //指定日志tag

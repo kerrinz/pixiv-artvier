@@ -66,7 +66,7 @@ class EnhanceNetworkImage extends StatefulWidget {
   final bool enableMemoryCache;
 
   const EnhanceNetworkImage({
-    Key? key,
+    super.key,
     required this.image,
     this.width,
     this.height,
@@ -82,7 +82,7 @@ class EnhanceNetworkImage extends StatefulWidget {
     // this.fadeOutCurve = Curves.easeOut,
     this.fadeInDuration = const Duration(milliseconds: 500),
     this.fadeInCurve = Curves.easeIn,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _EnhanceNetworkImageState();

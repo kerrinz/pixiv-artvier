@@ -9,7 +9,7 @@ import 'package:artvier/routes.dart';
 
 /// app启动的加载过渡页面，载入一些数据
 class BootingPage extends ConsumerStatefulWidget {
-  const BootingPage({Key? key}) : super(key: key);
+  const BootingPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => BootingPageState();

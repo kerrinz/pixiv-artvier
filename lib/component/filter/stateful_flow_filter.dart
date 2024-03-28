@@ -16,7 +16,7 @@ enum FilterMode {
 
 abstract class FlowFilterStatefulWidget extends StatefulWidget {
   FlowFilterStatefulWidget({
-    Key? key,
+    super.key,
     this.initialIndexes = const {0},
     required this.itemCount,
     this.maxSelectedCount,
@@ -26,8 +26,7 @@ abstract class FlowFilterStatefulWidget extends StatefulWidget {
     this.spacing = 0,
     this.runSpacing = 0,
   })  : assert(maxSelectedCount == null || (0 < maxSelectedCount && maxSelectedCount <= itemCount)),
-        assert(initialIndexes.every((int item) => 0 <= item && item < itemCount)),
-        super(key: key);
+        assert(initialIndexes.every((int item) => 0 <= item && item < itemCount));
 
   /// 初始化时被选择的索引，范围：[0 ~ unselectedWidgets.length]
   final Set<int> initialIndexes;
@@ -122,28 +121,20 @@ class _FlowFilterStatefulWidgetState extends State<FlowFilterStatefulWidget> {
 /// 需要自定义内容和样式的过滤器组件，所有待选项均同时显示；支持流式布局
 class CustomFlowFilter extends FlowFilterStatefulWidget {
   CustomFlowFilter({
-    Key? key,
-    Set<int> initialIndexes = const {0},
+    super.key,
+    super.initialIndexes,
     required this.selectedWidgets,
     required this.unselectedWidgets,
-    required IndexesChanged onTap,
-    FilterMode filterMode = FilterMode.single,
-    int? maxSelectedCount,
-    Axis direction = Axis.horizontal,
-    double spacing = 0,
-    double runSpacing = 0,
+    required super.onTap,
+    super.filterMode,
+    super.maxSelectedCount,
+    super.direction,
+    super.spacing,
+    super.runSpacing,
   })  : assert(selectedWidgets.length == unselectedWidgets.length),
         assert(unselectedWidgets.isNotEmpty),
         super(
-          key: key,
-          initialIndexes: initialIndexes,
           itemCount: unselectedWidgets.length,
-          maxSelectedCount: maxSelectedCount,
-          filterMode: filterMode,
-          onTap: onTap,
-          direction: direction,
-          spacing: spacing,
-          runSpacing: runSpacing,
         );
 
   final List<Widget> selectedWidgets;
@@ -173,15 +164,15 @@ class StatefulTextFlowFilter extends FlowFilterStatefulWidget {
   final BorderRadius? textBorderRadius;
 
   StatefulTextFlowFilter({
-    Key? key,
-    Set<int> initialIndexes = const {0},
+    super.key,
+    super.initialIndexes,
     required this.texts,
-    required IndexesChanged onTap,
-    int? maxSelectedCount,
-    FilterMode filterMode = FilterMode.single,
-    Axis direction = Axis.horizontal,
-    double spacing = 2,
-    double runSpacing = 0,
+    required super.onTap,
+    super.maxSelectedCount,
+    super.filterMode,
+    super.direction,
+    super.spacing = 2,
+    super.runSpacing,
     this.selectedTextStyle,
     this.unselectedTextStyle,
     this.selectedBackground,
@@ -190,15 +181,7 @@ class StatefulTextFlowFilter extends FlowFilterStatefulWidget {
     this.textBorder,
     this.textBorderRadius = const BorderRadius.all(Radius.circular(4)),
   }) : super(
-          key: key,
-          initialIndexes: initialIndexes,
           itemCount: texts.length,
-          filterMode: filterMode,
-          onTap: onTap,
-          maxSelectedCount: maxSelectedCount,
-          direction: direction,
-          spacing: spacing,
-          runSpacing: runSpacing,
         );
 
   @override

@@ -19,9 +19,8 @@ class IllustPixivisionPage extends BaseStatefulPage {
   /// 图片链接列表（每项含有多种画质链接）
   final PixivisionWebViewPageArguments arguments;
 
-  const IllustPixivisionPage(Object arg, {Key? key})
-      : arguments = arg as PixivisionWebViewPageArguments,
-        super(key: key);
+  const IllustPixivisionPage(Object arg, {super.key})
+      : arguments = arg as PixivisionWebViewPageArguments;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => __IllustPixivisionPageState();

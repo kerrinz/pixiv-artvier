@@ -25,15 +25,14 @@ class AdvancedCollectingBottomSheet extends ConsumerStatefulWidget {
   static const maxSelectedTags = 10;
 
   const AdvancedCollectingBottomSheet({
-    Key? key,
+    super.key,
     required this.isCollected,
     required this.worksId,
     required this.worksType,
   })  : assert(
           worksType == WorksType.illust || worksType == WorksType.novel,
           "Only support for illust and novel, manga must be replaced by illust.",
-        ),
-        super(key: key);
+        );
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AdvancedCollectingBottomSheetState();

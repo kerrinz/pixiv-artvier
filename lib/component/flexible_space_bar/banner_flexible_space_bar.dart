@@ -11,25 +11,20 @@ class BannerFlexibleSpaceBar extends FlexibleSpaceBar {
   final List<Widget>? children;
 
   const BannerFlexibleSpaceBar({
-    Key? key,
+    super.key,
     required this.bannerHeight,
 
     /// banner widget in [Positioned]
     Widget? banner,
     this.children,
     this.bottomExtentChild,
-    Widget? title,
-    EdgeInsetsGeometry? titlePadding,
-    CollapseMode collapseMode = CollapseMode.parallax,
-    List<StretchMode> stretchModes = const <StretchMode>[StretchMode.zoomBackground],
+    super.title,
+    super.titlePadding,
+    super.collapseMode,
+    super.stretchModes,
   })  : assert(bannerHeight >= 0),
         super(
-          key: key,
-          title: title,
-          titlePadding: titlePadding,
           background: banner,
-          collapseMode: collapseMode,
-          stretchModes: stretchModes,
         );
 
   @override

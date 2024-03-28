@@ -9,7 +9,7 @@ import 'package:artvier/pages/main_navigation_tab_page/newest/newest_tabpage.dar
 import 'package:artvier/pages/main_navigation_tab_page/search/search_tabpage.dart';
 
 class MainNavigation extends StatefulWidget {
-  const MainNavigation({Key? key}) : super(key: key);
+  const MainNavigation({super.key});
 
   @override
   State<StatefulWidget> createState() {

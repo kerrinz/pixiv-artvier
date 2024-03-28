@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 /// 建议搭配偏好设置组[PerferenceGroupWidget]一起使用，即使只有一个设置项
 class PerferenceItem extends StatelessWidget {
   const PerferenceItem({
-    Key? key,
+    super.key,
     this.icon,
     required this.text,
     this.value,
     this.onTap,
     this.borderRadius = BorderRadius.zero,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
 

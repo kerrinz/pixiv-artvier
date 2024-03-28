@@ -13,14 +13,14 @@ class BottomSheetSlideBar extends StatelessWidget {
   final BorderRadiusGeometry borderRadius;
 
   const BottomSheetSlideBar({
-    Key? key,
+    super.key,
     this.width = 32.0,
     this.height = 4.0,
     this.padding = const EdgeInsets.symmetric(vertical: 8.0),
     this.color,
     this.alignment = Alignment.center,
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

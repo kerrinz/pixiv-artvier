@@ -14,13 +14,13 @@ class PerferenceSingleChoisePanel extends StatelessWidget {
   final OnSelectCallback onSelect;
 
   const PerferenceSingleChoisePanel({
-    Key? key,
+    super.key,
     required this.title,
     this.caption,
     required this.widgets,
     required this.onSelect,
     this.selectedindex,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -16,8 +16,8 @@ import 'package:artvier/pages/user/collection/widget/tag_listview.dart';
 /// 我的收藏页面的筛选弹窗
 class CollectionsFilterSheet extends ConsumerWidget {
   CollectionsFilterSheet({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// 所有的 [Restrict] 选项
   final restrictOptions = [Restrict.public, Restrict.private];

@@ -35,7 +35,7 @@ class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogi
   late final WidgetRef ref;
 
   NovelListView({
-    Key? key,
+    super.key,
     required this.novelList,
     required this.onLazyload,
     this.lazyloadState,
@@ -45,7 +45,7 @@ class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogi
     this.scrollController,
     this.physics,
     this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

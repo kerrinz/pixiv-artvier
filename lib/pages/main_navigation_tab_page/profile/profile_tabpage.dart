@@ -17,7 +17,7 @@ import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/th
 import 'package:artvier/routes.dart';
 
 class ProfileTabPage extends ConsumerStatefulWidget {
-  const ProfileTabPage({Key? key}) : super(key: key);
+  const ProfileTabPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => ProfileTabPageState();

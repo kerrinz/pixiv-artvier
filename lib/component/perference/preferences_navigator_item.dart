@@ -6,8 +6,7 @@ class PreferencesNavigatorItem extends StatelessWidget {
   final Function()? onTap;
   final EdgeInsetsGeometry? padding;
 
-  const PreferencesNavigatorItem({Key? key, required this.text, this.icon, this.onTap, this.padding})
-      : super(key: key);
+  const PreferencesNavigatorItem({super.key, required this.text, this.icon, this.onTap, this.padding});
 
   @override
   Widget build(BuildContext context) {

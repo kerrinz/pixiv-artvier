@@ -24,9 +24,8 @@ class UserDetailPage extends BaseStatefulPage {
   /// 用户信息（精简版）
   final PreloadUserLeastInfo leastInfo;
 
-  const UserDetailPage(Object arguments, {Key? key})
-      : leastInfo = arguments as PreloadUserLeastInfo,
-        super(key: key);
+  const UserDetailPage(Object arguments, {super.key})
+      : leastInfo = arguments as PreloadUserLeastInfo;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {

@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 登录引导页面，未登录、添加帐号会跳转到这里
 class LoginWizardPage extends BasePage {
-  const LoginWizardPage({Key? key}) : super(key: key);
+  const LoginWizardPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

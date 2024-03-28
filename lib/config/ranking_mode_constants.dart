@@ -1,6 +1,5 @@
 /// 排行榜的模式
-/// */
-
+///
 /// 插画排行模式
 class IllustRankingMode {
   static const String daily = "day";

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SettingDownload extends StatefulWidget {
-  const SettingDownload({Key? key}) : super(key: key);
+  const SettingDownload({super.key});
 
   @override
   State<StatefulWidget> createState() => SettingDownloadState();

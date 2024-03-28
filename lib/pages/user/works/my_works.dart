@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyWorksPage extends StatefulWidget {
-  const MyWorksPage(Object? arguments, {Key? key}) : super(key: key);
+  const MyWorksPage(Object? arguments, {super.key});
 
   @override
   State<StatefulWidget> createState() => _MyBookmarksState();

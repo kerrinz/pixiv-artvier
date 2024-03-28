@@ -31,14 +31,14 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
   @override
   late final WidgetRef ref;
   CommentListView({
-    Key? key,
+    super.key,
     required this.commentList,
     required this.onLazyload,
     this.lazyloadState,
     this.scrollController,
     this.physics,
     this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
