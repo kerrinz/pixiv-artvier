@@ -110,7 +110,7 @@ abstract class DownloadTask {
         if (onFailed != null) onFailed!(result.statusCode);
       }
     } catch (e) {
-      if (e is DioError && e.type == DioErrorType.cancel) return;
+      if (e is DioException && e.type == DioExceptionType.cancel) return;
       _state = DownloadState.failed;
       if (onError != null) onError!(e);
     }

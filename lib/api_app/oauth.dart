@@ -79,9 +79,9 @@ class OAuth {
 
   static BaseOptions get baseOptions => BaseOptions(
         baseUrl: 'https://${HttpBaseOptions.oauthHost}',
-        connectTimeout: 10000,
-        receiveTimeout: 10000,
-        sendTimeout: 10000,
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+        sendTimeout: const Duration(seconds: 10),
         contentType: Headers.jsonContentType,
         headers: HttpBaseOptions.oauthHeaders,
       );
