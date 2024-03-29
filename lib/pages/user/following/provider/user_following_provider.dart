@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/api_user.dart';
 import 'package:artvier/base/base_provider/base_notifier.dart';
 import 'package:artvier/config/enums.dart';
-import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/user/common_user_previews.dart';
 
 /// 关注列表的筛选
@@ -37,14 +36,9 @@ class UserFollowingNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonUser
   Future<List<CommonUserPreviews>> fetch() async {
     var restrict = ref.watch(userFollowingFilterProvider(userId));
 
-    try {
-      var result = await ApiUser(requester).userFollowings(userId, restrict: restrict, cancelToken: _cancelToken);
-      nextUrl = result.nextUrl;
-      return result.userPreviews;
-    } catch (e) {
-      if (!(e is DioError && e.type == DioErrorType.cancel)) logger.e(e);
-      rethrow;
-    }
+    var result = await ApiUser(requester).userFollowings(userId, restrict: restrict, cancelToken: _cancelToken);
+    nextUrl = result.nextUrl;
+    return result.userPreviews;
   }
 
   /// 失败后的重试，或者用于重新加载

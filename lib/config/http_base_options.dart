@@ -14,9 +14,9 @@ class HttpBaseOptions {
   static const String pixivisionIp = "210.140.92.186";
 
   // 时间单位：毫秒 ms
-  static const int connectTimeout = 12000;
-  static const int receiveTimeout = 12000;
-  static const int sendTimeout = 12000;
+  static const Duration connectTimeout = Duration(seconds: 10);
+  static const Duration receiveTimeout = Duration(seconds: 10);
+  static const Duration sendTimeout = Duration(seconds: 10);
 
   static const Map<String, String> baseHeaders = {
     "User-Agent": "PixivIOSApp/7.12.5 (iOS 14.6; iPhone11,2)",

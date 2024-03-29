@@ -15,7 +15,7 @@ class DownloadUtil {
     required String savePath,
     ProgressCallback? onReceiveProgress,
     void Function()? done,
-    void Function(DioError)? failed,
+    void Function(DioException)? failed,
   }) async {
     int startBytes = 0;
     bool fileExists = false;
@@ -65,7 +65,7 @@ class DownloadUtil {
         onError: (e) async {
           await raf.close();
           downloadingUrls.remove(url);
-          failed?.call(e as DioError);
+          failed?.call(e as DioException);
         },
         cancelOnError: true,
       );
@@ -73,7 +73,7 @@ class DownloadUtil {
         await subscription?.cancel();
         await raf.close();
       });
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       /// 请求已发出，服务器用状态代码响应它不在200的范围内
       if (CancelToken.isCancel(error)) {
         logger.i("下载取消");

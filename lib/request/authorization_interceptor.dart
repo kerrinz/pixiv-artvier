@@ -27,7 +27,7 @@ class AuthorizationInterceptor extends InterceptorsWrapper {
         // 正常发起请求
         handler.next(options); // continue
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       logger.e(e);
       handler.reject(e); // reject if error
     } catch (e) {
@@ -36,9 +36,9 @@ class AuthorizationInterceptor extends InterceptorsWrapper {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     try {
-      if (err.type == DioErrorType.cancel) {
+      if (err.type == DioExceptionType.cancel) {
         logger.i(err.type);
       } else {
         // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
