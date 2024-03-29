@@ -33,7 +33,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   date_format: ^2.0.2
-  dio: ^4.0.0 
+  dio: ^5.4.2+1
   extended_image: ^8.0.2 # 图片
   extended_nested_scroll_view: ^6.0.0
 #  flutter_downloader: 1.7.0 # 文件下载
