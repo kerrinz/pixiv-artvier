@@ -5,20 +5,19 @@ class IllustRankingMode {
   static const String daily = "day";
   static const String dailyMale = "day_male";
   static const String dailyFemale = "day_female";
+  static const String dayAi = "day_ai";
   static const String weekly = "week";
   /// 原创榜
   static const String weeklyOriginal = "week_original";
   /// 新人榜
   static const String weeklyRookie = "week_rookie";
   static const String monthly = "month";
-  /// 必须指定日期
+  // 以下必须指定日期
   static const String dailyR18 = "day_r18";
-  /// 必须指定日期
-  static const String weeklyR18 = "week_r18";
-  /// 必须指定日期
+  static const String dailyR18Ai = "day_r18_ai";
   static const String dailyMaleR18 = "day_male_r18";
-  /// 必须指定日期
   static const String dailyFemaleR18 = "day_female_r18";
+  static const String weeklyR18 = "week_r18";
 }
 
 /// 漫画排行模式

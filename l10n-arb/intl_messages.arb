@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-03-31T18:50:26.721221",
+  "@@last_modified": "2024-03-31T23:17:42.547112",
   "tokenLogin": "Token login",
   "@tokenLogin": {
     "description": "Button and title of login by token",
@@ -633,6 +633,84 @@
   "tagsReachedMaximun": "Maximum number of tags reached!",
   "@tagsReachedMaximun": {
     "description": "Prompt when no more tags are allowed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingDaily": "Daily",
+  "@rankingDaily": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingWeekly": "Weekly",
+  "@rankingWeekly": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingMonthly": "Monthly",
+  "@rankingMonthly": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingMale": "Male",
+  "@rankingMale": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingFemale": "Female",
+  "@rankingFemale": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingOriginal": "Original",
+  "@rankingOriginal": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingRookie": "Rookie",
+  "@rankingRookie": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingAiGenerated": "AI-generated",
+  "@rankingAiGenerated": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingR18AiGenerated": "R-18 AI-generated",
+  "@rankingR18AiGenerated": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingR18Daily": "R18 Daily",
+  "@rankingR18Daily": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingR18Weekly": "R18 Weekly",
+  "@rankingR18Weekly": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingR18Male": "R18 Male",
+  "@rankingR18Male": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingR18Female": "R18 Female",
+  "@rankingR18Female": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   }
