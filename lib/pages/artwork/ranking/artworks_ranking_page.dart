@@ -23,27 +23,32 @@ class ArtworksRankingPageState extends BasePageState<ArtworksRankingPage>
   ScrollController get scrollController => _scrollController;
 
   // tab分页的对应模式与字段
-  final Map<String, String> _tabsMap = {
-    IllustRankingMode.daily: "每日",
-    IllustRankingMode.weekly: "每周",
-    IllustRankingMode.monthly: "每月",
-    IllustRankingMode.dailyMale: "男性向",
-    IllustRankingMode.dailyFemale: "女性向",
-    IllustRankingMode.weeklyOriginal: "原创",
-    IllustRankingMode.weeklyRookie: "新人",
-    IllustRankingMode.dailyR18: "每日R18",
-    IllustRankingMode.weeklyR18: "每周R18",
-  };
+  late Map<String, String> _tabsMap;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(initialIndex: 0, length: _tabsMap.length, vsync: this);
+    _tabController = TabController(initialIndex: 0, length: 13, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     _scrollController = PrimaryScrollController.of(context);
+    _tabsMap = {
+      IllustRankingMode.daily: i10n.rankingDaily,
+      IllustRankingMode.weekly: i10n.rankingWeekly,
+      IllustRankingMode.monthly: i10n.rankingMonthly,
+      IllustRankingMode.dailyMale: i10n.rankingMale,
+      IllustRankingMode.dailyFemale: i10n.rankingFemale,
+      IllustRankingMode.weeklyOriginal: i10n.rankingOriginal,
+      IllustRankingMode.weeklyRookie: i10n.rankingRookie,
+      IllustRankingMode.dayAi: i10n.rankingAiGenerated,
+      IllustRankingMode.dailyR18: i10n.rankingR18Daily,
+      IllustRankingMode.weeklyR18: i10n.rankingR18Weekly,
+      IllustRankingMode.dailyR18Ai: i10n.rankingR18AiGenerated,
+      IllustRankingMode.dailyMaleR18: i10n.rankingR18Male,
+      IllustRankingMode.dailyFemaleR18: i10n.rankingR18Female,
+    };
     return Scaffold(
       body: ExtendedNestedScrollView(
         floatHeaderSlivers: true,
