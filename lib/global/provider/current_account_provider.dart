@@ -42,6 +42,8 @@ class CurrentAccountNotifier extends StateNotifier<AccountProfile?> {
       var newProfile = await OAuth(ref).refreshToken(profile.refreshToken);
       // 保存并使用新帐号信息
       await OAuth(ref).saveAndLoginToken(newProfile);
+      // 更新登录状态
+      state = newProfile;
     } catch (e) {
       logger.e(e);
     }
@@ -54,10 +56,12 @@ class CurrentAccountNotifier extends StateNotifier<AccountProfile?> {
       var newProfile = await OAuth(ref).refreshToken(refreshToken);
       // 保存并使用新帐号信息
       await OAuth(ref).saveAndLoginToken(newProfile);
+      // 更新登录状态
+      state = newProfile;
       return true;
     } catch (e) {
       logger.e(e);
-      return false;
+      rethrow;
     }
   }
 

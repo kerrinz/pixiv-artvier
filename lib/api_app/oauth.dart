@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 import 'dart:convert';
 import 'dart:math';
 
@@ -9,7 +7,6 @@ import 'package:crypto/crypto.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/global/provider/shared_preferences_provider.dart';
 import 'package:artvier/storage/model/account_profile.dart';
 import 'package:artvier/request/http_requester.dart';
@@ -63,17 +60,17 @@ class OAuth {
   // 刷新token
   static const String grantTypeRefresh = "refresh_token";
 
-  // 登录链接参数 client=pixiv-ios 专用:
-  static const String clientId = "KzEZED7aC0vird8jWyHM38mXjNTY";
-  static const String clientSecret = "W9JZoJe00qPvJsiyCGT3CCtC6ZUtdpKpzMbNlUGP";
-  static const String refreshClientId = "KzEZED7aC0vird8jWyHM38mXjNTY";
-  static const String refreshClientSecret = "W9JZoJe00qPvJsiyCGT3CCtC6ZUtdpKpzMbNlUGP";
+  // 鉴权公钥
+  static get clientId => androidClientId;
+  static get clientSecret => androidClientSecret;
 
-  // 登录链接参数 client=pixiv-android 专用:
-  // static const String CLIENT_ID = "MOBrBDS8blbauoSck0ZfDbtuzpyT";
-  // static const String CLIENT_SECRET = "lsACyCD94FhDUtGTXi3QzcFE2uU1hqtDaKeqrdwj";
-  // static const String REFRESH_CLIENT_ID = "KzEZED7aC0vird8jWyHM38mXjNTY";
-  // static const String REFRESH_CLIENT_SECRET = "W9JZoJe00qPvJsiyCGT3CCtC6ZUtdpKpzMbNlUGP";
+  // pixiv-ios 鉴权公钥
+  static const String iosClientId = "KzEZED7aC0vird8jWyHM38mXjNTY";
+  static const String iosClientSecret = "W9JZoJe00qPvJsiyCGT3CCtC6ZUtdpKpzMbNlUGP";
+
+  // pixiv-android 鉴权公钥
+  static const String androidClientId = "MOBrBDS8blbauoSck0ZfDbtuzpyT";
+  static const String androidClientSecret = "lsACyCD94FhDUtGTXi3QzcFE2uU1hqtDaKeqrdwj";
 
   static late int requestTime; // 发起请求的时间戳，(用于标记token过期时间？)
 
@@ -89,7 +86,7 @@ class OAuth {
   // 获取登录链接
   static String getLoginWebViewUrl(String codeVerifier) {
     String codeChallenge = codeVerifierToChallenge(codeVerifier: codeVerifier);
-    return "https://app-api.pixiv.net/web/v1/login?code_challenge=$codeChallenge&code_challenge_method=S256&client=pixiv-ios";
+    return "https://app-api.pixiv.net/web/v1/login?code_challenge=$codeChallenge&code_challenge_method=S256&client=pixiv-android";
   }
 
   /// 请求token（含用户数据）
@@ -125,8 +122,8 @@ class OAuth {
       "/auth/token",
       data: {
         "refresh_token": refreshToken,
-        "client_id": refreshClientId,
-        "client_secret": refreshClientSecret,
+        "client_id": clientId,
+        "client_secret": clientSecret,
         "include_policy": "true",
         "grant_type": grantTypeRefresh,
       },
@@ -151,9 +148,6 @@ class OAuth {
     // 存储或更新账号信息
     await saveTokenToLocalStorage(profile);
     await AccountStorage(ref.read(globalSharedPreferencesProvider)).setCurrentAccountId(profile.user.id.toString());
-
-    // 更新全局登录状态
-    ref.invalidate(globalCurrentAccountProvider);
   }
 
   /// 生成code_verifier，即生成随机字符串并进行base64Url处理

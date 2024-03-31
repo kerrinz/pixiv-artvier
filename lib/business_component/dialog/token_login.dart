@@ -1,5 +1,6 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';
+import 'package:artvier/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -30,7 +31,7 @@ class _TokenLoginDialogState extends BasePageState<TokenLoginDialog> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("refresh_token:", style: textTheme.titleMedium),
+            Text("token:", style: textTheme.titleMedium),
             TextField(
               autofocus: false,
               controller: _refreshTokenController,
@@ -58,19 +59,23 @@ class _TokenLoginDialogState extends BasePageState<TokenLoginDialog> {
                   : Text(i10n.login);
             },
           ),
-          onPressed: () async {
+          onPressed: () {
             if (isLoading.value) return;
             isLoading.value = true;
-            bool result =
-                await ref.read(globalCurrentAccountProvider.notifier).loginByRefreshToken(_refreshTokenController.text);
-            isLoading.value = false;
-            if (result && context.mounted) {
-              Navigator.of(context).pop();
-              Fluttertoast.showToast(msg: i10n.addCollectSucceed);
-            }
-            if (!result) {
-              Fluttertoast.showToast(msg: i10n.loginFailed);
-            }
+            ref
+                .read(globalCurrentAccountProvider.notifier)
+                .loginByRefreshToken(_refreshTokenController.text)
+                .then((value) {
+              if (value && context.mounted) {
+                Fluttertoast.showToast(msg: i10n.loginSuccess);
+                Navigator.of(context).pushNamedAndRemoveUntil(RouteNames.mainNavigation.name, (route) => false);
+              }
+              if (!value) {
+                Fluttertoast.showToast(msg: i10n.loginFailed);
+              }
+            }).catchError((e) {
+              Fluttertoast.showToast(msg: i10n.loginFailed + e.toString());
+            }).whenComplete(() => isLoading.value = false);
           },
         ),
       ],
