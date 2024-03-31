@@ -21,6 +21,12 @@
     "placeholders_order": [],
     "placeholders": {}
   },
+  "loginSuccess": "登录成功!",
+  "@loginSuccess": {
+    "description": "Toast message when login success",
+    "type": "text",
+    "placeholders": {}
+  },
   "loginFailed": "登录失败！",
   "@loginFailed": {
     "description": "Toast message when login failed",
