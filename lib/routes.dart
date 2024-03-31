@@ -1,5 +1,4 @@
 import 'package:artvier/pages/artwork/pixivision/illust_pixivision_page.dart';
-import 'package:artvier/pages/artwork/pixivision/pixivision_webview_page.dart';
 import 'package:artvier/pages/settings/about/about_app_page.dart';
 import 'package:artvier/pages/settings/all_settings/all_settings_page.dart';
 import 'package:artvier/pages/settings/develop/developer_page.dart';
@@ -41,7 +40,6 @@ enum RouteNames {
 
   // 插画
   artworkDetail,
-  artworkPixivitionWebView,
   artworkPixivition,
 
   /// 作品大图预览
@@ -83,7 +81,6 @@ class Routes {
     RouteNames.ranking.name: (context, arguments) => const ArtworksRankingPage(),
     RouteNames.artworkDetail.name: (context, arguments) => ArtWorksDetailPage(arguments!),
     RouteNames.artworkImagesPreview.name: (context, arguments) => ImageViewerPage(arguments!),
-    RouteNames.artworkPixivitionWebView.name: (context, arguments) => PixivisionWebViewPage(arguments!),
     RouteNames.artworkPixivition.name: (context, arguments) => IllustPixivisionPage(arguments!),
     RouteNames.comments.name: (context, arguments) => CommentsPage(arguments!),
     RouteNames.userFollowing.name: (context, arguments) => UserFollowingPage(arguments!),
