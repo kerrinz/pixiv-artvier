@@ -56,7 +56,7 @@ dependencies:
   extended_sliver: ^2.1.3
   visibility_detector: ^0.4.0+2 # 用于判断组件是否在视口内
   waterfall_flow: ^3.0.1 # 瀑布流
-  webview_flutter: ^2.0.13
+  webview_flutter: ^4.7.0
 
 dev_dependencies:
   flutter_test:
