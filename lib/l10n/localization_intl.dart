@@ -175,6 +175,21 @@ class LocalizationIntl {
       name: 'tagAlreadyExists', desc: 'Prompt the tag already exists by add new tag');
   String get tagsReachedMaximun => Intl.message("Maximum number of tags reached!",
       name: 'tagsReachedMaximun', desc: 'Prompt when no more tags are allowed');
+
+  // 排行榜
+  String get rankingDaily => Intl.message("Daily", name: 'rankingDaily', desc: '');
+  String get rankingWeekly => Intl.message("Weekly", name: 'rankingWeekly', desc: '');
+  String get rankingMonthly => Intl.message("Monthly", name: 'rankingMonthly', desc: '');
+  String get rankingMale => Intl.message("Male", name: 'rankingMale', desc: '');
+  String get rankingFemale => Intl.message("Female", name: 'rankingFemale', desc: '');
+  String get rankingOriginal => Intl.message("Original", name: 'rankingOriginal', desc: '');
+  String get rankingRookie => Intl.message("Rookie", name: 'rankingRookie', desc: '');
+  String get rankingAiGenerated => Intl.message("AI-generated", name: 'rankingAiGenerated', desc: '');
+  String get rankingR18AiGenerated => Intl.message("R-18 AI-generated", name: 'rankingR18AiGenerated', desc: '');
+  String get rankingR18Daily => Intl.message("R18 Daily", name: 'rankingR18Daily', desc: '');
+  String get rankingR18Weekly => Intl.message("R18 Weekly", name: 'rankingR18Weekly', desc: '');
+  String get rankingR18Male => Intl.message("R18 Male", name: 'rankingR18Male', desc: '');
+  String get rankingR18Female => Intl.message("R18 Female", name: 'rankingR18Female', desc: '');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {

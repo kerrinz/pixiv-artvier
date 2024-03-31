@@ -740,5 +740,83 @@
     "type": "text",
     "placeholders_order": [],
     "placeholders": {}
+  },
+  "rankingDaily": "每日",
+  "@rankingDaily": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingWeekly": "每周",
+  "@rankingWeekly": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingMonthly": "每月",
+  "@rankingMonthly": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingMale": "男性向",
+  "@rankingMale": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingFemale": "女性向",
+  "@rankingFemale": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingOriginal": "原创",
+  "@rankingOriginal": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingRookie": "新人",
+  "@rankingRookie": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingAiGenerated": "AI生成",
+  "@rankingAiGenerated": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingR18AiGenerated": "R-18 AI生成",
+  "@rankingR18AiGenerated": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingR18Daily": "R18 每日",
+  "@rankingR18Daily": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingR18Weekly": "R18 每周",
+  "@rankingR18Weekly": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingR18Male": "R18 男性向",
+  "@rankingR18Male": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rankingR18Female": "R18 女性向",
+  "@rankingR18Female": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
   }
 }
