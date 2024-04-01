@@ -1,4 +1,5 @@
 import 'package:artvier/pages/artwork/pixivision/illust_pixivision_page.dart';
+import 'package:artvier/pages/search/expand_search/expand_search_page.dart';
 import 'package:artvier/pages/settings/about/about_app_page.dart';
 import 'package:artvier/pages/settings/all_settings/all_settings_page.dart';
 import 'package:artvier/pages/settings/develop/developer_page.dart';
@@ -50,6 +51,8 @@ enum RouteNames {
 
   userFollowing,
   userDetail,
+  /// 搜索框展开页
+  expandSearch,
   searchResult,
   myBookmarks,
   myWorks,
@@ -85,6 +88,7 @@ class Routes {
     RouteNames.comments.name: (context, arguments) => CommentsPage(arguments!),
     RouteNames.userFollowing.name: (context, arguments) => UserFollowingPage(arguments!),
     RouteNames.userDetail.name: (context, arguments) => UserDetailPage(arguments!),
+    RouteNames.expandSearch.name: (context, arguments) => const ExpandSearchPage(),
     RouteNames.searchResult.name: (context, arguments) => SearchResultPage(arguments!),
     RouteNames.myBookmarks.name: (context, arguments) => MyBookmarksPage(arguments!),
     RouteNames.myWorks.name: (context, arguments) => MyWorksPage(arguments),

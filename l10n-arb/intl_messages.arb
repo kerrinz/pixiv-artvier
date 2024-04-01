@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-03-31T23:17:42.547112",
+  "@@last_modified": "2024-04-01T23:28:43.578798",
   "tokenLogin": "Token login",
   "@tokenLogin": {
     "description": "Button and title of login by token",
@@ -711,6 +711,12 @@
   "rankingR18Female": "R18 Female",
   "@rankingR18Female": {
     "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Verb or noun of <search>",
     "type": "text",
     "placeholders": {}
   }

@@ -121,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'requestFailed': MessageLookupByLibrary.simpleMessage('Poor network, please try reloading'),
     'retryOnFailure': MessageLookupByLibrary.simpleMessage('Click to try again'),
     'scanner': MessageLookupByLibrary.simpleMessage('Scanner'),
+    'search': MessageLookupByLibrary.simpleMessage('Search'),
     'series': MessageLookupByLibrary.simpleMessage('Series'),
     'settings': MessageLookupByLibrary.simpleMessage('Settings'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('Social Media'),

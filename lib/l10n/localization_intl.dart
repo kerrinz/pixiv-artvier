@@ -190,6 +190,9 @@ class LocalizationIntl {
   String get rankingR18Weekly => Intl.message("R18 Weekly", name: 'rankingR18Weekly', desc: '');
   String get rankingR18Male => Intl.message("R18 Male", name: 'rankingR18Male', desc: '');
   String get rankingR18Female => Intl.message("R18 Female", name: 'rankingR18Female', desc: '');
+
+  // 搜索
+  String get search => Intl.message("Search", name: 'search', desc: 'Verb or noun of <search>');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {
