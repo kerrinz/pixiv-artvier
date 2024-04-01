@@ -59,7 +59,7 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
       if (Platform.isAndroid && _focusNode.hasFocus) {
         if (isKeyboardActived) {
           // 使输入框失去焦点
-          _focusNode.unfocus();
+          // _focusNode.unfocus();
         }
         isKeyboardActived = !isKeyboardActived;
       }
@@ -92,9 +92,9 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
             autofocus: false,
             focusNode: _focusNode,
             style: const TextStyle(fontSize: 14),
-            decoration: const InputDecoration(
-              hintText: "搜索...",
-              contentPadding: EdgeInsets.symmetric(horizontal: 8),
+            decoration: InputDecoration(
+              hintText: "${i10n.search}...",
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
               isCollapsed: true, // 高度包裹，不会存在默认高度

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:artvier/business_component/input/search_input.dart';
 import 'package:artvier/business_component/page_layout/banner_appbar_page_layout.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/widgets/pixivision_carousel.dart';
@@ -48,7 +49,7 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return BannerAppBarPageLayout(
-      appBarStartBuilderOffset: 100,
+      appBarStartBuilderOffset: 0,
       appBarEndBuilderOffset: 200,
       appBarBuilder: _buildAppBar,
       scrollController: _scrollController,
@@ -173,8 +174,10 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
   /// 根据滚动偏移，渲染 AppBar
   Widget _buildAppBar(double offset) {
     double bgOpacity = 0.0;
+    Color inputBackgroundColor = Colors.black12;
     if (offset >= 100) {
       bgOpacity = (offset - 100) / 100;
+      inputBackgroundColor = Colors.grey.withOpacity(0.15);
     } else {
       bgOpacity = 0;
     }
@@ -182,28 +185,16 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
     if (colorScheme.brightness == Brightness.light && bgOpacity > 0.5) {
       textColor = Colors.black;
     }
-
-    return AppBar(
-      backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(bgOpacity),
-      toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
-      titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle!.copyWith(color: textColor),
-      title: const Text(
-        "Artvier",
+    return Container(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10, bottom: 10, left: 10, right: 10),
+      height: (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) + MediaQuery.of(context).padding.top,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface.withOpacity(bgOpacity),
       ),
-      // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.keyboard_arrow_up, color: textColor),
-          onPressed: () {
-            _scrollController.animateTo(
-              0,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.decelerate,
-            );
-          },
-          tooltip: "回到顶部",
-        ),
-      ],
+      child: SearchInput(
+        textColor: textColor,
+        backgroundColor: inputBackgroundColor,
+      ),
     );
   }
 

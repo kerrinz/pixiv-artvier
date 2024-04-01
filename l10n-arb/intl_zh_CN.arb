@@ -818,5 +818,11 @@
     "description": "",
     "type": "text",
     "placeholders": {}
+  },
+  "search": "搜索",
+  "@search": {
+    "description": "Verb or noun of <search>",
+    "type": "text",
+    "placeholders": {}
   }
 }
