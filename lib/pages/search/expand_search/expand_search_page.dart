@@ -1,6 +1,6 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/sliver_persistent_header/widget_delegate.dart';
-import 'package:artvier/pages/search/expand_search/widget/search_box.dart';
+import 'package:artvier/pages/search/expand_search/widget/search_input.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,7 +55,7 @@ class _ExpandSearchPageState extends BasePageState<ExpandSearchPage> {
                     children: [
                       Expanded(
                           child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 10.0),
                         child: SearchInput(
                           focusNode: _focusNode,
                           textController: _textController,
