@@ -57,7 +57,7 @@ class SearchTabPageState extends BasePageState<SearchTabPage> with AutomaticKeep
               child: Container(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10, bottom: 10, left: 10, right: 10),
                 color: colorScheme.surface,
-                child: const SearchInput(),
+                child: const SearchBox(),
               ),
             ),
           ),

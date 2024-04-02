@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// [ExpandSearchPage] 的搜索框
-class SearchBox extends BasePage {
-  const SearchBox({
+class SearchInput extends BasePage {
+  const SearchInput({
     this.textController,
     this.focusNode,
     super.key,

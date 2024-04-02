@@ -191,7 +191,7 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface.withOpacity(bgOpacity),
       ),
-      child: SearchInput(
+      child: SearchBox(
         textColor: textColor,
         backgroundColor: inputBackgroundColor,
       ),

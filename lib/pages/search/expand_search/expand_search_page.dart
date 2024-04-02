@@ -56,7 +56,7 @@ class _ExpandSearchPageState extends BasePageState<ExpandSearchPage> {
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: SearchBox(
+                        child: SearchInput(
                           focusNode: _focusNode,
                           textController: _textController,
                         ),
