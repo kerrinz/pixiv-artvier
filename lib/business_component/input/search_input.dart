@@ -14,6 +14,19 @@ class SearchInput extends BasePage {
   final Color? textColor;
   final Color? backgroundColor;
 
+  // 淡入过渡跳转页面
+  Route _createFadeRoute(String routeName) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => Routes.match(context, routeName)(context, null),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
@@ -40,7 +53,7 @@ class SearchInput extends BasePage {
             child: GestureDetector(
               onTap: () {
                 // 展开搜索框
-                Navigator.of(context).pushNamed(RouteNames.expandSearch.name);
+                Navigator.of(context).push(_createFadeRoute(RouteNames.expandSearch.name));
               },
               child: Text(
                 "${i10n(context).search}...",

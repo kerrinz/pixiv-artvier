@@ -102,7 +102,7 @@ class Routes {
     RouteNames.aboutApp.name: (context, arguments) => const AboutAppPage(),
   };
 
-  static RouteWidgetBuilder match(BuildContext context, String? name) {
+   static RouteWidgetBuilder match(BuildContext context, String? name) {
     return routes[name] ?? (context, arguments) => const NotFoundPage();
   }
 }
