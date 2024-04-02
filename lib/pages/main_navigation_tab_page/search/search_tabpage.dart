@@ -1,4 +1,4 @@
-import 'package:artvier/business_component/input/search_input.dart';
+import 'package:artvier/business_component/input/search_box.dart';
 import 'package:artvier/component/sliver_persistent_header/widget_delegate.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +56,7 @@ class SearchTabPageState extends BasePageState<SearchTabPage> with AutomaticKeep
                   (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) + MediaQuery.of(context).padding.top,
               child: Container(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10, bottom: 10, left: 10, right: 10),
+                height: double.infinity,
                 color: colorScheme.surface,
                 child: const SearchBox(),
               ),

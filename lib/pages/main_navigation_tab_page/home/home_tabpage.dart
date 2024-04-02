@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:artvier/business_component/input/search_input.dart';
+import 'package:artvier/business_component/input/search_box.dart';
 import 'package:artvier/business_component/page_layout/banner_appbar_page_layout.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/widgets/pixivision_carousel.dart';

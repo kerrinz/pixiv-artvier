@@ -32,9 +32,7 @@ class SearchBox extends BasePage {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      height: 34,
-      alignment: Alignment.center,
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: backgroundColor ?? Colors.grey.withOpacity(0.15),
         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
