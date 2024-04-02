@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 搜索的输入框
-class SearchInput extends BasePage {
-  const SearchInput({
+class SearchBox extends BasePage {
+  const SearchBox({
     super.key,
     this.textColor,
     this.backgroundColor,
@@ -17,7 +17,10 @@ class SearchInput extends BasePage {
   // 淡入过渡跳转页面
   Route _createFadeRoute(String routeName) {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => Routes.match(context, routeName)(context, null),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        RouteWidgetBuilder builder = Routes.match(context, routeName);
+        return builder(context, null);
+      },
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
