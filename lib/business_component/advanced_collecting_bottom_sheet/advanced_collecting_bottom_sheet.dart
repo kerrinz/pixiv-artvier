@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/business_component/advanced_collecting_bottom_sheet/logic.dart';
@@ -29,7 +27,7 @@ class AdvancedCollectingBottomSheet extends ConsumerStatefulWidget {
     required this.isCollected,
     required this.worksId,
     required this.worksType,
-  })  : assert(
+  }) : assert(
           worksType == WorksType.illust || worksType == WorksType.novel,
           "Only support for illust and novel, manga must be replaced by illust.",
         );
@@ -39,7 +37,7 @@ class AdvancedCollectingBottomSheet extends ConsumerStatefulWidget {
 }
 
 class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollectingBottomSheet>
-    with AdvancedCollectingBottomSheetLogic, WidgetsBindingObserver {
+    with AdvancedCollectingBottomSheetLogic {
   /// 添加新标签的输入控制器
   late TextEditingController _addTagTextController;
 
@@ -68,30 +66,7 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
   void initState() {
     _addTagTextController = TextEditingController();
     _addTagFocusNode = FocusNode();
-    _addTagFocusNode.addListener(() {
-      if (!_addTagFocusNode.hasFocus) {
-        // 失去焦点时标记
-        isKeyboardActived = false;
-      }
-    });
-    // 监听界面高度变化
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
-  }
-
-  @override
-  void didChangeMetrics() {
-    super.didChangeMetrics();
-    // 页面高度变化（键盘收起或弹出）时
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (Platform.isAndroid && _addTagFocusNode.hasFocus) {
-        if (isKeyboardActived) {
-          // 使输入框失去焦点
-          _addTagFocusNode.unfocus();
-        }
-        isKeyboardActived = !isKeyboardActived;
-      }
-    });
   }
 
   @override
@@ -99,7 +74,6 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
     _addTagFocusNode.unfocus();
     _addTagFocusNode.dispose();
     _addTagTextController.dispose();
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
