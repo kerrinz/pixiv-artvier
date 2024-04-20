@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -52,7 +53,7 @@ mixin ImageViewerPageLogic on BasePageState<ImageViewerPage> {
     // 保存图片到相册
     try {
       bool result = await SaveImageUtil.saveImageToGallery(
-        urlList[state.pageIndex].original,
+        HttpHostOverrides().pxImgUrl(urlList[state.pageIndex].original),
       );
       if (result) {
         Fluttertoast.showToast(msg: "保存成功");
