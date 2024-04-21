@@ -62,6 +62,8 @@ class LocalizationIntl {
   String get settings => Intl.message('Settings', name: 'settings', desc: '');
   String get aboutApp =>
       Intl.message('About app', name: 'aboutApp', desc: 'Button link or page title to about app page');
+  String get openLinkHint => Intl.message('Do you want to open this link?',
+      name: 'openLinkHint', desc: 'Hint before open the link using an external browser');
 
   // 深色模式、主题相关
   String get lightBrightness => Intl.message("Light", name: 'lightBrightness', desc: 'Light brightness for app');
@@ -113,6 +115,12 @@ class LocalizationIntl {
       Intl.message('Enable direct connection (preview)', name: 'enableDirectConnection', desc: '');
   String get directConnectionHint =>
       Intl.message('This feature does not currently support login by web', name: 'directConnectionHint', desc: '');
+  String get appVersion =>
+      Intl.message('Version', name: 'appVersion', desc: '');
+  String get appAuthor =>
+      Intl.message('Author', name: 'appAuthor', desc: '');
+  String get appProjectLink =>
+      Intl.message('Project link', name: 'appProjectLink', desc: '');
 
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');
