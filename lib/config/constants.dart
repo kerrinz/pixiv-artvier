@@ -12,8 +12,10 @@ class CONSTANTS {
   /// - 支持：关注用户的新作
   /// - 不支持：用户的收藏
   static const String restrict_all = "all";
+
   /// 作品可见范围的匹配规则：**公开**
   static const String restrict_public = "public";
+
   /// 作品可见范围的匹配规则：**非公开**
   static const String restrict_private = "private";
 
@@ -25,4 +27,9 @@ class CONSTANTS {
 
   static const String proxy_default_host = "127.0.0.1";
   static const String proxy_default_port = "1080";
+
+  // App information
+  static const String app_repo_url = "https://github.com/kerrinz/pixiv-artvier";
+  static const String app_author = "Kerrinz";
+  static const String app_author_url = "https://github.com/kerrinz";
 }

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-04-01T23:28:43.578798",
+  "@@last_modified": "2024-04-21T13:10:59.500893",
   "tokenLogin": "Token login",
   "@tokenLogin": {
     "description": "Button and title of login by token",
@@ -192,6 +192,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "openLinkHint": "Do you want to open this link?",
+  "@openLinkHint": {
+    "description": "Hint before open the link using an external browser",
+    "type": "text",
+    "placeholders": {}
+  },
   "lightBrightness": "Light",
   "@lightBrightness": {
     "description": "Light brightness for app",
@@ -368,6 +374,24 @@
   },
   "directConnectionHint": "This feature does not currently support login by web",
   "@directConnectionHint": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appVersion": "Version",
+  "@appVersion": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appAuthor": "Author",
+  "@appAuthor": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appProjectLink": "Project link",
+  "@appProjectLink": {
     "description": "",
     "type": "text",
     "placeholders": {}

@@ -34,25 +34,30 @@ class PerferenceItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
           child: Row(
             children: [
+              icon == null
+                  ? text
+                  : Row(
+                      children: [
+                        icon!,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: text,
+                        ),
+                      ],
+                    ),
               Expanded(
-                child: icon == null
-                    ? text
-                    : Row(
-                        children: [
-                          icon!,
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: text,
-                          ),
-                        ],
-                      ),
+                child: Wrap(
+                  alignment: WrapAlignment.end,
+                  children: [
+                    value ??
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
+                          size: 12,
+                        ),
+                  ],
+                ),
               ),
-              value ??
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
-                    size: 12,
-                  ),
             ],
           ),
         ),
