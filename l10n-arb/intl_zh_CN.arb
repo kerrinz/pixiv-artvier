@@ -223,6 +223,12 @@
     "placeholders_order": [],
     "placeholders": {}
   },
+  "openLinkHint": "是否打开该链接?",
+  "@openLinkHint": {
+    "description": "Hint before open the link using an external browser",
+    "type": "text",
+    "placeholders": {}
+  },
   "lightBrightness": "浅色",
   "@lightBrightness": {
     "description": "Light brightness for app",
@@ -431,6 +437,24 @@
     "description": "",
     "type": "text",
     "placeholders_order": [],
+    "placeholders": {}
+  },
+  "appVersion": "当前版本",
+  "@appVersion": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appAuthor": "作者",
+  "@appAuthor": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appProjectLink": "项目地址",
+  "@appProjectLink": {
+    "description": "",
+    "type": "text",
     "placeholders": {}
   },
   "follow": "关注",
