@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:artvier/request/http_host_overrides.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/download_task_queue.dart';
+import 'package:artvier/pages/artwork/viewer/model/image_viewer_page_arguments.dart';
+import 'package:artvier/storage/database/downloads_db.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:artvier/base/base_page.dart';
-import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/artwork/viewer/image_viewer_page.dart';
 import 'package:artvier/pages/artwork/viewer/model/image_quality_url_model.dart';
 import 'package:artvier/pages/artwork/viewer/model/image_viewer_state.dart';
-import 'package:artvier/util/save_image_util.dart';
 
 mixin ImageViewerPageLogic on BasePageState<ImageViewerPage> {
   @override
@@ -46,23 +46,20 @@ mixin ImageViewerPageLogic on BasePageState<ImageViewerPage> {
   }
 
   /// 点击下载图片
-  Future<void> handlePressedDownload(List urlList) async {
+  Future<void> handlePressedDownload(int index) async {
     bool isPermit = await checkPermissions();
     if (!isPermit) return; // 没权限，不下载
-    var state = ref.read(imageViewerProvider);
-    // 保存图片到相册
-    try {
-      bool result = await SaveImageUtil.saveImageToGallery(
-        HttpHostOverrides().pxImgUrl(urlList[state.pageIndex].original),
-      );
-      if (result) {
-        Fluttertoast.showToast(msg: "保存成功");
-      } else {
-        Fluttertoast.showToast(msg: "保存失败");
-      }
-    } catch (e) {
-      logger.e(e);
-      Fluttertoast.showToast(msg: "保存失败");
-    }
+    ImageViewerPageArguments arg = widget.arguments;
+    DownloadTaskQueue().pushTask(
+      DownloadTask(
+          taskData: DownloadTaskTableData(
+              title: arg.title,
+              worksId: arg.worksId,
+              downloadUrl: arg.urlList[index].original,
+              totalBytes: 0,
+              receivedBytes: 0,
+              type: arg.downloadType,
+              status: DownloadState.downloading)),
+    );
   }
 }

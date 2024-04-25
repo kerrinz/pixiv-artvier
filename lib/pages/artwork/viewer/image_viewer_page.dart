@@ -15,8 +15,7 @@ class ImageViewerPage extends BaseStatefulPage {
   /// 图片链接列表（每项含有多种画质链接）
   final ImageViewerPageArguments arguments;
 
-  const ImageViewerPage(Object arg, {super.key})
-      : arguments = arg as ImageViewerPageArguments;
+  const ImageViewerPage(Object arg, {super.key}) : arguments = arg as ImageViewerPageArguments;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -92,7 +91,9 @@ class _ImageViewerPageState extends BasePageState<ImageViewerPage>
                         children: [
                           IconButton(
                             icon: const Icon(Icons.file_download),
-                            onPressed: () async => handlePressedDownload(urlList),
+                            onPressed: () async => handlePressedDownload(
+                              ref.read(imageViewerProvider.select((value) => value.pageIndex)),
+                            ),
                             tooltip: "下载",
                             color: Colors.white,
                             iconSize: 26,

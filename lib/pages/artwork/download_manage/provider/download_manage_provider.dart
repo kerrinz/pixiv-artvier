@@ -1,12 +1,29 @@
+import 'dart:async';
+
+import 'package:artvier/storage/database/downloads_db.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:artvier/base/base_provider/base_notifier.dart';
-import 'package:artvier/global/model/image_download_task_model/image_download_task_model.dart';
 
-final downloadManageProvider =
-    StateNotifierProvider.autoDispose<ArtworkDownloadListNotifier, List<ImageDownloadTaskModel>>((ref) {
-  return ArtworkDownloadListNotifier([], ref: ref);
-});
+final downloadsDatabase = DownloadsDatabase();
 
-class ArtworkDownloadListNotifier extends BaseStateNotifier<List<ImageDownloadTaskModel>> {
-  ArtworkDownloadListNotifier(super.state, {required super.ref});
+///下载队列的状态管理
+final downloadTaskQueueProvider =
+    AutoDisposeAsyncNotifierProvider<DownloadsNotifier, List<DownloadTaskTableData>>(DownloadsNotifier.new);
+
+class DownloadsNotifier extends AutoDisposeAsyncNotifier<List<DownloadTaskTableData>> {
+  @override
+  FutureOr<List<DownloadTaskTableData>> build() {
+    return downloadsDatabase.allDownloadTasks();
+  }
+
+  /// 更新状态
+  updateState(List<DownloadTaskTableData> newState) {
+    state = AsyncValue.data(newState);
+  }
+
+  /// 重新加载状态
+  reloadState() {
+    downloadsDatabase.allDownloadTasks().then((value) {
+      state = AsyncValue.data(value);
+    });
+  }
 }
