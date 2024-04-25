@@ -16,8 +16,17 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ImageViewerPageArguments {
-  /// 普通画质
+  /// 图片列表
   List<ImageQualityUrl> get urlList => throw _privateConstructorUsedError;
+
+  /// 资源类型
+  DownloadType get downloadType => throw _privateConstructorUsedError;
+
+  /// 作品 id
+  String get worksId => throw _privateConstructorUsedError;
+
+  /// 作品标题
+  String get title => throw _privateConstructorUsedError;
 
   /// 初始查看第几张图片
   int get index => throw _privateConstructorUsedError;
@@ -33,7 +42,12 @@ abstract class $ImageViewerPageArgumentsCopyWith<$Res> {
           $Res Function(ImageViewerPageArguments) then) =
       _$ImageViewerPageArgumentsCopyWithImpl<$Res, ImageViewerPageArguments>;
   @useResult
-  $Res call({List<ImageQualityUrl> urlList, int index});
+  $Res call(
+      {List<ImageQualityUrl> urlList,
+      DownloadType downloadType,
+      String worksId,
+      String title,
+      int index});
 }
 
 /// @nodoc
@@ -51,6 +65,9 @@ class _$ImageViewerPageArgumentsCopyWithImpl<$Res,
   @override
   $Res call({
     Object? urlList = null,
+    Object? downloadType = null,
+    Object? worksId = null,
+    Object? title = null,
     Object? index = null,
   }) {
     return _then(_value.copyWith(
@@ -58,6 +75,18 @@ class _$ImageViewerPageArgumentsCopyWithImpl<$Res,
           ? _value.urlList
           : urlList // ignore: cast_nullable_to_non_nullable
               as List<ImageQualityUrl>,
+      downloadType: null == downloadType
+          ? _value.downloadType
+          : downloadType // ignore: cast_nullable_to_non_nullable
+              as DownloadType,
+      worksId: null == worksId
+          ? _value.worksId
+          : worksId // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
       index: null == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
@@ -75,7 +104,12 @@ abstract class _$$ImageViewerPageArgumentsImplCopyWith<$Res>
       __$$ImageViewerPageArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<ImageQualityUrl> urlList, int index});
+  $Res call(
+      {List<ImageQualityUrl> urlList,
+      DownloadType downloadType,
+      String worksId,
+      String title,
+      int index});
 }
 
 /// @nodoc
@@ -92,6 +126,9 @@ class __$$ImageViewerPageArgumentsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? urlList = null,
+    Object? downloadType = null,
+    Object? worksId = null,
+    Object? title = null,
     Object? index = null,
   }) {
     return _then(_$ImageViewerPageArgumentsImpl(
@@ -99,6 +136,18 @@ class __$$ImageViewerPageArgumentsImplCopyWithImpl<$Res>
           ? _value._urlList
           : urlList // ignore: cast_nullable_to_non_nullable
               as List<ImageQualityUrl>,
+      downloadType: null == downloadType
+          ? _value.downloadType
+          : downloadType // ignore: cast_nullable_to_non_nullable
+              as DownloadType,
+      worksId: null == worksId
+          ? _value.worksId
+          : worksId // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
       index: null == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
@@ -111,13 +160,17 @@ class __$$ImageViewerPageArgumentsImplCopyWithImpl<$Res>
 
 class _$ImageViewerPageArgumentsImpl implements _ImageViewerPageArguments {
   const _$ImageViewerPageArgumentsImpl(
-      {required final List<ImageQualityUrl> urlList, required this.index})
+      {required final List<ImageQualityUrl> urlList,
+      required this.downloadType,
+      required this.worksId,
+      required this.title,
+      required this.index})
       : _urlList = urlList;
 
-  /// 普通画质
+  /// 图片列表
   final List<ImageQualityUrl> _urlList;
 
-  /// 普通画质
+  /// 图片列表
   @override
   List<ImageQualityUrl> get urlList {
     if (_urlList is EqualUnmodifiableListView) return _urlList;
@@ -125,13 +178,25 @@ class _$ImageViewerPageArgumentsImpl implements _ImageViewerPageArguments {
     return EqualUnmodifiableListView(_urlList);
   }
 
+  /// 资源类型
+  @override
+  final DownloadType downloadType;
+
+  /// 作品 id
+  @override
+  final String worksId;
+
+  /// 作品标题
+  @override
+  final String title;
+
   /// 初始查看第几张图片
   @override
   final int index;
 
   @override
   String toString() {
-    return 'ImageViewerPageArguments(urlList: $urlList, index: $index)';
+    return 'ImageViewerPageArguments(urlList: $urlList, downloadType: $downloadType, worksId: $worksId, title: $title, index: $index)';
   }
 
   @override
@@ -140,12 +205,21 @@ class _$ImageViewerPageArgumentsImpl implements _ImageViewerPageArguments {
         (other.runtimeType == runtimeType &&
             other is _$ImageViewerPageArgumentsImpl &&
             const DeepCollectionEquality().equals(other._urlList, _urlList) &&
+            (identical(other.downloadType, downloadType) ||
+                other.downloadType == downloadType) &&
+            (identical(other.worksId, worksId) || other.worksId == worksId) &&
+            (identical(other.title, title) || other.title == title) &&
             (identical(other.index, index) || other.index == index));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_urlList), index);
+      runtimeType,
+      const DeepCollectionEquality().hash(_urlList),
+      downloadType,
+      worksId,
+      title,
+      index);
 
   @JsonKey(ignore: true)
   @override
@@ -158,12 +232,27 @@ class _$ImageViewerPageArgumentsImpl implements _ImageViewerPageArguments {
 abstract class _ImageViewerPageArguments implements ImageViewerPageArguments {
   const factory _ImageViewerPageArguments(
       {required final List<ImageQualityUrl> urlList,
+      required final DownloadType downloadType,
+      required final String worksId,
+      required final String title,
       required final int index}) = _$ImageViewerPageArgumentsImpl;
 
   @override
 
-  /// 普通画质
+  /// 图片列表
   List<ImageQualityUrl> get urlList;
+  @override
+
+  /// 资源类型
+  DownloadType get downloadType;
+  @override
+
+  /// 作品 id
+  String get worksId;
+  @override
+
+  /// 作品标题
+  String get title;
   @override
 
   /// 初始查看第几张图片

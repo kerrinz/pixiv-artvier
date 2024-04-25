@@ -1,11 +1,12 @@
 import 'dart:async';
 
+import 'package:artvier/component/loading/lazyloading.dart';
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/pages/artwork/download_manage/provider/download_manage_provider.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/base/base_page.dart';
-import 'package:artvier/global/model/image_download_task_model/image_download_task_model.dart';
-import 'package:artvier/model_response/illusts/common_illust.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:artvier/routes.dart';
 
@@ -16,25 +17,21 @@ class DownloadManagePage extends BaseStatefulPage {
   ConsumerState<ConsumerStatefulWidget> createState() => DownloadManagePageState();
 }
 
-/// TODO: 下载功能需要引入数据库后再开发，以下代码几乎半废
 class DownloadManagePageState extends BasePageState<DownloadManagePage> with TickerProviderStateMixin {
-  late TabController _tabController;
-
-  late Timer _timer;
-
+  late final Timer timer;
   @override
   void initState() {
-    super.initState();
-    _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {});
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      ref.read(downloadTaskQueueProvider.notifier).reloadState();
     });
+    super.initState();
   }
 
   @override
   void dispose() {
+    // 取消定时器
+    timer.cancel();
     super.dispose();
-    _timer.cancel();
   }
 
   @override
@@ -60,163 +57,99 @@ class DownloadManagePageState extends BasePageState<DownloadManagePage> with Tic
                   tooltip: "下载设置",
                 ),
               ],
-              bottom: TabBar(
-                indicatorSize: TabBarIndicatorSize.label,
-                controller: _tabController,
-                isScrollable: false,
-                tabs: const [
-                  Tab(text: "下载中"),
-                  Tab(text: "已完成"),
-                ],
-              ),
             ),
           ];
         },
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            _buildDownloadingList([]),
-            _buildDownloadedList([]),
-          ],
-        ),
+        body: _buildDownloadList(),
       ),
     );
   }
 
   // 构建下载中的列表
-  Widget _buildDownloadingList(List<ImageDownloadTaskModel> list) {
-    return ListView.builder(
-      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-      padding: EdgeInsets.zero,
-      itemBuilder: (BuildContext context, int index) {
-        var item = list[index];
-        double progress = item.totalBytes == null ? 0 : (item.receivedBytes ?? 0 / item.totalBytes!);
-        return Card(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(6.0)),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildDownloadList() {
+    var asyncValue = ref.watch(downloadTaskQueueProvider);
+    return asyncValue.when(
+      data: (downloadList) {
+        return ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          itemCount: downloadList.length,
+          itemBuilder: (BuildContext context, int index) {
+            var item = downloadList[index];
+            double progress = item.totalBytes <= 0 ? 0 : (item.receivedBytes / item.totalBytes);
+            return Card(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+              ),
+              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              clipBehavior: Clip.antiAlias,
+              child: Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(item.title, style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.primary)),
-                        Text("id: ${item.worksId}"),
-                      ],
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(item.title, style: textTheme.titleMedium),
+                              Text("id: ${item.worksId}"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Builder(builder: (context) {
+                          switch (item.status) {
+                            case DownloadState.success:
+                              return const Icon(Icons.check, color: Colors.green);
+                            case DownloadState.waiting:
+                              return const Opacity(opacity: 0.5, child: Icon(Icons.access_time));
+                            case DownloadState.failed:
+                              return const Icon(Icons.error, color: Colors.red);
+                            default:
+                              return Text("${(progress * 100).toStringAsFixed(0)}%");
+                          }
+                        }),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 6),
-                    child: LinearProgressIndicator(
-                      backgroundColor: Colors.blue,
-                      value: progress,
-                      minHeight: 1,
-                      valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.primary),
-                    ),
-                  ),
-                ],
-              ),
-              Positioned.fill(
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    splashColor: Colors.black12.withOpacity(0.15),
-                    highlightColor: Colors.black12.withOpacity(0.1),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
-                          arguments: IllustDetailPageArguments(illustId: item.worksId));
-                    },
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 0,
-                bottom: 8,
-                child: InkWell(
-                  onTap: () {
-                    // if (DownloadState.failed) {}
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Builder(builder: (context) {
-                      return Column(
-                        children: [
-                          (item.downloadState == 4) ? const Icon(Icons.replay) : Container(),
-                          Text("${(progress * 100).toStringAsFixed(0)}%"),
-                        ],
-                      );
-                    }),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-      itemCount: list.length,
-    );
-  }
-
-  // 构建已完成的列表
-  Widget _buildDownloadedList(List<CommonIllust> illusts) {
-    return ListView.builder(
-      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-      padding: EdgeInsets.zero,
-      itemBuilder: (BuildContext context, int index) {
-        return Card(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(6.0)),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(illusts[index].title,
-                              style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.primary)),
-                          Text("id: ${illusts[index].id.toString()}"),
-                        ],
+                  Positioned.fill(
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: Colors.black12.withOpacity(0.15),
+                        highlightColor: Colors.black12.withOpacity(0.1),
+                        onTap: () {
+                          Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
+                              arguments: IllustDetailPageArguments(illustId: item.worksId));
+                        },
                       ),
                     ),
-                    const Icon((Icons.arrow_right_rounded)),
-                  ],
-                ),
-              ),
-              Positioned.fill(
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    splashColor: Colors.black12.withOpacity(0.15),
-                    highlightColor: Colors.black12.withOpacity(0.1),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        RouteNames.artworkDetail.name,
-                        arguments: IllustDetailPageArguments(
-                          detail: illusts[index],
-                          illustId: illusts[index].id.toString(),
-                        ),
-                      );
-                    },
                   ),
-                ),
+                  // Positioned(
+                  //   right: 0,
+                  //   bottom: 0,
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       // Retry
+                  //     },
+                  //   ),
+                  // ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
-      itemCount: illusts.length,
+      error: (error, stackTrace) => LazyloadingFailedWidget(
+        onRetry: (() {
+          /// TODO: 加载失败的界面
+        }),
+      ),
+      loading: (() => const LazyloadingWidget()),
     );
   }
 }

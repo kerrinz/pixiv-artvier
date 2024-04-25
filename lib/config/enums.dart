@@ -92,20 +92,26 @@ enum RestrictAll {
 
 /// 下载（保存）状态
 enum DownloadState {
-  /// 下载成功
-  success,
-
   /// 下载中
   downloading,
 
   /// 暂停
   pause,
 
+  /// 下载失败
+  failed,
+
   /// 等待中
   waiting,
 
-  /// 下载失败
-  failed,
+  /// 下载成功
+  success,
+}
+
+/// 下载资源类型
+enum DownloadType {
+  illust,
+  manga,
 }
 
 /// 搜索类型

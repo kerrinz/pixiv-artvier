@@ -63,8 +63,15 @@ mixin ArtworkDetailPageLogic {
         urls.add(ImageQualityUrl(normal: meta.imageUrls.large, original: meta.imageUrls.original));
       }
     }
-    Navigator.of(ref.context).pushNamed(RouteNames.artworkImagesPreview.name,
-        arguments: ImageViewerPageArguments(urlList: urls, index: index));
+    Navigator.of(ref.context).pushNamed(
+      RouteNames.artworkImagesPreview.name,
+      arguments: ImageViewerPageArguments(
+          urlList: urls,
+          index: index,
+          title: detail.title,
+          downloadType: DownloadType.illust,
+          worksId: detail.id.toString()),
+    );
   }
 
   /// 点击收藏按钮的事件

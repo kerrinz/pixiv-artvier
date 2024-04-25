@@ -1,3 +1,5 @@
+import 'package:artvier/config/constants.dart';
+
 /// Http请求的默认参数
 class HttpBaseOptions {
   static get baseUrl => 'https://$appApiHost';
@@ -38,7 +40,8 @@ class HttpBaseOptions {
 
   static const Map<String, String> pximgHeaders = {
     ...baseHeaders,
-    ...{"Host": pximgHost}
+    ...{"Host": pximgHost},
+    ...{"referer": CONSTANTS.referer}
   };
 
   static const Map<String, String> pixivisionHeaders = {
