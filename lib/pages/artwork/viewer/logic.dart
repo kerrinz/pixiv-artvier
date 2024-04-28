@@ -51,15 +51,15 @@ mixin ImageViewerPageLogic on BasePageState<ImageViewerPage> {
     if (!isPermit) return; // 没权限，不下载
     ImageViewerPageArguments arg = widget.arguments;
     DownloadTaskQueue().pushTask(
-      DownloadTask(
-          taskData: DownloadTaskTableData(
-              title: arg.title,
-              worksId: arg.worksId,
-              downloadUrl: arg.urlList[index].original,
-              totalBytes: 0,
-              receivedBytes: 0,
-              type: arg.downloadType,
-              status: DownloadState.downloading)),
+      DownloadTaskTableData(
+        title: arg.title,
+        worksId: arg.worksId,
+        downloadUrl: arg.urlList[index].original,
+        totalBytes: 0,
+        receivedBytes: 0,
+        type: arg.downloadType,
+        status: DownloadState.waiting,
+      ),
     );
   }
 }

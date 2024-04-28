@@ -96,7 +96,7 @@ enum DownloadState {
   downloading,
 
   /// 暂停
-  pause,
+  paused,
 
   /// 下载失败
   failed,
