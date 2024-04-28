@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:artvier/component/loading/lazyloading.dart';
 import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/download_task_queue.dart';
 import 'package:artvier/pages/artwork/download_manage/provider/download_manage_provider.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
@@ -85,36 +86,15 @@ class DownloadManagePageState extends BasePageState<DownloadManagePage> with Tic
               clipBehavior: Clip.antiAlias,
               child: Stack(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(item.title, style: textTheme.titleMedium),
-                              Text("id: ${item.worksId}"),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Builder(builder: (context) {
-                          switch (item.status) {
-                            case DownloadState.success:
-                              return const Icon(Icons.check, color: Colors.green);
-                            case DownloadState.waiting:
-                              return const Opacity(opacity: 0.5, child: Icon(Icons.access_time));
-                            case DownloadState.failed:
-                              return const Icon(Icons.error, color: Colors.red);
-                            default:
-                              return Text("${(progress * 100).toStringAsFixed(0)}%");
-                          }
-                        }),
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item.title, style: textTheme.titleMedium),
+                        Text("id: ${item.worksId}"),
+                      ],
+                    ),
                   ),
                   Positioned.fill(
                     child: Material(
@@ -129,14 +109,56 @@ class DownloadManagePageState extends BasePageState<DownloadManagePage> with Tic
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //   right: 0,
-                  //   bottom: 0,
-                  //   child: InkWell(
-                  //     onTap: () {
-                  //       // Retry
-                  //     },
-                  //   ),
+                  // 下载状态
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Builder(builder: (context) {
+                          switch (item.status) {
+                            case DownloadState.success:
+                              return const Icon(Icons.check_rounded, color: Colors.green);
+                            case DownloadState.waiting:
+                              return const Opacity(opacity: 0.5, child: Icon(Icons.access_time_rounded));
+                            case DownloadState.failed:
+                            case DownloadState.paused:
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  item.status == DownloadState.paused
+                                      ? Text(
+                                          "Failed",
+                                          style: textTheme.bodyMedium?.copyWith(color: Colors.red),
+                                        )
+                                      : const Opacity(
+                                          opacity: 0.5,
+                                          child: Text("Paused"),
+                                        ),
+                                  SizedBox(
+                                    height: 30,
+                                    width: 30,
+                                    child: IconButton(
+                                      padding: EdgeInsets.zero,
+                                      iconSize: 20,
+                                      icon: const Icon(Icons.replay_rounded),
+                                      onPressed: () {
+                                        DownloadTaskQueue().restartTask(item);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              );
+                            default:
+                              return Text("${(progress * 100).toStringAsFixed(0)}%");
+                          }
+                        }),
+                      ),
+                    ),
+                  ),
                   // ),
                 ],
               ),

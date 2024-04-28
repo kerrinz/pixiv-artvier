@@ -10,7 +10,9 @@ part 'downloads_db.g.dart';
 
 @DriftDatabase(tables: [DownloadTaskTable])
 class DownloadsDatabase extends _$DownloadsDatabase {
-  DownloadsDatabase() : super(_openConnection());
+  DownloadsDatabase() : super(_openConnection()) {
+    resetStatus();
+  }
 
   @override
   int get schemaVersion => 1;
@@ -30,6 +32,11 @@ class DownloadsDatabase extends _$DownloadsDatabase {
     );
   }
 
+  /// 更新任务，taskId 不能为空
+  Future updateTask(DownloadTaskTableData data) {
+    return (update(downloadTaskTable)..where((t) => t.taskId.equals(data.taskId!))).write(data.toCompanion(true));
+  }
+
   /// 更新任务的状态
   Future updateTaskStatus(int taskId, DownloadState downloadState) {
     return (update(downloadTaskTable)..where((t) => t.taskId.equals(taskId))).write(
@@ -37,6 +44,28 @@ class DownloadsDatabase extends _$DownloadsDatabase {
         status: Value(downloadState),
       ),
     );
+  }
+
+  /// 初次启动，将以前未下载完成的任务重置为下载失败，将等待的任务重置为暂停
+  Future resetStatus() {
+    return (update(downloadTaskTable)..where((t) => t.status.equalsValue(DownloadState.downloading)))
+        .write(
+          const DownloadTaskTableCompanion(
+            status: Value(DownloadState.failed),
+          ),
+        )
+        .then(
+          (value) => (update(downloadTaskTable)..where((t) => t.status.equalsValue(DownloadState.waiting))).write(
+            const DownloadTaskTableCompanion(
+              status: Value(DownloadState.paused),
+            ),
+          ),
+        );
+  }
+
+  /// 查找任务
+  Future<DownloadTaskTableData?> findTask(int taskId) {
+    return (downloadTaskTable.select()..where((tbl) => tbl.taskId.equals(taskId))).getSingleOrNull();
   }
 
   /// 下载任务列表（倒序）
