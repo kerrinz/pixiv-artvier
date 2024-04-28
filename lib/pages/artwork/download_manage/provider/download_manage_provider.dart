@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:artvier/storage/database/downloads_db.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// TODO: 后续不再放全局，且不用的时候要 close 释放资源
 final downloadsDatabase = DownloadsDatabase();
 
 ///下载队列的状态管理
