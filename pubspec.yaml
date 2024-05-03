@@ -67,7 +67,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   analyzer: ^6.4.1
-  build_runner: ^2.3.3 # 构建工具，命令：flutter packages pub run build_runner build
+  build_runner: ^2.3.3 # 构建工具，命令：dart run build_runner build
   drift_dev: ^2.17.0
   flutter_lints: ^3.0.2
   freezed: ^2.3.2 # 模板代码生成工具

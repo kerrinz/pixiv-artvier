@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/oauth.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/global/provider/shared_preferences_provider.dart';
-import 'package:artvier/storage/model/account_profile.dart';
+import 'package:artvier/global/model/account_profile/account_profile.dart';
 import 'package:artvier/storage/account_storage.dart';
 
 /// 当前登录的帐号

@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:artvier/storage/model/account_profile.dart';
+import 'package:artvier/global/model/account_profile/account_profile.dart';
 import 'package:artvier/base/base_storage.dart';
 
 /// 账号集合的结构：Map<String, AccountProfile>

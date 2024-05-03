@@ -6,7 +6,7 @@ import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/pages/account/account_manage/logic.dart';
 import 'package:artvier/pages/account/account_manage/provider/account_manage_provider.dart';
-import 'package:artvier/storage/model/account_profile.dart';
+import 'package:artvier/global/model/account_profile/account_profile.dart';
 import 'package:artvier/base/base_page.dart';
 
 class AccountManagePage extends BaseStatefulPage {

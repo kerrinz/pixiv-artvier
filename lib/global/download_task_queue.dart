@@ -4,7 +4,7 @@ import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/artwork/download_manage/provider/download_manage_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
-import 'package:artvier/storage/database/downloads_db.dart';
+import 'package:artvier/storage/downloads/downloads_db.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:fluttertoast/fluttertoast.dart';

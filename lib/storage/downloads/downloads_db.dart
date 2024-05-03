@@ -1,4 +1,4 @@
-import 'package:artvier/storage/database/table/download_task.dart';
+import 'package:artvier/storage/downloads/download_task_table.dart';
 import 'package:drift/drift.dart';
 import 'dart:io';
 import 'package:drift/native.dart';
