@@ -5,7 +5,7 @@ import 'package:artvier/global/logger.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/global/provider/shared_preferences_provider.dart';
 import 'package:artvier/storage/account_storage.dart';
-import 'package:artvier/storage/model/account_profile.dart';
+import 'package:artvier/global/model/account_profile/account_profile.dart';
 
 final accountManageProvider =
     StateNotifierProvider.autoDispose<AccountManageNotifier, Map<String, AccountProfile>>(((ref) {
