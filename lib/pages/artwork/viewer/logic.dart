@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/global/download_task_queue.dart';
 import 'package:artvier/pages/artwork/viewer/model/image_viewer_page_arguments.dart';
-import 'package:artvier/storage/database/downloads_db.dart';
+import 'package:artvier/storage/downloads/downloads_db.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:artvier/base/base_page.dart';

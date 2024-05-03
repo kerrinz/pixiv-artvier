@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/account/account_manage/provider/account_manage_provider.dart';
 import 'package:artvier/routes.dart';
-import 'package:artvier/storage/model/account_profile.dart';
+import 'package:artvier/global/model/account_profile/account_profile.dart';
 
 mixin AccountManagePageStateLogic {
   WidgetRef get ref;
