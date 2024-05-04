@@ -1,5 +1,7 @@
+import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
+import 'package:artvier/storage/viewing_history/viewing_history_db.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +16,6 @@ import 'package:artvier/component/loading/request_loading.dart';
 import 'package:artvier/component/viewport/delayed_build_until_viewport.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/enums.dart';
-import 'package:artvier/global/provider/shared_preferences_provider.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:artvier/pages/artwork/detail/layout.dart';
@@ -23,13 +24,11 @@ import 'package:artvier/pages/artwork/detail/widgets/comments_preview_content.da
 import 'package:artvier/pages/artwork/detail/widgets/author_card.dart';
 import 'package:artvier/pages/artwork/detail/widgets/related_artworks_content.dart';
 import 'package:artvier/routes.dart';
-import 'package:artvier/storage/history_storage.dart';
 
 class ArtWorksDetailPage extends ConsumerStatefulWidget {
   final IllustDetailPageArguments args; // 数据集
 
-  const ArtWorksDetailPage(Object arguments, {super.key})
-      : args = arguments as IllustDetailPageArguments;
+  const ArtWorksDetailPage(Object arguments, {super.key}) : args = arguments as IllustDetailPageArguments;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -57,7 +56,17 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     _dragController = DragController();
     if (widget.args.detail != null) {
-      HistoryStorage(ref.read(globalSharedPreferencesProvider)).addIllust(widget.args.detail!); // 保存到历史记录
+      viewingHistoryDatabase
+          .addRecordWithRemoveDuplicates(ViewingHistoryTableData(
+            title: widget.args.detail!.title,
+            type: WorksType.illust,
+            worksId: widget.args.detail!.id.toString(),
+            previewImageUrl: widget.args.detail!.imageUrls.medium,
+            authorName: widget.args.detail!.user.name,
+            lastTime: DateTime.now(),
+          ))
+          // ignore: invalid_return_type_for_catch_error
+          .catchError((err) => logger.e(err));
     }
     _tabController = TabController(initialIndex: 0, length: 3, vsync: this);
     super.initState();
