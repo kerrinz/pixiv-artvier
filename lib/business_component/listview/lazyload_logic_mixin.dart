@@ -1,3 +1,4 @@
+import 'package:artvier/global/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/config/enums.dart';
 
@@ -19,6 +20,7 @@ mixin LazyloadLogic {
       bool hasMore = await onLazyload();
       ref.read(lazyloadStateProvider.notifier).update((state) => hasMore ? LazyloadState.idle : LazyloadState.noMore);
     } catch (e) {
+      logger.e(e.toString());
       ref.read(lazyloadStateProvider.notifier).update((state) => LazyloadState.error);
     }
   }
@@ -30,6 +32,7 @@ mixin LazyloadLogic {
       bool hasMore = await onLazyload();
       ref.read(lazyloadStateProvider.notifier).update((state) => hasMore ? LazyloadState.idle : LazyloadState.noMore);
     } catch (e) {
+      logger.e(e.toString());
       ref.read(lazyloadStateProvider.notifier).update((state) => LazyloadState.error);
     }
   }
