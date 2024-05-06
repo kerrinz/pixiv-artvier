@@ -15,6 +15,7 @@ class IllustWaterfallItem extends ConsumerStatefulWidget {
     required this.imageUrl,
     required this.imageWidth,
     required this.imageHeight,
+    this.badges,
     required this.title,
     required this.author,
     required this.totalCollected,
@@ -37,6 +38,8 @@ class IllustWaterfallItem extends ConsumerStatefulWidget {
 
   final int imageHeight;
 
+  final List<String>? badges;
+
   /// 收藏状态
   final CollectState collectState;
 
@@ -58,6 +61,8 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
   String get illustId => widget.worksId;
 
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
+
+  TextTheme get textTheme => Theme.of(context).textTheme;
 
   @override
   void initState() {
@@ -85,25 +90,44 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 图片
-                Container(
-                  width: double.infinity,
-                  height: height < maxConstraintHeight ? height : maxConstraintHeight,
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                    border: Border.all(strokeAlign: BorderSide.strokeAlignOutside, color: colorScheme.outline.withAlpha(50)),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: EnhanceNetworkImage(
-                    fit: BoxFit.cover,
-                    width: widget.imageWidth.toDouble(),
-                    height: widget.imageHeight.toDouble(),
-                    image: ExtendedNetworkImageProvider(
-                      HttpHostOverrides().pxImgUrl(widget.imageUrl),
-                      cache: true,
-                      headers: const {"Referer": CONSTANTS.referer},
+                Stack(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: height < maxConstraintHeight ? height : maxConstraintHeight,
+                      decoration: BoxDecoration(
+                        color: colorScheme.surface,
+                        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                        border: Border.all(
+                            strokeAlign: BorderSide.strokeAlignOutside, color: colorScheme.outline.withAlpha(50)),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: EnhanceNetworkImage(
+                        fit: BoxFit.cover,
+                        width: widget.imageWidth.toDouble(),
+                        height: widget.imageHeight.toDouble(),
+                        image: ExtendedNetworkImageProvider(
+                          HttpHostOverrides().pxImgUrl(widget.imageUrl),
+                          cache: true,
+                          headers: const {"Referer": CONSTANTS.referer},
+                        ),
+                      ),
                     ),
-                  ),
+                    // 角标
+                    if (widget.badges != null && widget.badges!.isNotEmpty)
+                      Positioned(
+                        right: 4,
+                        bottom: 4,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                          decoration: const BoxDecoration(
+                            color: Colors.black26,
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                          ),
+                          child: Text(widget.badges!.join(','), style: textTheme.labelLarge),
+                        ),
+                      )
+                  ],
                 ),
                 // 标题
                 Padding(
