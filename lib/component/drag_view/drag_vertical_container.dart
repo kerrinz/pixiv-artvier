@@ -140,15 +140,55 @@ class DragVerticalContainer extends StatefulWidget {
 
   final Widget? child;
 
-  Widget panelBuilder(BuildContext context, double positionY,
+  /// 父元素，可 Override
+  Widget parentBuilder(BuildContext context, double positionY, DragController dragController,
       GestureRecognizerFactoryWithHandlers<MyVerticalDragGestureRecognizer> recognizer) {
-    return Transform.translate(
-      offset: Offset(0.0, positionY),
-      child: RawGestureDetector(
-        gestures: {MyVerticalDragGestureRecognizer: recognizer},
-        child: SizedBox(
-          height: height,
-          child: child,
+    return dragContentBuilder(context, positionY, dragController, recognizer);
+  }
+
+  /// 可拖动内容，不建议 Override
+  Widget dragContentBuilder(BuildContext context, double positionY, DragController dragController,
+      GestureRecognizerFactoryWithHandlers<MyVerticalDragGestureRecognizer> recognizer) {
+    return NotificationListener<OverscrollNotification>(
+      onNotification: ((notification) {
+        // 滚动抵达顶部边界，允许触发拖拽事件
+        if (notification.metrics.extentBefore == 0) {
+          dragController.setCanDrag(true);
+        }
+        return false;
+      }),
+      child: NotificationListener<ScrollEndNotification>(
+        onNotification: ((notification) {
+          dragController.setCanDrag(notification.metrics.extentBefore == 0);
+          return false;
+        }),
+        child: NotificationListener<ScrollUpdateNotification>(
+          onNotification: ((notification) {
+            // 页面往顶部方向移动，禁止本组件发生拖拽
+            if ((notification.dragDetails?.delta.dy ?? 0.0) > 0.0) {
+              dragController.setCanDrag(false);
+            }
+            return false;
+          }),
+          child: NotificationListener<ScrollStartNotification>(
+            onNotification: ((notification) {
+              // 非已滚动到顶，不让滚动事件引发拖拽事件
+              if (notification.metrics.extentBefore != 0) {
+                dragController.setCanDrag(false);
+              }
+              return false;
+            }),
+            child: Transform.translate(
+              offset: Offset(0.0, positionY),
+              child: RawGestureDetector(
+                gestures: {MyVerticalDragGestureRecognizer: recognizer},
+                child: SizedBox(
+                  height: height,
+                  child: child,
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -246,40 +286,7 @@ class DragContainerState extends State<DragVerticalContainer> with SingleTickerP
 
   @override
   Widget build(BuildContext context) {
-    return NotificationListener<OverscrollNotification>(
-      onNotification: ((notification) {
-        // 滚动抵达顶部边界，允许触发拖拽事件
-        if (notification.metrics.extentBefore == 0) {
-          dragController.setCanDrag(true);
-        }
-        return false;
-      }),
-      child: NotificationListener<ScrollEndNotification>(
-        onNotification: ((notification) {
-          dragController.setCanDrag(true);
-          return false;
-        }),
-        child: NotificationListener<ScrollUpdateNotification>(
-          onNotification: ((notification) {
-            // 页面往顶部方向移动，禁止本组件发生拖拽
-            if ((notification.dragDetails?.delta.dy ?? 0.0) > 0.0) {
-              dragController.setCanDrag(false);
-            }
-            return false;
-          }),
-          child: NotificationListener<ScrollStartNotification>(
-            onNotification: ((notification) {
-              // 非已滚动到顶，不让滚动事件引发拖拽事件
-              if (notification.metrics.extentBefore != 0) {
-                dragController.setCanDrag(false);
-              }
-              return false;
-            }),
-            child: widget.panelBuilder(context, positionY, recognizer()),
-          ),
-        ),
-      ),
-    );
+    return widget.parentBuilder(context, positionY, dragController, recognizer());
   }
 
   GestureRecognizerFactoryWithHandlers<MyVerticalDragGestureRecognizer> recognizer() {
@@ -364,7 +371,9 @@ class DragContainerState extends State<DragVerticalContainer> with SingleTickerP
 
   @override
   void dispose() {
-    dragController.dispose();
+    if (widget.controller == null) {
+      dragController.dispose();
+    }
     animationController.dispose();
     _recognizer.dispose();
     super.dispose();
