@@ -8,7 +8,7 @@ class DragVerticalPanel extends DragVerticalContainer {
     super.width = double.infinity,
     this.bodyFollowDragFactor = 1.8,
     required this.body,
-    required this.panel,
+    required super.child,
     required super.height,
     required super.defaultPosition,
     required super.dragStageOffset,
@@ -18,14 +18,11 @@ class DragVerticalPanel extends DragVerticalContainer {
   /// Behind the panel widget
   final Widget body;
 
-  /// Drag panel widget
-  final Widget panel;
-
   /// [body] 的拖拽阻力因子，当值为1时，[body] 完全跟随 [panel] 拖动；当>1且越大时，越不跟随拖动
   final double bodyFollowDragFactor;
 
   @override
-  Widget panelBuilder(BuildContext context, double positionY,
+  Widget parentBuilder(BuildContext context, double positionY, DragController dragController,
       GestureRecognizerFactoryWithHandlers<MyVerticalDragGestureRecognizer> recognizer) {
     return Stack(
       children: [
@@ -33,22 +30,8 @@ class DragVerticalPanel extends DragVerticalContainer {
           offset: Offset(0.0, -(maximumPosition - positionY) / bodyFollowDragFactor),
           child: body,
         ),
-        Transform.translate(
-          offset: Offset(0.0, positionY),
-          child: RawGestureDetector(
-            gestures: {MyVerticalDragGestureRecognizer: recognizer},
-            child: SizedBox(
-              height: height,
-              child: panel,
-            ),
-          ),
-        ),
+        dragContentBuilder(context, positionY, dragController, recognizer),
       ],
     );
   }
-
-  @override
-  State<StatefulWidget> createState() => DragVerticalPanelState();
 }
-
-class DragVerticalPanelState extends DragContainerState {}

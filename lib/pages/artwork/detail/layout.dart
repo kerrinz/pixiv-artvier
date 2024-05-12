@@ -53,12 +53,12 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
   /// 拖拽组件最小内容高度
   static const double _minRevealHeight = 180;
 
-
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _dragController.dispose();
     super.dispose();
   }
 
@@ -122,7 +122,7 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
               ),
             ),
           ),
-          panel: Stack(
+          child: Stack(
             children: [
               Container(
                 height: double.infinity,
