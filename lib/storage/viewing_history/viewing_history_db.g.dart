@@ -20,18 +20,14 @@ class $ViewingHistoryTableTable extends ViewingHistoryTable
   @override
   late final GeneratedColumnWithTypeConverter<WorksType, String> type =
       GeneratedColumn<String>('type', aliasedName, false,
-              type: DriftSqlType.string,
-              requiredDuringInsert: true,
-              defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'))
+              type: DriftSqlType.string, requiredDuringInsert: true)
           .withConverter<WorksType>($ViewingHistoryTableTable.$convertertype);
   static const VerificationMeta _worksIdMeta =
       const VerificationMeta('worksId');
   @override
   late final GeneratedColumn<String> worksId = GeneratedColumn<String>(
       'works_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _authorNameMeta =
       const VerificationMeta('authorName');
   @override

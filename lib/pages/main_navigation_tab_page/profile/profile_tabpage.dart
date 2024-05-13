@@ -15,6 +15,7 @@ import 'package:artvier/pages/main_navigation_tab_page/profile/models.dart';
 import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_bottom_sheet.dart';
 import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/theme/theme_bottom_sheet.dart';
 import 'package:artvier/routes.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProfileTabPage extends ConsumerStatefulWidget {
   const ProfileTabPage({super.key});
@@ -42,8 +43,8 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
             ),
         (context) => IconButtonModel(
               LocalizationIntl.of(context).works,
-              Icon(Icons.inventory_2_outlined, color: Theme.of(context).primaryColor, size: 26),
-              RouteNames.myWorks.name,
+              Icon(Icons.inventory_2_outlined, color: Theme.of(context).primaryColor.withOpacity(0.5), size: 26),
+              "",
               ref.watch(globalCurrentAccountProvider)?.user.id,
             ),
         (context) => IconButtonModel(
@@ -54,7 +55,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
             ),
         (context) => IconButtonModel(
               LocalizationIntl.of(context).markers,
-              Icon(Icons.bookmark_border_rounded, color: Theme.of(context).primaryColor, size: 26),
+              Icon(Icons.bookmark_border_rounded, color: Theme.of(context).primaryColor.withOpacity(0.5), size: 26),
               "",
               ref.watch(globalCurrentAccountProvider)?.user.id,
             ),
@@ -263,15 +264,18 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                 // 好P友数
                 Expanded(
                   flex: 1,
-                  child: Container(
-                    color: Colors.transparent,
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Column(
-                      children: [
-                        Text(detail?.profile.totalMypixivUsers.toString() ?? "...",
-                            style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
-                        Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
-                      ],
+                  child: GestureDetector(
+                    onTap: () => Fluttertoast.showToast(msg: "暂未支持"),
+                    child: Container(
+                      color: Colors.transparent,
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Column(
+                        children: [
+                          Text(detail?.profile.totalMypixivUsers.toString() ?? "...",
+                              style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
+                          Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -294,19 +298,19 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                   ),
                 ),
                 // 粉丝（API不支持）
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    color: Colors.transparent,
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Column(
-                      children: [
-                        Text("All >", style: numTextStyle),
-                        Text(LocalizationIntl.of(context).followers, style: secondTextStyle),
-                      ],
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   flex: 1,
+                //   child: Container(
+                //     color: Colors.transparent,
+                //     padding: const EdgeInsets.symmetric(vertical: 4.0),
+                //     child: Column(
+                //       children: [
+                //         Text("All >", style: numTextStyle),
+                //         Text(LocalizationIntl.of(context).followers, style: secondTextStyle),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             );
           })),
@@ -327,15 +331,19 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
         controller: ScrollController(keepScrollOffset: false),
         shrinkWrap: true,
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: _functionItemBuilders.length,
         ),
-        itemCount: 5,
+        itemCount: _functionItemBuilders.length,
         itemBuilder: (BuildContext context, int index) {
           IconButtonModelBuilder builder = _functionItemBuilders[index];
           return GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, builder(context).routeName, arguments: builder(context).argument);
+              if (builder(context).routeName == "") {
+                Fluttertoast.showToast(msg: "暂未支持，等待后续更新");
+              } else {
+                Navigator.pushNamed(context, builder(context).routeName, arguments: builder(context).argument);
+              }
             },
             child: Container(
               color: Colors.transparent,
