@@ -1,9 +1,9 @@
 # Pixiv Artvier
-[![GitHub stars](https://img.shields.io/github/stars/yleencc/pixiv-artvier)](https://github.com/yleencc/pixiv-artvier/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/yleencc/pixiv-artvier)](https://github.com/yleencc/pixiv-artvier/network)
-[![GitHub release](https://img.shields.io/github/v/release/yleencc/pixiv-artvier?include_prereleases)](https://github.com/yleencc/pixiv-artvier/releases)
-![GitHub downloads](https://img.shields.io/github/downloads/yleencc/pixiv-artvier/total.svg?label=downloads)
-[![GitHub license](https://img.shields.io/github/license/yleencc/pixiv-artvier)](https://github.com/yleencc/pixiv-artvier/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/kerrinz/pixiv-artvier)](https://github.com/kerrinz/pixiv-artvier/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/kerrinz/pixiv-artvier)](https://github.com/kerrinz/pixiv-artvier/network)
+[![GitHub release](https://img.shields.io/github/v/release/kerrinz/pixiv-artvier?include_prereleases)](https://github.com/kerrinz/pixiv-artvier/releases)
+![GitHub downloads](https://img.shields.io/github/downloads/kerrinz/pixiv-artvier/total.svg?label=downloads)
+[![GitHub license](https://img.shields.io/github/license/kerrinz/pixiv-artvier)](https://github.com/kerrinz/pixiv-artvier/blob/master/LICENSE)
 
 ## 技术栈
 
@@ -53,11 +53,11 @@
 
 | 首页（IOS） | 个人页（IOS） |
 |:---:|:---:|
-|![](https://yleen.cc/files/images/artvier/home_230227.jpg)|![](https://yleen.cc/files/images/artvier/profile_230227.jpg)
+|![](https://kerrinz.com/files/images/artvier/home_230227.jpg)|![](https://yleen.cc/files/images/artvier/profile_230227.jpg)
 
 | 用户详情页（IOS） | 作品详情页（IOS） |
 |:---:|:---:|
-|![](https://yleen.cc/files/images/artvier/user_detail_230227.jpg)|![](https://yleen.cc/files/images/artvier/illust_detail_230227.jpg)
+|![](https://kerrinz.com/files/images/artvier/user_detail_230227.jpg)|![](https://yleen.cc/files/images/artvier/illust_detail_230227.jpg)
 
 ## 免责声明
 
