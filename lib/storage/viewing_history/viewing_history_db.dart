@@ -8,7 +8,7 @@ import 'package:path/path.dart' as p;
 
 part 'viewing_history_db.g.dart';
 
-final ViewingHistoryDatabase viewingHistoryDatabase = ViewingHistoryDatabase();
+ViewingHistoryDatabase viewingHistoryDatabase = ViewingHistoryDatabase();
 
 @DriftDatabase(tables: [ViewingHistoryTable])
 class ViewingHistoryDatabase extends _$ViewingHistoryDatabase {
@@ -28,6 +28,15 @@ class ViewingHistoryDatabase extends _$ViewingHistoryDatabase {
   /// 清空记录
   Future<List<ViewingHistoryTableData>> clearAll() async {
     return delete(viewingHistoryTable).goAndReturn();
+  }
+
+  /// 移除数据库
+  Future<void> deleteDatabase() async {
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(p.join(dbFolder.path, 'viewing_history.db'));
+    if (await file.exists()) {
+      await file.delete();
+    }
   }
 
   /// 统计数量

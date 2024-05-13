@@ -25,11 +25,13 @@ class DownloadsNotifier extends AutoDisposeAsyncNotifier<List<ViewingHistoryTabl
   }
 
   /// 清空历史记录
-  Future<List<ViewingHistoryTableData>> clearAll() {
-    return viewingHistoryDatabase.clearAll().then((value) {
-      state = const AsyncValue.data([]);
-      return value;
-    });
+  Future<List<ViewingHistoryTableData>> clearAll() async {
+    // 旧表设计失误，以移除数据库作为清空
+    await viewingHistoryDatabase.close();
+    await viewingHistoryDatabase.deleteDatabase();
+    state = const AsyncValue.data([]);
+    viewingHistoryDatabase = ViewingHistoryDatabase();
+    return [];
   }
 
   /// 重新加载状态

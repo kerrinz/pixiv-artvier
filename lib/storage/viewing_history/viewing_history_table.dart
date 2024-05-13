@@ -7,10 +7,10 @@ class ViewingHistoryTable extends Table {
   TextColumn get title => text()();
 
   /// 作品类型
-  TextColumn get type => textEnum<WorksType>().unique()();
+  TextColumn get type => textEnum<WorksType>()();
 
   /// 作品 Id
-  TextColumn get worksId => text().unique()();
+  TextColumn get worksId => text()();
 
   /// 作者
   TextColumn get authorName => text().nullable()();
