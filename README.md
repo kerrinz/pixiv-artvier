@@ -2,7 +2,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/kerrinz/pixiv-artvier)](https://github.com/kerrinz/pixiv-artvier/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/kerrinz/pixiv-artvier)](https://github.com/kerrinz/pixiv-artvier/network)
 [![GitHub release](https://img.shields.io/github/v/release/kerrinz/pixiv-artvier?include_prereleases)](https://github.com/kerrinz/pixiv-artvier/releases)
-![GitHub downloads](https://img.shields.io/github/downloads/kerrinz/pixiv-artvier/total.svg?label=downloads)
+[![GitHub downloads](https://img.shields.io/github/downloads/kerrinz/pixiv-artvier/total.svg?label=downloads)](https://github.com/kerrinz/pixiv-artvier/releases)
 [![GitHub license](https://img.shields.io/github/license/kerrinz/pixiv-artvier)](https://github.com/kerrinz/pixiv-artvier/blob/master/LICENSE)
 
 ## 技术栈
@@ -14,7 +14,7 @@
 一个 pixiv 第三方 app，同时支持Android、IOS系统，仅用于学习交流使用。
 
 ## 安装方式
-前往[`Release`](https://github.com/kerrinz/pixiv-artvier/tags)页面下载对应系统的安装包。
+前往[`Release`](https://github.com/kerrinz/pixiv-artvier/releases)页面下载对应系统的安装包。
 
 注：
 1. 目前仅为预览版，有不少问题和功能未完成；
