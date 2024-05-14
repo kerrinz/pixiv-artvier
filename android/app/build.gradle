@@ -64,9 +64,13 @@ android {
         }
         debug {
             signingConfig signingConfigs.release
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
         }
         profile {
             signingConfig signingConfigs.release
+            applicationIdSuffix '.profile'
+            versionNameSuffix '-PROFILE'
         }
     }
 }
