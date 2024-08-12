@@ -36,7 +36,7 @@ class DownloadTaskQueue {
   /// 下载任务队列（实时更新数据）
   List<DownloadTask> get taskQuene => _imageTaskQuene;
 
-  void pushTask(DownloadTaskTableData taskData) async {
+  Future<void> pushTask(DownloadTaskTableData taskData) async {
     DownloadTaskTableData insertedData = taskData;
     bool canDownload = countDownloading < maxConcurrentDownloads;
     // 无任务 Id 则在数据库新建新任务
