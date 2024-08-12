@@ -52,6 +52,7 @@ class FollowNotifier extends BaseStateNotifier<UserFollowState> {
   }) async {
     var oldState = state;
     state = UserFollowState.requestingFollow;
+    notifyGlobal();
     bool result = false;
     try {
       result = await ApiUser(requester).followUser(userId, restrict: restrict);
@@ -78,6 +79,7 @@ class FollowNotifier extends BaseStateNotifier<UserFollowState> {
   }) async {
     var oldState = state;
     state = UserFollowState.requestingUnfollow;
+    notifyGlobal();
     bool result = false;
     try {
       result = await ApiUser(requester).unfollowUser(userId);

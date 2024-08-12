@@ -1,3 +1,4 @@
+import 'package:artvier/pages/user/detail/provider/user_follow_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/component/text/collapsible_text.dart';
 import 'package:artvier/config/constants.dart';
-import 'package:artvier/config/enums.dart';
 import 'package:artvier/l10n/localization_intl.dart';
 import 'package:artvier/model_response/user/user_detail.dart';
 import 'package:artvier/pages/artwork/detail/widgets/user_follow_button.dart';
@@ -216,10 +216,12 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
             flex: 1,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: UserFollowButton(
-                userId: userId,
-                followState: detail.user.isFollowed ? UserFollowState.followed : UserFollowState.notFollow,
-              ),
+              child: Consumer(builder: (context, ref, child) {
+                return UserFollowButton(
+                  userId: userId,
+                  followState: ref.watch(userFollowStateProvider(userId)),
+                );
+              }),
             ),
           ),
         ],

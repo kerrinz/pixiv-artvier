@@ -7,7 +7,7 @@ import 'package:artvier/global/model/following_state_changed_arguments%20copy/fo
 import 'package:artvier/global/provider/follow_state_provider.dart';
 
 /// 关注或已关注的按钮
-class UserFollowButton extends ConsumerWidget with _FollowButtonLogic {
+class UserFollowButton extends ConsumerWidget with FollowButtonLogic {
   UserFollowButton({
     super.key,
     required this.followState,
@@ -88,7 +88,7 @@ class UserFollowButton extends ConsumerWidget with _FollowButtonLogic {
   }
 }
 
-mixin _FollowButtonLogic {
+mixin FollowButtonLogic {
   StateNotifierProvider<FollowNotifier, UserFollowState> get userFollowProvider;
 
   void handlePressed(WidgetRef ref) {
@@ -98,21 +98,18 @@ mixin _FollowButtonLogic {
     }
     var notifier = ref.read(userFollowProvider.notifier);
     if (state == UserFollowState.followed) {
-      try {
-        notifier
-            .unfollow()
-            .then((value) => Fluttertoast.showToast(msg: "取关成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
-      } catch (e) {
-        Fluttertoast.showToast(msg: "取关失败", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-      }
+      notifier
+          .unfollow()
+          .then((value) => Fluttertoast.showToast(msg: "取关成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0))
+          .onError(
+            (error, stackTrace) => Fluttertoast.showToast(msg: "取关失败", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0),
+          );
     } else {
-      try {
-        notifier
-            .follow(restrict: Restrict.public)
-            .then((value) => Fluttertoast.showToast(msg: "关注成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
-      } catch (e) {
-        Fluttertoast.showToast(msg: "关注失败", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-      }
+      notifier
+          .follow(restrict: Restrict.public)
+          .then((value) => Fluttertoast.showToast(msg: "关注成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0))
+          .onError((error, stackTrace) =>
+              Fluttertoast.showToast(msg: "关注失败", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
     }
   }
 }

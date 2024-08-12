@@ -5,6 +5,7 @@ import 'package:artvier/global/download_task_queue.dart';
 import 'package:artvier/pages/artwork/viewer/model/image_viewer_page_arguments.dart';
 import 'package:artvier/storage/downloads/downloads_db.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/pages/artwork/viewer/image_viewer_page.dart';
@@ -50,7 +51,7 @@ mixin ImageViewerPageLogic on BasePageState<ImageViewerPage> {
     bool isPermit = await checkPermissions();
     if (!isPermit) return; // 没权限，不下载
     ImageViewerPageArguments arg = widget.arguments;
-    DownloadTaskQueue().pushTask(
+    await DownloadTaskQueue().pushTask(
       DownloadTaskTableData(
         title: arg.title,
         worksId: arg.worksId,
@@ -61,5 +62,6 @@ mixin ImageViewerPageLogic on BasePageState<ImageViewerPage> {
         status: DownloadState.waiting,
       ),
     );
+    Fluttertoast.showToast(msg: "开始下载...", toastLength: Toast.LENGTH_LONG);
   }
 }

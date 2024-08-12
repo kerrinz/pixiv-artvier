@@ -1,5 +1,7 @@
+import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
+import 'package:artvier/pages/artwork/detail/widgets/menu_bottom_sheet.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/storage/viewing_history/viewing_history_db.dart';
 import 'package:extended_image/extended_image.dart';
@@ -106,7 +108,16 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
             AppbarBlurIconButton(
               icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
               margin: const EdgeInsets.symmetric(horizontal: 8.0),
-              onPressed: () {},
+              onPressed: () {
+                BottomSheets.showCustomBottomSheet<bool>(
+                  context: ref.context,
+                  exitOnClickModal: true,
+                  enableDrag: false,
+                  child: ArtworkDetailMenu(
+                    detail: widget.args.detail ?? detail,
+                  ),
+                );
+              },
             )
           ],
         ),
@@ -180,68 +191,73 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
         imageUrls.add(item.imageUrls.large);
       }
     }
-    return Column(
-      children: [
-        for (String url in imageUrls)
-          Builder(builder: (context) {
-            Key? imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
-            return GestureDetector(
-              onTap: () => handleTapImage(detail, imageUrls.indexOf(url)),
-              child: EnhanceNetworkImage(
-                key: imgKey,
-                image: ExtendedNetworkImageProvider(
-                  HttpHostOverrides().pxImgUrl(url),
-                  headers: const {"referer": CONSTANTS.referer},
-                  cache: true,
-                ),
-                // key: _imgKey,
-                errorWidget: (context, url, error) {
-                  return LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      return Container(
-                        alignment: Alignment.center,
-                        width: constraints.maxWidth,
-                        height: detail.height / detail.width * constraints.maxWidth,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            (context as Element).markNeedsBuild();
-                          },
-                          child: const Text("加载失败，点击重试"),
-                        ),
-                      );
-                    },
-                  );
-                },
-                // 加载时显示loading图标
-                loadingWidget: (BuildContext context, String url, ImageChunkEvent process) {
-                  return LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      return Container(
-                        alignment: Alignment.center,
-                        width: constraints.maxWidth,
-                        height: detail.height / detail.width * constraints.maxWidth,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircularProgressIndicator(
-                              // strokeWidth: 4.0,
-                              value: process.progress,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Text("${((process.progress ?? 0) * 100).toStringAsFixed(0)}%"),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
+    return Center(
+      child: ListView.builder(
+        clipBehavior: Clip.none,
+        shrinkWrap: true,
+        padding: EdgeInsets.zero, // 去除预留的安全区
+        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+        itemBuilder: ((context, index) {
+          String url = imageUrls[index];
+          Key? imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
+          return GestureDetector(
+            onTap: () => handleTapImage(detail, imageUrls.indexOf(url)),
+            child: EnhanceNetworkImage(
+              key: imgKey,
+              image: ExtendedNetworkImageProvider(
+                HttpHostOverrides().pxImgUrl(url),
+                headers: const {"referer": CONSTANTS.referer},
+                cache: true,
               ),
-            );
-          }),
-      ],
+              // key: _imgKey,
+              errorWidget: (context, url, error) {
+                return LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Container(
+                      alignment: Alignment.center,
+                      width: constraints.maxWidth,
+                      height: detail.height / detail.width * constraints.maxWidth,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          (context as Element).markNeedsBuild();
+                        },
+                        child: const Text("加载失败，点击重试"),
+                      ),
+                    );
+                  },
+                );
+              },
+              // 加载时显示loading图标
+              loadingWidget: (BuildContext context, String url, ImageChunkEvent process) {
+                return LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Container(
+                      alignment: Alignment.center,
+                      width: constraints.maxWidth,
+                      height: detail.height / detail.width * constraints.maxWidth,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            // strokeWidth: 4.0,
+                            value: process.progress,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text("${((process.progress ?? 0) * 100).toStringAsFixed(0)}%"),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          );
+        }),
+        itemCount: imageUrls.length,
+      ),
     );
   }
 

@@ -1,10 +1,12 @@
+import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
+import 'package:artvier/pages/user/detail/provider/user_follow_provider.dart';
+import 'package:artvier/pages/user/detail/widget/menu_bottom_sheet.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/config/constants.dart';
-import 'package:artvier/config/enums.dart';
 import 'package:artvier/pages/artwork/detail/widgets/user_follow_button.dart';
 import 'package:artvier/pages/user/detail/provider/user_detail_provider.dart';
 
@@ -87,15 +89,9 @@ class UserDetailPageAppBarWidget extends ConsumerWidget {
             // 关注按钮
             Consumer(
               builder: (_, ref, __) {
-                // var followState = ref.watch(userFollowStateProvider(userId));
-                var userFollowState = ref.watch(userDetailProvider(userId)).when(
-                      data: (data) => data.user.isFollowed ? UserFollowState.followed : UserFollowState.notFollow,
-                      error: (error, stackTrace) => null,
-                      loading: () => null,
-                    );
-                if (userFollowState == null) return Container();
+                var followState = ref.watch(userFollowStateProvider(userId));
                 return UserFollowButton(
-                  followState: userFollowState,
+                  followState: followState,
                   userId: userId,
                 );
               },
@@ -105,12 +101,35 @@ class UserDetailPageAppBarWidget extends ConsumerWidget {
       ),
       actions: [
         // 菜单按钮
-        BlurButton(
-          onPressed: () {},
-          borderRadius: BorderRadius.circular(20.0),
-          margin: const EdgeInsets.symmetric(horizontal: 8.0),
-          background: buttonBackground,
-          child: Icon(Icons.more_horiz_rounded, color: buttonForeground),
+        Consumer(
+          builder: (_, ref, __) {
+            var followState = ref.watch(userFollowStateProvider(userId));
+            return ref.watch(userDetailProvider(userId)).when(
+                  data: (data) {
+                    return BlurButton(
+                      onPressed: () {
+                        BottomSheets.showCustomBottomSheet<bool>(
+                          context: ref.context,
+                          exitOnClickModal: true,
+                          enableDrag: false,
+                          child: UserDetailMenu(
+                            userId: userId,
+                            avatarUrl: avatarUrl,
+                            name: name,
+                            followState: followState,
+                          ),
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(20.0),
+                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                      background: buttonBackground,
+                      child: Icon(Icons.more_horiz_rounded, color: buttonForeground),
+                    );
+                  },
+                  error: (error, stackTrace) => const SizedBox(),
+                  loading: () => const SizedBox(),
+                );
+          },
         ),
       ],
     );
