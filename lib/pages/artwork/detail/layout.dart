@@ -112,14 +112,11 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
           dragStageOffset: 50,
           body: Container(
             padding: const EdgeInsets.only(bottom: _minRevealHeight - _floatingButtonOffset - 20),
-            alignment: Alignment.center,
+            alignment: Alignment.topCenter,
             color: Colors.black,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: SizedBox(
-                width: double.infinity,
-                child: widget.viewerContent,
-              ),
+            child: SizedBox(
+              width: double.infinity,
+              child: widget.viewerContent,
             ),
           ),
           child: Stack(

@@ -1,5 +1,9 @@
 import 'dart:async';
 
+import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/model/following_state_changed_arguments%20copy/following_state_changed_arguments.dart';
+import 'package:artvier/global/provider/follow_state_provider.dart';
+import 'package:artvier/pages/user/detail/provider/user_follow_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/api_user.dart';
@@ -11,7 +15,7 @@ final userDetailProvider =
     AutoDisposeAsyncNotifierProviderFamily<UserDetailNotifier, UserDetail, String>(UserDetailNotifier.new);
 
 /// 用户详情
-///
+/// 关注状态将转换到 [userFollowStateProvider] 中
 /// arg为userId
 class UserDetailNotifier extends BaseAutoDisposeFamilyAsyncNotifier<UserDetail, String> {
   late final String userId;
@@ -30,6 +34,13 @@ class UserDetailNotifier extends BaseAutoDisposeFamilyAsyncNotifier<UserDetail, 
   /// 初始化数据
   Future<UserDetail> fetch() async {
     var result = await ApiUser(requester).userDetail(userId);
+    var followState = result.user.isFollowed ? UserFollowState.followed : UserFollowState.notFollow;
+    // 初始化关注状态
+    ref.read(userFollowStateProvider(userId).notifier).setFollowState(followState);
+    // 同步到全局以纠正数据
+    ref
+        .read(globalFollowingStateChangedProvider.notifier)
+        .update((args) => FollowingStateChangedArguments(state: followState, userId: userId));
     return result;
   }
 

@@ -6,6 +6,7 @@ class BottomSheets {
     required BuildContext context,
     required Widget child,
     Color? background,
+    Color barrierColor = Colors.black54,
     borderRadius = const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
     enableDrag = true, // 拖拽退出
     exitOnClickModal = true, // 点击遮罩层退出
@@ -16,7 +17,7 @@ class BottomSheets {
       enableDrag: enableDrag,
       backgroundColor: Colors.transparent,
       elevation: 0,
-      barrierColor: Colors.black54, // 遮罩层颜色
+      barrierColor: barrierColor, // 遮罩层颜色
       builder: (BuildContext context) {
         return Stack(
           children: [
@@ -43,6 +44,7 @@ class BottomSheets {
   static showSelectItemsBottomSheet({
     required BuildContext context,
     required List<Widget> items,
+    barrierColor = Colors.black38,
     enableDrag = true,
     showCancel = true, // 是否显示取消按钮
     String cancelText = "取消", // 取消按钮的文字
@@ -52,7 +54,7 @@ class BottomSheets {
       isScrollControlled: true,
       enableDrag: enableDrag,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black38, // 遮罩层颜色
+      barrierColor: barrierColor, // 遮罩层颜色
       builder: (BuildContext context) {
         return Stack(
           children: [
