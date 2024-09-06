@@ -1,3 +1,4 @@
+import 'package:artvier/business_component/ugoira_image/ugoira_image.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
@@ -200,60 +201,74 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
         itemBuilder: ((context, index) {
           String url = imageUrls[index];
           Key? imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
-          return GestureDetector(
-            onTap: () => handleTapImage(detail, imageUrls.indexOf(url)),
-            child: EnhanceNetworkImage(
-              key: imgKey,
-              image: ExtendedNetworkImageProvider(
-                HttpHostOverrides().pxImgUrl(url),
-                headers: const {"referer": CONSTANTS.referer},
-                cache: true,
+          return Stack(
+            children: [
+              // 图片
+              GestureDetector(
+                onTap: () => handleTapImage(detail, imageUrls.indexOf(url)),
+                child: EnhanceNetworkImage(
+                  key: imgKey,
+                  image: ExtendedNetworkImageProvider(
+                    HttpHostOverrides().pxImgUrl(url),
+                    headers: const {"referer": CONSTANTS.referer},
+                    cache: true,
+                  ),
+                  // key: _imgKey,
+                  errorWidget: (context, url, error) {
+                    return LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return Container(
+                          alignment: Alignment.center,
+                          width: constraints.maxWidth,
+                          height: detail.height / detail.width * constraints.maxWidth,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              (context as Element).markNeedsBuild();
+                            },
+                            child: const Text("加载失败，点击重试"),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  // 加载时显示loading图标
+                  loadingWidget: (BuildContext context, String url, ImageChunkEvent process) {
+                    return LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return Container(
+                          alignment: Alignment.center,
+                          width: constraints.maxWidth,
+                          height: detail.height / detail.width * constraints.maxWidth,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(
+                                // strokeWidth: 4.0,
+                                value: process.progress,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text("${((process.progress ?? 0) * 100).toStringAsFixed(0)}%"),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
-              // key: _imgKey,
-              errorWidget: (context, url, error) {
-                return LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return Container(
-                      alignment: Alignment.center,
-                      width: constraints.maxWidth,
-                      height: detail.height / detail.width * constraints.maxWidth,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          (context as Element).markNeedsBuild();
-                        },
-                        child: const Text("加载失败，点击重试"),
-                      ),
-                    );
-                  },
+              LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                return UgoiraImage(
+                  size: Size(
+                    constraints.maxWidth,
+                    detail.height / detail.width * constraints.maxWidth,
+                  ),
+                  illustId: detail.id.toString(),
                 );
-              },
-              // 加载时显示loading图标
-              loadingWidget: (BuildContext context, String url, ImageChunkEvent process) {
-                return LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return Container(
-                      alignment: Alignment.center,
-                      width: constraints.maxWidth,
-                      height: detail.height / detail.width * constraints.maxWidth,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(
-                            // strokeWidth: 4.0,
-                            value: process.progress,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Text("${((process.progress ?? 0) * 100).toStringAsFixed(0)}%"),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+              })
+            ],
           );
         }),
         itemCount: imageUrls.length,
