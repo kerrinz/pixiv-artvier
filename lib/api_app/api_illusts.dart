@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/model_response/illusts/illust_detail.dart';
 import 'package:artvier/model_response/illusts/pixivision/spotlight_articles.dart';
+import 'package:artvier/model_response/illusts/ugoira.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/config/enums.dart';
@@ -26,6 +27,19 @@ class ApiIllusts extends ApiBase {
       cancelToken: cancelToken,
     );
     return IllustDetail.fromJson(json.decode(res.data));
+  }
+
+  /// 获取插画动图信息
+  Future<UgoiraMetadataResult> ugoiraMetadata(String illustId, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      '/v1/ugoira/metadata',
+      queryParameters: {
+        "illust_id": illustId,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return UgoiraMetadataResult.fromJson(json.decode(res.data));
   }
 
   /// 获取推荐插画

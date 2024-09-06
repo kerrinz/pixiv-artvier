@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class BlurButton extends StatefulWidget {
   const BlurButton({
     super.key,
-    required this.onPressed,
+    this.onPressed,
     required this.child,
     this.borderRadius,
     this.margin,
