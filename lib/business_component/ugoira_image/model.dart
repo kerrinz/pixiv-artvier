@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:artvier/component/image/gif_image.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'model.freezed.dart';
@@ -11,7 +10,7 @@ part 'model.freezed.dart';
 class UgoiraImageState with _$UgoiraImageState {
   const factory UgoiraImageState({
     required String illustId,
-    required List<Image>? images,
+    required List<GifImageMeta>? images,
     /** 0 - 1 */
     required double progress,
     required UgoiraImageLoadingState loadingState,

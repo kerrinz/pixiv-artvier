@@ -20,13 +20,14 @@ class UgoiraImage extends ConsumerWidget {
       width: size.width,
       height: size.height,
       child: Stack(
+        fit: StackFit.passthrough,
         children: [
           // 动图
           Consumer(builder: (context, ref, child) {
             var loadingState = ref.watch(ugoiraIllustProvider(illustId).select((value) => value.loadingState));
             var images = ref.watch(ugoiraIllustProvider(illustId).select((value) => value.images));
             if (loadingState == UgoiraImageLoadingState.success) {
-              return GifImage(images: images!, delay: 50);
+              return GifImage(images: images!);
             } else {
               return const SizedBox();
             }
@@ -34,7 +35,7 @@ class UgoiraImage extends ConsumerWidget {
           // 加载按钮
           Positioned(
             right: 12,
-            bottom: 16,
+            bottom: 40,
             child: Consumer(builder: (context, ref, child) {
               var state = ref.watch(ugoiraIllustProvider(illustId));
               switch (state.loadingState) {
@@ -55,6 +56,7 @@ class UgoiraImage extends ConsumerWidget {
                   return BlurButton(
                     width: 46,
                     height: 46,
+                    pressedOpacity: 1,
                     borderRadius: const BorderRadius.all(Radius.circular(50.0)),
                     background: Colors.black45,
                     child: Center(child: Text('${(state.progress * 100).round()}%')),
