@@ -75,6 +75,15 @@ class _AboutAppPageState extends BasePageState<AboutAppPage> {
                     ),
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                  child: Column(
+                    children: [
+                      Text(i10n.appShortTermsTitle, style: textTheme.titleSmall!.copyWith(height: 2)),
+                      Text(i10n.appShortTerms, style: textTheme.labelSmall),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
