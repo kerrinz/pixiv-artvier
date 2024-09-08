@@ -22,7 +22,7 @@ class LocalizationIntl {
   }
 
   // 引导页
-  String get tokenLogin => Intl.message('Token login', name: 'tokenLogin', desc: 'Button and title of login by token');
+  String get tokenLogin => Intl.message('Token change', name: 'tokenLogin', desc: 'Button and title of login by token');
   String get webLogin => Intl.message('Web login', name: 'webLogin', desc: 'Button and title of login by web');
   String get login => Intl.message('Login', name: 'login', desc: 'An action of login account');
   String get loginSuccess =>
@@ -64,6 +64,12 @@ class LocalizationIntl {
       Intl.message('About app', name: 'aboutApp', desc: 'Button link or page title to about app page');
   String get openLinkHint => Intl.message('Do you want to open this link?',
       name: 'openLinkHint', desc: 'Hint before open the link using an external browser');
+  String get appShortTermsTitle =>
+      Intl.message('By using the Software, you agree to the following terms:', name: 'appShortTermsTitle', desc: '');
+  String get appShortTerms => Intl.message(
+      '1. This software is free of charge and is only for learning and communication use, and may not be used for any other purpose (especially not for commercial purposes), and the legal liability for any other use shall not be borne by me.\n2. This software will not be available for download anywhere other than the Github repository, please comply with local laws and regulations, and you shall bear the legal responsibility for downloading and distributing this software.\n3. If access to the official Pixiv website is not supported in your current country or region, you will also not be able to use and will not be permitted to use the Software.\n4. This software does not set up a server and does not provide resources and services, all network data in the software comes from Pixiv\'s official interface, and the copyright of all works (including illustrations, comics, novels, etc.) belongs to Pixiv or the original author.',
+      name: 'appShortTerms',
+      desc: '');
 
   // 深色模式、主题相关
   String get lightBrightness => Intl.message("Light", name: 'lightBrightness', desc: 'Light brightness for app');
@@ -115,12 +121,11 @@ class LocalizationIntl {
       Intl.message('Enable direct connection (preview)', name: 'enableDirectConnection', desc: '');
   String get directConnectionHint =>
       Intl.message('This feature does not currently support login by web', name: 'directConnectionHint', desc: '');
-  String get appVersion =>
-      Intl.message('Version', name: 'appVersion', desc: '');
-  String get appAuthor =>
-      Intl.message('Author', name: 'appAuthor', desc: '');
-  String get appProjectLink =>
-      Intl.message('Project link', name: 'appProjectLink', desc: '');
+  String get appVersion => Intl.message('Version', name: 'appVersion', desc: '');
+  String get appAuthor => Intl.message('Author', name: 'appAuthor', desc: '');
+  String get appProjectLink => Intl.message('Project link', name: 'appProjectLink', desc: '');
+  String get proxySettingsTitle => Intl.message('HTTP Proxy settings', name: 'proxySettingsTitle', desc: '');
+  String get proxySettingsTitleHint => Intl.message('(The proxy settings do not take effect for logins)', name: 'proxySettingsTitleHint', desc: '');
 
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');

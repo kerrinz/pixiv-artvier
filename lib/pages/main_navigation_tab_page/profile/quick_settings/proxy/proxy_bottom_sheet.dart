@@ -1,12 +1,10 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/bottom_sheet/slide_bar.dart';
-import 'package:artvier/component/perference/perference_single_choise_panel.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/provider/network_provider.dart';
 import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/proxy/logic.dart';
-import 'package:artvier/request/http_host_overrides.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -38,83 +36,13 @@ class SettingNetworkPageState extends BasePageState<ProxyOriginSettingsBottomShe
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const BottomSheetSlideBar(),
+        BottomSheetSlideBar(),
         Padding(
-          padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 24),
-          child: Consumer(builder: (_, ref, __) {
-            bool isEnabled = ref.watch(globalProxyStateProvider.select((value) => value.isProxyEnabled));
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                PerferenceSingleChoisePanel(
-                  title: 'HTTP网络代理',
-                  caption: '（代理设置不对网页登录生效）',
-                  selectedindex: isEnabled ? 1 : 0,
-                  onSelect: (index) {
-                    switch (index) {
-                      case 0:
-                        handleProxyEnable(ref, proxyEnabled: false);
-                        break;
-                      case 1:
-                        handleProxyEnable(ref, proxyEnabled: true);
-                    }
-                  },
-                  widgets: <Widget>[
-                    Text(
-                      i10n.defaultNoProxy,
-                      style: textTheme.labelMedium,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          i10n.customProxy,
-                          style: textTheme.labelMedium,
-                        ),
-                        Expanded(child: _buildProxyBadge(context)),
-                      ],
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            i10n.enableDirectConnection,
-                            style: textTheme.titleMedium,
-                          ),
-                          Text(
-                            i10n.directConnectionHint,
-                            style: textTheme.labelSmall?.copyWith(
-                              color: textTheme.labelSmall?.color?.withOpacity(0.5),
-                            ),
-                          ),
-                        ],
-                      )),
-                      Builder(builder: (context) {
-                        bool enable = ref.watch(globalDirectConnectionProvider);
-                        return CupertinoSwitch(
-                          value: enable,
-                          activeColor: Theme.of(context).colorScheme.primary,
-                          onChanged: (value) async {
-                            await ref.watch(globalDirectConnectionProvider.notifier).toggleDirect();
-                            HttpHostOverrides().reload();
-                          },
-                        );
-                      })
-                    ],
-                  ),
-                )
-              ],
-            );
-          }),
+          padding: EdgeInsets.only(left: 12.0, right: 12.0, bottom: 24),
+          child: ProxySettings(),
         ),
       ],
     );

@@ -1,4 +1,5 @@
 import 'package:artvier/global/variable.dart';
+import 'package:artvier/pages/settings/about/provider/about_app_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -48,7 +49,7 @@ class MyAppState extends ConsumerState<MyApp> {
     ThemeData themeDataLight = Themes.match(ThemeTypes.purple, Brightness.light).themeData;
     ThemeData themeDataDark = Themes.match(ThemeTypes.purple, Brightness.dark).themeData;
     return MaterialApp(
-      title: 'Artvier',
+      title: ref.watch(packageInfoProvider).whenOrNull(data: (data) => data.appName) ?? "",
       debugShowCheckedModeBanner: false, // 禁用Debug角标
       onGenerateRoute: (RouteSettings settings) {
         RouteWidgetBuilder builder = Routes.match(context, settings.name);
