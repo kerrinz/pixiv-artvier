@@ -1,22 +1,24 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/badge.dart';
-import 'package:artvier/component/bottom_sheet/slide_bar.dart';
+import 'package:artvier/component/perference/perference_single_choise_panel.dart';
 import 'package:artvier/config/constants.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/global/provider/network_provider.dart';
 import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/proxy/logic.dart';
-import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_settings.dart';
+import 'package:artvier/request/http_host_overrides.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class ProxyOriginSettingsBottomSheet extends ConsumerStatefulWidget {
-  const ProxyOriginSettingsBottomSheet({super.key});
+class ProxySettings extends ConsumerStatefulWidget {
+  const ProxySettings({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => SettingNetworkPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => ProxySettingsPageState();
 }
 
-class SettingNetworkPageState extends BasePageState<ProxyOriginSettingsBottomSheet> with ProxyLogic {
+class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogic {
   late TextEditingController _hostController;
   late TextEditingController _portController;
 
@@ -36,16 +38,85 @@ class SettingNetworkPageState extends BasePageState<ProxyOriginSettingsBottomShe
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        BottomSheetSlideBar(),
-        Padding(
-          padding: EdgeInsets.only(left: 12.0, right: 12.0, bottom: 24),
-          child: ProxySettings(),
-        ),
-      ],
-    );
+    return Consumer(builder: (_, ref, __) {
+      bool isEnabled = ref.watch(globalProxyStateProvider.select((value) => value.isProxyEnabled));
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PerferenceSingleChoisePanel(
+            title: i10n.proxySettingsTitle,
+            caption: i10n.proxySettingsTitleHint,
+            selectedindex: isEnabled ? 1 : 0,
+            onSelect: (index) {
+              switch (index) {
+                case 0:
+                  handleProxyEnable(ref, proxyEnabled: false);
+                  break;
+                case 1:
+                  handleProxyEnable(ref, proxyEnabled: true);
+              }
+            },
+            widgets: <Widget>[
+              Text(
+                i10n.defaultNoProxy,
+                style: textTheme.labelMedium,
+              ),
+              Row(
+                children: [
+                  Text(
+                    i10n.customProxy,
+                    style: textTheme.labelMedium,
+                  ),
+                  Expanded(child: _buildProxyBadge(context)),
+                ],
+              ),
+            ],
+          ),
+          Builder(builder: (context) {
+            // 未登录则隐藏直连功能
+            bool hide = ref.watch(globalCurrentAccountProvider) == null;
+            bool enable = ref.watch(globalDirectConnectionProvider);
+            if (hide) {
+              return const SizedBox();
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          i10n.enableDirectConnection,
+                          style: textTheme.titleMedium,
+                        ),
+                        Text(
+                          i10n.directConnectionHint,
+                          style: textTheme.labelSmall?.copyWith(
+                            color: textTheme.labelSmall?.color?.withOpacity(0.5),
+                          ),
+                        ),
+                      ],
+                    )),
+                    Builder(builder: (context) {
+                      return CupertinoSwitch(
+                        value: enable,
+                        activeColor: Theme.of(context).colorScheme.primary,
+                        onChanged: (value) async {
+                          await ref.watch(globalDirectConnectionProvider.notifier).toggleDirect();
+                          HttpHostOverrides().reload();
+                        },
+                      );
+                    })
+                  ],
+                ),
+              );
+            }
+          }),
+        ],
+      );
+    });
   }
 
   // 自定义代理的小徽章

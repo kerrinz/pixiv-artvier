@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:artvier/pages/settings/about/provider/about_app_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';
@@ -25,9 +26,9 @@ class BootingPageState extends ConsumerState<BootingPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Artvier",
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500),
+            Text(
+              ref.watch(packageInfoProvider).whenOrNull(data: (data) => data.appName) ?? "",
+              style: const TextStyle(fontSize: 40, fontWeight: FontWeight.w500),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 80.0),
