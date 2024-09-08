@@ -1,16 +1,22 @@
-import 'dart:ui';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
+class GifImageMeta {
+  ui.Image image;
+
+  /// 帧时间
+  int delay;
+
+  GifImageMeta({required this.image, required this.delay});
+}
+
+/// 动图
 class GifImage extends StatefulWidget {
-  final List<ui.Image> images; // 图片帧列表
-  final int delay; // 帧时间（milliseconds）
-  // final double fps; // 帧率
+  final List<GifImageMeta> images; // 图片列表
 
   const GifImage({
     super.key,
     required this.images,
-    required this.delay,
   });
 
   @override
@@ -18,28 +24,27 @@ class GifImage extends StatefulWidget {
 }
 
 class GifImageState extends State<GifImage> {
-  int currentFrame = 1;
-  late int maxFrame;
+  int frameIndex = 1;
+  late int maxIndex;
 
   @override
   void initState() {
-    maxFrame = widget.images.length;
-    Future.delayed(Duration(milliseconds: widget.delay), () {
-      if (mounted) {
-        play();
-      }
-    });
+    maxIndex = widget.images.length - 1;
+    if (mounted) {
+      play();
+    }
     super.initState();
   }
 
   play() {
-    Future.delayed(Duration(milliseconds: widget.delay), () {
+    GifImageMeta meta = widget.images[frameIndex];
+    Future.delayed(Duration(milliseconds: meta.delay), () {
       if (mounted) {
         setState(() {
-          if (currentFrame < maxFrame) {
-            currentFrame++;
+          if (frameIndex < maxIndex) {
+            frameIndex++;
           } else {
-            currentFrame = 1;
+            frameIndex = 0;
           }
         });
         play();
@@ -52,34 +57,28 @@ class GifImageState extends State<GifImage> {
     return CustomPaint(
       size: MediaQuery.sizeOf(context),
       painter: GifPainter(
-        images: widget.images,
-        currentFrame: currentFrame,
+        image: widget.images[frameIndex].image,
       ),
     );
   }
 }
 
 class GifPainter extends CustomPainter {
-  final List<ui.Image> images; // 图片帧列表
-  final int currentFrame; // 当前帧的索引
+  final ui.Image image;
 
   GifPainter({
-    required this.images,
-    required this.currentFrame,
+    required this.image,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     // 在画布上绘制当前帧
-    if (images.isNotEmpty) {
-      final image = images[currentFrame - 1];
-      canvas.drawImageRect(
-        image,
-        Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
-        Rect.fromLTWH(0, 0, size.width.toDouble(), size.height.toDouble()),
-        Paint(),
-      );
-    }
+    canvas.drawImageRect(
+      image,
+      Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+      Rect.fromLTWH(0, 0, size.width.toDouble(), size.height.toDouble()),
+      Paint(),
+    );
   }
 
   @override

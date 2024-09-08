@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$UgoiraImageState {
   String get illustId => throw _privateConstructorUsedError;
-  List<Image>? get images => throw _privateConstructorUsedError;
+  List<GifImageMeta>? get images => throw _privateConstructorUsedError;
   /** 0 - 1 */
   double get progress => throw _privateConstructorUsedError;
   UgoiraImageLoadingState get loadingState =>
@@ -36,7 +36,7 @@ abstract class $UgoiraImageStateCopyWith<$Res> {
   @useResult
   $Res call(
       {String illustId,
-      List<Image>? images,
+      List<GifImageMeta>? images,
       double progress,
       UgoiraImageLoadingState loadingState});
 }
@@ -67,7 +67,7 @@ class _$UgoiraImageStateCopyWithImpl<$Res, $Val extends UgoiraImageState>
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<Image>?,
+              as List<GifImageMeta>?,
       progress: null == progress
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
@@ -90,7 +90,7 @@ abstract class _$$UgoiraImageStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {String illustId,
-      List<Image>? images,
+      List<GifImageMeta>? images,
       double progress,
       UgoiraImageLoadingState loadingState});
 }
@@ -119,7 +119,7 @@ class __$$UgoiraImageStateImplCopyWithImpl<$Res>
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<Image>?,
+              as List<GifImageMeta>?,
       progress: null == progress
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
@@ -137,16 +137,16 @@ class __$$UgoiraImageStateImplCopyWithImpl<$Res>
 class _$UgoiraImageStateImpl implements _UgoiraImageState {
   const _$UgoiraImageStateImpl(
       {required this.illustId,
-      required final List<Image>? images,
+      required final List<GifImageMeta>? images,
       required this.progress,
       required this.loadingState})
       : _images = images;
 
   @override
   final String illustId;
-  final List<Image>? _images;
+  final List<GifImageMeta>? _images;
   @override
-  List<Image>? get images {
+  List<GifImageMeta>? get images {
     final value = _images;
     if (value == null) return null;
     if (_images is EqualUnmodifiableListView) return _images;
@@ -194,7 +194,7 @@ class _$UgoiraImageStateImpl implements _UgoiraImageState {
 abstract class _UgoiraImageState implements UgoiraImageState {
   const factory _UgoiraImageState(
           {required final String illustId,
-          required final List<Image>? images,
+          required final List<GifImageMeta>? images,
           required final double progress,
           required final UgoiraImageLoadingState loadingState}) =
       _$UgoiraImageStateImpl;
@@ -202,7 +202,7 @@ abstract class _UgoiraImageState implements UgoiraImageState {
   @override
   String get illustId;
   @override
-  List<Image>? get images;
+  List<GifImageMeta>? get images;
   @override
   /** 0 - 1 */
   double get progress;

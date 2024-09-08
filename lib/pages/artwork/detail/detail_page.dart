@@ -202,6 +202,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
           String url = imageUrls[index];
           Key? imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
           return Stack(
+            fit: StackFit.passthrough,
             children: [
               // 图片
               GestureDetector(
@@ -259,15 +260,17 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
                   },
                 ),
               ),
-              LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
-                return UgoiraImage(
-                  size: Size(
-                    constraints.maxWidth,
-                    detail.height / detail.width * constraints.maxWidth,
-                  ),
-                  illustId: detail.id.toString(),
-                );
-              })
+              // 动图
+              if (detail.type == "ugoira")
+                LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                  return UgoiraImage(
+                    size: Size(
+                      constraints.maxWidth,
+                      detail.height / detail.width * constraints.maxWidth,
+                    ),
+                    illustId: detail.id.toString(),
+                  );
+                })
             ],
           );
         }),
