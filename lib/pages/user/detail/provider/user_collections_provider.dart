@@ -28,6 +28,7 @@ class UserArtworkCollectionsNotifier extends BaseAutoDisposeAsyncNotifier<List<C
   }
 
   /// 初始化数据
+  @override
   Future<List<CommonIllust>> fetch() async {
     var result = await ApiUser(requester).artworkCollections(userId: userId, cancelToken: _cancelToken);
     nextUrl = result.nextUrl;
@@ -35,6 +36,7 @@ class UserArtworkCollectionsNotifier extends BaseAutoDisposeAsyncNotifier<List<C
   }
 
   ///重载
+  @override
   Future<void> reload() async {
     // Set loading
     state = const AsyncValue.loading();
@@ -55,6 +57,7 @@ class UserArtworkCollectionsNotifier extends BaseAutoDisposeAsyncNotifier<List<C
     return nextUrl != null;
   }
 
+  @override
   Future<void> refresh() async {
     state = await AsyncValue.guard(() async {
       return fetch();
@@ -81,6 +84,7 @@ class UserNovelCollectionsNotifier extends BaseAutoDisposeAsyncNotifier<List<Com
   }
 
   /// 初始化数据
+  @override
   Future<List<CommonNovel>> fetch() async {
     var result = await ApiUser(requester).novelCollections(userId: userId, cancelToken: _cancelToken);
     nextUrl = result.nextUrl;
@@ -88,6 +92,7 @@ class UserNovelCollectionsNotifier extends BaseAutoDisposeAsyncNotifier<List<Com
   }
 
   ///重载
+  @override
   Future<void> reload() async {
     // Set loading
     state = const AsyncValue.loading();
@@ -108,6 +113,7 @@ class UserNovelCollectionsNotifier extends BaseAutoDisposeAsyncNotifier<List<Com
     return nextUrl != null;
   }
 
+  @override
   Future<void> refresh() async {
     state = await AsyncValue.guard(() async {
       return fetch();

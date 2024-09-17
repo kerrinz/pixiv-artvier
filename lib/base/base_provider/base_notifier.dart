@@ -1,5 +1,5 @@
+import 'package:artvier/global/provider/requester_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:artvier/base/base_api.dart';
 import 'package:artvier/global/provider/shared_preferences_provider.dart';
 import 'package:artvier/request/http_requester.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +18,38 @@ mixin _BaseNotifiersMixin {
   SharedPreferences get prefs => read(globalSharedPreferencesProvider);
 }
 
+mixin _BaseAsyncNotifiersMixin<State> {
+  late final Reader read;
+
+  HttpRequester get requester => read(httpRequesterProvider);
+
+  SharedPreferences get prefs => read(globalSharedPreferencesProvider);
+
+  set state(AsyncValue<State> newState);
+
+  /// Fetch data.
+  Future<State> fetch();
+
+  /// Reload future.
+  ///
+  /// Will set the state to Loading.
+  Future<void> reload() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      return fetch();
+    });
+  }
+
+  /// For pull-to-refresh.
+  ///
+  /// Still keep AsyncValue as Data.
+  Future<void> refresh() async {
+    state = await AsyncValue.guard(() async {
+      return fetch();
+    });
+  }
+}
+
 abstract class BaseStateNotifier<State> extends StateNotifier<State> with _BaseNotifiersMixin implements _NeedReader {
   BaseStateNotifier(super.state, {required this.ref});
 
@@ -25,29 +57,31 @@ abstract class BaseStateNotifier<State> extends StateNotifier<State> with _BaseN
 
   @override
   Reader get read => ref.read;
-  
+
   update(State state) {
     this.state = state;
   }
 }
 
-abstract class BaseAsyncNotifier<State> extends AsyncNotifier<State> with _BaseNotifiersMixin {
+abstract class BaseAsyncNotifier<State> extends AsyncNotifier<State> with _BaseAsyncNotifiersMixin<State> {
   @override
   Reader get read => ref.read;
 }
 
-abstract class BaseAutoDisposeAsyncNotifier<State> extends AutoDisposeAsyncNotifier<State> with _BaseNotifiersMixin {
+abstract class BaseAutoDisposeAsyncNotifier<State> extends AutoDisposeAsyncNotifier<State>
+    with _BaseAsyncNotifiersMixin<State> {
   @override
   Reader get read => ref.read;
 }
 
-abstract class BaseFamilyAsyncNotifier<State, Arg> extends FamilyAsyncNotifier<State, Arg> with _BaseNotifiersMixin {
+abstract class BaseFamilyAsyncNotifier<State, Arg> extends FamilyAsyncNotifier<State, Arg>
+    with _BaseAsyncNotifiersMixin<State> {
   @override
   Reader get read => ref.read;
 }
 
 abstract class BaseAutoDisposeFamilyAsyncNotifier<State, Arg> extends AutoDisposeFamilyAsyncNotifier<State, Arg>
-    with _BaseNotifiersMixin {
+    with _BaseAsyncNotifiersMixin<State> {
   @override
   Reader get read => ref.read;
 }
