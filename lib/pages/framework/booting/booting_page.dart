@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:artvier/pages/settings/about/provider/about_app_provider.dart';
+import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';

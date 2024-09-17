@@ -33,6 +33,7 @@ class UserFollowingNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonUser
   }
 
   /// 初始化数据
+  @override
   Future<List<CommonUserPreviews>> fetch() async {
     var restrict = ref.watch(userFollowingFilterProvider(userId));
 
@@ -42,6 +43,7 @@ class UserFollowingNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonUser
   }
 
   /// 失败后的重试，或者用于重新加载
+  @override
   Future<void> reload() async {
     // Set loading
     state = const AsyncValue.loading();
@@ -52,6 +54,7 @@ class UserFollowingNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonUser
   }
 
   /// 下拉刷新
+  @override
   Future<void> refresh() async {
     state = await AsyncValue.guard(() async {
       return fetch();

@@ -1,24 +1,21 @@
 {
-  "@@last_modified": "2022-09-14T19:11:57.036382",
+  "@@last_modified": "2024-09-17T12:53:32.551174",
   "tokenLogin": "Token 变更",
   "@tokenLogin": {
     "description": "Button and title of login by token",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "webLogin": "网页登录",
   "@webLogin": {
     "description": "Button and title of login by web",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "login": "登录",
   "@login": {
     "description": "An action of login account",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "loginSuccess": "登录成功!",
@@ -31,196 +28,174 @@
   "@loginFailed": {
     "description": "Toast message when login failed",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "doubleBackToExitPrompt": "连续返回两次退出程序",
   "@doubleBackToExitPrompt": {
     "description": "Prompt when click back on main page",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "navHome": "首页",
   "@navHome": {
     "description": "BottomNavigationBar",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "navDiscover": "发现",
   "@navDiscover": {
     "description": "BottomNavigationBar",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "navDynamic": "动态",
   "@navDynamic": {
     "description": "BottomNavigationBar",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "navProfile": "我的",
   "@navProfile": {
     "description": "BottomNavigationBar",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "account": "账号",
   "@account": {
     "description": "Title of user account",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "illust": "插画",
   "@illust": {
     "description": "An option of works type",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "manga": "漫画",
   "@manga": {
     "description": "An option of works type",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "novels": "小说",
   "@novels": {
     "description": "An option of works type",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "users": "用户",
   "@users": {
     "description": "a search type",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "series": "系列",
   "@series": {
     "description": "the badge or manga or novel series",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "more": "更多",
   "@more": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "viewMore": "查看更多",
   "@viewMore": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "promptTitle": "提示",
   "@promptTitle": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "promptCancel": "取消",
   "@promptCancel": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "promptConform": "确定",
   "@promptConform": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "all": "全部",
   "@all": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "public": "公开",
   "@public": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "private": "非公开",
   "@private": {
     "description": "non-public",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "yes": "是",
   "@yes": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "not": "否",
   "@not": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "loadingFailed": "加载失败",
   "@loadingFailed": {
     "description": "Image loading failed",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "requestFailed": "网络不给力，请尝试重新加载",
   "@requestFailed": {
-    "description": "Request data failed",
+    "description": "Request failed",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "retryOnFailure": "点击重试",
   "@retryOnFailure": {
     "description": "Text of retry button for failed requests",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "filter": "筛选",
   "@filter": {
     "description": "filter the conditions for list",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "settings": "设置",
   "@settings": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
+    "placeholders": {}
+  },
+  "softwareUpdate": "软件更新",
+  "@softwareUpdate": {
+    "description": "",
+    "type": "text",
     "placeholders": {}
   },
   "aboutApp": "关于应用",
   "@aboutApp": {
     "description": "Button link or page title to about app page",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "openLinkHint": "是否打开该链接?",
@@ -245,214 +220,214 @@
   "@lightBrightness": {
     "description": "Light brightness for app",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "dartBrightness": "深色",
   "@dartBrightness": {
     "description": "Dark brightness for app",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "dartModeSettingsTitle": "深色模式设置",
   "@dartModeSettingsTitle": {
     "description": "The settings title of dark mode",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "autoSwitchFollowingSystem": "跟随系统自动切换",
   "@autoSwitchFollowingSystem": {
     "description": "The options title for brightness following system",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "autoSwitchFollowingSystemDesc": "开启后，将跟随系统设置自动切换浅色或深色",
   "@autoSwitchFollowingSystemDesc": {
     "description": "The description of options of following system",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "rankings": "排行榜",
   "@rankings": {
     "description": "Function group item.",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "dailyRankings": "每日排行",
   "@dailyRankings": {
     "description": "Title of ranking glance widget",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "recommended": "为你推荐",
   "@recommended": {
     "description": "Title of recommended artwork list in home page",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "space": "空间",
   "@space": {
     "description": "Navigate to my detail page",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "following": "关注",
   "@following": {
     "description": "Show number of following",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "followers": "粉丝",
   "@followers": {
     "description": "Show number of followers",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "friends": "好P友",
   "@friends": {
     "description": "Show number of friends(好P友)",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "history": "足迹",
   "@history": {
     "description": "Function group item",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "downloads": "下载",
   "@downloads": {
     "description": "Name of button in function group",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "works": "作品",
   "@works": {
     "description": "Function group item. My created artwork",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "collections": "收藏",
   "@collections": {
     "description": "Function group item. User favorite works",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "markers": "书签",
   "@markers": {
     "description": "Function group item. Same as novel bookmark",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "submitWork": "投稿作品",
   "@submitWork": {
     "description": "Submit new works",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "switchAccount": "切换账户",
   "@switchAccount": {
     "description": "A preference item",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "quickSettingsTitle": "快捷设置",
   "@quickSettingsTitle": {
     "description": "The title of settings list",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "muteSettings": "屏蔽设定",
   "@muteSettings": {
     "description": "A preference item of hide certain users and tags",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "themeSettings": "主题设置",
   "@themeSettings": {
     "description": "A preference item",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "networkSettings": "网络设置",
-  "@network": {
+  "@networkSettings": {
     "description": "A preference item of configure network",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "otherSettings": "其他设置",
   "@otherSettings": {
     "description": "A preference item",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "themeModePromptContent": "手动切换主题模式将关闭自动跟随系统，确定切换吗？",
   "@themeModePromptContent": {
     "description": "Switch theme mode in tool bar when currently in auto-follow system mode",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "accountManage": "账号管理",
   "@accountManage": {
     "description": "Manage all of my accounts",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "defaultNoProxy": "不使用代理（默认）",
   "@defaultNoProxy": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "customProxy": "自定义代理",
   "@customProxy": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "enableDirectConnection": "开启直连 (实验性)",
   "@enableDirectConnection": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "directConnectionHint": "该功能暂不支持网页登录",
   "@directConnectionHint": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
-  "appVersion": "当前版本",
+  "appVersion": "软件版本",
   "@appVersion": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "currentVersion": "当前版本",
+  "@currentVersion": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changelog": "更新日志",
+  "@changelog": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "downloadLink": "下载链接",
+  "@downloadLink": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "currentIsLatestVersion": "当前已经是最新版本",
+  "@currentIsLatestVersion": {
+    "description": "Check update result is currently lastest version",
+    "type": "text",
+    "placeholders": {}
+  },
+  "checkUpdateLimitForGithubApi": "Github API访问次数超过限制，请一个小时后重试，或者手动访问项目地址： ",
+  "@checkUpdateLimitForGithubApi": {
     "description": "",
     "type": "text",
     "placeholders": {}
@@ -485,308 +460,264 @@
   "@follow": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "followed": "已关注",
   "@followed": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "textCollapse": "收起",
   "@textCollapse": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "textExpand": "展开",
   "@textExpand": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "gender": "性别",
   "@gender": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "male": "男",
   "@male": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "female": "女",
   "@female": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "age": "年龄",
   "@age": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "birthday": "生日",
   "@birthday": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "occupation": "职业",
   "@occupation": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "workspace": "创作环境",
   "@workspace": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "computer": "电脑",
   "@computer": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "monitor": "显示器",
   "@monitor": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "softwareUsed": "软件",
   "@softwareUsed": {
     "description": "Drawing software",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "scanner": "扫描仪",
   "@scanner": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "tablet": "数位板",
   "@tablet": {
     "description": "Drawing equipment",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "mouse": "鼠标",
   "@mouse": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "printer": "打印机",
   "@printer": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "onYourDesk": "桌子上的物品",
   "@onYourDesk": {
     "description": "Something on your desk",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "backgroundMusic": "绘图时听的音乐",
   "@backgroundMusic": {
     "description": "The background music when you drawing",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "table": "桌子",
   "@table": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "chair": "椅子",
   "@chair": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "other": "其他",
   "@other": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "nickname": "昵称",
   "@nickname": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "website": "个人网站",
   "@website": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "socialMedia": "社交媒体",
   "@socialMedia": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "location": "地理位置",
   "@location": {
-    "description": "Country or region",
+    "description": "country or region",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "copiedToClipboard": "已复制到剪贴板",
   "@copiedToClipboard": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "emptyWorksPlaceholder": "这里空空如也",
   "@emptyWorksPlaceholder": {
     "description": "Placeholder the works list when it is empty",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "pixivPremium": "Pixiv高级会员",
   "@pixivPremium": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "myCollections": "我的收藏",
   "@myCollections": {
     "description": "",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "addToCollections": "添加收藏",
   "@addToCollections": {
     "description": "Title of add works to colllections",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "editCollection": "编辑收藏",
   "@editCollection": {
     "description": "Title of edit the colllection",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "privacyRestrict": "隐私限制",
   "@privacyRestrict": {
     "description": "Settings the rescriction of works",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "attachTags": "附加标签",
   "@attachTags": {
     "description": "Attach tags when collecting a works",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "addCollectSucceed": "添加收藏成功！",
   "@addCollectSucceed": {
     "description": "Prompt success of add collect a works",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "addCollectFailed": "添加收藏失败！",
   "@addCollectFailed": {
     "description": "Prompt failed of add collect a works",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "removeCollectionSucceed": "移除收藏成功！",
   "@removeCollectionSucceed": {
     "description": "Prompt success of remove collection of a works",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "removeCollectionFailed": "移除收藏失败！",
   "@removeCollectionFailed": {
     "description": "Prompt failed of remove collection of a works",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "editCollectionSucceed": "编辑收藏成功！",
   "@editCollectionSucceed": {
     "description": "Prompt of edit collection success",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "editCollectionFailed": "编辑收藏失败！",
   "@editCollectionFailed": {
     "description": "Prompt of edit collection failed",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "addNewTagPlaceholder": "添加新的标签...",
   "@addNewTagPlaceholder": {
     "description": "The placeholder of input tag name to add a new tag",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "tagAlreadyExists": "该标签已存在！",
   "@tagAlreadyExists": {
     "description": "Prompt the tag already exists by add new tag",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "tagsReachedMaximun": "已达到最大标签数!",
   "@tagsReachedMaximun": {
     "description": "Prompt when no more tags are allowed",
     "type": "text",
-    "placeholders_order": [],
     "placeholders": {}
   },
   "rankingDaily": "每日",

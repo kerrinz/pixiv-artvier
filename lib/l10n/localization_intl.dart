@@ -60,6 +60,7 @@ class LocalizationIntl {
       Intl.message('Click to try again', name: 'retryOnFailure', desc: 'Text of retry button for failed requests');
   String get filter => Intl.message("Filter", name: 'filter', desc: 'filter the conditions for list');
   String get settings => Intl.message('Settings', name: 'settings', desc: '');
+  String get softwareUpdate => Intl.message('Software update', name: 'softwareUpdate', desc: '');
   String get aboutApp =>
       Intl.message('About app', name: 'aboutApp', desc: 'Button link or page title to about app page');
   String get openLinkHint => Intl.message('Do you want to open this link?',
@@ -121,11 +122,21 @@ class LocalizationIntl {
       Intl.message('Enable direct connection (preview)', name: 'enableDirectConnection', desc: '');
   String get directConnectionHint =>
       Intl.message('This feature does not currently support login by web', name: 'directConnectionHint', desc: '');
-  String get appVersion => Intl.message('Version', name: 'appVersion', desc: '');
+  String get appVersion => Intl.message('App version', name: 'appVersion', desc: '');
+  String get currentVersion => Intl.message('Current version', name: 'currentVersion', desc: '');
+  String get changelog => Intl.message('Changelog', name: 'changelog', desc: '');
+  String get downloadLink => Intl.message('Download link', name: 'downloadLink', desc: '');
+  String get currentIsLatestVersion => Intl.message('It is currently the latest version',
+      name: 'currentIsLatestVersion', desc: 'Check update result is currently lastest version');
+  String get checkUpdateLimitForGithubApi => Intl.message(
+      'The number of Github API access times exceeds the limit, please try again in one hour, or manually access the project address: ',
+      name: 'checkUpdateLimitForGithubApi',
+      desc: '');
   String get appAuthor => Intl.message('Author', name: 'appAuthor', desc: '');
   String get appProjectLink => Intl.message('Project link', name: 'appProjectLink', desc: '');
   String get proxySettingsTitle => Intl.message('HTTP Proxy settings', name: 'proxySettingsTitle', desc: '');
-  String get proxySettingsTitleHint => Intl.message('(The proxy settings do not take effect for logins)', name: 'proxySettingsTitleHint', desc: '');
+  String get proxySettingsTitleHint =>
+      Intl.message('(The proxy settings do not take effect for logins)', name: 'proxySettingsTitleHint', desc: '');
 
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');

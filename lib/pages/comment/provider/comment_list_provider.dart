@@ -29,6 +29,7 @@ class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>
   }
 
   /// 初始化数据
+  @override
   Future<List<Comments>> fetch() async {
     var result = await ApiIllusts(requester).getIllustComments(worksId);
     nextUrl = result.nextUrl;
@@ -46,6 +47,7 @@ class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>
     return nextUrl != null;
   }
 
+  @override
   Future<void> reload() async {
     // Set loading
     state = const AsyncValue.loading();
@@ -55,6 +57,7 @@ class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>
     });
   }
   
+  @override
   Future<void> refresh() async {
     state = await AsyncValue.guard(() async {
       return fetch();

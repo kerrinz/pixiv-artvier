@@ -40,10 +40,10 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                         )),
                   ],
                 ),
-                // 开发者
                 PerferenceGroup(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   items: [
+                    // 开发者
                     PerferenceItem(
                         onTap: () => Navigator.of(context).pushNamed(RouteNames.developerSettings.name),
                         icon: Icon(Icons.code, color: colorScheme.primary),
@@ -51,6 +51,20 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                           "Developer",
                           style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
                         )),
+                  ],
+                ),
+                PerferenceGroup(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  items: [
+                    // 软件更新
+                    PerferenceItem(
+                        onTap: () => Navigator.of(context).pushNamed(RouteNames.checkUpdate.name),
+                        icon: Icon(Icons.update_rounded, color: colorScheme.primary),
+                        text: Text(
+                          i10n.softwareUpdate,
+                          style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                        )),
+                    // 关于APP
                     PerferenceItem(
                         onTap: () => Navigator.of(context).pushNamed(RouteNames.aboutApp.name),
                         icon: Icon(Icons.info, color: colorScheme.primary),

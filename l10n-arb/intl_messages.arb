@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-09-09T00:03:38.738862",
+  "@@last_modified": "2024-09-17T23:43:29.109745",
   "tokenLogin": "Token change",
   "@tokenLogin": {
     "description": "Button and title of login by token",
@@ -182,6 +182,12 @@
   },
   "settings": "Settings",
   "@settings": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "softwareUpdate": "Software update",
+  "@softwareUpdate": {
     "description": "",
     "type": "text",
     "placeholders": {}
@@ -390,8 +396,38 @@
     "type": "text",
     "placeholders": {}
   },
-  "appVersion": "Version",
+  "appVersion": "App version",
   "@appVersion": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "currentVersion": "Current version",
+  "@currentVersion": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changelog": "Changelog",
+  "@changelog": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "downloadLink": "Download link",
+  "@downloadLink": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "currentIsLatestVersion": "It is currently the latest version",
+  "@currentIsLatestVersion": {
+    "description": "Check update result is currently lastest version",
+    "type": "text",
+    "placeholders": {}
+  },
+  "checkUpdateLimitForGithubApi": "The number of Github API access times exceeds the limit, please try again in one hour, or manually access the project address: ",
+  "@checkUpdateLimitForGithubApi": {
     "description": "",
     "type": "text",
     "placeholders": {}

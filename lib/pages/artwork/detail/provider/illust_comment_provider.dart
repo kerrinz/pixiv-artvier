@@ -1,7 +1,7 @@
+import 'package:artvier/global/provider/requester_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/api_illusts.dart';
-import 'package:artvier/base/base_api.dart';
 import 'package:artvier/model_response/illusts/illust_comments.dart';
 
 /// 请求获取的预览版评论列表

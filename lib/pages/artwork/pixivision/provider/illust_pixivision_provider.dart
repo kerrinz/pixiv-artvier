@@ -18,6 +18,7 @@ class IllustPixivisionNotifier extends BaseAutoDisposeFamilyAsyncNotifier<String
   }
 
   /// 初始化数据
+  @override
   Future<String> fetch() async {
     var result = await ApiIllusts(requester).illustPixvisionWebContent(language, id);
     return result;
