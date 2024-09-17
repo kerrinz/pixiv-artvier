@@ -21,6 +21,7 @@ class ArtworkTrendTagsNotifier extends BaseAutoDisposeAsyncNotifier<List<TrendTa
   }
 
   /// 初始化数据
+  @override
   Future<List<TrendTags>> fetch() async {
     try {
       var result = await ApiSearch(requester).artworksTrendingTags();
@@ -32,6 +33,7 @@ class ArtworkTrendTagsNotifier extends BaseAutoDisposeAsyncNotifier<List<TrendTa
   }
 
   /// 重载
+  @override
   Future<void> reload() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -40,6 +42,7 @@ class ArtworkTrendTagsNotifier extends BaseAutoDisposeAsyncNotifier<List<TrendTa
   }
 
   /// 刷新
+  @override
   Future<void> refresh() async {
     state = await AsyncValue.guard(() async {
       return await fetch();

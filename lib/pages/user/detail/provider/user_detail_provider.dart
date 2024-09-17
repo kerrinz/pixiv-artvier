@@ -32,6 +32,7 @@ class UserDetailNotifier extends BaseAutoDisposeFamilyAsyncNotifier<UserDetail, 
   }
 
   /// 初始化数据
+  @override
   Future<UserDetail> fetch() async {
     var result = await ApiUser(requester).userDetail(userId);
     var followState = result.user.isFollowed ? UserFollowState.followed : UserFollowState.notFollow;
@@ -45,6 +46,7 @@ class UserDetailNotifier extends BaseAutoDisposeFamilyAsyncNotifier<UserDetail, 
   }
 
   /// 下拉刷新
+  @override
   Future<void> refresh() async {
     state = await AsyncValue.guard(() async {
       return fetch();
@@ -52,6 +54,7 @@ class UserDetailNotifier extends BaseAutoDisposeFamilyAsyncNotifier<UserDetail, 
   }
 
   /// 失败后的重试，或者用于重新加载
+  @override
   Future<void> reload() async {
     // Set loading
     state = const AsyncValue.loading();

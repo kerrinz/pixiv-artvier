@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:artvier/config/http_base_options.dart';
-import 'package:artvier/global/provider/network_provider.dart';
+import 'package:artvier/global/provider/requester_provider.dart';
 import 'package:crypto/crypto.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
@@ -13,19 +13,6 @@ import 'package:artvier/request/http_requester.dart';
 import 'package:artvier/storage/account_storage.dart';
 
 typedef Read = T Function<T>(ProviderListenable<T> provider);
-
-/// 鉴权专用的Http请求工具
-final oAuthHttpRequesterProvider = StateProvider<HttpRequester>((ref) {
-  bool directEnable = ref.watch(globalDirectConnectionProvider.select((value) => value));
-  if (directEnable) {
-    return HttpRequester(
-      ref,
-      baseOptions: OAuth.baseOptions.copyWith(baseUrl: "https://${HttpBaseOptions.oauthIp}"),
-    );
-  } else {
-    return HttpRequester(ref, baseOptions: OAuth.baseOptions);
-  }
-});
 
 class OAuth {
   OAuth(this.ref) {

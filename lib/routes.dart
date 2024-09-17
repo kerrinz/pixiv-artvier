@@ -2,6 +2,7 @@ import 'package:artvier/pages/artwork/pixivision/illust_pixivision_page.dart';
 import 'package:artvier/pages/search/expand_search/expand_search_page.dart';
 import 'package:artvier/pages/settings/about/about_app_page.dart';
 import 'package:artvier/pages/settings/all_settings/all_settings_page.dart';
+import 'package:artvier/pages/settings/check_update/check_update.dart';
 import 'package:artvier/pages/settings/develop/developer_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:artvier/pages/account/account_manage/account_manage_page.dart';
@@ -71,6 +72,7 @@ enum RouteNames {
   languageSettings,
   developerSettings,
   aboutApp,
+  checkUpdate,
 }
 
 class RouteItem<T> {}
@@ -100,6 +102,7 @@ class Routes {
     RouteNames.languageSettings.name: (context, arguments) => const LanguageSettingPage(),
     RouteNames.developerSettings.name: (context, arguments) => const DeveloperPage(),
     RouteNames.aboutApp.name: (context, arguments) => const AboutAppPage(),
+    RouteNames.checkUpdate.name: (context, arguments) => const CheckUpdatePage(),
   };
 
    static RouteWidgetBuilder match(BuildContext context, String? name) {

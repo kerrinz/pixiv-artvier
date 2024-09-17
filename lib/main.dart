@@ -1,5 +1,5 @@
+import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:artvier/global/variable.dart';
-import 'package:artvier/pages/settings/about/provider/about_app_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

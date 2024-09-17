@@ -31,6 +31,8 @@ class CONSTANTS {
 
   // App information
   static const String app_repo_url = "https://github.com/kerrinz/pixiv-artvier";
+  static const String app_repo_release_url = "$app_repo_url/releases";
+  static const String app_repo_api = "https://api.github.com/repos/kerrinz/pixiv-artvier";
   static const String app_author = "Kerrinz";
   static const String app_author_url = "https://github.com/kerrinz";
 }

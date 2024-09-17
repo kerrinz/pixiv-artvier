@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class MyBadge extends StatelessWidget {
   final Widget child;
   final Color? color;
+  final Border? border;
   final GestureTapCallback? onTap;
   final EdgeInsets? padding;
 
@@ -12,6 +13,7 @@ class MyBadge extends StatelessWidget {
     this.color,
     this.onTap,
     this.padding = const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+    this.border,
   });
 
   @override
@@ -22,6 +24,7 @@ class MyBadge extends StatelessWidget {
           padding: padding,
           decoration: BoxDecoration(
             color: color ?? Theme.of(context).colorScheme.primary,
+            border: border,
             borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
           clipBehavior: Clip.antiAlias,
@@ -36,6 +39,9 @@ class MyBadge extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           child: Container(
             padding: padding,
+            decoration: BoxDecoration(
+              border: border,
+            ),
             child: child,
           ),
         ),

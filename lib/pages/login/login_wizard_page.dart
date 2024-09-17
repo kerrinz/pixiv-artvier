@@ -1,7 +1,7 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
+import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:artvier/pages/login/widgets/login_settings_bottom_sheet.dart';
-import 'package:artvier/pages/settings/about/provider/about_app_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';

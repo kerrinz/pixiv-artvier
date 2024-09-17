@@ -3,7 +3,7 @@ import 'package:artvier/component/dialog_custom.dart';
 import 'package:artvier/component/perference/perference_group.dart';
 import 'package:artvier/component/perference/perference_item.dart';
 import 'package:artvier/config/constants.dart';
-import 'package:artvier/pages/settings/about/provider/about_app_provider.dart';
+import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -53,24 +53,20 @@ class _AboutAppPageState extends BasePageState<AboutAppPage> {
                     ),
                     PerferenceItem(
                       text: Text(i10n.appAuthor),
-                      value: GestureDetector(
+                      value: SelectableText(
                         onTap: () => showOpenLinkDialog(context, CONSTANTS.app_author_url),
-                        child: Text(
-                          "@${CONSTANTS.app_author}",
-                          style: textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline),
-                        ),
+                        "@${CONSTANTS.app_author}",
+                        style: textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline),
                       ),
                     ),
                     PerferenceItem(
                       text: Text(i10n.appProjectLink),
-                      value: GestureDetector(
+                      value: SelectableText(
                         onTap: () => showOpenLinkDialog(context, CONSTANTS.app_repo_url),
-                        child: Text(
-                          CONSTANTS.app_repo_url,
-                          style: textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline),
-                        ),
+                        CONSTANTS.app_repo_url,
+                        style: textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline),
                       ),
                     ),
                   ],

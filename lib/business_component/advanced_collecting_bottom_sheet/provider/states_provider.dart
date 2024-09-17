@@ -33,6 +33,7 @@ class AdvancedCollectingStatesNotifier extends BaseAutoDisposeAsyncNotifier<Adva
     return fetch();
   }
 
+  @override
   Future<AdvancedCollectingDataModel> fetch() async {
     var res = worksType == WorksType.novel
         ? await ApiNovels(requester).novelCollectionDetail(worksId, cancelToken: _cancelToken)
@@ -51,6 +52,7 @@ class AdvancedCollectingStatesNotifier extends BaseAutoDisposeAsyncNotifier<Adva
   }
 
   /// 重新载入
+  @override
   Future<void> reload() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
