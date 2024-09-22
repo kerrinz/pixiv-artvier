@@ -16,7 +16,10 @@ class HttpHostOverrides {
   }
 
   _init() {
-    isEnableDirect = NetworkStorage(globalSharedPreferences).getDirectEnable();
+    final store = NetworkStorage(globalSharedPreferences);
+    isEnableDirect = store.getDirectEnable();
+    isImageHostingEnable = store.getImageHostingEnable();
+    imageHosting = store.getImageHosting();
   }
 
   /// 重新加载该服务
@@ -25,10 +28,19 @@ class HttpHostOverrides {
   }
 
   bool isEnableDirect = false;
+  bool isImageHostingEnable = false;
+  String imageHosting = "";
 
   appApiUrl(String url) =>
       isEnableDirect ? url.replaceFirst(HttpBaseOptions.appApiHost, HttpBaseOptions.appApiIp) : url;
-  pxImgUrl(String url) => isEnableDirect ? url.replaceFirst(HttpBaseOptions.pximgHost, HttpBaseOptions.pximgIp) : url;
+
+  pxImgUrl(String url) {
+    if (isImageHostingEnable) {
+      return url.replaceFirst(HttpBaseOptions.pximgHost, imageHosting);
+    }
+    return isEnableDirect ? url.replaceFirst(HttpBaseOptions.pximgHost, HttpBaseOptions.pximgIp) : url;
+  }
+
   pixivisionUrl(String url) =>
       isEnableDirect ? url.replaceFirst(HttpBaseOptions.pixivisionHost, HttpBaseOptions.pixivisionIp) : url;
 }

@@ -456,6 +456,30 @@
     "type": "text",
     "placeholders": {}
   },
+  "ipAdressEditing": "IP地址：",
+  "@ipAdressEditing": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "portEditing": "端口：",
+  "@portEditing": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "customImageHosting": "自定义图片源（图床）",
+  "@customImageHosting": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "editImageHosting": "编辑图片源",
+  "@editImageHosting": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "follow": "关注",
   "@follow": {
     "description": "",

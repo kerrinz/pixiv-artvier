@@ -16,6 +16,12 @@ mixin ProxyLogic {
     return NetworkStorage(prefs).getProxyPort();
   });
 
+  /// 图片源的输入框值
+  final inputImageHostProvider = StateProvider.autoDispose<String?>((ref) {
+    var prefs = ref.watch(globalSharedPreferencesProvider);
+    return NetworkStorage(prefs).getImageHosting();
+  });
+
   /// 代理开关
   Future<bool> handleProxyEnable(WidgetRef ref, {required bool proxyEnabled}) {
     return ref
@@ -29,5 +35,10 @@ mixin ProxyLogic {
     return ref
         .read(globalProxyStateProvider.notifier)
         .updateAndSave(ref.read(globalProxyStateProvider).copyWith(host: host, port: port));
+  }
+
+  /// 保存图片源
+  Future<bool> handleSaveImageHost(WidgetRef ref, {required String host}) async {
+    return ref.read(globalImageHostingProvider.notifier).updateAndSaveHost(host);
   }
 }

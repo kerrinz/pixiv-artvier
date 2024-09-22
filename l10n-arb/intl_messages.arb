@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-09-17T23:43:29.109745",
+  "@@last_modified": "2024-09-23T00:27:50.422994",
   "tokenLogin": "Token change",
   "@tokenLogin": {
     "description": "Button and title of login by token",
@@ -452,6 +452,30 @@
   },
   "proxySettingsTitleHint": "(The proxy settings do not take effect for logins)",
   "@proxySettingsTitleHint": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "ipAdressEditing": "IP adress:",
+  "@ipAdressEditing": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "portEditing": "Port:",
+  "@portEditing": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "customImageHosting": "Custom image hosting",
+  "@customImageHosting": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "editImageHosting": "Edit image hosting",
+  "@editImageHosting": {
     "description": "",
     "type": "text",
     "placeholders": {}

@@ -1,3 +1,5 @@
+import 'package:artvier/global/model/proxy_options/image_hosting_model.dart';
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/base/base_provider/base_notifier.dart';
 import 'package:artvier/config/constants.dart';
@@ -18,6 +20,22 @@ final globalProxyStateProvider = StateNotifierProvider<_HttpProxyNotifier, Proxy
 
   return _HttpProxyNotifier(
     ProxyStateModel(isProxyEnabled: isEnabled, host: host, port: port),
+    ref: ref,
+  );
+  // return ProxyStateModel(isProxyEnabled: isEnabled, host: host, port: port);
+});
+
+/// 图片源（图床）设置
+final globalImageHostingProvider = StateNotifierProvider<_ImageHostingNotifier, ImageHostingModel>((ref) {
+  var prefs = ref.watch(globalSharedPreferencesProvider);
+  var storage = NetworkStorage(prefs);
+
+  // 从本地读取配置
+  bool isEnabled = storage.getImageHostingEnable();
+  String host = storage.getImageHosting();
+
+  return _ImageHostingNotifier(
+    ImageHostingModel(isEnabled: isEnabled, host: host),
     ref: ref,
   );
   // return ProxyStateModel(isProxyEnabled: isEnabled, host: host, port: port);
@@ -72,5 +90,49 @@ class _DirectConnectionNotifier extends BaseStateNotifier<bool> {
 
   Future<bool> toggleDirect() async {
     return state ? closeDirect() : openDirect();
+  }
+}
+
+class _ImageHostingNotifier extends BaseStateNotifier<ImageHostingModel> {
+  _ImageHostingNotifier(super.state, {required super.ref});
+  Future<bool> enable() async {
+    state = state.copyWith(isEnabled: true);
+    var storage = NetworkStorage(prefs);
+    final result = await storage.setImageHostingEnable(true);
+    HttpHostOverrides().reload();
+    return result;
+  }
+
+  Future<bool> disable() async {
+    state = state.copyWith(isEnabled: false);
+    var storage = NetworkStorage(prefs);
+    final result = await storage.setImageHostingEnable(false);
+    HttpHostOverrides().reload();
+    return result;
+  }
+
+  Future<bool> toggle() async {
+    return state.isEnabled ? disable() : enable();
+  }
+
+  /// 更新并保存
+  /// return isSuccessed
+  Future<bool> updateAndSaveHost(String host) async {
+    state = state.copyWith(host: host);
+    var storage = NetworkStorage(prefs);
+    bool result = await storage.setImageHosting(host);
+    HttpHostOverrides().reload();
+    return result;
+  }
+
+  /// 更新并保存
+  /// return isSuccessed
+  Future<bool> updateAndSave(ImageHostingModel data) async {
+    state = data;
+    var storage = NetworkStorage(prefs);
+    bool result = await storage.setImageHosting(data.host).then(
+          (value) => value ? storage.setImageHostingEnable(data.isEnabled) : Future.value(false),
+        );
+    return result;
   }
 }

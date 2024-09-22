@@ -137,6 +137,10 @@ class LocalizationIntl {
   String get proxySettingsTitle => Intl.message('HTTP Proxy settings', name: 'proxySettingsTitle', desc: '');
   String get proxySettingsTitleHint =>
       Intl.message('(The proxy settings do not take effect for logins)', name: 'proxySettingsTitleHint', desc: '');
+  String get ipAdressEditing => Intl.message('IP adress:', name: 'ipAdressEditing', desc: '');
+  String get portEditing => Intl.message('Port:', name: 'portEditing', desc: '');
+  String get customImageHosting => Intl.message('Custom image hosting', name: 'customImageHosting', desc: '');
+  String get editImageHosting => Intl.message('Edit image hosting', name: 'editImageHosting', desc: '');
 
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');
