@@ -21,10 +21,10 @@ class HttpBaseOptions {
   static const Duration sendTimeout = Duration(seconds: 12);
 
   static const Map<String, String> baseHeaders = {
-    "User-Agent": "PixivIOSApp/7.12.5 (iOS 14.6; iPhone11,2)",
+    "User-Agent": "PixivIOSApp/7.20.18 (iOS 17.7; iPhone11,2)",
     "App-OS": "ios",
-    "App-OS-Version": "11.0",
-    "App-Version": "6.54.0",
+    "App-OS-Version": "17.7",
+    "App-Version": "7.20.18",
     "Accept-Language": "zh-CN",
   };
 
