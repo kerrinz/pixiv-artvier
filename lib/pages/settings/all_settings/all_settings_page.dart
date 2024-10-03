@@ -1,6 +1,8 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/perference/perference_group.dart';
 import 'package:artvier/component/perference/perference_item.dart';
+import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:artvier/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,12 +60,40 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                   items: [
                     // 软件更新
                     PerferenceItem(
-                        onTap: () => Navigator.of(context).pushNamed(RouteNames.checkUpdate.name),
-                        icon: Icon(Icons.update_rounded, color: colorScheme.primary),
-                        text: Text(
-                          i10n.softwareUpdate,
-                          style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
-                        )),
+                      onTap: () => Navigator.of(context).pushNamed(RouteNames.checkUpdate.name),
+                      icon: Icon(Icons.update_rounded, color: colorScheme.primary),
+                      text: Text(
+                        i10n.softwareUpdate,
+                        style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                      ),
+                      value: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Builder(builder: (context) {
+                            final currentVersion = ref
+                                .watch(packageInfoProvider)
+                                .whenOrNull(data: (data) => data.version.split('-').first);
+                            final release = ref.watch(globalLastVersionProvider).whenOrNull();
+                            if (currentVersion != null && release != null && release.tagName != currentVersion) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: MyBadge(
+                                  color: Colors.redAccent,
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                  child: Text("NEW", style: textTheme.labelSmall?.copyWith(color: Colors.white)),
+                                ),
+                              );
+                            }
+                            return const SizedBox();
+                          }),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
+                            size: 12,
+                          ),
+                        ],
+                      ),
+                    ),
                     // 关于APP
                     PerferenceItem(
                         onTap: () => Navigator.of(context).pushNamed(RouteNames.aboutApp.name),
