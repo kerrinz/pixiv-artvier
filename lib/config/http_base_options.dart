@@ -40,7 +40,7 @@ class HttpBaseOptions {
 
   static const Map<String, String> pximgHeaders = {
     ...baseHeaders,
-    ...{"Host": pximgHost},
+    // ...{"Host": pximgHost},
     ...{"referer": CONSTANTS.referer}
   };
 
