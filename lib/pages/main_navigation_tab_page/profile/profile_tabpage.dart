@@ -1,4 +1,8 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/badge.dart';
+import 'package:artvier/component/perference/perference_group.dart';
+import 'package:artvier/component/perference/perference_item.dart';
+import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -426,29 +430,48 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
   Widget _otherSettings(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: Theme.of(context).colorScheme.surface,
-      ),
-      child: Column(
-        children: [
-          PreferencesNavigatorItem(
-            icon: Icon(Icons.settings, color: colorScheme.primary),
-            text: Padding(
-              padding: const EdgeInsets.only(left: 12.0),
-              child: Text(
-                i10n.settings,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-              ),
-            ),
-            onTap: () => Navigator.of(context).pushNamed(RouteNames.allSettings.name),
-            padding: const EdgeInsets.only(left: 20, right: 12, top: 14, bottom: 14),
+      child: PerferenceGroup(items: [
+        PerferenceItem(
+          onTap: () => Navigator.of(context).pushNamed(RouteNames.allSettings.name),
+          icon: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Icon(Icons.settings, color: colorScheme.primary),
           ),
-        ],
-      ),
+          text: Text(
+            i10n.settings,
+            style: TextStyle(
+              fontSize: 14,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
+          value: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Builder(builder: (context) {
+                final currentVersion =
+                    ref.watch(packageInfoProvider).whenOrNull(data: (data) => data.version.split('-').first);
+                final release = ref.watch(globalLastVersionProvider).whenOrNull();
+                if (currentVersion != null && release != null && release.tagName != currentVersion) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: MyBadge(
+                      color: Colors.redAccent,
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      child: Text("NEW", style: textTheme.labelSmall?.copyWith(color: Colors.white)),
+                    ),
+                  );
+                }
+                return const SizedBox();
+              }),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
+                size: 12,
+              ),
+            ],
+          ),
+        ),
+      ]),
     );
   }
 

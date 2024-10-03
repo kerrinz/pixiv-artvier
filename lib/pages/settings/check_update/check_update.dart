@@ -6,7 +6,6 @@ import 'package:artvier/component/perference/perference_group.dart';
 import 'package:artvier/component/perference/perference_item.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/provider/version_and_update_provider.dart';
-import 'package:artvier/pages/settings/check_update/provider/check_update_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -52,7 +51,7 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
                   ],
                 ),
                 // GestureDetector(
-                //   onTap: () => ref.read(lastVersionProvider.notifier).reload(),
+                //   onTap: () => ref.read(globalLastVersionProvider.notifier).reload(),
                 //   child: PerferenceGroup(
                 //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 //     items: [
@@ -76,7 +75,7 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
                   ),
                   child: Consumer(
                     builder: (context, ref, child) {
-                      final result = ref.watch(lastVersionProvider);
+                      final result = ref.watch(globalLastVersionProvider);
                       final currentVersion =
                           ref.watch(packageInfoProvider).whenOrNull(data: (data) => data.version.split('-').first);
                       return result.when(
@@ -162,7 +161,7 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
                               );
                             }
                             return RequestLoadingFailed(
-                              onRetry: () => ref.read(lastVersionProvider.notifier).reload(),
+                              onRetry: () => ref.read(globalLastVersionProvider.notifier).reload(),
                             );
                           },
                           loading: () => const RequestLoading());

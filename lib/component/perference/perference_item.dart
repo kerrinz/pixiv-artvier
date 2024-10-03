@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// 偏好设置项
 ///
-/// 建议搭配偏好设置组[PerferenceGroupWidget]一起使用，即使只有一个设置项
+/// 建议搭配偏好设置组[PerferenceGroup]一起使用，即使只有一个设置项
 class PerferenceItem extends StatelessWidget {
   const PerferenceItem({
     super.key,

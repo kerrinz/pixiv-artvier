@@ -7,27 +7,6 @@ import 'package:artvier/model_response/update/git_release.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final lastVersionProvider = AutoDisposeAsyncNotifierProvider<LastVersionNotifier, GitRelease>(() {
-  return LastVersionNotifier();
-});
-
-class LastVersionNotifier extends BaseAutoDisposeAsyncNotifier<GitRelease> {
-  CancelToken cancelToken = CancelToken();
-
-  @override
-  FutureOr<GitRelease> build() {
-    ref.onDispose(() {
-      if (!cancelToken.isCancelled) cancelToken.cancel();
-    });
-    return fetch();
-  }
-
-  @override
-  Future<GitRelease> fetch() {
-    return ApiUpdate(ref.read(originHttpRequesterProvider)).lastRelease(cancelToken: cancelToken);
-  }
-}
-
 final changeLogProvider = AutoDisposeAsyncNotifierProvider.family<ChangeLogNotifier, GitRelease, String>(() {
   return ChangeLogNotifier();
 });
