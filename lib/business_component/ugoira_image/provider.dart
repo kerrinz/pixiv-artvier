@@ -8,6 +8,7 @@ import 'package:artvier/business_component/ugoira_image/model.dart';
 import 'package:artvier/component/image/gif_image.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/logger.dart';
+import 'package:artvier/global/provider/requester_provider.dart';
 import 'package:artvier/model_response/illusts/ugoira.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
@@ -103,7 +104,7 @@ class UgoiraIllustNotifier extends BaseStateNotifier<UgoiraImageState> {
     logger.i('Start download zip file: $url');
     File zipFile = File(zipPath);
     if (!zipFile.existsSync()) {
-      await requester.donwload(
+      await ref.read(originHttpRequesterProvider).donwload(
         url,
         zipPath,
         options: Options(
