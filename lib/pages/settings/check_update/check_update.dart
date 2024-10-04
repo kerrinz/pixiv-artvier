@@ -102,13 +102,12 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
                                       ),
                                     )),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8),
-                                    child: Text(i10n.changelog, style: textTheme.titleMedium),
-                                  ),
-                                  SelectionArea(
-                                    child: MarkdownBody(
-                                      data: data.body,
-                                      selectable: false,
+                                    padding: const EdgeInsets.only(top: 8),
+                                    child: SelectionArea(
+                                      child: MarkdownBody(
+                                        data: data.body,
+                                        selectable: false,
+                                      ),
                                     ),
                                   ),
                                 ],
