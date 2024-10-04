@@ -45,48 +45,52 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // HTTP Proxy
         Builder(builder: (context) {
           bool isEnabled = ref.watch(globalProxyStateProvider.select((value) => value.isProxyEnabled));
-          return PerferenceSingleChoisePanel(
-            title: i10n.proxySettingsTitle,
-            caption: i10n.proxySettingsTitleHint,
-            selectedindex: isEnabled ? 1 : 0,
-            onSelect: (index) {
-              switch (index) {
-                case 0:
-                  handleProxyEnable(ref, proxyEnabled: false);
-                  break;
-                case 1:
-                  handleProxyEnable(ref, proxyEnabled: true);
-              }
-            },
-            widgets: <Widget>[
-              Text(
-                i10n.defaultNoProxy,
-                style: textTheme.labelMedium,
-              ),
-              Row(
-                children: [
-                  Text(
-                    i10n.customProxy,
-                    style: textTheme.labelMedium,
-                  ),
-                  Expanded(child: _buildProxyBadge(context)),
-                ],
-              ),
-            ],
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: PerferenceSingleChoisePanel(
+              title: i10n.proxySettingsTitle,
+              caption: i10n.proxySettingsTitleHint,
+              selectedindex: isEnabled ? 1 : 0,
+              onSelect: (index) {
+                switch (index) {
+                  case 0:
+                    handleProxyEnable(ref, proxyEnabled: false);
+                    break;
+                  case 1:
+                    handleProxyEnable(ref, proxyEnabled: true);
+                }
+              },
+              widgets: <Widget>[
+                Text(
+                  i10n.defaultNoProxy,
+                  style: textTheme.labelMedium,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      i10n.customProxy,
+                      style: textTheme.labelMedium,
+                    ),
+                    Expanded(child: _buildProxyBadge(context)),
+                  ],
+                ),
+              ],
+            ),
           );
         }),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Builder(builder: (context) {
-            // 未登录则隐藏图片源设置
-            bool hide = ref.watch(globalCurrentAccountProvider) == null;
-            final state = ref.watch(globalImageHostingProvider);
-            if (hide) {
-              return const SizedBox();
-            } else {
-              return Column(
+        // Custom image hosting
+        Builder(builder: (context) {
+          bool hide = ref.watch(globalCurrentAccountProvider) == null;
+          final state = ref.watch(globalImageHostingProvider);
+          if (hide) {
+            return const SizedBox();
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Column(
                 children: [
                   Row(
                     children: [
@@ -114,12 +118,12 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                     ],
                   ),
                 ],
-              );
-            }
-          }),
-        ),
+              ),
+            );
+          }
+        }),
+        // Direct connection
         Builder(builder: (context) {
-          // 未登录则隐藏直连功能
           bool hide = ref.watch(globalCurrentAccountProvider) == null;
           bool enable = ref.watch(globalDirectConnectionProvider);
           if (hide) {
