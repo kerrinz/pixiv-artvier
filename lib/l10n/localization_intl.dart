@@ -22,7 +22,7 @@ class LocalizationIntl {
   }
 
   // 引导页
-  String get tokenLogin => Intl.message('Token change', name: 'tokenLogin', desc: 'Button and title of login by token');
+  String get importToken => Intl.message('Import token', name: 'importToken', desc: '');
   String get webLogin => Intl.message('Web login', name: 'webLogin', desc: 'Button and title of login by web');
   String get login => Intl.message('Login', name: 'login', desc: 'An action of login account');
   String get loginSuccess =>
