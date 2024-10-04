@@ -69,11 +69,11 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                       value: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Builder(builder: (context) {
+                          Consumer(builder: (context, ref, child) {
                             final currentVersion = ref
                                 .watch(packageInfoProvider)
                                 .whenOrNull(data: (data) => data.version.split('-').first);
-                            final release = ref.watch(globalLastVersionProvider).whenOrNull();
+                            final release = ref.watch(globalLastVersionProvider).whenOrNull(data: (data) => data);
                             if (currentVersion != null && release != null && release.tagName != currentVersion) {
                               return Padding(
                                 padding: const EdgeInsets.only(right: 8),

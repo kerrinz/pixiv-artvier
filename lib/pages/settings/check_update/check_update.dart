@@ -50,21 +50,6 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
                     ),
                   ],
                 ),
-                // GestureDetector(
-                //   onTap: () => ref.read(globalLastVersionProvider.notifier).reload(),
-                //   child: PerferenceGroup(
-                //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                //     items: [
-                //       PerferenceItem(
-                //         text: Container(
-                //           alignment: Alignment.center,
-                //           child: const Text("检查更新"),
-                //         ),
-                //         value: Icon(Icons.refresh_rounded, size: 20, color: colorScheme.primary),
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -96,10 +81,9 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
                                         ),
                                       ),
                                       MyBadge(
-                                        padding: const EdgeInsets.only(top: 2, bottom: 1, left: 5, right: 5),
-                                        color: Colors.red.withOpacity(0.9),
-                                        child: Text("NEW",
-                                            style: textTheme.bodySmall?.copyWith(color: Colors.white, height: 1)),
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                        color: Colors.redAccent,
+                                        child: Text("NEW", style: textTheme.labelSmall?.copyWith(color: Colors.white)),
                                       ),
                                     ],
                                   ),
