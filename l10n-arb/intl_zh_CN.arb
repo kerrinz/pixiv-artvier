@@ -1,8 +1,8 @@
 {
-  "@@last_modified": "2024-09-17T12:53:32.551174",
-  "tokenLogin": "Token 变更",
-  "@tokenLogin": {
-    "description": "Button and title of login by token",
+  "@@last_modified": "2024-10-04T17:07:20.176789",
+  "importToken": "导入 Token",
+  "@importToken": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },

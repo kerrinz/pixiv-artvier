@@ -26,12 +26,11 @@ class _TokenLoginDialogState extends BasePageState<TokenLoginDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(i10n.tokenLogin),
+      title: const Text("Token"),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("token:", style: textTheme.titleMedium),
             TextField(
               autofocus: false,
               controller: _refreshTokenController,
@@ -56,7 +55,7 @@ class _TokenLoginDialogState extends BasePageState<TokenLoginDialog> {
             builder: (BuildContext context, value, Widget? child) {
               return value
                   ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
-                  : Text(i10n.login);
+                  : Text(i10n.promptConform);
             },
           ),
           onPressed: () {

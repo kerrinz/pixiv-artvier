@@ -1,8 +1,8 @@
 {
-  "@@last_modified": "2024-09-23T00:27:50.422994",
-  "tokenLogin": "Token change",
-  "@tokenLogin": {
-    "description": "Button and title of login by token",
+  "@@last_modified": "2024-10-04T17:07:20.176789",
+  "importToken": "Import token",
+  "@importToken": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },
