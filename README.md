@@ -55,6 +55,11 @@
 |:---:|:---:|
 |![](https://kerrinz.com/files/images/artvier/user_detail_230227.jpg)|![](https://yleen.cc/files/images/artvier/illust_detail_230227.jpg)
 
+## 开发环境
+- Flutter 3.19.5 • channel stable • https://github.com/flutter/flutter.git
+- Tools • Dart 3.3.3 • DevTools 2.31.1
+- Xcode - develop for iOS and macOS (Xcode 15.3)
+
 ## 免责声明
 
 1. 本软件不收取任何费用，且仅供学习和交流使用，不得用于其他任何用途（尤其是不得用于商业用途），如作它用所承受的法律责任一概与本人无关。
