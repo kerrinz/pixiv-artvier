@@ -44,6 +44,7 @@ class _LoginWizardPageState extends BasePageState<LoginWizardPage> {
     return Scaffold(
       body: Stack(
         children: [
+          AppBar(),
           Center(
             child: SingleChildScrollView(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
