@@ -1,3 +1,4 @@
+import 'package:artvier/component/tab_view/tab_indicator.dart';
 import 'package:flutter/material.dart';
 
 typedef ThemeDataBuilder = BaseTheme Function(Brightness brightness);
@@ -34,8 +35,7 @@ abstract class BaseTheme {
 
   ColorScheme darkColorScheme;
 
-  ColorScheme get colorScheme =>
-      (_brightness == Brightness.light ? lightColorScheme : darkColorScheme);
+  ColorScheme get colorScheme => (_brightness == Brightness.light ? lightColorScheme : darkColorScheme);
 
   bool get isLight => _brightness == Brightness.light;
 
@@ -54,20 +54,24 @@ abstract class BaseTheme {
           toolbarHeight: 50,
           scrolledUnderElevation: 0,
           color: colorScheme.surface,
-          titleTextStyle: TextStyle(
-              fontSize: 18,
-              color: colorScheme.onSurface,
-              fontWeight: FontWeight.w600),
+          titleTextStyle: TextStyle(fontSize: 18, color: colorScheme.onSurface, fontWeight: FontWeight.w600),
         ),
         tabBarTheme: TabBarTheme(
-          labelColor: colorScheme.brightness == Brightness.light
-              ? Colors.black
-              : Colors.white,
+          labelColor: colorScheme.brightness == Brightness.light ? Colors.black : Colors.white,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 12.0),
           unselectedLabelColor: colorScheme.onSurface.withAlpha(150),
-          labelStyle:
-              const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           unselectedLabelStyle: const TextStyle(fontSize: 14),
           indicatorSize: TabBarIndicatorSize.label,
+          dividerHeight: 0,
+          indicator: CustomUnderlineTabIndicator(
+            indicatorWidth: 16,
+            borderRadius: const BorderRadius.all(Radius.circular(4)),
+            borderSide: BorderSide(
+              width: 3,
+              color: colorScheme.primary,
+            ),
+          ),
         ),
         indicatorColor: colorScheme.primary,
         cardTheme: CardTheme(
@@ -84,8 +88,7 @@ abstract class BaseTheme {
 }
 
 class PurpleTheme extends BaseTheme {
-  PurpleTheme(Brightness brightness)
-      : super(brightness, lightColorScheme_, darkColorScheme_);
+  PurpleTheme(Brightness brightness) : super(brightness, lightColorScheme_, darkColorScheme_);
 
   static get lightColorScheme_ => const ColorScheme(
         brightness: Brightness.light,

@@ -2,6 +2,8 @@
 * TabBar实现吸附顶端效果所需的Delegate */
 import 'package:flutter/material.dart';
 
+const double kTabBarHeight = 46;
+
 class SliverTabBarPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   final TabBar child;
 

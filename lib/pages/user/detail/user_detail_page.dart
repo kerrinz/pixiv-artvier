@@ -24,8 +24,7 @@ class UserDetailPage extends BaseStatefulPage {
   /// 用户信息（精简版）
   final PreloadUserLeastInfo leastInfo;
 
-  const UserDetailPage(Object arguments, {super.key})
-      : leastInfo = arguments as PreloadUserLeastInfo;
+  const UserDetailPage(Object arguments, {super.key}) : leastInfo = arguments as PreloadUserLeastInfo;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -39,8 +38,6 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
   late ScrollController _scrollController;
 
   final double kToolbarHeight = 50;
-
-  final double kTabBarHeight = 46;
 
   /// 背景封面图的高度（动态计算）
   late double _bannerHeight;
@@ -160,18 +157,16 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
                   backgroundColor: colorScheme.surface,
                   padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
                   child: TabBar(
-                    labelColor: colorScheme.primary,
                     labelPadding: const EdgeInsets.symmetric(horizontal: 12.0),
                     controller: _tabController,
-                    isScrollable: false,
+                    isScrollable: true,
+                    tabAlignment: TabAlignment.start,
                     tabs: [
                       Tab(text: i10n.works),
                       Tab(text: i10n.collections),
                       Tab(text: i10n.more),
                     ],
                   ),
-                  maxHeight: kTabBarHeight,
-                  minHeight: kTabBarHeight,
                 ),
               ),
             ];
