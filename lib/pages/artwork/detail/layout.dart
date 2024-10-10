@@ -99,7 +99,7 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
     double statusBarHeight = MediaQuery.of(context).padding.top; // 状态栏高度
     double toolBarHeight = Theme.of(context).appBarTheme.toolbarHeight ?? 50;
     // 拖拽组件上拉到顶的极限距离
-    _minimunPosition = statusBarHeight + (screenHeight < screenWidth ? 0 : toolBarHeight) - _floatingButtonOffset;
+    _minimunPosition = statusBarHeight + toolBarHeight - _floatingButtonOffset;
     _maximumPosition = screenHeight - _minRevealHeight;
     return Stack(
       children: [
