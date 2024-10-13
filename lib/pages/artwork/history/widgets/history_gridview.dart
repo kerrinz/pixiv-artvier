@@ -94,8 +94,10 @@ class HistoryGridView extends ConsumerWidget with LazyloadLogic {
       title: item.title,
       author: item.authorName ?? "",
       onTap: () {
-        Navigator.of(ref.context)
-            .pushNamed(RouteNames.artworkDetail.name, arguments: IllustDetailPageArguments(illustId: item.worksId));
+        Navigator.of(ref.context).pushNamed(
+          RouteNames.artworkDetail.name,
+          arguments: IllustDetailPageArguments(illustId: item.worksId, title: item.title),
+        );
       },
     );
   }

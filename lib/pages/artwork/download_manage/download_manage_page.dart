@@ -104,7 +104,7 @@ class DownloadManagePageState extends BasePageState<DownloadManagePage> with Tic
                         highlightColor: Colors.black12.withOpacity(0.1),
                         onTap: () {
                           Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
-                              arguments: IllustDetailPageArguments(illustId: item.worksId));
+                              arguments: IllustDetailPageArguments(illustId: item.worksId, title: item.title));
                         },
                       ),
                     ),

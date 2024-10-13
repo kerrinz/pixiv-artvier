@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$IllustDetailPageArguments {
   String get illustId => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
   CommonIllust? get detail => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +31,7 @@ abstract class $IllustDetailPageArgumentsCopyWith<$Res> {
           $Res Function(IllustDetailPageArguments) then) =
       _$IllustDetailPageArgumentsCopyWithImpl<$Res, IllustDetailPageArguments>;
   @useResult
-  $Res call({String illustId, CommonIllust? detail});
+  $Res call({String illustId, String? title, CommonIllust? detail});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$IllustDetailPageArgumentsCopyWithImpl<$Res,
   @override
   $Res call({
     Object? illustId = null,
+    Object? title = freezed,
     Object? detail = freezed,
   }) {
     return _then(_value.copyWith(
@@ -55,6 +57,10 @@ class _$IllustDetailPageArgumentsCopyWithImpl<$Res,
           ? _value.illustId
           : illustId // ignore: cast_nullable_to_non_nullable
               as String,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
       detail: freezed == detail
           ? _value.detail
           : detail // ignore: cast_nullable_to_non_nullable
@@ -72,7 +78,7 @@ abstract class _$$IllustDetailPageArgumentsImplCopyWith<$Res>
       __$$IllustDetailPageArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String illustId, CommonIllust? detail});
+  $Res call({String illustId, String? title, CommonIllust? detail});
 }
 
 /// @nodoc
@@ -89,6 +95,7 @@ class __$$IllustDetailPageArgumentsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? illustId = null,
+    Object? title = freezed,
     Object? detail = freezed,
   }) {
     return _then(_$IllustDetailPageArgumentsImpl(
@@ -96,6 +103,10 @@ class __$$IllustDetailPageArgumentsImplCopyWithImpl<$Res>
           ? _value.illustId
           : illustId // ignore: cast_nullable_to_non_nullable
               as String,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
       detail: freezed == detail
           ? _value.detail
           : detail // ignore: cast_nullable_to_non_nullable
@@ -107,16 +118,19 @@ class __$$IllustDetailPageArgumentsImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$IllustDetailPageArgumentsImpl implements _IllustDetailPageArguments {
-  const _$IllustDetailPageArgumentsImpl({required this.illustId, this.detail});
+  const _$IllustDetailPageArgumentsImpl(
+      {required this.illustId, this.title, this.detail});
 
   @override
   final String illustId;
+  @override
+  final String? title;
   @override
   final CommonIllust? detail;
 
   @override
   String toString() {
-    return 'IllustDetailPageArguments(illustId: $illustId, detail: $detail)';
+    return 'IllustDetailPageArguments(illustId: $illustId, title: $title, detail: $detail)';
   }
 
   @override
@@ -126,11 +140,12 @@ class _$IllustDetailPageArgumentsImpl implements _IllustDetailPageArguments {
             other is _$IllustDetailPageArgumentsImpl &&
             (identical(other.illustId, illustId) ||
                 other.illustId == illustId) &&
+            (identical(other.title, title) || other.title == title) &&
             (identical(other.detail, detail) || other.detail == detail));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, illustId, detail);
+  int get hashCode => Object.hash(runtimeType, illustId, title, detail);
 
   @JsonKey(ignore: true)
   @override
@@ -143,10 +158,13 @@ class _$IllustDetailPageArgumentsImpl implements _IllustDetailPageArguments {
 abstract class _IllustDetailPageArguments implements IllustDetailPageArguments {
   const factory _IllustDetailPageArguments(
       {required final String illustId,
+      final String? title,
       final CommonIllust? detail}) = _$IllustDetailPageArgumentsImpl;
 
   @override
   String get illustId;
+  @override
+  String? get title;
   @override
   CommonIllust? get detail;
   @override
