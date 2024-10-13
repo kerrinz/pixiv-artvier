@@ -160,7 +160,14 @@ class _BlurButtonState extends State<BlurButton> with SingleTickerProviderStateM
 }
 
 class AppbarBlurIconButton extends StatelessWidget {
-  const AppbarBlurIconButton({super.key, required this.onPressed, required this.icon, this.margin, this.padding});
+  const AppbarBlurIconButton({
+    super.key,
+    required this.onPressed,
+    required this.icon,
+    this.margin,
+    this.padding,
+    this.background = const Color.fromARGB(100, 0, 0, 0),
+  });
 
   final Function() onPressed;
 
@@ -171,12 +178,14 @@ class AppbarBlurIconButton extends StatelessWidget {
 
   final EdgeInsets? padding;
 
+  final Color? background;
+
   @override
   Widget build(BuildContext context) {
     return BlurButton(
       borderRadius: const BorderRadius.all(Radius.circular(18)),
       padding: EdgeInsets.zero,
-      background: const Color.fromARGB(100, 0, 0, 0),
+      background: background,
       margin: margin,
       width: 32,
       height: 32,

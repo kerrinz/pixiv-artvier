@@ -78,7 +78,7 @@ class PixivisionIllustCard extends ConsumerWidget {
             child: InkWell(
               onTap: () => Navigator.of(context).pushNamed(
                 RouteNames.artworkDetail.name,
-                arguments: IllustDetailPageArguments(illustId: illustId),
+                arguments: IllustDetailPageArguments(illustId: illustId, title: illustTitle),
               ),
               child: EnhanceNetworkImage(
                 image: ExtendedNetworkImageProvider(

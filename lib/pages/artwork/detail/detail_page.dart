@@ -1,5 +1,6 @@
 import 'package:artvier/business_component/ugoira_image/ugoira_image.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
+import 'package:artvier/component/layout/single_line_fitted_box.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
 import 'package:artvier/pages/artwork/detail/widgets/menu_bottom_sheet.dart';
@@ -56,7 +57,6 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
 
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     _dragController = DragController();
     if (widget.args.detail != null) {
       viewingHistoryDatabase
@@ -84,102 +84,130 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
       return Scaffold(
         body: ref.watch(illustDetailProvider(artworkId)).when(
               data: (data) => _buildSuccessContent(data!.illust),
-              error: (obj, error) => RequestLoadingFailed(onRetry: () => ref.refresh(illustDetailProvider(artworkId))),
-              loading: () => const RequestLoading(),
+              error: (obj, error) => _buildBeforeSuccessContent(true),
+              loading: () => _buildBeforeSuccessContent(false),
             ),
       );
     }
   }
 
-  Widget _buildSuccessContent(CommonIllust detail) {
-    return ArtworkDetailPageLayout(
-        isShapedScreen: false,
-        dragController: _dragController,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-          leading: AppbarBlurIconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          actions: [
-            AppbarBlurIconButton(
-              icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
-              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-              onPressed: () {
-                BottomSheets.showCustomBottomSheet<bool>(
-                  context: ref.context,
-                  exitOnClickModal: true,
-                  enableDrag: false,
-                  child: ArtworkDetailMenu(
-                    detail: widget.args.detail ?? detail,
-                  ),
-                );
-              },
-            )
-          ],
+  Widget _buildBeforeSuccessContent(bool isFailed) {
+    return Stack(children: [
+      AppBar(
+        // backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        leading: AppbarBlurIconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          background: Colors.transparent,
         ),
-        viewerContent: _buildPreviewImages(detail),
-        collectButton: _collectButton(),
-        slivers: [
-          const SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.only(top: 1),
-              child: BottomSheetSlideBar(width: 48, height: 3),
+        title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.illustId)),
+      ),
+      Builder(builder: (context) {
+        if (isFailed) {
+          return RequestLoadingFailed(onRetry: () => ref.refresh(illustDetailProvider(artworkId)));
+        }
+        return const RequestLoading();
+      }),
+    ]);
+  }
+
+  Widget _buildSuccessContent(CommonIllust detail) {
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: ArtworkDetailPageLayout(
+          isShapedScreen: false,
+          dragController: _dragController,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
+            leading: AppbarBlurIconButton(
+              icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
+            actions: [
+              AppbarBlurIconButton(
+                icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
+                margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                onPressed: () {
+                  BottomSheets.showCustomBottomSheet<bool>(
+                    context: ref.context,
+                    exitOnClickModal: true,
+                    enableDrag: false,
+                    child: ArtworkDetailMenu(
+                      detail: widget.args.detail ?? detail,
+                    ),
+                  );
+                },
+              )
+            ],
           ),
-          // 作品标题吸顶
-          SliverStickyHeader(
-            // 作品的标题
-            header: Container(
-              padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
-              color: colorScheme.surface,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: Text(detail.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+          viewerContent: _buildPreviewImages(detail),
+          collectButton: _collectButton(),
+          slivers: [
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.only(top: 1),
+                child: BottomSheetSlideBar(width: 48, height: 3),
               ),
             ),
-            // 概述信息
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  // 作者卡片
-                  AuthorCardWidget(detail: detail, tabController: _tabController),
-                  _buildInformation(detail),
-                ],
+            // 作品标题吸顶
+            SliverStickyHeader(
+              // 作品的标题
+              header: Container(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
+                color: colorScheme.surface,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(detail.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                ),
+              ),
+              // 概述信息
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    // 作者卡片
+                    AuthorCardWidget(detail: detail, tabController: _tabController),
+                    _buildInformation(detail),
+                  ],
+                ),
               ),
             ),
-          ),
-          // 评论区域，吸顶
-          SliverStickyHeader(
-            // 评论的标题栏
-            header: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-              color: colorScheme.surface,
-              child: Text("评论", style: textTheme.titleMedium),
+            // 评论区域，吸顶
+            SliverStickyHeader(
+              // 评论的标题栏
+              header: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                color: colorScheme.surface,
+                child: Text("评论", style: textTheme.titleMedium),
+              ),
+              // 评论列表（预览部分）
+              sliver: SliverToBoxAdapter(child: CommentsPreviewContentWidget(artworkId: artworkId)),
             ),
-            // 评论列表（预览部分）
-            sliver: SliverToBoxAdapter(child: CommentsPreviewContentWidget(artworkId: artworkId)),
-          ),
-          // 相关作品区域，吸顶
-          SliverStickyHeader(
-            // 相关作品的标题栏
-            header: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-              color: colorScheme.surface,
-              child: Text("相关作品", style: textTheme.titleMedium),
+            // 相关作品区域，吸顶
+            SliverStickyHeader(
+              // 相关作品的标题栏
+              header: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                color: colorScheme.surface,
+                child: Text("相关作品", style: textTheme.titleMedium),
+              ),
+              // 相关作品列表
+              sliver: SliverDelayedBuildUntilViewportWidget(
+                placeholderWidget: const SliverToBoxAdapter(child: RequestLoading()),
+                child: RelatedArtworksContentWidget(worksId: artworkId),
+              ),
             ),
-            // 相关作品列表
-            sliver: SliverDelayedBuildUntilViewportWidget(
-              placeholderWidget: const SliverToBoxAdapter(child: RequestLoading()),
-              child: RelatedArtworksContentWidget(worksId: artworkId),
-            ),
-          ),
-        ]);
+          ]),
+    );
   }
 
   Widget _buildPreviewImages(CommonIllust detail) {
