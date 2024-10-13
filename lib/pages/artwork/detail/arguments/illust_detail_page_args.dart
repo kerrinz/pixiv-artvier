@@ -10,6 +10,7 @@ part 'illust_detail_page_args.freezed.dart';
 class IllustDetailPageArguments with _$IllustDetailPageArguments {
   const factory IllustDetailPageArguments({
     required String illustId,
+    String? title,
     CommonIllust? detail,
   }) = _IllustDetailPageArguments;
 }
