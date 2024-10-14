@@ -7,6 +7,7 @@ import 'package:artvier/pages/main_navigation_tab_page/home/widgets/pixivision_c
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
@@ -175,25 +176,34 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
   Widget _buildAppBar(double offset) {
     double bgOpacity = 0.0;
     Color inputBackgroundColor = Colors.black12;
+    Brightness brightness = Brightness.light;
     if (offset >= 100) {
+      brightness = Theme.of(context).brightness == Brightness.light ? Brightness.dark : Brightness.light;
       bgOpacity = (offset - 100) / 100;
       inputBackgroundColor = Colors.grey.withOpacity(0.15);
     } else {
+      brightness = Brightness.light;
       bgOpacity = 0;
     }
     Color textColor = Colors.white;
-    if (colorScheme.brightness == Brightness.light && bgOpacity > 0.5) {
+    if (Theme.of(context).brightness == Brightness.light && bgOpacity > 0.5) {
       textColor = Colors.black;
     }
-    return Container(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10, bottom: 10, left: 10, right: 10),
-      height: (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) + MediaQuery.of(context).padding.top,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface.withOpacity(bgOpacity),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarBrightness: brightness,
+        statusBarIconBrightness: brightness,
       ),
-      child: SearchBox(
-        textColor: textColor,
-        backgroundColor: inputBackgroundColor,
+      child: Container(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10, bottom: 10, left: 10, right: 10),
+        height: (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) + MediaQuery.of(context).padding.top,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface.withOpacity(bgOpacity),
+        ),
+        child: SearchBox(
+          textColor: textColor,
+          backgroundColor: inputBackgroundColor,
+        ),
       ),
     );
   }
