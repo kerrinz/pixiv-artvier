@@ -6,6 +6,7 @@ import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
@@ -88,85 +89,91 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
     super.build(context);
     // 顶部区域背景色
     Color topBackgroundColor = _isLightMode
-        ? HSLColor.fromColor(Theme.of(context).colorScheme.primary).withLightness(0.66).toColor()
+        ? HSLColor.fromColor(Theme.of(context).colorScheme.primary).withLightness(0.60).toColor()
         : HSVColor.fromColor(Theme.of(context).colorScheme.primary).withValue(0.25).toColor();
-    return Stack(
-      children: [
-        Container(
-          color: Theme.of(context).colorScheme.background,
-          child: Column(
-            children: [
-              // 我的信息栏
-              Container(
-                color: topBackgroundColor,
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.top +
-                        (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight)),
-                child: _buildUserInfoContainer(context),
-              ),
-              // 功能卡片
-              Container(
-                transform: Matrix4.translationValues(0, -4, 0),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      topBackgroundColor,
-                      topBackgroundColor,
-                      Theme.of(context).colorScheme.background,
-                      Theme.of(context).colorScheme.background,
-                    ],
-                    stops: const [0, 0.6, 0.6, 1],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: Stack(
+        children: [
+          Container(
+            color: Theme.of(context).colorScheme.background,
+            child: Column(
+              children: [
+                // 我的信息栏
+                Container(
+                  color: topBackgroundColor,
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).padding.top +
+                          (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight)),
+                  child: _buildUserInfoContainer(context),
+                ),
+                // 功能卡片
+                Container(
+                  transform: Matrix4.translationValues(0, -4, 0),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        topBackgroundColor,
+                        topBackgroundColor,
+                        Theme.of(context).colorScheme.background,
+                        Theme.of(context).colorScheme.background,
+                      ],
+                      stops: const [0, 0.6, 0.6, 1],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                  child: _buildFunctionCardContianer(context),
+                ),
+                _buildPreferenceSettings(context),
+                _otherSettings(context),
+              ],
+            ),
+          ),
+          // Toolbar（Appbar）
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: AppBar(
+              automaticallyImplyLeading: true,
+              backgroundColor: Colors.transparent,
+              actionsIconTheme: const IconThemeData(size: 20, color: Colors.white),
+              actions: [
+                Center(
+                  child: IconButton(
+                    padding: const EdgeInsets.all(8.0),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(RouteNames.accountManage.name);
+                    },
+                    color: Colors.white,
+                    icon: const Icon(Icons.switch_account_outlined),
+                    tooltip: "切换账号",
                   ),
                 ),
-                child: _buildFunctionCardContianer(context),
-              ),
-              _buildPreferenceSettings(context),
-              _otherSettings(context),
-            ],
-          ),
-        ),
-        // Toolbar（Appbar）
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: AppBar(
-            automaticallyImplyLeading: true,
-            backgroundColor: Colors.transparent,
-            actionsIconTheme: const IconThemeData(size: 20, color: Colors.white),
-            actions: [
-              Center(
-                child: IconButton(
-                  padding: const EdgeInsets.all(8.0),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(RouteNames.accountManage.name);
-                  },
-                  color: Colors.white,
-                  icon: const Icon(Icons.switch_account_outlined),
-                  tooltip: "切换账号",
+                Center(
+                  child: Builder(
+                    builder: (BuildContext context) {
+                      // 当前所处的主题模式
+                      bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
+                      return IconButton(
+                        padding: const EdgeInsets.all(8.0),
+                        onPressed: () => handleTapThemeMode(isDarkMode),
+                        color: Colors.white,
+                        icon: Icon(isDarkMode ? Icons.mode_night : Icons.light_mode),
+                        tooltip: "切换主题模式",
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Center(
-                child: Builder(
-                  builder: (BuildContext context) {
-                    // 当前所处的主题模式
-                    bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
-                    return IconButton(
-                      padding: const EdgeInsets.all(8.0),
-                      onPressed: () => handleTapThemeMode(isDarkMode),
-                      color: Colors.white,
-                      icon: Icon(isDarkMode ? Icons.mode_night : Icons.light_mode),
-                      tooltip: "切换主题模式",
-                    );
-                  },
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

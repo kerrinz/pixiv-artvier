@@ -40,10 +40,10 @@ class NewArtworksTabPageState extends BasePageState<NewArtworksTabPage>
                 tabAlignment: TabAlignment.start,
                 tabs: _tabs,
               ),
-              maxHeight:
-                  (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) + MediaQuery.of(context).padding.top,
-              minHeight:
-                  (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) + MediaQuery.of(context).padding.top,
+              maxHeight: (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) +
+                  MediaQuery.of(context).padding.top,
+              minHeight: (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) +
+                  MediaQuery.of(context).padding.top,
             ),
           ),
         ];
