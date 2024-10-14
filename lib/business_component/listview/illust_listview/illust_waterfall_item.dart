@@ -124,7 +124,10 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                             color: Colors.black26,
                             borderRadius: BorderRadius.all(Radius.circular(4)),
                           ),
-                          child: Text(widget.badges!.join(','), style: textTheme.labelLarge),
+                          child: Text(
+                            widget.badges!.join(','),
+                            style: textTheme.labelLarge?.copyWith(color: Colors.white),
+                          ),
                         ),
                       )
                   ],
