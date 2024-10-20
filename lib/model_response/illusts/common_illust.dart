@@ -54,6 +54,9 @@ class CommonIllust extends Object {
   @JsonKey(name: 'x_restrict')
   int xRestrict;
 
+  @JsonKey(name: 'series')
+  Series? series;
+
   @JsonKey(name: 'meta_single_page')
   Meta_single_page metaSinglePage;
 
@@ -84,8 +87,6 @@ class CommonIllust extends Object {
   Map<String, dynamic> toJson() => _$CommonIllustToJson(this);
 
 }
-
-
 /// 不管单页还是多页，均通用，但没有原图
 @JsonSerializable()
 class Image_urls extends Object {
@@ -104,6 +105,23 @@ class Image_urls extends Object {
   factory Image_urls.fromJson(Map<String, dynamic> srcJson) => _$Image_urlsFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$Image_urlsToJson(this);
+
+}
+
+@JsonSerializable()
+class Series extends Object {
+
+  @JsonKey(name: 'id')
+  int id;
+
+  @JsonKey(name: 'title')
+  String title;
+
+  Series(this.id,this.title);
+
+  factory Series.fromJson(Map<String, dynamic> srcJson) => _$SeriesFromJson(srcJson);
+
+  Map<String, dynamic> toJson() => _$SeriesToJson(this);
 
 }
 

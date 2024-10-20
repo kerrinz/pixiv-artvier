@@ -1,5 +1,6 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/sliver_persistent_header/tab_bar_delegate.dart';
+import 'package:artvier/pages/main_navigation_tab_page/newest/sub_tabpage/followed_series_tabpage.dart';
 import 'package:flutter/material.dart';
 import 'package:artvier/pages/main_navigation_tab_page/newest/sub_tabpage/everybody_newest_tabpage.dart';
 import 'package:artvier/pages/main_navigation_tab_page/newest/sub_tabpage/followed_newest_tabpage.dart';
@@ -18,6 +19,7 @@ class NewArtworksTabPageState extends BasePageState<NewArtworksTabPage>
   late TabController _tabController;
   final List<Tab> _tabs = [
     const Tab(text: "关注"),
+    const Tab(text: "追更列表"),
     const Tab(text: "全站"),
     const Tab(text: "好P友"),
   ];
@@ -52,6 +54,7 @@ class NewArtworksTabPageState extends BasePageState<NewArtworksTabPage>
         controller: _tabController,
         children: const [
           FollowedNewestTabPage(),
+          FollowedSeriesTabPage(),
           EverybodyNewestTabPage(),
           FriendsNewestTabPage(),
         ],

@@ -27,7 +27,7 @@ class _ArtworksRankingTabPageState extends BasePageState<ArtworksRankingTabPage>
     return RefreshIndicator(
       onRefresh: () async => ref.read(artworksRankingProvier(mode).notifier).refresh(),
       child: Consumer(
-        builder: (context, value, child) {
+        builder: (context, ref, child) {
           var asyncList = ref.watch(artworksRankingProvier(mode));
           return asyncList.when(
             loading: () => const RequestLoading(),

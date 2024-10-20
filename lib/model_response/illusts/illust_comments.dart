@@ -33,7 +33,7 @@ class IllustComments extends Object {
   String comment;
 
   @JsonKey(name: 'date')
-  String date;
+  DateTime date;
 
   @JsonKey(name: 'user')
   User user;

@@ -16,7 +16,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:html/parser.dart';
 
 class IllustPixivisionPage extends BaseStatefulPage {
-  /// 图片链接列表（每项含有多种画质链接）
   final PixivisionWebViewPageArguments arguments;
 
   const IllustPixivisionPage(Object arg, {super.key})

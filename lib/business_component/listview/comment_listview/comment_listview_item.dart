@@ -1,4 +1,5 @@
 import 'package:artvier/request/http_host_overrides.dart';
+import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,7 +89,10 @@ class CommentListViewItem extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: Text(
-                    comment.date,
+                    formatDate(
+                      comment.date.toLocal(),
+                      [yyyy, '-', mm, '-', dd, ' ', HH, ':', mm, ':', ss],
+                    ),
                     style: TextStyle(color: Colors.grey.shade600),
                   ),
                 ),

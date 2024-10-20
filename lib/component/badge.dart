@@ -6,6 +6,7 @@ class MyBadge extends StatelessWidget {
   final Border? border;
   final GestureTapCallback? onTap;
   final EdgeInsets? padding;
+  final BorderRadius? borderRadius;
 
   const MyBadge({
     super.key,
@@ -14,6 +15,7 @@ class MyBadge extends StatelessWidget {
     this.onTap,
     this.padding = const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
     this.border,
+    this.borderRadius = const BorderRadius.all(Radius.circular(20)),
   });
 
   @override
@@ -25,7 +27,7 @@ class MyBadge extends StatelessWidget {
           decoration: BoxDecoration(
             color: color ?? Theme.of(context).colorScheme.primary,
             border: border,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            borderRadius: borderRadius,
           ),
           clipBehavior: Clip.antiAlias,
           child: child,
@@ -33,10 +35,10 @@ class MyBadge extends StatelessWidget {
       }
       return Material(
         color: color ?? Theme.of(context).colorScheme.primary,
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        borderRadius: borderRadius,
         child: InkWell(
           onTap: onTap,
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          borderRadius: borderRadius,
           child: Container(
             padding: padding,
             decoration: BoxDecoration(

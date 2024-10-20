@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 
+import 'package:artvier/model_response/manga/manga_series_list.dart';
+import 'package:artvier/model_response/novels/novel_series_list.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/illusts/common_illust_list.dart';
@@ -90,7 +92,27 @@ class ApiNewArtWork extends ApiBase {
     return CommonNovelList.fromJson(json.decode(res.data));
   }
 
-  void getFollowsNewNovels() {}
-  void getEveryOnesNewNovels() {}
-  void getPFriendsNovels() {}
+  /// 追更漫画系列
+  Future<MangaSeriesListResponse> followedMangaSeries({CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v1/watchlist/manga",
+      queryParameters: {
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return MangaSeriesListResponse.fromJson(json.decode(res.data));
+  }
+
+  /// 追更小说系列
+  Future<NovelSeriesListResponse> followedNovelSeries({CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v1/watchlist/novel",
+      queryParameters: {
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return NovelSeriesListResponse.fromJson(json.decode(res.data));
+  }
 }
