@@ -52,7 +52,7 @@ class MyAppState extends ConsumerState<MyApp> {
     Brightness statusBarBrightness =
         (MediaQuery.of(context).platformBrightness == Brightness.light) ? Brightness.dark : Brightness.light;
     if (themeMode != ThemeMode.system) {
-      statusBarBrightness = (themeMode == ThemeMode.light) ? Brightness.light : Brightness.dark;
+      statusBarBrightness = (themeMode == ThemeMode.light) ? Brightness.dark : Brightness.light;
     }
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
