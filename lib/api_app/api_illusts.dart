@@ -4,6 +4,7 @@ import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/model_response/illusts/illust_detail.dart';
 import 'package:artvier/model_response/illusts/pixivision/spotlight_articles.dart';
 import 'package:artvier/model_response/illusts/ugoira.dart';
+import 'package:artvier/model_response/manga/manga_series_detail.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/config/enums.dart';
@@ -27,6 +28,19 @@ class ApiIllusts extends ApiBase {
       cancelToken: cancelToken,
     );
     return IllustDetail.fromJson(json.decode(res.data));
+  }
+
+  /// 获取漫画系列详情
+  Future<MangaSeriesDetailResponse> mangaSeriesDetail(String illustSeriesId, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v1/illust/series",
+      queryParameters: {
+        "illust_series_id": illustSeriesId,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return MangaSeriesDetailResponse.fromJson(json.decode(res.data));
   }
 
   /// 获取插画动图信息

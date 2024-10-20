@@ -12,7 +12,6 @@ import 'package:artvier/pages/artwork/viewer/model/image_viewer_page_arguments.d
 
 /// 图片浏览
 class ImageViewerPage extends BaseStatefulPage {
-  /// 图片链接列表（每项含有多种画质链接）
   final ImageViewerPageArguments arguments;
 
   const ImageViewerPage(Object arg, {super.key}) : arguments = arg as ImageViewerPageArguments;

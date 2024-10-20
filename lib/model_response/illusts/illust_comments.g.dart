@@ -25,7 +25,7 @@ Map<String, dynamic> _$IllustCommentsToJson(IllustComments instance) =>
 Comments _$CommentsFromJson(Map<String, dynamic> json) => Comments(
       json['id'] as int,
       json['comment'] as String,
-      json['date'] as String,
+      DateTime.parse(json['date'] as String),
       User.fromJson(json['user'] as Map<String, dynamic>),
       json['has_replies'] as bool,
       json['stamp'] == null
@@ -36,7 +36,7 @@ Comments _$CommentsFromJson(Map<String, dynamic> json) => Comments(
 Map<String, dynamic> _$CommentsToJson(Comments instance) => <String, dynamic>{
       'id': instance.id,
       'comment': instance.comment,
-      'date': instance.date,
+      'date': instance.date.toIso8601String(),
       'user': instance.user,
       'has_replies': instance.hasReplies,
       'stamp': instance.stamp,

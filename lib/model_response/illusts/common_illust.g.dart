@@ -37,7 +37,9 @@ CommonIllust _$CommonIllustFromJson(Map<String, dynamic> json) => CommonIllust(
       json['visible'] as bool,
       json['is_muted'] as bool,
       $enumDecodeNullable(_$CollectStateEnumMap, json['collectState']),
-    );
+    )..series = json['series'] == null
+        ? null
+        : Series.fromJson(json['series'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$CommonIllustToJson(CommonIllust instance) =>
     <String, dynamic>{
@@ -56,6 +58,7 @@ Map<String, dynamic> _$CommonIllustToJson(CommonIllust instance) =>
       'height': instance.height,
       'sanity_level': instance.sanityLevel,
       'x_restrict': instance.xRestrict,
+      'series': instance.series,
       'meta_single_page': instance.metaSinglePage,
       'meta_pages': instance.metaPages,
       'total_view': instance.totalView,
@@ -84,6 +87,16 @@ Map<String, dynamic> _$Image_urlsToJson(Image_urls instance) =>
       'square_medium': instance.squareMedium,
       'medium': instance.medium,
       'large': instance.large,
+    };
+
+Series _$SeriesFromJson(Map<String, dynamic> json) => Series(
+      json['id'] as int,
+      json['title'] as String,
+    );
+
+Map<String, dynamic> _$SeriesToJson(Series instance) => <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
     };
 
 Meta_Multiple_Image_urls _$Meta_Multiple_Image_urlsFromJson(
