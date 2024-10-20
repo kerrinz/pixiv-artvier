@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:artvier/model_response/novels/novel_series_list.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/base/base_api.dart';
@@ -9,6 +10,19 @@ import 'package:artvier/model_response/novels/common_novel_list.dart';
 
 class ApiNovels extends ApiBase {
   ApiNovels(super.requester);
+
+  /// 获取小说系列详情
+  Future<NovelSeriesListResponse> mangaSeriesDetail(String illustSeriesId, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v1/illust/series",
+      queryParameters: {
+        "illust_series_id": illustSeriesId,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return NovelSeriesListResponse.fromJson(json.decode(res.data));
+  }
 
   /// 获取插画排行榜
   /// - [mode] NovelRankingMode

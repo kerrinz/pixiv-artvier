@@ -119,7 +119,7 @@ class _CommentItem extends ConsumerWidget {
               ),
               // 发布时间
               Text(
-                formatDate(DateTime.parse(comment.date), [yyyy, '-', mm, '-', dd]),
+                formatDate(comment.date.toLocal(), [yyyy, '-', mm, '-', dd]),
                 style: textTheme.bodySmall?.copyWith(color: Colors.grey.shade600),
               ),
             ],

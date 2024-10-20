@@ -1,4 +1,5 @@
 import 'package:artvier/pages/artwork/pixivision/illust_pixivision_page.dart';
+import 'package:artvier/pages/artwork/series/manga_series_detail_page.dart';
 import 'package:artvier/pages/search/expand_search/expand_search_page.dart';
 import 'package:artvier/pages/settings/about/about_app_page.dart';
 import 'package:artvier/pages/settings/all_settings/all_settings_page.dart';
@@ -40,9 +41,12 @@ enum RouteNames {
   loginWeb,
   ranking,
 
-  // 插画
+  // 插画或漫画
   artworkDetail,
   artworkPixivition,
+
+  // 漫画
+  mangaSeriesDetail,
 
   /// 作品大图预览
   artworkImagesPreview,
@@ -87,6 +91,7 @@ class Routes {
     RouteNames.artworkDetail.name: (context, arguments) => ArtWorksDetailPage(arguments!),
     RouteNames.artworkImagesPreview.name: (context, arguments) => ImageViewerPage(arguments!),
     RouteNames.artworkPixivition.name: (context, arguments) => IllustPixivisionPage(arguments!),
+    RouteNames.mangaSeriesDetail.name: (context, arguments) => MangaSeriesDetailPage(arguments!),
     RouteNames.comments.name: (context, arguments) => CommentsPage(arguments!),
     RouteNames.userFollowing.name: (context, arguments) => UserFollowingPage(arguments!),
     RouteNames.userDetail.name: (context, arguments) => UserDetailPage(arguments!),
