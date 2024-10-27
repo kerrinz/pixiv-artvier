@@ -26,6 +26,19 @@ class ApiNewArtWork extends ApiBase {
     return CommonIllustList.fromJson(json.decode(res.data));
   }
 
+  /// 关注用户的新作小说
+  Future<CommonNovelList> followedNewestNovels(RestrictAll restrict, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v1/novel/follow",
+      queryParameters: {
+        "restrict": restrict.name,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return CommonNovelList.fromJson(json.decode(res.data));
+  }
+
   /// 大家（全站）的新作（仅插画）
   Future<CommonIllustList> everybodysNewIllusts({CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
@@ -96,8 +109,7 @@ class ApiNewArtWork extends ApiBase {
   Future<MangaSeriesListResponse> followedMangaSeries({CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
       "/v1/watchlist/manga",
-      queryParameters: {
-      },
+      queryParameters: {},
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
@@ -108,8 +120,7 @@ class ApiNewArtWork extends ApiBase {
   Future<NovelSeriesListResponse> followedNovelSeries({CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
       "/v1/watchlist/novel",
-      queryParameters: {
-      },
+      queryParameters: {},
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
