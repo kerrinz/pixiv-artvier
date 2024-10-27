@@ -47,6 +47,30 @@ mixin NovelListAsyncNotifierMixin implements AsyncListNotifier<State> {
     });
   }
 
+  /// Notifier生命周期在Dispose时触发
+  ///
+  /// - [AsyncValue.guard] 不会触发
+  /// - 如果 [build] 中使用了 [ref.watch]，请使用 [handleCancel]
+  handleDispose(Ref ref) {
+    ref.onDispose(() {
+      if (!cancelToken.isCancelled) cancelToken.cancel();
+    });
+  }
+
+  /// 监听全局收藏状态的变化，更新列表
+  handleCollectState(Ref ref) {
+    ref.listen<CollectStateChangedArguments?>(globalNovelCollectionStateChangedProvider, (previous, next) {
+      if (next != null && state.hasValue) {
+        var value = (state.value ?? []);
+        int index = value.lastIndexWhere((element) => element.id.toString() == next.worksId);
+        if (index >= 0 && index < value.length) {
+          var newItem = value[index]..isBookmarked = next.state == CollectState.collected;
+          update((p0) => p0..[index] = newItem);
+        }
+      }
+    });
+  }
+
   @override
   Future<void> reload() async {
     state = const AsyncValue.loading();
