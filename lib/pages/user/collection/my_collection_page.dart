@@ -12,8 +12,7 @@ import 'package:artvier/pages/user/collection/tabpage/novels_tabpage.dart';
 class MyBookmarksPage extends BaseStatefulPage {
   final String userId;
 
-  const MyBookmarksPage(Object arguments, {super.key})
-      : userId = arguments as String;
+  const MyBookmarksPage(Object arguments, {super.key}) : userId = arguments as String;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MyCollectionsState();
@@ -47,6 +46,7 @@ class _MyCollectionsState extends BasePageState<MyBookmarksPage> with TickerProv
             indicatorPadding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
             controller: _tabController,
             isScrollable: true,
+            tabAlignment: TabAlignment.start,
             tabs: [
               Tab(
                 child: Text("${i10n.illust} • ${i10n.manga}"),

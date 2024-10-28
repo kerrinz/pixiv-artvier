@@ -38,7 +38,7 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage> w
             floating: true,
             delegate: SliverWidgetPersistentHeaderDelegate(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 child: Consumer(builder: (_, ref, __) {
                   final worksType = ref.watch(globalCurrentWorksTypeProvider);
                   int index = filters.indexOf(worksType);
@@ -64,8 +64,8 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage> w
                   );
                 }),
               ),
-              maxHeight: 46,
-              minHeight: 46,
+              maxHeight: 40,
+              minHeight: 40,
             ),
           ),
           Consumer(

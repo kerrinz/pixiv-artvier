@@ -1,3 +1,5 @@
+import 'package:artvier/component/buttons/blur_button.dart';
+import 'package:artvier/component/sliver_persistent_header/tab_bar_delegate.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,20 +57,17 @@ class ArtworksRankingPageState extends BasePageState<ArtworksRankingPage>
         onlyOneScrollInBody: true,
         controller: _scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              pinned: true,
-              snap: true,
-              floating: true,
+          return [];
+        },
+        body: Column(
+          children: [
+            AppBar(
               title: const Text("排行榜"),
               toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
-              bottom: TabBar(
-                indicatorSize: TabBarIndicatorSize.label,
-                controller: _tabController,
-                isScrollable: true,
-                tabs: [
-                  for (String name in _tabsMap.values) Tab(text: name),
-                ],
+              leading: AppbarBlurIconButton(
+                icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
+                background: Colors.transparent,
+                onPressed: () => Navigator.pop(context),
               ),
               actions: [
                 IconButton(
@@ -78,20 +77,33 @@ class ArtworksRankingPageState extends BasePageState<ArtworksRankingPage>
                 ),
               ],
             ),
-          ];
-        },
-        body: Builder(
-          builder: (context) {
-            return TabBarView(
-              controller: _tabController,
-              children: [
-                for (String mode in _tabsMap.keys)
-                  ArtworksRankingTabPage(
-                    mode: mode,
-                  ),
-              ],
-            );
-          },
+            Container(
+              width: double.infinity,
+              height: kTabBarHeight,
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
+              color: colorScheme.surface,
+              child: TabBar(
+                controller: _tabController,
+                isScrollable: true,
+                tabAlignment: TabAlignment.start,
+                padding: EdgeInsets.zero,
+                tabs: [
+                  for (String name in _tabsMap.values) Tab(text: name),
+                ],
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  for (String mode in _tabsMap.keys)
+                    ArtworksRankingTabPage(
+                      mode: mode,
+                    ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:artvier/base/base_page.dart';
-import 'package:artvier/component/sliver_persistent_header/tab_bar_delegate.dart';
 import 'package:artvier/pages/main_navigation_tab_page/newest/sub_tabpage/followed_series_tabpage.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:artvier/pages/main_navigation_tab_page/newest/sub_tabpage/everybody_newest_tabpage.dart';
 import 'package:artvier/pages/main_navigation_tab_page/newest/sub_tabpage/followed_newest_tabpage.dart';
@@ -27,36 +27,39 @@ class NewArtworksTabPageState extends BasePageState<NewArtworksTabPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return [
-          // TabBar 分页栏
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: SliverTabBarPersistentHeaderDelegate(
-              backgroundColor: colorScheme.surface,
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 8, bottom: 8),
+    return ExtendedNestedScrollView(
+      onlyOneScrollInBody: true,
+      floatHeaderSlivers: true,
+      headerSliverBuilder: (_, __) => [],
+      body: Column(
+        children: [
+          Container(
+            color: colorScheme.surface,
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: Container(
+              width: double.infinity,
+              height: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
               child: TabBar(
                 controller: _tabController,
                 isScrollable: true,
                 tabAlignment: TabAlignment.start,
+                padding: EdgeInsets.zero,
                 tabs: _tabs,
               ),
-              maxHeight: (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) +
-                  MediaQuery.of(context).padding.top,
-              minHeight: (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) +
-                  MediaQuery.of(context).padding.top,
             ),
           ),
-        ];
-      },
-      body: TabBarView(
-        controller: _tabController,
-        children: const [
-          FollowedNewestTabPage(),
-          FollowedSeriesTabPage(),
-          EverybodyNewestTabPage(),
-          FriendsNewestTabPage(),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: const [
+                FollowedNewestTabPage(),
+                FollowedSeriesTabPage(),
+                EverybodyNewestTabPage(),
+                FriendsNewestTabPage(),
+              ],
+            ),
+          ),
         ],
       ),
     );
