@@ -15,20 +15,17 @@ final followedNewestRestrictAllProvider = StateProvider<RestrictAll>((ref) {
 });
 
 /// 关注用户的最新美术作品（插画 + 漫画）
-final followedNewestArtworksProvider =
-    AsyncNotifierProvider<FollowedNewestArtworksNotifier, List<CommonIllust>>(() {
+final followedNewestArtworksProvider = AsyncNotifierProvider<FollowedNewestArtworksNotifier, List<CommonIllust>>(() {
   return FollowedNewestArtworksNotifier();
 });
 
 /// 关注用户的最新小说
-final followedNewestNovelsProvider =
-    AsyncNotifierProvider<FollowedNewestNovelsNotifier, List<CommonNovel>>(() {
+final followedNewestNovelsProvider = AsyncNotifierProvider<FollowedNewestNovelsNotifier, List<CommonNovel>>(() {
   return FollowedNewestNovelsNotifier();
 });
 
 /// 关注用户的最新美术作品
-class FollowedNewestArtworksNotifier extends BaseAsyncNotifier<List<CommonIllust>>
-    with IllustListAsyncNotifierMixin {
+class FollowedNewestArtworksNotifier extends BaseAsyncNotifier<List<CommonIllust>> with IllustListAsyncNotifierMixin {
   late RestrictAll restrictFilter;
 
   @override
@@ -49,8 +46,7 @@ class FollowedNewestArtworksNotifier extends BaseAsyncNotifier<List<CommonIllust
 }
 
 /// 关注用户的最新小说
-class FollowedNewestNovelsNotifier extends BaseAsyncNotifier<List<CommonNovel>>
-    with NovelListAsyncNotifierMixin {
+class FollowedNewestNovelsNotifier extends BaseAsyncNotifier<List<CommonNovel>> with NovelListAsyncNotifierMixin {
   late RestrictAll restrictFilter;
 
   @override
