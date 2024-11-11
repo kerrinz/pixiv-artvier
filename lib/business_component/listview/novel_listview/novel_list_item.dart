@@ -87,11 +87,14 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
                               padding: const EdgeInsets.symmetric(vertical: 2),
                               child: Row(
                                 children: [
-                                  const Icon(Icons.person_outline_rounded, size: 16),
-                                  Text(
-                                    widget.novel.user.name,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 12),
+                                  const Icon(Icons.person_2_rounded, size: 16),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 2.0),
+                                    child: Text(
+                                      widget.novel.user.name,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
                                   ),
                                 ],
                               ),
