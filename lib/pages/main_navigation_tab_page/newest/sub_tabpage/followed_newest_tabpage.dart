@@ -72,9 +72,9 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage> w
             builder: (context, value, child) {
               final worksType = ref.watch(globalCurrentWorksTypeProvider);
               if (worksType == WorksType.novel) {
-                return const FollowedNewestIllustPageView();
-              } else {
                 return const FollowedNewestNovelPageView();
+              } else {
+                return const FollowedNewestIllustPageView();
               }
             },
           ),
@@ -102,20 +102,20 @@ class _FollowedNewestIllustPageViewState extends ConsumerState<FollowedNewestIll
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final list = ref.watch(followedNewestNovelsProvider);
+    final list = ref.watch(followedNewestArtworksProvider);
     return list.when(
       loading: () => const SliverToBoxAdapter(child: Center(child: RequestLoading())),
       error: (Object error, StackTrace stackTrace) => SliverToBoxAdapter(
         child: Center(
           child: RequestLoadingFailed(
-            onRetry: () async => ref.read(followedNewestNovelsProvider.notifier).reload(),
+            onRetry: () async => ref.read(followedNewestArtworksProvider.notifier).reload(),
           ),
         ),
       ),
-      data: (List<CommonNovel> data) {
-        return SliverNovelListView(
-          novelList: data,
-          onLazyload: () async => ref.read(followedNewestNovelsProvider.notifier).next(),
+      data: (List<CommonIllust> data) {
+        return SliverIllustWaterfallGridView(
+          artworkList: data,
+          onLazyload: () async => ref.read(followedNewestArtworksProvider.notifier).next(),
         );
       },
     );
@@ -133,24 +133,23 @@ class _FollowedNewestNovelPageViewState extends ConsumerState<FollowedNewestNove
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final list = ref.watch(followedNewestArtworksProvider);
+    final list = ref.watch(followedNewestNovelsProvider);
     return list.when(
       loading: () => const SliverToBoxAdapter(child: Center(child: RequestLoading())),
       error: (Object error, StackTrace stackTrace) => SliverToBoxAdapter(
         child: Center(
           child: RequestLoadingFailed(
-            onRetry: () async => ref.read(followedNewestArtworksProvider.notifier).reload(),
+            onRetry: () async => ref.read(followedNewestNovelsProvider.notifier).reload(),
           ),
         ),
       ),
-      data: (List<CommonIllust> data) {
-        return SliverIllustWaterfallGridView(
-          artworkList: data,
-          onLazyload: () async => ref.read(followedNewestArtworksProvider.notifier).next(),
+      data: (List<CommonNovel> data) {
+        return SliverNovelListView(
+          novelList: data,
+          onLazyload: () async => ref.read(followedNewestNovelsProvider.notifier).next(),
         );
       },
     );
