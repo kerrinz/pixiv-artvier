@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-10-04T17:07:20.176789",
+  "@@last_modified": "2024-11-11T16:16:12.551607",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -821,6 +821,16 @@
     "description": "",
     "type": "text",
     "placeholders": {}
+  },
+  "seriesTotals": "{count} episodes in total",
+  "@seriesTotals": {
+    "description": "Total works in series details",
+    "type": "text",
+    "placeholders": {
+      "count": {
+        "example": "12"
+      }
+    }
   },
   "search": "Search",
   "@search": {

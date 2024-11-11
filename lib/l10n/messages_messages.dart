@@ -21,6 +21,8 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'messages';
 
+  static m0(count) => "${count} episodes in total";
+
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
 
@@ -141,6 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'scanner': MessageLookupByLibrary.simpleMessage('Scanner'),
     'search': MessageLookupByLibrary.simpleMessage('Search'),
     'series': MessageLookupByLibrary.simpleMessage('Series'),
+    'seriesTotals': m0,
     'settings': MessageLookupByLibrary.simpleMessage('Settings'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('Social Media'),
     'softwareUpdate': MessageLookupByLibrary.simpleMessage('Software update'),

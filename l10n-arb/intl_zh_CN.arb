@@ -822,6 +822,16 @@
     "type": "text",
     "placeholders": {}
   },
+  "seriesTotals": "共 {count} 话",
+  "@seriesTotals": {
+    "description": "Total works in series details",
+    "type": "text",
+    "placeholders": {
+      "count": {
+        "example": "12"
+      }
+    }
+  },
   "search": "搜索",
   "@search": {
     "description": "Verb or noun of <search>",
