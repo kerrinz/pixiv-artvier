@@ -60,7 +60,7 @@ class MangaSeriesDetailNotifier extends BaseAutoDisposeFamilyAsyncNotifier<Manga
 
     var result = await ApiIllusts(requester).getNextIllusts(nextUrl!, cancelToken: cancelToken);
     nextUrl = result.nextUrl;
-    update((p0) => p0..illusts.addAll(result.illusts));
+    update((p0) => p0.copyWith(illusts: [...p0.illusts, ...result.illusts]));
 
     return nextUrl != null;
   }

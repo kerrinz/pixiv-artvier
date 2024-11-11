@@ -98,7 +98,7 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
                                         color: const Color(0xfffeaf0f),
                                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                        child: Text("系列",
+                                        child: Text(i10n.series,
                                             style: textTheme.labelSmall?.copyWith(color: Colors.white, height: 1)),
                                       ),
                                     ),
@@ -113,7 +113,7 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
                             ),
                             // 作者信息
                             SliverPadding(
-                              padding: const EdgeInsets.only(top: 4.0),
+                              padding: const EdgeInsets.only(top: 4.0, bottom: 12),
                               sliver: SliverToBoxAdapter(
                                 child: MangaSeriesAuthorCardWidget(
                                   user: data.illustSeriesDetail.user,
@@ -121,7 +121,13 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
                               ),
                             ),
                             SliverPadding(
-                              padding: const EdgeInsets.only(top: 12.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                              sliver: SliverToBoxAdapter(
+                                child: Text(i10n.seriesTotals(data.illustSeriesDetail.seriesWorkCount)),
+                              ),
+                            ),
+                            SliverPadding(
+                              padding: const EdgeInsets.only(top: 0),
                               sliver: SliverMangaGridView(
                                 artworkList: data.illusts,
                                 onLazyload: () async =>

@@ -219,6 +219,10 @@ class LocalizationIntl {
   String get rankingR18Male => Intl.message("R18 Male", name: 'rankingR18Male', desc: '');
   String get rankingR18Female => Intl.message("R18 Female", name: 'rankingR18Female', desc: '');
 
+  // 系列作品
+  String seriesTotals(int count) => Intl.message("$count episodes in total",
+      args: [count], name: 'seriesTotals', desc: 'Total works in series details', examples: const {'count': '12'});
+
   // 搜索
   String get search => Intl.message("Search", name: 'search', desc: 'Verb or noun of <search>');
 }

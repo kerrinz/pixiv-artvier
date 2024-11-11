@@ -21,6 +21,8 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'zh_CN';
 
+  static m0(count) => "共 ${count} 话";
+
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
 
@@ -141,6 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'scanner': MessageLookupByLibrary.simpleMessage('扫描仪'),
     'search': MessageLookupByLibrary.simpleMessage('搜索'),
     'series': MessageLookupByLibrary.simpleMessage('系列'),
+    'seriesTotals': m0,
     'settings': MessageLookupByLibrary.simpleMessage('设置'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('社交媒体'),
     'softwareUpdate': MessageLookupByLibrary.simpleMessage('软件更新'),
