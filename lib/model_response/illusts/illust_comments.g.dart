@@ -23,7 +23,7 @@ Map<String, dynamic> _$IllustCommentsToJson(IllustComments instance) =>
     };
 
 Comments _$CommentsFromJson(Map<String, dynamic> json) => Comments(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['comment'] as String,
       DateTime.parse(json['date'] as String),
       User.fromJson(json['user'] as Map<String, dynamic>),
@@ -43,7 +43,7 @@ Map<String, dynamic> _$CommentsToJson(Comments instance) => <String, dynamic>{
     };
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['name'] as String,
       json['account'] as String,
       Profile_image_urls.fromJson(
@@ -68,7 +68,7 @@ Map<String, dynamic> _$Profile_image_urlsToJson(Profile_image_urls instance) =>
     };
 
 Stamp _$StampFromJson(Map<String, dynamic> json) => Stamp(
-      json['stamp_id'] as int,
+      (json['stamp_id'] as num).toInt(),
       json['stamp_url'] as String,
     );
 

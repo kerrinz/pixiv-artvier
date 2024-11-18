@@ -24,8 +24,9 @@ part 'common_user.g.dart';
   /// 只在用户详情中存在该字段
   String? comment;
 
+  /// 已删除或不公开的图片会不存在此字段
   @JsonKey(name: 'is_followed')
-  bool isFollowed;
+  bool? isFollowed;
 
   CommonUser(this.id,this.name,this.account,this.profileImageUrls,this.comment,this.isFollowed,);
 

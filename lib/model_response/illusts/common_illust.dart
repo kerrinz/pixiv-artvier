@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types
 
+import 'package:artvier/model_response/user/common_user.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:artvier/config/enums.dart';
 
@@ -28,7 +29,7 @@ class CommonIllust extends Object {
   int restrict;
 
   @JsonKey(name: 'user')
-  User user;
+  CommonUser user;
 
   @JsonKey(name: 'tags')
   List<Tags> tags;
@@ -37,7 +38,7 @@ class CommonIllust extends Object {
   List<dynamic> tools;
 
   @JsonKey(name: 'create_date')
-  String createDate;
+  DateTime createDate;
 
   @JsonKey(name: 'page_count')
   int pageCount;
@@ -149,35 +150,6 @@ class Meta_Multiple_Image_urls extends Object {
   Map<String, dynamic> toJson() => _$Meta_Multiple_Image_urlsToJson(this);
 
 }
-
-
-@JsonSerializable()
-class User extends Object {
-
-  @JsonKey(name: 'id')
-  int id;
-
-  @JsonKey(name: 'name')
-  String name;
-
-  @JsonKey(name: 'account')
-  String account;
-
-  @JsonKey(name: 'profile_image_urls')
-  Profile_image_urls profileImageUrls;
-
-  /// 已删除或不公开的图片会不存在此字段
-  @JsonKey(name: 'is_followed')
-  bool? isFollowed;
-
-  User(this.id,this.name,this.account,this.profileImageUrls,this.isFollowed,);
-
-  factory User.fromJson(Map<String, dynamic> srcJson) => _$UserFromJson(srcJson);
-
-  Map<String, dynamic> toJson() => _$UserToJson(this);
-
-}
-
 
 @JsonSerializable()
 class Profile_image_urls extends Object {

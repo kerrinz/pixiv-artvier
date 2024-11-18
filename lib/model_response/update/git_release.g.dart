@@ -14,7 +14,7 @@ _$GitReleaseImpl _$$GitReleaseImplFromJson(Map<String, dynamic> json) =>
       assetsUrl: json['assets_url'] as String,
       uploadUrl: json['upload_url'] as String,
       htmlUrl: json['html_url'] as String,
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       author: Author.fromJson(json['author'] as Map<String, dynamic>),
       nodeId: json['node_id'] as String,
       tagName: json['tag_name'] as String,
@@ -60,15 +60,15 @@ Map<String, dynamic> _$$GitReleaseImplToJson(_$GitReleaseImpl instance) =>
 
 _$AssetImpl _$$AssetImplFromJson(Map<String, dynamic> json) => _$AssetImpl(
       url: json['url'] as String,
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       nodeId: json['node_id'] as String,
       name: json['name'] as String,
       label: json['label'],
       uploader: Author.fromJson(json['uploader'] as Map<String, dynamic>),
       contentType: json['content_type'] as String,
       state: json['state'] as String,
-      size: json['size'] as int,
-      downloadCount: json['download_count'] as int,
+      size: (json['size'] as num).toInt(),
+      downloadCount: (json['download_count'] as num).toInt(),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       browserDownloadUrl: json['browser_download_url'] as String,
@@ -93,7 +93,7 @@ Map<String, dynamic> _$$AssetImplToJson(_$AssetImpl instance) =>
 
 _$AuthorImpl _$$AuthorImplFromJson(Map<String, dynamic> json) => _$AuthorImpl(
       login: json['login'] as String,
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       nodeId: json['node_id'] as String,
       avatarUrl: json['avatar_url'] as String,
       gravatarId: json['gravatar_id'] as String,
@@ -137,15 +137,15 @@ Map<String, dynamic> _$$AuthorImplToJson(_$AuthorImpl instance) =>
 _$ReactionsImpl _$$ReactionsImplFromJson(Map<String, dynamic> json) =>
     _$ReactionsImpl(
       url: json['url'] as String,
-      totalCount: json['total_count'] as int,
-      the1: json['+1'] as int,
-      reactions1: json['-1'] as int,
-      laugh: json['laugh'] as int,
-      hooray: json['hooray'] as int,
-      confused: json['confused'] as int,
-      heart: json['heart'] as int,
-      rocket: json['rocket'] as int,
-      eyes: json['eyes'] as int,
+      totalCount: (json['total_count'] as num).toInt(),
+      the1: (json['+1'] as num).toInt(),
+      reactions1: (json['-1'] as num).toInt(),
+      laugh: (json['laugh'] as num).toInt(),
+      hooray: (json['hooray'] as num).toInt(),
+      confused: (json['confused'] as num).toInt(),
+      heart: (json['heart'] as num).toInt(),
+      rocket: (json['rocket'] as num).toInt(),
+      eyes: (json['eyes'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$ReactionsImplToJson(_$ReactionsImpl instance) =>

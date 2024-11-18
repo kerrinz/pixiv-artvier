@@ -11,12 +11,12 @@ part of 'account_profile.dart';
 AccountProfile _$AccountProfileFromJson(Map<String, dynamic> json) =>
     AccountProfile(
       json['access_token'] as String,
-      json['expires_in'] as int,
+      (json['expires_in'] as num).toInt(),
       json['token_type'] as String,
       json['scope'] as String,
       json['refresh_token'] as String,
       User.fromJson(json['user'] as Map<String, dynamic>),
-    )..expiredTimestamp = json['expired_timestamp'] as int?;
+    )..expiredTimestamp = (json['expired_timestamp'] as num?)?.toInt();
 
 Map<String, dynamic> _$AccountProfileToJson(AccountProfile instance) =>
     <String, dynamic>{
@@ -39,7 +39,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       json['account'] as String,
       json['mail_address'] as String,
       json['is_premium'] as bool,
-      json['x_restrict'] as int,
+      (json['x_restrict'] as num).toInt(),
       json['is_mail_authorized'] as bool,
       json['require_policy_agreement'] as bool,
     );

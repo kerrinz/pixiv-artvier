@@ -1,24 +1,24 @@
+import 'package:artvier/model_response/user/common_user.dart';
+import 'package:artvier/pages/artwork/detail/widgets/user_follow_button.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:artvier/config/enums.dart';
-import 'package:artvier/pages/artwork/detail/widgets/user_follow_button.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/config/constants.dart';
-import 'package:artvier/model_response/illusts/common_illust.dart';
 import 'package:artvier/model_response/user/preload_user_least_info.dart';
 import 'package:artvier/routes.dart';
 
-/// Artworks Detail Page
-///
 /// 作品的作者卡片
 class AuthorCardWidget extends StatelessWidget {
-  final CommonIllust detail;
+  final CommonUser user;
+
+  final DateTime? createDate;
 
   final TabController tabController;
 
-  const AuthorCardWidget({super.key, required this.detail, required this.tabController});
+  const AuthorCardWidget({super.key, required this.user, required this.tabController, this.createDate});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,7 @@ class AuthorCardWidget extends StatelessWidget {
           child: InkWell(
             onTap: () {
               Navigator.of(context).pushNamed(RouteNames.userDetail.name,
-                  arguments: PreloadUserLeastInfo(
-                      detail.user.id.toString(), detail.user.name, detail.user.profileImageUrls.medium));
+                  arguments: PreloadUserLeastInfo(user.id.toString(), user.name, user.profileImageUrls.medium));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -51,7 +50,7 @@ class AuthorCardWidget extends StatelessWidget {
                     child: ClipOval(
                       child: EnhanceNetworkImage(
                         image: ExtendedNetworkImageProvider(
-                          HttpHostOverrides().pxImgUrl(detail.user.profileImageUrls.medium),
+                          HttpHostOverrides().pxImgUrl(user.profileImageUrls.medium),
                           headers: const {"Referer": CONSTANTS.referer},
                         ),
                         fit: BoxFit.cover,
@@ -70,26 +69,27 @@ class AuthorCardWidget extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 6),
                           child: Text(
-                            detail.user.name,
+                            user.name,
                             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: colorScheme.primary),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        // 发布时间
-                        Text(
-                          formatDate(detail.createDate, [yyyy, '-', mm, '-', dd, ' ', HH, ':', mm, ':', ss]),
-                          style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        if (createDate != null)
+                          // 发布时间
+                          Text(
+                            formatDate(createDate!, [yyyy, '-', mm, '-', dd, ' ', HH, ':', mm, ':', ss]),
+                            style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                       ],
                     ),
                   ),
                   // 关注或已关注的按钮
                   UserFollowButton(
-                    userId: detail.user.id.toString(),
-                    followState: detail.user.isFollowed ?? false ? UserFollowState.followed : UserFollowState.notFollow,
+                    userId: user.id.toString(),
+                    followState: user.isFollowed ?? false ? UserFollowState.followed : UserFollowState.notFollow,
                   ),
                 ],
               ),

@@ -24,7 +24,7 @@ Map<String, dynamic> _$SpotlightArticlesToJson(SpotlightArticles instance) =>
 
 SpotlightArticle _$SpotlightArticleFromJson(Map<String, dynamic> json) =>
     SpotlightArticle(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['title'] as String,
       json['pure_title'] as String,
       json['thumbnail'] as String,

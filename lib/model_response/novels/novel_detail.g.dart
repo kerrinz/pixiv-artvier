@@ -2,19 +2,17 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of 'bookmark_tag.dart';
+part of 'novel_detail.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-BookmarkTag _$BookmarkTagFromJson(Map<String, dynamic> json) => BookmarkTag(
-      name: json['name'] as String?,
-      count: (json['count'] as num?)?.toInt(),
+NovelDetail _$NovelDetailFromJson(Map<String, dynamic> json) => NovelDetail(
+      CommonNovel.fromJson(json['novel'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$BookmarkTagToJson(BookmarkTag instance) =>
+Map<String, dynamic> _$NovelDetailToJson(NovelDetail instance) =>
     <String, dynamic>{
-      'name': instance.name,
-      'count': instance.count,
+      'novel': instance.novel,
     };

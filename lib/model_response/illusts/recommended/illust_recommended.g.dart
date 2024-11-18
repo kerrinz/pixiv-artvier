@@ -44,7 +44,7 @@ Map<String, dynamic> _$Image_urlsToJson(Image_urls instance) =>
     };
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['name'] as String,
       json['account'] as String,
       Profile_image_urls.fromJson(
