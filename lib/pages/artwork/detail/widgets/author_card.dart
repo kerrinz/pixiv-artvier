@@ -78,8 +78,7 @@ class AuthorCardWidget extends StatelessWidget {
                         ),
                         // 发布时间
                         Text(
-                          formatDate(DateTime.parse(detail.createDate),
-                              [yyyy, '-', mm, '-', dd, ' ', HH, ':', mm, ':', ss]),
+                          formatDate(detail.createDate, [yyyy, '-', mm, '-', dd, ' ', HH, ':', mm, ':', ss]),
                           style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -90,8 +89,7 @@ class AuthorCardWidget extends StatelessWidget {
                   // 关注或已关注的按钮
                   UserFollowButton(
                     userId: detail.user.id.toString(),
-                    followState:
-                        detail.user.isFollowed ?? false ? UserFollowState.followed : UserFollowState.notFollow,
+                    followState: detail.user.isFollowed ?? false ? UserFollowState.followed : UserFollowState.notFollow,
                   ),
                 ],
               ),

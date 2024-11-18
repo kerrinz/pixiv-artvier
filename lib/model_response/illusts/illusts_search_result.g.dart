@@ -14,7 +14,7 @@ IllustsSearchResult _$IllustsSearchResultFromJson(Map<String, dynamic> json) =>
           .map((e) => CommonIllust.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['next_url'] as String?,
-      json['search_span_limit'] as int,
+      (json['search_span_limit'] as num).toInt(),
     );
 
 Map<String, dynamic> _$IllustsSearchResultToJson(

@@ -10,7 +10,7 @@ part of 'bookmark_tag.dart';
 
 BookmarkTag _$BookmarkTagFromJson(Map<String, dynamic> json) => BookmarkTag(
       name: json['name'] as String?,
-      count: json['count'] as int?,
+      count: (json['count'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$BookmarkTagToJson(BookmarkTag instance) =>

@@ -82,7 +82,7 @@ class MangaSeriesAuthorCardWidget extends StatelessWidget {
                   // 关注或已关注的按钮
                   UserFollowButton(
                     userId: user.id.toString(),
-                    followState: user.isFollowed ? UserFollowState.followed : UserFollowState.notFollow,
+                    followState: (user.isFollowed ?? false) ? UserFollowState.followed : UserFollowState.notFollow,
                   ),
                 ],
               ),

@@ -33,15 +33,15 @@ Map<String, dynamic> _$$MangaSeriesDetailResponseImplToJson(
 _$IllustSeriesDetailImpl _$$IllustSeriesDetailImplFromJson(
         Map<String, dynamic> json) =>
     _$IllustSeriesDetailImpl(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       caption: json['caption'] as String,
       coverImageUrls:
           ImageUrls.fromJson(json['cover_image_urls'] as Map<String, dynamic>),
-      seriesWorkCount: json['series_work_count'] as int,
+      seriesWorkCount: (json['series_work_count'] as num).toInt(),
       createDate: DateTime.parse(json['create_date'] as String),
-      width: json['width'] as int,
-      height: json['height'] as int,
+      width: (json['width'] as num).toInt(),
+      height: (json['height'] as num).toInt(),
       user: CommonUser.fromJson(json['user'] as Map<String, dynamic>),
       watchlistAdded: json['watchlist_added'] as bool,
     );

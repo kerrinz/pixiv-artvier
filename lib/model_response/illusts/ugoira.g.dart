@@ -44,7 +44,7 @@ Map<String, dynamic> _$ZipUrlsToJson(ZipUrls instance) => <String, dynamic>{
 
 Frame _$FrameFromJson(Map<String, dynamic> json) => Frame(
       json['file'] as String,
-      json['delay'] as int,
+      (json['delay'] as num).toInt(),
     );
 
 Map<String, dynamic> _$FrameToJson(Frame instance) => <String, dynamic>{

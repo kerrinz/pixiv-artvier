@@ -9,13 +9,13 @@ part of 'common_user.dart';
 // **************************************************************************
 
 CommonUser _$CommonUserFromJson(Map<String, dynamic> json) => CommonUser(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['name'] as String,
       json['account'] as String,
       Profile_image_urls.fromJson(
           json['profile_image_urls'] as Map<String, dynamic>),
       json['comment'] as String?,
-      json['is_followed'] as bool,
+      json['is_followed'] as bool?,
     );
 
 Map<String, dynamic> _$CommonUserToJson(CommonUser instance) =>

@@ -9,30 +9,30 @@ part of 'common_illust.dart';
 // **************************************************************************
 
 CommonIllust _$CommonIllustFromJson(Map<String, dynamic> json) => CommonIllust(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['title'] as String,
       json['type'] as String,
       Image_urls.fromJson(json['image_urls'] as Map<String, dynamic>),
       json['caption'] as String,
-      json['restrict'] as int,
-      User.fromJson(json['user'] as Map<String, dynamic>),
+      (json['restrict'] as num).toInt(),
+      CommonUser.fromJson(json['user'] as Map<String, dynamic>),
       (json['tags'] as List<dynamic>)
           .map((e) => Tags.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['tools'] as List<dynamic>,
-      json['create_date'] as String,
-      json['page_count'] as int,
-      json['width'] as int,
-      json['height'] as int,
-      json['sanity_level'] as int,
-      json['x_restrict'] as int,
+      DateTime.parse(json['create_date'] as String),
+      (json['page_count'] as num).toInt(),
+      (json['width'] as num).toInt(),
+      (json['height'] as num).toInt(),
+      (json['sanity_level'] as num).toInt(),
+      (json['x_restrict'] as num).toInt(),
       Meta_single_page.fromJson(
           json['meta_single_page'] as Map<String, dynamic>),
       (json['meta_pages'] as List<dynamic>)
           .map((e) => MetaPages.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['total_view'] as int,
-      json['total_bookmarks'] as int,
+      (json['total_view'] as num).toInt(),
+      (json['total_bookmarks'] as num).toInt(),
       json['is_bookmarked'] as bool,
       json['visible'] as bool,
       json['is_muted'] as bool,
@@ -52,7 +52,7 @@ Map<String, dynamic> _$CommonIllustToJson(CommonIllust instance) =>
       'user': instance.user,
       'tags': instance.tags,
       'tools': instance.tools,
-      'create_date': instance.createDate,
+      'create_date': instance.createDate.toIso8601String(),
       'page_count': instance.pageCount,
       'width': instance.width,
       'height': instance.height,
@@ -90,7 +90,7 @@ Map<String, dynamic> _$Image_urlsToJson(Image_urls instance) =>
     };
 
 Series _$SeriesFromJson(Map<String, dynamic> json) => Series(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['title'] as String,
     );
 
@@ -115,23 +115,6 @@ Map<String, dynamic> _$Meta_Multiple_Image_urlsToJson(
       'medium': instance.medium,
       'large': instance.large,
       'original': instance.original,
-    };
-
-User _$UserFromJson(Map<String, dynamic> json) => User(
-      json['id'] as int,
-      json['name'] as String,
-      json['account'] as String,
-      Profile_image_urls.fromJson(
-          json['profile_image_urls'] as Map<String, dynamic>),
-      json['is_followed'] as bool?,
-    );
-
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'account': instance.account,
-      'profile_image_urls': instance.profileImageUrls,
-      'is_followed': instance.isFollowed,
     };
 
 Profile_image_urls _$Profile_image_urlsFromJson(Map<String, dynamic> json) =>

@@ -82,7 +82,7 @@ class UserVerticalListView extends ConsumerWidget with LazyloadLogic, UserVertic
     var user = userList[index];
     return UserVerticalListViewItem(
       user: user,
-      followState: user.user.isFollowed ? UserFollowState.followed : UserFollowState.notFollow,
+      followState: (user.user.isFollowed ?? false) ? UserFollowState.followed : UserFollowState.notFollow,
       onTap: () => handleTapItem(user),
     );
   }

@@ -31,7 +31,7 @@ part 'common_novel.g.dart';
   Image_urls imageUrls;
 
   @JsonKey(name: 'create_date')
-  String createDate;
+  DateTime createDate;
 
   @JsonKey(name: 'tags')
   List<Tags> tags;

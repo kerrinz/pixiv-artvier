@@ -1,3 +1,4 @@
+import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/business_component/ugoira_image/ugoira_image.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
@@ -25,7 +26,6 @@ import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.d
 import 'package:artvier/pages/artwork/detail/layout.dart';
 import 'package:artvier/pages/artwork/detail/logic.dart';
 import 'package:artvier/pages/artwork/detail/widgets/comments_preview_content.dart';
-import 'package:artvier/pages/artwork/detail/widgets/author_card.dart';
 import 'package:artvier/pages/artwork/detail/widgets/related_artworks_content.dart';
 import 'package:artvier/routes.dart';
 
@@ -175,7 +175,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
                 child: Column(
                   children: [
                     // 作者卡片
-                    AuthorCardWidget(detail: detail, tabController: _tabController),
+                    AuthorCardWidget(user: detail.user, createDate: detail.createDate, tabController: _tabController),
                     _buildInformation(detail),
                   ],
                 ),

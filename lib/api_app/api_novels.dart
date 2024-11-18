@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 
-import 'package:artvier/model_response/novels/novel_series_list.dart';
+import 'package:artvier/global/logger.dart';
+import 'package:artvier/model_response/novels/novel_detail_webview.dart';
+import 'package:artvier/model_response/novels/novel_detail.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/base/base_api.dart';
@@ -12,16 +15,39 @@ class ApiNovels extends ApiBase {
   ApiNovels(super.requester);
 
   /// 获取小说系列详情
-  Future<NovelSeriesListResponse> mangaSeriesDetail(String illustSeriesId, {CancelToken? cancelToken}) async {
+  Future<NovelDetail> novelDetail(String novelId, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
-      "/v1/illust/series",
+      "/v2/novel/detail",
       queryParameters: {
-        "illust_series_id": illustSeriesId,
+        "novel_id": novelId,
       },
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
-    return NovelSeriesListResponse.fromJson(json.decode(res.data));
+    return NovelDetail.fromJson(json.decode(res.data));
+  }
+
+  /// 获取小说系列详情(WebView)
+  Future<NovelDetailWebView> novelDetailWebView(String novelId, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/webview/v2/novel?id=$novelId",
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    NovelDetailWebView result;
+    var objStr = res.data.toString();
+    try {
+      var objStr = res.data.toString().split('novel: ')[1].split('});').first.split('isOwnWork:').first.trim();
+      objStr = objStr.replaceFirst('"illusts":[]', '"illusts":{}');
+      objStr = objStr.replaceFirst('"images":[]', '"images":{}');
+      objStr = objStr.substring(0, objStr.length - 1);
+      result = NovelDetailWebView.fromJson(json.decode(objStr));
+    } catch (e) {
+      log(objStr);
+      logger.e(e);
+      rethrow;
+    }
+    return result;
   }
 
   /// 获取插画排行榜

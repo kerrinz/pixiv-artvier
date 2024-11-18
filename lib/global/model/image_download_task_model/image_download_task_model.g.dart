@@ -12,8 +12,8 @@ _$ImageDownloadTaskModelImpl _$$ImageDownloadTaskModelImplFromJson(
         Map<String, dynamic> json) =>
     _$ImageDownloadTaskModelImpl(
       worksId: json['worksId'] as String,
-      pIndex: json['pIndex'] as int,
-      downloadState: json['downloadState'] as int,
+      pIndex: (json['pIndex'] as num).toInt(),
+      downloadState: (json['downloadState'] as num).toInt(),
       receivedBytes: (json['receivedBytes'] as num?)?.toDouble(),
       totalBytes: (json['totalBytes'] as num?)?.toDouble(),
       url: json['url'] as String,

@@ -26,14 +26,14 @@ Map<String, dynamic> _$$NovelSeriesListResponseImplToJson(
 
 _$NovelSeriesImpl _$$NovelSeriesImplFromJson(Map<String, dynamic> json) =>
     _$NovelSeriesImpl(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       url: json['url'] as String,
       maskText: json['mask_text'],
-      publishedContentCount: json['published_content_count'] as int,
+      publishedContentCount: (json['published_content_count'] as num).toInt(),
       lastPublishedContentDatetime:
           DateTime.parse(json['last_published_content_datetime'] as String),
-      latestContentId: json['latest_content_id'] as int,
+      latestContentId: (json['latest_content_id'] as num).toInt(),
       user: User.fromJson(json['user'] as Map<String, dynamic>),
     );
 
@@ -51,7 +51,7 @@ Map<String, dynamic> _$$NovelSeriesImplToJson(_$NovelSeriesImpl instance) =>
     };
 
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       account: json['account'] as String,
       profileImageUrls: ProfileImageUrls.fromJson(

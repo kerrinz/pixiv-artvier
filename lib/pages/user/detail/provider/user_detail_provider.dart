@@ -35,7 +35,7 @@ class UserDetailNotifier extends BaseAutoDisposeFamilyAsyncNotifier<UserDetail, 
   @override
   Future<UserDetail> fetch() async {
     var result = await ApiUser(requester).userDetail(userId);
-    var followState = result.user.isFollowed ? UserFollowState.followed : UserFollowState.notFollow;
+    var followState = (result.user.isFollowed ?? false) ? UserFollowState.followed : UserFollowState.notFollow;
     // 初始化关注状态
     ref.read(userFollowStateProvider(userId).notifier).setFollowState(followState);
     // 同步到全局以纠正数据
