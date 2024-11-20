@@ -175,7 +175,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
                 child: Column(
                   children: [
                     // 作者卡片
-                    AuthorCardWidget(user: detail.user, createDate: detail.createDate, tabController: _tabController),
+                    AuthorCardWidget(user: detail.user, createDate: detail.createDate),
                     _buildInformation(detail),
                   ],
                 ),
