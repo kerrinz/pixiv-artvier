@@ -16,9 +16,7 @@ class AuthorCardWidget extends StatelessWidget {
 
   final DateTime? createDate;
 
-  final TabController tabController;
-
-  const AuthorCardWidget({super.key, required this.user, required this.tabController, this.createDate});
+  const AuthorCardWidget({super.key, required this.user, this.createDate});
 
   @override
   Widget build(BuildContext context) {

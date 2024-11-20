@@ -1,27 +1,19 @@
 import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
-import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
-import 'package:artvier/pages/novel/detail/layout.dart';
 import 'package:artvier/pages/novel/detail/logic.dart';
 import 'package:artvier/pages/novel/detail/provider/novel_detail_provider.dart';
 import 'package:artvier/pages/novel/detail/widgets/menu_bottom_sheet.dart';
-import 'package:artvier/storage/viewing_history/viewing_history_db.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:artvier/component/badge.dart';
-import 'package:artvier/component/bottom_sheet/slide_bar.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
-import 'package:artvier/component/drag_view/drag_vertical_container.dart';
 import 'package:artvier/component/loading/request_loading.dart';
-import 'package:artvier/component/viewport/delayed_build_until_viewport.dart';
-import 'package:artvier/config/enums.dart';
-import 'package:artvier/pages/artwork/detail/widgets/related_artworks_content.dart';
 import 'package:artvier/routes.dart';
 
 class NovelDetailPage extends ConsumerStatefulWidget {
@@ -36,10 +28,6 @@ class NovelDetailPage extends ConsumerStatefulWidget {
 }
 
 class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProviderStateMixin, NovelDetailPageLogic {
-  late final TabController _tabController;
-
-  late final DragController _dragController;
-
   @override
   get novelDetail => widget.args.detail;
 
@@ -51,21 +39,6 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
 
   @override
   void initState() {
-    _dragController = DragController();
-    if (widget.args.detail != null) {
-      viewingHistoryDatabase
-          .addRecordWithRemoveDuplicates(ViewingHistoryTableData(
-            title: widget.args.detail!.title,
-            type: WorksType.illust,
-            worksId: widget.args.detail!.id.toString(),
-            previewImageUrl: widget.args.detail!.imageUrls.medium,
-            authorName: widget.args.detail!.user.name,
-            lastTime: DateTime.now(),
-          ))
-          // ignore: invalid_return_type_for_catch_error
-          .catchError((err) => logger.e(err));
-    }
-    _tabController = TabController(initialIndex: 0, length: 3, vsync: this);
     super.initState();
   }
 
@@ -110,101 +83,76 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
       value: const SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.light,
       ),
-      child: NovelDetailPageLayout(
-          isShapedScreen: false,
-          dragController: _dragController,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            shadowColor: Colors.transparent,
-            // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-            leading: AppbarBlurIconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            actions: [
-              AppbarBlurIconButton(
-                icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
-                margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                onPressed: () {
-                  BottomSheets.showCustomBottomSheet<bool>(
-                    context: ref.context,
-                    exitOnClickModal: true,
-                    enableDrag: false,
-                    child: NovelDetailMenu(
-                      detail: widget.args.detail ?? detail,
-                    ),
-                  );
-                },
-              )
-            ],
+      child: CustomScrollView(slivers: [
+        SliverAppBar(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
+          leading: AppbarBlurIconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          viewerContent: _buildContent(webViewData),
-          collectButton: Container(),
-          slivers: [
-            const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.only(top: 1),
-                child: BottomSheetSlideBar(width: 48, height: 3),
-              ),
+          actions: [
+            AppbarBlurIconButton(
+              icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
+              margin: const EdgeInsets.symmetric(horizontal: 8.0),
+              onPressed: () {
+                BottomSheets.showCustomBottomSheet<bool>(
+                  context: ref.context,
+                  exitOnClickModal: true,
+                  enableDrag: false,
+                  child: NovelDetailMenu(
+                    detail: widget.args.detail ?? detail,
+                  ),
+                );
+              },
+            )
+          ],
+        ),
+        // 作品标题吸顶
+        SliverStickyHeader(
+          // 作品的标题
+          header: Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(detail.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
             ),
-            // 作品标题吸顶
-            SliverStickyHeader(
-              // 作品的标题
-              header: Container(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
-                color: colorScheme.surface,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: Text(detail.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                ),
-              ),
-              // 概述信息
-              sliver: SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    // 作者卡片
-                    AuthorCardWidget(user: detail.user, createDate: detail.createDate, tabController: _tabController),
-                    _buildInformation(detail),
-                  ],
-                ),
-              ),
+          ),
+          // 概述信息
+          sliver: SliverToBoxAdapter(
+            child: Column(
+              children: [
+                // 作者卡片
+                AuthorCardWidget(user: detail.user, createDate: detail.createDate),
+                _buildInformation(detail),
+              ],
             ),
-            // 评论区域，吸顶
-            SliverStickyHeader(
-              // 评论的标题栏
-              header: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                color: colorScheme.surface,
-                child: Text("评论", style: textTheme.titleMedium),
-              ),
-              // 评论列表（预览部分）
-              // sliver: SliverToBoxAdapter(child: CommentsPreviewContentWidget(worksId: worksId)),
-            ),
-            // 相关作品区域，吸顶
-            SliverStickyHeader(
-              // 相关作品的标题栏
-              header: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                color: colorScheme.surface,
-                child: Text("相关作品", style: textTheme.titleMedium),
-              ),
-              // 相关作品列表
-              sliver: SliverDelayedBuildUntilViewportWidget(
-                placeholderWidget: const SliverToBoxAdapter(child: RequestLoading()),
-                child: RelatedArtworksContentWidget(worksId: worksId),
-              ),
-            ),
-          ]),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: _buildContent(webViewData),
+        ),
+      ]),
     );
   }
 
   Widget _buildContent(NovelDetailWebView webViewData) {
+    final lines = webViewData.text.split('\n');
+    List<InlineSpan> spanList = [];
+    for (final line in lines) {
+      // if (line.contains(RegExp(r'\[pixivimage:([0-9|\-])+\]'))) {
+      //   spanList.add(const TextSpan(text: '(pixivimage)\n'));
+      // } else {
+      spanList.add(TextSpan(text: '$line\n'));
+      // }
+    }
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: SelectableText(webViewData.text),
+      child: SelectableText.rich(TextSpan(children: spanList)),
     );
   }
 
@@ -292,11 +240,5 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
         if (translateText != null) Text("$translateText  ", style: textTheme.bodySmall),
       ],
     );
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
   }
 }
