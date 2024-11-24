@@ -1,5 +1,6 @@
 import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
+import 'package:artvier/component/dialog_custom.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
@@ -15,6 +16,7 @@ import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/loading/request_loading.dart';
 import 'package:artvier/routes.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class NovelDetailPage extends ConsumerStatefulWidget {
   final NovelDetailPageArguments args; // 数据集
@@ -188,17 +190,14 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
                   ),
                 ],
               )),
-          // 简介，字段为comment
-          Text(
-            detail.caption,
-            textAlign: TextAlign.left,
-            style: const TextStyle(fontSize: 15),
-          ),
-          // 标签列的标题
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 4.0),
-            // color: colorScheme.surface,
-            // child: Text("标签", style: textTheme.titleMedium),
+          // 简介
+          // 简介
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: HtmlWidget(
+              detail.caption,
+              onTapUrl: (url) => showOpenLinkDialog(context, url),
+            ),
           ),
           // 标签
           Padding(

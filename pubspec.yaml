@@ -44,6 +44,7 @@ dependencies:
   flutter_markdown: ^0.7.3+1
   flutter_riverpod: ^2.1.3 # 状态管理
   flutter_sticky_header: ^0.6.5 # 多个header的吸顶效果
+  flutter_widget_from_html: ^0.15.3
   fluttertoast: ^8.0.8
   freezed_annotation: ^2.2.0 # 模板代码生成
   html: ^0.15.4 # 解析 HTML
