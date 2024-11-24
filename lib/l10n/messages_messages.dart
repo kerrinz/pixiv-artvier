@@ -21,7 +21,9 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'messages';
 
-  static m0(count) => "${count} episodes in total";
+  static m0(count) => "${count} chapters in total";
+
+  static m1(size) => "Updated to chapter ${size}";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -90,6 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'loginSuccess': MessageLookupByLibrary.simpleMessage('Login success!'),
     'male': MessageLookupByLibrary.simpleMessage('Male'),
     'manga': MessageLookupByLibrary.simpleMessage('Manga'),
+    'mangaSeries': MessageLookupByLibrary.simpleMessage('Manga series'),
     'markers': MessageLookupByLibrary.simpleMessage('Markers'),
     'monitor': MessageLookupByLibrary.simpleMessage('Monitor'),
     'more': MessageLookupByLibrary.simpleMessage('More'),
@@ -103,6 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'networkSettings': MessageLookupByLibrary.simpleMessage('Network settings'),
     'nickname': MessageLookupByLibrary.simpleMessage('Nickname'),
     'not': MessageLookupByLibrary.simpleMessage('Not'),
+    'novelSeries': MessageLookupByLibrary.simpleMessage('Novel series'),
     'novels': MessageLookupByLibrary.simpleMessage('Novels'),
     'occupation': MessageLookupByLibrary.simpleMessage('Occupation'),
     'onYourDesk': MessageLookupByLibrary.simpleMessage('On top of your desk'),
@@ -143,7 +147,9 @@ class MessageLookup extends MessageLookupByLibrary {
     'scanner': MessageLookupByLibrary.simpleMessage('Scanner'),
     'search': MessageLookupByLibrary.simpleMessage('Search'),
     'series': MessageLookupByLibrary.simpleMessage('Series'),
+    'seriesLatestChapter': MessageLookupByLibrary.simpleMessage('Latest'),
     'seriesTotals': m0,
+    'seriesUpdateTo': m1,
     'settings': MessageLookupByLibrary.simpleMessage('Settings'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('Social Media'),
     'softwareUpdate': MessageLookupByLibrary.simpleMessage('Software update'),

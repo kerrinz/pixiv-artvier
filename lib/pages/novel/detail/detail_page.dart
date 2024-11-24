@@ -12,10 +12,8 @@ import 'package:artvier/pages/novel/detail/provider/novel_detail_provider.dart';
 import 'package:artvier/pages/novel/detail/widgets/menu_bottom_sheet.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
@@ -51,11 +49,14 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
 
   @override
   Widget build(BuildContext context) {
-    final detail = widget.args.detail!;
-    // final detailData = ref.watch(novelDetailProvider(worksId)).asData!.value!;
     return Scaffold(
-      body: ref.watch(novelDetailWebViewProvider(worksId)).when(
-            data: (data) => _buildSuccessContent(detail, data!),
+      body: ref.watch(novelDetailProvider(worksId)).when(
+            data: (detailResponse) {
+              return ref.watch(novelDetailWebViewProvider(worksId)).when(
+                  data: (data) => _buildSuccessContent(detailResponse!.novel, data!),
+                  error: (obj, error) => _buildBeforeSuccessContent(true),
+                  loading: () => _buildBeforeSuccessContent(false));
+            },
             error: (obj, error) => _buildBeforeSuccessContent(true),
             loading: () => _buildBeforeSuccessContent(false),
           ),
@@ -103,7 +104,7 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
                 width: double.infinity,
                 height: 180,
                 image: ExtendedNetworkImageProvider(
-                  HttpHostOverrides().pxImgUrl(novelDetail!.imageUrls.medium),
+                  HttpHostOverrides().pxImgUrl(detail.imageUrls.medium),
                   headers: const {"referer": CONSTANTS.referer},
                   cache: true,
                 ),

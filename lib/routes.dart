@@ -1,6 +1,7 @@
 import 'package:artvier/pages/artwork/pixivision/illust_pixivision_page.dart';
 import 'package:artvier/pages/artwork/series/manga_series_detail_page.dart';
 import 'package:artvier/pages/novel/detail/detail_page.dart';
+import 'package:artvier/pages/novel/series/novel_series_detail_page.dart';
 import 'package:artvier/pages/search/expand_search/expand_search_page.dart';
 import 'package:artvier/pages/settings/about/about_app_page.dart';
 import 'package:artvier/pages/settings/all_settings/all_settings_page.dart';
@@ -51,6 +52,7 @@ enum RouteNames {
 
   // 小说
   novelDetail,
+  novelSeriesDetail,
 
   /// 作品大图预览
   artworkImagesPreview,
@@ -97,6 +99,7 @@ class Routes {
     RouteNames.artworkPixivition.name: (context, arguments) => IllustPixivisionPage(arguments!),
     RouteNames.mangaSeriesDetail.name: (context, arguments) => MangaSeriesDetailPage(arguments!),
     RouteNames.novelDetail.name: (context, arguments) => NovelDetailPage(arguments!),
+    RouteNames.novelSeriesDetail.name: (context, arguments) => NovelSeriesDetailPage(arguments!),
     RouteNames.comments.name: (context, arguments) => CommentsPage(arguments!),
     RouteNames.userFollowing.name: (context, arguments) => UserFollowingPage(arguments!),
     RouteNames.userDetail.name: (context, arguments) => UserDetailPage(arguments!),

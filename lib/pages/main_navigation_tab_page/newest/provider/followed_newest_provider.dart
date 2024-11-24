@@ -9,6 +9,10 @@ import 'package:artvier/base/base_provider/illust_list_notifier.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 
+final followedNewestWorksTypeProvider = StateProvider<WorksType>((ref) {
+  return WorksType.illust;
+});
+
 /// 关注用户最新作品的筛选条件
 final followedNewestRestrictAllProvider = StateProvider<RestrictAll>((ref) {
   return RestrictAll.all;

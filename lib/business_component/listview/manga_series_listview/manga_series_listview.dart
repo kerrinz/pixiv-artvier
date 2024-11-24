@@ -128,8 +128,8 @@ class MangaSeriesListView extends ConsumerWidget with LazyloadLogic, ManagaSerie
 }
 
 /// See [IllustWaterfallGridView].
-class SliverIllustWaterfallGridView extends MangaSeriesListView {
-  SliverIllustWaterfallGridView({
+class SliverMangaSeriesListView extends MangaSeriesListView {
+  SliverMangaSeriesListView({
     super.key,
     required super.seriesList,
     required super.onLazyload,

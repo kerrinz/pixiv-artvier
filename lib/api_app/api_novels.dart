@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/model_response/novels/novel_detail.dart';
+import 'package:artvier/model_response/novels/novel_series_detail.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/base/base_api.dart';
@@ -27,7 +28,7 @@ class ApiNovels extends ApiBase {
     return NovelDetail.fromJson(json.decode(res.data));
   }
 
-  /// 获取小说系列详情(WebView)
+  /// 获取小说详情(WebView)
   Future<NovelDetailWebView> novelDetailWebView(String novelId, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
       "/webview/v2/novel?id=$novelId",
@@ -48,6 +49,19 @@ class ApiNovels extends ApiBase {
       rethrow;
     }
     return result;
+  }
+
+  /// 获取漫画系列详情
+  Future<NovelSeriesDetailResponse> novelSeriesDetail(String novelSeriesId, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v2/novel/series",
+      queryParameters: {
+        "series_id": novelSeriesId,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return NovelSeriesDetailResponse.fromJson(json.decode(res.data));
   }
 
   /// 获取插画排行榜

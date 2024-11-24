@@ -21,7 +21,7 @@ class MangaSeriesDetailResponse with _$MangaSeriesDetailResponse {
     @JsonKey(name: "illust_series_detail") required IllustSeriesDetail illustSeriesDetail,
     @JsonKey(name: "illust_series_first_illust") required CommonIllust illustSeriesFirstIllust,
     @JsonKey(name: "illusts") required List<CommonIllust> illusts,
-    @JsonKey(name: "next_url") required dynamic nextUrl,
+    @JsonKey(name: "next_url") String? nextUrl,
   }) = _MangaSeriesDetailResponse;
 
   factory MangaSeriesDetailResponse.fromJson(Map<String, dynamic> json) => _$MangaSeriesDetailResponseFromJson(json);

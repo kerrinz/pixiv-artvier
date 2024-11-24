@@ -77,66 +77,62 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
             ),
             child: Consumer(builder: (context, ref, child) {
               return ref.watch(mangaSeriesDetailProvider(widget.arguments.id.toString())).when(
-                    data: (data) => Builder(
-                      builder: (context) {
-                        return CustomScrollView(
-                          slivers: [
-                            // 系列信息
-                            SliverPadding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                              sliver: SliverToBoxAdapter(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data.illustSeriesDetail.title,
-                                      style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                                      child: MyBadge(
-                                        color: const Color(0xfffeaf0f),
-                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                        child: Text(i10n.series,
-                                            style: textTheme.labelSmall?.copyWith(color: Colors.white, height: 1)),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(data.illustSeriesDetail.caption,
-                                          style: textTheme.bodySmall?.copyWith(height: 1.4)),
-                                    ),
-                                  ],
+                    data: (data) => CustomScrollView(
+                      slivers: [
+                        // 系列信息
+                        SliverPadding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          sliver: SliverToBoxAdapter(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  data.illustSeriesDetail.title,
+                                  style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                                 ),
-                              ),
-                            ),
-                            // 作者信息
-                            SliverPadding(
-                              padding: const EdgeInsets.only(top: 4.0, bottom: 12),
-                              sliver: SliverToBoxAdapter(
-                                child: MangaSeriesAuthorCardWidget(
-                                  user: data.illustSeriesDetail.user,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                  child: MyBadge(
+                                    color: const Color(0xfffeaf0f),
+                                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    child: Text(i10n.series,
+                                        style: textTheme.labelSmall?.copyWith(color: Colors.white, height: 1)),
+                                  ),
                                 ),
-                              ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Text(data.illustSeriesDetail.caption,
+                                      style: textTheme.bodySmall?.copyWith(height: 1.4)),
+                                ),
+                              ],
                             ),
-                            SliverPadding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                              sliver: SliverToBoxAdapter(
-                                child: Text(i10n.seriesTotals(data.illustSeriesDetail.seriesWorkCount)),
-                              ),
+                          ),
+                        ),
+                        // 作者信息
+                        SliverPadding(
+                          padding: const EdgeInsets.only(top: 4.0, bottom: 12),
+                          sliver: SliverToBoxAdapter(
+                            child: MangaSeriesAuthorCardWidget(
+                              user: data.illustSeriesDetail.user,
                             ),
-                            SliverPadding(
-                              padding: const EdgeInsets.only(top: 0),
-                              sliver: SliverMangaGridView(
-                                artworkList: data.illusts,
-                                onLazyload: () async =>
-                                    ref.read(mangaSeriesDetailProvider(widget.arguments.id.toString()).notifier).next(),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
+                          ),
+                        ),
+                        SliverPadding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          sliver: SliverToBoxAdapter(
+                            child: Text(i10n.seriesTotals(data.illustSeriesDetail.seriesWorkCount)),
+                          ),
+                        ),
+                        SliverPadding(
+                          padding: const EdgeInsets.only(top: 0),
+                          sliver: SliverMangaGridView(
+                            artworkList: data.illusts,
+                            onLazyload: () async =>
+                                ref.read(mangaSeriesDetailProvider(widget.arguments.id.toString()).notifier).next(),
+                          ),
+                        ),
+                      ],
                     ),
                     error: (obj, e) => RequestLoadingFailed(
                       onRetry: () =>

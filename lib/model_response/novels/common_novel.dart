@@ -2,13 +2,11 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:artvier/model_response/user/common_user.dart';
-  
+
 part 'common_novel.g.dart';
 
-  
 @JsonSerializable()
-  class CommonNovel extends Object {
-
+class CommonNovel extends Object {
   @JsonKey(name: 'id')
   int id;
 
@@ -72,17 +70,41 @@ part 'common_novel.g.dart';
   @JsonKey(name: 'is_x_restricted')
   bool isXRestricted;
 
-  CommonNovel(this.id,this.title,this.caption,this.restrict,this.xRestrict,this.isOriginal,this.imageUrls,this.createDate,this.tags,this.pageCount,this.textLength,this.user,this.series,this.isBookmarked,this.totalBookmarks,this.totalView,this.visible,this.totalComments,this.isMuted,this.isMypixivOnly,this.isXRestricted,);
+  @JsonKey(name: "novel_ai_type")
+  int novelAiType;
+
+  CommonNovel(
+    this.id,
+    this.title,
+    this.caption,
+    this.restrict,
+    this.xRestrict,
+    this.isOriginal,
+    this.imageUrls,
+    this.createDate,
+    this.tags,
+    this.pageCount,
+    this.textLength,
+    this.user,
+    this.series,
+    this.isBookmarked,
+    this.totalBookmarks,
+    this.totalView,
+    this.visible,
+    this.totalComments,
+    this.isMuted,
+    this.isMypixivOnly,
+    this.isXRestricted,
+    this.novelAiType,
+  );
 
   factory CommonNovel.fromJson(Map<String, dynamic> srcJson) => _$CommonNovelFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$CommonNovelToJson(this);
-
 }
 
 @JsonSerializable()
-  class Image_urls extends Object {
-
+class Image_urls extends Object {
   @JsonKey(name: 'square_medium')
   String squareMedium;
 
@@ -92,18 +114,19 @@ part 'common_novel.g.dart';
   @JsonKey(name: 'large')
   String large;
 
-  Image_urls(this.squareMedium,this.medium,this.large,);
+  Image_urls(
+    this.squareMedium,
+    this.medium,
+    this.large,
+  );
 
   factory Image_urls.fromJson(Map<String, dynamic> srcJson) => _$Image_urlsFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$Image_urlsToJson(this);
-
 }
 
-  
 @JsonSerializable()
-  class Tags extends Object {
-
+class Tags extends Object {
   @JsonKey(name: 'name')
   String name;
 
@@ -113,17 +136,19 @@ part 'common_novel.g.dart';
   @JsonKey(name: 'added_by_uploaded_user')
   bool addedByUploadedUser;
 
-  Tags(this.name,this.translatedName,this.addedByUploadedUser,);
+  Tags(
+    this.name,
+    this.translatedName,
+    this.addedByUploadedUser,
+  );
 
   factory Tags.fromJson(Map<String, dynamic> srcJson) => _$TagsFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$TagsToJson(this);
-
 }
-  
-@JsonSerializable()
-  class Series extends Object {
 
+@JsonSerializable()
+class Series extends Object {
   @JsonKey(name: 'id')
   int? id;
 
@@ -135,8 +160,4 @@ part 'common_novel.g.dart';
   factory Series.fromJson(Map<String, dynamic> srcJson) => _$SeriesFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$SeriesToJson(this);
-
 }
-
-
-  

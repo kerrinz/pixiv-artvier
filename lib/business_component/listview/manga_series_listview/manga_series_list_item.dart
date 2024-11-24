@@ -1,3 +1,4 @@
+import 'package:artvier/l10n/localization_intl.dart';
 import 'package:artvier/model_response/manga/manga_series_list.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -40,6 +41,8 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
   void didUpdateWidget(covariant ManagaSeriesListItem oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
+
+  LocalizationIntl get i10n => LocalizationIntl.of(context);
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +93,7 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('更新至${widget.mangaSeries.publishedContentCount}话',
+                        Text(i10n.seriesUpdateTo(widget.mangaSeries.publishedContentCount),
                             style: textTheme.bodySmall
                                 ?.copyWith(color: textTheme.bodySmall?.color?.withOpacity(0.5), height: 1.5)),
                         Text(
@@ -133,7 +136,7 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
                     ),
                   ),
                   Text(
-                    "最新话",
+                    i10n.seriesLatestChapter,
                     style: textTheme.labelMedium
                         ?.copyWith(color: colorScheme.primary, height: 1, fontWeight: FontWeight.w600),
                   ),

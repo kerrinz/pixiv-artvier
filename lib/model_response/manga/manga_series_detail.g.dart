@@ -18,7 +18,7 @@ _$MangaSeriesDetailResponseImpl _$$MangaSeriesDetailResponseImplFromJson(
       illusts: (json['illusts'] as List<dynamic>)
           .map((e) => CommonIllust.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nextUrl: json['next_url'],
+      nextUrl: json['next_url'] as String?,
     );
 
 Map<String, dynamic> _$$MangaSeriesDetailResponseImplToJson(
