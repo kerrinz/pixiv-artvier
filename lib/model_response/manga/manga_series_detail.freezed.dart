@@ -30,7 +30,7 @@ mixin _$MangaSeriesDetailResponse {
   @JsonKey(name: "illusts")
   List<CommonIllust> get illusts => throw _privateConstructorUsedError;
   @JsonKey(name: "next_url")
-  dynamic get nextUrl => throw _privateConstructorUsedError;
+  String? get nextUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +50,7 @@ abstract class $MangaSeriesDetailResponseCopyWith<$Res> {
       @JsonKey(name: "illust_series_first_illust")
       CommonIllust illustSeriesFirstIllust,
       @JsonKey(name: "illusts") List<CommonIllust> illusts,
-      @JsonKey(name: "next_url") dynamic nextUrl});
+      @JsonKey(name: "next_url") String? nextUrl});
 
   $IllustSeriesDetailCopyWith<$Res> get illustSeriesDetail;
 }
@@ -90,7 +90,7 @@ class _$MangaSeriesDetailResponseCopyWithImpl<$Res,
       nextUrl: freezed == nextUrl
           ? _value.nextUrl
           : nextUrl // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
     ) as $Val);
   }
 
@@ -119,7 +119,7 @@ abstract class _$$MangaSeriesDetailResponseImplCopyWith<$Res>
       @JsonKey(name: "illust_series_first_illust")
       CommonIllust illustSeriesFirstIllust,
       @JsonKey(name: "illusts") List<CommonIllust> illusts,
-      @JsonKey(name: "next_url") dynamic nextUrl});
+      @JsonKey(name: "next_url") String? nextUrl});
 
   @override
   $IllustSeriesDetailCopyWith<$Res> get illustSeriesDetail;
@@ -159,7 +159,7 @@ class __$$MangaSeriesDetailResponseImplCopyWithImpl<$Res>
       nextUrl: freezed == nextUrl
           ? _value.nextUrl
           : nextUrl // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
     ));
   }
 }
@@ -172,7 +172,7 @@ class _$MangaSeriesDetailResponseImpl implements _MangaSeriesDetailResponse {
       @JsonKey(name: "illust_series_first_illust")
       required this.illustSeriesFirstIllust,
       @JsonKey(name: "illusts") required final List<CommonIllust> illusts,
-      @JsonKey(name: "next_url") required this.nextUrl})
+      @JsonKey(name: "next_url") this.nextUrl})
       : _illusts = illusts;
 
   factory _$MangaSeriesDetailResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -195,7 +195,7 @@ class _$MangaSeriesDetailResponseImpl implements _MangaSeriesDetailResponse {
 
   @override
   @JsonKey(name: "next_url")
-  final dynamic nextUrl;
+  final String? nextUrl;
 
   @override
   String toString() {
@@ -213,7 +213,7 @@ class _$MangaSeriesDetailResponseImpl implements _MangaSeriesDetailResponse {
                     other.illustSeriesFirstIllust, illustSeriesFirstIllust) ||
                 other.illustSeriesFirstIllust == illustSeriesFirstIllust) &&
             const DeepCollectionEquality().equals(other._illusts, _illusts) &&
-            const DeepCollectionEquality().equals(other.nextUrl, nextUrl));
+            (identical(other.nextUrl, nextUrl) || other.nextUrl == nextUrl));
   }
 
   @JsonKey(ignore: true)
@@ -223,7 +223,7 @@ class _$MangaSeriesDetailResponseImpl implements _MangaSeriesDetailResponse {
       illustSeriesDetail,
       illustSeriesFirstIllust,
       const DeepCollectionEquality().hash(_illusts),
-      const DeepCollectionEquality().hash(nextUrl));
+      nextUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -247,7 +247,7 @@ abstract class _MangaSeriesDetailResponse implements MangaSeriesDetailResponse {
           @JsonKey(name: "illust_series_first_illust")
           required final CommonIllust illustSeriesFirstIllust,
           @JsonKey(name: "illusts") required final List<CommonIllust> illusts,
-          @JsonKey(name: "next_url") required final dynamic nextUrl}) =
+          @JsonKey(name: "next_url") final String? nextUrl}) =
       _$MangaSeriesDetailResponseImpl;
 
   factory _MangaSeriesDetailResponse.fromJson(Map<String, dynamic> json) =
@@ -264,7 +264,7 @@ abstract class _MangaSeriesDetailResponse implements MangaSeriesDetailResponse {
   List<CommonIllust> get illusts;
   @override
   @JsonKey(name: "next_url")
-  dynamic get nextUrl;
+  String? get nextUrl;
   @override
   @JsonKey(ignore: true)
   _$$MangaSeriesDetailResponseImplCopyWith<_$MangaSeriesDetailResponseImpl>

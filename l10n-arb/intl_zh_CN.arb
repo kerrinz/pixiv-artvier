@@ -1,4 +1,5 @@
 {
+  "@@locale": "zh_CN",
   "@@last_modified": "2024-10-04T17:07:20.176789",
   "importToken": "导入 Token",
   "@importToken": {
@@ -78,8 +79,20 @@
     "type": "text",
     "placeholders": {}
   },
+  "mangaSeries": "漫画系列",
+  "@mangaSeries": {
+    "description": "An option of works type",
+    "type": "text",
+    "placeholders": {}
+  },
   "novels": "小说",
   "@novels": {
+    "description": "An option of works type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "novelSeries": "小说系列",
+  "@novelSeries": {
     "description": "An option of works type",
     "type": "text",
     "placeholders": {}
@@ -831,6 +844,22 @@
         "example": "12"
       }
     }
+  },
+  "seriesUpdateTo": "更新至 {size} 话",
+  "@seriesUpdateTo": {
+    "description": "Newest chapter",
+    "type": "text",
+    "placeholders": {
+      "size": {
+        "example": "12"
+      }
+    }
+  },
+  "seriesLatestChapter": "最新话",
+  "@seriesLatestChapter": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
   },
   "search": "搜索",
   "@search": {

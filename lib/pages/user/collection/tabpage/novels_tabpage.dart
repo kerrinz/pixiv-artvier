@@ -4,7 +4,6 @@ import 'package:artvier/business_component/listview/novel_listview/novel_list.da
 import 'package:artvier/component/loading/request_loading.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
-import 'package:artvier/pages/user/collection/provider/artwork_collections_provider.dart';
 import 'package:artvier/pages/user/collection/provider/novel_collections_provider.dart';
 
 class MyCollectNovelsTabPage extends ConsumerStatefulWidget {
@@ -23,10 +22,10 @@ class _MyCollectNovelsTabPageState extends ConsumerState<MyCollectNovelsTabPage>
           data: (List<CommonNovel> list) => NovelListView(
             novelList: list,
             lazyloadState: LazyloadState.idle,
-            onLazyload: () async => ref.read(myArtworkCollectionsStateProvider.notifier).next(),
+            onLazyload: () async => ref.read(myNovelCollectionsStateProvider.notifier).next(),
           ),
           error: (_, __) => RequestLoadingFailed(
-            onRetry: () async => ref.read(myArtworkCollectionsStateProvider.notifier).reload(),
+            onRetry: () async => ref.read(myNovelCollectionsStateProvider.notifier).reload(),
           ),
         );
   }

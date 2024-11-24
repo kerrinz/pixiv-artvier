@@ -2,7 +2,6 @@ import 'package:artvier/business_component/listview/novel_listview/novel_list.da
 import 'package:artvier/component/filter/stateless_flow_filter.dart';
 import 'package:artvier/component/sliver_persistent_header/widget_delegate.dart';
 import 'package:artvier/config/enums.dart';
-import 'package:artvier/global/provider/current_works_type.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,7 +30,14 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage> w
   Widget build(BuildContext context) {
     super.build(context);
     return RefreshIndicator(
-      onRefresh: () async => ref.read(followedNewestArtworksProvider.notifier).refresh(),
+      onRefresh: () async {
+        final worksType = ref.read(followedNewestWorksTypeProvider);
+        if (worksType == WorksType.novel) {
+          return ref.read(followedNewestNovelsProvider.notifier).refresh();
+        } else {
+          return ref.read(followedNewestArtworksProvider.notifier).refresh();
+        }
+      },
       child: CustomScrollView(
         slivers: [
           SliverPersistentHeader(
@@ -40,7 +46,7 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage> w
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 child: Consumer(builder: (_, ref, __) {
-                  final worksType = ref.watch(globalCurrentWorksTypeProvider);
+                  final worksType = ref.watch(followedNewestWorksTypeProvider);
                   int index = filters.indexOf(worksType);
                   return StatelessTextFlowFilter(
                     initialIndexes: {index >= 0 ? index : 0},
@@ -52,12 +58,12 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage> w
                     textBorderRadius: const BorderRadius.all(Radius.circular(20)),
                     spacing: 8,
                     onTap: (int tapIndex) {
-                      final notifier = ref.read(globalCurrentWorksTypeProvider.notifier);
+                      final notifier = ref.read(followedNewestWorksTypeProvider.notifier);
                       if (tapIndex == 0 &&
                           ![WorksType.illust, WorksType.manga, WorksType.mangaSeries].contains(notifier.state)) {
-                        ref.read(globalCurrentWorksTypeProvider.notifier).update((state) => WorksType.illust);
+                        ref.read(followedNewestWorksTypeProvider.notifier).update((state) => WorksType.illust);
                       } else if (tapIndex == 1 && WorksType.novel != notifier.state) {
-                        ref.read(globalCurrentWorksTypeProvider.notifier).update((state) => WorksType.novel);
+                        ref.read(followedNewestWorksTypeProvider.notifier).update((state) => WorksType.novel);
                       }
                     },
                     texts: ["${i10n.illust} • ${i10n.manga}", i10n.novels],
@@ -70,7 +76,7 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage> w
           ),
           Consumer(
             builder: (context, value, child) {
-              final worksType = ref.watch(globalCurrentWorksTypeProvider);
+              final worksType = ref.watch(followedNewestWorksTypeProvider);
               if (worksType == WorksType.novel) {
                 return const FollowedNewestNovelPageView();
               } else {

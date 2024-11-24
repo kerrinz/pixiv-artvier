@@ -23,6 +23,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(count) => "共 ${count} 话";
 
+  static m1(size) => "更新至 ${size} 话";
+
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
 
@@ -90,6 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'loginSuccess': MessageLookupByLibrary.simpleMessage('登录成功!'),
     'male': MessageLookupByLibrary.simpleMessage('男'),
     'manga': MessageLookupByLibrary.simpleMessage('漫画'),
+    'mangaSeries': MessageLookupByLibrary.simpleMessage('漫画系列'),
     'markers': MessageLookupByLibrary.simpleMessage('书签'),
     'monitor': MessageLookupByLibrary.simpleMessage('显示器'),
     'more': MessageLookupByLibrary.simpleMessage('更多'),
@@ -103,6 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'networkSettings': MessageLookupByLibrary.simpleMessage('网络设置'),
     'nickname': MessageLookupByLibrary.simpleMessage('昵称'),
     'not': MessageLookupByLibrary.simpleMessage('否'),
+    'novelSeries': MessageLookupByLibrary.simpleMessage('小说系列'),
     'novels': MessageLookupByLibrary.simpleMessage('小说'),
     'occupation': MessageLookupByLibrary.simpleMessage('职业'),
     'onYourDesk': MessageLookupByLibrary.simpleMessage('桌子上的物品'),
@@ -143,7 +147,9 @@ class MessageLookup extends MessageLookupByLibrary {
     'scanner': MessageLookupByLibrary.simpleMessage('扫描仪'),
     'search': MessageLookupByLibrary.simpleMessage('搜索'),
     'series': MessageLookupByLibrary.simpleMessage('系列'),
+    'seriesLatestChapter': MessageLookupByLibrary.simpleMessage('最新话'),
     'seriesTotals': m0,
+    'seriesUpdateTo': m1,
     'settings': MessageLookupByLibrary.simpleMessage('设置'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('社交媒体'),
     'softwareUpdate': MessageLookupByLibrary.simpleMessage('软件更新'),

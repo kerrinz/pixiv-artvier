@@ -1,6 +1,6 @@
-import 'package:artvier/business_component/listview/manga_series_listview/logic.dart';
-import 'package:artvier/business_component/listview/manga_series_listview/manga_series_list_item.dart';
-import 'package:artvier/model_response/manga/manga_series_list.dart';
+import 'package:artvier/business_component/listview/novel_series_listview/logic.dart';
+import 'package:artvier/business_component/listview/novel_series_listview/novel_series_list_item.dart';
+import 'package:artvier/model_response/novels/novel_series_list.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +10,8 @@ import 'package:artvier/component/loading/lazyloading.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
-class MangaSeriesListView extends ConsumerWidget with LazyloadLogic, ManagaSeriesListViewLogic {
-  final List<MangaSeries> seriesList;
+class NovelSeriesListView extends ConsumerWidget with LazyloadLogic, ManagaSeriesListViewLogic {
+  final List<NovelSeries> seriesList;
 
   /// 懒加载异步事件
   /// - return bool of hasMore. 需要返回是否还有更多数据
@@ -32,7 +32,7 @@ class MangaSeriesListView extends ConsumerWidget with LazyloadLogic, ManagaSerie
   @override
   late final WidgetRef ref;
 
-  MangaSeriesListView({
+  NovelSeriesListView({
     super.key,
     required this.seriesList,
     required this.onLazyload,
@@ -89,7 +89,7 @@ class MangaSeriesListView extends ConsumerWidget with LazyloadLogic, ManagaSerie
     }
     var item = seriesList[index];
     return ManagaSeriesListItem(
-      mangaSeries: item,
+      novelSeries: item,
       onTap: () => handleTapItem(item),
     );
   }
@@ -128,8 +128,8 @@ class MangaSeriesListView extends ConsumerWidget with LazyloadLogic, ManagaSerie
 }
 
 /// See [IllustWaterfallGridView].
-class SliverMangaSeriesListView extends MangaSeriesListView {
-  SliverMangaSeriesListView({
+class SliverNovelSeriesListView extends NovelSeriesListView {
+  SliverNovelSeriesListView({
     super.key,
     required super.seriesList,
     required super.onLazyload,

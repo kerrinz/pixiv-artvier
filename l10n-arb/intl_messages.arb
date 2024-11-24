@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-11-11T16:16:12.551607",
+  "@@last_modified": "2024-11-24T23:46:22.349015",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -78,8 +78,20 @@
     "type": "text",
     "placeholders": {}
   },
+  "mangaSeries": "Manga series",
+  "@mangaSeries": {
+    "description": "An option of works type",
+    "type": "text",
+    "placeholders": {}
+  },
   "novels": "Novels",
   "@novels": {
+    "description": "An option of works type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "novelSeries": "Novel series",
+  "@novelSeries": {
     "description": "An option of works type",
     "type": "text",
     "placeholders": {}
@@ -822,7 +834,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "seriesTotals": "{count} episodes in total",
+  "seriesTotals": "{count} chapters in total",
   "@seriesTotals": {
     "description": "Total works in series details",
     "type": "text",
@@ -831,6 +843,22 @@
         "example": "12"
       }
     }
+  },
+  "seriesUpdateTo": "Updated to chapter {size}",
+  "@seriesUpdateTo": {
+    "description": "Newest chapter",
+    "type": "text",
+    "placeholders": {
+      "size": {
+        "example": "12"
+      }
+    }
+  },
+  "seriesLatestChapter": "Latest",
+  "@seriesLatestChapter": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
   },
   "search": "Search",
   "@search": {

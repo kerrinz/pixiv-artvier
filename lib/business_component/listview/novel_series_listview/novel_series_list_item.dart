@@ -1,6 +1,6 @@
 import 'package:artvier/l10n/localization_intl.dart';
-import 'package:artvier/model_response/manga/manga_series_list.dart';
-import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
+import 'package:artvier/model_response/novels/novel_series_list.dart';
+import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/routes.dart';
 import 'package:date_format/date_format.dart';
@@ -14,11 +14,11 @@ import 'package:artvier/config/constants.dart';
 class ManagaSeriesListItem extends ConsumerStatefulWidget {
   const ManagaSeriesListItem({
     super.key,
-    required this.mangaSeries,
+    required this.novelSeries,
     this.onTap,
   });
 
-  final MangaSeries mangaSeries;
+  final NovelSeries novelSeries;
 
   /// 点击卡片的事件
   final VoidCallback? onTap;
@@ -32,6 +32,8 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
 
   TextTheme get textTheme => Theme.of(context).textTheme;
 
+  LocalizationIntl get i10n => LocalizationIntl.of(context);
+
   @override
   void initState() {
     super.initState();
@@ -41,8 +43,6 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
   void didUpdateWidget(covariant ManagaSeriesListItem oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
-
-  LocalizationIntl get i10n => LocalizationIntl.of(context);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
               borderRadius: const BorderRadius.all(Radius.circular(8)),
               child: EnhanceNetworkImage(
                 image: ExtendedNetworkImageProvider(
-                  HttpHostOverrides().pxImgUrl(widget.mangaSeries.url),
+                  HttpHostOverrides().pxImgUrl(widget.novelSeries.url),
                   headers: const {"Referer": CONSTANTS.referer},
                   cache: true,
                 ),
@@ -82,23 +82,23 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.mangaSeries.title,
+                          widget.novelSeries.title,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                         ),
-                        Text(widget.mangaSeries.user.name, style: textTheme.bodySmall?.copyWith(height: 2)),
+                        Text(widget.novelSeries.user.name, style: textTheme.bodySmall?.copyWith(height: 2)),
                       ]),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(i10n.seriesUpdateTo(widget.mangaSeries.publishedContentCount),
+                        Text(i10n.seriesUpdateTo(widget.novelSeries.publishedContentCount),
                             style: textTheme.bodySmall
                                 ?.copyWith(color: textTheme.bodySmall?.color?.withOpacity(0.5), height: 1.5)),
                         Text(
                           formatDate(
-                            widget.mangaSeries.lastPublishedContentDatetime.toLocal(),
+                            widget.novelSeries.lastPublishedContentDatetime.toLocal(),
                             [yyyy, '-', mm, '-', dd, ' '],
                           ),
                           style: textTheme.bodyMedium?.copyWith(color: textTheme.bodyMedium?.color?.withOpacity(0.5)),
@@ -113,9 +113,9 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
             padding: EdgeInsets.zero,
             color: Colors.transparent,
             onPressed: () => Navigator.of(ref.context).pushNamed(
-              RouteNames.artworkDetail.name,
-              arguments: IllustDetailPageArguments(
-                  illustId: widget.mangaSeries.latestContentId.toString(), title: widget.mangaSeries.title),
+              RouteNames.novelDetail.name,
+              arguments: NovelDetailPageArguments(
+                  worksId: widget.novelSeries.latestContentId.toString(), title: widget.novelSeries.title),
             ),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),

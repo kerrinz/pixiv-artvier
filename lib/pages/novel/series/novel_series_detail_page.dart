@@ -1,30 +1,30 @@
 import 'package:artvier/base/base_page.dart';
-import 'package:artvier/business_component/listview/manga_listview/manga_gridview.dart';
+import 'package:artvier/business_component/listview/novel_listview/novel_list.dart';
 import 'package:artvier/business_component/page_layout/banner_appbar_page_layout.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/loading/request_loading.dart';
 import 'package:artvier/config/constants.dart';
-import 'package:artvier/pages/artwork/series/model/arguments.dart';
-import 'package:artvier/pages/artwork/series/provider.dart';
-import 'package:artvier/pages/artwork/series/widget/author_card.dart';
+import 'package:artvier/pages/novel/series/model/arguments.dart';
+import 'package:artvier/pages/novel/series/provider.dart';
+import 'package:artvier/pages/novel/series/widget/author_card.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MangaSeriesDetailPage extends BaseStatefulPage {
-  final MangaSeriesDetailPagePageArguments arguments;
+class NovelSeriesDetailPage extends BaseStatefulPage {
+  final NovelSeriesDetailPagePageArguments arguments;
 
-  const MangaSeriesDetailPage(Object arg, {super.key}) : arguments = arg as MangaSeriesDetailPagePageArguments;
+  const NovelSeriesDetailPage(Object arg, {super.key}) : arguments = arg as NovelSeriesDetailPagePageArguments;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => __MangaSeriesDetailPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => __NovelSeriesDetailPageState();
 }
 
-class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> {
+class __NovelSeriesDetailPageState extends BasePageState<NovelSeriesDetailPage> {
   static const double _bannerHeight = 200;
 
   double get _endAppBarBackgroundOffset => _bannerHeight - kToolbarHeight - MediaQuery.of(context).padding.top;
@@ -76,7 +76,7 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
               borderRadius: const BorderRadius.only(topRight: Radius.circular(12.0), topLeft: Radius.circular(12.0)),
             ),
             child: Consumer(builder: (context, ref, child) {
-              return ref.watch(mangaSeriesDetailProvider(widget.arguments.id.toString())).when(
+              return ref.watch(novelSeriesDetailProvider(widget.arguments.id.toString())).when(
                     data: (data) => CustomScrollView(
                       slivers: [
                         // 系列信息
@@ -87,7 +87,7 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  data.illustSeriesDetail.title,
+                                  data.novelSeriesDetail.title,
                                   style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 Padding(
@@ -102,7 +102,7 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(data.illustSeriesDetail.caption,
+                                  child: Text(data.novelSeriesDetail.caption,
                                       style: textTheme.bodySmall?.copyWith(height: 1.4)),
                                 ),
                               ],
@@ -113,30 +113,30 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
                         SliverPadding(
                           padding: const EdgeInsets.only(top: 4.0, bottom: 12),
                           sliver: SliverToBoxAdapter(
-                            child: MangaSeriesAuthorCardWidget(
-                              user: data.illustSeriesDetail.user,
+                            child: NovelSeriesAuthorCardWidget(
+                              user: data.novelSeriesDetail.user,
                             ),
                           ),
                         ),
                         SliverPadding(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                           sliver: SliverToBoxAdapter(
-                            child: Text(i10n.seriesTotals(data.illustSeriesDetail.seriesWorkCount)),
+                            child: Text(i10n.seriesTotals(data.novelSeriesDetail.contentCount)),
                           ),
                         ),
                         SliverPadding(
                           padding: const EdgeInsets.only(top: 0),
-                          sliver: SliverMangaGridView(
-                            artworkList: data.illusts,
+                          sliver: SliverNovelListView(
+                            novelList: data.novels,
                             onLazyload: () async =>
-                                ref.read(mangaSeriesDetailProvider(widget.arguments.id.toString()).notifier).next(),
+                                ref.read(novelSeriesDetailProvider(widget.arguments.id.toString()).notifier).next(),
                           ),
                         ),
                       ],
                     ),
                     error: (obj, e) => RequestLoadingFailed(
                       onRetry: () =>
-                          ref.read(mangaSeriesDetailProvider(widget.arguments.id.toString()).notifier).reload(),
+                          ref.read(novelSeriesDetailProvider(widget.arguments.id.toString()).notifier).reload(),
                     ),
                     loading: () => const RequestLoading(),
                   );

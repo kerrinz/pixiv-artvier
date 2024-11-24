@@ -40,7 +40,9 @@ class LocalizationIntl {
   String get account => Intl.message('Account', name: 'account', desc: 'Title of user account');
   String get illust => Intl.message('Illust', name: 'illust', desc: 'An option of works type');
   String get manga => Intl.message('Manga', name: 'manga', desc: 'An option of works type');
+  String get mangaSeries => Intl.message('Manga series', name: 'mangaSeries', desc: 'An option of works type');
   String get novels => Intl.message('Novels', name: 'novels', desc: 'An option of works type');
+  String get novelSeries => Intl.message('Novel series', name: 'novelSeries', desc: 'An option of works type');
   String get users => Intl.message('Users', name: 'users', desc: 'a search type');
   String get series => Intl.message("Series", name: 'series', desc: 'the badge or manga or novel series');
   String get more => Intl.message('More', name: 'more', desc: '');
@@ -220,8 +222,11 @@ class LocalizationIntl {
   String get rankingR18Female => Intl.message("R18 Female", name: 'rankingR18Female', desc: '');
 
   // 系列作品
-  String seriesTotals(int count) => Intl.message("$count episodes in total",
+  String seriesTotals(int count) => Intl.message("$count chapters in total",
       args: [count], name: 'seriesTotals', desc: 'Total works in series details', examples: const {'count': '12'});
+  String seriesUpdateTo(int size) => Intl.message("Updated to chapter $size",
+      args: [size], name: 'seriesUpdateTo', desc: 'Newest chapter', examples: const {'size': '12'});
+  String get seriesLatestChapter => Intl.message("Latest", name: 'seriesLatestChapter', desc: '');
 
   // 搜索
   String get search => Intl.message("Search", name: 'search', desc: 'Verb or noun of <search>');

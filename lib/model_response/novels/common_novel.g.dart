@@ -32,6 +32,7 @@ CommonNovel _$CommonNovelFromJson(Map<String, dynamic> json) => CommonNovel(
       json['is_muted'] as bool,
       json['is_mypixiv_only'] as bool,
       json['is_x_restricted'] as bool,
+      (json['novel_ai_type'] as num).toInt(),
     );
 
 Map<String, dynamic> _$CommonNovelToJson(CommonNovel instance) =>
@@ -57,6 +58,7 @@ Map<String, dynamic> _$CommonNovelToJson(CommonNovel instance) =>
       'is_muted': instance.isMuted,
       'is_mypixiv_only': instance.isMypixivOnly,
       'is_x_restricted': instance.isXRestricted,
+      'novel_ai_type': instance.novelAiType,
     };
 
 Image_urls _$Image_urlsFromJson(Map<String, dynamic> json) => Image_urls(
