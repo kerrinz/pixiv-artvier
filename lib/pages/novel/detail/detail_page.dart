@@ -1,17 +1,22 @@
 import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/dialog_custom.dart';
+import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
+import 'package:artvier/config/constants.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
 import 'package:artvier/pages/novel/detail/logic.dart';
 import 'package:artvier/pages/novel/detail/provider/novel_detail_provider.dart';
 import 'package:artvier/pages/novel/detail/widgets/menu_bottom_sheet.dart';
+import 'package:artvier/request/http_host_overrides.dart';
+import 'package:extended_image/extended_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/loading/request_loading.dart';
@@ -59,17 +64,22 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
 
   Widget _buildBeforeSuccessContent(bool isFailed) {
     return Stack(children: [
-      AppBar(
-        // backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        leading: AppbarBlurIconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          background: Colors.transparent,
+      Positioned(
+        top: 0,
+        left: 0,
+        right: 0,
+        child: AppBar(
+          // backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          leading: AppbarBlurIconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            background: Colors.transparent,
+          ),
+          title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.worksId)),
         ),
-        title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.worksId)),
       ),
       Builder(builder: (context) {
         if (isFailed) {
@@ -85,60 +95,75 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
       value: const SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.light,
       ),
-      child: CustomScrollView(slivers: [
-        SliverAppBar(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-          leading: AppbarBlurIconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          actions: [
-            AppbarBlurIconButton(
-              icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
-              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-              onPressed: () {
-                BottomSheets.showCustomBottomSheet<bool>(
-                  context: ref.context,
-                  exitOnClickModal: true,
-                  enableDrag: false,
-                  child: NovelDetailMenu(
-                    detail: widget.args.detail ?? detail,
-                  ),
-                );
-              },
-            )
-          ],
-        ),
-        // 作品标题吸顶
-        SliverStickyHeader(
-          // 作品的标题
-          header: Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text(detail.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+      child: Stack(
+        children: [
+          CustomScrollView(slivers: [
+            SliverToBoxAdapter(
+              child: EnhanceNetworkImage(
+                width: double.infinity,
+                height: 180,
+                image: ExtendedNetworkImageProvider(
+                  HttpHostOverrides().pxImgUrl(novelDetail!.imageUrls.medium),
+                  headers: const {"referer": CONSTANTS.referer},
+                  cache: true,
+                ),
+              ),
             ),
-          ),
-          // 概述信息
-          sliver: SliverToBoxAdapter(
-            child: Column(
-              children: [
-                // 作者卡片
-                AuthorCardWidget(user: detail.user, createDate: detail.createDate),
-                _buildInformation(detail),
+            // 作品标题
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
+                child: Text(detail.title, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+              ),
+            ),
+            // 概述信息
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  // 作者卡片
+                  AuthorCardWidget(user: detail.user, createDate: detail.createDate),
+                  _buildInformation(detail),
+                ],
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: _buildContent(webViewData),
+            ),
+          ]),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: AppBar(
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
+              leading: AppbarBlurIconButton(
+                icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              actions: [
+                AppbarBlurIconButton(
+                  icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
+                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                  onPressed: () {
+                    BottomSheets.showCustomBottomSheet<bool>(
+                      context: ref.context,
+                      exitOnClickModal: true,
+                      enableDrag: false,
+                      child: NovelDetailMenu(
+                        detail: widget.args.detail ?? detail,
+                      ),
+                    );
+                  },
+                )
               ],
             ),
           ),
-        ),
-        SliverToBoxAdapter(
-          child: _buildContent(webViewData),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 
@@ -190,7 +215,6 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
                   ),
                 ],
               )),
-          // 简介
           // 简介
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
