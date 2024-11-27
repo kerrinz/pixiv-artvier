@@ -54,9 +54,10 @@ class MyAppState extends ConsumerState<MyApp> {
     if (themeMode != ThemeMode.system) {
       statusBarBrightness = (themeMode == ThemeMode.light) ? Brightness.dark : Brightness.light;
     }
+    final reverseStatusBarBrightness = statusBarBrightness == Brightness.light ? Brightness.dark : Brightness.light;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        statusBarBrightness: statusBarBrightness,
+        statusBarBrightness: reverseStatusBarBrightness,
         statusBarIconBrightness: statusBarBrightness,
       ),
       child: MaterialApp(
