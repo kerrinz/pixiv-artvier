@@ -35,17 +35,19 @@ class PerferenceItem extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              icon == null
-                  ? text
-                  : Row(
-                      children: [
-                        icon!,
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12.0),
-                          child: text,
-                        ),
-                      ],
-                    ),
+              Expanded(
+                child: icon == null
+                    ? text
+                    : Row(
+                        children: [
+                          icon!,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: text,
+                          ),
+                        ],
+                      ),
+              ),
               Wrap(
                 alignment: WrapAlignment.end,
                 children: [

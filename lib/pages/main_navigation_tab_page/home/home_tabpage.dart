@@ -177,12 +177,15 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
     double bgOpacity = 0.0;
     Color inputBackgroundColor = Colors.black12;
     Brightness brightness = Brightness.light;
+    Brightness reverseBrightness = Brightness.dark;
     if (offset >= 100) {
-      brightness = Theme.of(context).brightness == Brightness.light ? Brightness.dark : Brightness.light;
+      brightness = Theme.of(context).brightness;
+      reverseBrightness = brightness == Brightness.light ? Brightness.dark : Brightness.light;
       bgOpacity = (offset - 100) / 100;
       inputBackgroundColor = Colors.grey.withOpacity(0.15);
     } else {
       brightness = Brightness.light;
+      reverseBrightness = Brightness.dark;
       bgOpacity = 0;
     }
     Color textColor = Colors.white;
@@ -192,7 +195,7 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarBrightness: brightness,
-        statusBarIconBrightness: brightness,
+        statusBarIconBrightness: reverseBrightness,
       ),
       child: Container(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10, bottom: 10, left: 10, right: 10),
