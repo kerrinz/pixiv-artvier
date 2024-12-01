@@ -9,30 +9,25 @@ import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 
-/// 全站插画作品（仅插画）
-final everybodyNewestIllustsProvider =
-    AutoDisposeAsyncNotifierProvider<EverybodyNewestArtworksNotifier, List<CommonIllust>>(
-  () => EverybodyNewestArtworksNotifier(WorksType.illust),
+final everybodyNewestWorksTypeProvider = StateProvider<WorksType>((ref) {
+  return WorksType.illust;
+});
+
+/// 全站插画作品
+final everybodyNewestIllustsProvider = AsyncNotifierProvider<EverybodyNewestIllustsNotifier, List<CommonIllust>>(
+  () => EverybodyNewestIllustsNotifier(),
 );
 
-/// 全站插画作品（仅漫画）
-final everybodyNewestMangaProvider =
-    AutoDisposeAsyncNotifierProvider<EverybodyNewestArtworksNotifier, List<CommonIllust>>(
-  () => EverybodyNewestArtworksNotifier(WorksType.manga),
+/// 全站插漫画作品
+final everybodyNewestMangaProvider = AsyncNotifierProvider<EverybodyNewestMangesNotifier, List<CommonIllust>>(
+  () => EverybodyNewestMangesNotifier(),
 );
 
-/// 全站插画作品（仅小说）
+/// 全站小说作品作品
 final everybodyNewestNovelsProvider =
-    AutoDisposeAsyncNotifierProvider<EverybodyNewestNovelsNotifier, List<CommonNovel>>(
-        EverybodyNewestNovelsNotifier.new);
+    AsyncNotifierProvider<EverybodyNewestNovelsNotifier, List<CommonNovel>>(EverybodyNewestNovelsNotifier.new);
 
-class EverybodyNewestArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIllust>>
-    with IllustListAsyncNotifierMixin {
-  EverybodyNewestArtworksNotifier(this.worksType)
-      : assert(worksType == WorksType.illust || worksType == WorksType.manga);
-
-  final WorksType worksType;
-
+class EverybodyNewestIllustsNotifier extends BaseAsyncNotifier<List<CommonIllust>> with IllustListAsyncNotifierMixin {
   @override
   FutureOr<List<CommonIllust>> build() async {
     handleDispose(ref);
@@ -43,19 +38,30 @@ class EverybodyNewestArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<
   /// 初始化数据
   @override
   Future<List<CommonIllust>> fetch() async {
-    var result = await (worksType == WorksType.illust
-        ? ApiNewArtWork(requester).everybodysNewIllusts()
-        : ApiNewArtWork(requester).everybodysNewManga());
+    var result = await ApiNewArtWork(requester).everybodysNewIllusts(cancelToken: cancelToken);
     nextUrl = result.nextUrl;
     return result.illusts;
   }
-
 }
 
-class EverybodyNewestNovelsNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonNovel>>
-    with NovelListAsyncNotifierMixin {
-  EverybodyNewestNovelsNotifier();
+class EverybodyNewestMangesNotifier extends BaseAsyncNotifier<List<CommonIllust>> with IllustListAsyncNotifierMixin {
+  @override
+  FutureOr<List<CommonIllust>> build() async {
+    handleDispose(ref);
+    handleCollectState(ref);
+    return fetch();
+  }
 
+  /// 初始化数据
+  @override
+  Future<List<CommonIllust>> fetch() async {
+    var result = await ApiNewArtWork(requester).everybodysNewManga(cancelToken: cancelToken);
+    nextUrl = result.nextUrl;
+    return result.illusts;
+  }
+}
+
+class EverybodyNewestNovelsNotifier extends BaseAsyncNotifier<List<CommonNovel>> with NovelListAsyncNotifierMixin {
   @override
   FutureOr<List<CommonNovel>> build() async {
     beforeBuild(ref);
