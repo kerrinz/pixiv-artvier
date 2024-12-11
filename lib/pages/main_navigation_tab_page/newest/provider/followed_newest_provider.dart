@@ -34,7 +34,6 @@ class FollowedNewestArtworksNotifier extends BaseAsyncNotifier<List<CommonIllust
 
   @override
   FutureOr<List<CommonIllust>> build() async {
-    restrictFilter = ref.watch(followedNewestRestrictAllProvider);
     handleDispose(ref);
     handleCollectState(ref);
     return fetch();
@@ -43,6 +42,7 @@ class FollowedNewestArtworksNotifier extends BaseAsyncNotifier<List<CommonIllust
   /// 初始化数据
   @override
   Future<List<CommonIllust>> fetch() async {
+    restrictFilter = ref.read(followedNewestRestrictAllProvider);
     var result = await ApiNewArtWork(requester).followedNewestArtworks(restrictFilter, cancelToken: cancelToken);
     nextUrl = result.nextUrl;
     return result.illusts;
@@ -55,7 +55,6 @@ class FollowedNewestNovelsNotifier extends BaseAsyncNotifier<List<CommonNovel>> 
 
   @override
   FutureOr<List<CommonNovel>> build() async {
-    restrictFilter = ref.watch(followedNewestRestrictAllProvider);
     handleDispose(ref);
     handleCollectState(ref);
     return fetch();
@@ -64,6 +63,7 @@ class FollowedNewestNovelsNotifier extends BaseAsyncNotifier<List<CommonNovel>> 
   /// 初始化数据
   @override
   Future<List<CommonNovel>> fetch() async {
+    restrictFilter = ref.read(followedNewestRestrictAllProvider);
     var result = await ApiNewArtWork(requester).followedNewestNovels(restrictFilter, cancelToken: cancelToken);
     nextUrl = result.nextUrl;
     return result.novels;
