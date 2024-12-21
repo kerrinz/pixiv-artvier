@@ -13,6 +13,12 @@ class SearchFilterArguments with _$SearchFilterArguments {
     /// 最小收藏数筛选
     int? minCollectCount,
 
+    /// 搜索对象
+    @Default(ApiSearchConstants.tagPerfectMatch) String? searchTarget,
+
+    /// AI
+    @Default(0) int? searchAiType,
+
     /// 最早日期
     String? startDate,
 

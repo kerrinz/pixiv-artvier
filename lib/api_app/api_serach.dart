@@ -41,6 +41,8 @@ class ApiSearch extends ApiBase {
     String sort = ApiSearchConstants.dateDesc,
     // 匹配规则
     String match = ApiSearchConstants.tagPartialMatch,
+    // AI作品: 0显示,1隐藏
+    int? searchAiType,
     // 作品的发布时间范围，格式“yyyy-MM-dd"
     String? startDate,
     String? endDate,
@@ -60,8 +62,9 @@ class ApiSearch extends ApiBase {
         "word": searchWord,
         "sort": sort,
         "search_target": match,
-        if (startDate != null) "start_date": startDate,
-        if (endDate != null) "end_date": endDate,
+        "search_ai_type": searchAiType ?? 0,
+        if (startDate != null && startDate != '') "start_date": startDate,
+        if (endDate != null && endDate != '') "end_date": endDate,
         "filter": "for_ios",
       },
       options: Options(responseType: ResponseType.json),
@@ -75,6 +78,8 @@ class ApiSearch extends ApiBase {
     String searchWord, {
     // 时间排序
     String sort = ApiSearchConstants.dateDesc,
+    // AI作品: 0显示,1隐藏
+    int? searchAiType,
     // 匹配规则
     String match = ApiSearchConstants.tagPartialMatch,
     // 作品的发布时间范围，格式“yyyy-MM-dd"
@@ -96,8 +101,9 @@ class ApiSearch extends ApiBase {
         "sort": sort,
         "word": searchWord,
         "search_target": match,
-        if (startDate != null) "start_date": startDate,
-        if (endDate != null) "end_date": endDate,
+        "search_ai_type": searchAiType ?? 0,
+        if (startDate != null && startDate != '') "start_date": startDate,
+        if (endDate != null && endDate != '') "end_date": endDate,
         "filter": "for_ios",
       },
       options: Options(responseType: ResponseType.json),

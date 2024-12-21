@@ -11,33 +11,32 @@ import 'package:artvier/base/base_provider/novel_list_notifier.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:artvier/model_response/user/common_user_previews.dart';
-import 'package:artvier/pages/search/result/arguments/seach_filter_arguments.dart';
 import 'package:artvier/pages/search/result/provider/search_filters_provider.dart';
 
-class SearchArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIllust>>
-    with IllustListAsyncNotifierMixin {
+class SearchArtworksNotifier extends BaseAsyncNotifier<List<CommonIllust>> with IllustListAsyncNotifierMixin {
   SearchArtworksNotifier({required this.searchWord});
 
   late String searchWord;
 
-  late SearchFilterArguments filterArgs;
-
   @override
   FutureOr<List<CommonIllust>> build() {
-    handleCancel(ref);
+    handleDispose(ref);
     handleCollectState(ref);
-    filterArgs = ref.watch(searchFilterProvider);
     return fetch();
   }
 
   /// 初始化数据
   @override
   Future<List<CommonIllust>> fetch() async {
+    var filterArgs = ref.read(searchFilterProvider);
     var result = await ApiSearch(requester).searchArtworks(
       // 搜索关键词，再叠加收藏数
-      filterArgs.minCollectCount == null ? searchWord : "$searchWord ${filterArgs.minCollectCount.toString()}users入り",
+      (filterArgs.minCollectCount == null || filterArgs.minCollectCount == 0)
+          ? searchWord
+          : "$searchWord ${filterArgs.minCollectCount.toString()}users入り",
       sort: filterArgs.sort,
       match: filterArgs.match,
+      searchAiType: filterArgs.searchAiType,
       startDate: filterArgs.startDate,
       endDate: filterArgs.endDate,
       cancelToken: cancelToken,
@@ -56,7 +55,7 @@ class SearchArtworksNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonIll
   }
 }
 
-class SearchNovelsNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonNovel>> with NovelListAsyncNotifierMixin {
+class SearchNovelsNotifier extends BaseAsyncNotifier<List<CommonNovel>> with NovelListAsyncNotifierMixin {
   SearchNovelsNotifier({required this.searchWord});
 
   late String searchWord;
@@ -70,11 +69,12 @@ class SearchNovelsNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonNovel
   /// 初始化数据
   @override
   Future<List<CommonNovel>> fetch() async {
-    var filterArgs = ref.watch(searchFilterProvider);
+    var filterArgs = ref.read(searchFilterProvider);
     var result = await ApiSearch(requester).searchNovels(
       searchWord,
       sort: filterArgs.sort,
       match: filterArgs.match,
+      searchAiType: filterArgs.searchAiType,
       startDate: filterArgs.startDate,
       endDate: filterArgs.endDate,
       cancelToken: cancelToken,
@@ -93,7 +93,7 @@ class SearchNovelsNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonNovel
   }
 }
 
-class SearchUsersNotifier extends BaseAutoDisposeAsyncNotifier<List<CommonUserPreviews>>
+class SearchUsersNotifier extends BaseAsyncNotifier<List<CommonUserPreviews>>
     with ListAsyncNotifierMixin<List<CommonUserPreviews>> {
   SearchUsersNotifier({required this.searchWord});
   late final String searchWord;

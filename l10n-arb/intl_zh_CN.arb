@@ -866,5 +866,95 @@
     "description": "Verb or noun of <search>",
     "type": "text",
     "placeholders": {}
+  },
+  "sortDateDesc": "最新",
+  "@sortDateDesc": {
+    "description": "Search filter sort",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sortDateAsc": "由旧到新",
+  "@sortDateAsc": {
+    "description": "Search filter sort",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tagPartialMatch": "标签部分一致",
+  "@tagPartialMatch": {
+    "description": "Search filter target",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tagPerfectMatch": "标签完全一致",
+  "@tagPerfectMatch": {
+    "description": "Search filter target",
+    "type": "text",
+    "placeholders": {}
+  },
+  "titleOrDescriptionMatch": "标题 • 作品简介",
+  "@titleOrDescriptionMatch": {
+    "description": "Search filter target",
+    "type": "text",
+    "placeholders": {}
+  },
+  "hideAiResult": "隐藏 AI 作品",
+  "@hideAiResult": {
+    "description": "Search filter ai-generated work",
+    "type": "text",
+    "placeholders": {}
+  },
+  "showAiResult": "显示 AI 作品",
+  "@showAiResult": {
+    "description": "Search filter ai-generated work",
+    "type": "text",
+    "placeholders": {}
+  },
+  "period": "时间段",
+  "@period": {
+    "description": "Search filter period",
+    "type": "text",
+    "placeholders": {}
+  },
+  "allPeriod": "所有时期",
+  "@allPeriod": {
+    "description": "Search filter period",
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchTwentyFourHour": "24小时内",
+  "@searchTwentyFourHour": {
+    "description": "Search filter period",
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchOneWeek": "一周内",
+  "@searchOneWeek": {
+    "description": "Search filter period",
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchOneMonth": "一个月内",
+  "@searchOneMonth": {
+    "description": "Search filter period",
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchHalfYear": "半年内",
+  "@searchHalfYear": {
+    "description": "Search filter period",
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchOneYear": "一年内",
+  "@searchOneYear": {
+    "description": "Search filter period",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectPeriod": "指定日期",
+  "@selectPeriod": {
+    "description": "Search filter period",
+    "type": "text",
+    "placeholders": {}
   }
 }
