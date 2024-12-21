@@ -19,6 +19,12 @@ mixin _$SearchFilterArguments {
   /// 最小收藏数筛选
   int? get minCollectCount => throw _privateConstructorUsedError;
 
+  /// 搜索对象
+  String? get searchTarget => throw _privateConstructorUsedError;
+
+  /// AI
+  int? get searchAiType => throw _privateConstructorUsedError;
+
   /// 最早日期
   String? get startDate => throw _privateConstructorUsedError;
 
@@ -44,6 +50,8 @@ abstract class $SearchFilterArgumentsCopyWith<$Res> {
   @useResult
   $Res call(
       {int? minCollectCount,
+      String? searchTarget,
+      int? searchAiType,
       String? startDate,
       String? endDate,
       String sort,
@@ -65,6 +73,8 @@ class _$SearchFilterArgumentsCopyWithImpl<$Res,
   @override
   $Res call({
     Object? minCollectCount = freezed,
+    Object? searchTarget = freezed,
+    Object? searchAiType = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
     Object? sort = null,
@@ -74,6 +84,14 @@ class _$SearchFilterArgumentsCopyWithImpl<$Res,
       minCollectCount: freezed == minCollectCount
           ? _value.minCollectCount
           : minCollectCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      searchTarget: freezed == searchTarget
+          ? _value.searchTarget
+          : searchTarget // ignore: cast_nullable_to_non_nullable
+              as String?,
+      searchAiType: freezed == searchAiType
+          ? _value.searchAiType
+          : searchAiType // ignore: cast_nullable_to_non_nullable
               as int?,
       startDate: freezed == startDate
           ? _value.startDate
@@ -106,6 +124,8 @@ abstract class _$$SearchFilterArgumentsImplCopyWith<$Res>
   @useResult
   $Res call(
       {int? minCollectCount,
+      String? searchTarget,
+      int? searchAiType,
       String? startDate,
       String? endDate,
       String sort,
@@ -125,6 +145,8 @@ class __$$SearchFilterArgumentsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? minCollectCount = freezed,
+    Object? searchTarget = freezed,
+    Object? searchAiType = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
     Object? sort = null,
@@ -134,6 +156,14 @@ class __$$SearchFilterArgumentsImplCopyWithImpl<$Res>
       minCollectCount: freezed == minCollectCount
           ? _value.minCollectCount
           : minCollectCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      searchTarget: freezed == searchTarget
+          ? _value.searchTarget
+          : searchTarget // ignore: cast_nullable_to_non_nullable
+              as String?,
+      searchAiType: freezed == searchAiType
+          ? _value.searchAiType
+          : searchAiType // ignore: cast_nullable_to_non_nullable
               as int?,
       startDate: freezed == startDate
           ? _value.startDate
@@ -160,6 +190,8 @@ class __$$SearchFilterArgumentsImplCopyWithImpl<$Res>
 class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
   const _$SearchFilterArgumentsImpl(
       {this.minCollectCount,
+      this.searchTarget = ApiSearchConstants.tagPerfectMatch,
+      this.searchAiType = 0,
       this.startDate,
       this.endDate,
       this.sort = ApiSearchConstants.dateDesc,
@@ -168,6 +200,16 @@ class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
   /// 最小收藏数筛选
   @override
   final int? minCollectCount;
+
+  /// 搜索对象
+  @override
+  @JsonKey()
+  final String? searchTarget;
+
+  /// AI
+  @override
+  @JsonKey()
+  final int? searchAiType;
 
   /// 最早日期
   @override
@@ -189,7 +231,7 @@ class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
 
   @override
   String toString() {
-    return 'SearchFilterArguments(minCollectCount: $minCollectCount, startDate: $startDate, endDate: $endDate, sort: $sort, match: $match)';
+    return 'SearchFilterArguments(minCollectCount: $minCollectCount, searchTarget: $searchTarget, searchAiType: $searchAiType, startDate: $startDate, endDate: $endDate, sort: $sort, match: $match)';
   }
 
   @override
@@ -199,6 +241,10 @@ class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
             other is _$SearchFilterArgumentsImpl &&
             (identical(other.minCollectCount, minCollectCount) ||
                 other.minCollectCount == minCollectCount) &&
+            (identical(other.searchTarget, searchTarget) ||
+                other.searchTarget == searchTarget) &&
+            (identical(other.searchAiType, searchAiType) ||
+                other.searchAiType == searchAiType) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
@@ -207,8 +253,8 @@ class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, minCollectCount, startDate, endDate, sort, match);
+  int get hashCode => Object.hash(runtimeType, minCollectCount, searchTarget,
+      searchAiType, startDate, endDate, sort, match);
 
   @JsonKey(ignore: true)
   @override
@@ -221,6 +267,8 @@ class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
 abstract class _SearchFilterArguments implements SearchFilterArguments {
   const factory _SearchFilterArguments(
       {final int? minCollectCount,
+      final String? searchTarget,
+      final int? searchAiType,
       final String? startDate,
       final String? endDate,
       final String sort,
@@ -230,6 +278,14 @@ abstract class _SearchFilterArguments implements SearchFilterArguments {
 
   /// 最小收藏数筛选
   int? get minCollectCount;
+  @override
+
+  /// 搜索对象
+  String? get searchTarget;
+  @override
+
+  /// AI
+  int? get searchAiType;
   @override
 
   /// 最早日期

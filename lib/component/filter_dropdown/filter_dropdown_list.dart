@@ -49,6 +49,7 @@ class DropDownMenuModel {
       return "";
     }
   }
+
   String get selectValue {
     if (list.isEmpty) return "";
     try {
@@ -174,6 +175,7 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
   int _curFilterIndex = -1;
   OverlayEntry? _overlayEntry;
   final GlobalKey _buttonRowKey = GlobalKey();
+  Map<int, BuildContext> itemContexts = {};
   late final List<DropDownMenuModel> _filterList;
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -228,33 +230,38 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
         child: Row(
           key: _buttonRowKey,
           children: List.generate(_filterList.length, (index) {
-            DropDownMenuModel item = _filterList[index];
-            bool isSelect = item.selectValue.isNotEmpty;
-            final hightLight = item.selectValue != item.defaultValue && isSelect;
-            return CompositedTransformTarget(
-              link: item.layerLink,
-              child: GestureDetector(
-                onTap: () => handleTabClick(index),
-                child: Padding(
-                  padding: widget.padding ?? EdgeInsets.zero,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        isSelect ? item.selectText : item.name ?? item.defaultValue ?? "",
-                        style:
-                            TextStyle(fontSize: 14, color: hightLight ? Theme.of(context).colorScheme.primary : null),
-                      ),
-                      Icon(
-                        _curFilterIndex == index ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
-                        size: 20,
-                        color: hightLight ? Theme.of(context).colorScheme.primary : null,
-                      ),
-                    ],
+            return Builder(builder: ((context) {
+              itemContexts[index] = context;
+              DropDownMenuModel item = _filterList[index];
+              bool isSelect = item.selectValue.isNotEmpty;
+              final hightLight = item.selectValue != item.defaultValue && isSelect;
+              return CompositedTransformTarget(
+                link: item.layerLink,
+                child: GestureDetector(
+                  onTap: () => handleTabClick(index),
+                  child: Padding(
+                    padding: widget.padding ?? EdgeInsets.zero,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          isSelect ? item.selectText : item.name ?? item.defaultValue ?? "",
+                          style:
+                              TextStyle(fontSize: 14, color: hightLight ? Theme.of(context).colorScheme.primary : null),
+                        ),
+                        Icon(
+                          _curFilterIndex == index
+                              ? Icons.keyboard_arrow_up_rounded
+                              : Icons.keyboard_arrow_down_rounded,
+                          size: 20,
+                          color: hightLight ? Theme.of(context).colorScheme.primary : null,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
+              );
+            }));
           }),
         ));
   }
@@ -317,18 +324,18 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
       _overlayEntry = null;
     }
 
-    RenderBox? renderBox;
-    if (_buttonRowKey.currentContext != null) {
-      renderBox = _buttonRowKey.currentContext?.findRenderObject() as RenderBox;
+    RenderBox? itemRenderBox;
+    if (itemContexts[index] != null) {
+      itemRenderBox = (itemContexts[index] as BuildContext).findRenderObject() as RenderBox;
     }
 
-    final Offset topLeft = renderBox?.localToGlobal(Offset.zero) ?? Offset.zero;
-    double left = -(renderBox!.size.width / _filterList.length) * index - topLeft.dx;
+    final Offset topLeft = itemRenderBox?.localToGlobal(Offset.zero) ?? Offset.zero;
+    double left = -topLeft.dx;
     _overlayEntry = OverlayEntry(
       builder: (context) {
         return CompositedTransformFollower(
           link: _filterList[index].layerLink,
-          offset: Offset(left, renderBox!.size.height),
+          offset: Offset(left, itemRenderBox!.size.height),
           child: Stack(
             children: [
               AnimatedBuilder(

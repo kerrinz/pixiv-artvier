@@ -230,6 +230,24 @@ class LocalizationIntl {
 
   // 搜索
   String get search => Intl.message("Search", name: 'search', desc: 'Verb or noun of <search>');
+  String get sortDateDesc => Intl.message("New", name: 'sortDateDesc', desc: 'Search filter sort');
+  String get sortDateAsc => Intl.message("Old", name: 'sortDateAsc', desc: 'Search filter sort');
+  String get tagPartialMatch =>
+      Intl.message("Tag Partial Match", name: 'tagPartialMatch', desc: 'Search filter target');
+  String get tagPerfectMatch =>
+      Intl.message("Tag Perfect Match", name: 'tagPerfectMatch', desc: 'Search filter target');
+  String get titleOrDescriptionMatch =>
+      Intl.message("Title, Description", name: 'titleOrDescriptionMatch', desc: 'Search filter target');
+  String get hideAiResult => Intl.message("Hide AI", name: 'hideAiResult', desc: 'Search filter ai-generated work');
+  String get showAiResult => Intl.message("Show AI", name: 'showAiResult', desc: 'Search filter ai-generated work');
+  String get period => Intl.message("period", name: 'period', desc: 'Search filter period');
+  String get allPeriod => Intl.message("All Period", name: 'allPeriod', desc: 'Search filter period');
+  String get searchTwentyFourHour => Intl.message("24 hours", name: 'searchTwentyFourHour', desc: 'Search filter period');
+  String get searchOneWeek => Intl.message("One week", name: 'searchOneWeek', desc: 'Search filter period');
+  String get searchOneMonth => Intl.message("One month", name: 'searchOneMonth', desc: 'Search filter period');
+  String get searchHalfYear => Intl.message("Half a year", name: 'searchHalfYear', desc: 'Search filter period');
+  String get searchOneYear => Intl.message("One year", name: 'searchOneYear', desc: 'Search filter period');
+  String get selectPeriod => Intl.message("Select period", name: 'selectPeriod', desc: 'Search filter period');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {
