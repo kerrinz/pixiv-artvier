@@ -27,6 +27,7 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
     WorksType.illust,
     WorksType.novel,
   ];
+  final layerlink = LayerLink();
 
   final dropDownMenuController = DropDownMenuController();
 
@@ -69,72 +70,75 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(color: colorScheme.background),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Consumer(builder: (_, ref, __) {
-                          final worksType = ref.watch(followedNewestWorksTypeProvider);
-                          int index = filters.indexOf(worksType);
-                          return StatelessTextFlowFilter(
-                            initialIndexes: {index >= 0 ? index : 0},
-                            selectedBackground: Theme.of(context).colorScheme.secondary,
-                            unselectedBackground: Theme.of(context).colorScheme.surface,
-                            selectedTextStyle:
-                                TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSecondary),
-                            unselectedTextStyle:
-                                TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary),
-                            textPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                            textBorderRadius: const BorderRadius.all(Radius.circular(20)),
-                            spacing: 8,
-                            onTap: (int tapIndex) {
-                              final workTypeNotifier = ref.read(followedNewestWorksTypeProvider.notifier);
-                              final artworkNotifilter = ref.read(followedNewestArtworksProvider.notifier);
-                              final novelNotifilter = ref.read(followedNewestNovelsProvider.notifier);
-                              if (tapIndex == 0 &&
-                                  ![WorksType.illust, WorksType.manga, WorksType.mangaSeries]
-                                      .contains(workTypeNotifier.state)) {
-                                workTypeNotifier.update((state) => WorksType.illust);
-                              } else if (tapIndex == 1 && WorksType.novel != workTypeNotifier.state) {
-                                workTypeNotifier.update((state) => WorksType.novel);
-                              }
-                              // Check filters and refresh
-                              final restrict = ref.read(followedNewestRestrictAllProvider.notifier).state;
-                              final illustRestrict = artworkNotifilter.restrictFilter;
-                              if (illustRestrict != restrict) {
-                                artworkNotifilter.reload();
-                              }
-                              final novelRestrict = novelNotifilter.restrictFilter;
-                              if (novelRestrict != restrict) {
-                                novelNotifilter.reload();
-                              }
-                            },
-                            texts: ["${i10n.illust} • ${i10n.manga}", i10n.novels],
-                          );
-                        }),
+                child: CompositedTransformTarget(
+                  link: layerlink,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Consumer(builder: (_, ref, __) {
+                            final worksType = ref.watch(followedNewestWorksTypeProvider);
+                            int index = filters.indexOf(worksType);
+                            return StatelessTextFlowFilter(
+                              initialIndexes: {index >= 0 ? index : 0},
+                              selectedBackground: Theme.of(context).colorScheme.secondary,
+                              unselectedBackground: Theme.of(context).colorScheme.surface,
+                              selectedTextStyle:
+                                  TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSecondary),
+                              unselectedTextStyle:
+                                  TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary),
+                              textPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              textBorderRadius: const BorderRadius.all(Radius.circular(20)),
+                              spacing: 8,
+                              onTap: (int tapIndex) {
+                                final workTypeNotifier = ref.read(followedNewestWorksTypeProvider.notifier);
+                                final artworkNotifilter = ref.read(followedNewestArtworksProvider.notifier);
+                                final novelNotifilter = ref.read(followedNewestNovelsProvider.notifier);
+                                if (tapIndex == 0 &&
+                                    ![WorksType.illust, WorksType.manga, WorksType.mangaSeries]
+                                        .contains(workTypeNotifier.state)) {
+                                  workTypeNotifier.update((state) => WorksType.illust);
+                                } else if (tapIndex == 1 && WorksType.novel != workTypeNotifier.state) {
+                                  workTypeNotifier.update((state) => WorksType.novel);
+                                }
+                                // Check filters and refresh
+                                final restrict = ref.read(followedNewestRestrictAllProvider.notifier).state;
+                                final illustRestrict = artworkNotifilter.restrictFilter;
+                                if (illustRestrict != restrict) {
+                                  artworkNotifilter.reload();
+                                }
+                                final novelRestrict = novelNotifilter.restrictFilter;
+                                if (novelRestrict != restrict) {
+                                  novelNotifilter.reload();
+                                }
+                              },
+                              texts: ["${i10n.illust} • ${i10n.manga}", i10n.novels],
+                            );
+                          }),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: DropDownMenu(
-                        controller: dropDownMenuController,
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                        filterList: [
-                          DropDownMenuModel(
-                            name: i10n.all,
-                            defaultValue: RestrictAll.all.name,
-                            list: [
-                              CategoryModel(value: RestrictAll.all.name, name: i10n.all, check: false),
-                              CategoryModel(value: RestrictAll.public.name, name: i10n.public, check: false),
-                              CategoryModel(value: RestrictAll.private.name, name: i10n.private, check: false),
-                            ],
-                            layerLink: LayerLink(),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: DropDownMenu(
+                          controller: dropDownMenuController,
+                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                          layerLink: layerlink,
+                          filterList: [
+                            DropDownMenuModel(
+                              name: i10n.all,
+                              defaultValue: RestrictAll.all.name,
+                              list: [
+                                CategoryModel(value: RestrictAll.all.name, name: i10n.all, check: false),
+                                CategoryModel(value: RestrictAll.public.name, name: i10n.public, check: false),
+                                CategoryModel(value: RestrictAll.private.name, name: i10n.private, check: false),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               maxHeight: 48,

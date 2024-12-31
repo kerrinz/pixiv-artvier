@@ -153,6 +153,7 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
 
   @override
   Widget build(BuildContext context) {
+    final layerlink = LayerLink();
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -207,6 +208,7 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
                   SearchType currentSearchType = ref.watch(searchTypeProvider);
                   // 当前搜索类型相对于全部搜索类型的索引
                   int index = _searchTypes.indexOf(currentSearchType);
+                  ref.watch(searchFilterProvider);
 
                   // 搜索类型的切换组件
                   return StatelessTextFlowFilter(
@@ -240,91 +242,89 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
             delegate: SliverWidgetPersistentHeaderDelegate(
               maxHeight: 50,
               minHeight: 50,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: CompositedTransformTarget(
+                link: layerlink,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: DropDownMenu(
-                    controller: _dropDownMenuController,
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                    filterList: [
-                      DropDownMenuModel(
-                        name: 'sort',
-                        defaultValue: ApiSearchConstants.dateDesc,
-                        list: [
-                          CategoryModel(value: ApiSearchConstants.dateDesc, name: i10n.sortDateDesc, check: false),
-                          CategoryModel(value: ApiSearchConstants.dateAsc, name: i10n.sortDateAsc, check: false),
-                        ],
-                        layerLink: LayerLink(),
-                      ),
-                      DropDownMenuModel(
-                        name: 'match',
-                        defaultValue: ApiSearchConstants.tagPartialMatch,
-                        list: [
-                          CategoryModel(
-                              value: ApiSearchConstants.tagPartialMatch, name: i10n.tagPartialMatch, check: false),
-                          CategoryModel(
-                              value: ApiSearchConstants.tagPerfectMatch, name: i10n.tagPerfectMatch, check: false),
-                          CategoryModel(
-                              value: ApiSearchConstants.titleAndDescription,
-                              name: i10n.titleOrDescriptionMatch,
-                              check: false),
-                        ],
-                        layerLink: LayerLink(),
-                      ),
-                      DropDownMenuModel(
-                        name: 'AI',
-                        defaultValue: '0',
-                        list: [
-                          CategoryModel(value: '0', name: i10n.showAiResult, check: false),
-                          CategoryModel(value: '1', name: i10n.hideAiResult, check: false),
-                        ],
-                        layerLink: LayerLink(),
-                      ),
-                      // Period 时间段
-                      DropDownMenuModel(
-                        name: i10n.period,
-                        // defaultValue: '0',
-                        list: [
-                          CategoryModel(value: 'all', name: i10n.allPeriod, check: false),
-                          CategoryModel(value: '24h', name: i10n.searchTwentyFourHour, check: false),
-                          CategoryModel(value: '1week', name: i10n.searchOneWeek, check: false),
-                          CategoryModel(value: '1month', name: i10n.searchOneMonth, check: false),
-                          CategoryModel(value: 'halfYear', name: i10n.searchHalfYear, check: false),
-                          CategoryModel(value: '1year', name: i10n.searchOneYear, check: false),
-                          CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
-                        ],
-                        layerLink: LayerLink(),
-                      ),
-                      DropDownMenuModel(
-                        name: i10n.period,
-                        // defaultValue: '0',
-                        list: [
-                          CategoryModel(value: 'all', name: i10n.allPeriod, check: false),
-                          CategoryModel(value: '24h', name: i10n.searchTwentyFourHour, check: false),
-                          CategoryModel(value: '1week', name: i10n.searchOneWeek, check: false),
-                          CategoryModel(value: '1month', name: i10n.searchOneMonth, check: false),
-                          CategoryModel(value: 'halfYear', name: i10n.searchHalfYear, check: false),
-                          CategoryModel(value: '1year', name: i10n.searchOneYear, check: false),
-                          CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
-                        ],
-                        layerLink: LayerLink(),
-                      ),
-                      DropDownMenuModel(
-                        name: i10n.period,
-                        // defaultValue: '0',
-                        list: [
-                          CategoryModel(value: 'all', name: i10n.allPeriod, check: false),
-                          CategoryModel(value: '24h', name: i10n.searchTwentyFourHour, check: false),
-                          CategoryModel(value: '1week', name: i10n.searchOneWeek, check: false),
-                          CategoryModel(value: '1month', name: i10n.searchOneMonth, check: false),
-                          CategoryModel(value: 'halfYear', name: i10n.searchHalfYear, check: false),
-                          CategoryModel(value: '1year', name: i10n.searchOneYear, check: false),
-                          // CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
-                        ],
-                        layerLink: LayerLink(),
-                      ),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: DropDownMenu(
+                      controller: _dropDownMenuController,
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                      layerLink: layerlink,
+                      filterList: [
+                        DropDownMenuModel(
+                          name: 'sort',
+                          defaultValue: ApiSearchConstants.dateDesc,
+                          list: [
+                            CategoryModel(value: ApiSearchConstants.dateDesc, name: i10n.sortDateDesc, check: false),
+                            CategoryModel(value: ApiSearchConstants.dateAsc, name: i10n.sortDateAsc, check: false),
+                          ],
+                        ),
+                        DropDownMenuModel(
+                          name: 'match',
+                          defaultValue: ApiSearchConstants.tagPartialMatch,
+                          list: [
+                            CategoryModel(
+                                value: ApiSearchConstants.tagPartialMatch, name: i10n.tagPartialMatch, check: false),
+                            CategoryModel(
+                                value: ApiSearchConstants.tagPerfectMatch, name: i10n.tagPerfectMatch, check: false),
+                            CategoryModel(
+                                value: ApiSearchConstants.titleAndDescription,
+                                name: i10n.titleOrDescriptionMatch,
+                                check: false),
+                          ],
+                        ),
+                        DropDownMenuModel(
+                          name: 'AI',
+                          defaultValue: '0',
+                          list: [
+                            CategoryModel(value: '0', name: i10n.showAiResult, check: false),
+                            CategoryModel(value: '1', name: i10n.hideAiResult, check: false),
+                          ],
+                        ),
+                        // Period 时间段
+                        DropDownMenuModel(
+                          name: i10n.period,
+                          // defaultValue: '0',
+                          list: [
+                            CategoryModel(value: 'all', name: i10n.allPeriod, check: false),
+                            CategoryModel(value: '24h', name: i10n.searchTwentyFourHour, check: false),
+                            CategoryModel(value: '1week', name: i10n.searchOneWeek, check: false),
+                            CategoryModel(value: '1month', name: i10n.searchOneMonth, check: false),
+                            CategoryModel(value: 'halfYear', name: i10n.searchHalfYear, check: false),
+                            CategoryModel(value: '1year', name: i10n.searchOneYear, check: false),
+                            CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
+                          ],
+                        ),
+                        DropDownMenuModel(
+                          name: i10n.period,
+                          // defaultValue: '0',
+                          list: [
+                            CategoryModel(value: 'all', name: i10n.allPeriod, check: false),
+                            CategoryModel(value: '24h', name: i10n.searchTwentyFourHour, check: false),
+                            CategoryModel(value: '1week', name: i10n.searchOneWeek, check: false),
+                            CategoryModel(value: '1month', name: i10n.searchOneMonth, check: false),
+                            CategoryModel(value: 'halfYear', name: i10n.searchHalfYear, check: false),
+                            CategoryModel(value: '1year', name: i10n.searchOneYear, check: false),
+                            CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
+                          ],
+                        ),
+                        DropDownMenuModel(
+                          name: i10n.period,
+                          // defaultValue: '0',
+                          list: [
+                            CategoryModel(value: 'all', name: i10n.allPeriod, check: false),
+                            CategoryModel(value: '24h', name: i10n.searchTwentyFourHour, check: false),
+                            CategoryModel(value: '1week', name: i10n.searchOneWeek, check: false),
+                            CategoryModel(value: '1month', name: i10n.searchOneMonth, check: false),
+                            CategoryModel(value: 'halfYear', name: i10n.searchHalfYear, check: false),
+                            CategoryModel(value: '1year', name: i10n.searchOneYear, check: false),
+                            // CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

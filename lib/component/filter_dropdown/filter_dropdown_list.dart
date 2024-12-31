@@ -35,7 +35,6 @@ class CategoryModel {
 }
 
 class DropDownMenuModel {
-  LayerLink layerLink;
   String? name;
   String? id;
   String? defaultValue;
@@ -61,7 +60,6 @@ class DropDownMenuModel {
 
   DropDownMenuModel({
     this.name,
-    required this.layerLink,
     this.id,
     this.defaultValue,
     required this.list,
@@ -153,10 +151,12 @@ class DropDownMenuController {
   bool get isListening => _listenerCounter > 0;
 }
 
+///
 class DropDownMenu extends StatefulWidget {
   const DropDownMenu({
     super.key,
     required this.filterList,
+    this.layerLink,
     this.padding,
     this.controller,
   });
@@ -167,6 +167,8 @@ class DropDownMenu extends StatefulWidget {
 
   final DropDownMenuController? controller;
 
+  final LayerLink? layerLink;
+
   @override
   State<DropDownMenu> createState() => _DropDownMenuState();
 }
@@ -174,12 +176,12 @@ class DropDownMenu extends StatefulWidget {
 class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderStateMixin {
   int _curFilterIndex = -1;
   OverlayEntry? _overlayEntry;
-  final GlobalKey _buttonRowKey = GlobalKey();
   Map<int, BuildContext> itemContexts = {};
   late final List<DropDownMenuModel> _filterList;
   late AnimationController _animationController;
   late Animation<double> _animation;
   Color _maskColor = Colors.black45;
+  late final LayerLink layerLink;
 
   DropDownMenuController? get _dropDownMenuController => widget.controller;
 
@@ -187,6 +189,7 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
   void initState() {
     super.initState();
     init();
+    layerLink = widget.layerLink ?? LayerLink();
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 300), // 设置动画持续时间
       vsync: this,
@@ -223,47 +226,52 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return PopScope(
-        canPop: false,
-        onPopInvoked: (_) {
-          hideOverlay();
-        },
-        child: Row(
-          key: _buttonRowKey,
+      canPop: false,
+      onPopInvoked: (_) {
+        hideOverlay();
+      },
+      child: Builder(builder: ((context) {
+        final child = Row(
           children: List.generate(_filterList.length, (index) {
             return Builder(builder: ((context) {
               itemContexts[index] = context;
               DropDownMenuModel item = _filterList[index];
               bool isSelect = item.selectValue.isNotEmpty;
               final hightLight = item.selectValue != item.defaultValue && isSelect;
-              return CompositedTransformTarget(
-                link: item.layerLink,
-                child: GestureDetector(
-                  onTap: () => handleTabClick(index),
-                  child: Padding(
-                    padding: widget.padding ?? EdgeInsets.zero,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          isSelect ? item.selectText : item.name ?? item.defaultValue ?? "",
-                          style:
-                              TextStyle(fontSize: 14, color: hightLight ? Theme.of(context).colorScheme.primary : null),
-                        ),
-                        Icon(
-                          _curFilterIndex == index
-                              ? Icons.keyboard_arrow_up_rounded
-                              : Icons.keyboard_arrow_down_rounded,
-                          size: 20,
-                          color: hightLight ? Theme.of(context).colorScheme.primary : null,
-                        ),
-                      ],
-                    ),
+              return GestureDetector(
+                onTap: () => handleTabClick(index),
+                child: Padding(
+                  padding: widget.padding ?? EdgeInsets.zero,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        isSelect ? item.selectText : item.name ?? item.defaultValue ?? "",
+                        style:
+                            TextStyle(fontSize: 14, color: hightLight ? Theme.of(context).colorScheme.primary : null),
+                      ),
+                      Icon(
+                        _curFilterIndex == index ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
+                        size: 20,
+                        color: hightLight ? Theme.of(context).colorScheme.primary : null,
+                      ),
+                    ],
                   ),
                 ),
               );
             }));
           }),
-        ));
+        );
+        if (widget.layerLink == null) {
+          return child;
+        } else {
+          return CompositedTransformTarget(
+            link: layerLink,
+            child: child,
+          );
+        }
+      })),
+    );
   }
 
   Widget _menuItem({required int index, required int rootIndex, required CategoryModel cate}) {
@@ -300,7 +308,7 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
     setState(() {
       _curFilterIndex = index;
       _animationController.forward();
-      _maskColor = Colors.black26;
+      _maskColor = Colors.black45;
     });
     changeOverlay(index: index, reset: true);
   }
@@ -324,18 +332,24 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
       _overlayEntry = null;
     }
 
-    RenderBox? itemRenderBox;
-    if (itemContexts[index] != null) {
-      itemRenderBox = (itemContexts[index] as BuildContext).findRenderObject() as RenderBox;
-    }
+    RenderBox? renderBox = (context).findRenderObject() as RenderBox;
+    // final Offset topLeft = renderBox.localToGlobal(Offset.zero);
+    double left = 0;
+    _overlayEntry = buildOverlay(
+      index,
+      link: widget.layerLink,
+      offset: Offset(-left, renderBox.size.height),
+    );
 
-    final Offset topLeft = itemRenderBox?.localToGlobal(Offset.zero) ?? Offset.zero;
-    double left = -topLeft.dx;
-    _overlayEntry = OverlayEntry(
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  OverlayEntry buildOverlay(index, {required link, required offset}) {
+    return OverlayEntry(
       builder: (context) {
         return CompositedTransformFollower(
-          link: _filterList[index].layerLink,
-          offset: Offset(left, itemRenderBox!.size.height),
+          link: link,
+          offset: offset,
           child: Stack(
             children: [
               AnimatedBuilder(
@@ -393,8 +407,6 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
         );
       },
     );
-
-    Overlay.of(context).insert(_overlayEntry!);
   }
 
   void hideOverlay() {
