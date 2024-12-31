@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/config/enums.dart';
@@ -47,5 +48,48 @@ mixin SearchResultPageLogic on State<SearchResultPage> {
   /// 点击切换搜索类型
   void handleTapSearchType(SearchType searchType) {
     ref.read(searchTypeProvider.notifier).update((state) => searchType);
+  }
+
+  setFilterDate(String value) {
+    switch (value) {
+      case '24h':
+        final startDate = formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]);
+        ref
+            .read(searchFilterProvider.notifier)
+            .update((state) => state.copyWith(startDate: startDate, endDate: startDate));
+        break;
+      case '1week':
+        final startDate = formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]);
+        final endDate = formatDate(DateTime.now().subtract(const Duration(days: 7)), [yyyy, '-', mm, '-', dd]);
+        ref
+            .read(searchFilterProvider.notifier)
+            .update((state) => state.copyWith(startDate: startDate, endDate: endDate));
+        break;
+      case '1month':
+        final startDate = formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]);
+        final endDate = formatDate(DateTime.now().subtract(const Duration(days: 30)), [yyyy, '-', mm, '-', dd]);
+        ref
+            .read(searchFilterProvider.notifier)
+            .update((state) => state.copyWith(startDate: startDate, endDate: endDate));
+        break;
+      case 'halfYear':
+        final startDate = formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]);
+        final endDate = formatDate(DateTime.now().subtract(const Duration(days: 183)), [yyyy, '-', mm, '-', dd]);
+        ref
+            .read(searchFilterProvider.notifier)
+            .update((state) => state.copyWith(startDate: startDate, endDate: endDate));
+        break;
+      case '1year':
+        final startDate = formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]);
+        final endDate = formatDate(DateTime.now().subtract(const Duration(days: 365)), [yyyy, '-', mm, '-', dd]);
+        ref
+            .read(searchFilterProvider.notifier)
+            .update((state) => state.copyWith(startDate: startDate, endDate: endDate));
+        break;
+      // 'all'
+      default:
+        ref.read(searchFilterProvider.notifier).update((state) => state.copyWith(startDate: '', endDate: ''));
+        break;
+    }
   }
 }
