@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:artvier/api_app/api_serach.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/filter_dropdown/filter_dropdown_list.dart';
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
@@ -42,49 +41,6 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
   LocalizationIntl get i10n => LocalizationIntl.of(context);
 
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
-
-  setFilterDate(String value) {
-    switch (value) {
-      case '24h':
-        final startDate = formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]);
-        ref
-            .read(searchFilterProvider.notifier)
-            .update((state) => state.copyWith(startDate: startDate, endDate: startDate));
-        break;
-      case '1week':
-        final startDate = formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]);
-        final endDate = formatDate(DateTime.now().subtract(const Duration(days: 7)), [yyyy, '-', mm, '-', dd]);
-        ref
-            .read(searchFilterProvider.notifier)
-            .update((state) => state.copyWith(startDate: startDate, endDate: endDate));
-        break;
-      case '1month':
-        final startDate = formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]);
-        final endDate = formatDate(DateTime.now().subtract(const Duration(days: 30)), [yyyy, '-', mm, '-', dd]);
-        ref
-            .read(searchFilterProvider.notifier)
-            .update((state) => state.copyWith(startDate: startDate, endDate: endDate));
-        break;
-      case 'halfYear':
-        final startDate = formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]);
-        final endDate = formatDate(DateTime.now().subtract(const Duration(days: 183)), [yyyy, '-', mm, '-', dd]);
-        ref
-            .read(searchFilterProvider.notifier)
-            .update((state) => state.copyWith(startDate: startDate, endDate: endDate));
-        break;
-      case '1year':
-        final startDate = formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]);
-        final endDate = formatDate(DateTime.now().subtract(const Duration(days: 365)), [yyyy, '-', mm, '-', dd]);
-        ref
-            .read(searchFilterProvider.notifier)
-            .update((state) => state.copyWith(startDate: startDate, endDate: endDate));
-        break;
-      // 'all'
-      default:
-        ref.read(searchFilterProvider.notifier).update((state) => state.copyWith(startDate: '', endDate: ''));
-        break;
-    }
-  }
 
   @override
   void initState() {
@@ -236,74 +192,81 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
               ),
             ),
           ),
-          SliverPersistentHeader(
-            pinned: true,
-            floating: true,
-            delegate: SliverWidgetPersistentHeaderDelegate(
-              maxHeight: 50,
-              minHeight: 50,
-              child: CompositedTransformTarget(
-                link: layerlink,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: DropDownMenu(
-                      controller: _dropDownMenuController,
-                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                      layerLink: layerlink,
-                      filterList: [
-                        DropDownMenuModel(
-                          name: 'sort',
-                          defaultValue: ApiSearchConstants.dateDesc,
-                          list: [
-                            CategoryModel(value: ApiSearchConstants.dateDesc, name: i10n.sortDateDesc, check: false),
-                            CategoryModel(value: ApiSearchConstants.dateAsc, name: i10n.sortDateAsc, check: false),
-                          ],
-                        ),
-                        DropDownMenuModel(
-                          name: 'match',
-                          defaultValue: ApiSearchConstants.tagPartialMatch,
-                          list: [
-                            CategoryModel(
-                                value: ApiSearchConstants.tagPartialMatch, name: i10n.tagPartialMatch, check: false),
-                            CategoryModel(
-                                value: ApiSearchConstants.tagPerfectMatch, name: i10n.tagPerfectMatch, check: false),
-                            CategoryModel(
-                                value: ApiSearchConstants.titleAndDescription,
-                                name: i10n.titleOrDescriptionMatch,
-                                check: false),
-                          ],
-                        ),
-                        DropDownMenuModel(
-                          name: 'AI',
-                          defaultValue: '0',
-                          list: [
-                            CategoryModel(value: '0', name: i10n.showAiResult, check: false),
-                            CategoryModel(value: '1', name: i10n.hideAiResult, check: false),
-                          ],
-                        ),
-                        // Period 时间段
-                        DropDownMenuModel(
-                          name: i10n.period,
-                          // defaultValue: '0',
-                          list: [
-                            CategoryModel(value: 'all', name: i10n.allPeriod, check: false),
-                            CategoryModel(value: '24h', name: i10n.searchTwentyFourHour, check: false),
-                            CategoryModel(value: '1week', name: i10n.searchOneWeek, check: false),
-                            CategoryModel(value: '1month', name: i10n.searchOneMonth, check: false),
-                            CategoryModel(value: 'halfYear', name: i10n.searchHalfYear, check: false),
-                            CategoryModel(value: '1year', name: i10n.searchOneYear, check: false),
-                            CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
-                          ],
-                        ),
-                      ],
+
+          Consumer(builder: ((context, ref, child) {
+            final searchType = ref.watch(searchTypeProvider);
+            if (searchType == SearchType.user) {
+              return const SliverToBoxAdapter();
+            }
+            return SliverPersistentHeader(
+              pinned: true,
+              floating: true,
+              delegate: SliverWidgetPersistentHeaderDelegate(
+                maxHeight: 50,
+                minHeight: 50,
+                child: CompositedTransformTarget(
+                  link: layerlink,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: DropDownMenu(
+                        controller: _dropDownMenuController,
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                        layerLink: layerlink,
+                        filterList: [
+                          DropDownMenuModel(
+                            name: 'sort',
+                            defaultValue: ApiSearchConstants.dateDesc,
+                            list: [
+                              CategoryModel(value: ApiSearchConstants.dateDesc, name: i10n.sortDateDesc, check: false),
+                              CategoryModel(value: ApiSearchConstants.dateAsc, name: i10n.sortDateAsc, check: false),
+                            ],
+                          ),
+                          DropDownMenuModel(
+                            name: 'match',
+                            defaultValue: ApiSearchConstants.tagPartialMatch,
+                            list: [
+                              CategoryModel(
+                                  value: ApiSearchConstants.tagPartialMatch, name: i10n.tagPartialMatch, check: false),
+                              CategoryModel(
+                                  value: ApiSearchConstants.tagPerfectMatch, name: i10n.tagPerfectMatch, check: false),
+                              CategoryModel(
+                                  value: ApiSearchConstants.titleAndDescription,
+                                  name: i10n.titleOrDescriptionMatch,
+                                  check: false),
+                            ],
+                          ),
+                          DropDownMenuModel(
+                            name: 'AI',
+                            defaultValue: '0',
+                            list: [
+                              CategoryModel(value: '0', name: i10n.showAiResult, check: false),
+                              CategoryModel(value: '1', name: i10n.hideAiResult, check: false),
+                            ],
+                          ),
+                          // Period 时间段
+                          DropDownMenuModel(
+                            name: i10n.period,
+                            // defaultValue: '0',
+                            list: [
+                              CategoryModel(value: 'all', name: i10n.allPeriod, check: false),
+                              CategoryModel(value: '24h', name: i10n.searchTwentyFourHour, check: false),
+                              CategoryModel(value: '1week', name: i10n.searchOneWeek, check: false),
+                              CategoryModel(value: '1month', name: i10n.searchOneMonth, check: false),
+                              CategoryModel(value: 'halfYear', name: i10n.searchHalfYear, check: false),
+                              CategoryModel(value: '1year', name: i10n.searchOneYear, check: false),
+                              CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
+            );
+          })),
 
           /// 搜索结果
           Consumer(
