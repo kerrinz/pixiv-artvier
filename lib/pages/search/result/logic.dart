@@ -1,3 +1,4 @@
+import 'package:artvier/component/filter_dropdown/filter_dropdown_list.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +12,7 @@ import 'package:artvier/pages/search/result/search_result_page.dart';
 
 mixin SearchResultPageLogic on State<SearchResultPage> {
   WidgetRef get ref;
+  DropDownMenuController get dropDownMenuController;
 
   /// 搜索框输入的关键词
   late String searchWord = widget.label;
@@ -47,7 +49,11 @@ mixin SearchResultPageLogic on State<SearchResultPage> {
 
   /// 点击切换搜索类型
   void handleTapSearchType(SearchType searchType) {
-    ref.read(searchTypeProvider.notifier).update((state) => searchType);
+    if (dropDownMenuController.isExpanded()) {
+      dropDownMenuController.closeMenu();
+    } else {
+      ref.read(searchTypeProvider.notifier).update((state) => searchType);
+    }
   }
 
   setFilterDate(String value) {

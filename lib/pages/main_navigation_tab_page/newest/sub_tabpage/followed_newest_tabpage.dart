@@ -32,25 +32,6 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
   final dropDownMenuController = DropDownMenuController();
 
   @override
-  void initState() {
-    dropDownMenuController.addListener((type, tapIndex, value) {
-      final restrict = value == 'public'
-          ? RestrictAll.public
-          : value == 'private'
-              ? RestrictAll.private
-              : RestrictAll.all;
-      ref.read(followedNewestRestrictAllProvider.notifier).update((state) => restrict);
-      final currentWorkType = ref.read(followedNewestWorksTypeProvider.notifier).state;
-      if (WorksType.novel == currentWorkType) {
-        ref.read(followedNewestNovelsProvider.notifier).reload();
-      } else {
-        ref.read(followedNewestArtworksProvider.notifier).reload();
-      }
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     super.build(context);
     return RefreshIndicator(
@@ -124,6 +105,20 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
                           controller: dropDownMenuController,
                           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
                           layerLink: layerlink,
+                          onChange: (index, value) {
+                            final restrict = value == 'public'
+                                ? RestrictAll.public
+                                : value == 'private'
+                                    ? RestrictAll.private
+                                    : RestrictAll.all;
+                            ref.read(followedNewestRestrictAllProvider.notifier).update((state) => restrict);
+                            final currentWorkType = ref.read(followedNewestWorksTypeProvider.notifier).state;
+                            if (WorksType.novel == currentWorkType) {
+                              ref.read(followedNewestNovelsProvider.notifier).reload();
+                            } else {
+                              ref.read(followedNewestArtworksProvider.notifier).reload();
+                            }
+                          },
                           filterList: [
                             DropDownMenuModel(
                               name: i10n.all,
