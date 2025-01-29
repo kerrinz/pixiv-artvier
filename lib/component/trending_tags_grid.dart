@@ -1,3 +1,4 @@
+import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -36,58 +37,68 @@ class TrendingTagsGridState extends State<TrendingTagsGrid> {
       return const Text("暂无");
     }
     var item = widget.tags[index];
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: EnhanceNetworkImage(
-            image: ExtendedNetworkImageProvider(
-              HttpHostOverrides().pxImgUrl(item.illust.imageUrls.squareMedium),
-              headers: const {"referer": CONSTANTS.referer},
-              cache: true,
-            ),
-            fit: BoxFit.cover,
-          ),
+    return GestureDetector(
+      onLongPress: () => Navigator.of(context).pushNamed(
+        RouteNames.artworkDetail.name,
+        arguments: IllustDetailPageArguments(
+          illustId: item.illust.id.toString(),
+          title: item.illust.title,
+          detail: item.illust,
         ),
-        Positioned.fill(
-          child: Container(
-            color: Colors.black26,
-          ),
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 8,
-          child: Container(
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                Text(
-                  "#${item.tag}",
-                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  item.translatedName ?? "",
-                  style: const TextStyle(fontSize: 12, color: Colors.white),
-                )
-              ],
+      ),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: EnhanceNetworkImage(
+              image: ExtendedNetworkImageProvider(
+                HttpHostOverrides().pxImgUrl(item.illust.imageUrls.squareMedium),
+                headers: const {"referer": CONSTANTS.referer},
+                cache: true,
+              ),
+              fit: BoxFit.cover,
             ),
           ),
-        ),
-        Positioned.fill(
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              splashColor: Colors.black12.withOpacity(0.15),
-              highlightColor: Colors.black12.withOpacity(0.1),
-              onTap: () {
-                Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: item.tag);
-              },
+          Positioned.fill(
+            child: Container(
+              color: Colors.black26,
             ),
           ),
-        ),
-      ],
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 8,
+            child: Container(
+              alignment: Alignment.center,
+              child: Column(
+                children: [
+                  Text(
+                    "#${item.tag}",
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    item.translatedName ?? "",
+                    style: const TextStyle(fontSize: 12, color: Colors.white),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                splashColor: Colors.black12.withOpacity(0.15),
+                highlightColor: Colors.black12.withOpacity(0.1),
+                onTap: () {
+                  Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: item.tag);
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
