@@ -29,7 +29,6 @@ class SearchArtworksNotifier extends BaseAsyncNotifier<List<CommonIllust>> with 
   @override
   Future<List<CommonIllust>> fetch() async {
     var filterArgs = ref.read(searchFilterProvider);
-    print(filterArgs.toString());
     var result = await ApiSearch(requester).searchArtworks(
       // 搜索关键词，再叠加收藏数
       (filterArgs.minCollectCount == null || filterArgs.minCollectCount == 0)

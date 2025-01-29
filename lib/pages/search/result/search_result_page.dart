@@ -28,7 +28,7 @@ class SearchResultPage extends ConsumerStatefulWidget {
 class SearchResultPageState extends ConsumerState<SearchResultPage> with WidgetsBindingObserver, SearchResultPageLogic {
   late TextEditingController _textController;
 
-  late final DropDownMenuController _dropDownMenuController;
+  late final DropDownMenuController dropDownMenuController;
 
   late final FocusNode _focusNode;
 
@@ -42,43 +42,18 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
 
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
 
+  final layerlink = LayerLink();
+
   @override
   void initState() {
     super.initState();
     _textController = TextEditingController(text: widget.label);
-    _dropDownMenuController = DropDownMenuController();
+    dropDownMenuController = DropDownMenuController();
     _focusNode = FocusNode();
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         // 失去焦点时标记
         isKeyboardActived = false;
-      }
-    });
-    _dropDownMenuController.addListener((type, tapIndex, value) {
-      if (value != null) {
-        switch (tapIndex) {
-          case 0:
-            ref.read(searchFilterProvider.notifier).update((state) => state.copyWith(sort: value));
-            break;
-          case 1:
-            ref.read(searchFilterProvider.notifier).update((state) => state.copyWith(match: value));
-            break;
-          case 2:
-            ref.read(searchFilterProvider.notifier).update((state) => state.copyWith(searchAiType: int.parse(value)));
-            break;
-          case 3:
-            setFilterDate(value);
-            break;
-        }
-      }
-      // Reload
-      final currentWorkType = ref.read(searchTypeProvider.notifier).state;
-      if (SearchType.artwork == currentWorkType) {
-        ref.read(searchArtworksProvider.notifier).reload();
-      } else if (SearchType.novel == currentWorkType) {
-        ref.read(searchNovelsProvider.notifier).reload();
-      } else {
-        ref.read(searchUsersProvider.notifier).reload();
       }
     });
   }
@@ -109,7 +84,6 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
 
   @override
   Widget build(BuildContext context) {
-    final layerlink = LayerLink();
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -195,75 +169,103 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
 
           Consumer(builder: ((context, ref, child) {
             final searchType = ref.watch(searchTypeProvider);
-            if (searchType == SearchType.user) {
-              return const SliverToBoxAdapter();
-            }
+            final widget = CompositedTransformTarget(
+              link: layerlink,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: DropDownMenu(
+                    controller: dropDownMenuController,
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                    layerLink: layerlink,
+                    onExpand: (index, expanded) {},
+                    onChange: (index, value) {
+                      if (value != null) {
+                        switch (index) {
+                          case 0:
+                            ref.read(searchFilterProvider.notifier).update((state) => state.copyWith(sort: value));
+                            break;
+                          case 1:
+                            ref.read(searchFilterProvider.notifier).update((state) => state.copyWith(match: value));
+                            break;
+                          case 2:
+                            ref
+                                .read(searchFilterProvider.notifier)
+                                .update((state) => state.copyWith(searchAiType: int.parse(value)));
+                            break;
+                          case 3:
+                            setFilterDate(value);
+                            break;
+                        }
+                      }
+                      // Reload
+                      final currentWorkType = ref.read(searchTypeProvider.notifier).state;
+                      if (SearchType.artwork == currentWorkType) {
+                        ref.read(searchArtworksProvider.notifier).reload();
+                      } else if (SearchType.novel == currentWorkType) {
+                        ref.read(searchNovelsProvider.notifier).reload();
+                      } else {
+                        ref.read(searchUsersProvider.notifier).reload();
+                      }
+                    },
+                    filterList: [
+                      DropDownMenuModel(
+                        name: 'sort',
+                        defaultValue: ApiSearchConstants.dateDesc,
+                        list: [
+                          CategoryModel(value: ApiSearchConstants.dateDesc, name: i10n.sortDateDesc, check: false),
+                          CategoryModel(value: ApiSearchConstants.dateAsc, name: i10n.sortDateAsc, check: false),
+                        ],
+                      ),
+                      DropDownMenuModel(
+                        name: 'match',
+                        defaultValue: ApiSearchConstants.tagPartialMatch,
+                        list: [
+                          CategoryModel(
+                              value: ApiSearchConstants.tagPartialMatch, name: i10n.tagPartialMatch, check: false),
+                          CategoryModel(
+                              value: ApiSearchConstants.tagPerfectMatch, name: i10n.tagPerfectMatch, check: false),
+                          CategoryModel(
+                              value: ApiSearchConstants.titleAndDescription,
+                              name: i10n.titleOrDescriptionMatch,
+                              check: false),
+                        ],
+                      ),
+                      DropDownMenuModel(
+                        name: 'AI',
+                        defaultValue: '0',
+                        list: [
+                          CategoryModel(value: '0', name: i10n.showAiResult, check: false),
+                          CategoryModel(value: '1', name: i10n.hideAiResult, check: false),
+                        ],
+                      ),
+                      // Period 时间段
+                      DropDownMenuModel(
+                        name: i10n.period,
+                        // defaultValue: '0',
+                        list: [
+                          CategoryModel(value: 'all', name: i10n.allPeriod, check: false),
+                          CategoryModel(value: '24h', name: i10n.searchTwentyFourHour, check: false),
+                          CategoryModel(value: '1week', name: i10n.searchOneWeek, check: false),
+                          CategoryModel(value: '1month', name: i10n.searchOneMonth, check: false),
+                          CategoryModel(value: 'halfYear', name: i10n.searchHalfYear, check: false),
+                          CategoryModel(value: '1year', name: i10n.searchOneYear, check: false),
+                          // CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
             return SliverPersistentHeader(
               pinned: true,
               floating: true,
               delegate: SliverWidgetPersistentHeaderDelegate(
-                maxHeight: 50,
-                minHeight: 50,
-                child: CompositedTransformTarget(
-                  link: layerlink,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: DropDownMenu(
-                        controller: _dropDownMenuController,
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                        layerLink: layerlink,
-                        filterList: [
-                          DropDownMenuModel(
-                            name: 'sort',
-                            defaultValue: ApiSearchConstants.dateDesc,
-                            list: [
-                              CategoryModel(value: ApiSearchConstants.dateDesc, name: i10n.sortDateDesc, check: false),
-                              CategoryModel(value: ApiSearchConstants.dateAsc, name: i10n.sortDateAsc, check: false),
-                            ],
-                          ),
-                          DropDownMenuModel(
-                            name: 'match',
-                            defaultValue: ApiSearchConstants.tagPartialMatch,
-                            list: [
-                              CategoryModel(
-                                  value: ApiSearchConstants.tagPartialMatch, name: i10n.tagPartialMatch, check: false),
-                              CategoryModel(
-                                  value: ApiSearchConstants.tagPerfectMatch, name: i10n.tagPerfectMatch, check: false),
-                              CategoryModel(
-                                  value: ApiSearchConstants.titleAndDescription,
-                                  name: i10n.titleOrDescriptionMatch,
-                                  check: false),
-                            ],
-                          ),
-                          DropDownMenuModel(
-                            name: 'AI',
-                            defaultValue: '0',
-                            list: [
-                              CategoryModel(value: '0', name: i10n.showAiResult, check: false),
-                              CategoryModel(value: '1', name: i10n.hideAiResult, check: false),
-                            ],
-                          ),
-                          // Period 时间段
-                          DropDownMenuModel(
-                            name: i10n.period,
-                            // defaultValue: '0',
-                            list: [
-                              CategoryModel(value: 'all', name: i10n.allPeriod, check: false),
-                              CategoryModel(value: '24h', name: i10n.searchTwentyFourHour, check: false),
-                              CategoryModel(value: '1week', name: i10n.searchOneWeek, check: false),
-                              CategoryModel(value: '1month', name: i10n.searchOneMonth, check: false),
-                              CategoryModel(value: 'halfYear', name: i10n.searchHalfYear, check: false),
-                              CategoryModel(value: '1year', name: i10n.searchOneYear, check: false),
-                              CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                maxHeight: searchType != SearchType.user ? 50 : 0,
+                minHeight: searchType != SearchType.user ? 50 : 0,
+                child: Visibility(visible: searchType != SearchType.user, child: widget),
               ),
             );
           })),
