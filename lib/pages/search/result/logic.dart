@@ -56,6 +56,34 @@ mixin SearchResultPageLogic on State<SearchResultPage> {
     }
   }
 
+  void handleChangeMenu(int index, String? value) {
+    if (value != null) {
+      switch (index) {
+        case 0:
+          ref.read(searchFilterProvider.notifier).update((state) => state.copyWith(sort: value));
+          break;
+        case 1:
+          ref.read(searchFilterProvider.notifier).update((state) => state.copyWith(match: value));
+          break;
+        case 2:
+          ref.read(searchFilterProvider.notifier).update((state) => state.copyWith(searchAiType: int.parse(value)));
+          break;
+        case 3:
+          setFilterDate(value);
+          break;
+      }
+    }
+    // Reload
+    final currentWorkType = ref.read(searchTypeProvider.notifier).state;
+    if (SearchType.artwork == currentWorkType) {
+      ref.read(searchArtworksProvider.notifier).reload();
+    } else if (SearchType.novel == currentWorkType) {
+      ref.read(searchNovelsProvider.notifier).reload();
+    } else {
+      ref.read(searchUsersProvider.notifier).reload();
+    }
+  }
+
   setFilterDate(String value) {
     switch (value) {
       case '24h':
