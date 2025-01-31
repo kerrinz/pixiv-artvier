@@ -4,6 +4,8 @@ import 'package:artvier/component/filter_dropdown/filter_dropdown_list.dart';
 import 'package:artvier/component/sliver_persistent_header/widget_delegate.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
+import 'package:artvier/pages/main_navigation_tab_page/newest/widgets/recommend_users_widget.dart';
+import 'package:artvier/pages/user/recommend/provider/recommend_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/base/base_page.dart';
@@ -34,6 +36,12 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final pageState = ref.watch(followedNewestPageStateProvider);
+    if (pageState == PageState.error) {
+      return RequestLoadingFailed(onRetry: () {});
+    } else if (pageState == PageState.loading) {
+      return const RequestLoading();
+    }
     return RefreshIndicator(
       onRefresh: () async {
         final worksType = ref.read(followedNewestWorksTypeProvider);
@@ -48,6 +56,8 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
           SliverPersistentHeader(
             floating: true,
             delegate: SliverWidgetPersistentHeaderDelegate(
+              maxHeight: 48,
+              minHeight: 48,
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(color: colorScheme.background),
@@ -136,8 +146,20 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
                   ),
                 ),
               ),
-              maxHeight: 48,
-              minHeight: 48,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Consumer(
+              builder: (context, value, child) {
+                final recommend = ref.watch(recommendUsersProvider);
+                final users = recommend.value;
+                return Padding(
+                  padding: const EdgeInsets.only(top: 0, bottom: 12, left: 12, right: 12),
+                  child: RecommendUsersWidget(
+                    users: users ?? [],
+                  ),
+                );
+              },
             ),
           ),
           Consumer(

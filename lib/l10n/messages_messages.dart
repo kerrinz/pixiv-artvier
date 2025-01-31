@@ -142,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'rankingRookie': MessageLookupByLibrary.simpleMessage('Rookie'),
     'rankingWeekly': MessageLookupByLibrary.simpleMessage('Weekly'),
     'rankings': MessageLookupByLibrary.simpleMessage('Rankings'),
+    'recommendUsers': MessageLookupByLibrary.simpleMessage('Recommend users'),
     'recommended': MessageLookupByLibrary.simpleMessage('Recommended'),
     'removeCollectionFailed': MessageLookupByLibrary.simpleMessage('Remove collection failed!'),
     'removeCollectionSucceed': MessageLookupByLibrary.simpleMessage('Remove collection succeed!'),

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-12-17T00:01:06.566775",
+  "@@last_modified": "2025-01-31T23:05:52.424118",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -273,6 +273,12 @@
   "recommended": "Recommended",
   "@recommended": {
     "description": "Title of recommended artwork list in home page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "recommendUsers": "Recommend users",
+  "@recommendUsers": {
+    "description": "Title of recommend users",
     "type": "text",
     "placeholders": {}
   },
