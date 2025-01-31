@@ -178,7 +178,7 @@ class ApiUser extends ApiBase {
   }
 
   /// 获取推荐用户列表
-  Future<UserPreviewsList> getRecommended({CancelToken? cancelToken}) async {
+  Future<UserPreviewsList> recommendedUsers({CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
       "/v1/user/recommended",
       queryParameters: {

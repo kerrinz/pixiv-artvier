@@ -91,6 +91,11 @@ class LocalizationIntl {
       Intl.message('Daily Rankings', name: 'dailyRankings', desc: 'Title of ranking glance widget');
   String get recommended =>
       Intl.message('Recommended', name: 'recommended', desc: 'Title of recommended artwork list in home page');
+
+  // 动态页
+  String get recommendUsers =>
+      Intl.message('Recommend users', name: 'recommendUsers', desc: 'Title of recommend users');
+
   // Profile页面
   String get space => Intl.message('Space', name: 'space', desc: 'Navigate to my detail page');
   String get following => Intl.message('Following', name: 'following', desc: 'Show number of following');
@@ -242,7 +247,8 @@ class LocalizationIntl {
   String get showAiResult => Intl.message("Show AI", name: 'showAiResult', desc: 'Search filter ai-generated work');
   String get period => Intl.message("period", name: 'period', desc: 'Search filter period');
   String get allPeriod => Intl.message("All Period", name: 'allPeriod', desc: 'Search filter period');
-  String get searchTwentyFourHour => Intl.message("24 hours", name: 'searchTwentyFourHour', desc: 'Search filter period');
+  String get searchTwentyFourHour =>
+      Intl.message("24 hours", name: 'searchTwentyFourHour', desc: 'Search filter period');
   String get searchOneWeek => Intl.message("One week", name: 'searchOneWeek', desc: 'Search filter period');
   String get searchOneMonth => Intl.message("One month", name: 'searchOneMonth', desc: 'Search filter period');
   String get searchHalfYear => Intl.message("Half a year", name: 'searchHalfYear', desc: 'Search filter period');

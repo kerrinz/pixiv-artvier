@@ -142,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'rankingRookie': MessageLookupByLibrary.simpleMessage('新人'),
     'rankingWeekly': MessageLookupByLibrary.simpleMessage('每周'),
     'rankings': MessageLookupByLibrary.simpleMessage('排行榜'),
+    'recommendUsers': MessageLookupByLibrary.simpleMessage('推荐用户'),
     'recommended': MessageLookupByLibrary.simpleMessage('为你推荐'),
     'removeCollectionFailed': MessageLookupByLibrary.simpleMessage('移除收藏失败！'),
     'removeCollectionSucceed': MessageLookupByLibrary.simpleMessage('移除收藏成功！'),

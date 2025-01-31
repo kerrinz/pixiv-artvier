@@ -2,12 +2,22 @@ import 'dart:async';
 
 import 'package:artvier/base/base_provider/novel_list_notifier.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
+import 'package:artvier/pages/user/recommend/provider/recommend_user_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/api_newest.dart';
 import 'package:artvier/base/base_provider/base_notifier.dart';
 import 'package:artvier/base/base_provider/illust_list_notifier.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
+
+// 页面状态
+final followedNewestPageStateProvider = AutoDisposeStateProvider<PageState>((ref) {
+  final recommend = ref.watch(recommendUsersProvider);
+  if (recommend.hasValue && recommend.value != null) {
+    return PageState.complete;
+  }
+  return PageState.loading;
+});
 
 final followedNewestWorksTypeProvider = StateProvider<WorksType>((ref) {
   return WorksType.illust;

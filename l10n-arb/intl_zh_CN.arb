@@ -277,6 +277,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "recommendUsers": "推荐用户",
+  "@recommendUsers": {
+    "description": "Title of recommend users",
+    "type": "text",
+    "placeholders": {}
+  },
   "space": "空间",
   "@space": {
     "description": "Navigate to my detail page",
