@@ -44,7 +44,7 @@ class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogi
     this.crossAxisSpacing = 8,
     this.scrollController,
     this.physics,
-    this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
   });
 
   @override

@@ -7,6 +7,7 @@ import 'package:artvier/pages/settings/about/about_app_page.dart';
 import 'package:artvier/pages/settings/all_settings/all_settings_page.dart';
 import 'package:artvier/pages/settings/check_update/check_update.dart';
 import 'package:artvier/pages/settings/develop/developer_page.dart';
+import 'package:artvier/pages/user/recommend/recommend_users_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:artvier/pages/account/account_manage/account_manage_page.dart';
 import 'package:artvier/pages/comment/comments_page.dart';
@@ -27,7 +28,7 @@ import 'package:artvier/pages/user/following/user_following_page.dart';
 import 'package:artvier/pages/user/detail/user_detail_page.dart';
 import 'package:artvier/pages/user/works/my_works.dart';
 
-/// [WidgetBuilder] 的改造版，增加传参：[RouteSettings.arguments] 
+/// [WidgetBuilder] 的改造版，增加传参：[RouteSettings.arguments]
 typedef RouteWidgetBuilder = Widget Function(BuildContext context, Object? arguments);
 
 enum RouteNames {
@@ -60,8 +61,11 @@ enum RouteNames {
   /// 全部评论
   comments,
 
+  // 用户
   userFollowing,
   userDetail,
+  recommendUsers,
+
   /// 搜索框展开页
   expandSearch,
   searchResult,
@@ -74,7 +78,7 @@ enum RouteNames {
   accountManage,
   downloadManage,
 
-
+  // 设置
   allSettings,
   downloadSettings,
   themeSettings,
@@ -103,6 +107,7 @@ class Routes {
     RouteNames.comments.name: (context, arguments) => CommentsPage(arguments!),
     RouteNames.userFollowing.name: (context, arguments) => UserFollowingPage(arguments!),
     RouteNames.userDetail.name: (context, arguments) => UserDetailPage(arguments!),
+    RouteNames.recommendUsers.name: (context, arguments) => RecommendUsersPage(),
     RouteNames.expandSearch.name: (context, arguments) => const ExpandSearchPage(),
     RouteNames.searchResult.name: (context, arguments) => SearchResultPage(arguments!),
     RouteNames.myBookmarks.name: (context, arguments) => MyBookmarksPage(arguments!),
@@ -118,7 +123,7 @@ class Routes {
     RouteNames.checkUpdate.name: (context, arguments) => const CheckUpdatePage(),
   };
 
-   static RouteWidgetBuilder match(BuildContext context, String? name) {
+  static RouteWidgetBuilder match(BuildContext context, String? name) {
     return routes[name] ?? (context, arguments) => const NotFoundPage();
   }
 }

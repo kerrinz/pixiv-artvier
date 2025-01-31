@@ -98,13 +98,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
       AppBar(
         // backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
-        leading: AppbarBlurIconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          background: Colors.transparent,
-        ),
+        leading: const AppbarLeadingButtton(),
         title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.illustId)),
       ),
       Builder(builder: (context) {
@@ -128,12 +122,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-            leading: AppbarBlurIconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+            leading: const AppbarLeadingButtton(color: Colors.white),
             actions: [
               AppbarBlurIconButton(
                 icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),

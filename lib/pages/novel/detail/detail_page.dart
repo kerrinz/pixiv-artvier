@@ -71,14 +71,8 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
         right: 0,
         child: AppBar(
           // backgroundColor: Colors.transparent,
+          leading: const AppbarLeadingButtton(),
           shadowColor: Colors.transparent,
-          leading: AppbarBlurIconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            background: Colors.transparent,
-          ),
           title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.worksId)),
         ),
       ),
@@ -139,11 +133,9 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
               backgroundColor: Colors.transparent,
               shadowColor: Colors.transparent,
               // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-              leading: AppbarBlurIconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+              leading: const AppbarLeadingButtton(
+                color: Colors.white,
+                enableBackground: true,
               ),
               actions: [
                 AppbarBlurIconButton(
