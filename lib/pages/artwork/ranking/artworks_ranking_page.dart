@@ -62,13 +62,9 @@ class ArtworksRankingPageState extends BasePageState<ArtworksRankingPage>
         body: Column(
           children: [
             AppBar(
+              leading: const AppbarLeadingButtton(),
               title: const Text("排行榜"),
               toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
-              leading: AppbarBlurIconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
-                background: Colors.transparent,
-                onPressed: () => Navigator.pop(context),
-              ),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.keyboard_arrow_up),

@@ -87,6 +87,7 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const AppbarLeadingButtton(),
         titleSpacing: 0,
         title: Container(
           height: 34,
@@ -111,13 +112,6 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
             // 提交搜索
             onSubmitted: (value) => handleInputSubmit(value),
           ),
-        ),
-        leading: AppbarBlurIconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          background: Colors.transparent,
         ),
         actions: const [
           SizedBox(width: 24),

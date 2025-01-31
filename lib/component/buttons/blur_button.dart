@@ -159,6 +159,29 @@ class _BlurButtonState extends State<BlurButton> with SingleTickerProviderStateM
   }
 }
 
+/// 统一 Appbar 返回按钮
+class AppbarLeadingButtton extends StatelessWidget {
+  const AppbarLeadingButtton({
+    super.key,
+    this.color,
+    this.onPressed,
+    this.enableBackground = false,
+  });
+
+  final bool enableBackground;
+  final Color? color;
+  final Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppbarBlurIconButton(
+      icon: Icon(Icons.arrow_back_ios_new_rounded, size: 18, color: color),
+      onPressed: () => onPressed ?? Navigator.pop(context),
+      background: enableBackground ? null : Colors.transparent,
+    );
+  }
+}
+
 class AppbarBlurIconButton extends StatelessWidget {
   const AppbarBlurIconButton({
     super.key,
@@ -166,7 +189,7 @@ class AppbarBlurIconButton extends StatelessWidget {
     required this.icon,
     this.margin,
     this.padding,
-    this.background = const Color.fromARGB(100, 0, 0, 0),
+    this.background,
   });
 
   final Function() onPressed;
@@ -185,7 +208,7 @@ class AppbarBlurIconButton extends StatelessWidget {
     return BlurButton(
       borderRadius: const BorderRadius.all(Radius.circular(18)),
       padding: EdgeInsets.zero,
-      background: background,
+      background: background ?? const Color.fromARGB(100, 0, 0, 0),
       margin: margin,
       width: 32,
       height: 32,

@@ -5,7 +5,7 @@ import 'package:artvier/component/sliver_persistent_header/widget_delegate.dart'
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:artvier/pages/main_navigation_tab_page/newest/widgets/recommend_users_widget.dart';
-import 'package:artvier/pages/user/recommend/provider/recommend_user_provider.dart';
+import 'package:artvier/pages/user/recommend/provider/recommend_users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/base/base_page.dart';
@@ -244,6 +244,7 @@ class _FollowedNewestNovelPageViewState extends ConsumerState<FollowedNewestNove
       ),
       data: (List<CommonNovel> data) {
         return SliverNovelListView(
+          padding: const EdgeInsets.only(left: 12.0, right: 12, top: 0.0),
           novelList: data,
           onLazyload: () async => ref.read(followedNewestNovelsProvider.notifier).next(),
         );

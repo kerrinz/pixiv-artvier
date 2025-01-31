@@ -3,6 +3,7 @@ import 'package:artvier/component/image/stack_avatar_list.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/model_response/user/common_user_previews.dart';
 import 'package:artvier/request/http_host_overrides.dart';
+import 'package:artvier/routes.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +22,9 @@ class RecommendUsersWidget extends BasePage {
       borderRadius: const BorderRadius.all(Radius.circular(8)),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(ref.context).pushNamed(RouteNames.recommendUsers.name);
+        },
         splashFactory: InkSparkle.splashFactory,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
