@@ -44,11 +44,12 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
     }
     return RefreshIndicator(
       onRefresh: () async {
+        await ref.read(recommendUsersProvider.notifier).refresh();
         final worksType = ref.read(followedNewestWorksTypeProvider);
         if (worksType == WorksType.novel) {
-          return ref.read(followedNewestNovelsProvider.notifier).refresh();
+          return await ref.read(followedNewestNovelsProvider.notifier).refresh();
         } else {
-          return ref.read(followedNewestArtworksProvider.notifier).refresh();
+          return await ref.read(followedNewestArtworksProvider.notifier).refresh();
         }
       },
       child: CustomScrollView(
