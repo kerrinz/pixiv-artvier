@@ -98,7 +98,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
       AppBar(
         // backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
-        leading: const AppbarLeadingButtton(),
+        leading: const AppbarLeadingButtton(enableBackground: true),
         title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.illustId)),
       ),
       Builder(builder: (context) {
@@ -122,7 +122,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-            leading: const AppbarLeadingButtton(color: Colors.white),
+            leading: const AppbarLeadingButtton(color: Colors.white, enableBackground: true),
             actions: [
               AppbarBlurIconButton(
                 icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
