@@ -71,11 +71,11 @@ class UserDetailMenu extends BasePage with FollowButtonLogic {
                 Consumer(
                   builder: (context, ref, child) {
                     var state = ref.watch(userFollowProvider);
-                    String text = "悄悄关注";
+                    String text = i10n(context).privateFollow;
                     if (state == UserFollowState.notFollow || state == UserFollowState.requestingFollow) {
-                      text = "悄悄关注";
+                      text = i10n(context).privateFollow;
                     } else if (state == UserFollowState.followed || state == UserFollowState.requestingUnfollow) {
-                      text = "取消关注";
+                      text = i10n(context).cancelFollow;
                     }
                     return rowListItem(
                       context: context,
