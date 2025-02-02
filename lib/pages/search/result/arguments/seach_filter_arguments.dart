@@ -10,9 +10,6 @@ part 'seach_filter_arguments.freezed.dart';
 /// 搜索结果页，筛选的参数
 class SearchFilterArguments with _$SearchFilterArguments {
   const factory SearchFilterArguments({
-    /// 最小收藏数筛选
-    int? minCollectCount,
-
     /// 搜索对象
     @Default(ApiSearchConstants.tagPerfectMatch) String? searchTarget,
 
@@ -30,5 +27,8 @@ class SearchFilterArguments with _$SearchFilterArguments {
 
     /// 匹配规则
     @Default(ApiSearchConstants.tagPartialMatch) String match,
+
+    /// 收藏数（标签、非会员）
+    String? bookmarkCountNotPremium,
   }) = _SearchFilterArguments;
 }
