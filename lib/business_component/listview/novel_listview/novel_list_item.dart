@@ -1,3 +1,4 @@
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
-import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
 import 'package:artvier/global/provider/collection_state_provider.dart';
@@ -121,7 +121,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
       child: EnhanceNetworkImage(
         image: ExtendedNetworkImageProvider(
           HttpHostOverrides().pxImgUrl(widget.novel.imageUrls.medium),
-          headers: const {"Referer": CONSTANTS.referer},
+          headers: HttpBaseOptions.pximgHeaders,
           cache: true,
         ),
         fit: BoxFit.cover,

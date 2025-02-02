@@ -20,6 +20,7 @@ class CONSTANTS {
   static const String restrict_private = "private";
 
   static const String referer = "https://www.pixiv.net/";
+  static const String appApiReferer = "https://app-api.pixiv.net/";
   static const String referer_artworks_base = "https://www.pixiv.net/artworks/";
   static const String referer_users_base = "https://www.pixiv.net/users/";
   static const String stamp_url_base = "https://s.pximg.net/common/images/stamp/generated-stamps/"; // 用于表情图片的显示

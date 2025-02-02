@@ -2,6 +2,8 @@ import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/perference/perference_group.dart';
 import 'package:artvier/component/perference/perference_item.dart';
+import 'package:artvier/config/http_base_options.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
@@ -11,8 +13,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/perference/preferences_navigator_item.dart';
-import 'package:artvier/config/constants.dart';
-import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/global/provider/current_user_detail.dart';
 import 'package:artvier/l10n/localization_intl.dart';
 import 'package:artvier/pages/main_navigation_tab_page/profile/logic.dart';
@@ -217,7 +217,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                                   : EnhanceNetworkImage(
                                       image: ExtendedNetworkImageProvider(
                                       HttpHostOverrides().pxImgUrl(avatar),
-                                      headers: const {"Referer": CONSTANTS.referer},
+                                      headers: HttpBaseOptions.pximgHeaders,
                                     ));
                             },
                           ),

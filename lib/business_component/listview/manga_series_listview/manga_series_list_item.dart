@@ -1,3 +1,4 @@
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/l10n/localization_intl.dart';
 import 'package:artvier/model_response/manga/manga_series_list.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
-import 'package:artvier/config/constants.dart';
 
 class ManagaSeriesListItem extends ConsumerStatefulWidget {
   const ManagaSeriesListItem({
@@ -59,7 +59,7 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
               child: EnhanceNetworkImage(
                 image: ExtendedNetworkImageProvider(
                   HttpHostOverrides().pxImgUrl(widget.mangaSeries.url),
-                  headers: const {"Referer": CONSTANTS.referer},
+                  headers: HttpBaseOptions.pximgHeaders,
                   cache: true,
                 ),
                 fit: BoxFit.cover,

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
@@ -10,7 +11,6 @@ import 'package:artvier/business_component/page_layout/banner_appbar_page_layout
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/loading/request_loading.dart';
 import 'package:artvier/component/sliver_persistent_header/tab_bar_delegate.dart';
-import 'package:artvier/config/constants.dart';
 import 'package:artvier/model_response/user/preload_user_least_info.dart';
 import 'package:artvier/pages/user/detail/tabpage/collections_tabpage.dart';
 import 'package:artvier/pages/user/detail/logic.dart';
@@ -229,7 +229,7 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
             child: EnhanceNetworkImage(
               image: ExtendedNetworkImageProvider(
                 HttpHostOverrides().pxImgUrl(widget.leastInfo.avatar),
-                headers: const {"Referer": CONSTANTS.referer},
+                headers: HttpBaseOptions.pximgHeaders,
               ),
               width: double.infinity,
               fit: BoxFit.cover,
@@ -240,8 +240,10 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
         }
         // 正常的封面图
         return EnhanceNetworkImage(
-          image: ExtendedNetworkImageProvider(HttpHostOverrides().pxImgUrl(bg),
-              headers: const {"Referer": CONSTANTS.referer}),
+          image: ExtendedNetworkImageProvider(
+            HttpHostOverrides().pxImgUrl(bg),
+            headers: HttpBaseOptions.pximgHeaders,
+          ),
           width: double.infinity,
           fit: BoxFit.cover,
           color: const Color(0x33000000),

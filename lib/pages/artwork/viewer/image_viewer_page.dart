@@ -1,3 +1,4 @@
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:artvier/base/base_page.dart';
-import 'package:artvier/config/constants.dart';
 import 'package:artvier/pages/artwork/viewer/logic.dart';
 import 'package:artvier/pages/artwork/viewer/model/image_quality_url_model.dart';
 import 'package:artvier/pages/artwork/viewer/model/image_viewer_page_arguments.dart';
@@ -140,8 +140,9 @@ class _ImageViewerPageState extends BasePageState<ImageViewerPage>
               builder: (BuildContext context, int index) {
                 return PhotoViewGalleryPageOptions(
                   imageProvider: ExtendedNetworkImageProvider(
-                      HttpHostOverrides().pxImgUrl(state.isOriginal ? urlList[index].original : urlList[index].normal),
-                      headers: {"referer": CONSTANTS.referer}),
+                    HttpHostOverrides().pxImgUrl(state.isOriginal ? urlList[index].original : urlList[index].normal),
+                    headers: HttpBaseOptions.pximgHeaders,
+                  ),
                   minScale: PhotoViewComputedScale.contained * 1.0,
                   maxScale: PhotoViewComputedScale.contained * 5.0,
                 );

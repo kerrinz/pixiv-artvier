@@ -1,12 +1,12 @@
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/model_response/user/common_user.dart';
+import 'package:artvier/model_response/user/preload_user_least_info.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/pages/artwork/detail/widgets/user_follow_button.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
-import 'package:artvier/config/constants.dart';
-import 'package:artvier/model_response/user/preload_user_least_info.dart';
 import 'package:artvier/routes.dart';
 
 /// Manga Series Detail Page
@@ -46,7 +46,7 @@ class MangaSeriesAuthorCardWidget extends StatelessWidget {
                       child: EnhanceNetworkImage(
                         image: ExtendedNetworkImageProvider(
                           HttpHostOverrides().pxImgUrl(user.profileImageUrls.medium),
-                          headers: const {"Referer": CONSTANTS.referer},
+                          headers: HttpBaseOptions.pximgHeaders,
                         ),
                         fit: BoxFit.cover,
                         width: 46,

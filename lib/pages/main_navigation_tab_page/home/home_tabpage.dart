@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:artvier/business_component/input/search_box.dart';
 import 'package:artvier/business_component/page_layout/banner_appbar_page_layout.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/widgets/pixivision_carousel.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
 import 'package:artvier/component/loading/request_loading.dart';
-import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
@@ -239,7 +239,7 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                     EnhanceNetworkImage(
                       image: ExtendedNetworkImageProvider(
                         HttpHostOverrides().pxImgUrl(rankingList[index].imageUrls.squareMedium),
-                        headers: const {"referer": CONSTANTS.referer_artworks_base},
+                        headers: HttpBaseOptions.pximgHeaders,
                       ),
                     ),
                     // 阴影
@@ -282,7 +282,7 @@ class HomePageState extends BasePageState with AutomaticKeepAliveClientMixin {
                                   child: EnhanceNetworkImage(
                                     image: ExtendedNetworkImageProvider(
                                       HttpHostOverrides().pxImgUrl(rankingList[index].user.profileImageUrls.medium),
-                                      headers: const {"Referer": CONSTANTS.referer},
+                                      headers: HttpBaseOptions.pximgHeaders,
                                     ),
                                     fit: BoxFit.cover,
                                     width: 20,

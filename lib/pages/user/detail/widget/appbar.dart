@@ -1,4 +1,5 @@
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/pages/user/detail/provider/user_follow_provider.dart';
 import 'package:artvier/pages/user/detail/widget/menu_bottom_sheet.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -6,7 +7,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
-import 'package:artvier/config/constants.dart';
 import 'package:artvier/pages/artwork/detail/widgets/user_follow_button.dart';
 import 'package:artvier/pages/user/detail/provider/user_detail_provider.dart';
 
@@ -71,7 +71,7 @@ class UserDetailPageAppBarWidget extends ConsumerWidget {
                   filterQuality: FilterQuality.none,
                   image: ExtendedNetworkImageProvider(
                     HttpHostOverrides().pxImgUrl(avatarUrl),
-                    headers: const {"Referer": CONSTANTS.referer},
+                    headers: HttpBaseOptions.pximgHeaders,
                   ),
                 ),
               ),
