@@ -29,11 +29,13 @@ class SearchArtworksNotifier extends BaseAsyncNotifier<List<CommonIllust>> with 
   @override
   Future<List<CommonIllust>> fetch() async {
     var filterArgs = ref.read(searchFilterProvider);
+    // 搜索关键词，再叠加收藏数（非会员）
+    final finalSearchWord = (filterArgs.bookmarkCountNotPremium == null && filterArgs.bookmarkCountNotPremium != '')
+        ? searchWord
+        : "$searchWord ${filterArgs.bookmarkCountNotPremium!}";
     var result = await ApiSearch(requester).searchArtworks(
-      // 搜索关键词，再叠加收藏数
-      (filterArgs.minCollectCount == null || filterArgs.minCollectCount == 0)
-          ? searchWord
-          : "$searchWord ${filterArgs.minCollectCount.toString()}users入り",
+      // 搜索关键词，再叠加收藏数（非会员）
+      finalSearchWord,
       sort: filterArgs.sort,
       match: filterArgs.match,
       searchAiType: filterArgs.searchAiType,
@@ -70,8 +72,12 @@ class SearchNovelsNotifier extends BaseAsyncNotifier<List<CommonNovel>> with Nov
   @override
   Future<List<CommonNovel>> fetch() async {
     var filterArgs = ref.read(searchFilterProvider);
+    // 搜索关键词，再叠加收藏数（非会员）
+    final finalSearchWord = (filterArgs.bookmarkCountNotPremium == null && filterArgs.bookmarkCountNotPremium != '')
+        ? searchWord
+        : "$searchWord ${filterArgs.bookmarkCountNotPremium!}";
     var result = await ApiSearch(requester).searchNovels(
-      searchWord,
+      finalSearchWord,
       sort: filterArgs.sort,
       match: filterArgs.match,
       searchAiType: filterArgs.searchAiType,

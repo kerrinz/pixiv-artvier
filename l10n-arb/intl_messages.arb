@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-02-02T20:47:10.289706",
+  "@@last_modified": "2025-02-02T23:31:55.433592",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -971,6 +971,18 @@
   "selectPeriod": "Select period",
   "@selectPeriod": {
     "description": "Search filter period",
+    "type": "text",
+    "placeholders": {}
+  },
+  "bookmarkCountNotPremium": "Bookmark count (Not premium)",
+  "@bookmarkCountNotPremium": {
+    "description": "Filter bookmark count. Hint not premium function",
+    "type": "text",
+    "placeholders": {}
+  },
+  "bookmarksCount": "Bookmark count",
+  "@bookmarksCount": {
+    "description": "Filter bookmark count",
     "type": "text",
     "placeholders": {}
   },

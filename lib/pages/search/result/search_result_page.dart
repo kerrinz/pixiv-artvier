@@ -220,6 +220,21 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
                           // CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
                         ],
                       ),
+                      // 收藏数（非会员功能）
+                      DropDownMenuModel(
+                        name: i10n.bookmarkCountNotPremium,
+                        list: [
+                          CategoryModel(value: 'all', name: '不限制', check: false),
+                          CategoryModel(value: '30000users入り', name: '30000users入り', check: false),
+                          CategoryModel(value: '20000users入り', name: '20000users入り', check: false),
+                          CategoryModel(value: '10000users入り', name: '10000users入り', check: false),
+                          CategoryModel(value: '5000users入り', name: '5000users入り', check: false),
+                          CategoryModel(value: '500users入り', name: '500users入り', check: false),
+                          CategoryModel(value: '300users入り', name: '300users入り', check: false),
+                          CategoryModel(value: '100users入り', name: '100users入り', check: false),
+                          CategoryModel(value: '50users入り', name: '50users入り', check: false),
+                        ],
+                      ),
                     ],
                   ),
                 ),

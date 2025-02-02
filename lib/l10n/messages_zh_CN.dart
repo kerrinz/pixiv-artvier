@@ -49,6 +49,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'autoSwitchFollowingSystemDesc': MessageLookupByLibrary.simpleMessage('开启后，将跟随系统设置自动切换浅色或深色'),
     'backgroundMusic': MessageLookupByLibrary.simpleMessage('绘图时听的音乐'),
     'birthday': MessageLookupByLibrary.simpleMessage('生日'),
+    'bookmarkCountNotPremium': MessageLookupByLibrary.simpleMessage('收藏数(非会员)'),
+    'bookmarksCount': MessageLookupByLibrary.simpleMessage('收藏数'),
     'cancelFollow': MessageLookupByLibrary.simpleMessage('取消关注'),
     'chair': MessageLookupByLibrary.simpleMessage('椅子'),
     'changelog': MessageLookupByLibrary.simpleMessage('更新日志'),

@@ -16,9 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SearchFilterArguments {
-  /// 最小收藏数筛选
-  int? get minCollectCount => throw _privateConstructorUsedError;
-
   /// 搜索对象
   String? get searchTarget => throw _privateConstructorUsedError;
 
@@ -37,6 +34,9 @@ mixin _$SearchFilterArguments {
   /// 匹配规则
   String get match => throw _privateConstructorUsedError;
 
+  /// 收藏数（标签、非会员）
+  String? get bookmarkCountNotPremium => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $SearchFilterArgumentsCopyWith<SearchFilterArguments> get copyWith =>
       throw _privateConstructorUsedError;
@@ -49,13 +49,13 @@ abstract class $SearchFilterArgumentsCopyWith<$Res> {
       _$SearchFilterArgumentsCopyWithImpl<$Res, SearchFilterArguments>;
   @useResult
   $Res call(
-      {int? minCollectCount,
-      String? searchTarget,
+      {String? searchTarget,
       int? searchAiType,
       String? startDate,
       String? endDate,
       String sort,
-      String match});
+      String match,
+      String? bookmarkCountNotPremium});
 }
 
 /// @nodoc
@@ -72,19 +72,15 @@ class _$SearchFilterArgumentsCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? minCollectCount = freezed,
     Object? searchTarget = freezed,
     Object? searchAiType = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
     Object? sort = null,
     Object? match = null,
+    Object? bookmarkCountNotPremium = freezed,
   }) {
     return _then(_value.copyWith(
-      minCollectCount: freezed == minCollectCount
-          ? _value.minCollectCount
-          : minCollectCount // ignore: cast_nullable_to_non_nullable
-              as int?,
       searchTarget: freezed == searchTarget
           ? _value.searchTarget
           : searchTarget // ignore: cast_nullable_to_non_nullable
@@ -109,6 +105,10 @@ class _$SearchFilterArgumentsCopyWithImpl<$Res,
           ? _value.match
           : match // ignore: cast_nullable_to_non_nullable
               as String,
+      bookmarkCountNotPremium: freezed == bookmarkCountNotPremium
+          ? _value.bookmarkCountNotPremium
+          : bookmarkCountNotPremium // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -123,13 +123,13 @@ abstract class _$$SearchFilterArgumentsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? minCollectCount,
-      String? searchTarget,
+      {String? searchTarget,
       int? searchAiType,
       String? startDate,
       String? endDate,
       String sort,
-      String match});
+      String match,
+      String? bookmarkCountNotPremium});
 }
 
 /// @nodoc
@@ -144,19 +144,15 @@ class __$$SearchFilterArgumentsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? minCollectCount = freezed,
     Object? searchTarget = freezed,
     Object? searchAiType = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
     Object? sort = null,
     Object? match = null,
+    Object? bookmarkCountNotPremium = freezed,
   }) {
     return _then(_$SearchFilterArgumentsImpl(
-      minCollectCount: freezed == minCollectCount
-          ? _value.minCollectCount
-          : minCollectCount // ignore: cast_nullable_to_non_nullable
-              as int?,
       searchTarget: freezed == searchTarget
           ? _value.searchTarget
           : searchTarget // ignore: cast_nullable_to_non_nullable
@@ -181,6 +177,10 @@ class __$$SearchFilterArgumentsImplCopyWithImpl<$Res>
           ? _value.match
           : match // ignore: cast_nullable_to_non_nullable
               as String,
+      bookmarkCountNotPremium: freezed == bookmarkCountNotPremium
+          ? _value.bookmarkCountNotPremium
+          : bookmarkCountNotPremium // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -189,17 +189,13 @@ class __$$SearchFilterArgumentsImplCopyWithImpl<$Res>
 
 class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
   const _$SearchFilterArgumentsImpl(
-      {this.minCollectCount,
-      this.searchTarget = ApiSearchConstants.tagPerfectMatch,
+      {this.searchTarget = ApiSearchConstants.tagPerfectMatch,
       this.searchAiType = 0,
       this.startDate,
       this.endDate,
       this.sort = ApiSearchConstants.dateDesc,
-      this.match = ApiSearchConstants.tagPartialMatch});
-
-  /// 最小收藏数筛选
-  @override
-  final int? minCollectCount;
+      this.match = ApiSearchConstants.tagPartialMatch,
+      this.bookmarkCountNotPremium});
 
   /// 搜索对象
   @override
@@ -229,9 +225,13 @@ class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
   @JsonKey()
   final String match;
 
+  /// 收藏数（标签、非会员）
+  @override
+  final String? bookmarkCountNotPremium;
+
   @override
   String toString() {
-    return 'SearchFilterArguments(minCollectCount: $minCollectCount, searchTarget: $searchTarget, searchAiType: $searchAiType, startDate: $startDate, endDate: $endDate, sort: $sort, match: $match)';
+    return 'SearchFilterArguments(searchTarget: $searchTarget, searchAiType: $searchAiType, startDate: $startDate, endDate: $endDate, sort: $sort, match: $match, bookmarkCountNotPremium: $bookmarkCountNotPremium)';
   }
 
   @override
@@ -239,8 +239,6 @@ class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SearchFilterArgumentsImpl &&
-            (identical(other.minCollectCount, minCollectCount) ||
-                other.minCollectCount == minCollectCount) &&
             (identical(other.searchTarget, searchTarget) ||
                 other.searchTarget == searchTarget) &&
             (identical(other.searchAiType, searchAiType) ||
@@ -249,12 +247,15 @@ class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
             (identical(other.sort, sort) || other.sort == sort) &&
-            (identical(other.match, match) || other.match == match));
+            (identical(other.match, match) || other.match == match) &&
+            (identical(
+                    other.bookmarkCountNotPremium, bookmarkCountNotPremium) ||
+                other.bookmarkCountNotPremium == bookmarkCountNotPremium));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, minCollectCount, searchTarget,
-      searchAiType, startDate, endDate, sort, match);
+  int get hashCode => Object.hash(runtimeType, searchTarget, searchAiType,
+      startDate, endDate, sort, match, bookmarkCountNotPremium);
 
   @JsonKey(ignore: true)
   @override
@@ -266,18 +267,14 @@ class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
 
 abstract class _SearchFilterArguments implements SearchFilterArguments {
   const factory _SearchFilterArguments(
-      {final int? minCollectCount,
-      final String? searchTarget,
+      {final String? searchTarget,
       final int? searchAiType,
       final String? startDate,
       final String? endDate,
       final String sort,
-      final String match}) = _$SearchFilterArgumentsImpl;
+      final String match,
+      final String? bookmarkCountNotPremium}) = _$SearchFilterArgumentsImpl;
 
-  @override
-
-  /// 最小收藏数筛选
-  int? get minCollectCount;
   @override
 
   /// 搜索对象
@@ -302,6 +299,10 @@ abstract class _SearchFilterArguments implements SearchFilterArguments {
 
   /// 匹配规则
   String get match;
+  @override
+
+  /// 收藏数（标签、非会员）
+  String? get bookmarkCountNotPremium;
   @override
   @JsonKey(ignore: true)
   _$$SearchFilterArgumentsImplCopyWith<_$SearchFilterArgumentsImpl>

@@ -256,6 +256,8 @@ class LocalizationIntl {
   String get searchHalfYear => Intl.message("Half a year", name: 'searchHalfYear', desc: 'Search filter period');
   String get searchOneYear => Intl.message("One year", name: 'searchOneYear', desc: 'Search filter period');
   String get selectPeriod => Intl.message("Select period", name: 'selectPeriod', desc: 'Search filter period');
+  String get bookmarkCountNotPremium => Intl.message("Bookmark count (Not premium)", name: 'bookmarkCountNotPremium', desc: 'Filter bookmark count. Hint not premium function');
+  String get bookmarksCount => Intl.message("Bookmark count", name: 'bookmarksCount', desc: 'Filter bookmark count');
 
   // 发现页
   String get trendingTags => Intl.message("Trending tags", name: 'trendingTags', desc: 'Tending tags');

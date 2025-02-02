@@ -49,6 +49,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'autoSwitchFollowingSystemDesc': MessageLookupByLibrary.simpleMessage('Automatically switch between light and dark following the system settings'),
     'backgroundMusic': MessageLookupByLibrary.simpleMessage('Background music'),
     'birthday': MessageLookupByLibrary.simpleMessage('Birthday'),
+    'bookmarkCountNotPremium': MessageLookupByLibrary.simpleMessage('Bookmark count (Not premium)'),
+    'bookmarksCount': MessageLookupByLibrary.simpleMessage('Bookmark count'),
     'cancelFollow': MessageLookupByLibrary.simpleMessage('Cancel follow'),
     'chair': MessageLookupByLibrary.simpleMessage('Chair'),
     'changelog': MessageLookupByLibrary.simpleMessage('Changelog'),

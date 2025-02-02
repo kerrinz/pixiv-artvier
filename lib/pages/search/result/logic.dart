@@ -71,6 +71,9 @@ mixin SearchResultPageLogic on State<SearchResultPage> {
         case 3:
           setFilterDate(value);
           break;
+        case 4:
+          ref.read(searchFilterProvider.notifier).update((state) => state.copyWith(bookmarkCountNotPremium: value));
+          break;
       }
     }
     // Reload
