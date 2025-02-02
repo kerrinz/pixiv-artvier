@@ -511,6 +511,18 @@
     "type": "text",
     "placeholders": {}
   },
+  "privateFollow": "悄悄关注",
+  "@privateFollow": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "cancelFollow": "取消关注",
+  "@cancelFollow": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "textCollapse": "收起",
   "@textCollapse": {
     "description": "",
@@ -960,6 +972,12 @@
   "selectPeriod": "指定日期",
   "@selectPeriod": {
     "description": "Search filter period",
+    "type": "text",
+    "placeholders": {}
+  },
+  "trendingTags": "热门标签",
+  "@trendingTags": {
+    "description": "Tending tags",
     "type": "text",
     "placeholders": {}
   }

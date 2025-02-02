@@ -1,3 +1,4 @@
+import 'package:artvier/l10n/localization_intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +48,7 @@ class BottomSheets {
     barrierColor = Colors.black38,
     enableDrag = true,
     showCancel = true, // 是否显示取消按钮
-    String cancelText = "取消", // 取消按钮的文字
+    String? cancelText, // 取消按钮的文字
   }) {
     showModalBottomSheet<int>(
       context: context,
@@ -79,7 +80,7 @@ class BottomSheets {
                         color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.zero,
                         child: Text(
-                          cancelText,
+                          cancelText ?? LocalizationIntl.of(context).promptCancel,
                           style: TextStyle(color: Theme.of(context).colorScheme.primary),
                         ),
                         onPressed: () {

@@ -152,6 +152,8 @@ class LocalizationIntl {
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');
   String get followed => Intl.message('Followed', name: 'followed', desc: '');
+  String get privateFollow => Intl.message('Private follow', name: 'privateFollow', desc: '');
+  String get cancelFollow => Intl.message('Cancel follow', name: 'cancelFollow', desc: '');
   String get textCollapse => Intl.message('Collapse', name: 'textCollapse', desc: '');
   String get textExpand => Intl.message('Expand', name: 'textExpand', desc: '');
   String get gender => Intl.message('Gender', name: 'gender', desc: '');
@@ -254,6 +256,9 @@ class LocalizationIntl {
   String get searchHalfYear => Intl.message("Half a year", name: 'searchHalfYear', desc: 'Search filter period');
   String get searchOneYear => Intl.message("One year", name: 'searchOneYear', desc: 'Search filter period');
   String get selectPeriod => Intl.message("Select period", name: 'selectPeriod', desc: 'Search filter period');
+
+  // 发现页
+  String get trendingTags => Intl.message("Trending tags", name: 'trendingTags', desc: 'Tending tags');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {

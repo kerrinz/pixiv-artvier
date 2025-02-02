@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-01-31T23:05:52.424118",
+  "@@last_modified": "2025-02-02T20:47:10.289706",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -510,6 +510,18 @@
     "type": "text",
     "placeholders": {}
   },
+  "privateFollow": "Private follow",
+  "@privateFollow": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "cancelFollow": "Cancel follow",
+  "@cancelFollow": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "textCollapse": "Collapse",
   "@textCollapse": {
     "description": "",
@@ -959,6 +971,12 @@
   "selectPeriod": "Select period",
   "@selectPeriod": {
     "description": "Search filter period",
+    "type": "text",
+    "placeholders": {}
+  },
+  "trendingTags": "Trending tags",
+  "@trendingTags": {
+    "description": "Tending tags",
     "type": "text",
     "placeholders": {}
   }
