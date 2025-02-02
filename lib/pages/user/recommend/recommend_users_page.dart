@@ -21,7 +21,7 @@ class RecommendUsersPage extends BasePage {
             SliverAppBar(
               pinned: true,
               leading: const AppbarLeadingButtton(),
-              title: Text(i10n(context).recommendUsers),
+              title: Text(l10n(context).recommendUsers),
               toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
               actions: const [],
             ),

@@ -26,7 +26,7 @@ class UserFollowingPage extends BasePage {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var i10n = LocalizationIntl.of(context);
+    var l10n = LocalizationIntl.of(context);
     return Scaffold(
       body: ExtendedNestedScrollView(
         floatHeaderSlivers: true,
@@ -68,7 +68,7 @@ class UserFollowingPage extends BasePage {
                     textPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     onTap: (int tapIndex) =>
                         ref.read(userFollowingFilterProvider(userId).notifier).update((state) => restrictOptions[tapIndex]),
-                    texts: [i10n.public, i10n.private],
+                    texts: [l10n.public, l10n.private],
                   );
                 }),
               ),

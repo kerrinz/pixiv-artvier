@@ -39,7 +39,7 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
   /// 所有的搜索类型
   final List<SearchType> _searchTypes = [SearchType.artwork, SearchType.novel, SearchType.user];
 
-  LocalizationIntl get i10n => LocalizationIntl.of(context);
+  LocalizationIntl get l10n => LocalizationIntl.of(context);
 
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
 
@@ -102,7 +102,7 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
             focusNode: _focusNode,
             style: const TextStyle(fontSize: 14),
             decoration: InputDecoration(
-              hintText: "${i10n.search}...",
+              hintText: "${l10n.search}...",
               contentPadding: const EdgeInsets.symmetric(horizontal: 8),
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
@@ -151,9 +151,9 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
                     textBorderRadius: const BorderRadius.all(Radius.circular(20)),
                     spacing: 8,
                     texts: [
-                      "${i10n.illust} • ${i10n.manga}",
-                      i10n.novels,
-                      i10n.users,
+                      "${l10n.illust} • ${l10n.manga}",
+                      l10n.novels,
+                      l10n.users,
                     ],
                     onTap: (int tapIndex) => handleTapSearchType(_searchTypes[tapIndex]),
                   );
@@ -180,8 +180,8 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
                         name: 'sort',
                         defaultValue: ApiSearchConstants.dateDesc,
                         list: [
-                          CategoryModel(value: ApiSearchConstants.dateDesc, name: i10n.sortDateDesc, check: false),
-                          CategoryModel(value: ApiSearchConstants.dateAsc, name: i10n.sortDateAsc, check: false),
+                          CategoryModel(value: ApiSearchConstants.dateDesc, name: l10n.sortDateDesc, check: false),
+                          CategoryModel(value: ApiSearchConstants.dateAsc, name: l10n.sortDateAsc, check: false),
                         ],
                       ),
                       DropDownMenuModel(
@@ -189,12 +189,12 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
                         defaultValue: ApiSearchConstants.tagPartialMatch,
                         list: [
                           CategoryModel(
-                              value: ApiSearchConstants.tagPartialMatch, name: i10n.tagPartialMatch, check: false),
+                              value: ApiSearchConstants.tagPartialMatch, name: l10n.tagPartialMatch, check: false),
                           CategoryModel(
-                              value: ApiSearchConstants.tagPerfectMatch, name: i10n.tagPerfectMatch, check: false),
+                              value: ApiSearchConstants.tagPerfectMatch, name: l10n.tagPerfectMatch, check: false),
                           CategoryModel(
                               value: ApiSearchConstants.titleAndDescription,
-                              name: i10n.titleOrDescriptionMatch,
+                              name: l10n.titleOrDescriptionMatch,
                               check: false),
                         ],
                       ),
@@ -202,27 +202,27 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
                         name: 'AI',
                         defaultValue: '0',
                         list: [
-                          CategoryModel(value: '0', name: i10n.showAiResult, check: false),
-                          CategoryModel(value: '1', name: i10n.hideAiResult, check: false),
+                          CategoryModel(value: '0', name: l10n.showAiResult, check: false),
+                          CategoryModel(value: '1', name: l10n.hideAiResult, check: false),
                         ],
                       ),
                       // Period 时间段
                       DropDownMenuModel(
-                        name: i10n.period,
+                        name: l10n.period,
                         // defaultValue: '0',
                         list: [
-                          CategoryModel(value: 'all', name: i10n.allPeriod, check: false),
-                          CategoryModel(value: '24h', name: i10n.searchTwentyFourHour, check: false),
-                          CategoryModel(value: '1week', name: i10n.searchOneWeek, check: false),
-                          CategoryModel(value: '1month', name: i10n.searchOneMonth, check: false),
-                          CategoryModel(value: 'halfYear', name: i10n.searchHalfYear, check: false),
-                          CategoryModel(value: '1year', name: i10n.searchOneYear, check: false),
-                          // CategoryModel(value: 'custom', name: i10n.selectPeriod, check: false),
+                          CategoryModel(value: 'all', name: l10n.allPeriod, check: false),
+                          CategoryModel(value: '24h', name: l10n.searchTwentyFourHour, check: false),
+                          CategoryModel(value: '1week', name: l10n.searchOneWeek, check: false),
+                          CategoryModel(value: '1month', name: l10n.searchOneMonth, check: false),
+                          CategoryModel(value: 'halfYear', name: l10n.searchHalfYear, check: false),
+                          CategoryModel(value: '1year', name: l10n.searchOneYear, check: false),
+                          // CategoryModel(value: 'custom', name: l10n.selectPeriod, check: false),
                         ],
                       ),
                       // 收藏数（非会员功能）
                       DropDownMenuModel(
-                        name: i10n.bookmarkCountNotPremium,
+                        name: l10n.bookmarkCountNotPremium,
                         list: [
                           CategoryModel(value: 'all', name: '不限制', check: false),
                           CategoryModel(value: '30000users入り', name: '30000users入り', check: false),

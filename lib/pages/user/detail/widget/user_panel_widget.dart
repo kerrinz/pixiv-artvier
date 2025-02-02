@@ -34,7 +34,7 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var i10n = LocalizationIntl.of(context);
+    var l10n = LocalizationIntl.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Column(
@@ -99,7 +99,7 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
               // 点击复制UID
               Clipboard.setData(ClipboardData(text: userId)).then(
                 (value) => Fluttertoast.showToast(
-                  msg: i10n.copiedToClipboard,
+                  msg: l10n.copiedToClipboard,
                   toastLength: Toast.LENGTH_SHORT,
                   fontSize: 16.0,
                 ),
@@ -151,7 +151,7 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
 
   /// 右侧的水平分栏信息
   Widget _rightHorizontalColumnsWidget(BuildContext context, UserDetail detail) {
-    var i10n = LocalizationIntl.of(context);
+    var l10n = LocalizationIntl.of(context);
     const TextStyle numberTextStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
     // 性别、关注、好P友的统计信息
     return Row(
@@ -162,7 +162,7 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
           flex: 1,
           child: Column(
             children: [
-              Text(i10n.gender, style: Theme.of(context).textTheme.labelSmall),
+              Text(l10n.gender, style: Theme.of(context).textTheme.labelSmall),
               Builder(builder: (_) {
                 var gender = detail.profile.gender;
                 switch (gender) {
@@ -186,7 +186,7 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
             onTap: () => Navigator.of(context).pushNamed(RouteNames.userFollowing.name, arguments: userId),
             child: Column(
               children: [
-                Text(i10n.following, style: Theme.of(context).textTheme.labelSmall),
+                Text(l10n.following, style: Theme.of(context).textTheme.labelSmall),
                 Text(detail.profile.totalFollowUsers.toString(), style: numberTextStyle),
               ],
             ),
@@ -197,7 +197,7 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
           flex: 1,
           child: Column(
             children: [
-              Text(i10n.friends, style: Theme.of(context).textTheme.labelSmall),
+              Text(l10n.friends, style: Theme.of(context).textTheme.labelSmall),
               Text(detail.profile.totalMypixivUsers.toString(), style: numberTextStyle),
             ],
           ),

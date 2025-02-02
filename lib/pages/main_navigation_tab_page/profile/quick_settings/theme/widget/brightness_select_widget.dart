@@ -20,7 +20,7 @@ class BrightnessSelectWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isLight = brightness == Brightness.light;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
-    var i10n = LocalizationIntl.of(context);
+    var l10n = LocalizationIntl.of(context);
     return InkWell(
       onTap: onTap,
       child: Column(
@@ -52,7 +52,7 @@ class BrightnessSelectWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
-              isLight ? i10n.lightBrightness : i10n.dartBrightness,
+              isLight ? l10n.lightBrightness : l10n.dartBrightness,
               style: TextStyle(fontSize: 16, color: isSelected ? colorScheme.primary : null),
             ),
           ),

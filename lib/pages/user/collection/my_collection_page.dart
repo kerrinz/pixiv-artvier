@@ -49,9 +49,9 @@ class _MyCollectionsState extends BasePageState<MyBookmarksPage> with TickerProv
             tabAlignment: TabAlignment.start,
             tabs: [
               Tab(
-                child: Text("${i10n.illust} • ${i10n.manga}"),
+                child: Text("${l10n.illust} • ${l10n.manga}"),
               ),
-              Tab(text: i10n.novels),
+              Tab(text: l10n.novels),
             ],
           );
           return [
@@ -78,7 +78,7 @@ class _MyCollectionsState extends BasePageState<MyBookmarksPage> with TickerProv
                         child: Row(
                           children: [
                             Text(
-                              filter.restrict == Restrict.public ? i10n.public : i10n.private,
+                              filter.restrict == Restrict.public ? l10n.public : l10n.private,
                               style: const TextStyle(fontSize: 14),
                             ),
                             const Icon(Icons.filter_alt_outlined, size: 18),

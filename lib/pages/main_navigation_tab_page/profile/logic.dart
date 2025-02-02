@@ -8,7 +8,7 @@ import 'package:artvier/pages/main_navigation_tab_page/profile/profile_tabpage.d
 import 'package:artvier/routes.dart';
 
 mixin ProfileTabPageLogic on ConsumerState<ProfileTabPage> {
-  LocalizationIntl get i10n => LocalizationIntl.of(ref.context);
+  LocalizationIntl get l10n => LocalizationIntl.of(ref.context);
 
   /// 点击切换主题模式
   Future<void> handleTapThemeMode(bool isDarkMode) async {
@@ -20,12 +20,12 @@ mixin ProfileTabPageLogic on ConsumerState<ProfileTabPage> {
         context: ref.context,
         builder: (context) {
           return AlertDialog(
-            title: Text(i10n.promptTitle),
-            content: Text(i10n.themeModePromptContent),
+            title: Text(l10n.promptTitle),
+            content: Text(l10n.themeModePromptContent),
             actions: <Widget>[
-              TextButton(child: Text(i10n.promptCancel), onPressed: () => Navigator.pop(context)),
+              TextButton(child: Text(l10n.promptCancel), onPressed: () => Navigator.pop(context)),
               TextButton(
-                child: Text(i10n.promptConform),
+                child: Text(l10n.promptConform),
                 onPressed: () {
                   isCancel = false;
                   Navigator.pop(context);

@@ -162,9 +162,9 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
                     isScrollable: true,
                     tabAlignment: TabAlignment.start,
                     tabs: [
-                      Tab(text: i10n.works),
-                      Tab(text: i10n.collections),
-                      Tab(text: i10n.more),
+                      Tab(text: l10n.works),
+                      Tab(text: l10n.collections),
+                      Tab(text: l10n.more),
                     ],
                   ),
                 ),

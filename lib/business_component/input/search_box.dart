@@ -41,7 +41,7 @@ class SearchBox extends BasePage {
                 Navigator.of(context).push(BasePage.createFadeRoute(RouteNames.expandSearch.name));
               },
               child: Text(
-                "${i10n(context).search}...",
+                "${l10n(context).search}...",
                 style: textColor != null
                     ? textTheme(context).bodyMedium?.copyWith(color: textColor)
                     : textTheme(context).bodyMedium,

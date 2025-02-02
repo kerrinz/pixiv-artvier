@@ -46,7 +46,7 @@ class _TokenLoginDialogState extends BasePageState<TokenLoginDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: Text(i10n.promptCancel),
+          child: Text(l10n.promptCancel),
           onPressed: () => Navigator.of(context).pop(),
         ),
         TextButton(
@@ -55,7 +55,7 @@ class _TokenLoginDialogState extends BasePageState<TokenLoginDialog> {
             builder: (BuildContext context, value, Widget? child) {
               return value
                   ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
-                  : Text(i10n.promptConform);
+                  : Text(l10n.promptConform);
             },
           ),
           onPressed: () {
@@ -66,14 +66,14 @@ class _TokenLoginDialogState extends BasePageState<TokenLoginDialog> {
                 .loginByRefreshToken(_refreshTokenController.text)
                 .then((value) {
               if (value && context.mounted) {
-                Fluttertoast.showToast(msg: i10n.loginSuccess);
+                Fluttertoast.showToast(msg: l10n.loginSuccess);
                 Navigator.of(context).pushNamedAndRemoveUntil(RouteNames.mainNavigation.name, (route) => false);
               }
               if (!value) {
-                Fluttertoast.showToast(msg: i10n.loginFailed);
+                Fluttertoast.showToast(msg: l10n.loginFailed);
               }
             }).catchError((e) {
-              Fluttertoast.showToast(msg: i10n.loginFailed + e.toString());
+              Fluttertoast.showToast(msg: l10n.loginFailed + e.toString());
             }).whenComplete(() => isLoading.value = false);
           },
         ),

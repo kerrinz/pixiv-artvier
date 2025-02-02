@@ -61,7 +61,7 @@ class UserDetailMenu extends BasePage with FollowButtonLogic {
                   onTap: () => Clipboard.setData(ClipboardData(text: CONSTANTS.referer_users_base + userId.toString()))
                       .then((value) {
                     Fluttertoast.showToast(
-                      msg: i10n(context).copiedToClipboard,
+                      msg: l10n(context).copiedToClipboard,
                       toastLength: Toast.LENGTH_SHORT,
                       fontSize: 16.0,
                     );
@@ -71,11 +71,11 @@ class UserDetailMenu extends BasePage with FollowButtonLogic {
                 Consumer(
                   builder: (context, ref, child) {
                     var state = ref.watch(userFollowProvider);
-                    String text = i10n(context).privateFollow;
+                    String text = l10n(context).privateFollow;
                     if (state == UserFollowState.notFollow || state == UserFollowState.requestingFollow) {
-                      text = i10n(context).privateFollow;
+                      text = l10n(context).privateFollow;
                     } else if (state == UserFollowState.followed || state == UserFollowState.requestingUnfollow) {
-                      text = i10n(context).cancelFollow;
+                      text = l10n(context).cancelFollow;
                     }
                     return rowListItem(
                       context: context,
