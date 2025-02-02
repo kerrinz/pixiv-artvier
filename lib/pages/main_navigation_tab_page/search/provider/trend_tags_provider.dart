@@ -1,20 +1,26 @@
 import 'dart:async';
 
+import 'package:artvier/config/enums.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/api_serach.dart';
 import 'package:artvier/base/base_provider/base_notifier.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/illusts/illust_trending_tags.dart';
 
-/// 趋势（插画+漫画）
+// 热门标签的类型切换
+final trendTagsWorksTypeProvider = AutoDisposeStateProvider<WorksType>((ref) {
+  return WorksType.illust;
+});
+
+/// 热门插画+漫画标签
 final artworkTrendTagsProvider =
-    AutoDisposeAsyncNotifierProvider<ArtworkTrendTagsNotifier, List<TrendTags>>(ArtworkTrendTagsNotifier.new);
+    AsyncNotifierProvider<ArtworkTrendTagsNotifier, List<TrendTags>>(ArtworkTrendTagsNotifier.new);
 
-/// 趋势（小说）
+/// 热门小说标签
 final novelTrendTagsProvider =
-    AutoDisposeAsyncNotifierProvider<ArtworkTrendTagsNotifier, List<TrendTags>>(ArtworkTrendTagsNotifier.new);
+    AsyncNotifierProvider<NovelTrendTagsNotifier, List<TrendTags>>(NovelTrendTagsNotifier.new);
 
-class ArtworkTrendTagsNotifier extends BaseAutoDisposeAsyncNotifier<List<TrendTags>> {
+class ArtworkTrendTagsNotifier extends BaseAsyncNotifier<List<TrendTags>> {
   @override
   FutureOr<List<TrendTags>> build() async {
     return fetch();
@@ -50,7 +56,7 @@ class ArtworkTrendTagsNotifier extends BaseAutoDisposeAsyncNotifier<List<TrendTa
   }
 }
 
-class NovelTrendTagsNotifier extends BaseAutoDisposeAsyncNotifier<List<TrendTags>> implements ArtworkTrendTagsNotifier {
+class NovelTrendTagsNotifier extends BaseAsyncNotifier<List<TrendTags>> implements ArtworkTrendTagsNotifier {
   @override
   FutureOr<List<TrendTags>> build() async {
     return fetch();
