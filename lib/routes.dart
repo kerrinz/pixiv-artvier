@@ -107,7 +107,7 @@ class Routes {
     RouteNames.comments.name: (context, arguments) => CommentsPage(arguments!),
     RouteNames.userFollowing.name: (context, arguments) => UserFollowingPage(arguments!),
     RouteNames.userDetail.name: (context, arguments) => UserDetailPage(arguments!),
-    RouteNames.recommendUsers.name: (context, arguments) => RecommendUsersPage(),
+    RouteNames.recommendUsers.name: (context, arguments) => const RecommendUsersPage(),
     RouteNames.expandSearch.name: (context, arguments) => const ExpandSearchPage(),
     RouteNames.searchResult.name: (context, arguments) => SearchResultPage(arguments!),
     RouteNames.myBookmarks.name: (context, arguments) => MyBookmarksPage(arguments!),
