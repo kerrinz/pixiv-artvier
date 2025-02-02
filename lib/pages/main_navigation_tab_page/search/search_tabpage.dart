@@ -91,7 +91,10 @@ class SearchTabPageState extends BasePageState<SearchTabPage> with AutomaticKeep
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Text(i10n.trendingTags, style: textTheme.titleLarge),
+                      child: Text(
+                        i10n.trendingTags,
+                        style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                      ),
                     ),
                     DecoratedBox(
                       decoration: BoxDecoration(
