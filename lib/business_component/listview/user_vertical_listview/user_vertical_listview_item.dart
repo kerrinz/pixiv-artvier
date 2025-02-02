@@ -1,10 +1,10 @@
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/business_component/listview/user_vertical_listview/logic.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
-import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
@@ -126,7 +126,7 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
                         child: EnhanceNetworkImage(
                           image: ExtendedNetworkImageProvider(
                             HttpHostOverrides().pxImgUrl(userData.user.profileImageUrls.medium),
-                            headers: const {"referer": CONSTANTS.referer},
+                            headers: HttpBaseOptions.pximgHeaders,
                             cache: true,
                           ),
                           width: 64,
@@ -180,7 +180,7 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
     return EnhanceNetworkImage(
       image: ExtendedNetworkImageProvider(
         HttpHostOverrides().pxImgUrl(url),
-        headers: const {"referer": CONSTANTS.referer},
+        headers: HttpBaseOptions.pximgHeaders,
         cache: true,
       ),
     );

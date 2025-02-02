@@ -1,8 +1,8 @@
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/pages/account/account_manage/logic.dart';
 import 'package:artvier/pages/account/account_manage/provider/account_manage_provider.dart';
@@ -56,7 +56,7 @@ class _AccountManagePageState extends BasePageState<AccountManagePage> with Acco
     } else {
       avatar = ExtendedImage.network(
         HttpHostOverrides().pxImgUrl(profile.user.profileImageUrls!.px170x170),
-        headers: const {"Referer": CONSTANTS.referer},
+        headers: HttpBaseOptions.pximgHeaders,
         enableLoadState: false,
       );
     }

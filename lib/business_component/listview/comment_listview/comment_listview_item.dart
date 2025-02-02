@@ -1,10 +1,10 @@
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
-import 'package:artvier/config/constants.dart';
 import 'package:artvier/model_response/illusts/illust_comments.dart';
 
 class CommentListViewItem extends ConsumerWidget {
@@ -28,7 +28,7 @@ class CommentListViewItem extends ConsumerWidget {
             child: EnhanceNetworkImage(
               image: ExtendedNetworkImageProvider(
                 HttpHostOverrides().pxImgUrl(comment.user.profileImageUrls.medium),
-                headers: const {"Referer": CONSTANTS.referer},
+                headers: HttpBaseOptions.pximgHeaders,
               ),
               fit: BoxFit.cover,
               width: 48,
@@ -72,7 +72,7 @@ class CommentListViewItem extends ConsumerWidget {
                     return EnhanceNetworkImage(
                       image: ExtendedNetworkImageProvider(
                         HttpHostOverrides().pxImgUrl(comment.stamp!.stampUrl),
-                        headers: const {"Referer": CONSTANTS.referer},
+                        headers: HttpBaseOptions.pximgHeaders,
                       ),
                       width: 64,
                     );

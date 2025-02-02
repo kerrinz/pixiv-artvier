@@ -5,7 +5,7 @@ import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/loading/request_loading.dart';
-import 'package:artvier/config/constants.dart';
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/pages/artwork/series/model/arguments.dart';
 import 'package:artvier/pages/artwork/series/provider.dart';
 import 'package:artvier/pages/artwork/series/widget/author_card.dart';
@@ -157,7 +157,7 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
           fit: BoxFit.cover,
           image: ExtendedNetworkImageProvider(
             HttpHostOverrides().pxImgUrl(widget.arguments.url),
-            headers: const {"Referer": CONSTANTS.referer},
+            headers: HttpBaseOptions.pximgHeaders,
             cache: true,
           ),
         ),

@@ -1,6 +1,6 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/image/stack_avatar_list.dart';
-import 'package:artvier/config/constants.dart';
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/model_response/user/common_user_previews.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/routes.dart';
@@ -54,7 +54,7 @@ class RecommendUsersWidget extends BasePage {
                           fit: BoxFit.cover,
                           image: ExtendedNetworkImageProvider(
                             HttpHostOverrides().pxImgUrl(item.user.profileImageUrls.medium),
-                            headers: {"Referer": CONSTANTS.referer},
+                            headers: HttpBaseOptions.pximgHeaders,
                           ),
                         ),
                       ),

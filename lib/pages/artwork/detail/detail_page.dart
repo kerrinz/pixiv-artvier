@@ -3,6 +3,7 @@ import 'package:artvier/business_component/ugoira_image/ugoira_image.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/dialog_custom.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
 import 'package:artvier/pages/artwork/detail/widgets/menu_bottom_sheet.dart';
@@ -20,7 +21,6 @@ import 'package:artvier/component/drag_view/drag_vertical_container.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/loading/request_loading.dart';
 import 'package:artvier/component/viewport/delayed_build_until_viewport.dart';
-import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
@@ -230,7 +230,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
                   key: imgKey,
                   image: ExtendedNetworkImageProvider(
                     HttpHostOverrides().pxImgUrl(url),
-                    headers: const {"referer": CONSTANTS.referer},
+                    headers: HttpBaseOptions.pximgHeaders,
                     cache: true,
                   ),
                   // key: _imgKey,

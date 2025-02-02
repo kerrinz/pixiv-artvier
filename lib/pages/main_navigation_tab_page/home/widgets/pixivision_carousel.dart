@@ -1,6 +1,6 @@
 import 'package:artvier/component/carousel/blur_carousel.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
-import 'package:artvier/config/constants.dart';
+import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/pages/artwork/pixivision/model/pixivision_webview_page_arguments.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/provider/home_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -51,7 +51,7 @@ class PixivsionCarousel extends ConsumerWidget {
                           width: double.infinity,
                           image: ExtendedNetworkImageProvider(
                             HttpHostOverrides().pxImgUrl(list[index].thumbnail),
-                            headers: const {"Referer": CONSTANTS.referer},
+                            headers: HttpBaseOptions.pximgHeaders,
                           ),
                           fit: BoxFit.cover,
                           loadingWidget: (context, url, progress) =>
@@ -90,7 +90,7 @@ class PixivsionCarousel extends ConsumerWidget {
             EnhanceNetworkImage(
               image: ExtendedNetworkImageProvider(
                 HttpHostOverrides().pxImgUrl(list[index].thumbnail),
-                headers: const {"Referer": CONSTANTS.referer},
+                headers: HttpBaseOptions.pximgHeaders,
               ),
               width: double.infinity,
               fit: BoxFit.cover,
