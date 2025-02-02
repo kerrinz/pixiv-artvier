@@ -75,7 +75,7 @@ class _LoginWizardPageState extends BasePageState<LoginWizardPage> {
                           child: SizedBox(
                             width: double.infinity,
                             child: Text(
-                              i10n.webLogin,
+                              l10n.webLogin,
                               textAlign: TextAlign.center,
                               style: textTheme.labelLarge?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
                             ),
@@ -99,7 +99,7 @@ class _LoginWizardPageState extends BasePageState<LoginWizardPage> {
                               child: SizedBox(
                                 width: double.infinity,
                                 child: Text(
-                                  i10n.importToken,
+                                  l10n.importToken,
                                   textAlign: TextAlign.center,
                                   style: textTheme.labelLarge
                                       ?.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
@@ -110,9 +110,9 @@ class _LoginWizardPageState extends BasePageState<LoginWizardPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 24, bottom: 8),
-                          child: Text(i10n.appShortTermsTitle, style: textTheme.titleSmall),
+                          child: Text(l10n.appShortTermsTitle, style: textTheme.titleSmall),
                         ),
-                        Text(i10n.appShortTerms, style: textTheme.labelSmall),
+                        Text(l10n.appShortTerms, style: textTheme.labelSmall),
                       ],
                     ),
                   ),

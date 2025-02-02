@@ -10,7 +10,7 @@ class UserMoreInformationTabPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var i10n = LocalizationIntl.of(context);
+    var l10n = LocalizationIntl.of(context);
     String age = "";
     if (detail.profile.birthYear != 0 && detail.profile.birth != "") {
       DateTime? birth = DateTime.tryParse(detail.profile.birth);
@@ -29,12 +29,12 @@ class UserMoreInformationTabPage extends ConsumerWidget {
               context: context,
               title: '基本资料',
               leftRows: [
-                i10n.nickname,
-                i10n.age,
-                i10n.birthday,
-                i10n.location,
-                i10n.occupation,
-                i10n.pixivPremium,
+                l10n.nickname,
+                l10n.age,
+                l10n.birthday,
+                l10n.location,
+                l10n.occupation,
+                l10n.pixivPremium,
               ],
               rightRows: [
                 detail.user.name,
@@ -42,14 +42,14 @@ class UserMoreInformationTabPage extends ConsumerWidget {
                 detail.profile.birthDay,
                 detail.profile.region,
                 detail.profile.job,
-                detail.profile.isPremium ? i10n.yes : i10n.not,
+                detail.profile.isPremium ? l10n.yes : l10n.not,
               ],
             ),
             _buildMoreInfomationCard(
               context: context,
-              title: i10n.socialMedia,
+              title: l10n.socialMedia,
               leftRows: [
-                i10n.website,
+                l10n.website,
                 "twitter",
                 "twitter_url",
                 "pawoo_url",
@@ -63,20 +63,20 @@ class UserMoreInformationTabPage extends ConsumerWidget {
             ),
             _buildMoreInfomationCard(
               context: context,
-              title: i10n.workspace,
+              title: l10n.workspace,
               leftRows: [
-                i10n.computer,
-                i10n.monitor,
-                i10n.softwareUsed,
-                i10n.scanner,
-                i10n.tablet,
-                i10n.mouse,
-                i10n.printer,
-                i10n.onYourDesk,
-                i10n.backgroundMusic,
-                i10n.table,
-                i10n.chair,
-                i10n.other,
+                l10n.computer,
+                l10n.monitor,
+                l10n.softwareUsed,
+                l10n.scanner,
+                l10n.tablet,
+                l10n.mouse,
+                l10n.printer,
+                l10n.onYourDesk,
+                l10n.backgroundMusic,
+                l10n.table,
+                l10n.chair,
+                l10n.other,
               ],
               rightRows: [
                 detail.workspace.pc,

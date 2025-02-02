@@ -24,7 +24,7 @@ class _AboutAppPageState extends BasePageState<AboutAppPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(i10n.aboutApp),
+        title: Text(l10n.aboutApp),
       ),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -45,14 +45,14 @@ class _AboutAppPageState extends BasePageState<AboutAppPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   items: [
                     PerferenceItem(
-                      text: Text(i10n.appVersion),
+                      text: Text(l10n.appVersion),
                       value: SelectableText(
                         ref.watch(packageInfoProvider).whenOrNull(data: (data) => data.version) ?? "",
                         style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
                       ),
                     ),
                     PerferenceItem(
-                      text: Text(i10n.appAuthor),
+                      text: Text(l10n.appAuthor),
                       value: SelectableText(
                         onTap: () => showOpenLinkDialog(context, CONSTANTS.app_author_url),
                         "@${CONSTANTS.app_author}",
@@ -61,7 +61,7 @@ class _AboutAppPageState extends BasePageState<AboutAppPage> {
                       ),
                     ),
                     PerferenceItem(
-                      text: Text(i10n.appProjectLink),
+                      text: Text(l10n.appProjectLink),
                       value: SelectableText(
                         onTap: () => showOpenLinkDialog(context, CONSTANTS.app_repo_url),
                         CONSTANTS.app_repo_url,
@@ -75,8 +75,8 @@ class _AboutAppPageState extends BasePageState<AboutAppPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                   child: Column(
                     children: [
-                      Text(i10n.appShortTermsTitle, style: textTheme.titleSmall!.copyWith(height: 2)),
-                      Text(i10n.appShortTerms, style: textTheme.labelSmall),
+                      Text(l10n.appShortTermsTitle, style: textTheme.titleSmall!.copyWith(height: 2)),
+                      Text(l10n.appShortTerms, style: textTheme.labelSmall),
                     ],
                   ),
                 ),

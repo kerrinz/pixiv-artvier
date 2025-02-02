@@ -51,8 +51,8 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
           return Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: PerferenceSingleChoisePanel(
-              title: i10n.proxySettingsTitle,
-              caption: i10n.proxySettingsTitleHint,
+              title: l10n.proxySettingsTitle,
+              caption: l10n.proxySettingsTitleHint,
               selectedindex: isEnabled ? 1 : 0,
               onSelect: (index) {
                 switch (index) {
@@ -65,13 +65,13 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
               },
               widgets: <Widget>[
                 Text(
-                  i10n.defaultNoProxy,
+                  l10n.defaultNoProxy,
                   style: textTheme.labelMedium,
                 ),
                 Row(
                   children: [
                     Text(
-                      i10n.customProxy,
+                      l10n.customProxy,
                       style: textTheme.labelMedium,
                     ),
                     Expanded(child: _buildProxyBadge(context)),
@@ -99,7 +99,7 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            i10n.customImageHosting,
+                            l10n.customImageHosting,
                             style: textTheme.titleMedium,
                           ),
                           Padding(
@@ -138,11 +138,11 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        i10n.enableDirectConnection,
+                        l10n.enableDirectConnection,
                         style: textTheme.titleMedium,
                       ),
                       Text(
-                        i10n.directConnectionHint,
+                        l10n.directConnectionHint,
                         style: textTheme.labelSmall?.copyWith(
                           color: textTheme.labelSmall?.color?.withOpacity(0.5),
                         ),
@@ -183,14 +183,14 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                 barrierDismissible: false,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text(i10n.customProxy),
+                    title: Text(l10n.customProxy),
                     content: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Row(
                             children: [
-                              Expanded(flex: 1, child: Text(i10n.ipAdressEditing)),
+                              Expanded(flex: 1, child: Text(l10n.ipAdressEditing)),
                               Expanded(
                                 flex: 2,
                                 child: TextField(
@@ -209,7 +209,7 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                           ),
                           Row(
                             children: [
-                              Expanded(flex: 1, child: Text(i10n.portEditing)),
+                              Expanded(flex: 1, child: Text(l10n.portEditing)),
                               Expanded(
                                 child: TextField(
                                   autofocus: false,
@@ -230,7 +230,7 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                     ),
                     actions: <Widget>[
                       TextButton(
-                        child: Text(i10n.promptCancel),
+                        child: Text(l10n.promptCancel),
                         onPressed: () {
                           // 退回原来的值
                           ref.invalidate(inputProxyHostProvider);
@@ -239,7 +239,7 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                         },
                       ),
                       TextButton(
-                        child: Text(i10n.promptConform),
+                        child: Text(l10n.promptConform),
                         onPressed: () {
                           var host =
                               _hostController.text.isNotEmpty ? _hostController.text : CONSTANTS.proxy_default_host;
@@ -287,7 +287,7 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text(i10n.editImageHosting),
+                  title: Text(l10n.editImageHosting),
                   content: SingleChildScrollView(
                     child: TextField(
                       autofocus: false,
@@ -303,7 +303,7 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                   ),
                   actions: <Widget>[
                     TextButton(
-                      child: Text(i10n.promptCancel),
+                      child: Text(l10n.promptCancel),
                       onPressed: () {
                         // 退回原来的值
                         ref.invalidate(inputImageHostProvider);
@@ -311,7 +311,7 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                       },
                     ),
                     TextButton(
-                      child: Text(i10n.promptConform),
+                      child: Text(l10n.promptConform),
                       onPressed: () {
                         var host = _imageHostController.text.isNotEmpty
                             ? _imageHostController.text

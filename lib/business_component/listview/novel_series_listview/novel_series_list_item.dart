@@ -32,7 +32,7 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
 
   TextTheme get textTheme => Theme.of(context).textTheme;
 
-  LocalizationIntl get i10n => LocalizationIntl.of(context);
+  LocalizationIntl get l10n => LocalizationIntl.of(context);
 
   @override
   void initState() {
@@ -93,7 +93,7 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(i10n.seriesUpdateTo(widget.novelSeries.publishedContentCount),
+                        Text(l10n.seriesUpdateTo(widget.novelSeries.publishedContentCount),
                             style: textTheme.bodySmall
                                 ?.copyWith(color: textTheme.bodySmall?.color?.withOpacity(0.5), height: 1.5)),
                         Text(
@@ -136,7 +136,7 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
                     ),
                   ),
                   Text(
-                    i10n.seriesLatestChapter,
+                    l10n.seriesLatestChapter,
                     style: textTheme.labelMedium
                         ?.copyWith(color: colorScheme.primary, height: 1, fontWeight: FontWeight.w600),
                   ),

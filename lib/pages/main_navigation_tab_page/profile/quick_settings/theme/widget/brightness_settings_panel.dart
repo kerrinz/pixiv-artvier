@@ -13,7 +13,7 @@ class BrightnessSettingsPanel extends ConsumerWidget with _Logic {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var i10n = LocalizationIntl.of(context);
+    var l10n = LocalizationIntl.of(context);
     return PerferenceContainer(
       groups: [
         Consumer(builder: (_, ref, __) {
@@ -49,8 +49,8 @@ class BrightnessSettingsPanel extends ConsumerWidget with _Logic {
               text: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(i10n.autoSwitchFollowingSystem, style: const TextStyle(fontSize: 16)),
-                  Text(i10n.autoSwitchFollowingSystemDesc,
+                  Text(l10n.autoSwitchFollowingSystem, style: const TextStyle(fontSize: 16)),
+                  Text(l10n.autoSwitchFollowingSystemDesc,
                       style: TextStyle(fontSize: 12, color: Theme.of(ref.context).textTheme.bodySmall?.color)),
                 ],
               ),

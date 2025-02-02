@@ -64,7 +64,7 @@ class _FollowedSeriesTabPageState extends BasePageState<FollowedSeriesTabPage> w
                         ref.read(followedSeriesWorksTypeProvider.notifier).update((state) => WorksType.novel);
                       }
                     },
-                    texts: [i10n.mangaSeries, i10n.novelSeries],
+                    texts: [l10n.mangaSeries, l10n.novelSeries],
                   );
                 }),
               ),

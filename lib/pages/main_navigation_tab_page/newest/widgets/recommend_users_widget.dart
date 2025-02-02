@@ -34,7 +34,7 @@ class RecommendUsersWidget extends BasePage {
               Icon(Icons.person_4, color: colorScheme(context).secondary),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Text(i10n(context).recommendUsers),
+                child: Text(l10n(context).recommendUsers),
               ),
               Expanded(
                 child: StackAvatarList(

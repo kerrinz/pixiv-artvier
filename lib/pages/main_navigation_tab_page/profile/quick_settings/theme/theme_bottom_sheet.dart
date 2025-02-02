@@ -9,14 +9,14 @@ class ThemeSettingsBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var i10n = LocalizationIntl.of(context);
+    var l10n = LocalizationIntl.of(context);
     return SafeArea(
       child: Column(
         children: [
           const BottomSheetSlideBar(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: Text(i10n.dartModeSettingsTitle, style: Theme.of(context).textTheme.titleMedium),
+            child: Text(l10n.dartModeSettingsTitle, style: Theme.of(context).textTheme.titleMedium),
           ),
           const BrightnessSettingsPanel(),
         ],

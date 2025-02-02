@@ -68,7 +68,7 @@ class _EverybodyNewestTabPageState extends BasePageState<EverybodyNewestTabPage>
                         ref.read(everybodyNewestWorksTypeProvider.notifier).update((state) => WorksType.novel);
                       }
                     },
-                    texts: [i10n.illust, i10n.manga, i10n.novels],
+                    texts: [l10n.illust, l10n.manga, l10n.novels],
                   );
                 }),
               ),

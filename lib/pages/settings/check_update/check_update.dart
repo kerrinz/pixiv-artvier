@@ -28,7 +28,7 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(i10n.softwareUpdate),
+        title: Text(l10n.softwareUpdate),
       ),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -42,7 +42,7 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   items: [
                     PerferenceItem(
-                      text: Text(i10n.currentVersion),
+                      text: Text(l10n.currentVersion),
                       value: SelectableText(
                         ref.watch(packageInfoProvider).whenOrNull(data: (data) => data.version.split('-').first) ?? "-",
                         style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
@@ -89,7 +89,7 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 8),
-                                    child: Text(i10n.downloadLink, style: textTheme.titleMedium),
+                                    child: Text(l10n.downloadLink, style: textTheme.titleMedium),
                                   ),
                                   for (final asset in data.assets)
                                     _buildBulletLine(Padding(
@@ -116,7 +116,7 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
                             // 当前已经是最新版本
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Text(i10n.currentIsLatestVersion, textAlign: TextAlign.center),
+                              child: Text(l10n.currentIsLatestVersion, textAlign: TextAlign.center),
                             );
                           },
                           error: (error, stackTrace) {
@@ -130,7 +130,7 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
                                 crossAxisAlignment: WrapCrossAlignment.start,
                                 direction: Axis.horizontal,
                                 children: [
-                                  Text(i10n.checkUpdateLimitForGithubApi),
+                                  Text(l10n.checkUpdateLimitForGithubApi),
                                   GestureDetector(
                                     onTap: () => showOpenLinkDialog(context, CONSTANTS.app_repo_release_url),
                                     child: Text(

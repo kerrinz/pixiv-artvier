@@ -96,7 +96,7 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
                                     color: const Color(0xfffeaf0f),
                                     borderRadius: const BorderRadius.all(Radius.circular(4)),
                                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                    child: Text(i10n.series,
+                                    child: Text(l10n.series,
                                         style: textTheme.labelSmall?.copyWith(color: Colors.white, height: 1)),
                                   ),
                                 ),
@@ -121,7 +121,7 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
                         SliverPadding(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                           sliver: SliverToBoxAdapter(
-                            child: Text(i10n.seriesTotals(data.illustSeriesDetail.seriesWorkCount)),
+                            child: Text(l10n.seriesTotals(data.illustSeriesDetail.seriesWorkCount)),
                           ),
                         ),
                         SliverPadding(

@@ -105,7 +105,7 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
                                   novelNotifilter.reload();
                                 }
                               },
-                              texts: ["${i10n.illust} • ${i10n.manga}", i10n.novels],
+                              texts: ["${l10n.illust} • ${l10n.manga}", l10n.novels],
                             );
                           }),
                         ),
@@ -132,12 +132,12 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
                           },
                           filterList: [
                             DropDownMenuModel(
-                              name: i10n.all,
+                              name: l10n.all,
                               defaultValue: RestrictAll.all.name,
                               list: [
-                                CategoryModel(value: RestrictAll.all.name, name: i10n.all, check: false),
-                                CategoryModel(value: RestrictAll.public.name, name: i10n.public, check: false),
-                                CategoryModel(value: RestrictAll.private.name, name: i10n.private, check: false),
+                                CategoryModel(value: RestrictAll.all.name, name: l10n.all, check: false),
+                                CategoryModel(value: RestrictAll.public.name, name: l10n.public, check: false),
+                                CategoryModel(value: RestrictAll.private.name, name: l10n.private, check: false),
                               ],
                             ),
                           ],

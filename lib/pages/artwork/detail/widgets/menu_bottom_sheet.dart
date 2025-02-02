@@ -37,7 +37,7 @@ class ArtworkDetailMenu extends BasePage {
                       Clipboard.setData(ClipboardData(text: CONSTANTS.referer_artworks_base + detail.id.toString()))
                           .then((value) {
                     Fluttertoast.showToast(
-                      msg: i10n(context).copiedToClipboard,
+                      msg: l10n(context).copiedToClipboard,
                       toastLength: Toast.LENGTH_SHORT,
                       fontSize: 16.0,
                     );

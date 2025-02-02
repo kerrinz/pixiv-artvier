@@ -76,7 +76,7 @@ mixin ArtworkDetailPageLogic {
 
   /// 点击收藏按钮的事件
   void handleTapCollect(WidgetRef ref) {
-    var i10n = LocalizationIntl.of(ref.context);
+    var l10n = LocalizationIntl.of(ref.context);
     CollectState status = ref.read(illustDetailCollectStateProvider);
     var notifier = ref.read(illustDetailCollectStateProvider.notifier);
     if (status == CollectState.notCollect) {
@@ -84,24 +84,24 @@ mixin ArtworkDetailPageLogic {
       notifier
           .collect()
           .then((result) => Fluttertoast.showToast(
-              msg: result ? i10n.addCollectSucceed : i10n.addCollectFailed, toastLength: Toast.LENGTH_LONG))
+              msg: result ? l10n.addCollectSucceed : l10n.addCollectFailed, toastLength: Toast.LENGTH_LONG))
           .catchError((_) => Fluttertoast.showToast(
-              msg: "${i10n.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG));
+              msg: "${l10n.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG));
     }
     if (status == CollectState.collected) {
       // 当前已收藏，移除收藏
       notifier
           .uncollect()
           .then((result) => Fluttertoast.showToast(
-              msg: result ? i10n.removeCollectionSucceed : i10n.removeCollectionFailed, toastLength: Toast.LENGTH_LONG))
+              msg: result ? l10n.removeCollectionSucceed : l10n.removeCollectionFailed, toastLength: Toast.LENGTH_LONG))
           .catchError((_) => Fluttertoast.showToast(
-              msg: "${i10n.removeCollectionFailed}, (Maybe already un-collected)", toastLength: Toast.LENGTH_LONG));
+              msg: "${l10n.removeCollectionFailed}, (Maybe already un-collected)", toastLength: Toast.LENGTH_LONG));
     }
   }
 
   // 长按收藏按钮的事件
   void handleLongTapCollect(WidgetRef ref) {
-    var i10n = LocalizationIntl.of(ref.context);
+    var l10n = LocalizationIntl.of(ref.context);
     CollectState status = ref.read(illustDetailCollectStateProvider);
     if ([CollectState.collecting, CollectState.uncollecting].contains(status)) {
       return;
@@ -122,9 +122,9 @@ mixin ArtworkDetailPageLogic {
             .read(illustDetailCollectStateProvider.notifier)
             .collect(args: value)
             .then((result) => Fluttertoast.showToast(
-                msg: result ? i10n.addCollectSucceed : i10n.addCollectFailed, toastLength: Toast.LENGTH_LONG))
+                msg: result ? l10n.addCollectSucceed : l10n.addCollectFailed, toastLength: Toast.LENGTH_LONG))
             .catchError((_) => Fluttertoast.showToast(
-                msg: "${i10n.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG));
+                msg: "${l10n.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG));
       }
     });
   }

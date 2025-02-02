@@ -37,19 +37,19 @@ class ArtworksRankingPageState extends BasePageState<ArtworksRankingPage>
   Widget build(BuildContext context) {
     _scrollController = PrimaryScrollController.of(context);
     _tabsMap = {
-      IllustRankingMode.daily: i10n.rankingDaily,
-      IllustRankingMode.weekly: i10n.rankingWeekly,
-      IllustRankingMode.monthly: i10n.rankingMonthly,
-      IllustRankingMode.dailyMale: i10n.rankingMale,
-      IllustRankingMode.dailyFemale: i10n.rankingFemale,
-      IllustRankingMode.weeklyOriginal: i10n.rankingOriginal,
-      IllustRankingMode.weeklyRookie: i10n.rankingRookie,
-      IllustRankingMode.dayAi: i10n.rankingAiGenerated,
-      IllustRankingMode.dailyR18: i10n.rankingR18Daily,
-      IllustRankingMode.weeklyR18: i10n.rankingR18Weekly,
-      IllustRankingMode.dailyR18Ai: i10n.rankingR18AiGenerated,
-      IllustRankingMode.dailyMaleR18: i10n.rankingR18Male,
-      IllustRankingMode.dailyFemaleR18: i10n.rankingR18Female,
+      IllustRankingMode.daily: l10n.rankingDaily,
+      IllustRankingMode.weekly: l10n.rankingWeekly,
+      IllustRankingMode.monthly: l10n.rankingMonthly,
+      IllustRankingMode.dailyMale: l10n.rankingMale,
+      IllustRankingMode.dailyFemale: l10n.rankingFemale,
+      IllustRankingMode.weeklyOriginal: l10n.rankingOriginal,
+      IllustRankingMode.weeklyRookie: l10n.rankingRookie,
+      IllustRankingMode.dayAi: l10n.rankingAiGenerated,
+      IllustRankingMode.dailyR18: l10n.rankingR18Daily,
+      IllustRankingMode.weeklyR18: l10n.rankingR18Weekly,
+      IllustRankingMode.dailyR18Ai: l10n.rankingR18AiGenerated,
+      IllustRankingMode.dailyMaleR18: l10n.rankingR18Male,
+      IllustRankingMode.dailyFemaleR18: l10n.rankingR18Female,
     };
     return Scaffold(
       body: ExtendedNestedScrollView(

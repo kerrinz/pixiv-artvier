@@ -19,7 +19,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(i10n.settings),
+        title: Text(l10n.settings),
       ),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -37,7 +37,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                         onTap: () => Navigator.of(context).pushNamed(RouteNames.accountManage.name),
                         icon: Icon(Icons.switch_account, color: colorScheme.primary),
                         text: Text(
-                          i10n.accountManage,
+                          l10n.accountManage,
                           style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
                         )),
                   ],
@@ -63,7 +63,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                       onTap: () => Navigator.of(context).pushNamed(RouteNames.checkUpdate.name),
                       icon: Icon(Icons.update_rounded, color: colorScheme.primary),
                       text: Text(
-                        i10n.softwareUpdate,
+                        l10n.softwareUpdate,
                         style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
                       ),
                       value: Row(
@@ -99,7 +99,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                         onTap: () => Navigator.of(context).pushNamed(RouteNames.aboutApp.name),
                         icon: Icon(Icons.info, color: colorScheme.primary),
                         text: Text(
-                          i10n.aboutApp,
+                          l10n.aboutApp,
                           style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
                         )),
                   ],

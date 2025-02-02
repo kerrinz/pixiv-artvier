@@ -196,7 +196,7 @@ mixin _NovelListViewItemLogic {
   });
 
   void handleTapCollect() {
-    var i10n = LocalizationIntl.of(ref.context);
+    var l10n = LocalizationIntl.of(ref.context);
     var state = ref.read(collectStateProvider);
     if (state == CollectState.notCollect) {
       // 当前未收藏，添加收藏
@@ -204,9 +204,9 @@ mixin _NovelListViewItemLogic {
           .read(collectStateProvider.notifier)
           .collect()
           .then((result) => Fluttertoast.showToast(
-              msg: result ? i10n.addCollectSucceed : i10n.addCollectFailed, toastLength: Toast.LENGTH_LONG))
+              msg: result ? l10n.addCollectSucceed : l10n.addCollectFailed, toastLength: Toast.LENGTH_LONG))
           .catchError((_) => Fluttertoast.showToast(
-              msg: "${i10n.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG));
+              msg: "${l10n.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG));
     }
     if (state == CollectState.collected) {
       // 当前已收藏，移除收藏
@@ -214,9 +214,9 @@ mixin _NovelListViewItemLogic {
           .read(collectStateProvider.notifier)
           .uncollect()
           .then((result) => Fluttertoast.showToast(
-              msg: result ? i10n.removeCollectionSucceed : i10n.removeCollectionFailed, toastLength: Toast.LENGTH_LONG))
+              msg: result ? l10n.removeCollectionSucceed : l10n.removeCollectionFailed, toastLength: Toast.LENGTH_LONG))
           .catchError((_) => Fluttertoast.showToast(
-              msg: "${i10n.removeCollectionFailed}, (Maybe already un-collected)", toastLength: Toast.LENGTH_LONG));
+              msg: "${l10n.removeCollectionFailed}, (Maybe already un-collected)", toastLength: Toast.LENGTH_LONG));
     }
   }
 }

@@ -445,7 +445,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
             child: Icon(Icons.settings, color: colorScheme.primary),
           ),
           text: Text(
-            i10n.settings,
+            l10n.settings,
             style: TextStyle(
               fontSize: 14,
               color: Theme.of(context).colorScheme.secondary,

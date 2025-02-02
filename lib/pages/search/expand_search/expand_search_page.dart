@@ -64,7 +64,7 @@ class _ExpandSearchPageState extends BasePageState<ExpandSearchPage> {
                       GestureDetector(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(i10n.promptCancel),
+                          child: Text(l10n.promptCancel),
                         ),
                         onTap: () {
                           Navigator.of(context).pop();

@@ -39,7 +39,7 @@ class SearchInput extends BasePage {
               textInputAction: TextInputAction.search,
               style: const TextStyle(fontSize: 14),
               decoration: InputDecoration(
-                hintText: "${i10n(context).search}...",
+                hintText: "${l10n(context).search}...",
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 isCollapsed: true, // 高度包裹，不会存在默认高度
