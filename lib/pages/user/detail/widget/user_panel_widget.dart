@@ -1,4 +1,3 @@
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/pages/user/detail/provider/user_follow_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
@@ -56,7 +55,7 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
                       fit: BoxFit.cover,
                       image: ExtendedNetworkImageProvider(
                         HttpHostOverrides().pxImgUrl(avatarUrl),
-                        headers: HttpBaseOptions.pximgHeaders,
+                        headers: HttpHostOverrides().pximgHeaders,
                       ),
                     ),
                   ),

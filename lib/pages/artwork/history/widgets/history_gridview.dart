@@ -1,5 +1,4 @@
 import 'package:artvier/component/image/enhance_network_image.dart';
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/routes.dart';
@@ -210,7 +209,7 @@ class HistoryIllustItem extends StatelessWidget {
                 child: EnhanceNetworkImage(
                   image: ExtendedNetworkImageProvider(
                     HttpHostOverrides().pxImgUrl(imageUrl),
-                    headers: HttpBaseOptions.pximgHeaders,
+                    headers: HttpHostOverrides().pximgHeaders,
                   ),
                 ),
               );
@@ -297,7 +296,7 @@ class HistoryNovelItem extends StatelessWidget {
       child: EnhanceNetworkImage(
         image: ExtendedNetworkImageProvider(
           HttpHostOverrides().pxImgUrl(imageUrl),
-          headers: HttpBaseOptions.pximgHeaders,
+          headers: HttpHostOverrides().pximgHeaders,
         ),
       ),
     );

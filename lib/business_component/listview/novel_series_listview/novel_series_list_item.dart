@@ -1,4 +1,3 @@
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/l10n/localization_intl.dart';
 import 'package:artvier/model_response/novels/novel_series_list.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
@@ -59,7 +58,7 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
               child: EnhanceNetworkImage(
                 image: ExtendedNetworkImageProvider(
                   HttpHostOverrides().pxImgUrl(widget.novelSeries.url),
-                  headers: HttpBaseOptions.pximgHeaders,
+                  headers: HttpHostOverrides().pximgHeaders,
                   cache: true,
                 ),
                 fit: BoxFit.cover,

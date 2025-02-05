@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:artvier/global/logger.dart';
 import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -57,6 +58,7 @@ class BootingPageState extends ConsumerState<BootingPage> {
           Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
         }
       }).catchError((onError) {
+        logger.e(onError);
         Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
       });
     });
@@ -64,8 +66,6 @@ class BootingPageState extends ConsumerState<BootingPage> {
 
   /// 初始化数据
   Future initData() async {
-    // await GlobalStore.init();
-
     // 初始化代理配置（）
     HttpOverrides.global = MyHttpOverrides();
     ref.read(globalProxyStateProvider.notifier).applyHttpOverrides();

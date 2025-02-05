@@ -1,5 +1,4 @@
 import 'package:artvier/business_component/listview/manga_listview/logic.dart';
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/util/string_util.dart';
 import 'package:extended_image/extended_image.dart';
@@ -109,7 +108,7 @@ class _MangaGridItemState extends ConsumerState<MangaGridItem> with MangaGridIte
                         image: ExtendedNetworkImageProvider(
                           HttpHostOverrides().pxImgUrl(widget.imageUrl),
                           cache: true,
-                          headers: HttpBaseOptions.pximgHeaders,
+                          headers: HttpHostOverrides().pximgHeaders,
                         ),
                       ),
                     ),

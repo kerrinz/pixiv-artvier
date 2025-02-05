@@ -30,6 +30,9 @@ class CONSTANTS {
   static const String proxy_default_host = "127.0.0.1";
   static const String proxy_default_port = "1080";
 
+  static const String default_language_code = "en";
+  static const String default_country_code = "US";
+
   // App information
   static const String app_repo_url = "https://github.com/kerrinz/pixiv-artvier";
   static const String app_repo_release_url = "$app_repo_url/releases";

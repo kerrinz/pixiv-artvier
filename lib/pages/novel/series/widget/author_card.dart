@@ -1,4 +1,3 @@
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/model_response/user/common_user.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
@@ -46,7 +45,7 @@ class NovelSeriesAuthorCardWidget extends StatelessWidget {
                       child: EnhanceNetworkImage(
                         image: ExtendedNetworkImageProvider(
                           HttpHostOverrides().pxImgUrl(user.profileImageUrls.medium),
-                          headers: HttpBaseOptions.pximgHeaders,
+                          headers: HttpHostOverrides().pximgHeaders,
                         ),
                         fit: BoxFit.cover,
                         width: 46,

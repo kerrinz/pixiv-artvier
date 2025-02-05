@@ -1,4 +1,3 @@
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
@@ -38,7 +37,7 @@ class TrendingTagsGrid extends StatelessWidget {
           child: EnhanceNetworkImage(
             image: ExtendedNetworkImageProvider(
               HttpHostOverrides().pxImgUrl(item.illust.imageUrls.squareMedium),
-              headers: HttpBaseOptions.pximgHeaders,
+              headers: HttpHostOverrides().pximgHeaders,
               cache: true,
             ),
             fit: BoxFit.cover,

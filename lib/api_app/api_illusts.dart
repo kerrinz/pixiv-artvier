@@ -217,7 +217,7 @@ class ApiIllusts extends ApiBase {
       HttpHostOverrides().pixivisionUrl("https://${HttpBaseOptions.pixivisionHost}/$language/a/$id"),
       options: Options(
         responseType: ResponseType.plain,
-        headers: HttpBaseOptions.pixivisionHeaders,
+        headers: HttpHostOverrides().pixivisionHeaders,
       ),
       cancelToken: cancelToken,
     );
