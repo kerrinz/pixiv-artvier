@@ -1,4 +1,3 @@
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/util/string_util.dart';
 import 'package:extended_image/extended_image.dart';
@@ -109,7 +108,7 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                         image: ExtendedNetworkImageProvider(
                           HttpHostOverrides().pxImgUrl(widget.imageUrl),
                           cache: true,
-                          headers: HttpBaseOptions.pximgHeaders,
+                          headers: HttpHostOverrides().pximgHeaders,
                         ),
                       ),
                     ),

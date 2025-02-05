@@ -1,4 +1,3 @@
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +55,7 @@ class _AccountManagePageState extends BasePageState<AccountManagePage> with Acco
     } else {
       avatar = ExtendedImage.network(
         HttpHostOverrides().pxImgUrl(profile.user.profileImageUrls!.px170x170),
-        headers: HttpBaseOptions.pximgHeaders,
+        headers: HttpHostOverrides().pximgHeaders,
         enableLoadState: false,
       );
     }

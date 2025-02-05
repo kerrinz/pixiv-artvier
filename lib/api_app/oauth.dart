@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/global/provider/requester_provider.dart';
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:crypto/crypto.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
@@ -67,7 +68,7 @@ class OAuth {
         receiveTimeout: const Duration(seconds: 10),
         sendTimeout: const Duration(seconds: 10),
         contentType: Headers.jsonContentType,
-        headers: HttpBaseOptions.oauthHeaders,
+        headers: HttpHostOverrides().oauthHeaders,
       );
 
   // 获取登录链接

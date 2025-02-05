@@ -1,5 +1,4 @@
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/pages/user/detail/provider/user_follow_provider.dart';
 import 'package:artvier/pages/user/detail/widget/menu_bottom_sheet.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -71,7 +70,7 @@ class UserDetailPageAppBarWidget extends ConsumerWidget {
                   filterQuality: FilterQuality.none,
                   image: ExtendedNetworkImageProvider(
                     HttpHostOverrides().pxImgUrl(avatarUrl),
-                    headers: HttpBaseOptions.pximgHeaders,
+                    headers: HttpHostOverrides().pximgHeaders,
                   ),
                 ),
               ),

@@ -2,7 +2,6 @@ import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/perference/perference_group.dart';
 import 'package:artvier/component/perference/perference_item.dart';
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -217,7 +216,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                                   : EnhanceNetworkImage(
                                       image: ExtendedNetworkImageProvider(
                                       HttpHostOverrides().pxImgUrl(avatar),
-                                      headers: HttpBaseOptions.pximgHeaders,
+                                      headers: HttpHostOverrides().pximgHeaders,
                                     ));
                             },
                           ),

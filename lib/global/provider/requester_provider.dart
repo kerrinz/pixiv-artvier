@@ -1,6 +1,7 @@
 import 'package:artvier/api_app/oauth.dart';
 import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/global/provider/network_provider.dart';
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/request/http_requester.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,13 +12,13 @@ final httpRequesterProvider = StateProvider<HttpRequester>((ref) {
     return HttpRequester.withAuthorization(
       ref,
       baseOptions: HttpRequester.defaultBaseOptions
-          .copyWith(baseUrl: "https://${HttpBaseOptions.appApiIp}", headers: HttpBaseOptions.appApiHeaders),
+          .copyWith(baseUrl: "https://${HttpBaseOptions.appApiIp}", headers: HttpHostOverrides().appApiHeaders),
     );
   } else {
     return HttpRequester.withAuthorization(
       ref,
       baseOptions: HttpRequester.defaultBaseOptions
-          .copyWith(baseUrl: "https://${HttpBaseOptions.appApiHost}", headers: HttpBaseOptions.appApiHeaders),
+          .copyWith(baseUrl: "https://${HttpBaseOptions.appApiHost}", headers: HttpHostOverrides().appApiHeaders),
     );
   }
 });

@@ -3,7 +3,6 @@ import 'package:artvier/business_component/page_layout/banner_appbar_page_layout
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/loading/request_loading.dart';
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/pages/artwork/pixivision/logic.dart';
 import 'package:artvier/pages/artwork/pixivision/model/pixivision_body_illust_item.dart';
 import 'package:artvier/pages/artwork/pixivision/model/pixivision_webview_page_arguments.dart';
@@ -141,7 +140,7 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
     return EnhanceNetworkImage(
       image: ExtendedNetworkImageProvider(
         HttpHostOverrides().pxImgUrl(widget.arguments.coverUrl),
-        headers: HttpBaseOptions.pximgHeaders,
+        headers: HttpHostOverrides().pximgHeaders,
         cache: true,
       ),
     );

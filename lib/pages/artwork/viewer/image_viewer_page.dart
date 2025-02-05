@@ -1,4 +1,3 @@
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -141,7 +140,7 @@ class _ImageViewerPageState extends BasePageState<ImageViewerPage>
                 return PhotoViewGalleryPageOptions(
                   imageProvider: ExtendedNetworkImageProvider(
                     HttpHostOverrides().pxImgUrl(state.isOriginal ? urlList[index].original : urlList[index].normal),
-                    headers: HttpBaseOptions.pximgHeaders,
+                    headers: HttpHostOverrides().pximgHeaders,
                   ),
                   minScale: PhotoViewComputedScale.contained * 1.0,
                   maxScale: PhotoViewComputedScale.contained * 5.0,

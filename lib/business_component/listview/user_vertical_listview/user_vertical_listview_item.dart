@@ -1,4 +1,3 @@
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +125,7 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
                         child: EnhanceNetworkImage(
                           image: ExtendedNetworkImageProvider(
                             HttpHostOverrides().pxImgUrl(userData.user.profileImageUrls.medium),
-                            headers: HttpBaseOptions.pximgHeaders,
+                            headers: HttpHostOverrides().pximgHeaders,
                             cache: true,
                           ),
                           width: 64,
@@ -180,7 +179,7 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
     return EnhanceNetworkImage(
       image: ExtendedNetworkImageProvider(
         HttpHostOverrides().pxImgUrl(url),
-        headers: HttpBaseOptions.pximgHeaders,
+        headers: HttpHostOverrides().pximgHeaders,
         cache: true,
       ),
     );

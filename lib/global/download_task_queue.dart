@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/artwork/download_manage/provider/download_manage_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -153,7 +152,7 @@ class DownloadTask {
         cancelToken: _cancelToken,
         options: Options(
           responseType: ResponseType.bytes,
-          headers: HttpBaseOptions.pximgHeaders,
+          headers: HttpHostOverrides().pximgHeaders,
         ), onReceiveProgress: (received, total) {
       if (total != -1) {
         ///当前下载的百分比

@@ -6,7 +6,6 @@ import 'package:archive/archive_io.dart';
 import 'package:artvier/base/base_provider/base_notifier.dart';
 import 'package:artvier/business_component/ugoira_image/model.dart';
 import 'package:artvier/component/image/gif_image.dart';
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/global/provider/requester_provider.dart';
 import 'package:artvier/model_response/illusts/ugoira.dart';
@@ -108,7 +107,7 @@ class UgoiraIllustNotifier extends BaseStateNotifier<UgoiraImageState> {
         url,
         zipPath,
         options: Options(
-          headers: HttpBaseOptions.pximgHeaders,
+          headers: HttpHostOverrides().pximgHeaders,
         ),
         cancelToken: cancelToken,
         onReceiveProgress: (count, total) {

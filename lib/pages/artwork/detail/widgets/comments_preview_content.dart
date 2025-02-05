@@ -1,4 +1,3 @@
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
@@ -100,7 +99,7 @@ class _CommentItem extends ConsumerWidget {
                   child: EnhanceNetworkImage(
                     image: ExtendedNetworkImageProvider(
                       HttpHostOverrides().pxImgUrl(comment.user.profileImageUrls.medium),
-                      headers: HttpBaseOptions.pximgHeaders,
+                      headers: HttpHostOverrides().dynamicHeaders(comment.user.profileImageUrls.medium),
                     ),
                     fit: BoxFit.cover,
                     width: 20,
@@ -133,7 +132,7 @@ class _CommentItem extends ConsumerWidget {
                 return EnhanceNetworkImage(
                   image: ExtendedNetworkImageProvider(
                     HttpHostOverrides().pxImgUrl(comment.stamp!.stampUrl),
-                    headers: HttpBaseOptions.pximgHeaders,
+                    headers: HttpHostOverrides().dynamicHeaders(comment.stamp!.stampUrl),
                   ),
                   height: 50,
                 );

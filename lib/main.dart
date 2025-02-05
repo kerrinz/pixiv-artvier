@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/global/provider/language_provider.dart';
 import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:artvier/global/variable.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +37,20 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 }
 
-beforeRunApp() async {}
+beforeRunApp() async {
+  /// TODO: 动态 Headers
+  // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin(); 
+  // final iosInfo = await deviceInfo.deviceInfo;
+  // print(iosInfo);
+  // final machine = iosInfo.data["utsname"]?["machine"];
+
+  globalBaseHttpHeaders = {
+    HttpHeaders.userAgentHeader: "PixivIOSApp/7.20.18 (iOS 17.7; iPhone11,2)",
+    "App-OS": "ios",
+    "App-OS-Version": "17.7",
+    "App-Version": "7.20.18",
+  };
+}
 
 // 初始化一些APP全局设定，不加载内容
 class MyApp extends ConsumerStatefulWidget {
@@ -82,22 +99,34 @@ class MyAppState extends ConsumerState<MyApp> {
         // locale: LocalizationIntl.supportedLocales[0],
         // 切换系统语言时的回调函数
         localeListResolutionCallback: (locales, supportedLocales) {
-          if (locales == null) return const Locale('en', 'US'); // 获取不到系统语言时的默认App语言
-          var formatLocales = locales
-              .map((locale) => Locale.fromSubtags(languageCode: locale.languageCode, countryCode: locale.countryCode));
-          // 精确匹配，语言+地区
-          for (Locale locale in formatLocales) {
-            if (supportedLocales.contains(locale)) return locale;
-          }
-          // 模糊匹配，仅语言
-          for (Locale locale in formatLocales) {
-            for (Locale supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale.languageCode) return locale;
-            }
-          }
-          return const Locale('en', "US");
+          Locale locale = findLocale(locales, supportedLocales);
+          ref.read(globalLanguageProvider.notifier).setLocale(locale);
+          return locale;
         },
       ),
     );
+  }
+
+  /// 匹配语言
+  Locale findLocale(List<Locale>? locales, Iterable<Locale> supportedLocales) {
+    const defaultLocale = Locale(CONSTANTS.default_language_code, CONSTANTS.default_country_code);
+    if (locales == null) return defaultLocale;
+    var formatLocales =
+        locales.map((locale) => Locale.fromSubtags(languageCode: locale.languageCode, countryCode: locale.countryCode));
+    // 精确匹配，语言+地区
+    for (Locale locale in formatLocales) {
+      if (supportedLocales.contains(locale)) {
+        return locale;
+      }
+    }
+    // 模糊匹配，仅语言
+    for (Locale locale in formatLocales) {
+      for (Locale supportedLocale in supportedLocales) {
+        if (supportedLocale.languageCode == locale.languageCode) {
+          return supportedLocale;
+        }
+      }
+    }
+    return defaultLocale;
   }
 }

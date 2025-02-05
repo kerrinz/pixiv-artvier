@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
@@ -229,7 +228,7 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
             child: EnhanceNetworkImage(
               image: ExtendedNetworkImageProvider(
                 HttpHostOverrides().pxImgUrl(widget.leastInfo.avatar),
-                headers: HttpBaseOptions.pximgHeaders,
+                headers: HttpHostOverrides().pximgHeaders,
               ),
               width: double.infinity,
               fit: BoxFit.cover,
@@ -242,7 +241,7 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
         return EnhanceNetworkImage(
           image: ExtendedNetworkImageProvider(
             HttpHostOverrides().pxImgUrl(bg),
-            headers: HttpBaseOptions.pximgHeaders,
+            headers: HttpHostOverrides().pximgHeaders,
           ),
           width: double.infinity,
           fit: BoxFit.cover,

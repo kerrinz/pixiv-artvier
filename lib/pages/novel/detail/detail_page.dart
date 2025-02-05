@@ -3,7 +3,6 @@ import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/dialog_custom.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
@@ -99,7 +98,7 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
                 height: 180,
                 image: ExtendedNetworkImageProvider(
                   HttpHostOverrides().pxImgUrl(detail.imageUrls.medium),
-                  headers: HttpBaseOptions.pximgHeaders,
+                  headers: HttpHostOverrides().pximgHeaders,
                   cache: true,
                 ),
               ),

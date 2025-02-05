@@ -1,4 +1,5 @@
 import 'package:artvier/request/default_interceptor.dart';
+import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/config/http_base_options.dart';
@@ -47,7 +48,7 @@ class HttpRequester {
         connectTimeout: HttpBaseOptions.connectTimeout,
         receiveTimeout: HttpBaseOptions.receiveTimeout,
         sendTimeout: HttpBaseOptions.sendTimeout,
-        headers: HttpBaseOptions.baseHeaders,
+        headers: HttpHostOverrides().baseHeaders,
         contentType: Headers.jsonContentType,
       );
 

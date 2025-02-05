@@ -1,4 +1,3 @@
-import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
@@ -52,7 +51,7 @@ class AuthorCardWidget extends StatelessWidget {
                       child: EnhanceNetworkImage(
                         image: ExtendedNetworkImageProvider(
                           HttpHostOverrides().pxImgUrl(detail.user.profileImageUrls.medium),
-                          headers: HttpBaseOptions.pximgHeaders,
+                          headers: HttpHostOverrides().pximgHeaders,
                         ),
                         fit: BoxFit.cover,
                         width: 46,
