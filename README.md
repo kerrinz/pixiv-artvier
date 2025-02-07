@@ -61,7 +61,24 @@
 - Flutter 3.19.5 • channel stable • https://github.com/flutter/flutter.git
 - Tools • Dart 3.3.3 • DevTools 2.31.1
 - Xcode - develop for iOS and macOS (Xcode 16.2)
+- Java SE 17.0.3
 - macOS 15.2 (ARM)
+
+## 辅助命令
+### 切换 gradle 版本
+```sh
+cd android
+./gradlew wrapper --gradle-version=7.3
+```
+### flutter 切换 jdk
+```sh
+flutter config --jdk-dir=你的JDK安装路径
+```
+
+### 构建l10n翻译
+```sh
+sh intl.sh
+```
 
 ## 免责声明
 
