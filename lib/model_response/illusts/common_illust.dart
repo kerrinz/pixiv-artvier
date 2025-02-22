@@ -52,6 +52,7 @@ class CommonIllust extends Object {
   @JsonKey(name: 'sanity_level')
   int sanityLevel;
 
+  /// 年龄分级，0: 全年龄，1: R18
   @JsonKey(name: 'x_restrict')
   int xRestrict;
 
@@ -81,7 +82,14 @@ class CommonIllust extends Object {
   @JsonKey(name: 'is_muted')
   bool isMuted;
 
-  CommonIllust(this.id,this.title,this.type,this.imageUrls,this.caption,this.restrict,this.user,this.tags,this.tools,this.createDate,this.pageCount,this.width,this.height,this.sanityLevel,this.xRestrict,this.metaSinglePage,this.metaPages,this.totalView,this.totalBookmarks,this.isBookmarked,this.visible,this.isMuted,this.collectState);
+  /// 0: ??，1: 非AI作品，2: AI作品
+  @JsonKey(name: 'illust_ai_type')
+  int illustAiType;
+
+  @JsonKey(name: 'illust_book_style')
+  int illustBookStyle;
+
+  CommonIllust(this.id,this.title,this.type,this.imageUrls,this.caption,this.restrict,this.user,this.tags,this.tools,this.createDate,this.pageCount,this.width,this.height,this.sanityLevel,this.xRestrict,this.metaSinglePage,this.metaPages,this.totalView,this.totalBookmarks,this.isBookmarked,this.visible,this.isMuted,this.collectState,this.illustAiType,this.illustBookStyle);
 
   factory CommonIllust.fromJson(Map<String, dynamic> srcJson) => _$CommonIllustFromJson(srcJson);
 

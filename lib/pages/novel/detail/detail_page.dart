@@ -106,8 +106,21 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
             // 作品标题
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
-                child: Text(detail.title, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 4.0),
+                child: Text.rich(
+                  TextSpan(children: [
+                    if (detail.xRestrict == 1)
+                      TextSpan(
+                        text: "R18  ",
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: const Color(0xFFFF3855),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    TextSpan(text: detail.title),
+                  ]),
+                  style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             // 概述信息

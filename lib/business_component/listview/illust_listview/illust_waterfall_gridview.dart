@@ -93,19 +93,15 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
       return lazyloadWidget(ref);
     }
     var illust = artworkList[index];
-    List<String> badges = [];
-    if (illust.metaPages.length > 1) {
-      badges.add(illust.metaPages.length.toString());
-    }
-    if (illust.type == "ugoira") {
-      badges.add("GIF");
-    }
     return IllustWaterfallItem(
       worksId: illust.id.toString(),
       imageUrl: illust.imageUrls.medium,
       imageHeight: illust.height,
       imageWidth: illust.width,
-      badges: badges,
+      pageCount: illust.metaPages.length,
+      type: illust.type,
+      xAgeRestrict: illust.xRestrict,
+      isAI: illust.illustAiType == 2,
       title: illust.title,
       author: illust.user.name,
       totalCollected: illust.totalBookmarks,

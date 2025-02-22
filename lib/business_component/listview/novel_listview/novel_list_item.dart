@@ -3,7 +3,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
@@ -134,13 +133,9 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
   Widget _seriesInfo() {
     return Row(
       children: [
-        MyBadge(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          color: Colors.amber,
-          child: Text(
-            LocalizationIntl.of(context).series,
-            style: const TextStyle(color: Colors.white, fontSize: 12),
-          ),
+        Text(
+          LocalizationIntl.of(context).series,
+          style: const TextStyle(color: Colors.amber, fontSize: 12, fontWeight: FontWeight.bold),
         ),
         Expanded(
           flex: 1,
@@ -164,14 +159,30 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
     for (Tags tag in widget.novel.tags) {
       sb.write("#");
       sb.write(tag.name);
-      sb.write(" ");
+      sb.write("  ");
     }
-    return Text(
-      sb.toString(),
-      style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface.withAlpha(200)),
-      overflow: TextOverflow.ellipsis,
-      softWrap: true,
-      maxLines: 2,
+    return Wrap(
+      children: [
+        RichText(
+          text: TextSpan(
+            text: widget.novel.xRestrict == 1 ? "R18  " : '',
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: const Color(0xFFFF3855),
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.1,
+                ),
+            children: [
+              TextSpan(
+                text: sb.toString(),
+                style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface.withAlpha(200)),
+              ),
+            ],
+          ),
+          overflow: TextOverflow.ellipsis,
+          softWrap: true,
+          maxLines: 2,
+        ),
+      ],
     );
   }
 }
@@ -190,7 +201,7 @@ mixin _NovelListViewItemLogic {
         ref.notifier.setCollectState(next.state);
       }
     });
-    
+
     return CollectNotifier(collectState, ref: ref, worksId: novelId, worksType: WorksType.novel);
   });
 

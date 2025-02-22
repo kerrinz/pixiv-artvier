@@ -1,3 +1,4 @@
+import 'package:artvier/global/model/works_badge_argument/works_badge_argument.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/util/string_util.dart';
 import 'package:extended_image/extended_image.dart';
@@ -14,12 +15,17 @@ class IllustWaterfallItem extends ConsumerStatefulWidget {
     required this.imageUrl,
     required this.imageWidth,
     required this.imageHeight,
-    this.badges,
     required this.title,
     required this.author,
     required this.totalCollected,
     required this.collectState,
     required this.onTap,
+    this.leftTopBadges,
+    this.rightTopBadges,
+    this.pageCount = 1,
+    this.type = "illust",
+    this.xAgeRestrict = 0,
+    this.isAI = false,
     this.onTapCollect,
   });
 
@@ -37,7 +43,19 @@ class IllustWaterfallItem extends ConsumerStatefulWidget {
 
   final int imageHeight;
 
-  final List<String>? badges;
+  final List<WorksBadgeArgument>? leftTopBadges;
+
+  final List<WorksBadgeArgument>? rightTopBadges;
+
+  final int pageCount;
+
+  final String type;
+
+  /// 年龄分级，0: 全年龄，1: R18
+  final int xAgeRestrict;
+
+  /// AI 作品
+  final bool isAI;
 
   /// 收藏状态
   final CollectState collectState;
@@ -76,6 +94,17 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
 
   @override
   Widget build(BuildContext context) {
+    final rightTopBadges = [
+      if (widget.isAI) const WorksBadgeArgument(text: "AI"),
+      if (widget.pageCount > 1) WorksBadgeArgument(text: widget.pageCount.toString()),
+      if (widget.type == "ugoira") const WorksBadgeArgument(text: "Ugoira"),
+      if (widget.rightTopBadges != null) ...widget.rightTopBadges!
+    ];
+    final leftTopBadges = [
+      if (widget.xAgeRestrict == 1)
+        const WorksBadgeArgument(text: "R18", backgroundColor: Color(0xFFFF3855), textColor: Colors.white),
+      if (widget.leftTopBadges != null) ...widget.leftTopBadges!
+    ];
     // LayoutBuilder能获取到父组件的最大支撑宽度
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -113,21 +142,17 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                       ),
                     ),
                     // 角标
-                    if (widget.badges != null && widget.badges!.isNotEmpty)
+                    if (leftTopBadges.isNotEmpty)
                       Positioned(
-                        right: 4,
-                        bottom: 4,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                          decoration: const BoxDecoration(
-                            color: Colors.black26,
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                          ),
-                          child: Text(
-                            widget.badges!.join(','),
-                            style: textTheme.labelLarge?.copyWith(color: Colors.white),
-                          ),
-                        ),
+                        left: 6,
+                        top: 6,
+                        child: _buildBadge(leftTopBadges),
+                      ),
+                    if (rightTopBadges.isNotEmpty)
+                      Positioned(
+                        right: 6,
+                        top: 6,
+                        child: _buildBadge(rightTopBadges),
                       )
                   ],
                 ),
@@ -183,6 +208,31 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
           ],
         );
       },
+    );
+  }
+
+  Widget _buildBadge(List<WorksBadgeArgument> badges) {
+    return Wrap(
+      spacing: 4,
+      runSpacing: 4,
+      children: [
+        for (final badge in badges)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+            decoration: BoxDecoration(
+              color: badge.backgroundColor ?? Colors.black26,
+              borderRadius: const BorderRadius.all(Radius.circular(4)),
+            ),
+            child: Text(
+              badge.text,
+              style: textTheme.labelMedium?.copyWith(
+                color: badge.textColor ?? Colors.white,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.1,
+              ),
+            ),
+          ),
+      ],
     );
   }
 
