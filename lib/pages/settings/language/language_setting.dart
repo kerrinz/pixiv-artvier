@@ -1,19 +1,22 @@
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/global/provider/language_provider.dart';
+import 'package:artvier/l10n/localization_intl.dart';
 import 'package:flutter/material.dart';
 import 'package:artvier/component/perference/perference_single_choise_panel.dart';
 
-class LanguageSettingPage extends StatefulWidget {
+class LanguageSettingPage extends BaseStatefulPage {
   const LanguageSettingPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => LanguageSettingPageState();
+  LanguageSettingPageState createState() => LanguageSettingPageState();
 }
 
-class LanguageSettingPageState<LanguageSettingPage> extends State {
+class LanguageSettingPageState<LanguageSettingPage> extends BasePageState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("App语言 / Language"),
+        title: const Text("Language"),
       ),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -26,15 +29,21 @@ class LanguageSettingPageState<LanguageSettingPage> extends State {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Builder(builder: (context) {
+                final globalLocale = ref.watch(globalLanguageProvider);
+                final indexOfLanguageLocale = findIndexOfLanguageLocale(globalLocale);
                 return PerferenceSingleChoisePanel(
                   title: 'App语言 / Language',
-                  selectedindex: 0,
+                  selectedindex: globalLocale == null ? 0 : (indexOfLanguageLocale + 1),
                   onSelect: (index) {
-                    (context as Element).markNeedsBuild();
+                    if (index == 0) {
+                      ref.read(globalLanguageProvider.notifier).setLocale(null);
+                    } else {
+                      ref.read(globalLanguageProvider.notifier).setLocale(LocalizationIntl.supportedLocales[index - 1]);
+                    }
                   },
                   widgets: <Widget>[
                     Text(
-                      "跟随系统（默认）",
+                      "跟随系统 (Default)",
                       style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
                     ),
                     Text(
@@ -53,5 +62,14 @@ class LanguageSettingPageState<LanguageSettingPage> extends State {
         ),
       ),
     );
+  }
+
+  int findIndexOfLanguageLocale(Locale? globalLanguageLocale) {
+    if (globalLanguageLocale == null) return 0;
+    final findIndex = LocalizationIntl.supportedLocales.indexWhere((element) =>
+        element.languageCode == globalLanguageLocale.languageCode &&
+        element.countryCode == globalLanguageLocale.countryCode);
+    if (findIndex < 0) return -1;
+    return findIndex;
   }
 }

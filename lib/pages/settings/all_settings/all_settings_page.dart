@@ -58,6 +58,14 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                 PerferenceGroup(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   items: [
+                    // 语言
+                    PerferenceItem(
+                      onTap: () => Navigator.of(context).pushNamed(RouteNames.languageSettings.name),
+                      icon: Icon(Icons.language_outlined, color: colorScheme.primary),
+                      text: Text(
+                        "Language",
+                        style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                      )),
                     // 软件更新
                     PerferenceItem(
                       onTap: () => Navigator.of(context).pushNamed(RouteNames.checkUpdate.name),
