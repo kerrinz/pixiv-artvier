@@ -6,21 +6,31 @@ import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/storage/language_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final globalLanguageProvider = StateNotifierProvider<LanguageNotivier, Locale>((ref) {
+final globalLanguageProvider = StateNotifierProvider<LanguageNotivier, Locale?>((ref) {
   return LanguageNotivier(const Locale(CONSTANTS.default_language_code, CONSTANTS.default_country_code), ref: ref);
 });
 
-class LanguageNotivier extends BaseStateNotifier<Locale> {
+/// Current Lanuange.
+class LanguageNotivier extends BaseStateNotifier<Locale?> {
   LanguageNotivier(super.state, {required super.ref});
 
-  Future<bool> setLocale(Locale locale) async {
-    assert(locale.countryCode != null);
+  /// Set null to enable auto language.
+  Future<bool> setLocale(Locale? locale) async {
     final languageStore = LanguageStorage(globalSharedPreferences);
-    final result = await languageStore.setLanguage(locale.languageCode, locale.countryCode!);
-    if (result) {
-      update(locale);
+    if (locale == null) {
+      final result = await languageStore.setAutoLanguage(true);
+      update(null);
       HttpHostOverrides().reload();
+      return result;
+    } else {
+      assert(locale.countryCode != null);
+      final result = await languageStore.setLanguage(locale.languageCode, locale.countryCode!);
+      final result2 = await languageStore.setAutoLanguage(false);
+      if (result) {
+        update(locale);
+        HttpHostOverrides().reload();
+      }
+      return result && result2;
     }
-    return result;
   }
 }

@@ -6,8 +6,17 @@ import 'package:artvier/config/constants.dart';
 class LanguageStorage extends BaseStorage {
   LanguageStorage(super.sharedPreferences);
 
+  static const String enableAutoLanguageKey = "enable_auto_language";
   static const String languageCodeKey = "language_code";
   static const String countryCodeKey = "language_country_code";
+
+  Future<bool> setAutoLanguage(bool enableAutoLanguage) async {
+    return await sharedPreferences.setBool(enableAutoLanguageKey, enableAutoLanguage);
+  }
+
+  bool getAutoLanguage() {
+    return sharedPreferences.getBool(enableAutoLanguageKey) ?? true;
+  }
 
   Future<bool> setLanguage(String languageCode, String countryCode) async {
     bool h = await sharedPreferences.setString(languageCodeKey, languageCode);

@@ -39,7 +39,7 @@ Future<void> main() async {
 
 beforeRunApp() async {
   /// TODO: 动态 Headers
-  // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin(); 
+  // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   // final iosInfo = await deviceInfo.deviceInfo;
   // print(iosInfo);
   // final machine = iosInfo.data["utsname"]?["machine"];
@@ -96,12 +96,14 @@ class MyAppState extends ConsumerState<MyApp> {
           LocalizationIntlDelegate(),
         ],
         supportedLocales: LocalizationIntl.supportedLocales,
-        // locale: LocalizationIntl.supportedLocales[0],
+        locale: ref.watch(globalLanguageProvider),
         // 切换系统语言时的回调函数
         localeListResolutionCallback: (locales, supportedLocales) {
-          Locale locale = findLocale(locales, supportedLocales);
-          ref.read(globalLanguageProvider.notifier).setLocale(locale);
-          return locale;
+          if (ref.read(globalLanguageProvider) == null) {
+            Locale locale = findLocale(locales, supportedLocales);
+            return locale;
+          }
+          return null;
         },
       ),
     );
