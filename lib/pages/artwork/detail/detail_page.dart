@@ -157,7 +157,20 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
-                  child: Text(detail.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  child: Text.rich(
+                    TextSpan(children: [
+                      if (detail.xRestrict == 1)
+                        TextSpan(
+                          text: "R18  ",
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: const Color(0xFFFF3855),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      TextSpan(text: detail.title),
+                    ]),
+                    style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               // 概述信息

@@ -37,6 +37,8 @@ CommonIllust _$CommonIllustFromJson(Map<String, dynamic> json) => CommonIllust(
       json['visible'] as bool,
       json['is_muted'] as bool,
       $enumDecodeNullable(_$CollectStateEnumMap, json['collectState']),
+      (json['illust_ai_type'] as num).toInt(),
+      (json['illust_book_style'] as num).toInt(),
     )..series = json['series'] == null
         ? null
         : Series.fromJson(json['series'] as Map<String, dynamic>);
@@ -67,6 +69,8 @@ Map<String, dynamic> _$CommonIllustToJson(CommonIllust instance) =>
       'collectState': _$CollectStateEnumMap[instance.collectState],
       'visible': instance.visible,
       'is_muted': instance.isMuted,
+      'illust_ai_type': instance.illustAiType,
+      'illust_book_style': instance.illustBookStyle,
     };
 
 const _$CollectStateEnumMap = {
