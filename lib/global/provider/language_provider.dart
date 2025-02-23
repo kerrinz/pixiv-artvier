@@ -1,13 +1,15 @@
 import 'dart:ui';
 import 'package:artvier/base/base_provider/base_notifier.dart';
-import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/variable.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/storage/language_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final globalLanguageProvider = StateNotifierProvider<LanguageNotivier, Locale?>((ref) {
-  return LanguageNotivier(const Locale(CONSTANTS.default_language_code, CONSTANTS.default_country_code), ref: ref);
+  final languageStore = LanguageStorage(globalSharedPreferences);
+  final autoLanguage = languageStore.getAutoLanguage();
+  final locale = autoLanguage ? null : languageStore.getLanguageLocale();
+  return LanguageNotivier(locale, ref: ref);
 });
 
 /// Current Lanuange.
