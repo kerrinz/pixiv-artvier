@@ -499,6 +499,24 @@
     "type": "text",
     "placeholders": {}
   },
+  "languageSettings": "语言 / Language",
+  "@languageSettings": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectLanguage": "选择语言",
+  "@selectLanguage": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageFollowSystem": "跟随系统",
+  "@languageFollowSystem": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "follow": "关注",
   "@follow": {
     "description": "",

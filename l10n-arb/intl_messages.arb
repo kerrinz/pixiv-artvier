@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-02-02T23:31:55.433592",
+  "@@last_modified": "2025-02-23T23:27:32.773678",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -494,6 +494,36 @@
   },
   "editImageHosting": "Edit image hosting",
   "@editImageHosting": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageSettings": "Language settings",
+  "@languageSettings": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectLanguage": "Select language",
+  "@selectLanguage": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageFollowSystem": "Follow System",
+  "@languageFollowSystem": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageZhCn": "简体中文",
+  "@languageZhCn": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageEnUS": "English (US)",
+  "@languageEnUS": {
     "description": "",
     "type": "text",
     "placeholders": {}

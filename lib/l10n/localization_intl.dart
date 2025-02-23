@@ -148,6 +148,11 @@ class LocalizationIntl {
   String get portEditing => Intl.message('Port:', name: 'portEditing', desc: '');
   String get customImageHosting => Intl.message('Custom image hosting', name: 'customImageHosting', desc: '');
   String get editImageHosting => Intl.message('Edit image hosting', name: 'editImageHosting', desc: '');
+  String get languageSettings => Intl.message('Language settings', name: 'languageSettings', desc: '');
+  String get selectLanguage => Intl.message('Select language', name: 'selectLanguage', desc: '');
+  String get languageFollowSystem => Intl.message('Follow System', name: 'languageFollowSystem', desc: '');
+  String get languageZhCn => Intl.message('简体中文', name: 'languageZhCn', desc: '');
+  String get languageEnUS => Intl.message('English (US)', name: 'languageEnUS', desc: '');
 
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');
@@ -256,7 +261,8 @@ class LocalizationIntl {
   String get searchHalfYear => Intl.message("Half a year", name: 'searchHalfYear', desc: 'Search filter period');
   String get searchOneYear => Intl.message("One year", name: 'searchOneYear', desc: 'Search filter period');
   String get selectPeriod => Intl.message("Select period", name: 'selectPeriod', desc: 'Search filter period');
-  String get bookmarkCountNotPremium => Intl.message("Bookmark count (Not premium)", name: 'bookmarkCountNotPremium', desc: 'Filter bookmark count. Hint not premium function');
+  String get bookmarkCountNotPremium => Intl.message("Bookmark count (Not premium)",
+      name: 'bookmarkCountNotPremium', desc: 'Filter bookmark count. Hint not premium function');
   String get bookmarksCount => Intl.message("Bookmark count", name: 'bookmarksCount', desc: 'Filter bookmark count');
 
   // 发现页

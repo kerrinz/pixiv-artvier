@@ -16,7 +16,7 @@ class LanguageSettingPageState<LanguageSettingPage> extends BasePageState {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Language"),
+        title: Text(l10n.languageSettings),
       ),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -32,7 +32,7 @@ class LanguageSettingPageState<LanguageSettingPage> extends BasePageState {
                 final globalLocale = ref.watch(globalLanguageProvider);
                 final indexOfLanguageLocale = findIndexOfLanguageLocale(globalLocale);
                 return PerferenceSingleChoisePanel(
-                  title: 'App语言 / Language',
+                  title: l10n.selectLanguage,
                   selectedindex: globalLocale == null ? 0 : (indexOfLanguageLocale + 1),
                   onSelect: (index) {
                     if (index == 0) {
@@ -43,15 +43,15 @@ class LanguageSettingPageState<LanguageSettingPage> extends BasePageState {
                   },
                   widgets: <Widget>[
                     Text(
-                      "跟随系统 (Default)",
+                      l10n.languageFollowSystem,
                       style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
                     ),
                     Text(
-                      "简体中文",
+                      l10n.languageZhCn,
                       style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
                     ),
                     Text(
-                      "English(US)",
+                      l10n.languageEnUS,
                       style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
                     ),
                   ],
