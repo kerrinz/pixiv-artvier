@@ -30,8 +30,8 @@
 - [x] 直连（登录除外）
 - [x] 深色模式
 - [x] 下载管理
+- [x] 语言切换（中/英）
 - [ ] 主题配色
-- [ ] 语言切换（目前仅支持中英双语跟随系统）
 
 ### 作品或页面功能
 
@@ -60,9 +60,6 @@
 ## 开发环境
 - Flutter 3.19.5 • channel stable • https://github.com/flutter/flutter.git
 - Tools • Dart 3.3.3 • DevTools 2.31.1
-- Xcode - develop for iOS and macOS (Xcode 16.2)
-- Java SE 17.0.3
-- macOS 15.2 (ARM)
 
 ## 辅助命令
 ### 切换 gradle 版本
