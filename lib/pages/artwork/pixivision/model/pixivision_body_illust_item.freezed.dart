@@ -34,6 +34,9 @@ mixin _$PixivisionBodyIllustItem {
   /// 作者Id
   String get authorId => throw _privateConstructorUsedError;
 
+  /// 作品描述
+  List<String>? get description => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $PixivisionBodyIllustItemCopyWith<PixivisionBodyIllustItem> get copyWith =>
       throw _privateConstructorUsedError;
@@ -51,7 +54,8 @@ abstract class $PixivisionBodyIllustItemCopyWith<$Res> {
       String illustUrl,
       String authorName,
       String authorAvatar,
-      String authorId});
+      String authorId,
+      List<String>? description});
 }
 
 /// @nodoc
@@ -74,6 +78,7 @@ class _$PixivisionBodyIllustItemCopyWithImpl<$Res,
     Object? authorName = null,
     Object? authorAvatar = null,
     Object? authorId = null,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       illustTitle: null == illustTitle
@@ -100,6 +105,10 @@ class _$PixivisionBodyIllustItemCopyWithImpl<$Res,
           ? _value.authorId
           : authorId // ignore: cast_nullable_to_non_nullable
               as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -119,7 +128,8 @@ abstract class _$$PixivisionBodyIllustItemImplCopyWith<$Res>
       String illustUrl,
       String authorName,
       String authorAvatar,
-      String authorId});
+      String authorId,
+      List<String>? description});
 }
 
 /// @nodoc
@@ -141,6 +151,7 @@ class __$$PixivisionBodyIllustItemImplCopyWithImpl<$Res>
     Object? authorName = null,
     Object? authorAvatar = null,
     Object? authorId = null,
+    Object? description = freezed,
   }) {
     return _then(_$PixivisionBodyIllustItemImpl(
       illustTitle: null == illustTitle
@@ -167,6 +178,10 @@ class __$$PixivisionBodyIllustItemImplCopyWithImpl<$Res>
           ? _value.authorId
           : authorId // ignore: cast_nullable_to_non_nullable
               as String,
+      description: freezed == description
+          ? _value._description
+          : description // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -180,7 +195,9 @@ class _$PixivisionBodyIllustItemImpl implements _PixivisionBodyIllustItem {
       required this.illustUrl,
       required this.authorName,
       required this.authorAvatar,
-      required this.authorId});
+      required this.authorId,
+      required final List<String>? description})
+      : _description = description;
 
   /// 作品名
   @override
@@ -206,9 +223,22 @@ class _$PixivisionBodyIllustItemImpl implements _PixivisionBodyIllustItem {
   @override
   final String authorId;
 
+  /// 作品描述
+  final List<String>? _description;
+
+  /// 作品描述
+  @override
+  List<String>? get description {
+    final value = _description;
+    if (value == null) return null;
+    if (_description is EqualUnmodifiableListView) return _description;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'PixivisionBodyIllustItem(illustTitle: $illustTitle, illustId: $illustId, illustUrl: $illustUrl, authorName: $authorName, authorAvatar: $authorAvatar, authorId: $authorId)';
+    return 'PixivisionBodyIllustItem(illustTitle: $illustTitle, illustId: $illustId, illustUrl: $illustUrl, authorName: $authorName, authorAvatar: $authorAvatar, authorId: $authorId, description: $description)';
   }
 
   @override
@@ -227,12 +257,21 @@ class _$PixivisionBodyIllustItemImpl implements _PixivisionBodyIllustItem {
             (identical(other.authorAvatar, authorAvatar) ||
                 other.authorAvatar == authorAvatar) &&
             (identical(other.authorId, authorId) ||
-                other.authorId == authorId));
+                other.authorId == authorId) &&
+            const DeepCollectionEquality()
+                .equals(other._description, _description));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, illustTitle, illustId, illustUrl,
-      authorName, authorAvatar, authorId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      illustTitle,
+      illustId,
+      illustUrl,
+      authorName,
+      authorAvatar,
+      authorId,
+      const DeepCollectionEquality().hash(_description));
 
   @JsonKey(ignore: true)
   @override
@@ -244,12 +283,14 @@ class _$PixivisionBodyIllustItemImpl implements _PixivisionBodyIllustItem {
 
 abstract class _PixivisionBodyIllustItem implements PixivisionBodyIllustItem {
   const factory _PixivisionBodyIllustItem(
-      {required final String illustTitle,
-      required final String illustId,
-      required final String illustUrl,
-      required final String authorName,
-      required final String authorAvatar,
-      required final String authorId}) = _$PixivisionBodyIllustItemImpl;
+          {required final String illustTitle,
+          required final String illustId,
+          required final String illustUrl,
+          required final String authorName,
+          required final String authorAvatar,
+          required final String authorId,
+          required final List<String>? description}) =
+      _$PixivisionBodyIllustItemImpl;
 
   @override
 
@@ -275,6 +316,10 @@ abstract class _PixivisionBodyIllustItem implements PixivisionBodyIllustItem {
 
   /// 作者Id
   String get authorId;
+  @override
+
+  /// 作品描述
+  List<String>? get description;
   @override
   @JsonKey(ignore: true)
   _$$PixivisionBodyIllustItemImplCopyWith<_$PixivisionBodyIllustItemImpl>

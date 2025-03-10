@@ -25,5 +25,8 @@ class PixivisionBodyIllustItem with _$PixivisionBodyIllustItem {
 
     /// 作者Id
     required String authorId,
+
+    /// 作品描述
+    required List<String>? description,
   }) = _PixivisionBodyIllustItem;
 }

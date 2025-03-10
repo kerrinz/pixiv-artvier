@@ -101,7 +101,9 @@ class _BannerAppBarPageLayoutState extends ConsumerState<BannerAppBarPageLayout>
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    if (_scrollController.hasClients) {
+      _scrollController.dispose();
+    }
     super.dispose();
   }
 
