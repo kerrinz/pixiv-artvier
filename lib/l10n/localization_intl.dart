@@ -87,6 +87,9 @@ class LocalizationIntl {
 
   // 首页
   String get rankings => Intl.message('Rankings', name: 'rankings', desc: 'Function group item.');
+  String get illustRankings => Intl.message('Illust rankings', name: 'illustRankings', desc: '');
+  String get mangaRankings => Intl.message('Manga rankings', name: 'mangaRankings', desc: '');
+  String get novelRankings => Intl.message('Novel rankings', name: 'novelRankings', desc: '');
   String get dailyRankings =>
       Intl.message('Daily Rankings', name: 'dailyRankings', desc: 'Title of ranking glance widget');
   String get recommended =>
@@ -191,7 +194,7 @@ class LocalizationIntl {
   String get pixivPremium => Intl.message("Pixiv Premium", name: 'pixivPremium', desc: '');
   // 我的收藏页面
   String get myCollections => Intl.message("My collections", name: 'myCollections', desc: '');
-  // 画作详情页
+  // 画作、小说详情页
   String get addToCollections =>
       Intl.message("Add to collections", name: 'addToCollections', desc: 'Title of add works to colllections');
   String get editCollection =>
@@ -217,6 +220,7 @@ class LocalizationIntl {
       name: 'tagAlreadyExists', desc: 'Prompt the tag already exists by add new tag');
   String get tagsReachedMaximun => Intl.message("Maximum number of tags reached!",
       name: 'tagsReachedMaximun', desc: 'Prompt when no more tags are allowed');
+  String get copyLink => Intl.message("Copy link", name: 'copyLink', desc: 'Copy link of works');
 
   // 排行榜
   String get rankingDaily => Intl.message("Daily", name: 'rankingDaily', desc: '');

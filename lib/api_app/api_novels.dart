@@ -5,6 +5,7 @@ import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/model_response/novels/novel_detail.dart';
 import 'package:artvier/model_response/novels/novel_series_detail.dart';
+import 'package:artvier/model_response/novels/recommended/novels_recommended.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/base/base_api.dart';
@@ -51,7 +52,7 @@ class ApiNovels extends ApiBase {
     return result;
   }
 
-  /// 获取漫画系列详情
+  /// 获取小说系列详情
   Future<NovelSeriesDetailResponse> novelSeriesDetail(String novelSeriesId, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
       "/v2/novel/series",
@@ -64,10 +65,25 @@ class ApiNovels extends ApiBase {
     return NovelSeriesDetailResponse.fromJson(json.decode(res.data));
   }
 
-  /// 获取插画排行榜
+  /// 获取推荐小说
+  Future<NovelsRecommended> recommendedNovels({CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v1/novel/recommended",
+      queryParameters: {
+        "include_privacy_policy": true,
+        "include_ranking_novels": true,
+        "filter": "for_ios",
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return NovelsRecommended.fromJson(json.decode(res.data));
+  }
+
+  /// 获取小说排行榜
   /// - [mode] NovelRankingMode
   /// - [date] 格式为 "yyyy-mm-dd"
-  Future<CommonNovelList> getNovelRanking(
+  Future<CommonNovelList> rankingNovels(
       {required String mode, int? offset, String? date, CancelToken? cancelToken}) async {
     var query = <String, dynamic>{};
     query.addAll({

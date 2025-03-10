@@ -2,30 +2,28 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of 'illust_recommended.dart';
+part of 'manga_recommended.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-IllustRecommended _$IllustRecommendedFromJson(Map<String, dynamic> json) =>
-    IllustRecommended(
+MangaRecommended _$MangaRecommendedFromJson(Map<String, dynamic> json) =>
+    MangaRecommended(
       (json['illusts'] as List<dynamic>)
           .map((e) => CommonIllust.fromJson(e as Map<String, dynamic>))
           .toList(),
       (json['ranking_illusts'] as List<dynamic>)
           .map((e) => CommonIllust.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['contest_exists'] as bool,
       Privacy_policy.fromJson(json['privacy_policy'] as Map<String, dynamic>),
       json['next_url'] as String?,
     );
 
-Map<String, dynamic> _$IllustRecommendedToJson(IllustRecommended instance) =>
+Map<String, dynamic> _$MangaRecommendedToJson(MangaRecommended instance) =>
     <String, dynamic>{
       'illusts': instance.illusts,
       'ranking_illusts': instance.rankingIllusts,
-      'contest_exists': instance.contestExists,
       'privacy_policy': instance.privacyPolicy,
       'next_url': instance.nextUrl,
     };

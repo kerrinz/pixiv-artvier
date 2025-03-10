@@ -56,7 +56,7 @@ class UserDetailMenu extends BasePage with FollowButtonLogic {
               children: [
                 rowListItem(
                   context: context,
-                  text: "复制链接",
+                  text: l10n(context).copyLink,
                   icon: const Icon(Icons.link_rounded),
                   onTap: () => Clipboard.setData(ClipboardData(text: CONSTANTS.referer_users_base + userId.toString()))
                       .then((value) {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/illusts/pixivision/spotlight_articles.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/api_illusts.dart';
@@ -10,7 +11,7 @@ import 'package:artvier/global/provider/collection_state_provider.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 
 /// 首页的加载状态
-final homeStateProvider = StateNotifierProvider<HomeStateNotifier, PageState>((ref) {
+final homeIllustStateProvider = StateNotifierProvider<HomeIllustStateNotifier, PageState>((ref) {
   // // 监听全局收藏状态的变化，更新列表
   ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
     if (next != null) {
@@ -24,12 +25,12 @@ final homeStateProvider = StateNotifierProvider<HomeStateNotifier, PageState>((r
       }
     }
   });
-  return HomeStateNotifier(PageState.loading, ref: ref)..init();
+  return HomeIllustStateNotifier(PageState.loading, ref: ref)..init();
 });
 
 /// 首页的加载状态
-class HomeStateNotifier extends BaseStateNotifier<PageState> {
-  HomeStateNotifier(super.state, {required super.ref});
+class HomeIllustStateNotifier extends BaseStateNotifier<PageState> {
+  HomeIllustStateNotifier(super.state, {required super.ref});
 
   /// 执行所有请求
   Future<void> allFetch() async {
@@ -56,6 +57,7 @@ class HomeStateNotifier extends BaseStateNotifier<PageState> {
       state = PageState.complete;
     } catch (e) {
       state = PageState.error;
+      logger.e(e);
     }
   }
 }
@@ -94,12 +96,12 @@ class HomeIllustRecommendedNotifier extends BaseStateNotifier<List<CommonIllust>
   }
 }
 
-/// 首页推荐插画
+/// 首页推荐插画Pixivision
 final homePixivisionProvider = StateNotifierProvider<HomePixivisionNotifier, List<SpotlightArticle>>((ref) {
   return HomePixivisionNotifier([], ref: ref);
 });
 
-/// 首页推荐插画
+/// 首页推荐插画Pixivision
 class HomePixivisionNotifier extends BaseStateNotifier<List<SpotlightArticle>> {
   HomePixivisionNotifier(super.state, {required super.ref});
 

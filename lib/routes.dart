@@ -14,7 +14,7 @@ import 'package:artvier/pages/comment/comments_page.dart';
 import 'package:artvier/pages/artwork/download_manage/download_manage_page.dart';
 import 'package:artvier/pages/artwork/history/history_page.dart';
 import 'package:artvier/pages/artwork/detail/detail_page.dart';
-import 'package:artvier/pages/artwork/ranking/artworks_ranking_page.dart';
+import 'package:artvier/pages/ranking/ranking_page.dart';
 import 'package:artvier/pages/artwork/viewer/image_viewer_page.dart';
 import 'package:artvier/pages/login/login_by_web_page.dart';
 import 'package:artvier/pages/login/login_wizard_page.dart';
@@ -97,7 +97,7 @@ class Routes {
     RouteNames.mainNavigation.name: (context, arguments) => const MainNavigation(),
     RouteNames.wizard.name: (context, arguments) => const LoginWizardPage(),
     RouteNames.loginWeb.name: (context, arguments) => const LoginWebPage(),
-    RouteNames.ranking.name: (context, arguments) => const ArtworksRankingPage(),
+    RouteNames.ranking.name: (context, arguments) => RankingPage(arguments!),
     RouteNames.artworkDetail.name: (context, arguments) => ArtWorksDetailPage(arguments!),
     RouteNames.artworkImagesPreview.name: (context, arguments) => ImageViewerPage(arguments!),
     RouteNames.artworkPixivition.name: (context, arguments) => IllustPixivisionPage(arguments!),

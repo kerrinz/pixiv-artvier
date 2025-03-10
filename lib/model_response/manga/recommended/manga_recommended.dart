@@ -3,20 +3,15 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 
-part 'illust_recommended.g.dart';
-
+part 'manga_recommended.g.dart';
 
 @JsonSerializable()
-class IllustRecommended extends Object {
-
+class MangaRecommended extends Object {
   @JsonKey(name: 'illusts')
   List<CommonIllust> illusts;
 
   @JsonKey(name: 'ranking_illusts')
   List<CommonIllust> rankingIllusts;
-
-  @JsonKey(name: 'contest_exists')
-  bool contestExists;
 
   @JsonKey(name: 'privacy_policy')
   Privacy_policy privacyPolicy;
@@ -24,17 +19,20 @@ class IllustRecommended extends Object {
   @JsonKey(name: 'next_url')
   String? nextUrl;
 
-  IllustRecommended(this.illusts,this.rankingIllusts,this.contestExists,this.privacyPolicy,this.nextUrl,);
+  MangaRecommended(
+    this.illusts,
+    this.rankingIllusts,
+    this.privacyPolicy,
+    this.nextUrl,
+  );
 
-  factory IllustRecommended.fromJson(Map<String, dynamic> srcJson) => _$IllustRecommendedFromJson(srcJson);
+  factory MangaRecommended.fromJson(Map<String, dynamic> srcJson) => _$MangaRecommendedFromJson(srcJson);
 
-  Map<String, dynamic> toJson() => _$IllustRecommendedToJson(this);
-
+  Map<String, dynamic> toJson() => _$MangaRecommendedToJson(this);
 }
 
 @JsonSerializable()
 class Privacy_policy extends Object {
-
   @JsonKey(name: 'version')
   String? version;
 
@@ -44,12 +42,13 @@ class Privacy_policy extends Object {
   @JsonKey(name: 'url')
   String? url;
 
-  Privacy_policy(this.version,this.message,this.url,);
+  Privacy_policy(
+    this.version,
+    this.message,
+    this.url,
+  );
 
   factory Privacy_policy.fromJson(Map<String, dynamic> srcJson) => _$Privacy_policyFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$Privacy_policyToJson(this);
-
 }
-
-

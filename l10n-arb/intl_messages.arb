@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-02-23T23:27:32.773678",
+  "@@last_modified": "2025-03-10T13:48:06.357908",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -261,6 +261,24 @@
   "rankings": "Rankings",
   "@rankings": {
     "description": "Function group item.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "illustRankings": "Illust rankings",
+  "@illustRankings": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mangaRankings": "Manga rankings",
+  "@mangaRankings": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "novelRankings": "Novel rankings",
+  "@novelRankings": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },
@@ -801,6 +819,12 @@
   "tagsReachedMaximun": "Maximum number of tags reached!",
   "@tagsReachedMaximun": {
     "description": "Prompt when no more tags are allowed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "copyLink": "Copy link",
+  "@copyLink": {
+    "description": "Copy link of works",
     "type": "text",
     "placeholders": {}
   },

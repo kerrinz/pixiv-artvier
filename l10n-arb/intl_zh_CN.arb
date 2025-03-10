@@ -265,6 +265,24 @@
     "type": "text",
     "placeholders": {}
   },
+  "illustRankings": "插画排行榜",
+  "@illustRankings": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mangaRankings": "漫画排行榜",
+  "@mangaRankings": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "novelRankings": "小说排行榜",
+  "@novelRankings": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "dailyRankings": "每日排行",
   "@dailyRankings": {
     "description": "Title of ranking glance widget",
@@ -790,6 +808,12 @@
   "tagsReachedMaximun": "已达到最大标签数!",
   "@tagsReachedMaximun": {
     "description": "Prompt when no more tags are allowed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "copyLink": "复制链接",
+  "@copyLink": {
+    "description": "Copy link of works",
     "type": "text",
     "placeholders": {}
   },

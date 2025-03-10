@@ -2,30 +2,28 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of 'illust_recommended.dart';
+part of 'novels_recommended.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-IllustRecommended _$IllustRecommendedFromJson(Map<String, dynamic> json) =>
-    IllustRecommended(
-      (json['illusts'] as List<dynamic>)
-          .map((e) => CommonIllust.fromJson(e as Map<String, dynamic>))
+NovelsRecommended _$NovelsRecommendedFromJson(Map<String, dynamic> json) =>
+    NovelsRecommended(
+      (json['novels'] as List<dynamic>)
+          .map((e) => CommonNovel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      (json['ranking_illusts'] as List<dynamic>)
-          .map((e) => CommonIllust.fromJson(e as Map<String, dynamic>))
+      (json['ranking_novels'] as List<dynamic>)
+          .map((e) => CommonNovel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['contest_exists'] as bool,
       Privacy_policy.fromJson(json['privacy_policy'] as Map<String, dynamic>),
       json['next_url'] as String?,
     );
 
-Map<String, dynamic> _$IllustRecommendedToJson(IllustRecommended instance) =>
+Map<String, dynamic> _$NovelsRecommendedToJson(NovelsRecommended instance) =>
     <String, dynamic>{
-      'illusts': instance.illusts,
-      'ranking_illusts': instance.rankingIllusts,
-      'contest_exists': instance.contestExists,
+      'novels': instance.novels,
+      'ranking_novels': instance.rankingNovels,
       'privacy_policy': instance.privacyPolicy,
       'next_url': instance.nextUrl,
     };
