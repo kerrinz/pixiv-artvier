@@ -1,3 +1,4 @@
+import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/model_response/user/preload_user_least_info.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
@@ -8,15 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 用户详情页的用户面板组件
-class PixivisionIllustCard extends ConsumerWidget {
-  const PixivisionIllustCard(
-    this.illustId,
-    this.illustUrl,
-    this.illustTitle,
-    this.authorId,
-    this.authorName,
-    this.authorAvatarUrl, {
+class PixivisionIllustCard extends BasePage {
+  const PixivisionIllustCard({
     super.key,
+    required this.illustId,
+    required this.illustUrl,
+    required this.illustTitle,
+    required this.authorId,
+    required this.authorName,
+    required this.authorAvatarUrl,
+    this.description,
   });
 
   final String illustId;
@@ -31,14 +33,16 @@ class PixivisionIllustCard extends ConsumerWidget {
 
   final String authorAvatarUrl;
 
+  final List<String>? description;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
+            padding: const EdgeInsets.only(bottom: 16),
             child: InkWell(
               onTap: () => Navigator.of(context).pushNamed(
                 RouteNames.userDetail.name,
@@ -61,19 +65,21 @@ class PixivisionIllustCard extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(illustTitle),
-                      Text(authorName),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(illustTitle),
+                        Text("By $authorName", style: textTheme(context).bodySmall),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
           ),
           ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
             child: InkWell(
               onTap: () => Navigator.of(context).pushNamed(
                 RouteNames.artworkDetail.name,
@@ -88,6 +94,13 @@ class PixivisionIllustCard extends ConsumerWidget {
               ),
             ),
           ),
+          if (description != null)
+            for (final text in description!)
+              if (text.trim() != '')
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(text),
+                )
         ],
       ),
     );

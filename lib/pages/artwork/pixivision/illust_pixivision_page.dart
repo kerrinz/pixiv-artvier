@@ -12,13 +12,13 @@ import 'package:extended_image/extended_image.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:html/parser.dart';
 
 class IllustPixivisionPage extends BaseStatefulPage {
   final PixivisionWebViewPageArguments arguments;
 
-  const IllustPixivisionPage(Object arg, {super.key})
-      : arguments = arg as PixivisionWebViewPageArguments;
+  const IllustPixivisionPage(Object arg, {super.key}) : arguments = arg as PixivisionWebViewPageArguments;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => __IllustPixivisionPageState();
@@ -41,14 +41,14 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
       body: BannerAppBarPageLayout(
         bannerHeight: 200,
         appBarStartBuilderOffset: 0,
-        appBarEndBuilderOffset: 300,
+        appBarEndBuilderOffset: 200,
         appBarBuilder: (double offset) => _buildAppBar(offset),
         bannerWidget: _bannerWidget(),
         body: ExtendedNestedScrollView(
           onlyOneScrollInBody: true,
-          pinnedHeaderSliverHeightBuilder: () {
-            return MediaQuery.of(context).padding.top + kToolbarHeight - _radius;
-          },
+          // pinnedHeaderSliverHeightBuilder: () {
+          //   return MediaQuery.of(context).padding.top + kToolbarHeight - _radius;
+          // },
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
               SliverToBoxAdapter(
@@ -80,48 +80,76 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
                       builder: (context) {
                         var document = parse(data);
                         var items = document.querySelector("._feature-article-body")?.children ?? [];
-                        List<PixivisionBodyIllustItem> illustList = [];
+                        List<Widget> widgets = [];
                         for (var item in items) {
-                          var data = PixivisionBodyIllustItem(
-                            illustUrl: item.querySelector("div.aiwsp__main img")?.attributes["src"].toString() ?? "",
-                            illustTitle: item.querySelector(".aiwsp__title a")?.text ?? "",
-                            illustId: item
-                                    .querySelector("div.aiwsp__main a")
-                                    ?.attributes["href"]
-                                    ?.split('?')
-                                    .first
-                                    .split('/')
-                                    .last ??
-                                "",
-                            authorName: item.querySelector(".aiwsp__user-name a")?.text.toString() ?? "",
-                            authorId: item
-                                    .querySelector(".aiwsp__info a")
-                                    ?.attributes["href"]
-                                    ?.split('?')
-                                    .first
-                                    .split('/')
-                                    .last ??
-                                "",
-                            authorAvatar:
-                                item.querySelector(".aiwsp__uesr-icon img")?.attributes["src"].toString() ?? "",
-                          );
-                          illustList.add(data);
-                        }
-                        // print(illustList);
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: illustList.length,
-                          itemBuilder: (context, index) {
-                            var illust = illustList[index];
-                            return PixivisionIllustCard(
-                              illust.illustId,
-                              illust.illustUrl,
-                              illust.illustTitle,
-                              illust.authorId,
-                              illust.authorName,
-                              illust.authorAvatar,
+                          if (item.className == "_feature-article-body__paragraph") {
+                            widgets.add(Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: HtmlWidget(
+                                item.text,
+                              ),
+                            ));
+                          } else if (item.className == "_feature-article-body__pixiv_illust") {
+                            var illust = PixivisionBodyIllustItem(
+                              illustUrl: item.querySelector("div.aiwsp__main img")?.attributes["src"].toString() ?? "",
+                              illustTitle: item.querySelector(".aiwsp__title a")?.text ?? "",
+                              illustId: item
+                                      .querySelector("div.aiwsp__main a")
+                                      ?.attributes["href"]
+                                      ?.split('?')
+                                      .first
+                                      .split('/')
+                                      .last ??
+                                  "",
+                              authorName: item.querySelector(".aiwsp__user-name a")?.text.toString() ?? "",
+                              authorId: item
+                                      .querySelector(".aiwsp__info a")
+                                      ?.attributes["href"]
+                                      ?.split('?')
+                                      .first
+                                      .split('/')
+                                      .last ??
+                                  "",
+                              authorAvatar:
+                                  item.querySelector(".aiwsp__uesr-icon img")?.attributes["src"].toString() ?? "",
+                              description: item
+                                  .querySelectorAll("._article-illust-work>p:not(:empty)")
+                                  .map((e) => e.text)
+                                  .toList(),
                             );
-                          },
+                            widgets.add(PixivisionIllustCard(
+                              illustId: illust.illustId,
+                              illustUrl: illust.illustUrl,
+                              illustTitle: illust.illustTitle,
+                              authorId: illust.authorId,
+                              authorName: illust.authorName,
+                              authorAvatarUrl: illust.authorAvatar,
+                              description: illust.description,
+                            ));
+                          }
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: CustomScrollView(
+                            slivers: [
+                              // Title
+                              SliverPadding(
+                                padding: const EdgeInsets.only(top: 16),
+                                sliver: SliverToBoxAdapter(
+                                  child: Text(
+                                    widget.arguments.title,
+                                    style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                              // Content
+                              for (final widget in widgets) SliverToBoxAdapter(child: widget),
+                              // SafeArea
+                              const SliverToBoxAdapter(
+                                child: SafeArea(top: false, left: false, right: false, bottom: true, child: SizedBox()),
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),
@@ -143,20 +171,21 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
         headers: HttpHostOverrides().pximgHeaders,
         cache: true,
       ),
+      color: const Color(0x33000000),
+      colorBlendMode: BlendMode.multiply,
     );
   }
 
   // AppBar
   Widget _buildAppBar(double offset) {
-    double bgOpacity;
-    double titleOpacity;
-    if (offset >= 140) {
-      titleOpacity = 1;
+    double bgOpacity = 0;
+    double titleOpacity = 0;
+    if (offset >= 100 && offset <= 150) {
+      bgOpacity = (offset - 100) / 50;
+    } else if (offset > 150) {
       bgOpacity = 1;
-    } else {
-      titleOpacity = 0;
-      bgOpacity = 0;
     }
+    titleOpacity = bgOpacity;
     double reverseOpacity = 1 - bgOpacity; // AppBar背景色透明度的反向透明度
     Color buttonBackground = const Color(0x55000000).withAlpha((85 * reverseOpacity).toInt()); // back和action按钮的背景色
     int c = Theme.of(context).brightness == Brightness.light ? (255 * reverseOpacity).toInt() : 240;
