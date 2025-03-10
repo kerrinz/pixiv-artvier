@@ -1,7 +1,7 @@
 import 'package:artvier/component/carousel/blur_carousel.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/model_response/illusts/pixivision/spotlight_articles.dart';
 import 'package:artvier/pages/artwork/pixivision/model/pixivision_webview_page_arguments.dart';
-import 'package:artvier/pages/main_navigation_tab_page/home/provider/home_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/routes.dart';
 import 'package:extended_image/extended_image.dart';
@@ -10,14 +10,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Pixivsion 轮播图
 class PixivsionCarousel extends ConsumerWidget {
+  final List<SpotlightArticle> articleList;
+
   const PixivsionCarousel({
     super.key,
+    required this.articleList,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var pixivisions = ref.watch(homePixivisionProvider);
-    var list = pixivisions;
+    var list = articleList;
     return BlurCarousel(
       itemCount: list.length,
       loop: true,
@@ -40,7 +42,10 @@ class PixivsionCarousel extends ConsumerWidget {
                       Navigator.of(ref.context).pushNamed(
                         RouteNames.artworkPixivition.name,
                         arguments: PixivisionWebViewPageArguments(
-                            language: "zh", id: list[index].id, title: list[index].title, coverUrl: list[index].thumbnail),
+                            language: "zh",
+                            id: list[index].id,
+                            title: list[index].title,
+                            coverUrl: list[index].thumbnail),
                       );
                     },
                     child: Column(
@@ -63,8 +68,8 @@ class PixivsionCarousel extends ConsumerWidget {
                             color: Theme.of(context).colorScheme.brightness == Brightness.light
                                 ? const Color.fromARGB(50, 0, 0, 0)
                                 : const Color.fromARGB(100, 0, 0, 0),
-                            borderRadius:
-                                const BorderRadius.only(bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
+                            borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
                           ),
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: Text(

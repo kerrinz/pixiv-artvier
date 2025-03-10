@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-mixin ArtworksRankingPageLogic {
+mixin RankingPageLogic {
   ScrollController get scrollController;
 
   void handlePressedToTop() {

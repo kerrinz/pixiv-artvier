@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types
 
+import 'package:artvier/config/enums.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:artvier/model_response/user/common_user.dart';
 
@@ -49,6 +50,8 @@ class CommonNovel extends Object {
   @JsonKey(name: 'is_bookmarked')
   bool isBookmarked;
 
+  CollectState? collectState;
+
   @JsonKey(name: 'total_bookmarks')
   int totalBookmarks;
 
@@ -88,6 +91,7 @@ class CommonNovel extends Object {
     this.user,
     this.series,
     this.isBookmarked,
+    this.collectState,
     this.totalBookmarks,
     this.totalView,
     this.visible,

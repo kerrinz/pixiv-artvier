@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:artvier/config/http_base_options.dart';
+import 'package:artvier/config/ranking_mode_constants.dart';
 import 'package:artvier/model_response/illusts/illust_detail.dart';
 import 'package:artvier/model_response/illusts/pixivision/spotlight_articles.dart';
 import 'package:artvier/model_response/illusts/ugoira.dart';
 import 'package:artvier/model_response/manga/manga_series_detail.dart';
+import 'package:artvier/model_response/manga/recommended/manga_recommended.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/config/enums.dart';
@@ -71,6 +73,21 @@ class ApiIllusts extends ApiBase {
     return IllustRecommended.fromJson(json.decode(res.data));
   }
 
+  /// 获取推荐漫画
+  Future<MangaRecommended> recommendedManga({CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v1/manga/recommended",
+      queryParameters: {
+        "include_privacy_policy": true,
+        "include_ranking_illusts": true,
+        "filter": "for_ios",
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return MangaRecommended.fromJson(json.decode(res.data));
+  }
+
   /// 获取插画的评论
   /// - [illustId] 插画id
   Future<IllustComments> getIllustComments(String illustId, {CancelToken? cancelToken}) async {
@@ -100,8 +117,8 @@ class ApiIllusts extends ApiBase {
     return CommonIllustList.fromJson(json.decode(res.data));
   }
 
-  // 获取插画排行榜
-  // - [mode] IllustRankingMode
+  /// 获取插画排行榜
+  /// - mode: [IllustRankingMode]
   Future<CommonIllustList> getIllustRanking(
       {required String mode, int? offset, String? date, CancelToken? cancelToken}) async {
     var query = <String, dynamic>{};
@@ -120,12 +137,32 @@ class ApiIllusts extends ApiBase {
     return CommonIllustList.fromJson(json.decode(res.data));
   }
 
-  // 获取插画亮点 Pixivision
-  Future<SpotlightArticles> illustPixivision({CancelToken? cancelToken}) async {
+  /// 获取漫画排行榜
+  /// - mode: [MangaRankingMode]
+  Future<CommonIllustList> mangaRanking(
+      {required String mode, int? offset, String? date, CancelToken? cancelToken}) async {
     var query = <String, dynamic>{};
     query.addAll({
       "filter": "for_ios",
-      "category": "all",
+      "mode": mode,
+    });
+    if (offset != null) query["offset"] = offset;
+    if (date != null) query["date"] = date;
+    Response res = await requester.get<String>(
+      "/v1/manga/ranking",
+      queryParameters: query,
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return CommonIllustList.fromJson(json.decode(res.data));
+  }
+
+  // 获取插画亮点 Pixivision
+  Future<SpotlightArticles> illustPixivision({isManga = false, CancelToken? cancelToken}) async {
+    var query = <String, dynamic>{};
+    query.addAll({
+      "filter": "for_ios",
+      "category": isManga ? "manga" : "all",
     });
     Response res = await requester.get<String>(
       "/v1/spotlight/articles",

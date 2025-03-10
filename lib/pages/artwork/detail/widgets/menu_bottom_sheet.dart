@@ -31,7 +31,7 @@ class ArtworkDetailMenu extends BasePage {
               children: [
                 rowListItem(
                   context: context,
-                  text: "复制链接",
+                  text: l10n(context).copyLink,
                   icon: const Icon(Icons.link_rounded),
                   onTap: () =>
                       Clipboard.setData(ClipboardData(text: CONSTANTS.referer_artworks_base + detail.id.toString()))

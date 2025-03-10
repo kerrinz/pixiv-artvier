@@ -25,6 +25,7 @@ CommonNovel _$CommonNovelFromJson(Map<String, dynamic> json) => CommonNovel(
       CommonUser.fromJson(json['user'] as Map<String, dynamic>),
       Series.fromJson(json['series'] as Map<String, dynamic>),
       json['is_bookmarked'] as bool,
+      $enumDecodeNullable(_$CollectStateEnumMap, json['collectState']),
       (json['total_bookmarks'] as num).toInt(),
       (json['total_view'] as num).toInt(),
       json['visible'] as bool,
@@ -51,6 +52,7 @@ Map<String, dynamic> _$CommonNovelToJson(CommonNovel instance) =>
       'user': instance.user,
       'series': instance.series,
       'is_bookmarked': instance.isBookmarked,
+      'collectState': _$CollectStateEnumMap[instance.collectState],
       'total_bookmarks': instance.totalBookmarks,
       'total_view': instance.totalView,
       'visible': instance.visible,
@@ -60,6 +62,13 @@ Map<String, dynamic> _$CommonNovelToJson(CommonNovel instance) =>
       'is_x_restricted': instance.isXRestricted,
       'novel_ai_type': instance.novelAiType,
     };
+
+const _$CollectStateEnumMap = {
+  CollectState.collecting: 'collecting',
+  CollectState.uncollecting: 'uncollecting',
+  CollectState.collected: 'collected',
+  CollectState.notCollect: 'notCollect',
+};
 
 Image_urls _$Image_urlsFromJson(Map<String, dynamic> json) => Image_urls(
       json['square_medium'] as String,
