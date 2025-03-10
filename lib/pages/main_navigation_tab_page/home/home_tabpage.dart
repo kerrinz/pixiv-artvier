@@ -64,6 +64,7 @@ class HomePageState extends BasePageState with TickerProviderStateMixin, Automat
             },
             child: TabBarView(
               controller: _tabController,
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 HomeIllustTabPage(scrollController: _scrollControllerList[0]),
                 HomeMangaTabPage(scrollController: _scrollControllerList[1]),
