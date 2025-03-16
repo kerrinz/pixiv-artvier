@@ -119,6 +119,7 @@ class ApiIllusts extends ApiBase {
 
   /// 获取插画排行榜
   /// - mode: [IllustRankingMode]
+  /// - date: yyyy-mm-dd
   Future<CommonIllustList> getIllustRanking(
       {required String mode, int? offset, String? date, CancelToken? cancelToken}) async {
     var query = <String, dynamic>{};

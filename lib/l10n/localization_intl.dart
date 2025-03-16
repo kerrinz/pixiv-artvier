@@ -50,6 +50,7 @@ class LocalizationIntl {
   String get promptTitle => Intl.message('Prompt', name: 'promptTitle', desc: '');
   String get promptCancel => Intl.message('Cancel', name: 'promptCancel', desc: '');
   String get promptConform => Intl.message('Conform', name: 'promptConform', desc: '');
+  String get promptReset => Intl.message('Reset', name: 'promptReset', desc: '');
   String get all => Intl.message('All', name: 'all', desc: '');
   String get public => Intl.message('Public', name: 'public', desc: '');
   String get private => Intl.message('Private', name: 'private', desc: 'non-public');
@@ -73,6 +74,7 @@ class LocalizationIntl {
       '1. This software is free of charge and is only for learning and communication use, and may not be used for any other purpose (especially not for commercial purposes), and the legal liability for any other use shall not be borne by me.\n2. This software will not be available for download anywhere other than the Github repository, please comply with local laws and regulations, and you shall bear the legal responsibility for downloading and distributing this software.\n3. If access to the official Pixiv website is not supported in your current country or region, you will also not be able to use and will not be permitted to use the Software.\n4. This software does not set up a server and does not provide resources and services, all network data in the software comes from Pixiv\'s official interface, and the copyright of all works (including illustrations, comics, novels, etc.) belongs to Pixiv or the original author.',
       name: 'appShortTerms',
       desc: '');
+  String get selectDate => Intl.message('Select date', name: 'selectDate', desc: '');
 
   // 深色模式、主题相关
   String get lightBrightness => Intl.message("Light", name: 'lightBrightness', desc: 'Light brightness for app');
