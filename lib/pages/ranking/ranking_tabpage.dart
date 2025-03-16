@@ -11,9 +11,15 @@ class RankingIllustTabPage extends BaseStatefulPage {
   const RankingIllustTabPage({
     super.key,
     required this.mode,
+    this.controller,
+    this.index,
   });
 
+  final TabController? controller;
+
   final String mode;
+
+  final int? index;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _RankingIllustTabPageState();
@@ -21,6 +27,33 @@ class RankingIllustTabPage extends BaseStatefulPage {
 
 class _RankingIllustTabPageState extends BasePageState<RankingIllustTabPage> with AutomaticKeepAliveClientMixin {
   String get mode => widget.mode;
+
+  bool keepAlive = false;
+
+  @override
+  bool get wantKeepAlive => keepAlive;
+
+  @override
+  void initState() {
+    if (widget.controller != null) {
+      widget.controller!.addListener(() {
+        checkKeepAlive();
+      });
+    }
+    super.initState();
+  }
+
+  checkKeepAlive() {
+    if (widget.controller == null || widget.index == null) return false;
+    final previousIndex = widget.controller!.previousIndex;
+    final index = widget.controller!.index;
+    if (previousIndex == widget.index || index == widget.index) {
+      keepAlive = true;
+    } else {
+      keepAlive = false;
+    }
+    updateKeepAlive();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +79,21 @@ class _RankingIllustTabPageState extends BasePageState<RankingIllustTabPage> wit
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class RankingMangaTabPage extends BaseStatefulPage {
   const RankingMangaTabPage({
     super.key,
     required this.mode,
+    this.controller,
+    this.index,
   });
 
+  final TabController? controller;
+
   final String mode;
+
+  final int? index;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _RankingMangaTabPageState();
@@ -65,6 +101,33 @@ class RankingMangaTabPage extends BaseStatefulPage {
 
 class _RankingMangaTabPageState extends BasePageState<RankingMangaTabPage> with AutomaticKeepAliveClientMixin {
   String get mode => widget.mode;
+
+  bool keepAlive = false;
+
+  @override
+  bool get wantKeepAlive => keepAlive;
+
+  @override
+  void initState() {
+    if (widget.controller != null) {
+      widget.controller!.addListener(() {
+        checkKeepAlive();
+      });
+    }
+    super.initState();
+  }
+
+  checkKeepAlive() {
+    if (widget.controller == null || widget.index == null) return false;
+    final previousIndex = widget.controller!.previousIndex;
+    final index = widget.controller!.index;
+    if (previousIndex == widget.index || index == widget.index) {
+      keepAlive = true;
+    } else {
+      keepAlive = false;
+    }
+    updateKeepAlive();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,18 +153,21 @@ class _RankingMangaTabPageState extends BasePageState<RankingMangaTabPage> with 
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class RankingNovelTabPage extends BaseStatefulPage {
   const RankingNovelTabPage({
     super.key,
     required this.mode,
+    this.controller,
+    this.index,
   });
 
+  final TabController? controller;
+
   final String mode;
+
+  final int? index;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _RankingNovelTabPageState();
@@ -109,6 +175,33 @@ class RankingNovelTabPage extends BaseStatefulPage {
 
 class _RankingNovelTabPageState extends BasePageState<RankingNovelTabPage> with AutomaticKeepAliveClientMixin {
   String get mode => widget.mode;
+
+  bool keepAlive = false;
+
+  @override
+  bool get wantKeepAlive => keepAlive;
+
+  @override
+  void initState() {
+    if (widget.controller != null) {
+      widget.controller!.addListener(() {
+        checkKeepAlive();
+      });
+    }
+    super.initState();
+  }
+
+  checkKeepAlive() {
+    if (widget.controller == null || widget.index == null) return false;
+    final previousIndex = widget.controller!.previousIndex;
+    final index = widget.controller!.index;
+    if (previousIndex == widget.index || index == widget.index) {
+      keepAlive = true;
+    } else {
+      keepAlive = false;
+    }
+    updateKeepAlive();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +227,4 @@ class _RankingNovelTabPageState extends BasePageState<RankingNovelTabPage> with 
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

@@ -1,7 +1,13 @@
 import 'package:artvier/component/buttons/blur_button.dart';
+import 'package:artvier/component/filter/badge_with_remove_icon.dart';
+import 'package:artvier/component/filter_dropdown/custom_dropdown.dart';
 import 'package:artvier/component/sliver_persistent_header/tab_bar_delegate.dart';
+import 'package:artvier/component/sliver_persistent_header/widget_delegate.dart';
 import 'package:artvier/config/enums.dart';
+import 'package:artvier/pages/ranking/provider/ranking_provider.dart';
+import 'package:date_format/date_format.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/base/base_page.dart';
@@ -23,6 +29,9 @@ class RankingPageState extends BasePageState<RankingPage> with TickerProviderSta
   late final TabController _tabController;
 
   late final ScrollController _scrollController;
+
+  @override
+  CustomDropDownController dropDownController = CustomDropDownController();
 
   bool _hasMountedListener = false;
 
@@ -77,6 +86,12 @@ class RankingPageState extends BasePageState<RankingPage> with TickerProviderSta
   late ValueNotifier<WorksType> worksType;
 
   @override
+  DateTime datePickerValue = DateTime.now().subtract(const Duration(days: 1));
+
+  get dayBeforeYesterday => DateTime.now().subtract(const Duration(days: 2));
+  get yesterday => DateTime.now().subtract(const Duration(days: 1));
+
+  @override
   void initState() {
     super.initState();
     worksType = ValueNotifier(widget.worksType);
@@ -98,91 +113,201 @@ class RankingPageState extends BasePageState<RankingPage> with TickerProviderSta
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ExtendedNestedScrollView(
-        floatHeaderSlivers: true,
-        onlyOneScrollInBody: true,
-        controller: _scrollController,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [];
-        },
-        body: Column(
-          children: [
-            AppBar(
-              leading: const AppbarLeadingButtton(),
-              title: ValueListenableBuilder<WorksType>(
-                valueListenable: worksType,
-                builder: (BuildContext context, value, Widget? child) {
-                  if (value == WorksType.illust) {
-                    return Text(l10n.illustRankings);
-                  } else if (value == WorksType.manga) {
-                    return Text(l10n.mangaRankings);
-                  } else {
-                    return Text(l10n.novelRankings);
-                  }
-                },
-              ),
-              toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.keyboard_arrow_up),
-                  onPressed: handlePressedToTop,
-                  tooltip: "回到顶部",
-                ),
-              ],
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppBar(
+            leading: const AppbarLeadingButtton(),
+            title: ValueListenableBuilder<WorksType>(
+              valueListenable: worksType,
+              builder: (BuildContext context, value, Widget? child) {
+                if (value == WorksType.illust) {
+                  return Text(l10n.illustRankings);
+                } else if (value == WorksType.manga) {
+                  return Text(l10n.mangaRankings);
+                } else {
+                  return Text(l10n.novelRankings);
+                }
+              },
             ),
-            Container(
-              width: double.infinity,
-              height: kTabBarHeight,
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
-              color: colorScheme.surface,
-              child: ValueListenableBuilder<WorksType>(
-                valueListenable: worksType,
-                builder: (BuildContext context, value, Widget? child) {
-                  if (value == WorksType.illust) {
-                    return TabBar(
-                      controller: _tabController,
-                      isScrollable: true,
-                      tabAlignment: TabAlignment.start,
-                      padding: EdgeInsets.zero,
-                      tabs: [
-                        for (String tab in _illustTabs) Tab(text: getTabName(value, tab)),
+            toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.calendar_month_outlined),
+                onPressed: handlePressedDatePicker,
+                tooltip: l10n.selectDate,
+              ),
+            ],
+          ),
+          // DatePicker
+          CustomDropDownOverlay(
+            controller: dropDownController,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(8)),
+                color: colorScheme.surface,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 200,
+                    child: CupertinoDatePicker(
+                      mode: CupertinoDatePickerMode.date,
+                      use24hFormat: true,
+                      initialDateTime: ref.watch(rankingDateProvier) ?? yesterday,
+                      minimumDate: DateTime(2012, 9, 10),
+                      maximumDate: yesterday,
+                      onDateTimeChanged: (DateTime newDateTime) => datePickerValue = newDateTime,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: BlurButton(
+                            padding: EdgeInsets.zero,
+                            background: Colors.transparent,
+                            onPressed: handlePressedDateReset,
+                            child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: colorScheme.primary.withOpacity(0.1),
+                                border: Border.all(color: colorScheme.primary.withAlpha(100)),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: Center(
+                                child: Text(l10n.promptReset,
+                                    style: textTheme.bodyMedium?.copyWith(color: colorScheme.primary)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: BlurButton(
+                            padding: EdgeInsets.zero,
+                            background: Colors.transparent,
+                            onPressed: handlePressedDateConfirm,
+                            child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: colorScheme.primary,
+                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                              child: Center(
+                                child: Text(
+                                  l10n.promptConform,
+                                  style: textTheme.bodyMedium?.copyWith(color: colorScheme.onPrimary),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
-                    );
-                  } else if (value == WorksType.manga) {
-                    return TabBar(
-                      controller: _tabController,
-                      isScrollable: true,
-                      tabAlignment: TabAlignment.start,
-                      padding: EdgeInsets.zero,
-                      tabs: [
-                        for (String tab in _mangaTabs) Tab(text: getTabName(value, tab)),
-                      ],
-                    );
-                  } else {
-                    return TabBar(
-                      controller: _tabController,
-                      isScrollable: true,
-                      tabAlignment: TabAlignment.start,
-                      padding: EdgeInsets.zero,
-                      tabs: [
-                        for (String tab in _novelTabs) Tab(text: getTabName(value, tab)),
-                      ],
-                    );
-                  }
-                },
+                    ),
+                  )
+                ],
               ),
             ),
-            Expanded(
-              child: ValueListenableBuilder<WorksType>(
+          ),
+          // Tabs
+          Container(
+            width: double.infinity,
+            height: kTabBarHeight,
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
+            color: colorScheme.surface,
+            child: ValueListenableBuilder<WorksType>(
+              valueListenable: worksType,
+              builder: (BuildContext context, value, Widget? child) {
+                if (value == WorksType.illust) {
+                  return TabBar(
+                    controller: _tabController,
+                    isScrollable: true,
+                    tabAlignment: TabAlignment.start,
+                    padding: EdgeInsets.zero,
+                    tabs: [
+                      for (String tab in _illustTabs) Tab(text: getTabName(value, tab)),
+                    ],
+                  );
+                } else if (value == WorksType.manga) {
+                  return TabBar(
+                    controller: _tabController,
+                    isScrollable: true,
+                    tabAlignment: TabAlignment.start,
+                    padding: EdgeInsets.zero,
+                    tabs: [
+                      for (String tab in _mangaTabs) Tab(text: getTabName(value, tab)),
+                    ],
+                  );
+                } else {
+                  return TabBar(
+                    controller: _tabController,
+                    isScrollable: true,
+                    tabAlignment: TabAlignment.start,
+                    padding: EdgeInsets.zero,
+                    tabs: [
+                      for (String tab in _novelTabs) Tab(text: getTabName(value, tab)),
+                    ],
+                  );
+                }
+              },
+            ),
+          ),
+          // Tab content
+          Expanded(
+            child: ExtendedNestedScrollView(
+              floatHeaderSlivers: true,
+              onlyOneScrollInBody: true,
+              controller: _scrollController,
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                final dateTime = ref.watch(rankingDateProvier);
+                if (dateTime == null) return [];
+                return [
+                  SliverPersistentHeader(
+                    floating: true,
+                    delegate: SliverWidgetPersistentHeaderDelegate(
+                      child: Container(
+                        color: Colors.transparent,
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              BadgeWithRemoveIcon(
+                                color: colorScheme.primary,
+                                onTapIcon: handleRemoveDate,
+                                child: Text(
+                                  formatDate(dateTime, [yyyy, '-', mm, '-', dd]),
+                                  style: textTheme.bodySmall?.copyWith(color: colorScheme.primary),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      maxHeight: 36,
+                      minHeight: 36,
+                    ),
+                  ),
+                ];
+              },
+              body: ValueListenableBuilder<WorksType>(
                 valueListenable: worksType,
                 builder: (BuildContext context, value, Widget? child) {
                   if (value == WorksType.illust) {
                     return TabBarView(
                       controller: _tabController,
                       children: [
-                        for (String mode in _illustTabs)
+                        for (int i = 0; i < _illustTabs.length; i++)
                           RankingIllustTabPage(
-                            mode: mode,
+                            mode: _illustTabs[i],
+                            controller: _tabController,
+                            index: i,
                           ),
                       ],
                     );
@@ -190,9 +315,11 @@ class RankingPageState extends BasePageState<RankingPage> with TickerProviderSta
                     return TabBarView(
                       controller: _tabController,
                       children: [
-                        for (String mode in _mangaTabs)
+                        for (int i = 0; i < _mangaTabs.length; i++)
                           RankingMangaTabPage(
-                            mode: mode,
+                            mode: _mangaTabs[i],
+                            controller: _tabController,
+                            index: i,
                           ),
                       ],
                     );
@@ -200,9 +327,11 @@ class RankingPageState extends BasePageState<RankingPage> with TickerProviderSta
                     return TabBarView(
                       controller: _tabController,
                       children: [
-                        for (String mode in _novelTabs)
+                        for (int i = 0; i < _novelTabs.length; i++)
                           RankingNovelTabPage(
-                            mode: mode,
+                            mode: _novelTabs[i],
+                            controller: _tabController,
+                            index: i,
                           ),
                       ],
                     );
@@ -210,8 +339,8 @@ class RankingPageState extends BasePageState<RankingPage> with TickerProviderSta
                 },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
