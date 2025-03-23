@@ -32,6 +32,12 @@ class _ImageViewerPageState extends BasePageState<ImageViewerPage>
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     _pageController = PageController(initialPage: widget.arguments.index);
   }
 
