@@ -56,6 +56,9 @@ class LocalizationIntl {
   String get private => Intl.message('Private', name: 'private', desc: 'non-public');
   String get yes => Intl.message('Yes', name: 'yes', desc: '');
   String get not => Intl.message('Not', name: 'not', desc: '');
+  String get delete => Intl.message('Delete', name: 'delete', desc: '');
+  String get deleteSuccess => Intl.message('Delete success', name: 'deleteSuccess', desc: '');
+  String get deleteFailed => Intl.message('Delete failed', name: 'deleteFailed', desc: '');
   String get loadingFailed => Intl.message('Loading Failed', name: 'loadingFailed', desc: 'Image loading failed');
   String get requestFailed =>
       Intl.message('Poor network, please try reloading', name: 'requestFailed', desc: 'Request failed');
@@ -223,6 +226,18 @@ class LocalizationIntl {
   String get tagsReachedMaximun => Intl.message("Maximum number of tags reached!",
       name: 'tagsReachedMaximun', desc: 'Prompt when no more tags are allowed');
   String get copyLink => Intl.message("Copy link", name: 'copyLink', desc: 'Copy link of works');
+
+  // 评论页
+  String get comments => Intl.message("Comments", name: 'comments', desc: '');
+  String get allComments => Intl.message("All comments", name: 'allComments', desc: '');
+  String get leaveAComment => Intl.message("Leave a comment...", name: 'leaveAComment', desc: 'Placehorder for input');
+  String get reply => Intl.message("Reply", name: 'reply', desc: '');
+  String get emoji => Intl.message("Emoji", name: 'emoji', desc: '');
+  String get stickers => Intl.message("Stickers", name: 'stickers', desc: '');
+  String get send => Intl.message("Send", name: 'send', desc: 'Button label for send comment');
+  String get sendSuccess => Intl.message("Send success", name: 'sendSuccess', desc: '');
+  String get sendFailed => Intl.message("Send failed", name: 'sendFailed', desc: '');
+  String get promptDeleteComment => Intl.message("Are you sure to delete this comment?", name: 'promptDeleteComment', desc: '');
 
   // 排行榜
   String get rankingDaily => Intl.message("Daily", name: 'rankingDaily', desc: '');

@@ -39,13 +39,14 @@ class AuthorizationInterceptor extends InterceptorsWrapper {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     try {
       if (err.type == DioExceptionType.cancel) {
-        logger.i(err.type);
+        logger.i('DioException type: ${err.type}\nRequest uri: ${err.requestOptions.uri}');
       } else {
         // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
         logger.w("Request error.\n" +
             "${err.toString()}\n" +
             "Request uri: ${err.requestOptions.uri}\n" +
             "Request params: ${err.requestOptions.queryParameters.toString()}\n" +
+            "Request data: ${err.requestOptions.data.toString()}\n" +
             "Request header: ${err.requestOptions.headers}\n");
       }
     } catch (e) {

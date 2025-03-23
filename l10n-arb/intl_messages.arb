@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-03-16T16:38:21.393589",
+  "@@last_modified": "2025-03-23T18:00:57.963265",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -170,6 +170,24 @@
   },
   "not": "Not",
   "@not": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteSuccess": "Delete success",
+  "@deleteSuccess": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteFailed": "Delete failed",
+  "@deleteFailed": {
     "description": "",
     "type": "text",
     "placeholders": {}
@@ -837,6 +855,66 @@
   "copyLink": "Copy link",
   "@copyLink": {
     "description": "Copy link of works",
+    "type": "text",
+    "placeholders": {}
+  },
+  "comments": "Comments",
+  "@comments": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "allComments": "All comments",
+  "@allComments": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "leaveAComment": "Leave a comment...",
+  "@leaveAComment": {
+    "description": "Placehorder for input",
+    "type": "text",
+    "placeholders": {}
+  },
+  "reply": "Reply",
+  "@reply": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emoji": "Emoji",
+  "@emoji": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "stickers": "Stickers",
+  "@stickers": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "send": "Send",
+  "@send": {
+    "description": "Button label for send comment",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sendSuccess": "Send success",
+  "@sendSuccess": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sendFailed": "Send failed",
+  "@sendFailed": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "promptDeleteComment": "Are you sure to delete this comment?",
+  "@promptDeleteComment": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },

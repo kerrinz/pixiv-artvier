@@ -67,7 +67,7 @@ class MyAppState extends ConsumerState<MyApp> {
     final themeDataDark = Themes.match(ThemeTypes.purple, Brightness.dark).themeData;
     final themeMode = ref.watch(globalThemeModeProvider);
     Brightness statusBarBrightness =
-        (MediaQuery.of(context).platformBrightness == Brightness.light) ? Brightness.dark : Brightness.light;
+        (MediaQuery.platformBrightnessOf(context) == Brightness.light) ? Brightness.dark : Brightness.light;
     if (themeMode != ThemeMode.system) {
       statusBarBrightness = (themeMode == ThemeMode.light) ? Brightness.dark : Brightness.light;
     }
