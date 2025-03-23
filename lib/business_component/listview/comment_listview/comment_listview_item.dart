@@ -1,3 +1,6 @@
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/buttons/label_button.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
@@ -6,13 +9,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/model_response/illusts/illust_comments.dart';
 
-class CommentListViewItem extends ConsumerWidget {
+class CommentListViewItem extends BasePage {
   const CommentListViewItem({
     super.key,
     required this.comment,
+    required this.onDelete,
+    this.onReply,
   });
 
   final Comments comment;
+
+  final VoidCallback? onReply;
+
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -55,13 +64,18 @@ class CommentListViewItem extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    // 回复按钮
+                    // 回复/删除按钮
                     Builder(builder: (context) {
-                      return TextButton(
-                        onPressed: () {},
-                        child: const Text("回复"),
-                        // style: TextButton.styleFrom(primary: Colors.blue.shade400),
-                      );
+                      final account = ref.watch(globalCurrentAccountProvider);
+                      return account?.user != null && account!.user.id == comment.user.id.toString()
+                          ? LabelButton(
+                              onPressed: onDelete,
+                              child: Text(l10n(context).delete),
+                            )
+                          : LabelButton(
+                              onPressed: onReply,
+                              child: Text(l10n(context).reply),
+                            );
                     }),
                   ],
                 ),

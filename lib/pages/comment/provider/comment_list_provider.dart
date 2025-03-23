@@ -56,7 +56,21 @@ class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>
       return fetch();
     });
   }
-  
+
+  void remove(int commentId) async {
+    if (state.value != null) {
+      state.value!.removeWhere((comment) => comment.id == commentId);
+      state = AsyncValue.data(state.value!);
+    }
+  }
+
+  void insetFirst(Comments comment) async {
+    if (state.value != null) {
+      state.value!.insert(0, comment);
+      state = AsyncValue.data(state.value!);
+    }
+  }
+
   @override
   Future<void> refresh() async {
     state = await AsyncValue.guard(() async {

@@ -95,6 +95,7 @@ flutter:
    - assets/image/default_avatar.png
    - assets/image/page_loading.gif
    - assets/image/network_error.png
+   - assets/emoji/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

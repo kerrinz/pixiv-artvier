@@ -82,7 +82,7 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
   @override
   void didChangeDependencies() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      double statusBarHeight = MediaQuery.of(context).padding.top; // 状态栏高度
+      double statusBarHeight = MediaQueryData.fromView(View.of(context)).padding.top; // 状态栏高度
       double toolBarHeight = Theme.of(context).appBarTheme.toolbarHeight ?? 50;
       _dragController.updatePositions([
         statusBarHeight + toolBarHeight - _floatingButtonOffset,
@@ -94,9 +94,9 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double statusBarHeight = MediaQuery.of(context).padding.top; // 状态栏高度
+    double screenHeight = MediaQueryData.fromView(View.of(context)).size.height;
+    double screenWidth = MediaQueryData.fromView(View.of(context)).size.width;
+    double statusBarHeight = MediaQueryData.fromView(View.of(context)).padding.top; // 状态栏高度
     double toolBarHeight = Theme.of(context).appBarTheme.toolbarHeight ?? 50;
     // 拖拽组件上拉到顶的极限距离
     _minimunPosition = statusBarHeight + toolBarHeight - _floatingButtonOffset;

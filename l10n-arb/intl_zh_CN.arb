@@ -175,6 +175,24 @@
     "type": "text",
     "placeholders": {}
   },
+  "delete": "删除",
+  "@delete": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteSuccess": "删除成功",
+  "@deleteSuccess": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteFailed": "删除失败",
+  "@deleteFailed": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "loadingFailed": "加载失败",
   "@loadingFailed": {
     "description": "Image loading failed",
@@ -826,6 +844,66 @@
   "copyLink": "复制链接",
   "@copyLink": {
     "description": "Copy link of works",
+    "type": "text",
+    "placeholders": {}
+  },
+  "comments": "评论",
+  "@comments": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "allComments": "全部评论",
+  "@allComments": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "leaveAComment": "添加评论...",
+  "@leaveAComment": {
+    "description": "Placehorder for input",
+    "type": "text",
+    "placeholders": {}
+  },
+  "reply": "回复",
+  "@reply": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emoji": "绘文字",
+  "@emoji": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "stickers": "表情贴图",
+  "@stickers": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "send": "发布",
+  "@send": {
+    "description": "Button label for send comment",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sendSuccess": "发布成功",
+  "@sendSuccess": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sendFailed": "发布失败",
+  "@sendFailed": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "promptDeleteComment": "确定删除该评论吗?",
+  "@promptDeleteComment": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },

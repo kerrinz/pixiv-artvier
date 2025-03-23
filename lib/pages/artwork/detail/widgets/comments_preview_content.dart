@@ -1,3 +1,4 @@
+import 'package:artvier/base/base_page.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
@@ -11,7 +12,7 @@ import 'package:artvier/pages/artwork/detail/provider/illust_comment_provider.da
 import 'package:artvier/routes.dart';
 
 /// 评论预览区域，仅含小部分评论
-class CommentsPreviewContentWidget extends ConsumerWidget {
+class CommentsPreviewContentWidget extends BasePage {
   const CommentsPreviewContentWidget({super.key, required this.artworkId});
 
   final String artworkId;
@@ -64,7 +65,7 @@ class CommentsPreviewContentWidget extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 8),
             color: colorScheme.primary.withAlpha(32),
             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-            child: Text("更多评论 >", style: textTheme.labelLarge?.copyWith(color: colorScheme.primary)),
+            child: Text(l10n(context).viewMore, style: textTheme.labelLarge?.copyWith(color: colorScheme.primary)),
             onPressed: () => Navigator.of(context).pushNamed(RouteNames.comments.name, arguments: artworkId),
           ),
         ),

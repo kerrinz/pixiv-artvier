@@ -7,6 +7,9 @@ import 'package:artvier/component/loading/lazyloading.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/illusts/illust_comments.dart';
 
+typedef CommentReplyCallback = void Function(int commentId, String commentName);
+typedef CommentDeleteCallback = void Function(int commentId);
+
 /// 插画瀑布流
 /// - 默认为非静态组件！
 /// - 全权负责管理懒加载的状态，其他状态不在范围内。
@@ -28,6 +31,9 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
   final EdgeInsets? padding;
   final ScrollPhysics? physics;
 
+  final CommentReplyCallback? onReply;
+  final CommentDeleteCallback? onDelete;
+
   @override
   late final WidgetRef ref;
   CommentListView({
@@ -38,6 +44,8 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
     this.scrollController,
     this.physics,
     this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+    this.onReply,
+    this.onDelete,
   });
 
   @override
@@ -62,6 +70,8 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
     var comment = commentList[index];
     return CommentListViewItem(
       comment: comment,
+      onReply: onReply != null ? () => onReply!(comment.id, comment.user.name) : null,
+      onDelete: onDelete != null ? () => onDelete!(comment.id) : null,
     );
   }
 

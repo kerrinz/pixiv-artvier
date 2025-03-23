@@ -39,4 +39,47 @@ class CONSTANTS {
   static const String app_repo_api = "https://api.github.com/repos/kerrinz/pixiv-artvier";
   static const String app_author = "Kerrinz";
   static const String app_author_url = "https://github.com/kerrinz";
+
+  // Emoji
+  static const Map<String, String> emojiMap = {
+    "101": "normal",
+    "102": "surprise",
+    "103": "serious",
+    "104": "heaven",
+    "105": "happy",
+    "106": "excited",
+    "107": "sing",
+    "108": "cry",
+    "201": "normal2",
+    "202": "shame2",
+    "203": "love2",
+    "204": "interesting2",
+    "205": "blush2",
+    "206": "fire2",
+    "207": "angry2",
+    "208": "shine2",
+    "209": "panic2",
+    "301": "normal3",
+    "302": "satisfaction3",
+    "303": "surprise3",
+    "304": "smile3",
+    "305": "shock3",
+    "306": "gaze3",
+    "307": "wink3",
+    "308": "happy3",
+    "309": "excited3",
+    "310": "love3",
+    "401": "normal4",
+    "402": "surprise4",
+    "403": "serious4",
+    "404": "love4",
+    "405": "shine4",
+    "406": "sweat4",
+    "407": "shame4",
+    "408": "sleep4",
+    "501": "heart",
+    "502": "teardrop",
+    "503": "star",
+  };
+
 }

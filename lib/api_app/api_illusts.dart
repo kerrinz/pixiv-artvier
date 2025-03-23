@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/config/ranking_mode_constants.dart';
+import 'package:artvier/model_response/illusts/illust_comment_response.dart';
 import 'package:artvier/model_response/illusts/illust_detail.dart';
 import 'package:artvier/model_response/illusts/pixivision/spotlight_articles.dart';
 import 'package:artvier/model_response/illusts/ugoira.dart';
@@ -247,6 +248,60 @@ class ApiIllusts extends ApiBase {
       cancelToken: cancelToken,
     );
     return IllustComments.fromJson(json.decode(res.data));
+  }
+
+  /// 获取评论的回复列表
+  Future<IllustComments> commentReplies(int commentId, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v2/illust/comment/replies",
+      queryParameters: {
+        "comment_id": commentId,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return IllustComments.fromJson(json.decode(res.data));
+  }
+
+  /// 发布/回复评论
+  /// - [illustId] 插画id
+  /// - [comment] 评论内容
+  /// - [stampId] 表情贴图id
+  Future<IllustCommentResponse> sendComment({
+    required String illustId,
+    String? comment,
+    int? stampId,
+    int? parentCommentId,
+    CancelToken? cancelToken,
+  }) async {
+    assert(comment != null || stampId != null);
+    final data = {
+      'illust_id': illustId,
+      if (comment != null) 'comment': comment,
+      if (stampId != null) 'stamp_id': stampId,
+      if (parentCommentId != null) 'parent_comment_id': parentCommentId,
+    };
+    Response res = await requester.post<String>(
+      "/v1/illust/comment/add",
+      data: data,
+      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return IllustCommentResponse.fromJson(json.decode(res.data));
+  }
+
+  /// 删除评论
+  /// - [illustId] 插画id
+  Future<bool> deleteComment({required int commentId, CancelToken? cancelToken}) async {
+    Response res = await requester.post<String>(
+      "/v1/illust/comment/delete",
+      data: {
+        'comment_id': commentId,
+      },
+      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return res.statusCode == 200;
   }
 
   /// 获取 Pixivisiton 插画网页
