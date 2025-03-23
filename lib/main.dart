@@ -50,6 +50,9 @@ beforeRunApp() async {
     "App-OS-Version": "17.7",
     "App-Version": "7.20.18",
   };
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, // 除特定页面外，仅允许竖屏
+  ]);
 }
 
 // 初始化一些APP全局设定，不加载内容
