@@ -31,6 +31,8 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
   final EdgeInsets? padding;
   final ScrollPhysics? physics;
 
+  final String worksId;
+
   final CommentReplyCallback? onReply;
   final CommentDeleteCallback? onDelete;
 
@@ -38,6 +40,7 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
   late final WidgetRef ref;
   CommentListView({
     super.key,
+    required this.worksId,
     required this.commentList,
     required this.onLazyload,
     this.lazyloadState,
@@ -69,6 +72,7 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
     }
     var comment = commentList[index];
     return CommentListViewItem(
+      worksId: worksId,
       comment: comment,
       onReply: onReply != null ? () => onReply!(comment.id, comment.user.name) : null,
       onDelete: onDelete != null ? () => onDelete!(comment.id) : null,
@@ -112,6 +116,7 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
 class SliverCommentListView extends CommentListView {
   SliverCommentListView({
     super.key,
+    required super.worksId,
     required super.commentList,
     required super.onLazyload,
     super.lazyloadState,

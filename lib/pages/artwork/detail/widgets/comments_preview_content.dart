@@ -66,7 +66,8 @@ class CommentsPreviewContentWidget extends BasePage {
             color: colorScheme.primary.withAlpha(32),
             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
             child: Text(l10n(context).viewMore, style: textTheme.labelLarge?.copyWith(color: colorScheme.primary)),
-            onPressed: () => Navigator.of(context).pushNamed(RouteNames.comments.name, arguments: artworkId),
+            onPressed: () =>
+                Navigator.of(context).push(BasePage.createModalRoute(RouteNames.comments.name, arguments: artworkId)),
           ),
         ),
       ],

@@ -31,6 +31,10 @@ Comments _$CommentsFromJson(Map<String, dynamic> json) => Comments(
       json['stamp'] == null
           ? null
           : Stamp.fromJson(json['stamp'] as Map<String, dynamic>),
+      json['cacheReplies'] == null
+          ? null
+          : IllustComments.fromJson(
+              json['cacheReplies'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CommentsToJson(Comments instance) => <String, dynamic>{
@@ -40,6 +44,7 @@ Map<String, dynamic> _$CommentsToJson(Comments instance) => <String, dynamic>{
       'user': instance.user,
       'has_replies': instance.hasReplies,
       'stamp': instance.stamp,
+      'cacheReplies': instance.cacheReplies,
     };
 
 User _$UserFromJson(Map<String, dynamic> json) => User(

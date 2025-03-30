@@ -64,6 +64,16 @@ class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>
     }
   }
 
+  /// 设置某个评论是否有回复以及回复列表
+  void setReply(int parentCommentId, {required bool hasReplies, IllustComments? cacheReplies}) async {
+    if (state.value != null) {
+      final findCommentIndex = state.value!.indexWhere((comment) => comment.id == parentCommentId);
+      state.value![findCommentIndex].hasReplies = hasReplies;
+      if (cacheReplies != null) state.value![findCommentIndex].cacheReplies = cacheReplies;
+      state = AsyncValue.data(state.value!);
+    }
+  }
+
   void insetFirst(Comments comment) async {
     if (state.value != null) {
       state.value!.insert(0, comment);
