@@ -1,38 +1,55 @@
 import 'dart:async';
 
+import 'package:artvier/pages/comment/provider/comment_list_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/api_illusts.dart';
 import 'package:artvier/base/base_provider/base_notifier.dart';
 import 'package:artvier/model_response/illusts/illust_comments.dart';
 
-/// 评论列表
-/// arg: 作品ID
-final commentListProvider = AsyncNotifierProvider.autoDispose.family<CommentsNotifier, List<Comments>, String>(() {
-  return CommentsNotifier();
-});
+/// 评论回复列表
+/// arg: 评论ID
+// final commentRepliesProvider = AsyncNotifierProvider.autoDispose.family<CommentsRepliesNotifier, List<Comments>, int>(() {
+//   return CommentsRepliesNotifier();
+// });
 
-class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>, String> {
-  late String worksId;
+class CommentsRepliesNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>, int> {
+  late int commentId;
 
   String? nextUrl;
 
+  final String worksId;
+
   final CancelToken _cancelToken = CancelToken();
 
+  List<Comments>? initList;
+
+  CommentsRepliesNotifier({this.initList, required this.worksId});
+
   @override
-  FutureOr<List<Comments>> build(String arg) async {
-    worksId = arg;
+  FutureOr<List<Comments>> build(int arg) async {
+    commentId = arg;
     ref.onDispose(() {
       if (_cancelToken.isCancelled) _cancelToken.cancel();
     });
+    // if (initList != null) {
+    //   return initListData();
+    // }
     return fetch();
+  }
+
+  Future<List<Comments>> initListData() async {
+    return initList!;
   }
 
   /// 初始化数据
   @override
   Future<List<Comments>> fetch() async {
-    var result = await ApiIllusts(requester).getIllustComments(worksId);
+    var result = await ApiIllusts(requester).commentReplies(commentId);
     nextUrl = result.nextUrl;
+    ref
+        .read(commentListProvider(worksId).notifier)
+        .setReply(commentId, hasReplies: result.comments.isNotEmpty, cacheReplies: result);
     return result.comments;
   }
 
@@ -57,21 +74,12 @@ class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>
     });
   }
 
-  void remove(int commentId) async {
+  List<Comments> remove(int commentId) {
     if (state.value != null) {
       state.value!.removeWhere((comment) => comment.id == commentId);
       state = AsyncValue.data(state.value!);
     }
-  }
-
-  /// 设置某个评论是否有回复以及回复列表
-  void setReply(int parentCommentId, {required bool hasReplies, IllustComments? cacheReplies}) async {
-    if (state.value != null) {
-      final findCommentIndex = state.value!.indexWhere((comment) => comment.id == parentCommentId);
-      state.value![findCommentIndex].hasReplies = hasReplies;
-      if (cacheReplies != null) state.value![findCommentIndex].cacheReplies = cacheReplies;
-      state = AsyncValue.data(state.value!);
-    }
+    return state.value!;
   }
 
   void insetFirst(Comments comment) async {

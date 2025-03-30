@@ -55,6 +55,7 @@ dependencies:
   json_annotation: ^4.7.0
   logger: ^2.2.0 # 输出日志
   # package_info_plus: ^4.0.2 # 获取本App的信息
+  modal_bottom_sheet: ^3.0.0
   path: ^1.9.0
   path_provider: ^2.0.1
   permission_handler: ^11.3.1 # 权限管理

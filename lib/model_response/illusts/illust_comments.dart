@@ -44,7 +44,9 @@ class IllustComments extends Object {
   @JsonKey(name: 'stamp')
   Stamp? stamp;
 
-  Comments(this.id,this.comment,this.date,this.user,this.hasReplies,this.stamp,);
+  IllustComments? cacheReplies;
+
+  Comments(this.id,this.comment,this.date,this.user,this.hasReplies,this.stamp,this.cacheReplies);
 
   factory Comments.fromJson(Map<String, dynamic> srcJson) => _$CommentsFromJson(srcJson);
 

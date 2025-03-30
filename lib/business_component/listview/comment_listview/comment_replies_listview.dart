@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/business_component/listview/comment_listview/comment_listview_item.dart';
-import 'package:artvier/business_component/listview/comment_listview/logic.dart';
 import 'package:artvier/business_component/listview/lazyload_logic_mixin.dart';
 import 'package:artvier/component/loading/lazyloading.dart';
 import 'package:artvier/config/enums.dart';
@@ -10,21 +9,12 @@ import 'package:artvier/model_response/illusts/illust_comments.dart';
 typedef CommentReplyCallback = void Function(int commentId, String commentName);
 typedef CommentDeleteCallback = void Function(int commentId);
 
-/// 插画瀑布流
-/// - 默认为非静态组件！
-/// - 全权负责管理懒加载的状态，其他状态不在范围内。
-/// - 请不要为 [onLazyload] 捕获异常，否则会导致懒加载区域无法显示 errorWidget
-class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListViewLogic {
-  /// 插画（或漫画）列表
+class CommentRepliesListView extends ConsumerWidget with LazyloadLogic {
   final List<Comments> commentList;
 
-  /// 懒加载异步事件
-  /// - return bool of hasMore. 需要返回是否还有更多数据
-  /// - 当[lazyloadState] = [LazyloadState.loading]/[LazyloadState.noMore] 时**不会执行**此函数
   @override
   final Future<bool> Function() onLazyload;
 
-  /// 赋值后本组件将不再负责懒加载状态，转变为静态组件
   final LazyloadState? lazyloadState;
 
   final ScrollController? scrollController;
@@ -36,9 +26,8 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
   final CommentReplyCallback? onReply;
   final CommentDeleteCallback? onDelete;
 
-  @override
   late final WidgetRef ref;
-  CommentListView({
+  CommentRepliesListView({
     super.key,
     required this.worksId,
     required this.commentList,
@@ -76,6 +65,7 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
       comment: comment,
       onReply: onReply != null ? () => onReply!(comment.id, comment.user.name) : null,
       onDelete: onDelete != null ? () => onDelete!(comment.id) : null,
+      isDetailModal: true,
     );
   }
 
@@ -112,9 +102,9 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
       );
 }
 
-/// See [CommentListView].
-class SliverCommentListView extends CommentListView {
-  SliverCommentListView({
+/// See [CommentRepliesListView].
+class SliverCommentRepliesListView extends CommentRepliesListView {
+  SliverCommentRepliesListView({
     super.key,
     required super.worksId,
     required super.commentList,
@@ -123,6 +113,8 @@ class SliverCommentListView extends CommentListView {
     super.scrollController,
     super.physics,
     super.padding,
+    super.onReply,
+    super.onDelete,
   });
 
   @override
@@ -133,6 +125,7 @@ class SliverCommentListView extends CommentListView {
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) => itemBuilder(ref, index),
+          childCount: commentList.length + 1,
         ),
       ),
     );

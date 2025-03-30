@@ -2,6 +2,7 @@ import 'package:artvier/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/l10n/localization_intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 abstract class BasePage extends ConsumerWidget {
   const BasePage({super.key});
@@ -12,17 +13,27 @@ abstract class BasePage extends ConsumerWidget {
   TextTheme textTheme(context) => Theme.of(context).textTheme;
 
   // 淡入过渡跳转页面
-  static Route createFadeRoute(String routeName) {
+  static Route createFadeRoute(String routeName, {Object? arguments}) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
         RouteWidgetBuilder builder = Routes.match(context, routeName);
-        return builder(context, null);
+        return builder(context, arguments);
       },
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
           child: child,
         );
+      },
+    );
+  }
+
+  // 模态框路由动画
+  static Route createModalRoute(String routeName, {Object? arguments}) {
+    return MaterialWithModalsPageRoute(
+      builder: (context) {
+        RouteWidgetBuilder builder = Routes.match(context, routeName);
+        return builder(context, arguments);
       },
     );
   }

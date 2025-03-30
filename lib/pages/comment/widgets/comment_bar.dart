@@ -155,7 +155,7 @@ class _CommentsBarState extends BasePageState<CommentsBar> {
                               ),
                               onSubmitted: (value) {},
                               onChanged: (value) {
-                                if (value.length > 10) widget.textController.text = value.substring(0, 140);
+                                if (value.length > 140) widget.textController.text = value.substring(0, 140);
                               },
                             ),
                           ],
@@ -166,7 +166,7 @@ class _CommentsBarState extends BasePageState<CommentsBar> {
                     ValueListenableBuilder<TextEditingValue>(
                       valueListenable: widget.textController,
                       builder: (BuildContext context, value, Widget? child) {
-                        bool isEmpty = value.text.isEmpty;
+                        bool isEmpty = value.text.trim().isEmpty;
                         bool isSending = ref.watch(commentBarProvider(worksId).select((value) => value.isSending));
                         return LabelButton(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -183,7 +183,15 @@ class _CommentsBarState extends BasePageState<CommentsBar> {
                                 .sendOrReply(comment: widget.textController.text)
                                 .then((value) {
                               Fluttertoast.showToast(msg: l10n.sendSuccess);
-                              ref.read(commentListProvider(worksId).notifier).insetFirst(value);
+                              if (model.parentCommentId != null) {
+                                // 回复
+                                ref
+                                    .read(commentListProvider(worksId).notifier)
+                                    .setReply(model.parentCommentId!, hasReplies: true);
+                              } else {
+                                // 评论
+                                ref.read(commentListProvider(worksId).notifier).insetFirst(value);
+                              }
                               widget.textController.text = '';
                             }).catchError((_, __) {
                               Fluttertoast.showToast(msg: l10n.sendFailed);
