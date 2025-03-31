@@ -238,6 +238,9 @@ class LocalizationIntl {
   String get sendSuccess => Intl.message("Send success", name: 'sendSuccess', desc: '');
   String get sendFailed => Intl.message("Send failed", name: 'sendFailed', desc: '');
   String get promptDeleteComment => Intl.message("Are you sure to delete this comment?", name: 'promptDeleteComment', desc: '');
+  String get commentDetails => Intl.message("Comment details", name: 'commentDetails', desc: '');
+  String get allReplies => Intl.message("All replies", name: 'allReplies', desc: '');
+  String get viewReplies  => Intl.message("View replies", name: 'viewReplies', desc: '');
 
   // 排行榜
   String get rankingDaily => Intl.message("Daily", name: 'rankingDaily', desc: '');

@@ -168,10 +168,11 @@ class CommentListViewItem extends BasePage {
                               overflow: TextOverflow.ellipsis,
                             ),
                           if ((comment.hasReplies && comment.cacheReplies == null) ||
-                              (comment.cacheReplies?.comments.length ?? 0) >= 5 && comment.cacheReplies?.nextUrl != null)
+                              (comment.cacheReplies?.comments.length ?? 0) >= 5 &&
+                                  comment.cacheReplies?.nextUrl != null)
                             Row(
                               children: [
-                                Text('查看回复',
+                                Text(l10n(context).viewReplies,
                                     style:
                                         textTheme(context).labelLarge?.copyWith(color: colorScheme(context).primary)),
                                 Icon(Icons.keyboard_arrow_right, size: 18, color: colorScheme(context).primary),

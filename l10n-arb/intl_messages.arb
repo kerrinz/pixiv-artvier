@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-03-23T18:00:57.963265",
+  "@@last_modified": "2025-04-01T00:39:41.095386",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -914,6 +914,24 @@
   },
   "promptDeleteComment": "Are you sure to delete this comment?",
   "@promptDeleteComment": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentDetails": "Comment details",
+  "@commentDetails": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "allReplies": "All replies",
+  "@allReplies": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "viewReplies": "View replies",
+  "@viewReplies": {
     "description": "",
     "type": "text",
     "placeholders": {}

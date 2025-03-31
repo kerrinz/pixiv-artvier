@@ -26,20 +26,35 @@ class BottomSheetCloseBar extends StatelessWidget {
           Expanded(
             child: title ?? const Align(),
           ),
-          GestureDetector(
-            onTap: onTapClose,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
-                borderRadius: const BorderRadius.all(Radius.circular(50)),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(4.0),
-                child: Icon(Icons.close_rounded, size: 16),
-              ),
-            ),
-          ),
+          BottomSheetCloseButton(onTap: onTapClose),
         ],
+      ),
+    );
+  }
+}
+
+/// 底部弹窗的关闭按钮
+class BottomSheetCloseButton extends StatelessWidget {
+  final void Function()? onTap;
+
+  const BottomSheetCloseButton({
+    super.key,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+          borderRadius: const BorderRadius.all(Radius.circular(50)),
+        ),
+        child: const Padding(
+          padding: EdgeInsets.all(4.0),
+          child: Icon(Icons.close_rounded, size: 16),
+        ),
       ),
     );
   }

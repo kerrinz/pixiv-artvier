@@ -907,6 +907,24 @@
     "type": "text",
     "placeholders": {}
   },
+  "commentDetails": "评论详情",
+  "@commentDetails": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "allReplies": "全部回复",
+  "@allReplies": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "viewReplies": "查看回复",
+  "@viewReplies": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "rankingDaily": "每日",
   "@rankingDaily": {
     "description": "",

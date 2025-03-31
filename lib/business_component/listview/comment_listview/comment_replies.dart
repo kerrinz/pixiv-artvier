@@ -2,6 +2,7 @@ import 'package:artvier/base/base_page.dart';
 import 'package:artvier/business_component/listview/comment_listview/comment_listview_item.dart';
 import 'package:artvier/business_component/listview/comment_listview/comment_replies_listview.dart';
 import 'package:artvier/business_component/listview/comment_listview/logic.dart';
+import 'package:artvier/component/bottom_sheet/close_bar.dart';
 import 'package:artvier/component/bottom_sheet/slide_bar.dart';
 import 'package:artvier/component/content/expansion_custom.dart';
 import 'package:artvier/component/loading/lazyloading.dart';
@@ -67,9 +68,10 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const BottomSheetSlideBar(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-            child: Text('评论详情', style: textTheme.titleMedium),
+          BottomSheetCloseBar(
+            padding: const EdgeInsets.only(top: 4, left: 16.0, right: 16, bottom: 8),
+            title: Text(l10n.commentDetails, style: textTheme.titleMedium),
+            onTapClose: () => Navigator.of(context).pop(context),
           ),
           Expanded(
             child: CustomScrollView(
@@ -97,7 +99,7 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4, bottom: 0),
-                    child: Text('全部回复', style: textTheme.titleSmall),
+                    child: Text(l10n.allReplies, style: textTheme.titleSmall),
                   ),
                 ),
                 Consumer(builder: (_, ref, __) {
