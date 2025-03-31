@@ -1,3 +1,4 @@
+import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/content/expansion_custom.dart';
 import 'package:artvier/pages/comment/provider/comment_bar_provider.dart';
 import 'package:artvier/pages/comment/widgets/comment_bar.dart';
@@ -53,6 +54,8 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
+          leading: const AppbarLeadingButtton(),
+          titleSpacing: 0,
           title: Text(l10n.comments),
         ),
         body: CupertinoPageScaffold(
@@ -101,7 +104,8 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
                                           Fluttertoast.showToast(msg: l10n.deleteSuccess);
                                           ref.read(commentListProvider(worksId).notifier).remove(commentId);
                                         }).catchError(
-                                          (_, __) => Fluttertoast.showToast(msg: l10n.deleteFailed).then((value) => null),
+                                          (_, __) =>
+                                              Fluttertoast.showToast(msg: l10n.deleteFailed).then((value) => null),
                                         );
                                       },
                                       child: Text(l10n.promptConform),
