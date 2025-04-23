@@ -15,6 +15,9 @@ class CommentBarModel with _$CommentBarModel {
     /// 是否正在发布中
     @Default(false) bool isSending,
 
+    /// 是否处于激活状态
+    @Default(false) bool isActived,
+
     /// 输入框的内容
     String? comment,
   }) = _CommentBarModel;

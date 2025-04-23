@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Duration _kExpand = Duration(milliseconds: 200);
+const Duration _kExpand = Duration(milliseconds: 250);
 
 typedef CollapseCallback = void Function();
 typedef ExpandCallback = void Function();
@@ -91,7 +91,7 @@ class ExpansionCustom extends StatefulWidget {
 }
 
 class _ExpansionCustomState extends State<ExpansionCustom> with SingleTickerProviderStateMixin {
-  static final Animatable<double> _easeInTween = CurveTween(curve: Curves.easeInOut);
+  static final Animatable<double> _easeInTween = CurveTween(curve: Curves.fastEaseInToSlowEaseOut);
 
   late ExpansionCustomController _expansionCustomController;
   late AnimationController _controller;
@@ -115,7 +115,9 @@ class _ExpansionCustomState extends State<ExpansionCustom> with SingleTickerProv
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 
