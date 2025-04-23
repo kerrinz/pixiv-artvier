@@ -23,8 +23,24 @@ class CommentBarNotifier extends BaseStateNotifier<CommentBarModel> {
     return result.comment;
   }
 
-  Future<bool> delete(int commentId) async {
+  Future<bool> delete(int commentId, {int? parentCommentId}) async {
     var result = await ApiIllusts(requester).deleteComment(commentId: commentId);
     return result;
+  }
+
+  Future<void> enableReply(int parentCommentId, String parentCommentName) async {
+    state = state.copyWith(parentCommentId: parentCommentId, parentCommentName: parentCommentName);
+  }
+
+  Future<void> disableReply() async {
+    state = state.copyWith(parentCommentId: null, parentCommentName: null);
+  }
+
+  Future<void> activeWidget() async {
+    state = state.copyWith(isActived: true);
+  }
+
+  Future<void> unactiveWidget() async {
+    state = state.copyWith(isActived: false);
   }
 }

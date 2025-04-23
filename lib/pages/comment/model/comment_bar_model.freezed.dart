@@ -23,6 +23,9 @@ mixin _$CommentBarModel {
   /// 是否正在发布中
   bool get isSending => throw _privateConstructorUsedError;
 
+  /// 是否处于激活状态
+  bool get isActived => throw _privateConstructorUsedError;
+
   /// 输入框的内容
   String? get comment => throw _privateConstructorUsedError;
 
@@ -41,6 +44,7 @@ abstract class $CommentBarModelCopyWith<$Res> {
       {int? parentCommentId,
       String? parentCommentName,
       bool isSending,
+      bool isActived,
       String? comment});
 }
 
@@ -60,6 +64,7 @@ class _$CommentBarModelCopyWithImpl<$Res, $Val extends CommentBarModel>
     Object? parentCommentId = freezed,
     Object? parentCommentName = freezed,
     Object? isSending = null,
+    Object? isActived = null,
     Object? comment = freezed,
   }) {
     return _then(_value.copyWith(
@@ -74,6 +79,10 @@ class _$CommentBarModelCopyWithImpl<$Res, $Val extends CommentBarModel>
       isSending: null == isSending
           ? _value.isSending
           : isSending // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isActived: null == isActived
+          ? _value.isActived
+          : isActived // ignore: cast_nullable_to_non_nullable
               as bool,
       comment: freezed == comment
           ? _value.comment
@@ -95,6 +104,7 @@ abstract class _$$CommentBarModelImplCopyWith<$Res>
       {int? parentCommentId,
       String? parentCommentName,
       bool isSending,
+      bool isActived,
       String? comment});
 }
 
@@ -112,6 +122,7 @@ class __$$CommentBarModelImplCopyWithImpl<$Res>
     Object? parentCommentId = freezed,
     Object? parentCommentName = freezed,
     Object? isSending = null,
+    Object? isActived = null,
     Object? comment = freezed,
   }) {
     return _then(_$CommentBarModelImpl(
@@ -126,6 +137,10 @@ class __$$CommentBarModelImplCopyWithImpl<$Res>
       isSending: null == isSending
           ? _value.isSending
           : isSending // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isActived: null == isActived
+          ? _value.isActived
+          : isActived // ignore: cast_nullable_to_non_nullable
               as bool,
       comment: freezed == comment
           ? _value.comment
@@ -142,6 +157,7 @@ class _$CommentBarModelImpl implements _CommentBarModel {
       {this.parentCommentId,
       this.parentCommentName,
       this.isSending = false,
+      this.isActived = false,
       this.comment});
 
   /// 回复哪个评论
@@ -155,13 +171,18 @@ class _$CommentBarModelImpl implements _CommentBarModel {
   @JsonKey()
   final bool isSending;
 
+  /// 是否处于激活状态
+  @override
+  @JsonKey()
+  final bool isActived;
+
   /// 输入框的内容
   @override
   final String? comment;
 
   @override
   String toString() {
-    return 'CommentBarModel(parentCommentId: $parentCommentId, parentCommentName: $parentCommentName, isSending: $isSending, comment: $comment)';
+    return 'CommentBarModel(parentCommentId: $parentCommentId, parentCommentName: $parentCommentName, isSending: $isSending, isActived: $isActived, comment: $comment)';
   }
 
   @override
@@ -175,12 +196,14 @@ class _$CommentBarModelImpl implements _CommentBarModel {
                 other.parentCommentName == parentCommentName) &&
             (identical(other.isSending, isSending) ||
                 other.isSending == isSending) &&
+            (identical(other.isActived, isActived) ||
+                other.isActived == isActived) &&
             (identical(other.comment, comment) || other.comment == comment));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, parentCommentId, parentCommentName, isSending, comment);
+  int get hashCode => Object.hash(runtimeType, parentCommentId,
+      parentCommentName, isSending, isActived, comment);
 
   @JsonKey(ignore: true)
   @override
@@ -195,6 +218,7 @@ abstract class _CommentBarModel implements CommentBarModel {
       {final int? parentCommentId,
       final String? parentCommentName,
       final bool isSending,
+      final bool isActived,
       final String? comment}) = _$CommentBarModelImpl;
 
   @override
@@ -207,6 +231,10 @@ abstract class _CommentBarModel implements CommentBarModel {
 
   /// 是否正在发布中
   bool get isSending;
+  @override
+
+  /// 是否处于激活状态
+  bool get isActived;
   @override
 
   /// 输入框的内容

@@ -2,15 +2,18 @@ import 'package:artvier/base/base_page.dart';
 import 'package:artvier/business_component/listview/comment_listview/comment_listview_item.dart';
 import 'package:artvier/business_component/listview/comment_listview/comment_replies_listview.dart';
 import 'package:artvier/business_component/listview/comment_listview/logic.dart';
+import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/bottom_sheet/close_bar.dart';
 import 'package:artvier/component/bottom_sheet/slide_bar.dart';
 import 'package:artvier/component/content/expansion_custom.dart';
 import 'package:artvier/component/loading/lazyloading.dart';
 import 'package:artvier/component/scroll_physics/top_clamping_bouncing_scroll_physics.dart';
+import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/illusts/illust_comments.dart';
 import 'package:artvier/pages/comment/provider/comment_bar_provider.dart';
 import 'package:artvier/pages/comment/provider/comment_list_provider.dart';
-import 'package:artvier/pages/comment/widgets/comment_bar.dart';
+import 'package:artvier/pages/comment/widgets/comment_bar_bottom_sheet.dart';
+import 'package:artvier/pages/comment/widgets/comment_bar_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -49,6 +52,8 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
   @override
   String get worksId => widget.worksId;
 
+  int get parentCommentId => widget.comment.id;
+
   @override
   void initState() {
     _textController = TextEditingController();
@@ -68,119 +73,166 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const BottomSheetSlideBar(),
-          BottomSheetCloseBar(
-            padding: const EdgeInsets.only(top: 4, left: 16.0, right: 16, bottom: 8),
-            title: Text(l10n.commentDetails, style: textTheme.titleMedium),
-            onTapClose: () => Navigator.of(context).pop(context),
-          ),
-          Expanded(
-            child: CustomScrollView(
-              physics: const TopClampingBouncingScrollPhysics(),
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                        child: CommentListViewItem(
-                          worksId: worksId,
-                          comment: widget.comment,
-                          onDelete: () {},
-                          isDetailModal: true,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                        child: Divider(color: Colors.grey.withOpacity(0.2)),
-                      ),
-                    ],
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4, bottom: 0),
-                    child: Text(l10n.allReplies, style: textTheme.titleSmall),
-                  ),
-                ),
-                Consumer(builder: (_, ref, __) {
-                  final replies = ref.watch(commentRepliesProvider(widget.comment.id));
-                  final commentsRepliesNotifier = commentRepliesProvider(widget.comment.id).notifier;
-                  return replies.when(
-                    data: (itemList) {
-                      return SliverCommentRepliesListView(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                        worksId: worksId,
-                        commentList: itemList,
-                        onLazyload: () async => ref.read(commentsRepliesNotifier).next(),
-                        // 回复
-                        onReply: (commentId, commentName) {
-                          /// TODO
-                          // final state = ref
-                          //     .read(commentBarProvider(worksId))
-                          //     .copyWith(parentCommentId: commentId, parentCommentName: commentName);
-                          // ref.read(commentBarProvider(worksId).notifier).update(state);
-                          // _focusNode.requestFocus();
-                          FocusScope.of(context).requestFocus(_focusNode);
-                        },
-                        // 删除
-                        onDelete: (commentId) {
-                          showDialog<bool>(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(l10n.promptTitle),
-                                content: Text(l10n.promptDeleteComment),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: Text(l10n.promptCancel),
-                                    onPressed: () => Navigator.of(context).pop(),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      ref.read(commentBarProvider(worksId).notifier).delete(commentId).then((value) {
-                                        Fluttertoast.showToast(msg: l10n.deleteSuccess);
-                                        final value =
-                                            ref.read(commentRepliesProvider(commentId).notifier).remove(commentId);
-                                        if (value.isEmpty) {
-                                          // 最后一条评论被删除
-                                          ref
-                                              .read(commentListProvider(worksId).notifier)
-                                              .setReply(commentId, hasReplies: false);
-                                        }
-                                      }).catchError(
-                                        (_, __) => Fluttertoast.showToast(msg: l10n.deleteFailed).then((value) => null),
-                                      );
-                                    },
-                                    child: Text(l10n.promptConform),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                    error: (error, stackTrace) => SliverToBoxAdapter(
-                      child: Center(child: LazyloadingFailedWidget(onRetry: (() {
-                        ref.read(commentsRepliesNotifier).reload();
-                      }))),
-                    ),
-                    loading: (() => const SliverToBoxAdapter(child: Center(child: LazyloadingWidget()))),
-                  );
-                }),
-              ],
+          GestureDetector(
+            onTap: () {
+              ref.read(commentBarProvider(worksId).notifier).unactiveWidget();
+            },
+            child: BottomSheetCloseBar(
+              padding: const EdgeInsets.only(top: 4, left: 16.0, right: 16, bottom: 8),
+              title: Text(l10n.commentDetails, style: textTheme.titleMedium),
+              onTapClose: () => Navigator.of(context).pop(context),
             ),
           ),
-          CommentsBar(
-            worksId: worksId,
-            expansionCustomController: _expansionCustomController,
-            textController: _textController,
-            focusNode: _focusNode,
-          )
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                ref.read(commentBarProvider(worksId).notifier).unactiveWidget();
+              },
+              child: CustomScrollView(
+                physics: const TopClampingBouncingScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                          child: CommentListViewItem(
+                            worksId: worksId,
+                            comment: widget.comment,
+                            onDelete: () {},
+                            isDetailModal: true,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                          child: Divider(color: Colors.grey.withOpacity(0.2)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4, bottom: 0),
+                      child: Text(l10n.allReplies, style: textTheme.titleSmall),
+                    ),
+                  ),
+                  Consumer(builder: (_, ref, __) {
+                    final replies = ref.watch(commentRepliesProvider(parentCommentId));
+                    final commentsRepliesNotifier = commentRepliesProvider(parentCommentId).notifier;
+                    return replies.when(
+                      data: (itemList) {
+                        return SliverCommentRepliesListView(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                          worksId: worksId,
+                          commentList: itemList,
+                          onLazyload: () async => ref.read(commentsRepliesNotifier).next(),
+                          // 回复
+                          onReply: (commentId, commentName) {
+                            /// TODO
+                            // final state = ref
+                            //     .read(commentBarProvider(worksId))
+                            //     .copyWith(parentCommentId: commentId, parentCommentName: commentName);
+                            // ref.read(commentBarProvider(worksId).notifier).update(state);
+                            // _focusNode.requestFocus();
+                            FocusScope.of(context).requestFocus(_focusNode);
+                          },
+                          // 删除
+                          onDelete: (commentId) {
+                            showDialog<bool>(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(l10n.promptTitle),
+                                  content: Text(l10n.promptDeleteComment),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text(l10n.promptCancel),
+                                      onPressed: () => Navigator.of(context).pop(),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        ref.read(commentBarProvider(worksId).notifier).delete(commentId).then((value) {
+                                          Fluttertoast.showToast(msg: l10n.deleteSuccess);
+                                          if (value) {
+                                            final list =
+                                                ref.read(commentRepliesProvider(commentId).notifier).remove(commentId);
+                                            if (list.isEmpty) {
+                                              // 最后一条评论被删除
+                                              ref
+                                                  .read(commentListProvider(worksId).notifier)
+                                                  .setReply(parentCommentId, hasReplies: false);
+                                            }
+                                          }
+                                        }).catchError(
+                                          (err) {
+                                            logger.d(err);
+                                            Fluttertoast.showToast(msg: l10n.deleteFailed).then((value) => null);
+                                          },
+                                        );
+                                      },
+                                      child: Text(l10n.promptConform),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                      error: (error, stackTrace) => SliverToBoxAdapter(
+                        child: Center(child: LazyloadingFailedWidget(onRetry: (() {
+                          ref.read(commentsRepliesNotifier).reload();
+                        }))),
+                      ),
+                      loading: (() => const SliverToBoxAdapter(child: Center(child: LazyloadingWidget()))),
+                    );
+                  }),
+                ],
+              ),
+            ),
+          ),
+          Consumer(
+            builder: (context, ref, child) {
+              ref.watch(commentBarProvider(widget.worksId));
+              return CommentsBarPreview(
+                onTapIcon: () {
+                  _expansionCustomController.collapse();
+                  ref
+                      .read(commentBarProvider(widget.worksId).notifier)
+                      .enableReply(widget.comment.id, widget.comment.user.name);
+                  showCommentsBarInput(false);
+                },
+                onTapInput: () {
+                  ref
+                      .read(commentBarProvider(widget.worksId).notifier)
+                      .enableReply(widget.comment.id, widget.comment.user.name);
+                  showCommentsBarInput(true);
+                },
+              );
+            },
+          ),
         ],
       ),
     );
+  }
+
+  /// Show Comments bar bottom sheet and focus input.
+  showCommentsBarInput(bool initialFocusInput) {
+    BottomSheets.showCustomBottomSheet<bool>(
+        context: ref.context,
+        exitOnClickModal: true,
+        enableDrag: false,
+        child: CommentsBarBottomSheet(
+          worksId: worksId,
+          expansionCustomController: _expansionCustomController,
+          textController: _textController,
+          focusNode: _focusNode,
+          parentCommentId: widget.comment.id,
+          parentCommentName: widget.comment.user.name,
+          initialFocusInput: initialFocusInput,
+          initialExpandStickers: !initialFocusInput,
+        ));
   }
 
   @override
