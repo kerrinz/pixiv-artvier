@@ -4,11 +4,13 @@ import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/buttons/label_button.dart';
 import 'package:artvier/component/content/expansion_custom.dart';
 import 'package:artvier/config/constants.dart';
+import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/comment/provider/comment_bar_provider.dart';
-import 'package:artvier/pages/comment/provider/comment_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
+typedef SendStickerCallback = Future Function(int stickerId, String worksId, int? parentCommentId);
+typedef SendMessageCallback = Future Function(String message, String worksId, int? parentCommentId);
 
 class CommentsBarBottomSheet extends BaseStatefulPage {
   const CommentsBarBottomSheet({
@@ -17,6 +19,8 @@ class CommentsBarBottomSheet extends BaseStatefulPage {
     required this.expansionCustomController,
     required this.textController,
     required this.focusNode,
+    required this.onSendSticker,
+    required this.onSendMessage,
     this.parentCommentId,
     this.parentCommentName,
     this.initialFocusInput = false,
@@ -41,6 +45,9 @@ class CommentsBarBottomSheet extends BaseStatefulPage {
   final bool initialFocusInput;
 
   final bool initialExpandStickers;
+
+  final SendStickerCallback onSendSticker;
+  final SendMessageCallback onSendMessage;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -99,27 +106,16 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
                                 (isEmpty || isSending) ? colorScheme.primary.withOpacity(0.2) : colorScheme.primary,
                             borderRadius: const BorderRadius.all(Radius.circular(8)),
                             onPressed: () {
-                              final model = ref.read(commentBarProvider(worksId));
-                              final notifier = ref.read(commentBarProvider(worksId).notifier);
-                              notifier.update(model.copyWith(isSending: true));
-                              ref
-                                  .read(commentBarProvider(worksId).notifier)
-                                  .sendOrReply(comment: widget.textController.text)
+                              // Send message
+                              if (widget.textController.text == '') {
+                                logger.e("Send empty or null message.");
+                                return;
+                              }
+                              widget
+                                  .onSendMessage(widget.textController.text, worksId, widget.parentCommentId)
                                   .then((value) {
-                                Fluttertoast.showToast(msg: l10n.sendSuccess);
-                                if (model.parentCommentId != null) {
-                                  // 回复
-                                  ref
-                                      .read(commentListProvider(worksId).notifier)
-                                      .setReply(model.parentCommentId!, hasReplies: true);
-                                } else {
-                                  // 评论
-                                  ref.read(commentListProvider(worksId).notifier).insetFirst(value);
-                                }
                                 widget.textController.text = '';
-                              }).catchError((_, __) {
-                                Fluttertoast.showToast(msg: l10n.sendFailed);
-                              }).whenComplete(() => notifier.update(model.copyWith(isSending: false)));
+                              });
                             },
                             child: Text(l10n.send,
                                 style: isEmpty
@@ -187,6 +183,8 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
       onPressed: () {
         if (!widget.expansionCustomController.isExpanded) {
           widget.focusNode.unfocus();
+        } else {
+          widget.focusNode.requestFocus();
         }
         widget.expansionCustomController.toggle();
       },
@@ -214,31 +212,18 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
                 ? const SizedBox()
                 : Container(
                     margin: const EdgeInsets.only(bottom: 4),
-                    padding: const EdgeInsets.only(top: 2, left: 8, right: 4, bottom: 2),
+                    padding: const EdgeInsets.only(top: 4, left: 8, right: 6, bottom: 4),
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.1),
                       borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
+                    child: Wrap(
                       children: [
-                        Expanded(
-                          child: Text(
-                            "${l10n.reply} @${model.parentCommentName}: ",
-                            style: textTheme.labelSmall,
-                          ),
-                        ),
-                        Container(
-                          color: Colors.transparent,
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: Colors.grey.withOpacity(0.1),
-                              borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-                              border: Border.all(
-                                  width: 1, color: textTheme.bodyMedium?.color?.withOpacity(0.5) ?? Colors.grey),
-                            ),
-                          ),
+                        Text(
+                          "${l10n.reply} @${model.parentCommentName}: ",
+                          style: textTheme.labelSmall,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
@@ -254,7 +239,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
             minLines: 1,
             maxLines: 3,
             decoration: InputDecoration(
-              hintText: widget.parentCommentName != null ? "${l10n.reply}..." : "${l10n.comments}...",
+              hintText: widget.parentCommentName != null ? "" : "${l10n.comments}...",
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
               isCollapsed: true, // 高度包裹，不会存在默认高度

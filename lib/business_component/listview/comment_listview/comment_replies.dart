@@ -11,7 +11,6 @@ import 'package:artvier/component/scroll_physics/top_clamping_bouncing_scroll_ph
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/illusts/illust_comments.dart';
 import 'package:artvier/pages/comment/provider/comment_bar_provider.dart';
-import 'package:artvier/pages/comment/provider/comment_list_provider.dart';
 import 'package:artvier/pages/comment/widgets/comment_bar_bottom_sheet.dart';
 import 'package:artvier/pages/comment/widgets/comment_bar_preview.dart';
 import 'package:flutter/material.dart';
@@ -100,6 +99,12 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
                             worksId: worksId,
                             comment: widget.comment,
                             onDelete: () {},
+                            onReply: () {
+                              final commentBarNotifier = ref.read(commentBarProvider(worksId).notifier);
+                              commentBarNotifier.enableReply(widget.comment.id, widget.comment.user.name);
+                              showCommentsBarInput(true);
+                              FocusScope.of(context).requestFocus(_focusNode);
+                            },
                             isDetailModal: true,
                           ),
                         ),
@@ -128,12 +133,9 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
                           onLazyload: () async => ref.read(commentsRepliesNotifier).next(),
                           // 回复
                           onReply: (commentId, commentName) {
-                            /// TODO
-                            // final state = ref
-                            //     .read(commentBarProvider(worksId))
-                            //     .copyWith(parentCommentId: commentId, parentCommentName: commentName);
-                            // ref.read(commentBarProvider(worksId).notifier).update(state);
-                            // _focusNode.requestFocus();
+                            final commentBarNotifier = ref.read(commentBarProvider(worksId).notifier);
+                            commentBarNotifier.enableReply(commentId, commentName);
+                            showCommentsBarInput(true);
                             FocusScope.of(context).requestFocus(_focusNode);
                           },
                           // 删除
@@ -152,18 +154,11 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
-                                        ref.read(commentBarProvider(worksId).notifier).delete(commentId).then((value) {
+                                        ref
+                                            .read(commentBarProvider(worksId).notifier)
+                                            .delete(commentId, repliesNotifier: ref.read(commentsRepliesNotifier))
+                                            .then((value) {
                                           Fluttertoast.showToast(msg: l10n.deleteSuccess);
-                                          if (value) {
-                                            final list =
-                                                ref.read(commentRepliesProvider(commentId).notifier).remove(commentId);
-                                            if (list.isEmpty) {
-                                              // 最后一条评论被删除
-                                              ref
-                                                  .read(commentListProvider(worksId).notifier)
-                                                  .setReply(parentCommentId, hasReplies: false);
-                                            }
-                                          }
                                         }).catchError(
                                           (err) {
                                             logger.d(err);
@@ -196,6 +191,7 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
             builder: (context, ref, child) {
               ref.watch(commentBarProvider(widget.worksId));
               return CommentsBarPreview(
+                text: "${l10n.reply} @${widget.comment.user.name}",
                 onTapIcon: () {
                   _expansionCustomController.collapse();
                   ref
@@ -232,6 +228,21 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
           parentCommentName: widget.comment.user.name,
           initialFocusInput: initialFocusInput,
           initialExpandStickers: !initialFocusInput,
+          onSendMessage: (message, worksId, parentCommentId) {
+            return ref
+                .read(commentBarProvider(worksId).notifier)
+                .sendOrReply(
+                    comment: message, repliesNotifier: ref.read(commentRepliesProvider(widget.comment.id).notifier))
+                .then((value) {
+              Fluttertoast.showToast(msg: l10n.sendSuccess);
+            }).catchError((err, __) {
+              Fluttertoast.showToast(msg: l10n.sendFailed);
+              throw err;
+            });
+          },
+          onSendSticker: (int stickerId, String worksId, int? parentCommentId) async {
+            /// TODO: 发送贴图
+          },
         ));
   }
 

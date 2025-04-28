@@ -6,9 +6,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CommentsBarPreview extends BaseStatefulPage {
   const CommentsBarPreview({
     super.key,
+    required this.text,
     this.onTapInput,
     this.onTapIcon,
   });
+
+  final String text;
 
   final VoidCallback? onTapInput;
 
@@ -62,7 +65,7 @@ class _CommentsBarPreviewState extends BasePageState<CommentsBarPreview> {
         ),
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         padding: const EdgeInsets.only(top: 7, left: 12, right: 12, bottom: 9),
-        child: Text("${l10n.comments}...",
+        child: Text(widget.text,
             style: textTheme.bodyMedium?.copyWith(color: textTheme.bodyMedium?.color?.withOpacity(0.75))),
       ),
     );

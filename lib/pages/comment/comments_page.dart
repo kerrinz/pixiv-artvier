@@ -109,7 +109,6 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
                                               .delete(commentId)
                                               .then((value) {
                                             Fluttertoast.showToast(msg: l10n.deleteSuccess);
-                                            ref.read(commentListProvider(worksId).notifier).remove(commentId);
                                           }).catchError(
                                             (_, __) =>
                                                 Fluttertoast.showToast(msg: l10n.deleteFailed).then((value) => null),
@@ -133,6 +132,7 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
                 builder: (context, ref, child) {
                   ref.watch(commentBarProvider(widget.worksId));
                   return CommentsBarPreview(
+                    text: "${l10n.comments}...",
                     onTapIcon: () {
                       _expansionCustomController.collapse();
                       ref.read(commentBarProvider(widget.worksId).notifier).disableReply();
@@ -165,6 +165,17 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
           focusNode: _focusNode,
           initialFocusInput: initialFocusInput,
           initialExpandStickers: !initialFocusInput,
+          onSendMessage: (message, worksId, parentCommentId) {
+            return ref.read(commentBarProvider(worksId).notifier).sendOrReply(comment: message).then((value) {
+              Fluttertoast.showToast(msg: l10n.sendSuccess);
+            }).catchError((err, __) {
+              Fluttertoast.showToast(msg: l10n.sendFailed);
+              throw err;
+            });
+          },
+          onSendSticker: (int stickerId, String worksId, int? parentCommentId) async {
+            /// TODO: 发送贴图
+          },
         ));
   }
 
