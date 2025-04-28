@@ -91,7 +91,7 @@ class ExpansionCustom extends StatefulWidget {
 }
 
 class _ExpansionCustomState extends State<ExpansionCustom> with SingleTickerProviderStateMixin {
-  static final Animatable<double> _easeInTween = CurveTween(curve: Curves.fastEaseInToSlowEaseOut);
+  static final Animatable<double> _easeInTween = CurveTween(curve: Curves.easeInOut);
 
   late ExpansionCustomController _expansionCustomController;
   late AnimationController _controller;
