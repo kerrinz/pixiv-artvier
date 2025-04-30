@@ -26,23 +26,49 @@ class CommentsRepliesNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Co
 
   CommentsRepliesNotifier({this.initList, required this.worksId});
 
+  /// Request send comment or reply comment.
+  ///
+  /// Is reply if [parentCommentId] not null.
+  /// Else is send to works.
+  Future<Comments> handleSendOrReply({required int parentCommentId, String? message, int? stampId}) async {
+    assert(message != null || stampId != null);
+    var result = await ApiIllusts(requester)
+        .sendComment(illustId: worksId, comment: message, stampId: stampId, parentCommentId: parentCommentId);
+    // Inset comment.
+    insetFirst(result.comment);
+    // ref.read(commentListProvider(worksId).notifier).insetReply(parentCommentId, result.comment);
+    return result.comment;
+  }
+
+  /// Request delete comment
+  Future<bool> handleDelete(int commentId, int parentCommentId) async {
+    var result = await ApiIllusts(requester).deleteComment(commentId: commentId);
+    if (!result) return result;
+
+    final commentListNotifier = ref.read(commentListProvider(worksId).notifier);
+    remove(commentId);
+    commentListNotifier.removeReply(commentId, parentCommentId);
+
+    return result;
+  }
+
+  void updateCacheReplies() {
+    if (state.valueOrNull != null) {
+      ref
+          .read(commentListProvider(worksId).notifier)
+          .updateCacheReplies(commentId, IllustComments(state.valueOrNull!, nextUrl));
+    }
+  }
+
   @override
   FutureOr<List<Comments>> build(int arg) async {
     commentId = arg;
     ref.onDispose(() {
       if (_cancelToken.isCancelled) _cancelToken.cancel();
     });
-    // if (initList != null) {
-    //   return initListData();
-    // }
     return fetch();
   }
 
-  Future<List<Comments>> initListData() async {
-    return initList!;
-  }
-
-  /// 初始化数据
   @override
   Future<List<Comments>> fetch() async {
     var result = await ApiIllusts(requester).commentReplies(commentId);

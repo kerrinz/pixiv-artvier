@@ -19,6 +19,34 @@ class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>
 
   final CancelToken _cancelToken = CancelToken();
 
+  /// Request send comment or reply comment.
+  ///
+  /// Is reply if [state.parentCommentId] not null.
+  /// Else is send to works.
+  Future<Comments> handleSendOrReply({required int? parentCommentId, String? message, int? stampId}) async {
+    assert(message != null || stampId != null);
+    var result = await ApiIllusts(requester)
+        .sendComment(illustId: worksId, comment: message, stampId: stampId, parentCommentId: parentCommentId);
+    // Inset comment.
+    if (parentCommentId != null) {
+      insetReply(parentCommentId, result.comment);
+    } else {
+      insetFirst(result.comment);
+    }
+    return result.comment;
+  }
+
+  /// Request delete comment
+  Future<bool> handleDelete(int commentId) async {
+    var result = await ApiIllusts(requester).deleteComment(commentId: commentId);
+    if (!result) return result;
+
+    // Remove comment.
+    remove(commentId);
+
+    return result;
+  }
+
   @override
   FutureOr<List<Comments>> build(String arg) async {
     worksId = arg;
@@ -64,6 +92,12 @@ class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>
     }
   }
 
+  void updateCacheReplies(int commentId, IllustComments? reply) {
+    final findCommentIndex = state.value!.indexWhere((comment) => comment.id == commentId);
+    state.value![findCommentIndex].cacheReplies = reply;
+    state = AsyncValue.data(state.value!);
+  }
+
   /// 设置某个评论是否有回复以及回复列表
   void setReply(int parentCommentId, {required bool hasReplies, IllustComments? cacheReplies}) async {
     if (state.value != null) {
@@ -72,6 +106,32 @@ class CommentsNotifier extends BaseAutoDisposeFamilyAsyncNotifier<List<Comments>
       if (cacheReplies != null) state.value![findCommentIndex].cacheReplies = cacheReplies;
       state = AsyncValue.data(state.value!);
     }
+  }
+
+  /// Inset a reply comment to comment.
+  /// Will inset first.
+  void insetReply(int parentCommentId, Comments comment) async {
+    if (state.value != null) {
+      final findCommentIndex = state.value!.indexWhere((comment) => comment.id == parentCommentId);
+      state.value![findCommentIndex].hasReplies = true;
+      final cacheReplies = state.value![findCommentIndex].cacheReplies;
+      if (cacheReplies != null) {
+        state.value![findCommentIndex].cacheReplies!.comments.insert(0, comment);
+      } else {
+        state.value![findCommentIndex].cacheReplies = IllustComments([comment], null);
+      }
+      state = AsyncValue.data(state.value!);
+    }
+  }
+
+  // Remove a reply comment
+  void removeReply(int commentId, int parentCommentId) async {
+    final findCommentIndex = state.value!.indexWhere((comment) => comment.id == parentCommentId);
+    state.value![findCommentIndex].cacheReplies?.comments.removeWhere((element) => element.id == commentId);
+    if ((state.value![findCommentIndex].cacheReplies?.comments.length ?? 0) == 0) {
+      state.value![findCommentIndex].hasReplies = false;
+    }
+    state = AsyncValue.data(state.value!);
   }
 
   void insetFirst(Comments comment) async {

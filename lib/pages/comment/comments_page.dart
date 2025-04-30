@@ -76,7 +76,6 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
                         child: GestureDetector(
                           onTap: () {
                             _expansionCustomController.collapse();
-                            ref.read(commentBarProvider(worksId).notifier).unactiveWidget();
                           },
                           child: CommentListView(
                             worksId: worksId,
@@ -84,6 +83,7 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
                             onLazyload: () async => ref.read(commentsNotifier).next(),
                             // 回复
                             onReply: (commentId, commentName) {
+                              _expansionCustomController.collapse();
                               final commentBarNotifier = ref.read(commentBarProvider(worksId).notifier);
                               commentBarNotifier.enableReply(commentId, commentName);
                               showCommentsBarInput(true);
@@ -105,8 +105,8 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                           ref
-                                              .read(commentBarProvider(worksId).notifier)
-                                              .delete(commentId)
+                                              .read(commentListProvider(worksId).notifier)
+                                              .handleDelete(commentId)
                                               .then((value) {
                                             Fluttertoast.showToast(msg: l10n.deleteSuccess);
                                           }).catchError(
@@ -166,12 +166,17 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
           initialFocusInput: initialFocusInput,
           initialExpandStickers: !initialFocusInput,
           onSendMessage: (message, worksId, parentCommentId) {
-            return ref.read(commentBarProvider(worksId).notifier).sendOrReply(comment: message).then((value) {
+            final commentBarNotifier = ref.read(commentBarProvider(worksId).notifier);
+            commentBarNotifier.setIsSending(true);
+            return ref
+                .read(commentListProvider(worksId).notifier)
+                .handleSendOrReply(parentCommentId: parentCommentId, message: message)
+                .then((value) {
               Fluttertoast.showToast(msg: l10n.sendSuccess);
             }).catchError((err, __) {
               Fluttertoast.showToast(msg: l10n.sendFailed);
               throw err;
-            });
+            }).whenComplete(() => commentBarNotifier.setIsSending(false));
           },
           onSendSticker: (int stickerId, String worksId, int? parentCommentId) async {
             /// TODO: 发送贴图
