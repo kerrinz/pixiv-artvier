@@ -132,7 +132,7 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
                 builder: (context, ref, child) {
                   ref.watch(commentBarProvider(widget.worksId));
                   return CommentsBarPreview(
-                    text: "${l10n.comments}...",
+                    text: "${l10n.commentHint}...",
                     onTapIcon: () {
                       _expansionCustomController.collapse();
                       ref.read(commentBarProvider(widget.worksId).notifier).disableReply();

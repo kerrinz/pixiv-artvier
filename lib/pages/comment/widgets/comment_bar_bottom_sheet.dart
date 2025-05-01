@@ -239,7 +239,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
             minLines: 1,
             maxLines: 3,
             decoration: InputDecoration(
-              hintText: widget.parentCommentName != null ? "" : "${l10n.comments}...",
+              hintText: "${l10n.commentHint}...",
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
               isCollapsed: true, // 高度包裹，不会存在默认高度
@@ -252,6 +252,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
                 ),
               ),
               isDense: true,
+              hintStyle: textTheme.bodySmall?.copyWith(color: textTheme.labelSmall?.color?.withOpacity(0.5)),
             ),
             onSubmitted: (value) {},
             onChanged: (value) {

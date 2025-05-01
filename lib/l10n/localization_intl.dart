@@ -241,6 +241,9 @@ class LocalizationIntl {
   String get commentDetails => Intl.message("Comment details", name: 'commentDetails', desc: '');
   String get allReplies => Intl.message("All replies", name: 'allReplies', desc: '');
   String get viewReplies  => Intl.message("View replies", name: 'viewReplies', desc: '');
+  String get commentHint  => Intl.message("Send a friendly comment", name: 'commentHint', desc: '');
+  String replyHint(String name) => Intl.message("Reply @$name",
+      args: [name], name: 'replyHint', desc: 'The hint text of input box for reply commnt', examples: const {'name': 'Username'});
 
   // 排行榜
   String get rankingDaily => Intl.message("Daily", name: 'rankingDaily', desc: '');

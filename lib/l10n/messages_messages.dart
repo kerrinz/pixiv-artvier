@@ -21,9 +21,11 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'messages';
 
-  static m0(count) => "${count} chapters in total";
+  static m0(name) => "Reply @${name}";
 
-  static m1(size) => "Updated to chapter ${size}";
+  static m1(count) => "${count} chapters in total";
+
+  static m2(size) => "Updated to chapter ${size}";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -59,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'checkUpdateLimitForGithubApi': MessageLookupByLibrary.simpleMessage('The number of Github API access times exceeds the limit, please try again in one hour, or manually access the project address: '),
     'collections': MessageLookupByLibrary.simpleMessage('Collection'),
     'commentDetails': MessageLookupByLibrary.simpleMessage('Comment details'),
+    'commentHint': MessageLookupByLibrary.simpleMessage('Send a friendly comment'),
     'comments': MessageLookupByLibrary.simpleMessage('Comments'),
     'computer': MessageLookupByLibrary.simpleMessage('Computer'),
     'copiedToClipboard': MessageLookupByLibrary.simpleMessage('Copied to clipboard'),
@@ -170,6 +173,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'removeCollectionFailed': MessageLookupByLibrary.simpleMessage('Remove collection failed!'),
     'removeCollectionSucceed': MessageLookupByLibrary.simpleMessage('Remove collection succeed!'),
     'reply': MessageLookupByLibrary.simpleMessage('Reply'),
+    'replyHint': m0,
     'requestFailed': MessageLookupByLibrary.simpleMessage('Poor network, please try reloading'),
     'retryOnFailure': MessageLookupByLibrary.simpleMessage('Click to try again'),
     'scanner': MessageLookupByLibrary.simpleMessage('Scanner'),
@@ -187,8 +191,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'sendSuccess': MessageLookupByLibrary.simpleMessage('Send success'),
     'series': MessageLookupByLibrary.simpleMessage('Series'),
     'seriesLatestChapter': MessageLookupByLibrary.simpleMessage('Latest'),
-    'seriesTotals': m0,
-    'seriesUpdateTo': m1,
+    'seriesTotals': m1,
+    'seriesUpdateTo': m2,
     'settings': MessageLookupByLibrary.simpleMessage('Settings'),
     'showAiResult': MessageLookupByLibrary.simpleMessage('Show AI'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('Social Media'),
