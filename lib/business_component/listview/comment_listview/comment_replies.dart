@@ -183,7 +183,7 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
             builder: (context, ref, child) {
               ref.watch(commentBarProvider(widget.worksId));
               return CommentsBarPreview(
-                text: "${l10n.reply} @${widget.comment.user.name}",
+                text: l10n.replyHint(widget.comment.user.name),
                 onTapIcon: () {
                   _expansionCustomController.collapse();
                   ref

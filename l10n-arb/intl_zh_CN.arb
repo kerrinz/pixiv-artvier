@@ -925,6 +925,22 @@
     "type": "text",
     "placeholders": {}
   },
+  "commentHint": "发一条友善的评论",
+  "@commentHint": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "replyHint": "回复 @{name}",
+  "@replyHint": {
+    "description": "The hint text of input box for reply commnt",
+    "type": "text",
+    "placeholders": {
+      "name": {
+        "example": "Username"
+      }
+    }
+  },
   "rankingDaily": "每日",
   "@rankingDaily": {
     "description": "",

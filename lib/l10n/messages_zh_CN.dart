@@ -21,9 +21,11 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'zh_CN';
 
-  static m0(count) => "共 ${count} 话";
+  static m0(name) => "回复 @${name}";
 
-  static m1(size) => "更新至 ${size} 话";
+  static m1(count) => "共 ${count} 话";
+
+  static m2(size) => "更新至 ${size} 话";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -59,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'checkUpdateLimitForGithubApi': MessageLookupByLibrary.simpleMessage('Github API访问次数超过限制，请一个小时后重试，或者手动访问项目地址： '),
     'collections': MessageLookupByLibrary.simpleMessage('收藏'),
     'commentDetails': MessageLookupByLibrary.simpleMessage('评论详情'),
+    'commentHint': MessageLookupByLibrary.simpleMessage('发一条友善的评论'),
     'comments': MessageLookupByLibrary.simpleMessage('评论'),
     'computer': MessageLookupByLibrary.simpleMessage('电脑'),
     'copiedToClipboard': MessageLookupByLibrary.simpleMessage('已复制到剪贴板'),
@@ -168,6 +171,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'removeCollectionFailed': MessageLookupByLibrary.simpleMessage('移除收藏失败！'),
     'removeCollectionSucceed': MessageLookupByLibrary.simpleMessage('移除收藏成功！'),
     'reply': MessageLookupByLibrary.simpleMessage('回复'),
+    'replyHint': m0,
     'requestFailed': MessageLookupByLibrary.simpleMessage('网络不给力，请尝试重新加载'),
     'retryOnFailure': MessageLookupByLibrary.simpleMessage('点击重试'),
     'scanner': MessageLookupByLibrary.simpleMessage('扫描仪'),
@@ -185,8 +189,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'sendSuccess': MessageLookupByLibrary.simpleMessage('发布成功'),
     'series': MessageLookupByLibrary.simpleMessage('系列'),
     'seriesLatestChapter': MessageLookupByLibrary.simpleMessage('最新话'),
-    'seriesTotals': m0,
-    'seriesUpdateTo': m1,
+    'seriesTotals': m1,
+    'seriesUpdateTo': m2,
     'settings': MessageLookupByLibrary.simpleMessage('设置'),
     'showAiResult': MessageLookupByLibrary.simpleMessage('显示 AI 作品'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('社交媒体'),

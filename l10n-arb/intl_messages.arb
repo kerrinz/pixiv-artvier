@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-04-01T00:39:41.095386",
+  "@@last_modified": "2025-05-01T22:13:36.217196",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -935,6 +935,22 @@
     "description": "",
     "type": "text",
     "placeholders": {}
+  },
+  "commentHint": "Send a friendly comment",
+  "@commentHint": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "replyHint": "Reply @{name}",
+  "@replyHint": {
+    "description": "The hint text of input box for reply commnt",
+    "type": "text",
+    "placeholders": {
+      "name": {
+        "example": "Username"
+      }
+    }
   },
   "rankingDaily": "Daily",
   "@rankingDaily": {
