@@ -139,6 +139,7 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
                       showCommentsBarInput(false);
                     },
                     onTapInput: () {
+                      _expansionCustomController.collapse();
                       ref.read(commentBarProvider(widget.worksId).notifier).disableReply();
                       showCommentsBarInput(true);
                     },

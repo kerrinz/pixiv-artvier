@@ -192,6 +192,7 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
                   showCommentsBarInput(false);
                 },
                 onTapInput: () {
+                  _expansionCustomController.collapse();
                   ref
                       .read(commentBarProvider(widget.worksId).notifier)
                       .enableReply(widget.comment.id, widget.comment.user.name);
