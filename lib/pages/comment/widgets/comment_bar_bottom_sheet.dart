@@ -3,11 +3,13 @@ import 'dart:math';
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/buttons/label_button.dart';
 import 'package:artvier/component/content/expansion_custom.dart';
+import 'package:artvier/component/filter/custom_tabbar.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/comment/provider/comment_bar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 typedef SendStickerCallback = Future Function(int stickerId, String worksId, int? parentCommentId);
 typedef SendMessageCallback = Future Function(String message, String worksId, int? parentCommentId);
@@ -55,8 +57,15 @@ class CommentsBarBottomSheet extends BaseStatefulPage {
   }
 }
 
-class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet> {
+class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet> with TickerProviderStateMixin {
   String get worksId => widget.worksId;
+
+  late final TabController _tabController;
+
+  Map<String, String> get stickerTabs => {
+        l10n.emoji: 'assets/icon/emoji.svg',
+        l10n.stickers: 'assets/icon/sticker.svg',
+      };
 
   @override
   void initState() {
@@ -70,6 +79,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
         widget.expansionCustomController.expand();
       });
     }
+    _tabController = TabController(initialIndex: 0, length: 3, vsync: this);
     super.initState();
   }
 
@@ -133,7 +143,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
           ExpansionCustom(
             controller: widget.expansionCustomController,
             initialExpanded: false,
-            maxHeight: min(MediaQueryData.fromView(View.of(context)).size.height / 2, 250),
+            maxHeight: max(MediaQueryData.fromView(View.of(context)).size.height / 3, 300),
             minHeight: 0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,33 +151,106 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
               mainAxisSize: MainAxisSize.max,
               children: [
                 Divider(height: 0.5, color: Colors.grey.withOpacity(0.5)),
+                Center(
+                  child: SizedBox(
+                    height: 52,
+                    child: CustomScrollableTabbar(
+                      tabController: _tabController,
+                      builder: (Animation<double>? animation) {
+                        final tabIndex = animation?.value.round() ?? 0;
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final tab = stickerTabs.entries.elementAt(index);
+                            return GestureDetector(
+                              onTap: () => _tabController.animateTo(index),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: index == tabIndex ? Colors.grey.withAlpha(50) : Colors.transparent,
+                                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                ),
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      tab.value,
+                                      width: 24,
+                                      height: 24,
+                                      colorFilter:
+                                          ColorFilter.mode(textTheme.bodySmall?.color ?? Colors.grey, BlendMode.srcIn),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4.0),
+                                      child: Text(tab.key, style: textTheme.bodySmall),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                          itemCount: 2,
+                        );
+                      },
+                    ),
+                  ),
+                ),
                 Expanded(
-                  child: GridView.builder(
-                    padding: EdgeInsets.only(
-                        left: 12.0,
-                        right: 12,
-                        top: 12,
-                        bottom: MediaQueryData.fromView(View.of(context)).padding.bottom),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
-                    itemBuilder: (context, index) {
-                      final entry = CONSTANTS.emojiMap.entries.elementAt(index);
-                      return GestureDetector(
-                        onTap: () {
-                          widget.textController.text = "${widget.textController.text}(${entry.value})";
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Image.asset(
-                              "assets/emoji/${entry.key}.png",
-                              filterQuality: FilterQuality.high,
-                              height: double.infinity,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      // Emoji
+                      GridView.builder(
+                        padding: EdgeInsets.only(
+                            left: 12.0, right: 12, bottom: MediaQueryData.fromView(View.of(context)).padding.bottom),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+                        itemBuilder: (context, index) {
+                          final entry = CONSTANTS.emojiMap.entries.elementAt(index);
+                          return GestureDetector(
+                            onTap: () {
+                              widget.textController.text = "${widget.textController.text}(${entry.value})";
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/emoji/${entry.key}.png",
+                                  filterQuality: FilterQuality.high,
+                                  height: double.infinity,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    },
-                    itemCount: CONSTANTS.emojiMap.length,
+                          );
+                        },
+                        itemCount: CONSTANTS.emojiMap.length,
+                      ),
+                      // Sticker
+                      GridView.builder(
+                        padding: EdgeInsets.only(
+                            left: 12.0, right: 12, bottom: MediaQueryData.fromView(View.of(context)).padding.bottom),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
+                        itemBuilder: (context, index) {
+                          final entry = CONSTANTS.stickerMap.entries.elementAt(index);
+                          return GestureDetector(
+                            onTap: () {
+                              // TODO: send sticker
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/sticker/${entry.key}.jpg",
+                                  filterQuality: FilterQuality.medium,
+                                  height: double.infinity,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        itemCount: CONSTANTS.stickerMap.length,
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -178,6 +261,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
     );
   }
 
+  /// 表情贴图按钮
   Widget stickersButton() {
     return LabelButton(
       onPressed: () {
@@ -193,8 +277,8 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
     );
   }
 
+  /// 输入框
   Widget inputBox() {
-    // 输入框
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey.withOpacity(0.1),
