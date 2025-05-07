@@ -84,9 +84,7 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
                             // 回复
                             onReply: (commentId, commentName) {
                               _expansionCustomController.collapse();
-                              final commentBarNotifier = ref.read(commentBarProvider(worksId).notifier);
-                              commentBarNotifier.enableReply(commentId, commentName);
-                              showCommentsBarInput(true);
+                              showCommentsBarInput(true, commentId, commentName);
                             },
                             // 删除
                             onDelete: (commentId) {
@@ -136,12 +134,12 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
                     onTapIcon: () {
                       _expansionCustomController.collapse();
                       ref.read(commentBarProvider(widget.worksId).notifier).disableReply();
-                      showCommentsBarInput(false);
+                      showCommentsBarInput(false, null, null);
                     },
                     onTapInput: () {
                       _expansionCustomController.collapse();
                       ref.read(commentBarProvider(widget.worksId).notifier).disableReply();
-                      showCommentsBarInput(true);
+                      showCommentsBarInput(true, null, null);
                     },
                   );
                 },
@@ -154,7 +152,13 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
   }
 
   /// Show Comments bar bottom sheet and focus input.
-  showCommentsBarInput(bool initialFocusInput) {
+  showCommentsBarInput(bool initialFocusInput, int? parentCommentId, String? parentCommentName) {
+    final commentBarNotifier = ref.read(commentBarProvider(worksId).notifier);
+    if (parentCommentId != null && parentCommentName != null) {
+      commentBarNotifier.enableReply(parentCommentId, parentCommentName);
+    } else {
+      commentBarNotifier.disableReply();
+    }
     BottomSheets.showCustomBottomSheet<bool>(
         context: ref.context,
         exitOnClickModal: true,
@@ -164,6 +168,8 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
           expansionCustomController: _expansionCustomController,
           textController: _textController,
           focusNode: _focusNode,
+          parentCommentId: parentCommentId,
+          parentCommentName: parentCommentName,
           initialFocusInput: initialFocusInput,
           initialExpandStickers: !initialFocusInput,
           onSendMessage: (message, worksId, parentCommentId) {
