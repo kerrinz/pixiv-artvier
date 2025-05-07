@@ -149,24 +149,53 @@ class CommentListViewItem extends BasePage {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // 回复的用户和内容
                           for (final reply in comment.cacheReplies?.comments
                                   .sublist(0, min(comment.cacheReplies?.comments.length ?? 0, 5)) ??
                               [])
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: reply.user.name,
-                                    style: textTheme(context)
-                                        .bodyMedium
-                                        ?.copyWith(color: colorScheme(context).primary, fontWeight: FontWeight.bold),
+                            // 贴图回复内容
+                            reply.stamp != null
+                                ? Row(
+                                    children: [
+                                      Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: reply.user.name,
+                                              style: textTheme(context).bodyMedium?.copyWith(
+                                                  color: colorScheme(context).primary, fontWeight: FontWeight.bold),
+                                            ),
+                                            const TextSpan(text: ': '),
+                                          ],
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      EnhanceNetworkImage(
+                                        image: ExtendedNetworkImageProvider(
+                                          HttpHostOverrides().pxImgUrl(reply.stamp!.stampUrl),
+                                          headers: HttpHostOverrides().dynamicHeaders(reply.stamp!.stampUrl),
+                                        ),
+                                        width: 32,
+                                      ),
+                                    ],
+                                  )
+                                // 文本回复内容
+                                : Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: reply.user.name,
+                                          style: textTheme(context).bodyMedium?.copyWith(
+                                              color: colorScheme(context).primary, fontWeight: FontWeight.bold),
+                                        ),
+                                        TextSpan(text: ': ${reply.comment}'),
+                                      ],
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  TextSpan(text: ': ${reply.comment}'),
-                                ],
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          // 查看全部回复的提示文案
                           if ((comment.hasReplies && comment.cacheReplies == null) ||
                               (comment.cacheReplies?.comments.length ?? 0) >= 5 &&
                                   comment.cacheReplies?.nextUrl != null)
