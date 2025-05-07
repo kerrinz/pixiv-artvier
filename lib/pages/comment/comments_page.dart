@@ -179,8 +179,17 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
               throw err;
             }).whenComplete(() => commentBarNotifier.setIsSending(false));
           },
-          onSendSticker: (int stickerId, String worksId, int? parentCommentId) async {
-            /// TODO: 发送贴图
+          onSendSticker: (int stampId, String worksId, int? parentCommentId) async {
+            _expansionCustomController.collapse();
+            return ref
+                .read(commentListProvider(worksId).notifier)
+                .handleSendOrReply(parentCommentId: parentCommentId, stampId: stampId)
+                .then((value) {
+              Fluttertoast.showToast(msg: l10n.sendSuccess);
+            }).catchError((err, __) {
+              Fluttertoast.showToast(msg: l10n.sendFailed);
+              throw err;
+            });
           },
         ));
   }

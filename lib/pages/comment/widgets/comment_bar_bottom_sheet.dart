@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-typedef SendStickerCallback = Future Function(int stickerId, String worksId, int? parentCommentId);
+typedef SendStickerCallback = Future Function(int stampId, String worksId, int? parentCommentId);
 typedef SendMessageCallback = Future Function(String message, String worksId, int? parentCommentId);
 
 class CommentsBarBottomSheet extends BaseStatefulPage {
@@ -48,6 +48,7 @@ class CommentsBarBottomSheet extends BaseStatefulPage {
 
   final bool initialExpandStickers;
 
+  /// int stickerId, String worksId, int? parentCommentId
   final SendStickerCallback onSendSticker;
   final SendMessageCallback onSendMessage;
 
@@ -79,7 +80,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
         widget.expansionCustomController.expand();
       });
     }
-    _tabController = TabController(initialIndex: 0, length: 3, vsync: this);
+    _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
     super.initState();
   }
 
@@ -125,6 +126,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
                                   .onSendMessage(widget.textController.text, worksId, widget.parentCommentId)
                                   .then((value) {
                                 widget.textController.text = '';
+                                Navigator.of(context).pop();
                               });
                             },
                             child: Text(l10n.send,
@@ -143,7 +145,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
           ExpansionCustom(
             controller: widget.expansionCustomController,
             initialExpanded: false,
-            maxHeight: max(MediaQueryData.fromView(View.of(context)).size.height / 3, 300),
+            maxHeight: max(MediaQueryData.fromView(View.of(context)).size.height / 2.5, 300),
             minHeight: 0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,15 +231,16 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
                       GridView.builder(
                         padding: EdgeInsets.only(
                             left: 12.0, right: 12, bottom: MediaQueryData.fromView(View.of(context)).padding.bottom),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
                         itemBuilder: (context, index) {
                           final entry = CONSTANTS.stickerMap.entries.elementAt(index);
                           return GestureDetector(
                             onTap: () {
-                              // TODO: send sticker
+                              widget.onSendSticker(entry.value, worksId, widget.parentCommentId);
+                              Navigator.of(context).pop();
                             },
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(4.0),
                               child: Center(
                                 child: Image.asset(
                                   "assets/sticker/${entry.key}.jpg",
