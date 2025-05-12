@@ -200,49 +200,52 @@ class _MangaGridItemState extends ConsumerState<MangaGridItem> with MangaGridIte
 
   /// 收藏按钮
   Widget _collectButton() {
-    return InkWell(
-      borderRadius: const BorderRadius.all(Radius.circular(12)),
-      onTap: widget.onTapCollect ?? handleTapCollect,
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Consumer(builder: (_, ref, __) {
-          const double size = 22;
-          CollectState state = ref.watch(collectStateProvider);
-          Map<CollectState, Icon> map = {
-            CollectState.collecting: Icon(
-              Icons.favorite,
-              color: Colors.grey.withAlpha(150),
-              size: size,
-            ),
-            CollectState.uncollecting: Icon(
-              Icons.favorite,
-              color: Colors.red.shade200,
-              size: size,
-            ),
-            CollectState.collected: const Icon(
-              Icons.favorite,
-              color: Colors.red,
-              size: size,
-            ),
-            CollectState.notCollect: Icon(
-              Icons.favorite_border_outlined,
-              color: Colors.grey.withAlpha(150),
-              size: size,
-            )
-          };
-          return Row(
-            children: [
-              Text(
-                formatTotalCollected(widget.totalCollected),
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
+    return GestureDetector(
+      onLongPress: handleLongPressCollect,
+      child: InkWell(
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        onTap: widget.onTapCollect ?? handleTapCollect,
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Consumer(builder: (_, ref, __) {
+            const double size = 22;
+            CollectState state = ref.watch(collectStateProvider);
+            Map<CollectState, Icon> map = {
+              CollectState.collecting: Icon(
+                Icons.favorite,
+                color: Colors.grey.withAlpha(150),
+                size: size,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 2.0),
-                child: map[state]!,
+              CollectState.uncollecting: Icon(
+                Icons.favorite,
+                color: Colors.red.shade200,
+                size: size,
               ),
-            ],
-          );
-        }),
+              CollectState.collected: const Icon(
+                Icons.favorite,
+                color: Colors.red,
+                size: size,
+              ),
+              CollectState.notCollect: Icon(
+                Icons.favorite_border_outlined,
+                color: Colors.grey.withAlpha(150),
+                size: size,
+              )
+            };
+            return Row(
+              children: [
+                Text(
+                  formatTotalCollected(widget.totalCollected),
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 2.0),
+                  child: map[state]!,
+                ),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }
