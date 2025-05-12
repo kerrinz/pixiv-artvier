@@ -27,6 +27,7 @@ class IllustWaterfallItem extends ConsumerStatefulWidget {
     this.xAgeRestrict = 0,
     this.isAI = false,
     this.onTapCollect,
+    this.onLongPressCollect,
   });
 
   final String worksId;
@@ -65,6 +66,9 @@ class IllustWaterfallItem extends ConsumerStatefulWidget {
 
   /// 点击收藏的事件
   final void Function()? onTapCollect;
+
+  /// 长按收藏的事件
+  final void Function()? onLongPressCollect;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _IllustWaterfallItemState();
@@ -188,9 +192,10 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                 color: Colors.transparent,
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  splashColor: Colors.black12.withOpacity(0.15),
-                  highlightColor: Colors.black12.withOpacity(0.1),
+                child: GestureDetector(
+                  // splashFactory: InkSparkle.splashFactory,
+                  // splashColor: Colors.black12.withOpacity(0.15),
+                  // highlightColor: Colors.black12.withOpacity(0.1),
                   onTap: () {},
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,
@@ -250,49 +255,53 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
 
   /// 收藏按钮
   Widget _collectButton() {
-    return InkWell(
-      borderRadius: const BorderRadius.all(Radius.circular(12)),
-      onTap: widget.onTapCollect ?? handleTapCollect,
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Consumer(builder: (_, ref, __) {
-          const double size = 22;
-          CollectState state = ref.watch(collectStateProvider);
-          Map<CollectState, Icon> map = {
-            CollectState.collecting: Icon(
-              Icons.favorite,
-              color: Colors.grey.withAlpha(150),
-              size: size,
-            ),
-            CollectState.uncollecting: Icon(
-              Icons.favorite,
-              color: Colors.red.shade200,
-              size: size,
-            ),
-            CollectState.collected: const Icon(
-              Icons.favorite,
-              color: Colors.red,
-              size: size,
-            ),
-            CollectState.notCollect: Icon(
-              Icons.favorite_border_outlined,
-              color: Colors.grey.withAlpha(150),
-              size: size,
-            )
-          };
-          return Row(
-            children: [
-              Text(
-                formatTotalCollected(widget.totalCollected),
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
+    return GestureDetector(
+      onLongPress: widget.onLongPressCollect ?? handleLongPressCollect,
+      child: InkWell(
+        splashFactory: InkSparkle.splashFactory,
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        onTap: widget.onTapCollect ?? handleTapCollect,
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Consumer(builder: (_, ref, __) {
+            const double size = 22;
+            CollectState state = ref.watch(collectStateProvider);
+            Map<CollectState, Icon> map = {
+              CollectState.collecting: Icon(
+                Icons.favorite,
+                color: Colors.grey.withAlpha(150),
+                size: size,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 2.0),
-                child: map[state]!,
+              CollectState.uncollecting: Icon(
+                Icons.favorite,
+                color: Colors.red.shade200,
+                size: size,
               ),
-            ],
-          );
-        }),
+              CollectState.collected: const Icon(
+                Icons.favorite,
+                color: Colors.red,
+                size: size,
+              ),
+              CollectState.notCollect: Icon(
+                Icons.favorite_border_outlined,
+                color: Colors.grey.withAlpha(150),
+                size: size,
+              )
+            };
+            return Row(
+              children: [
+                Text(
+                  formatTotalCollected(widget.totalCollected),
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 2.0),
+                  child: map[state]!,
+                ),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }
