@@ -9,6 +9,7 @@ import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart
 import 'package:artvier/pages/novel/detail/logic.dart';
 import 'package:artvier/pages/novel/detail/provider/novel_detail_provider.dart';
 import 'package:artvier/pages/novel/detail/widgets/menu_bottom_sheet.dart';
+import 'package:artvier/pages/novel/detail/widgets/novel_overlay_settings.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,8 @@ class NovelDetailPage extends ConsumerStatefulWidget {
   }
 }
 
-class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProviderStateMixin, NovelDetailPageLogic {
+class _NovelDetailState extends ConsumerState<NovelDetailPage>
+    with SingleTickerProviderStateMixin, NovelDetailPageLogic {
   @override
   get novelDetail => widget.args.detail;
 
@@ -41,9 +43,35 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
   TextTheme get textTheme => Theme.of(context).textTheme;
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
 
+  late AnimationController _overlayAnimationController;
+  late Animation<Offset> _overlayOffsetAnimation;
+  final Tween<Offset> _overlayOffsetTween = Tween<Offset>(begin: const Offset(0, 100), end: Offset.zero);
+  static const Duration kFadeOutDuration = Duration(milliseconds: 500);
+  static const Duration kFadeInDuration = Duration(milliseconds: 500);
+  bool _overlayShow = false;
+
   @override
   void initState() {
     super.initState();
+    _overlayAnimationController = AnimationController(
+      duration: const Duration(microseconds: 200),
+      value: 0.0,
+      vsync: this,
+    );
+    _overlayOffsetAnimation =
+        _overlayAnimationController.drive(CurveTween(curve: Curves.decelerate)).drive(_overlayOffsetTween);
+    _overlayOffsetTween.end = Offset.zero;
+  }
+
+  void _animateOverlay() {
+    if (_overlayAnimationController.isAnimating) return;
+    final bool wasHeldDown = _overlayShow;
+    final TickerFuture ticker = _overlayShow
+        ? _overlayAnimationController.animateTo(1.0, duration: kFadeOutDuration, curve: Curves.easeInOutCubicEmphasized)
+        : _overlayAnimationController.animateTo(0.0, duration: kFadeInDuration, curve: Curves.easeOutCubic);
+    ticker.then<void>((void value) {
+      if (mounted && wasHeldDown != _overlayShow) _animateOverlay();
+    });
   }
 
   @override
@@ -167,12 +195,24 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
               ],
             ),
           ),
+          // 设置栏
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: SlideTransition(
+              position: _overlayOffsetAnimation,
+              child: const NovelDetailOverlaySettings(),
+            ),
+          ),
         ],
       ),
     );
   }
 
+  /// 小说内容
   Widget _buildContent(NovelDetailWebView webViewData) {
+    final settings = ref.watch(novelViewerSettings);
     final lines = webViewData.text.split('\n');
     List<InlineSpan> spanList = [];
     for (final line in lines) {
@@ -184,7 +224,14 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage> with TickerProvid
     }
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: SelectableText.rich(TextSpan(children: spanList)),
+      child: SelectableText.rich(
+        TextSpan(children: spanList),
+        style: textTheme.bodyLarge?.copyWith(fontSize: settings.textSize),
+        onTap: () {
+          _overlayShow = !_overlayShow;
+          _animateOverlay();
+        },
+      ),
     );
   }
 
