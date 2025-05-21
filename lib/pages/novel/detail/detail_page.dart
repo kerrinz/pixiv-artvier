@@ -33,7 +33,7 @@ class NovelDetailPage extends ConsumerStatefulWidget {
 }
 
 class _NovelDetailState extends ConsumerState<NovelDetailPage>
-    with SingleTickerProviderStateMixin, NovelDetailPageLogic {
+    with SingleTickerProviderStateMixin, NovelDetailPageLogic, NovelDetailOverlaySettingsAnimation<NovelDetailPage> {
   @override
   get novelDetail => widget.args.detail;
 
@@ -43,35 +43,10 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage>
   TextTheme get textTheme => Theme.of(context).textTheme;
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
 
-  late AnimationController _overlayAnimationController;
-  late Animation<Offset> _overlayOffsetAnimation;
-  final Tween<Offset> _overlayOffsetTween = Tween<Offset>(begin: const Offset(0, 100), end: Offset.zero);
-  static const Duration kFadeOutDuration = Duration(milliseconds: 500);
-  static const Duration kFadeInDuration = Duration(milliseconds: 500);
-  bool _overlayShow = false;
-
   @override
   void initState() {
     super.initState();
-    _overlayAnimationController = AnimationController(
-      duration: const Duration(microseconds: 200),
-      value: 0.0,
-      vsync: this,
-    );
-    _overlayOffsetAnimation =
-        _overlayAnimationController.drive(CurveTween(curve: Curves.decelerate)).drive(_overlayOffsetTween);
-    _overlayOffsetTween.end = Offset.zero;
-  }
-
-  void _animateOverlay() {
-    if (_overlayAnimationController.isAnimating) return;
-    final bool wasHeldDown = _overlayShow;
-    final TickerFuture ticker = _overlayShow
-        ? _overlayAnimationController.animateTo(1.0, duration: kFadeOutDuration, curve: Curves.easeInOutCubicEmphasized)
-        : _overlayAnimationController.animateTo(0.0, duration: kFadeInDuration, curve: Curves.easeOutCubic);
-    ticker.then<void>((void value) {
-      if (mounted && wasHeldDown != _overlayShow) _animateOverlay();
-    });
+    initOverlaySettingsState();
   }
 
   @override
@@ -201,7 +176,7 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage>
             right: 0,
             bottom: 0,
             child: SlideTransition(
-              position: _overlayOffsetAnimation,
+              position: overlayOffsetAnimation,
               child: const NovelDetailOverlaySettings(),
             ),
           ),
@@ -228,8 +203,8 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage>
         TextSpan(children: spanList),
         style: textTheme.bodyLarge?.copyWith(fontSize: settings.textSize),
         onTap: () {
-          _overlayShow = !_overlayShow;
-          _animateOverlay();
+          overlayShow = !overlayShow;
+          animateOverlay();
         },
       ),
     );
