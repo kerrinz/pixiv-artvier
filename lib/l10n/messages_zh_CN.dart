@@ -221,6 +221,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'website': MessageLookupByLibrary.simpleMessage('个人网站'),
     'works': MessageLookupByLibrary.simpleMessage('作品'),
     'workspace': MessageLookupByLibrary.simpleMessage('创作环境'),
-    'yes': MessageLookupByLibrary.simpleMessage('是')
+    'yes': MessageLookupByLibrary.simpleMessage('是'),
+    'youMayWantToSearch': MessageLookupByLibrary.simpleMessage('你可能想搜索')
   };
 }

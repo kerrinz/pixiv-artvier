@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:artvier/model_response/common/predictive_search.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/model_response/illusts/common_illust_list.dart';
 import 'package:artvier/model_response/illusts/illust_trending_tags.dart';
@@ -114,6 +115,57 @@ class ApiSearch extends ApiBase {
 
   /// 搜索用户
   Future<CommonUserPreviewsList> searchUsers(
+    String searchWord, {
+    CancelToken? cancelToken,
+  }) async {
+    Response res = await requester.get<String>(
+      "/v1/search/user",
+      queryParameters: {
+        "word": searchWord,
+        "filter": "for_ios",
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return CommonUserPreviewsList.fromJson(json.decode(res.data));
+  }
+
+  /// 预测搜索，插画漫画
+  Future<PredictiveSearchWorks> predictiveSearchIllust(
+    String searchWord, {
+    CancelToken? cancelToken,
+  }) async {
+    Response res = await requester.get<String>(
+      "/v2/search/autocomplete",
+      queryParameters: {
+        "word": searchWord,
+        "merge_plain_keyword_results": true,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return PredictiveSearchWorks.fromJson(json.decode(res.data));
+  }
+
+  /// 预测搜索，小说
+  Future<PredictiveSearchWorks> predictiveSearchNovels(
+    String searchWord, {
+    CancelToken? cancelToken,
+  }) async {
+    Response res = await requester.get<String>(
+      "/v2/search/autocomplete",
+      queryParameters: {
+        "merge_plain_keyword_results": true,
+        "word": searchWord,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return PredictiveSearchWorks.fromJson(json.decode(res.data));
+  }
+
+  /// 预测搜索，用户
+  Future<CommonUserPreviewsList> predictiveSearchUsers(
     String searchWord, {
     CancelToken? cancelToken,
   }) async {
