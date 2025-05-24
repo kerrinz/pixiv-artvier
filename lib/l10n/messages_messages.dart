@@ -223,6 +223,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'website': MessageLookupByLibrary.simpleMessage('Website'),
     'works': MessageLookupByLibrary.simpleMessage('Works'),
     'workspace': MessageLookupByLibrary.simpleMessage('Workspace'),
-    'yes': MessageLookupByLibrary.simpleMessage('Yes')
+    'yes': MessageLookupByLibrary.simpleMessage('Yes'),
+    'youMayWantToSearch': MessageLookupByLibrary.simpleMessage('You may want to search for')
   };
 }

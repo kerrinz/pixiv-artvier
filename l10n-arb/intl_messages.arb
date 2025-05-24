@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-05-01T22:13:36.217196",
+  "@@last_modified": "2025-05-25T00:49:40.503682",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -1161,6 +1161,12 @@
   "bookmarksCount": "Bookmark count",
   "@bookmarksCount": {
     "description": "Filter bookmark count",
+    "type": "text",
+    "placeholders": {}
+  },
+  "youMayWantToSearch": "You may want to search for",
+  "@youMayWantToSearch": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },

@@ -1153,6 +1153,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "youMayWantToSearch": "你可能想搜索",
+  "@youMayWantToSearch": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "trendingTags": "热门标签",
   "@trendingTags": {
     "description": "Tending tags",

@@ -237,13 +237,17 @@ class LocalizationIntl {
   String get send => Intl.message("Send", name: 'send', desc: 'Button label for send comment');
   String get sendSuccess => Intl.message("Send success", name: 'sendSuccess', desc: '');
   String get sendFailed => Intl.message("Send failed", name: 'sendFailed', desc: '');
-  String get promptDeleteComment => Intl.message("Are you sure to delete this comment?", name: 'promptDeleteComment', desc: '');
+  String get promptDeleteComment =>
+      Intl.message("Are you sure to delete this comment?", name: 'promptDeleteComment', desc: '');
   String get commentDetails => Intl.message("Comment details", name: 'commentDetails', desc: '');
   String get allReplies => Intl.message("All replies", name: 'allReplies', desc: '');
-  String get viewReplies  => Intl.message("View replies", name: 'viewReplies', desc: '');
-  String get commentHint  => Intl.message("Send a friendly comment", name: 'commentHint', desc: '');
+  String get viewReplies => Intl.message("View replies", name: 'viewReplies', desc: '');
+  String get commentHint => Intl.message("Send a friendly comment", name: 'commentHint', desc: '');
   String replyHint(String name) => Intl.message("Reply @$name",
-      args: [name], name: 'replyHint', desc: 'The hint text of input box for reply commnt', examples: const {'name': 'Username'});
+      args: [name],
+      name: 'replyHint',
+      desc: 'The hint text of input box for reply commnt',
+      examples: const {'name': 'Username'});
 
   // 排行榜
   String get rankingDaily => Intl.message("Daily", name: 'rankingDaily', desc: '');
@@ -291,6 +295,7 @@ class LocalizationIntl {
   String get bookmarkCountNotPremium => Intl.message("Bookmark count (Not premium)",
       name: 'bookmarkCountNotPremium', desc: 'Filter bookmark count. Hint not premium function');
   String get bookmarksCount => Intl.message("Bookmark count", name: 'bookmarksCount', desc: 'Filter bookmark count');
+  String get youMayWantToSearch => Intl.message("You may want to search for", name: 'youMayWantToSearch', desc: '');
 
   // 发现页
   String get trendingTags => Intl.message("Trending tags", name: 'trendingTags', desc: 'Tending tags');
