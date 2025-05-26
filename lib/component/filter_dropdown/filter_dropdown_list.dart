@@ -183,10 +183,12 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
   Color _maskColor = Colors.black45;
   late final LayerLink layerLink;
 
-  DropDownMenuController? get _dropDownMenuController => widget.controller;
+  late DropDownMenuController _dropDownMenuController;
 
   late final DropDownMenuExpandIndex expandIndex;
   late final DropDownMenuSelectValues selectValues;
+
+  bool _canPop = true;
 
   @override
   void initState() {
@@ -209,12 +211,14 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
         _filterList.map((e) => e.defaultValue != null ? [e.defaultValue!] : emptyList).toList();
     expandIndex = DropDownMenuExpandIndex(expandedIndex: -1);
     selectValues = DropDownMenuSelectValues(selectedValues: selectedValues);
+    _dropDownMenuController = widget.controller ?? DropDownMenuController();
     // 初始化控制器
-    if (_dropDownMenuController != null) {
-      _dropDownMenuController!.attach(expandIndex);
-    }
+    _dropDownMenuController.attach(expandIndex);
     // 根据索引变化，收缩
     expandIndex.addListener(() {
+      setState(() {
+        _canPop = expandIndex.index < 0;
+      });
       if (expandIndex.index == -1) {
         closeMenu();
       }
@@ -223,7 +227,7 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
 
   @override
   void deactivate() {
-    closeMenu();
+    _dropDownMenuController.closeMenu();
     super.deactivate();
   }
 
@@ -237,7 +241,7 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
+      canPop: _canPop,
       onPopInvoked: (_) {
         closeMenu();
       },

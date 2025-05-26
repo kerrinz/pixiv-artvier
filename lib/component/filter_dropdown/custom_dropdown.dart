@@ -61,6 +61,8 @@ class _CustomDropDownOverlayState extends State<CustomDropDownOverlay> with Sing
 
   late CustomDropDownController _customDropDownController;
 
+  bool _canPop = true;
+
   @override
   void initState() {
     super.initState();
@@ -80,13 +82,16 @@ class _CustomDropDownOverlayState extends State<CustomDropDownOverlay> with Sing
     _customDropDownController = widget.controller ?? CustomDropDownController();
     // 监听展开
     _customDropDownController.addListener(() {
+      setState(() {
+        _canPop = !_customDropDownController.isExpanded;
+      });
       _customDropDownController.isExpanded ? expandMenu() : closeMenu();
     });
   }
 
   @override
   void deactivate() {
-    closeMenu();
+    _customDropDownController.close();
     super.deactivate();
   }
 
@@ -100,9 +105,9 @@ class _CustomDropDownOverlayState extends State<CustomDropDownOverlay> with Sing
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
+      canPop: _canPop,
       onPopInvoked: (_) {
-        closeMenu();
+        _customDropDownController.close();
       },
       child: Builder(builder: ((context) {
         if (widget.layerLink != null) {
