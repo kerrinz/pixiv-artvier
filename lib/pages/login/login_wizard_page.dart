@@ -121,7 +121,7 @@ class _LoginWizardPageState extends BasePageState<LoginWizardPage> {
             ),
           ),
           Positioned(
-            bottom: 0,
+            bottom: MediaQuery.paddingOf(context).bottom,
             right: 0,
             child: Container(
               height: kToolbarHeight,
@@ -132,11 +132,12 @@ class _LoginWizardPageState extends BasePageState<LoginWizardPage> {
                 children: [
                   BlurButton(
                     borderRadius: const BorderRadius.all(Radius.circular(40)),
+                    background: Colors.grey.withOpacity(0.66),
                     onPressed: () => BottomSheets.showCustomBottomSheet(
                       context: context,
                       child: LoginSettingsBottomSheet(hideSomeSettings: hideSettings),
                     ),
-                    child: const Icon(Icons.settings),
+                    child: const Icon(Icons.settings,color: Colors.white),
                   ),
                 ],
               ),
