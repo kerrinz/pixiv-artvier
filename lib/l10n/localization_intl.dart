@@ -38,6 +38,7 @@ class LocalizationIntl {
   String get navProfile => Intl.message('Profile', name: 'navProfile', desc: 'BottomNavigationBar');
   // 通用
   String get account => Intl.message('Account', name: 'account', desc: 'Title of user account');
+  String get current => Intl.message('Current', name: 'current', desc: '');
   String get illust => Intl.message('Illust', name: 'illust', desc: 'An option of works type');
   String get manga => Intl.message('Manga', name: 'manga', desc: 'An option of works type');
   String get mangaSeries => Intl.message('Manga series', name: 'mangaSeries', desc: 'An option of works type');
@@ -56,6 +57,8 @@ class LocalizationIntl {
   String get private => Intl.message('Private', name: 'private', desc: 'non-public');
   String get yes => Intl.message('Yes', name: 'yes', desc: '');
   String get not => Intl.message('Not', name: 'not', desc: '');
+  String get cancel => Intl.message('Cancel', name: 'cancel', desc: '');
+  String get edit => Intl.message('Edit', name: 'edit', desc: '');
   String get delete => Intl.message('Delete', name: 'delete', desc: '');
   String get deleteSuccess => Intl.message('Delete success', name: 'deleteSuccess', desc: '');
   String get deleteFailed => Intl.message('Delete failed', name: 'deleteFailed', desc: '');
@@ -116,7 +119,6 @@ class LocalizationIntl {
       Intl.message('Collection', name: 'collections', desc: 'Function group item. User favorite works');
   String get markers => Intl.message('Markers', name: 'markers', desc: 'Function group item. Same as novel bookmark');
   String get submitWork => Intl.message('Submit Work', name: 'submitWork', desc: 'Submit new works');
-  String get switchAccount => Intl.message('Switch account', name: 'switchAccount', desc: 'A preference item');
   String get quickSettingsTitle =>
       Intl.message('Quick settings', name: 'quickSettingsTitle', desc: 'The title of settings list');
   String get muteSettings =>
@@ -161,6 +163,14 @@ class LocalizationIntl {
   String get languageFollowSystem => Intl.message('Follow System', name: 'languageFollowSystem', desc: '');
   String get languageZhCn => Intl.message('简体中文', name: 'languageZhCn', desc: '');
   String get languageEnUS => Intl.message('English (US)', name: 'languageEnUS', desc: '');
+
+  // 设置 - 账号切换
+  String get switchAccount => Intl.message('Switch account', name: 'switchAccount', desc: '');
+  String get tabToSwitchAccount => Intl.message('Tap card to switch account', name: 'tabToSwitchAccount', desc: '');
+  String get loginOtherAccount => Intl.message('Login other account', name: 'loginOtherAccount', desc: '');
+  String get deleteAccount => Intl.message('Delete account', name: 'deleteAccount', desc: '');
+  String deleteAccountPromptMessage(String name) => Intl.message("Are you sure to delete this account ($name) ?",
+      args: [name], name: 'deleteAccountPromptMessage', desc: '', examples: const {'name': 'username'});
 
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');

@@ -1,3 +1,5 @@
+import 'package:artvier/base/base_page.dart';
+import 'package:artvier/pages/account/account_manage/account_manage_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,12 +8,58 @@ import 'package:artvier/pages/account/account_manage/provider/account_manage_pro
 import 'package:artvier/routes.dart';
 import 'package:artvier/global/model/account_profile/account_profile.dart';
 
-mixin AccountManagePageStateLogic {
+mixin AccountManagePageStateLogic on BasePageState<AccountManagePage> {
+  @override
   WidgetRef get ref;
 
-  /// 添加帐号
-  void handlePressedAdd() {
-    Navigator.of(ref.context).pushNamed(RouteNames.wizard.name);
+  ValueNotifier<bool> isEditMode = ValueNotifier(false);
+
+  /// 编辑
+  void handlePressedEdit() {
+    isEditMode.value = !isEditMode.value;
+  }
+
+  ///删除
+  handleTapDelete(AccountProfile profile, AccountProfile? currrentProfile) {
+    showDialog<bool>(
+      context: ref.context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.promptTitle),
+          content: Text(l10n.deleteAccountPromptMessage(profile.user.name)),
+          actions: <Widget>[
+            TextButton(
+              child: Text(l10n.promptCancel),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              onPressed: () async {
+                final notifier = ref.read(accountManageProvider.notifier);
+                await notifier.deleteAccount(profile.user.id);
+                // 删除的是非当前账号
+                if (profile.user.id != currrentProfile?.user.id) {
+                  if (context.mounted) Navigator.of(context).pop();
+                  return;
+                }
+                // 删除的是当前账号
+                final accountList = ref.read(accountManageProvider);
+                if (accountList.isEmpty) {
+                  if (context.mounted) {
+                    Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
+                  }
+                } else {
+                  await notifier.switchAccount(accountList.entries.first.key);
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
+                }
+              },
+              child: Text(l10n.promptConform),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   /// 点击了帐号卡片
@@ -20,5 +68,9 @@ mixin AccountManagePageStateLogic {
       Fluttertoast.showToast(msg: "Error to Switch account!");
       logger.e(e);
     });
+  }
+
+  void handleTapLoginOtherAccount() {
+    Navigator.of(ref.context).pushNamed(RouteNames.wizard.name);
   }
 }

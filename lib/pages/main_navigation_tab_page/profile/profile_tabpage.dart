@@ -150,7 +150,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                     },
                     color: Colors.white,
                     icon: const Icon(Icons.switch_account_outlined),
-                    tooltip: "切换账号",
+                    tooltip: l10n.switchAccount,
                   ),
                 ),
                 Center(
@@ -163,7 +163,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                         onPressed: () => handleTapThemeMode(isDarkMode),
                         color: Colors.white,
                         icon: Icon(isDarkMode ? Icons.mode_night : Icons.light_mode),
-                        tooltip: "切换主题模式",
+                        tooltip: isDarkMode ? l10n.lightBrightness : l10n.dartBrightness,
                       );
                     },
                   ),

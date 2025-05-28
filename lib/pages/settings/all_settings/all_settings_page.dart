@@ -37,7 +37,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                         onTap: () => Navigator.of(context).pushNamed(RouteNames.accountManage.name),
                         icon: Icon(Icons.switch_account, color: colorScheme.primary),
                         text: Text(
-                          l10n.accountManage,
+                          l10n.switchAccount,
                           style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
                         )),
                   ],

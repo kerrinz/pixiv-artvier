@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/oauth.dart';
 import 'package:artvier/base/base_provider/base_notifier.dart';
-import 'package:artvier/global/logger.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/global/provider/shared_preferences_provider.dart';
 import 'package:artvier/storage/account_storage.dart';
@@ -18,13 +17,11 @@ final accountManageProvider =
 class AccountManageNotifier extends BaseStateNotifier<Map<String, AccountProfile>> {
   AccountManageNotifier(super.state, {required super.ref});
 
-  void removeAccount(String userId) {
-    try {
-      AccountStorage(ref.read(globalSharedPreferencesProvider)).removeAccount(userId: userId);
-      state = state..remove(userId);
-    } catch (e) {
-      logger.e(e);
-    }
+  Future<void> deleteAccount(String userId) async {
+    await AccountStorage(ref.read(globalSharedPreferencesProvider)).removeAccount(userId: userId);
+    state.remove(userId);
+    final state2 = Map<String, AccountProfile>.from(state);
+    update(state2);
   }
 
   /// 切换帐号
