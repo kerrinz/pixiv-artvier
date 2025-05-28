@@ -39,6 +39,7 @@ class MyBadge extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           borderRadius: borderRadius,
+          splashFactory: InkSparkle.splashFactory,
           child: Container(
             padding: padding,
             decoration: BoxDecoration(

@@ -21,11 +21,13 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'zh_CN';
 
-  static m0(name) => "回复 @${name}";
+  static m0(name) => "确定删除该账号 (${name}) 吗?";
 
-  static m1(count) => "共 ${count} 话";
+  static m1(name) => "回复 @${name}";
 
-  static m2(size) => "更新至 ${size} 话";
+  static m2(count) => "共 ${count} 话";
+
+  static m3(size) => "更新至 ${size} 话";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -55,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'birthday': MessageLookupByLibrary.simpleMessage('生日'),
     'bookmarkCountNotPremium': MessageLookupByLibrary.simpleMessage('收藏数(非会员)'),
     'bookmarksCount': MessageLookupByLibrary.simpleMessage('收藏数'),
+    'cancel': MessageLookupByLibrary.simpleMessage('取消'),
     'cancelFollow': MessageLookupByLibrary.simpleMessage('取消关注'),
     'chair': MessageLookupByLibrary.simpleMessage('椅子'),
     'changelog': MessageLookupByLibrary.simpleMessage('更新日志'),
@@ -66,6 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'computer': MessageLookupByLibrary.simpleMessage('电脑'),
     'copiedToClipboard': MessageLookupByLibrary.simpleMessage('已复制到剪贴板'),
     'copyLink': MessageLookupByLibrary.simpleMessage('复制链接'),
+    'current': MessageLookupByLibrary.simpleMessage('当前'),
     'currentIsLatestVersion': MessageLookupByLibrary.simpleMessage('当前已经是最新版本'),
     'currentVersion': MessageLookupByLibrary.simpleMessage('当前版本'),
     'customImageHosting': MessageLookupByLibrary.simpleMessage('自定义图片源（图床）'),
@@ -75,12 +79,15 @@ class MessageLookup extends MessageLookupByLibrary {
     'dartModeSettingsTitle': MessageLookupByLibrary.simpleMessage('深色模式设置'),
     'defaultNoProxy': MessageLookupByLibrary.simpleMessage('不使用代理（默认）'),
     'delete': MessageLookupByLibrary.simpleMessage('删除'),
+    'deleteAccount': MessageLookupByLibrary.simpleMessage('删除账号'),
+    'deleteAccountPromptMessage': m0,
     'deleteFailed': MessageLookupByLibrary.simpleMessage('删除失败'),
     'deleteSuccess': MessageLookupByLibrary.simpleMessage('删除成功'),
     'directConnectionHint': MessageLookupByLibrary.simpleMessage('该功能暂不支持网页登录'),
     'doubleBackToExitPrompt': MessageLookupByLibrary.simpleMessage('连续返回两次退出程序'),
     'downloadLink': MessageLookupByLibrary.simpleMessage('下载链接'),
     'downloads': MessageLookupByLibrary.simpleMessage('下载'),
+    'edit': MessageLookupByLibrary.simpleMessage('编辑'),
     'editCollection': MessageLookupByLibrary.simpleMessage('编辑收藏'),
     'editCollectionFailed': MessageLookupByLibrary.simpleMessage('编辑收藏失败！'),
     'editCollectionSucceed': MessageLookupByLibrary.simpleMessage('编辑收藏成功！'),
@@ -110,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'location': MessageLookupByLibrary.simpleMessage('地理位置'),
     'login': MessageLookupByLibrary.simpleMessage('登录'),
     'loginFailed': MessageLookupByLibrary.simpleMessage('登录失败！'),
+    'loginOtherAccount': MessageLookupByLibrary.simpleMessage('登录其他账号'),
     'loginSuccess': MessageLookupByLibrary.simpleMessage('登录成功!'),
     'male': MessageLookupByLibrary.simpleMessage('男'),
     'manga': MessageLookupByLibrary.simpleMessage('漫画'),
@@ -171,7 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'removeCollectionFailed': MessageLookupByLibrary.simpleMessage('移除收藏失败！'),
     'removeCollectionSucceed': MessageLookupByLibrary.simpleMessage('移除收藏成功！'),
     'reply': MessageLookupByLibrary.simpleMessage('回复'),
-    'replyHint': m0,
+    'replyHint': m1,
     'requestFailed': MessageLookupByLibrary.simpleMessage('网络不给力，请尝试重新加载'),
     'retryOnFailure': MessageLookupByLibrary.simpleMessage('点击重试'),
     'scanner': MessageLookupByLibrary.simpleMessage('扫描仪'),
@@ -189,8 +197,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'sendSuccess': MessageLookupByLibrary.simpleMessage('发布成功'),
     'series': MessageLookupByLibrary.simpleMessage('系列'),
     'seriesLatestChapter': MessageLookupByLibrary.simpleMessage('最新话'),
-    'seriesTotals': m1,
-    'seriesUpdateTo': m2,
+    'seriesTotals': m2,
+    'seriesUpdateTo': m3,
     'settings': MessageLookupByLibrary.simpleMessage('设置'),
     'showAiResult': MessageLookupByLibrary.simpleMessage('显示 AI 作品'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('社交媒体'),
@@ -201,7 +209,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'space': MessageLookupByLibrary.simpleMessage('空间'),
     'stickers': MessageLookupByLibrary.simpleMessage('表情贴图'),
     'submitWork': MessageLookupByLibrary.simpleMessage('投稿作品'),
-    'switchAccount': MessageLookupByLibrary.simpleMessage('切换账户'),
+    'switchAccount': MessageLookupByLibrary.simpleMessage('切换账号'),
+    'tabToSwitchAccount': MessageLookupByLibrary.simpleMessage('轻点卡片以切换账号'),
     'table': MessageLookupByLibrary.simpleMessage('桌子'),
     'tablet': MessageLookupByLibrary.simpleMessage('数位板'),
     'tagAlreadyExists': MessageLookupByLibrary.simpleMessage('该标签已存在！'),

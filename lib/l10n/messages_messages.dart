@@ -21,11 +21,13 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'messages';
 
-  static m0(name) => "Reply @${name}";
+  static m0(name) => "Are you sure to delete this account (${name}) ?";
 
-  static m1(count) => "${count} chapters in total";
+  static m1(name) => "Reply @${name}";
 
-  static m2(size) => "Updated to chapter ${size}";
+  static m2(count) => "${count} chapters in total";
+
+  static m3(size) => "Updated to chapter ${size}";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -55,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'birthday': MessageLookupByLibrary.simpleMessage('Birthday'),
     'bookmarkCountNotPremium': MessageLookupByLibrary.simpleMessage('Bookmark count (Not premium)'),
     'bookmarksCount': MessageLookupByLibrary.simpleMessage('Bookmark count'),
+    'cancel': MessageLookupByLibrary.simpleMessage('Cancel'),
     'cancelFollow': MessageLookupByLibrary.simpleMessage('Cancel follow'),
     'chair': MessageLookupByLibrary.simpleMessage('Chair'),
     'changelog': MessageLookupByLibrary.simpleMessage('Changelog'),
@@ -66,6 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'computer': MessageLookupByLibrary.simpleMessage('Computer'),
     'copiedToClipboard': MessageLookupByLibrary.simpleMessage('Copied to clipboard'),
     'copyLink': MessageLookupByLibrary.simpleMessage('Copy link'),
+    'current': MessageLookupByLibrary.simpleMessage('Current'),
     'currentIsLatestVersion': MessageLookupByLibrary.simpleMessage('It is currently the latest version'),
     'currentVersion': MessageLookupByLibrary.simpleMessage('Current version'),
     'customImageHosting': MessageLookupByLibrary.simpleMessage('Custom image hosting'),
@@ -75,12 +79,15 @@ class MessageLookup extends MessageLookupByLibrary {
     'dartModeSettingsTitle': MessageLookupByLibrary.simpleMessage('Dark Mode Settings'),
     'defaultNoProxy': MessageLookupByLibrary.simpleMessage('No proxy (default)'),
     'delete': MessageLookupByLibrary.simpleMessage('Delete'),
+    'deleteAccount': MessageLookupByLibrary.simpleMessage('Delete account'),
+    'deleteAccountPromptMessage': m0,
     'deleteFailed': MessageLookupByLibrary.simpleMessage('Delete failed'),
     'deleteSuccess': MessageLookupByLibrary.simpleMessage('Delete success'),
     'directConnectionHint': MessageLookupByLibrary.simpleMessage('This feature does not currently support login by web'),
     'doubleBackToExitPrompt': MessageLookupByLibrary.simpleMessage('Double back to confirm exit.'),
     'downloadLink': MessageLookupByLibrary.simpleMessage('Download link'),
     'downloads': MessageLookupByLibrary.simpleMessage('Download'),
+    'edit': MessageLookupByLibrary.simpleMessage('Edit'),
     'editCollection': MessageLookupByLibrary.simpleMessage('Edit collection'),
     'editCollectionFailed': MessageLookupByLibrary.simpleMessage('Edit collection failed!'),
     'editCollectionSucceed': MessageLookupByLibrary.simpleMessage('Edit collection succeed!'),
@@ -112,6 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'location': MessageLookupByLibrary.simpleMessage('Location'),
     'login': MessageLookupByLibrary.simpleMessage('Login'),
     'loginFailed': MessageLookupByLibrary.simpleMessage('Login failed!'),
+    'loginOtherAccount': MessageLookupByLibrary.simpleMessage('Login other account'),
     'loginSuccess': MessageLookupByLibrary.simpleMessage('Login success!'),
     'male': MessageLookupByLibrary.simpleMessage('Male'),
     'manga': MessageLookupByLibrary.simpleMessage('Manga'),
@@ -173,7 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'removeCollectionFailed': MessageLookupByLibrary.simpleMessage('Remove collection failed!'),
     'removeCollectionSucceed': MessageLookupByLibrary.simpleMessage('Remove collection succeed!'),
     'reply': MessageLookupByLibrary.simpleMessage('Reply'),
-    'replyHint': m0,
+    'replyHint': m1,
     'requestFailed': MessageLookupByLibrary.simpleMessage('Poor network, please try reloading'),
     'retryOnFailure': MessageLookupByLibrary.simpleMessage('Click to try again'),
     'scanner': MessageLookupByLibrary.simpleMessage('Scanner'),
@@ -191,8 +199,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'sendSuccess': MessageLookupByLibrary.simpleMessage('Send success'),
     'series': MessageLookupByLibrary.simpleMessage('Series'),
     'seriesLatestChapter': MessageLookupByLibrary.simpleMessage('Latest'),
-    'seriesTotals': m1,
-    'seriesUpdateTo': m2,
+    'seriesTotals': m2,
+    'seriesUpdateTo': m3,
     'settings': MessageLookupByLibrary.simpleMessage('Settings'),
     'showAiResult': MessageLookupByLibrary.simpleMessage('Show AI'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('Social Media'),
@@ -204,6 +212,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'stickers': MessageLookupByLibrary.simpleMessage('Stickers'),
     'submitWork': MessageLookupByLibrary.simpleMessage('Submit Work'),
     'switchAccount': MessageLookupByLibrary.simpleMessage('Switch account'),
+    'tabToSwitchAccount': MessageLookupByLibrary.simpleMessage('Tap card to switch account'),
     'table': MessageLookupByLibrary.simpleMessage('Table'),
     'tablet': MessageLookupByLibrary.simpleMessage('Graphic tablet'),
     'tagAlreadyExists': MessageLookupByLibrary.simpleMessage('Tag already exists!'),

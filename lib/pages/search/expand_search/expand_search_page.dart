@@ -221,7 +221,6 @@ class _ExpandSearchPageState extends BasePageState<ExpandSearchPage> {
   }
 
   predictiveSearch() {
-    print("onSearchInput");
     final searchType = ref.read(searchTypeProvider);
     if (searchType == SearchType.artwork || searchType == SearchType.novel) {
       ref.read(predictiveSearchWorksProvider.notifier).search(ref.read(searchInputProvider));

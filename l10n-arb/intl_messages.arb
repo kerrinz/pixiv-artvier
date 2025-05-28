@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-05-25T00:49:40.503682",
+  "@@last_modified": "2025-05-28T19:30:24.593349",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -63,6 +63,12 @@
   "account": "Account",
   "@account": {
     "description": "Title of user account",
+    "type": "text",
+    "placeholders": {}
+  },
+  "current": "Current",
+  "@current": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },
@@ -170,6 +176,18 @@
   },
   "not": "Not",
   "@not": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "edit": "Edit",
+  "@edit": {
     "description": "",
     "type": "text",
     "placeholders": {}
@@ -390,12 +408,6 @@
     "type": "text",
     "placeholders": {}
   },
-  "switchAccount": "Switch account",
-  "@switchAccount": {
-    "description": "A preference item",
-    "type": "text",
-    "placeholders": {}
-  },
   "quickSettingsTitle": "Quick settings",
   "@quickSettingsTitle": {
     "description": "The title of settings list",
@@ -575,6 +587,40 @@
     "description": "",
     "type": "text",
     "placeholders": {}
+  },
+  "switchAccount": "Switch account",
+  "@switchAccount": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tabToSwitchAccount": "Tap card to switch account",
+  "@tabToSwitchAccount": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginOtherAccount": "Login other account",
+  "@loginOtherAccount": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteAccount": "Delete account",
+  "@deleteAccount": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteAccountPromptMessage": "Are you sure to delete this account ({name}) ?",
+  "@deleteAccountPromptMessage": {
+    "description": "",
+    "type": "text",
+    "placeholders": {
+      "name": {
+        "example": "username"
+      }
+    }
   },
   "follow": "Follow",
   "@follow": {

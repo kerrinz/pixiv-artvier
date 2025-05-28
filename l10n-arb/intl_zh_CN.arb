@@ -67,6 +67,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "current": "当前",
+  "@current": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "illust": "插画",
   "@illust": {
     "description": "An option of works type",
@@ -171,6 +177,18 @@
   },
   "not": "否",
   "@not": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "cancel": "取消",
+  "@cancel": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "edit": "编辑",
+  "@edit": {
     "description": "",
     "type": "text",
     "placeholders": {}
@@ -391,12 +409,6 @@
     "type": "text",
     "placeholders": {}
   },
-  "switchAccount": "切换账户",
-  "@switchAccount": {
-    "description": "A preference item",
-    "type": "text",
-    "placeholders": {}
-  },
   "quickSettingsTitle": "快捷设置",
   "@quickSettingsTitle": {
     "description": "The title of settings list",
@@ -564,6 +576,40 @@
     "description": "",
     "type": "text",
     "placeholders": {}
+  },
+  "switchAccount": "切换账号",
+  "@switchAccount": {
+    "description": "A preference item",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tabToSwitchAccount": "轻点卡片以切换账号",
+  "@tabToSwitchAccount": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginOtherAccount": "登录其他账号",
+  "@loginOtherAccount": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteAccount": "删除账号",
+  "@deleteAccount": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteAccountPromptMessage": "确定删除该账号 ({name}) 吗?",
+  "@deleteAccountPromptMessage": {
+    "description": "",
+    "type": "text",
+    "placeholders": {
+      "name": {
+        "example": "username"
+      }
+    }
   },
   "follow": "关注",
   "@follow": {

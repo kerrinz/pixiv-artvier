@@ -43,7 +43,6 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                           ? 10
                           : (ref.read(novelViewerSettings).textSize - 10) / 20,
                       onChanged: (double value) {
-                        print(value);
                         ref.read(novelViewerSettings.notifier).changeTextSize(10 + value * 20);
                       },
                       divisions: textSizeList),
