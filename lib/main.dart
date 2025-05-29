@@ -52,6 +52,7 @@ beforeRunApp() async {
   };
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp, // 除特定页面外，仅允许竖屏
+    DeviceOrientation.portraitDown,
   ]);
 }
 
