@@ -43,8 +43,12 @@ class _ImageViewerPageState extends BasePageState<ImageViewerPage>
 
   @override
   void dispose() {
-    super.dispose();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     _pageController.dispose();
+    super.dispose();
   }
 
   @override
