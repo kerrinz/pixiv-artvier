@@ -2,6 +2,10 @@ import 'dart:math';
 
 import 'package:artvier/business_component/listview/novel_listview/novel_list.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/global/model/account_profile/account_profile.dart';
+import 'package:artvier/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
+import 'package:artvier/global/provider/collection_state_provider.dart';
+import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/provider/home_novel_provider.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
@@ -28,12 +32,36 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   int size = 20;
 
+  bool keepAlive = true;
+
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => keepAlive;
+
+  /// 首页漫画的加载状态
+  final homeNovelStateProvider = StateNotifierProvider<HomeNovelStateNotifier, PageState>((ref) {
+    // // 监听全局收藏状态的变化，更新列表
+    ref.listen<CollectStateChangedArguments?>(globalNovelCollectionStateChangedProvider, (previous, next) {
+      if (next != null) {
+        var list = ref.read(homeNovelRecommendedProvider);
+        int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
+        if (index >= 0 && index < list.length) {
+          var newItem = list[index]
+            ..isBookmarked = next.state == CollectState.collected
+            ..collectState = next.state;
+          ref.read(homeNovelRecommendedProvider.notifier).update(list..[index] = newItem);
+        }
+      }
+    });
+    return HomeNovelStateNotifier(PageState.loading, ref: ref)..init();
+  });
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    ref.listen<AccountProfile?>(globalCurrentAccountProvider, (previous, next) {
+      keepAlive = false;
+      updateKeepAlive();
+    });
     return RefreshIndicator(
       onRefresh: () async => ref.read(homeNovelStateProvider.notifier).refresh(),
       child: Consumer(builder: (_, ref, __) {

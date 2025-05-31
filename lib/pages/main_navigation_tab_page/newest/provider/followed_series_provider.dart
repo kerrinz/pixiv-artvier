@@ -14,11 +14,6 @@ final followedSeriesWorksTypeProvider = StateProvider<WorksType>((ref) {
   return WorksType.illust;
 });
 
-/// 追更的漫画系列
-final followedMangeSeriesProvider = AsyncNotifierProvider<FollowedMangeSeriesNotifier, List<MangaSeries>>(() {
-  return FollowedMangeSeriesNotifier();
-});
-
 class FollowedMangeSeriesNotifier extends BaseAsyncNotifier<List<MangaSeries>>
     implements AsyncListNotifier<List<MangaSeries>> {
   CancelToken cancelToken = CancelToken();
@@ -52,11 +47,6 @@ class FollowedMangeSeriesNotifier extends BaseAsyncNotifier<List<MangaSeries>>
     return nextUrl != null;
   }
 }
-
-/// 追更的小说系列
-final followedNovelSeriesProvider = AsyncNotifierProvider<FollowedNovelSeriesNotifier, List<NovelSeries>>(() {
-  return FollowedNovelSeriesNotifier();
-});
 
 class FollowedNovelSeriesNotifier extends BaseAsyncNotifier<List<NovelSeries>>
     implements AsyncListNotifier<List<NovelSeries>> {

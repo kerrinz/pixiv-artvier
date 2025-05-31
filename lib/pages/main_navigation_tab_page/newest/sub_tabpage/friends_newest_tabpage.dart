@@ -26,6 +26,15 @@ class _FriendsNewestTabPageState extends BasePageState<FriendsNewestTabPage> wit
     WorksType.novel,
   ];
 
+  /// 好P友的最新美术作品（插画 + 漫画）
+  final friendsNewestArtworksProvider =
+      AsyncNotifierProvider<FriendsNewestArtworksNotifier, List<CommonIllust>>(FriendsNewestArtworksNotifier.new);
+
+  /// 好P友的最新小说
+  final friendsNewestNovelsProvider = AsyncNotifierProvider<FriendsNewestNovelsNotifier, List<CommonNovel>>(() {
+    return FriendsNewestNovelsNotifier();
+  });
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -78,9 +87,9 @@ class _FriendsNewestTabPageState extends BasePageState<FriendsNewestTabPage> wit
             builder: (context, value, child) {
               final worksType = ref.watch(friendsNewestWorksTypeProvider);
               if (worksType == WorksType.novel) {
-                return const FriendsNewestNovelPageView();
+                return FriendsNewestNovelPageView(provider: friendsNewestNovelsProvider);
               } else {
-                return const FriendsNewestIllustPageView();
+                return FriendsNewestIllustPageView(provider: friendsNewestArtworksProvider);
               }
             },
           ),
@@ -94,7 +103,9 @@ class _FriendsNewestTabPageState extends BasePageState<FriendsNewestTabPage> wit
 }
 
 class FriendsNewestIllustPageView extends ConsumerStatefulWidget {
-  const FriendsNewestIllustPageView({super.key});
+  const FriendsNewestIllustPageView({super.key, required this.provider});
+
+  final AsyncNotifierProvider<FriendsNewestArtworksNotifier, List<CommonIllust>> provider;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _FriendsNewestIllustPageViewState();
@@ -108,20 +119,20 @@ class _FriendsNewestIllustPageViewState extends ConsumerState<FriendsNewestIllus
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final list = ref.watch(friendsNewestArtworksProvider);
+    final list = ref.watch(widget.provider);
     return list.when(
       loading: () => const SliverToBoxAdapter(child: Center(child: RequestLoading())),
       error: (Object error, StackTrace stackTrace) => SliverToBoxAdapter(
         child: Center(
           child: RequestLoadingFailed(
-            onRetry: () async => ref.read(friendsNewestArtworksProvider.notifier).reload(),
+            onRetry: () async => ref.read(widget.provider.notifier).reload(),
           ),
         ),
       ),
       data: (List<CommonIllust> data) {
         return SliverIllustWaterfallGridView(
           artworkList: data,
-          onLazyload: () async => ref.read(friendsNewestArtworksProvider.notifier).next(),
+          onLazyload: () async => ref.read(widget.provider.notifier).next(),
         );
       },
     );
@@ -129,7 +140,9 @@ class _FriendsNewestIllustPageViewState extends ConsumerState<FriendsNewestIllus
 }
 
 class FriendsNewestNovelPageView extends ConsumerStatefulWidget {
-  const FriendsNewestNovelPageView({super.key});
+  const FriendsNewestNovelPageView({super.key, required this.provider});
+
+  final AsyncNotifierProvider<FriendsNewestNovelsNotifier, List<CommonNovel>> provider;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _FriendsNewestNovelPageViewState();
@@ -142,20 +155,20 @@ class _FriendsNewestNovelPageViewState extends ConsumerState<FriendsNewestNovelP
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final list = ref.watch(friendsNewestNovelsProvider);
+    final list = ref.watch(widget.provider);
     return list.when(
       loading: () => const SliverToBoxAdapter(child: Center(child: RequestLoading())),
       error: (Object error, StackTrace stackTrace) => SliverToBoxAdapter(
         child: Center(
           child: RequestLoadingFailed(
-            onRetry: () async => ref.read(friendsNewestNovelsProvider.notifier).reload(),
+            onRetry: () async => ref.read(widget.provider.notifier).reload(),
           ),
         ),
       ),
       data: (List<CommonNovel> data) {
         return SliverNovelListView(
           novelList: data,
-          onLazyload: () async => ref.read(friendsNewestNovelsProvider.notifier).next(),
+          onLazyload: () async => ref.read(widget.provider.notifier).next(),
         );
       },
     );

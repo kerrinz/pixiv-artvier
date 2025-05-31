@@ -33,6 +33,16 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
 
   final dropDownMenuController = DropDownMenuController();
 
+  /// 关注用户的最新美术作品（插画 + 漫画）
+  final followedNewestArtworksProvider = AsyncNotifierProvider<FollowedNewestArtworksNotifier, List<CommonIllust>>(() {
+    return FollowedNewestArtworksNotifier();
+  });
+
+  /// 关注用户的最新小说
+  final followedNewestNovelsProvider = AsyncNotifierProvider<FollowedNewestNovelsNotifier, List<CommonNovel>>(() {
+    return FollowedNewestNovelsNotifier();
+  });
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -167,9 +177,9 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
             builder: (context, value, child) {
               final worksType = ref.watch(followedNewestWorksTypeProvider);
               if (worksType == WorksType.novel) {
-                return const FollowedNewestNovelPageView();
+                return FollowedNewestNovelPageView(provider: followedNewestNovelsProvider);
               } else {
-                return const FollowedNewestIllustPageView();
+                return FollowedNewestIllustPageView(provider: followedNewestArtworksProvider);
               }
             },
           ),
@@ -178,12 +188,19 @@ class _FollowedNewestTabPageState extends BasePageState<FollowedNewestTabPage>
     );
   }
 
+  bool keepAlive = true;
+
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => keepAlive;
 }
 
 class FollowedNewestIllustPageView extends ConsumerStatefulWidget {
-  const FollowedNewestIllustPageView({super.key});
+  const FollowedNewestIllustPageView({
+    super.key,
+    required this.provider,
+  });
+
+  final AsyncNotifierProvider<FollowedNewestArtworksNotifier, List<CommonIllust>> provider;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _FollowedNewestIllustPageViewState();
@@ -197,13 +214,13 @@ class _FollowedNewestIllustPageViewState extends ConsumerState<FollowedNewestIll
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final list = ref.watch(followedNewestArtworksProvider);
+    final list = ref.watch(widget.provider);
     return list.when(
       loading: () => const SliverToBoxAdapter(child: Center(child: RequestLoading())),
       error: (Object error, StackTrace stackTrace) => SliverToBoxAdapter(
         child: Center(
           child: RequestLoadingFailed(
-            onRetry: () async => ref.read(followedNewestArtworksProvider.notifier).reload(),
+            onRetry: () async => ref.read(widget.provider.notifier).reload(),
           ),
         ),
       ),
@@ -211,7 +228,7 @@ class _FollowedNewestIllustPageViewState extends ConsumerState<FollowedNewestIll
         return SliverIllustWaterfallGridView(
           padding: const EdgeInsets.only(left: 12.0, right: 12, top: 0.0),
           artworkList: data,
-          onLazyload: () async => ref.read(followedNewestArtworksProvider.notifier).next(),
+          onLazyload: () async => ref.read(widget.provider.notifier).next(),
         );
       },
     );
@@ -219,7 +236,9 @@ class _FollowedNewestIllustPageViewState extends ConsumerState<FollowedNewestIll
 }
 
 class FollowedNewestNovelPageView extends ConsumerStatefulWidget {
-  const FollowedNewestNovelPageView({super.key});
+  const FollowedNewestNovelPageView({super.key, required this.provider});
+
+  final AsyncNotifierProvider<FollowedNewestNovelsNotifier, List<CommonNovel>> provider;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _FollowedNewestNovelPageViewState();
@@ -229,16 +248,17 @@ class _FollowedNewestNovelPageViewState extends ConsumerState<FollowedNewestNove
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final list = ref.watch(followedNewestNovelsProvider);
+    final list = ref.watch(widget.provider);
     return list.when(
       loading: () => const SliverToBoxAdapter(child: Center(child: RequestLoading())),
       error: (Object error, StackTrace stackTrace) => SliverToBoxAdapter(
         child: Center(
           child: RequestLoadingFailed(
-            onRetry: () async => ref.read(followedNewestNovelsProvider.notifier).reload(),
+            onRetry: () async => ref.read(widget.provider.notifier).reload(),
           ),
         ),
       ),
@@ -246,7 +266,7 @@ class _FollowedNewestNovelPageViewState extends ConsumerState<FollowedNewestNove
         return SliverNovelListView(
           padding: const EdgeInsets.only(left: 12.0, right: 12, top: 0.0),
           novelList: data,
-          onLazyload: () async => ref.read(followedNewestNovelsProvider.notifier).next(),
+          onLazyload: () async => ref.read(widget.provider.notifier).next(),
         );
       },
     );
