@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
+import 'package:artvier/global/provider/collection_state_provider.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/widgets/pixivision_carousel.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
@@ -31,6 +33,24 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
   @override
   bool get wantKeepAlive => true;
 
+  /// 首页的加载状态
+  final homeIllustStateProvider = StateNotifierProvider<HomeIllustStateNotifier, PageState>((ref) {
+    // // 监听全局收藏状态的变化，更新列表
+    ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
+      if (next != null) {
+        var list = ref.read(homeIllustRecommendedProvider);
+        int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
+        if (index >= 0 && index < list.length) {
+          var newItem = list[index]
+            ..isBookmarked = next.state == CollectState.collected
+            ..collectState = next.state;
+          ref.read(homeIllustRecommendedProvider.notifier).update(list..[index] = newItem);
+        }
+      }
+    });
+    return HomeIllustStateNotifier(PageState.loading, ref: ref)..init();
+  });
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -48,7 +68,8 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
                     case PageState.loading:
                       return const RequestLoading();
                     default:
-                      return RequestLoadingFailed(onRetry: () async => ref.read(homeIllustStateProvider.notifier).init());
+                      return RequestLoadingFailed(
+                          onRetry: () async => ref.read(homeIllustStateProvider.notifier).init());
                   }
                 },
               ),

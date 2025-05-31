@@ -13,20 +13,6 @@ final everybodyNewestWorksTypeProvider = StateProvider<WorksType>((ref) {
   return WorksType.illust;
 });
 
-/// 全站插画作品
-final everybodyNewestIllustsProvider = AsyncNotifierProvider<EverybodyNewestIllustsNotifier, List<CommonIllust>>(
-  () => EverybodyNewestIllustsNotifier(),
-);
-
-/// 全站插漫画作品
-final everybodyNewestMangaProvider = AsyncNotifierProvider<EverybodyNewestMangesNotifier, List<CommonIllust>>(
-  () => EverybodyNewestMangesNotifier(),
-);
-
-/// 全站小说作品作品
-final everybodyNewestNovelsProvider =
-    AsyncNotifierProvider<EverybodyNewestNovelsNotifier, List<CommonNovel>>(EverybodyNewestNovelsNotifier.new);
-
 class EverybodyNewestIllustsNotifier extends BaseAsyncNotifier<List<CommonIllust>> with IllustListAsyncNotifierMixin {
   @override
   FutureOr<List<CommonIllust>> build() async {

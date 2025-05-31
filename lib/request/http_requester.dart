@@ -23,7 +23,6 @@ class HttpRequester {
     _dio = Dio(baseOptions ?? defaultBaseOptions);
     _dio.interceptors.clear();
     _dio.interceptors.add(AuthorizationInterceptor(ref));
-    // TODO: 可能可以使用watch替代，待测试
     if (ref.read(globalCurrentAccountProvider) != null) {
       resetAuthorization(accessToken: ref.read(globalCurrentAccountProvider)!.accessToken);
     }

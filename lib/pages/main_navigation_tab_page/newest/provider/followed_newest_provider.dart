@@ -28,16 +28,6 @@ final followedNewestRestrictAllProvider = StateProvider<RestrictAll>((ref) {
   return RestrictAll.all;
 });
 
-/// 关注用户的最新美术作品（插画 + 漫画）
-final followedNewestArtworksProvider = AsyncNotifierProvider<FollowedNewestArtworksNotifier, List<CommonIllust>>(() {
-  return FollowedNewestArtworksNotifier();
-});
-
-/// 关注用户的最新小说
-final followedNewestNovelsProvider = AsyncNotifierProvider<FollowedNewestNovelsNotifier, List<CommonNovel>>(() {
-  return FollowedNewestNovelsNotifier();
-});
-
 /// 关注用户的最新美术作品
 class FollowedNewestArtworksNotifier extends BaseAsyncNotifier<List<CommonIllust>> with IllustListAsyncNotifierMixin {
   late RestrictAll restrictFilter;

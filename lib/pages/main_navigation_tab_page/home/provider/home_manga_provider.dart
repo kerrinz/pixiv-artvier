@@ -2,29 +2,9 @@ import 'package:artvier/api_app/api_illusts.dart';
 import 'package:artvier/base/base_provider/base_notifier.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/global/logger.dart';
-import 'package:artvier/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
-import 'package:artvier/global/provider/collection_state_provider.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
 import 'package:artvier/model_response/illusts/pixivision/spotlight_articles.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-/// 首页漫画的加载状态
-final homeMangaStateProvider = StateNotifierProvider<HomeMangaStateNotifier, PageState>((ref) {
-  // // 监听全局收藏状态的变化，更新列表
-  ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
-    if (next != null) {
-      var list = ref.read(homeMangaRecommendedProvider);
-      int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
-      if (index >= 0 && index < list.length) {
-        var newItem = list[index]
-          ..isBookmarked = next.state == CollectState.collected
-          ..collectState = next.state;
-        ref.read(homeMangaRecommendedProvider.notifier).update(list..[index] = newItem);
-      }
-    }
-  });
-  return HomeMangaStateNotifier(PageState.loading, ref: ref)..init();
-});
 
 /// 首页漫画的加载状态
 class HomeMangaStateNotifier extends BaseStateNotifier<PageState> {

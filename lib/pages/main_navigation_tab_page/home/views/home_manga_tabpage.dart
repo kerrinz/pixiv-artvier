@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/global/model/collect_state_changed_arguments/collect_state_changed_arguments.dart';
+import 'package:artvier/global/provider/collection_state_provider.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/provider/home_manga_provider.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/widgets/pixivision_carousel.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -31,6 +33,23 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
   @override
   bool get wantKeepAlive => true;
 
+  /// 首页漫画的加载状态
+  final homeMangaStateProvider = StateNotifierProvider<HomeMangaStateNotifier, PageState>((ref) {
+    // // 监听全局收藏状态的变化，更新列表
+    ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
+      if (next != null) {
+        var list = ref.read(homeMangaRecommendedProvider);
+        int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
+        if (index >= 0 && index < list.length) {
+          var newItem = list[index]
+            ..isBookmarked = next.state == CollectState.collected
+            ..collectState = next.state;
+          ref.read(homeMangaRecommendedProvider.notifier).update(list..[index] = newItem);
+        }
+      }
+    });
+    return HomeMangaStateNotifier(PageState.loading, ref: ref)..init();
+  });
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -48,7 +67,8 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
                     case PageState.loading:
                       return const RequestLoading();
                     default:
-                      return RequestLoadingFailed(onRetry: () async => ref.read(homeMangaStateProvider.notifier).init());
+                      return RequestLoadingFailed(
+                          onRetry: () async => ref.read(homeMangaStateProvider.notifier).init());
                   }
                 },
               ),

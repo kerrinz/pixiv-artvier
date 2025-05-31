@@ -13,15 +13,6 @@ final friendsNewestWorksTypeProvider = StateProvider<WorksType>((ref) {
   return WorksType.illust;
 });
 
-/// 好P友的最新美术作品（插画 + 漫画）
-final friendsNewestArtworksProvider =
-    AsyncNotifierProvider<FriendsNewestArtworksNotifier, List<CommonIllust>>(FriendsNewestArtworksNotifier.new);
-
-/// 好P友的最新小说
-final friendsNewestNovelsProvider = AsyncNotifierProvider<FriendsNewestNovelsNotifier, List<CommonNovel>>(() {
-  return FriendsNewestNovelsNotifier();
-});
-
 class FriendsNewestArtworksNotifier extends BaseAsyncNotifier<List<CommonIllust>> with IllustListAsyncNotifierMixin {
   @override
   FutureOr<List<CommonIllust>> build() async {

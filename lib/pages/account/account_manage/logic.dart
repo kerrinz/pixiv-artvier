@@ -50,7 +50,7 @@ mixin AccountManagePageStateLogic on BasePageState<AccountManagePage> {
                 } else {
                   await notifier.switchAccount(accountList.entries.first.key);
                   if (context.mounted) {
-                    Navigator.of(context).pop();
+                    Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
                   }
                 }
               },
@@ -64,7 +64,9 @@ mixin AccountManagePageStateLogic on BasePageState<AccountManagePage> {
 
   /// 点击了帐号卡片
   void handleTapAccountCard(AccountProfile profile) {
-    ref.read(accountManageProvider.notifier).switchAccount(profile.user.id).catchError((e) {
+    ref.read(accountManageProvider.notifier).switchAccount(profile.user.id).then((value) {
+      Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+    }).catchError((e) {
       Fluttertoast.showToast(msg: "Error to Switch account!");
       logger.e(e);
     });
