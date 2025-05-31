@@ -19,7 +19,10 @@ class SettingDownloadState extends State<SettingDownload> {
         child: Container(
           // 这样解决了内容不足以支撑全屏时，滑动回弹不会回到原位的问题
           constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height - kToolbarHeight - MediaQuery.of(context).padding.top),
+            minHeight: MediaQuery.sizeOf(context).height -
+                MediaQuery.paddingOf(context).top -
+                MediaQuery.paddingOf(context).bottom,
+          ),
           child: Column(
             children: [
               Row(
