@@ -33,7 +33,9 @@ class _CheckUpdatePageState extends BasePageState<CheckUpdatePage> {
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height - kToolbarHeight - MediaQuery.of(context).padding.top,
+          height: MediaQuery.sizeOf(context).height -
+              MediaQuery.paddingOf(context).top -
+              MediaQuery.paddingOf(context).bottom,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: Column(
