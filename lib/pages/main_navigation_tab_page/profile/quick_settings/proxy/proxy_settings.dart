@@ -9,6 +9,7 @@ import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/pr
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -112,7 +113,12 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                         return CupertinoSwitch(
                           value: state.isEnabled,
                           activeColor: Theme.of(context).colorScheme.primary,
-                          onChanged: (value) async => await ref.read(globalImageHostingProvider.notifier).toggle(),
+                          onChanged: (value) async {
+                            if (Theme.of(context).platform == TargetPlatform.android) {
+                              HapticFeedback.lightImpact();
+                            }
+                            await ref.read(globalImageHostingProvider.notifier).toggle();
+                          },
                         );
                       })
                     ],
@@ -154,6 +160,9 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                       value: enable,
                       activeColor: Theme.of(context).colorScheme.primary,
                       onChanged: (value) async {
+                        if (Theme.of(context).platform == TargetPlatform.android) {
+                          HapticFeedback.lightImpact();
+                        }
                         await ref.read(globalDirectConnectionProvider.notifier).toggleDirect();
                         HttpHostOverrides().reload();
                       },

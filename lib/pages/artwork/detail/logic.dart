@@ -1,4 +1,5 @@
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -76,6 +77,7 @@ mixin ArtworkDetailPageLogic {
 
   /// 点击收藏按钮的事件
   void handleTapCollect(WidgetRef ref) {
+    HapticFeedback.lightImpact();
     var l10n = LocalizationIntl.of(ref.context);
     CollectState status = ref.read(illustDetailCollectStateProvider);
     var notifier = ref.read(illustDetailCollectStateProvider.notifier);
@@ -101,6 +103,7 @@ mixin ArtworkDetailPageLogic {
 
   // 长按收藏按钮的事件
   void handleLongTapCollect(WidgetRef ref) {
+    HapticFeedback.mediumImpact();
     var l10n = LocalizationIntl.of(ref.context);
     CollectState status = ref.read(illustDetailCollectStateProvider);
     if ([CollectState.collecting, CollectState.uncollecting].contains(status)) {

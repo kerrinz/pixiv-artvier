@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/component/perference/perference_container.dart';
 import 'package:artvier/component/perference/perference_group.dart';
@@ -30,13 +31,19 @@ class BrightnessSettingsPanel extends ConsumerWidget with _Logic {
               BrightnessSelectWidget(
                 brightness: Brightness.light,
                 isSelected: isLight,
-                onTap: () => ref.read(globalThemeModeProvider.notifier).switchThemeMode(ThemeMode.light),
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  ref.read(globalThemeModeProvider.notifier).switchThemeMode(ThemeMode.light);
+                },
               ),
               // 深色选项
               BrightnessSelectWidget(
                 brightness: Brightness.dark,
                 isSelected: !isLight,
-                onTap: () => ref.read(globalThemeModeProvider.notifier).switchThemeMode(ThemeMode.dark),
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  ref.read(globalThemeModeProvider.notifier).switchThemeMode(ThemeMode.dark);
+                },
               ),
             ],
           );
@@ -57,7 +64,12 @@ class BrightnessSettingsPanel extends ConsumerWidget with _Logic {
               // 跟随系统的开关
               value: CupertinoSwitch(
                 value: themeMode == ThemeMode.system,
-                onChanged: (value) => handleSwitchSystem(ref, value),
+                onChanged: (value) {
+                  if (Theme.of(context).platform == TargetPlatform.android) {
+                    HapticFeedback.lightImpact();
+                  }
+                  handleSwitchSystem(ref, value);
+                },
                 activeColor: Theme.of(context).colorScheme.primary,
               ),
             ),

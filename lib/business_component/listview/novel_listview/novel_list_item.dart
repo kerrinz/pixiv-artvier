@@ -1,6 +1,7 @@
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
@@ -206,6 +207,7 @@ mixin _NovelListViewItemLogic {
   });
 
   void handleTapCollect() {
+    HapticFeedback.lightImpact();
     var l10n = LocalizationIntl.of(ref.context);
     var state = ref.read(collectStateProvider);
     if (state == CollectState.notCollect) {

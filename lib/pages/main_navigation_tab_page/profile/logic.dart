@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/global/provider/themes_provider.dart';
@@ -12,6 +13,7 @@ mixin ProfileTabPageLogic on ConsumerState<ProfileTabPage> {
 
   /// 点击切换主题模式
   Future<void> handleTapThemeMode(bool isDarkMode) async {
+    HapticFeedback.lightImpact();
     ThemeMode themeMode = ref.read(globalThemeModeProvider);
     // 主题模式已跟随系统，弹窗警告
     if (themeMode == ThemeMode.system) {
