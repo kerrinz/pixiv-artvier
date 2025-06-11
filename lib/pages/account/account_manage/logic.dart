@@ -1,6 +1,7 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/pages/account/account_manage/account_manage_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/global/logger.dart';
@@ -16,11 +17,13 @@ mixin AccountManagePageStateLogic on BasePageState<AccountManagePage> {
 
   /// 编辑
   void handlePressedEdit() {
+    HapticFeedback.lightImpact();
     isEditMode.value = !isEditMode.value;
   }
 
   ///删除
   handleTapDelete(AccountProfile profile, AccountProfile? currrentProfile) {
+    HapticFeedback.lightImpact();
     showDialog<bool>(
       context: ref.context,
       builder: (context) {
@@ -64,6 +67,7 @@ mixin AccountManagePageStateLogic on BasePageState<AccountManagePage> {
 
   /// 点击了帐号卡片
   void handleTapAccountCard(AccountProfile profile) {
+    HapticFeedback.lightImpact();
     ref.read(accountManageProvider.notifier).switchAccount(profile.user.id).then((value) {
       Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
     }).catchError((e) {
@@ -73,6 +77,7 @@ mixin AccountManagePageStateLogic on BasePageState<AccountManagePage> {
   }
 
   void handleTapLoginOtherAccount() {
+    HapticFeedback.lightImpact();
     Navigator.of(ref.context).pushNamed(RouteNames.wizard.name);
   }
 }

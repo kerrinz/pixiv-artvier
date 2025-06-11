@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/model_response/illusts/illust_trending_tags.dart';
 import 'package:artvier/routes.dart';
+import 'package:flutter/services.dart';
 
 class TrendingTagsGrid extends StatelessWidget {
   final List<TrendTags> tags;
@@ -83,20 +84,23 @@ class TrendingTagsGrid extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              highlightColor: Colors.black26,
-              splashFactory: NoSplash.splashFactory,
-              onTap: () {
-                Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: item.tag);
-              },
-              onLongPress: () => Navigator.of(context).pushNamed(
-                RouteNames.artworkDetail.name,
-                arguments: IllustDetailPageArguments(
-                  illustId: item.illust.id.toString(),
-                  title: item.illust.title,
-                  detail: item.illust,
-                ),
-              ),
-            ),
+                highlightColor: Colors.black26,
+                splashFactory: NoSplash.splashFactory,
+                enableFeedback: false,
+                onTap: () {
+                  Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: item.tag);
+                },
+                onLongPress: () {
+                  HapticFeedback.mediumImpact();
+                  Navigator.of(context).pushNamed(
+                    RouteNames.artworkDetail.name,
+                    arguments: IllustDetailPageArguments(
+                      illustId: item.illust.id.toString(),
+                      title: item.illust.title,
+                      detail: item.illust,
+                    ),
+                  );
+                }),
           ),
         ),
       ],

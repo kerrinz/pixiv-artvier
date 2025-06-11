@@ -2,6 +2,7 @@ import 'package:artvier/business_component/advanced_collecting_bottom_sheet/adva
 import 'package:artvier/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/business_component/listview/illust_listview/illust_waterfall_item.dart';
@@ -48,6 +49,7 @@ mixin IllustWaterfallItemLogic on ConsumerState<IllustWaterfallItem> {
   });
 
   void handleTapCollect() {
+    HapticFeedback.lightImpact();
     var l10n = LocalizationIntl.of(ref.context);
     var state = ref.read(collectStateProvider);
     if (state == CollectState.notCollect) {
@@ -73,6 +75,7 @@ mixin IllustWaterfallItemLogic on ConsumerState<IllustWaterfallItem> {
   }
 
   void handleLongPressCollect() {
+    HapticFeedback.mediumImpact();
     var l10n = LocalizationIntl.of(ref.context);
     var state = ref.read(collectStateProvider);
     if ([CollectState.collecting, CollectState.uncollecting].contains(state)) {

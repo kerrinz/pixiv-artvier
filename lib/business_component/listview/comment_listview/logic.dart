@@ -1,6 +1,7 @@
 import 'package:artvier/business_component/listview/comment_listview/comment_listview_provider.dart';
 import 'package:artvier/model_response/illusts/illust_comments.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/config/enums.dart';
@@ -37,6 +38,7 @@ mixin CommentListViewItemLogic {
   });
 
   void handleTapCollect() {
+    HapticFeedback.lightImpact();
     var l10n = LocalizationIntl.of(ref.context);
     var state = ref.read(collectStateProvider);
     if (state == CollectState.notCollect) {
