@@ -32,6 +32,8 @@ Future<void> main() async {
       child: const MyApp(),
     ),
   );
+  // 手势栏（小白条）沉浸
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   // 状态栏无前景色的沉浸式
   SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
@@ -80,6 +82,7 @@ class MyAppState extends ConsumerState<MyApp> {
       value: SystemUiOverlayStyle(
         statusBarBrightness: reverseStatusBarBrightness,
         statusBarIconBrightness: statusBarBrightness,
+        systemNavigationBarColor: Colors.transparent,
       ),
       child: MaterialApp(
         title: ref.watch(packageInfoProvider).whenOrNull(data: (data) => data.appName) ?? "",
