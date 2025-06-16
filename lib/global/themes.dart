@@ -83,6 +83,7 @@ abstract class BaseTheme {
           shape: CircleBorder(),
         ),
         useMaterial3: true,
+        splashFactory: InkSparkle.splashFactory,        
         // textTheme: BaseTheme.textTheme,
       );
 }
