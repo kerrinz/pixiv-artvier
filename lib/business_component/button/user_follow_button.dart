@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/config/enums.dart';
@@ -77,6 +78,7 @@ class UserFollowButtonStateless extends ConsumerWidget {
   }
 
   void handlePressed(WidgetRef ref) {
+    HapticFeedback.lightImpact();
     UserFollowState state = followState;
     if ([UserFollowState.requestingFollow, UserFollowState.requestingUnfollow].contains(state)) {
       return;

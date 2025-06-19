@@ -75,7 +75,7 @@ mixin MangaGridItemLogic on ConsumerState<MangaGridItem> {
   }
 
   void handleLongPressCollect() {
-    HapticFeedback.mediumImpact();
+    HapticFeedback.lightImpact();
     var l10n = LocalizationIntl.of(ref.context);
     var state = ref.read(collectStateProvider);
     if ([CollectState.collecting, CollectState.uncollecting].contains(state)) {

@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// [tapIndex] 点击事件触发的索引
 typedef IndexTap = void Function(int tapIndex);
@@ -53,12 +54,18 @@ abstract class FlowFilterStatefulWidget extends StatelessWidget {
     for (int i = 0; i < itemCount; i++) {
       if (initialIndexes.contains(i)) {
         widgets.add(GestureDetector(
-          onTap: () => onTap(i),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            onTap(i);
+          },
           child: buildSelectedWidget(context, i),
         ));
       } else {
         widgets.add(GestureDetector(
-          onTap: () => onTap(i),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            onTap(i);
+          },
           child: buildUnselectedWidget(context, i),
         ));
       }

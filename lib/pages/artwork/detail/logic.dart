@@ -103,7 +103,7 @@ mixin ArtworkDetailPageLogic {
 
   // 长按收藏按钮的事件
   void handleLongTapCollect(WidgetRef ref) {
-    HapticFeedback.mediumImpact();
+    HapticFeedback.lightImpact();
     var l10n = LocalizationIntl.of(ref.context);
     CollectState status = ref.read(illustDetailCollectStateProvider);
     if ([CollectState.collecting, CollectState.uncollecting].contains(status)) {
