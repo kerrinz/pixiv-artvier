@@ -95,6 +95,7 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
           // UID信息
           GestureDetector(
             onTap: () {
+              HapticFeedback.lightImpact();
               // 点击复制UID
               Clipboard.setData(ClipboardData(text: userId)).then(
                 (value) => Fluttertoast.showToast(

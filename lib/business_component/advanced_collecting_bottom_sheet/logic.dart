@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/business_component/advanced_collecting_bottom_sheet/advanced_collecting_bottom_sheet.dart';
@@ -28,6 +29,7 @@ mixin AdvancedCollectingBottomSheetLogic {
 
   /// 收藏事件
   void handlePressedCollecting() {
+    HapticFeedback.lightImpact();
     try {
       var collectingProvider = worksType == WorksType.novel
           ? novelAdvancedCollectingProvider(worksId)

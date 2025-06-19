@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/config/enums.dart';
@@ -92,6 +93,7 @@ mixin FollowButtonLogic {
   StateNotifierProvider<FollowNotifier, UserFollowState> get userFollowProvider;
 
   void handlePressed(WidgetRef ref) {
+    HapticFeedback.lightImpact();
     UserFollowState state = ref.read(userFollowProvider);
     if ([UserFollowState.requestingFollow, UserFollowState.requestingUnfollow].contains(state)) {
       return;

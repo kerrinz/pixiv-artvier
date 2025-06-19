@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// [isChanged] 是否发生变化（类似Web中的onChange事件的升级版），[tapIndex] 点击事件触发的索引，[afterIndexes] 事件触发执行完毕后当前已选择项的索引列表
 typedef IndexesChanged = void Function(bool isChanged, int tapIndex, Set<int> afterIndexes);
@@ -73,6 +74,7 @@ class _FlowFilterStatefulWidgetState extends State<FlowFilterStatefulWidget> {
       if (_selectedindexes.contains(i)) {
         widgets.add(GestureDetector(
           onTap: () {
+            HapticFeedback.lightImpact();
             bool isChanged = false;
             if (widget.filterMode == FilterMode.multiple) {
               _selectedindexes.remove(i);
@@ -86,6 +88,7 @@ class _FlowFilterStatefulWidgetState extends State<FlowFilterStatefulWidget> {
       } else {
         widgets.add(GestureDetector(
           onTap: () {
+            HapticFeedback.lightImpact();
             bool isChanged = false;
             switch (widget.filterMode) {
               case FilterMode.single:
