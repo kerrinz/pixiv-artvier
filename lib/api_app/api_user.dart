@@ -177,6 +177,22 @@ class ApiUser extends ApiBase {
     return UserPreviewsList.fromJson(json.decode(res.data));
   }
 
+  /// 获取某个用户的好P友列表
+  Future<UserPreviewsList> userFriends(
+    String userId, {
+    CancelToken? cancelToken,
+  }) async {
+    Response res = await requester.get<String>(
+      "/v1/user/mypixiv",
+      queryParameters: {
+        "user_id": userId,
+      },
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return UserPreviewsList.fromJson(json.decode(res.data));
+  }
+
   /// 获取推荐用户列表
   Future<UserPreviewsList> recommendedUsers({CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
