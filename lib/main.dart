@@ -103,11 +103,13 @@ class MyAppState extends ConsumerState<MyApp> {
           LocalizationIntlDelegate(),
         ],
         supportedLocales: LocalizationIntl.supportedLocales,
-        locale: ref.watch(globalLanguageProvider),
-        // 切换系统语言时的回调函数
+        locale: ref.watch(globalLanguageProvider.select((value) => value.appLocale)), // null 时自动跟随系统
+        // 切换语言时的回调函数，包括APP内手动切换、跟随系统切换
         localeListResolutionCallback: (locales, supportedLocales) {
-          if (ref.read(globalLanguageProvider) == null) {
+          if (ref.read(globalLanguageProvider).appLocale == null) {
+            // 跟随系统切换
             Locale locale = findLocale(locales, supportedLocales);
+            ref.read(globalLanguageProvider.notifier).sytemCallback(locale);
             return locale;
           }
           return null;

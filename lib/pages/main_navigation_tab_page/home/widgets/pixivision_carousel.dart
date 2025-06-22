@@ -1,5 +1,7 @@
+import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/carousel/blur_carousel.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/global/provider/language_provider.dart';
 import 'package:artvier/model_response/illusts/pixivision/spotlight_articles.dart';
 import 'package:artvier/pages/artwork/pixivision/model/pixivision_webview_page_arguments.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -9,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Pixivsion 轮播图
-class PixivsionCarousel extends ConsumerWidget {
+class PixivsionCarousel extends BasePage {
   final List<SpotlightArticle> articleList;
 
   const PixivsionCarousel({
@@ -42,7 +44,7 @@ class PixivsionCarousel extends ConsumerWidget {
                       Navigator.of(ref.context).pushNamed(
                         RouteNames.artworkPixivition.name,
                         arguments: PixivisionWebViewPageArguments(
-                            language: "zh",
+                            language: ref.read(globalLanguageProvider).finalLocale.languageCode,
                             id: list[index].id,
                             title: list[index].title,
                             coverUrl: list[index].thumbnail),
