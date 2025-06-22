@@ -275,7 +275,8 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: () => Fluttertoast.showToast(msg: "暂未支持"),
+                    onTap: () => Navigator.pushNamed(context, RouteNames.userFriends.name,
+                        arguments: ref.read(globalCurrentAccountProvider)!.user.id),
                     child: Container(
                       color: Colors.transparent,
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
