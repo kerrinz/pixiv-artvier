@@ -33,15 +33,17 @@ class LanguageSettingPageState<LanguageSettingPage> extends BasePageState {
             children: [
               Builder(builder: (context) {
                 final globalLocale = ref.watch(globalLanguageProvider);
-                final indexOfLanguageLocale = findIndexOfLanguageLocale(globalLocale);
+                final indexOfLanguageLocale = findIndexOfLanguageLocale(globalLocale.appLocale);
                 return PerferenceSingleChoisePanel(
                   title: l10n.selectLanguage,
-                  selectedindex: globalLocale == null ? 0 : (indexOfLanguageLocale + 1),
+                  selectedindex: globalLocale.appLocale == null ? 0 : (indexOfLanguageLocale + 1),
                   onSelect: (index) {
                     if (index == 0) {
-                      ref.read(globalLanguageProvider.notifier).setLocale(null);
+                      ref.read(globalLanguageProvider.notifier).switchLocale(null);
                     } else {
-                      ref.read(globalLanguageProvider.notifier).setLocale(LocalizationIntl.supportedLocales[index - 1]);
+                      ref
+                          .read(globalLanguageProvider.notifier)
+                          .switchLocale(LocalizationIntl.supportedLocales[index - 1]);
                     }
                   },
                   widgets: <Widget>[

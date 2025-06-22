@@ -1,27 +1,31 @@
 import 'dart:ui';
 import 'package:artvier/base/base_provider/base_notifier.dart';
+import 'package:artvier/config/constants.dart';
+import 'package:artvier/global/model/language/language_model.dart';
 import 'package:artvier/global/variable.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/storage/language_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final globalLanguageProvider = StateNotifierProvider<LanguageNotivier, Locale?>((ref) {
+/// APP Language
+final globalLanguageProvider = StateNotifierProvider<LanguageNotivier, LanguageModel>((ref) {
   final languageStore = LanguageStorage(globalSharedPreferences);
   final autoLanguage = languageStore.getAutoLanguage();
-  final locale = autoLanguage ? null : languageStore.getLanguageLocale();
-  return LanguageNotivier(locale, ref: ref);
+  final locale = languageStore.getLanguageLocale();
+  return LanguageNotivier(LanguageModel(appLocale: autoLanguage ? null : locale, callbackLocale: locale), ref: ref);
 });
 
 /// Current Lanuange.
-class LanguageNotivier extends BaseStateNotifier<Locale?> {
+class LanguageNotivier extends BaseStateNotifier<LanguageModel> {
   LanguageNotivier(super.state, {required super.ref});
 
-  /// Set null to enable auto language.
-  Future<bool> setLocale(Locale? locale) async {
+  /// 切换语言
+  /// 设置 null 以使用自动跟随系统
+  Future<bool> switchLocale(Locale? locale) async {
     final languageStore = LanguageStorage(globalSharedPreferences);
     if (locale == null) {
       final result = await languageStore.setAutoLanguage(true);
-      update(null);
+      update(state.copyWith(appLocale: null));
       HttpHostOverrides().reload();
       return result;
     } else {
@@ -29,10 +33,22 @@ class LanguageNotivier extends BaseStateNotifier<Locale?> {
       final result = await languageStore.setLanguage(locale.languageCode, locale.countryCode!);
       final result2 = await languageStore.setAutoLanguage(false);
       if (result) {
-        update(locale);
+        update(state.copyWith(appLocale: locale));
         HttpHostOverrides().reload();
       }
       return result && result2;
     }
+  }
+
+  /// 当启用跟随系统后，系统切换语言的回调
+  Future<bool> sytemCallback(Locale locale) async {
+    final languageStore = LanguageStorage(globalSharedPreferences);
+    final result =
+        await languageStore.setLanguage(locale.languageCode, locale.countryCode ?? CONSTANTS.default_country_code);
+    if (result) {
+      update(state.copyWith(callbackLocale: locale));
+      HttpHostOverrides().reload();
+    }
+    return result;
   }
 }
