@@ -59,8 +59,8 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
             ),
         (context) => IconButtonModel(
               LocalizationIntl.of(context).markers,
-              Icon(Icons.bookmark_border_rounded, color: Theme.of(context).primaryColor.withOpacity(0.5), size: 26),
-              "",
+              Icon(Icons.bookmark_border_rounded, color: Theme.of(context).primaryColor, size: 26),
+              RouteNames.userMarked.name,
               ref.watch(globalCurrentAccountProvider)?.user.id,
             ),
       ];

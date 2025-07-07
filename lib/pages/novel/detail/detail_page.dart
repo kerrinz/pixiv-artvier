@@ -1,3 +1,4 @@
+import 'package:artvier/base/base_page.dart';
 import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/dialog_custom.dart';
@@ -32,7 +33,7 @@ class NovelDetailPage extends ConsumerStatefulWidget {
   }
 }
 
-class _NovelDetailState extends ConsumerState<NovelDetailPage>
+class _NovelDetailState extends BasePageState<NovelDetailPage>
     with SingleTickerProviderStateMixin, NovelDetailPageLogic, NovelDetailOverlaySettingsAnimation<NovelDetailPage> {
   @override
   get novelDetail => widget.args.detail;
@@ -40,8 +41,16 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage>
   @override
   get worksId => widget.args.worksId;
 
-  TextTheme get textTheme => Theme.of(context).textTheme;
-  ColorScheme get colorScheme => Theme.of(context).colorScheme;
+  bool _hasMountedListener = false;
+  bool _firstScrolled = false;
+
+  late final ScrollController _scrollController;
+
+  /// 章节 Keys
+  final List<GlobalKey> _chaptersKey = [];
+
+  /// 容器 Key
+  final GlobalKey _bodyKey = GlobalKey();
 
   @override
   void initState() {
@@ -50,19 +59,41 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_hasMountedListener) {
+      _scrollController = PrimaryScrollController.of(context);
+      _hasMountedListener = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ref.watch(novelDetailProvider(worksId)).when(
-            data: (detailResponse) {
-              return ref.watch(novelDetailWebViewProvider(worksId)).when(
-                  data: (data) => _buildSuccessContent(detailResponse!.novel, data!),
-                  error: (obj, error) => _buildBeforeSuccessContent(true),
-                  loading: () => _buildBeforeSuccessContent(false));
-            },
-            error: (obj, error) => _buildBeforeSuccessContent(true),
-            loading: () => _buildBeforeSuccessContent(false),
-          ),
+    final result = Scaffold(
+      body: Container(
+        key: _bodyKey, // 关键：标记页面内容区域
+        child: ref.watch(novelDetailProvider(worksId)).when(
+              data: (detailResponse) {
+                return ref.watch(novelDetailWebViewProvider(worksId)).when(
+                    data: (data) => _buildSuccessContent(detailResponse!.novel, data!),
+                    error: (obj, error) => _buildBeforeSuccessContent(true),
+                    loading: () => _buildBeforeSuccessContent(false));
+              },
+              error: (obj, error) => _buildBeforeSuccessContent(true),
+              loading: () => _buildBeforeSuccessContent(false),
+            ),
+      ),
     );
+
+    if (!_firstScrolled && widget.args.toPage != null && widget.args.toPage! > -1) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (widget.args.toPage! < _chaptersKey.length) {
+          scrollToChapter(true, widget.args.toPage!);
+          _firstScrolled = true;
+        }
+      });
+    }
+    return result;
   }
 
   Widget _buildBeforeSuccessContent(bool isFailed) {
@@ -136,9 +167,7 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage>
                 ],
               ),
             ),
-            SliverToBoxAdapter(
-              child: _buildContent(webViewData),
-            ),
+            ..._buildContent(webViewData),
           ]),
           Positioned(
             top: 0,
@@ -158,7 +187,7 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage>
                   margin: const EdgeInsets.symmetric(horizontal: 8.0),
                   onPressed: () {
                     BottomSheets.showCustomBottomSheet<bool>(
-                      context: ref.context,
+                      context: context,
                       exitOnClickModal: true,
                       enableDrag: false,
                       child: NovelDetailMenu(
@@ -174,10 +203,17 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage>
           Positioned(
             left: 0,
             right: 0,
-            bottom: 0,
+            bottom: 8,
             child: SlideTransition(
               position: overlayOffsetAnimation,
-              child: const NovelDetailOverlaySettings(),
+              child: NovelDetailOverlaySettings(
+                novel: detail,
+                webViewData: webViewData,
+                catalogCallback: (index, name) {
+                  scrollToChapter(false, index + 1);
+                  Navigator.maybeOf(context)?.pop();
+                },
+              ),
             ),
           ),
         ],
@@ -185,29 +221,92 @@ class _NovelDetailState extends ConsumerState<NovelDetailPage>
     );
   }
 
+  /// 滚动到第几章节，0是首页前的内容，1是首页
+  scrollToChapter(bool animate, int chapterIndex) {
+    RenderBox targetBox = _chaptersKey[chapterIndex].currentContext!.findRenderObject() as RenderBox;
+    RenderBox bodyBox = _bodyKey.currentContext!.findRenderObject() as RenderBox;
+
+    Offset targetPosition = targetBox.localToGlobal(Offset.zero);
+    Offset bodyPosition = bodyBox.localToGlobal(Offset.zero);
+
+    double relative = (targetPosition - bodyPosition).dy +
+        _scrollController.offset -
+        kToolbarHeight -
+        MediaQuery.paddingOf(context).top;
+    animate
+        ? _scrollController.animateTo(
+            relative,
+            duration: Durations.extralong1,
+            curve: Curves.fastEaseInToSlowEaseOut,
+          )
+        : _scrollController.jumpTo(relative);
+  }
+
   /// 小说内容
-  Widget _buildContent(NovelDetailWebView webViewData) {
+  List<Widget> _buildContent(NovelDetailWebView webViewData) {
     final settings = ref.watch(novelViewerSettings);
     final lines = webViewData.text.split('\n');
     List<InlineSpan> spanList = [];
+    // 拆分章节
+    List<List<InlineSpan>> chapters = [];
+    chapters.add([]);
+    _chaptersKey.add(GlobalKey());
+
     for (final line in lines) {
-      // if (line.contains(RegExp(r'\[pixivimage:([0-9|\-])+\]'))) {
-      //   spanList.add(const TextSpan(text: '(pixivimage)\n'));
-      // } else {
-      spanList.add(TextSpan(text: '$line\n'));
-      // }
+      // 首页
+      if (line.startsWith('[newpage]')) {
+        chapters.add([]);
+        _chaptersKey.add(GlobalKey());
+        const textSpan = TextSpan(text: '——————');
+        chapters.last.add(textSpan);
+        spanList.add(textSpan);
+        continue;
+      }
+      // 断章
+      final chapterMatch = RegExp(r'\[chapter:([^\n\]]+)\]').firstMatch(line);
+      if (line.startsWith('[chapter') && (chapterMatch?.groupCount ?? 0) > 0) {
+        final text = chapterMatch?.group(1);
+        if (text != null) {
+          chapters.add([]);
+          _chaptersKey.add(GlobalKey());
+          final textSpan =
+              TextSpan(text: '$text\n', style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold));
+          chapters.last.add(textSpan);
+          spanList.add(textSpan);
+        }
+        continue;
+      }
+      // 其他内容
+      final textSpan = TextSpan(text: '$line\n');
+      chapters.last.add(textSpan);
+      spanList.add(textSpan);
     }
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: SelectableText.rich(
-        TextSpan(children: spanList),
-        style: textTheme.bodyLarge?.copyWith(fontSize: settings.textSize),
-        onTap: () {
-          overlayShow = !overlayShow;
-          animateOverlay();
-        },
-      ),
-    );
+
+    // TextPainter textPainter = TextPainter(text: TextSpan(children: spanList), textDirection: TextDirection.ltr);
+    // textPainter.layout();
+    // final caretOffset = textPainter.getOffsetForCaret(
+    //   TextPosition(offset: 106),
+    //   Rect.zero,
+    // );
+    // print(caretOffset);
+
+    return [
+      for (int i = 0; i < chapters.length; i++)
+        SliverPadding(
+          padding: const EdgeInsets.all(20),
+          sliver: SliverToBoxAdapter(
+            child: SelectableText.rich(
+              TextSpan(children: chapters[i]),
+              key: _chaptersKey[i],
+              style: textTheme.bodyLarge?.copyWith(fontSize: settings.textSize),
+              onTap: () {
+                overlayShow = !overlayShow;
+                animateOverlay();
+              },
+            ),
+          ),
+        )
+    ];
   }
 
   Widget _buildInformation(CommonNovel detail) {

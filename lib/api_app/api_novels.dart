@@ -163,4 +163,38 @@ class ApiNovels extends ApiBase {
     );
     return res.statusCode == 200;
   }
+
+  /// 添加书签
+  /// - [restrict] 隐私限制
+  /// - [novelId] 小说id
+  /// - [tags] 附加标签
+  Future<bool> markerNovel({required String novelId, required int page, CancelToken? cancelToken}) async {
+    final baseData = {
+      'novel_id': novelId,
+      "page": page.toString(),
+    };
+    FormData formData = FormData();
+    formData.fields.addAll(baseData.entries);
+    Response res = await requester.post<String>(
+      "/v1/novel/marker/add",
+      data: formData,
+      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return res.statusCode == 200;
+  }
+
+  /// 移除书签
+  /// - [novel] 小说id
+  Future<bool> unmarkerNovel({required String novelId, CancelToken? cancelToken}) async {
+    Response res = await requester.post<String>(
+      "/v1/novel/marker/delete",
+      data: {
+        'novel_id': novelId,
+      },
+      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return res.statusCode == 200;
+  }
 }

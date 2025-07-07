@@ -10,5 +10,8 @@ class NovelDetailPageArguments with _$NovelDetailPageArguments {
     required String worksId,
     String? title,
     CommonNovel? detail,
+
+    /// 前往第几章节
+    int? toPage,
   }) = _NovelDetailPageArguments;
 }

@@ -54,59 +54,62 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
           ),
           child: GestureDetector(
             onTap: widget.onTap,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // 封面
-                _novelCover(constraints.maxWidth * 0.26, height),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        if (widget.novel.series.title != null)
-                          // 小说系列的信息栏
-                          _seriesInfo(),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // 小说标题
-                            Text(
-                              widget.novel.title,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                            ),
-                            // 作者
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 2),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.person_2_rounded, size: 16),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 2.0),
-                                    child: Text(
-                                      widget.novel.user.name,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                  ),
-                                ],
+            child: DecoratedBox(
+              decoration: const BoxDecoration(color: Colors.transparent),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // 封面
+                  _novelCover(constraints.maxWidth * 0.26, height),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          if (widget.novel.series.title != null)
+                            // 小说系列的信息栏
+                            _seriesInfo(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // 小说标题
+                              Text(
+                                widget.novel.title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                               ),
-                            ),
-                          ],
-                        ),
-                        // 小说标签
-                        _tagItems(),
-                      ],
+                              // 作者
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 2),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.person_2_rounded, size: 16),
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 2.0),
+                                      child: Text(
+                                        widget.novel.user.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          // 小说标签
+                          _tagItems(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -181,7 +184,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
           ),
           overflow: TextOverflow.ellipsis,
           softWrap: true,
-          maxLines: 2,
+          maxLines: 3,
         ),
       ],
     );

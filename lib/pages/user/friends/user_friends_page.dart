@@ -16,7 +16,7 @@ class UserFriendsPage extends BasePage {
   /// 所有的 [Restrict] 选项
   static final restrictOptions = [Restrict.public, Restrict.private];
 
-  /// 用户的关注列表
+  /// 用户的好P友列表
   late final userFriendsProvider = AsyncNotifierProvider.autoDispose<UserFriendsNotifier, List<CommonUserPreviews>>(() {
     return UserFriendsNotifier(userId: userId);
   });

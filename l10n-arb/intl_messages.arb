@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-05-28T19:30:24.593349",
+  "@@last_modified": "2025-06-25T00:48:18.007273",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -901,6 +901,18 @@
   "copyLink": "Copy link",
   "@copyLink": {
     "description": "Copy link of works",
+    "type": "text",
+    "placeholders": {}
+  },
+  "catalog": "Catalog",
+  "@catalog": {
+    "description": "catalog title of novel",
+    "type": "text",
+    "placeholders": {}
+  },
+  "novelHomepage": "Home page",
+  "@novelHomepage": {
+    "description": "first catalog title of novel",
     "type": "text",
     "placeholders": {}
   },

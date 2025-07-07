@@ -8,6 +8,7 @@ import 'package:artvier/pages/settings/all_settings/all_settings_page.dart';
 import 'package:artvier/pages/settings/check_update/check_update.dart';
 import 'package:artvier/pages/settings/develop/developer_page.dart';
 import 'package:artvier/pages/user/friends/user_friends_page.dart';
+import 'package:artvier/pages/user/marked_novels/user_marked_novels.dart';
 import 'package:artvier/pages/user/recommend/recommend_users_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:artvier/pages/account/account_manage/account_manage_page.dart';
@@ -66,6 +67,8 @@ enum RouteNames {
   userFollowing,
   userFriends,
   userDetail,
+  // 书签
+  userMarked,
   recommendUsers,
 
   /// 搜索框展开页
@@ -110,6 +113,7 @@ class Routes {
     RouteNames.userFollowing.name: (context, arguments) => UserFollowingPage(arguments!),
     RouteNames.userFriends.name: (context, arguments) => UserFriendsPage(arguments!),
     RouteNames.userDetail.name: (context, arguments) => UserDetailPage(arguments!),
+    RouteNames.userMarked.name: (context, arguments) => UserMarkedPage(),
     RouteNames.recommendUsers.name: (context, arguments) => const RecommendUsersPage(),
     RouteNames.expandSearch.name: (context, arguments) => const ExpandSearchPage(),
     RouteNames.searchResult.name: (context, arguments) => SearchResultPage(arguments!),

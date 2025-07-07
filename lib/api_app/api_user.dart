@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:artvier/model_response/novels/marker_novel.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/config/constants.dart';
@@ -225,6 +226,16 @@ class ApiUser extends ApiBase {
     return BookmarkTagList.fromJson(json.decode(res.data));
   }
 
+  /// 获取书签列表
+  Future<MarkedNovelsResponse> markedNovels({CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      "/v2/novel/markers",
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return MarkedNovelsResponse.fromJson(json.decode(res.data));
+  }
+
   /// 获取下一页用户
   Future<CommonUserPreviewsList> nextPreviewUsers(String nextUrl, {CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
@@ -243,5 +254,15 @@ class ApiUser extends ApiBase {
       cancelToken: cancelToken,
     );
     return BookmarkTagList.fromJson(json.decode(res.data));
+  }
+
+  /// 获取下一页书签
+  Future<MarkedNovelsResponse> nextMarkedNovels(String nextUrl, {CancelToken? cancelToken}) async {
+    Response res = await requester.get<String>(
+      HttpHostOverrides().appApiUrl(nextUrl),
+      options: Options(responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return MarkedNovelsResponse.fromJson(json.decode(res.data));
   }
 }
