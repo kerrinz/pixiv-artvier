@@ -1,3 +1,4 @@
+import 'package:artvier/model_response/novels/marker_novel.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +13,15 @@ import 'package:artvier/l10n/localization_intl.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 
 /// 小说瀑布流对应的列表项
-class NovelWaterfallItem extends ConsumerStatefulWidget {
-  const NovelWaterfallItem({
+class MarkedNovelWaterfallItem extends ConsumerStatefulWidget {
+  const MarkedNovelWaterfallItem({
     super.key,
-    required this.novel,
+    required this.marked,
     required this.collectState,
     required this.onTap,
   });
 
-  final CommonNovel novel;
+  final MarkedNovel marked;
 
   /// 收藏状态
   final CollectState collectState;
@@ -29,18 +30,20 @@ class NovelWaterfallItem extends ConsumerStatefulWidget {
   final VoidCallback onTap;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _NovelWaterfallItemState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MarkedNovelWaterfallItemState();
 }
 
-class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _NovelListViewItemLogic {
+class _MarkedNovelWaterfallItemState extends ConsumerState<MarkedNovelWaterfallItem>
+    with _MarkedNovelListViewItemLogic {
   @override
   CollectState get collectState => widget.collectState;
 
   @override
-  String get novelId => widget.novel.id.toString();
+  String get novelId => widget.marked.novel.id.toString();
 
   @override
   Widget build(BuildContext context) {
+    final l10n = LocalizationIntl.of(context);
     // 获取到父组件的最大支撑宽度
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -70,7 +73,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          if (widget.novel.series.title != null)
+                          if (widget.marked.novel.series.title != null)
                             // 小说系列的信息栏
                             _seriesInfo(),
                           Column(
@@ -78,7 +81,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
                             children: [
                               // 小说标题
                               Text(
-                                widget.novel.title,
+                                widget.marked.novel.title,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
@@ -92,7 +95,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 2.0),
                                       child: Text(
-                                        widget.novel.user.name,
+                                        widget.marked.novel.user.name,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(fontSize: 12),
                                       ),
@@ -104,6 +107,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
                           ),
                           // 小说标签
                           _tagItems(),
+                          Text("${l10n.markers}: P${widget.marked.novelMarker.page}"),
                         ],
                       ),
                     ),
@@ -122,7 +126,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
       borderRadius: const BorderRadius.all(Radius.circular(4)),
       child: EnhanceNetworkImage(
         image: ExtendedNetworkImageProvider(
-          HttpHostOverrides().pxImgUrl(widget.novel.imageUrls.medium),
+          HttpHostOverrides().pxImgUrl(widget.marked.novel.imageUrls.medium),
           headers: HttpHostOverrides().pximgHeaders,
           cache: true,
         ),
@@ -146,7 +150,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: Text(
-              widget.novel.series.title ?? "",
+              widget.marked.novel.series.title ?? "",
               style: const TextStyle(fontSize: 12),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
@@ -159,17 +163,17 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
 
   /// 小说标签
   Widget _tagItems() {
-    StringBuffer sb = StringBuffer("${widget.novel.textLength.toString()}字 ");
-    for (Tags tag in widget.novel.tags) {
+    StringBuffer sb = StringBuffer("${widget.marked.novel.textLength.toString()}字 ");
+    for (Tags tag in widget.marked.novel.tags) {
       sb.write("#");
-      sb.write(tag.name);
+      sb.write(tag.translatedName ?? tag.name);
       sb.write("  ");
     }
     return Wrap(
       children: [
         RichText(
           text: TextSpan(
-            text: widget.novel.xRestrict == 1 ? "R18  " : '',
+            text: widget.marked.novel.xRestrict == 1 ? "R18  " : '',
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   color: const Color(0xFFFF3855),
                   fontWeight: FontWeight.bold,
@@ -191,7 +195,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
   }
 }
 
-mixin _NovelListViewItemLogic {
+mixin _MarkedNovelListViewItemLogic {
   late CollectState collectState;
 
   late String novelId;

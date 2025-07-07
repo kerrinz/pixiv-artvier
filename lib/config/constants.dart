@@ -26,6 +26,7 @@ class CONSTANTS {
   static const String stamp_url_base = "https://s.pximg.net/common/images/stamp/generated-stamps/"; // 用于表情图片的显示
   static const String pixiv_host_url = "https://www.pixiv.net";
   static const String pixiv_account_url = "https://accounts.pixiv.net";
+  static const String novel_share_url = "https://www.pixiv.net/novel/show.php?id=";
 
   static const String proxy_default_host = "127.0.0.1";
   static const String proxy_default_port = "1080";

@@ -893,6 +893,18 @@
     "type": "text",
     "placeholders": {}
   },
+  "catalog": "目录",
+  "@catalog": {
+    "description": "catalog title of novel/book",
+    "type": "text",
+    "placeholders": {}
+  },
+  "novelHomepage": "首页",
+  "@novelHomepage": {
+    "description": "first catalog title of novel",
+    "type": "text",
+    "placeholders": {}
+  },
   "comments": "评论",
   "@comments": {
     "description": "",

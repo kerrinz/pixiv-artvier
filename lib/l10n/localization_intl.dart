@@ -236,6 +236,8 @@ class LocalizationIntl {
   String get tagsReachedMaximun => Intl.message("Maximum number of tags reached!",
       name: 'tagsReachedMaximun', desc: 'Prompt when no more tags are allowed');
   String get copyLink => Intl.message("Copy link", name: 'copyLink', desc: 'Copy link of works');
+  String get catalog => Intl.message("Catalog", name: 'catalog', desc: 'catalog title of novel');
+  String get novelHomepage => Intl.message("Home page", name: 'novelHomepage', desc: 'first catalog title of novel');
 
   // 评论页
   String get comments => Intl.message("Comments", name: 'comments', desc: '');

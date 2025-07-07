@@ -33,9 +33,8 @@ class NovelDetailMenu extends BasePage {
                   context: context,
                   text: l10n(context).copyLink,
                   icon: const Icon(Icons.link_rounded),
-                  onTap: () =>
-                      Clipboard.setData(ClipboardData(text: CONSTANTS.referer_artworks_base + detail.id.toString()))
-                          .then((value) {
+                  onTap: () => Clipboard.setData(ClipboardData(text: CONSTANTS.novel_share_url + detail.id.toString()))
+                      .then((value) {
                     Fluttertoast.showToast(
                       msg: l10n(context).copiedToClipboard,
                       toastLength: Toast.LENGTH_SHORT,

@@ -20,6 +20,9 @@ mixin _$NovelDetailPageArguments {
   String? get title => throw _privateConstructorUsedError;
   CommonNovel? get detail => throw _privateConstructorUsedError;
 
+  /// 前往第几章节
+  int? get toPage => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $NovelDetailPageArgumentsCopyWith<NovelDetailPageArguments> get copyWith =>
       throw _privateConstructorUsedError;
@@ -31,7 +34,7 @@ abstract class $NovelDetailPageArgumentsCopyWith<$Res> {
           $Res Function(NovelDetailPageArguments) then) =
       _$NovelDetailPageArgumentsCopyWithImpl<$Res, NovelDetailPageArguments>;
   @useResult
-  $Res call({String worksId, String? title, CommonNovel? detail});
+  $Res call({String worksId, String? title, CommonNovel? detail, int? toPage});
 }
 
 /// @nodoc
@@ -51,6 +54,7 @@ class _$NovelDetailPageArgumentsCopyWithImpl<$Res,
     Object? worksId = null,
     Object? title = freezed,
     Object? detail = freezed,
+    Object? toPage = freezed,
   }) {
     return _then(_value.copyWith(
       worksId: null == worksId
@@ -65,6 +69,10 @@ class _$NovelDetailPageArgumentsCopyWithImpl<$Res,
           ? _value.detail
           : detail // ignore: cast_nullable_to_non_nullable
               as CommonNovel?,
+      toPage: freezed == toPage
+          ? _value.toPage
+          : toPage // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -78,7 +86,7 @@ abstract class _$$NovelDetailPageArgumentsImplCopyWith<$Res>
       __$$NovelDetailPageArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String worksId, String? title, CommonNovel? detail});
+  $Res call({String worksId, String? title, CommonNovel? detail, int? toPage});
 }
 
 /// @nodoc
@@ -97,6 +105,7 @@ class __$$NovelDetailPageArgumentsImplCopyWithImpl<$Res>
     Object? worksId = null,
     Object? title = freezed,
     Object? detail = freezed,
+    Object? toPage = freezed,
   }) {
     return _then(_$NovelDetailPageArgumentsImpl(
       worksId: null == worksId
@@ -111,6 +120,10 @@ class __$$NovelDetailPageArgumentsImplCopyWithImpl<$Res>
           ? _value.detail
           : detail // ignore: cast_nullable_to_non_nullable
               as CommonNovel?,
+      toPage: freezed == toPage
+          ? _value.toPage
+          : toPage // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -119,7 +132,7 @@ class __$$NovelDetailPageArgumentsImplCopyWithImpl<$Res>
 
 class _$NovelDetailPageArgumentsImpl implements _NovelDetailPageArguments {
   const _$NovelDetailPageArgumentsImpl(
-      {required this.worksId, this.title, this.detail});
+      {required this.worksId, this.title, this.detail, this.toPage});
 
   @override
   final String worksId;
@@ -128,9 +141,13 @@ class _$NovelDetailPageArgumentsImpl implements _NovelDetailPageArguments {
   @override
   final CommonNovel? detail;
 
+  /// 前往第几章节
+  @override
+  final int? toPage;
+
   @override
   String toString() {
-    return 'NovelDetailPageArguments(worksId: $worksId, title: $title, detail: $detail)';
+    return 'NovelDetailPageArguments(worksId: $worksId, title: $title, detail: $detail, toPage: $toPage)';
   }
 
   @override
@@ -140,11 +157,12 @@ class _$NovelDetailPageArgumentsImpl implements _NovelDetailPageArguments {
             other is _$NovelDetailPageArgumentsImpl &&
             (identical(other.worksId, worksId) || other.worksId == worksId) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.detail, detail) || other.detail == detail));
+            (identical(other.detail, detail) || other.detail == detail) &&
+            (identical(other.toPage, toPage) || other.toPage == toPage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, worksId, title, detail);
+  int get hashCode => Object.hash(runtimeType, worksId, title, detail, toPage);
 
   @JsonKey(ignore: true)
   @override
@@ -158,7 +176,8 @@ abstract class _NovelDetailPageArguments implements NovelDetailPageArguments {
   const factory _NovelDetailPageArguments(
       {required final String worksId,
       final String? title,
-      final CommonNovel? detail}) = _$NovelDetailPageArgumentsImpl;
+      final CommonNovel? detail,
+      final int? toPage}) = _$NovelDetailPageArgumentsImpl;
 
   @override
   String get worksId;
@@ -166,6 +185,10 @@ abstract class _NovelDetailPageArguments implements NovelDetailPageArguments {
   String? get title;
   @override
   CommonNovel? get detail;
+  @override
+
+  /// 前往第几章节
+  int? get toPage;
   @override
   @JsonKey(ignore: true)
   _$$NovelDetailPageArgumentsImplCopyWith<_$NovelDetailPageArgumentsImpl>
