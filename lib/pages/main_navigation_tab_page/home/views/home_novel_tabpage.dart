@@ -285,7 +285,7 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                             Navigator.of(context).pushNamed(
                               RouteNames.novelDetail.name,
                               arguments: NovelDetailPageArguments(
-                                worksId: rankingList[index].id.toString(),
+                                novelId: rankingList[index].id.toString(),
                                 detail: rankingList[index],
                               ),
                             );

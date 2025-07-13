@@ -1,22 +1,24 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/slider/division_slider.dart';
-import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/pages/novel/detail/provider/novel_detail_provider.dart';
 import 'package:artvier/pages/novel/detail/widgets/novel_pages_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 /// 小说阅读的浮层设置
 class NovelDetailOverlaySettings extends BaseStatefulPage {
   const NovelDetailOverlaySettings({
     super.key,
-    required this.novel,
+    required this.novelId,
     required this.webViewData,
     this.catalogCallback,
   });
 
-  final CommonNovel novel;
+  final String novelId;
+
   final NovelDetailWebView webViewData;
   final NovelCatalogCallback? catalogCallback;
 
@@ -42,7 +44,9 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
             Row(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    ref.read(novelViewerSettings.notifier).minusTextSize();
+                  },
                   icon: const Icon(Icons.text_decrease_rounded),
                 ),
                 Expanded(
@@ -53,19 +57,23 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                         trackHeight: 1,
                         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8.0),
                       ),
-                      child: DivisionSlider(
-                          value: ref.read(novelViewerSettings).textSize < 10
-                              ? 10
-                              : (ref.read(novelViewerSettings).textSize - 10) / 20,
-                          onChanged: (double value) {
-                            ref.read(novelViewerSettings.notifier).changeTextSize(10 + value * 20);
-                          },
-                          divisions: textSizeList),
+                      child: Consumer(builder: (context, ref, child) {
+                        final settings = ref.watch(novelViewerSettings);
+                        final value = settings.textSize < 10 ? 0.0 : (settings.textSize - 10) / 20.0;
+                        return DivisionSlider(
+                            value: value > 1 ? 1 : (value < 0 ? 0 : value),
+                            onChanged: (double value) {
+                              ref.read(novelViewerSettings.notifier).changeTextSize(10 + value * 20);
+                            },
+                            divisions: textSizeList);
+                      }),
                     ),
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    ref.read(novelViewerSettings.notifier).plusTextSize();
+                  },
                   icon: const Icon(Icons.text_increase_rounded),
                 )
               ],
@@ -76,6 +84,7 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                 IconButton(
                   onPressed: () {
                     // TODO: 添加书签
+                    Fluttertoast.showToast(msg: "暂未支持", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
                   },
                   icon: const Icon(Icons.bookmark_add_outlined),
                 ),
@@ -86,7 +95,6 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                       exitOnClickModal: true,
                       enableDrag: false,
                       child: NovelPagesBottomSheet(
-                        novel: widget.novel,
                         webViewData: widget.webViewData,
                         callback: widget.catalogCallback,
                       ),

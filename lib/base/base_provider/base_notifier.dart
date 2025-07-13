@@ -85,3 +85,28 @@ abstract class BaseAutoDisposeFamilyAsyncNotifier<State, Arg> extends AutoDispos
   @override
   Reader get read => ref.read;
 }
+
+/// The base mixin of [AsyncNotifier]
+mixin BaseAsyncNotifierMixin<State> {
+  String? nextUrl;
+
+  bool get hasMore => nextUrl != null;
+
+  set state(AsyncValue<State> newState);
+  
+  /// Fetch data.
+  Future<State> fetch();
+
+  Future<void> reload() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      return fetch();
+    });
+  }
+
+  Future<void> refresh() async {
+    state = await AsyncValue.guard(() async {
+      return fetch();
+    });
+  }
+}

@@ -11,7 +11,7 @@ part of 'common_user.dart';
 CommonUser _$CommonUserFromJson(Map<String, dynamic> json) => CommonUser(
       (json['id'] as num).toInt(),
       json['name'] as String,
-      json['account'] as String,
+      json['account'] as String?,
       Profile_image_urls.fromJson(
           json['profile_image_urls'] as Map<String, dynamic>),
       json['comment'] as String?,

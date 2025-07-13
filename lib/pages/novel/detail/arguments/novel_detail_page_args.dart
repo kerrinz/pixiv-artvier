@@ -7,7 +7,7 @@ part 'novel_detail_page_args.freezed.dart';
 @Freezed(copyWith: true)
 class NovelDetailPageArguments with _$NovelDetailPageArguments {
   const factory NovelDetailPageArguments({
-    required String worksId,
+    required String novelId,
     String? title,
     CommonNovel? detail,
 

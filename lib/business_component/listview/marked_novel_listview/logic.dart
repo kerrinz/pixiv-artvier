@@ -8,10 +8,12 @@ mixin MarkedNovelListViewLogic {
   WidgetRef get ref;
 
   void handleTapItem(MarkedNovel marked) {
-    Navigator.of(ref.context).pushNamed(
-      RouteNames.novelDetail.name,
-      arguments: NovelDetailPageArguments(
-          detail: marked.novel, worksId: marked.novel.id.toString(), toPage: marked.novelMarker.page),
-    );
+    if (marked.novelMarker != null) {
+      Navigator.of(ref.context).pushNamed(
+        RouteNames.novelDetail.name,
+        arguments: NovelDetailPageArguments(
+            detail: marked.novel, novelId: marked.novel.id.toString(), toPage: marked.novelMarker!.page),
+      );
+    }
   }
 }

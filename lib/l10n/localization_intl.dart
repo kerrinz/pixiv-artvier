@@ -229,6 +229,14 @@ class LocalizationIntl {
       name: 'editCollectionSucceed', desc: 'Prompt of edit collection success');
   String get editCollectionFailed =>
       Intl.message("Edit collection failed!", name: 'editCollectionFailed', desc: 'Prompt of edit collection failed');
+  String get addMarkerSucceed =>
+      Intl.message("Add marker succeed!", name: 'addMarkerSucceed', desc: 'Prompt success of add marker a novel');
+  String get addMarkerFailed =>
+      Intl.message("Add marker failed!", name: 'addMarkerFailed', desc: 'Prompt failed of add marker a novel');
+  String get removeMarkerSucceed => Intl.message("Remove marker succeed!",
+      name: 'removeMarkerSucceed', desc: 'Prompt success of remove marker of a novel');
+  String get removeMarkerFailed => Intl.message("Remove marker failed!",
+      name: 'removeMarkerFailed', desc: 'Prompt failed of remove marker of a novel');
   String get addNewTagPlaceholder => Intl.message("Add new tag...",
       name: 'addNewTagPlaceholder', desc: 'The placeholder of input tag name to add a new tag');
   String get tagAlreadyExists => Intl.message("Tag already exists!",

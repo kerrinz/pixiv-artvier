@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
@@ -7,6 +6,7 @@ import 'package:artvier/model_response/novels/novel_detail.dart';
 import 'package:artvier/model_response/novels/novel_series_detail.dart';
 import 'package:artvier/model_response/novels/recommended/novels_recommended.dart';
 import 'package:artvier/request/http_host_overrides.dart';
+import 'package:artvier/util/string_util.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/base/base_api.dart';
 import 'package:artvier/config/enums.dart';
@@ -37,15 +37,13 @@ class ApiNovels extends ApiBase {
       cancelToken: cancelToken,
     );
     NovelDetailWebView result;
-    var objStr = res.data.toString();
+    final data = res.data.toString();
     try {
-      var objStr = res.data.toString().split('novel: ')[1].split('});').first.split('isOwnWork:').first.trim();
-      objStr = objStr.replaceFirst('"illusts":[]', '"illusts":{}');
-      objStr = objStr.replaceFirst('"images":[]', '"images":{}');
-      objStr = objStr.substring(0, objStr.length - 1);
-      result = NovelDetailWebView.fromJson(json.decode(objStr));
+      final objectStr = StringUtil.extractPixivNovelWebviewValueObject(data);
+      final fixObjectStr = StringUtil.fixToStrictJson(objectStr!);
+      result = NovelDetailWebView.fromJson(json.decode(fixObjectStr));
     } catch (e) {
-      log(objStr);
+      // log(objStr);
       logger.e(e);
       rethrow;
     }

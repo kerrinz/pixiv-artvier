@@ -20,6 +20,274 @@ NovelDetailWebView _$NovelDetailWebViewFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$NovelDetailWebView {
+  @JsonKey(name: "isV2")
+  bool? get isV2 => throw _privateConstructorUsedError;
+  @JsonKey(name: "userLang")
+  String? get userLang => throw _privateConstructorUsedError;
+  @JsonKey(name: "isOwnWork")
+  bool? get isOwnWork => throw _privateConstructorUsedError;
+  @JsonKey(name: "authorDetails")
+  NovelWebViewAuthorDetails get authorDetails =>
+      throw _privateConstructorUsedError;
+  @JsonKey(name: "novel")
+  NovelWebViewNovel get novel => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $NovelDetailWebViewCopyWith<NovelDetailWebView> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $NovelDetailWebViewCopyWith<$Res> {
+  factory $NovelDetailWebViewCopyWith(
+          NovelDetailWebView value, $Res Function(NovelDetailWebView) then) =
+      _$NovelDetailWebViewCopyWithImpl<$Res, NovelDetailWebView>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "isV2") bool? isV2,
+      @JsonKey(name: "userLang") String? userLang,
+      @JsonKey(name: "isOwnWork") bool? isOwnWork,
+      @JsonKey(name: "authorDetails") NovelWebViewAuthorDetails authorDetails,
+      @JsonKey(name: "novel") NovelWebViewNovel novel});
+
+  $NovelWebViewAuthorDetailsCopyWith<$Res> get authorDetails;
+  $NovelWebViewNovelCopyWith<$Res> get novel;
+}
+
+/// @nodoc
+class _$NovelDetailWebViewCopyWithImpl<$Res, $Val extends NovelDetailWebView>
+    implements $NovelDetailWebViewCopyWith<$Res> {
+  _$NovelDetailWebViewCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isV2 = freezed,
+    Object? userLang = freezed,
+    Object? isOwnWork = freezed,
+    Object? authorDetails = null,
+    Object? novel = null,
+  }) {
+    return _then(_value.copyWith(
+      isV2: freezed == isV2
+          ? _value.isV2
+          : isV2 // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      userLang: freezed == userLang
+          ? _value.userLang
+          : userLang // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isOwnWork: freezed == isOwnWork
+          ? _value.isOwnWork
+          : isOwnWork // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      authorDetails: null == authorDetails
+          ? _value.authorDetails
+          : authorDetails // ignore: cast_nullable_to_non_nullable
+              as NovelWebViewAuthorDetails,
+      novel: null == novel
+          ? _value.novel
+          : novel // ignore: cast_nullable_to_non_nullable
+              as NovelWebViewNovel,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $NovelWebViewAuthorDetailsCopyWith<$Res> get authorDetails {
+    return $NovelWebViewAuthorDetailsCopyWith<$Res>(_value.authorDetails,
+        (value) {
+      return _then(_value.copyWith(authorDetails: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $NovelWebViewNovelCopyWith<$Res> get novel {
+    return $NovelWebViewNovelCopyWith<$Res>(_value.novel, (value) {
+      return _then(_value.copyWith(novel: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$NovelDetailWebViewImplCopyWith<$Res>
+    implements $NovelDetailWebViewCopyWith<$Res> {
+  factory _$$NovelDetailWebViewImplCopyWith(_$NovelDetailWebViewImpl value,
+          $Res Function(_$NovelDetailWebViewImpl) then) =
+      __$$NovelDetailWebViewImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "isV2") bool? isV2,
+      @JsonKey(name: "userLang") String? userLang,
+      @JsonKey(name: "isOwnWork") bool? isOwnWork,
+      @JsonKey(name: "authorDetails") NovelWebViewAuthorDetails authorDetails,
+      @JsonKey(name: "novel") NovelWebViewNovel novel});
+
+  @override
+  $NovelWebViewAuthorDetailsCopyWith<$Res> get authorDetails;
+  @override
+  $NovelWebViewNovelCopyWith<$Res> get novel;
+}
+
+/// @nodoc
+class __$$NovelDetailWebViewImplCopyWithImpl<$Res>
+    extends _$NovelDetailWebViewCopyWithImpl<$Res, _$NovelDetailWebViewImpl>
+    implements _$$NovelDetailWebViewImplCopyWith<$Res> {
+  __$$NovelDetailWebViewImplCopyWithImpl(_$NovelDetailWebViewImpl _value,
+      $Res Function(_$NovelDetailWebViewImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isV2 = freezed,
+    Object? userLang = freezed,
+    Object? isOwnWork = freezed,
+    Object? authorDetails = null,
+    Object? novel = null,
+  }) {
+    return _then(_$NovelDetailWebViewImpl(
+      isV2: freezed == isV2
+          ? _value.isV2
+          : isV2 // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      userLang: freezed == userLang
+          ? _value.userLang
+          : userLang // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isOwnWork: freezed == isOwnWork
+          ? _value.isOwnWork
+          : isOwnWork // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      authorDetails: null == authorDetails
+          ? _value.authorDetails
+          : authorDetails // ignore: cast_nullable_to_non_nullable
+              as NovelWebViewAuthorDetails,
+      novel: null == novel
+          ? _value.novel
+          : novel // ignore: cast_nullable_to_non_nullable
+              as NovelWebViewNovel,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
+  const _$NovelDetailWebViewImpl(
+      {@JsonKey(name: "isV2") this.isV2,
+      @JsonKey(name: "userLang") this.userLang,
+      @JsonKey(name: "isOwnWork") this.isOwnWork,
+      @JsonKey(name: "authorDetails") required this.authorDetails,
+      @JsonKey(name: "novel") required this.novel});
+
+  factory _$NovelDetailWebViewImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NovelDetailWebViewImplFromJson(json);
+
+  @override
+  @JsonKey(name: "isV2")
+  final bool? isV2;
+  @override
+  @JsonKey(name: "userLang")
+  final String? userLang;
+  @override
+  @JsonKey(name: "isOwnWork")
+  final bool? isOwnWork;
+  @override
+  @JsonKey(name: "authorDetails")
+  final NovelWebViewAuthorDetails authorDetails;
+  @override
+  @JsonKey(name: "novel")
+  final NovelWebViewNovel novel;
+
+  @override
+  String toString() {
+    return 'NovelDetailWebView(isV2: $isV2, userLang: $userLang, isOwnWork: $isOwnWork, authorDetails: $authorDetails, novel: $novel)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NovelDetailWebViewImpl &&
+            (identical(other.isV2, isV2) || other.isV2 == isV2) &&
+            (identical(other.userLang, userLang) ||
+                other.userLang == userLang) &&
+            (identical(other.isOwnWork, isOwnWork) ||
+                other.isOwnWork == isOwnWork) &&
+            (identical(other.authorDetails, authorDetails) ||
+                other.authorDetails == authorDetails) &&
+            (identical(other.novel, novel) || other.novel == novel));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, isV2, userLang, isOwnWork, authorDetails, novel);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NovelDetailWebViewImplCopyWith<_$NovelDetailWebViewImpl> get copyWith =>
+      __$$NovelDetailWebViewImplCopyWithImpl<_$NovelDetailWebViewImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$NovelDetailWebViewImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _NovelDetailWebView implements NovelDetailWebView {
+  const factory _NovelDetailWebView(
+          {@JsonKey(name: "isV2") final bool? isV2,
+          @JsonKey(name: "userLang") final String? userLang,
+          @JsonKey(name: "isOwnWork") final bool? isOwnWork,
+          @JsonKey(name: "authorDetails")
+          required final NovelWebViewAuthorDetails authorDetails,
+          @JsonKey(name: "novel") required final NovelWebViewNovel novel}) =
+      _$NovelDetailWebViewImpl;
+
+  factory _NovelDetailWebView.fromJson(Map<String, dynamic> json) =
+      _$NovelDetailWebViewImpl.fromJson;
+
+  @override
+  @JsonKey(name: "isV2")
+  bool? get isV2;
+  @override
+  @JsonKey(name: "userLang")
+  String? get userLang;
+  @override
+  @JsonKey(name: "isOwnWork")
+  bool? get isOwnWork;
+  @override
+  @JsonKey(name: "authorDetails")
+  NovelWebViewAuthorDetails get authorDetails;
+  @override
+  @JsonKey(name: "novel")
+  NovelWebViewNovel get novel;
+  @override
+  @JsonKey(ignore: true)
+  _$$NovelDetailWebViewImplCopyWith<_$NovelDetailWebViewImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+NovelWebViewNovel _$NovelWebViewNovelFromJson(Map<String, dynamic> json) {
+  return _NovelWebViewNovel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$NovelWebViewNovel {
   @JsonKey(name: "id")
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: "title")
@@ -45,7 +313,7 @@ mixin _$NovelDetailWebView {
   @JsonKey(name: "text")
   String get text => throw _privateConstructorUsedError;
   @JsonKey(name: "marker")
-  dynamic get marker => throw _privateConstructorUsedError;
+  NovelWebViewNovelMarker? get marker => throw _privateConstructorUsedError;
   @JsonKey(name: "illusts")
   Map<String, IllustValue> get illusts => throw _privateConstructorUsedError;
   @JsonKey(name: "images")
@@ -63,15 +331,15 @@ mixin _$NovelDetailWebView {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $NovelDetailWebViewCopyWith<NovelDetailWebView> get copyWith =>
+  $NovelWebViewNovelCopyWith<NovelWebViewNovel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $NovelDetailWebViewCopyWith<$Res> {
-  factory $NovelDetailWebViewCopyWith(
-          NovelDetailWebView value, $Res Function(NovelDetailWebView) then) =
-      _$NovelDetailWebViewCopyWithImpl<$Res, NovelDetailWebView>;
+abstract class $NovelWebViewNovelCopyWith<$Res> {
+  factory $NovelWebViewNovelCopyWith(
+          NovelWebViewNovel value, $Res Function(NovelWebViewNovel) then) =
+      _$NovelWebViewNovelCopyWithImpl<$Res, NovelWebViewNovel>;
   @useResult
   $Res call(
       {@JsonKey(name: "id") String id,
@@ -86,7 +354,7 @@ abstract class $NovelDetailWebViewCopyWith<$Res> {
       @JsonKey(name: "cdate") DateTime cdate,
       @JsonKey(name: "rating") Rating rating,
       @JsonKey(name: "text") String text,
-      @JsonKey(name: "marker") dynamic marker,
+      @JsonKey(name: "marker") NovelWebViewNovelMarker? marker,
       @JsonKey(name: "illusts") Map<String, IllustValue> illusts,
       @JsonKey(name: "images") Map<String, Image> images,
       @JsonKey(name: "seriesNavigation") SeriesNavigation? seriesNavigation,
@@ -96,13 +364,14 @@ abstract class $NovelDetailWebViewCopyWith<$Res> {
       @JsonKey(name: "isOriginal") bool isOriginal});
 
   $RatingCopyWith<$Res> get rating;
+  $NovelWebViewNovelMarkerCopyWith<$Res>? get marker;
   $SeriesNavigationCopyWith<$Res>? get seriesNavigation;
 }
 
 /// @nodoc
-class _$NovelDetailWebViewCopyWithImpl<$Res, $Val extends NovelDetailWebView>
-    implements $NovelDetailWebViewCopyWith<$Res> {
-  _$NovelDetailWebViewCopyWithImpl(this._value, this._then);
+class _$NovelWebViewNovelCopyWithImpl<$Res, $Val extends NovelWebViewNovel>
+    implements $NovelWebViewNovelCopyWith<$Res> {
+  _$NovelWebViewNovelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -185,7 +454,7 @@ class _$NovelDetailWebViewCopyWithImpl<$Res, $Val extends NovelDetailWebView>
       marker: freezed == marker
           ? _value.marker
           : marker // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as NovelWebViewNovelMarker?,
       illusts: null == illusts
           ? _value.illusts
           : illusts // ignore: cast_nullable_to_non_nullable
@@ -227,6 +496,18 @@ class _$NovelDetailWebViewCopyWithImpl<$Res, $Val extends NovelDetailWebView>
 
   @override
   @pragma('vm:prefer-inline')
+  $NovelWebViewNovelMarkerCopyWith<$Res>? get marker {
+    if (_value.marker == null) {
+      return null;
+    }
+
+    return $NovelWebViewNovelMarkerCopyWith<$Res>(_value.marker!, (value) {
+      return _then(_value.copyWith(marker: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $SeriesNavigationCopyWith<$Res>? get seriesNavigation {
     if (_value.seriesNavigation == null) {
       return null;
@@ -239,11 +520,11 @@ class _$NovelDetailWebViewCopyWithImpl<$Res, $Val extends NovelDetailWebView>
 }
 
 /// @nodoc
-abstract class _$$NovelDetailWebViewImplCopyWith<$Res>
-    implements $NovelDetailWebViewCopyWith<$Res> {
-  factory _$$NovelDetailWebViewImplCopyWith(_$NovelDetailWebViewImpl value,
-          $Res Function(_$NovelDetailWebViewImpl) then) =
-      __$$NovelDetailWebViewImplCopyWithImpl<$Res>;
+abstract class _$$NovelWebViewNovelImplCopyWith<$Res>
+    implements $NovelWebViewNovelCopyWith<$Res> {
+  factory _$$NovelWebViewNovelImplCopyWith(_$NovelWebViewNovelImpl value,
+          $Res Function(_$NovelWebViewNovelImpl) then) =
+      __$$NovelWebViewNovelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -259,7 +540,7 @@ abstract class _$$NovelDetailWebViewImplCopyWith<$Res>
       @JsonKey(name: "cdate") DateTime cdate,
       @JsonKey(name: "rating") Rating rating,
       @JsonKey(name: "text") String text,
-      @JsonKey(name: "marker") dynamic marker,
+      @JsonKey(name: "marker") NovelWebViewNovelMarker? marker,
       @JsonKey(name: "illusts") Map<String, IllustValue> illusts,
       @JsonKey(name: "images") Map<String, Image> images,
       @JsonKey(name: "seriesNavigation") SeriesNavigation? seriesNavigation,
@@ -271,15 +552,17 @@ abstract class _$$NovelDetailWebViewImplCopyWith<$Res>
   @override
   $RatingCopyWith<$Res> get rating;
   @override
+  $NovelWebViewNovelMarkerCopyWith<$Res>? get marker;
+  @override
   $SeriesNavigationCopyWith<$Res>? get seriesNavigation;
 }
 
 /// @nodoc
-class __$$NovelDetailWebViewImplCopyWithImpl<$Res>
-    extends _$NovelDetailWebViewCopyWithImpl<$Res, _$NovelDetailWebViewImpl>
-    implements _$$NovelDetailWebViewImplCopyWith<$Res> {
-  __$$NovelDetailWebViewImplCopyWithImpl(_$NovelDetailWebViewImpl _value,
-      $Res Function(_$NovelDetailWebViewImpl) _then)
+class __$$NovelWebViewNovelImplCopyWithImpl<$Res>
+    extends _$NovelWebViewNovelCopyWithImpl<$Res, _$NovelWebViewNovelImpl>
+    implements _$$NovelWebViewNovelImplCopyWith<$Res> {
+  __$$NovelWebViewNovelImplCopyWithImpl(_$NovelWebViewNovelImpl _value,
+      $Res Function(_$NovelWebViewNovelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -306,7 +589,7 @@ class __$$NovelDetailWebViewImplCopyWithImpl<$Res>
     Object? aiType = null,
     Object? isOriginal = null,
   }) {
-    return _then(_$NovelDetailWebViewImpl(
+    return _then(_$NovelWebViewNovelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -358,7 +641,7 @@ class __$$NovelDetailWebViewImplCopyWithImpl<$Res>
       marker: freezed == marker
           ? _value.marker
           : marker // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as NovelWebViewNovelMarker?,
       illusts: null == illusts
           ? _value._illusts
           : illusts // ignore: cast_nullable_to_non_nullable
@@ -393,8 +676,8 @@ class __$$NovelDetailWebViewImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
-  const _$NovelDetailWebViewImpl(
+class _$NovelWebViewNovelImpl implements _NovelWebViewNovel {
+  const _$NovelWebViewNovelImpl(
       {@JsonKey(name: "id") required this.id,
       @JsonKey(name: "title") required this.title,
       @JsonKey(name: "seriesId") required this.seriesId,
@@ -419,8 +702,8 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
         _illusts = illusts,
         _images = images;
 
-  factory _$NovelDetailWebViewImpl.fromJson(Map<String, dynamic> json) =>
-      _$$NovelDetailWebViewImplFromJson(json);
+  factory _$NovelWebViewNovelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NovelWebViewNovelImplFromJson(json);
 
   @override
   @JsonKey(name: "id")
@@ -466,7 +749,7 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
   final String text;
   @override
   @JsonKey(name: "marker")
-  final dynamic marker;
+  final NovelWebViewNovelMarker? marker;
   final Map<String, IllustValue> _illusts;
   @override
   @JsonKey(name: "illusts")
@@ -503,14 +786,14 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
 
   @override
   String toString() {
-    return 'NovelDetailWebView(id: $id, title: $title, seriesId: $seriesId, seriesTitle: $seriesTitle, seriesIsWatched: $seriesIsWatched, userId: $userId, coverUrl: $coverUrl, tags: $tags, caption: $caption, cdate: $cdate, rating: $rating, text: $text, marker: $marker, illusts: $illusts, images: $images, seriesNavigation: $seriesNavigation, glossaryItems: $glossaryItems, replaceableItemIds: $replaceableItemIds, aiType: $aiType, isOriginal: $isOriginal)';
+    return 'NovelWebViewNovel(id: $id, title: $title, seriesId: $seriesId, seriesTitle: $seriesTitle, seriesIsWatched: $seriesIsWatched, userId: $userId, coverUrl: $coverUrl, tags: $tags, caption: $caption, cdate: $cdate, rating: $rating, text: $text, marker: $marker, illusts: $illusts, images: $images, seriesNavigation: $seriesNavigation, glossaryItems: $glossaryItems, replaceableItemIds: $replaceableItemIds, aiType: $aiType, isOriginal: $isOriginal)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NovelDetailWebViewImpl &&
+            other is _$NovelWebViewNovelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality().equals(other.seriesId, seriesId) &&
@@ -526,7 +809,7 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
             (identical(other.cdate, cdate) || other.cdate == cdate) &&
             (identical(other.rating, rating) || other.rating == rating) &&
             (identical(other.text, text) || other.text == text) &&
-            const DeepCollectionEquality().equals(other.marker, marker) &&
+            (identical(other.marker, marker) || other.marker == marker) &&
             const DeepCollectionEquality().equals(other._illusts, _illusts) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.seriesNavigation, seriesNavigation) ||
@@ -556,7 +839,7 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
         cdate,
         rating,
         text,
-        const DeepCollectionEquality().hash(marker),
+        marker,
         const DeepCollectionEquality().hash(_illusts),
         const DeepCollectionEquality().hash(_images),
         seriesNavigation,
@@ -569,20 +852,20 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$NovelDetailWebViewImplCopyWith<_$NovelDetailWebViewImpl> get copyWith =>
-      __$$NovelDetailWebViewImplCopyWithImpl<_$NovelDetailWebViewImpl>(
+  _$$NovelWebViewNovelImplCopyWith<_$NovelWebViewNovelImpl> get copyWith =>
+      __$$NovelWebViewNovelImplCopyWithImpl<_$NovelWebViewNovelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$NovelDetailWebViewImplToJson(
+    return _$$NovelWebViewNovelImplToJson(
       this,
     );
   }
 }
 
-abstract class _NovelDetailWebView implements NovelDetailWebView {
-  const factory _NovelDetailWebView(
+abstract class _NovelWebViewNovel implements NovelWebViewNovel {
+  const factory _NovelWebViewNovel(
       {@JsonKey(name: "id") required final String id,
       @JsonKey(name: "title") required final String title,
       @JsonKey(name: "seriesId") required final dynamic seriesId,
@@ -595,7 +878,7 @@ abstract class _NovelDetailWebView implements NovelDetailWebView {
       @JsonKey(name: "cdate") required final DateTime cdate,
       @JsonKey(name: "rating") required final Rating rating,
       @JsonKey(name: "text") required final String text,
-      @JsonKey(name: "marker") required final dynamic marker,
+      @JsonKey(name: "marker") required final NovelWebViewNovelMarker? marker,
       @JsonKey(name: "illusts") required final Map<String, IllustValue> illusts,
       @JsonKey(name: "images") required final Map<String, Image> images,
       @JsonKey(name: "seriesNavigation")
@@ -605,10 +888,10 @@ abstract class _NovelDetailWebView implements NovelDetailWebView {
       required final dynamic replaceableItemIds,
       @JsonKey(name: "aiType") required final int aiType,
       @JsonKey(name: "isOriginal")
-      required final bool isOriginal}) = _$NovelDetailWebViewImpl;
+      required final bool isOriginal}) = _$NovelWebViewNovelImpl;
 
-  factory _NovelDetailWebView.fromJson(Map<String, dynamic> json) =
-      _$NovelDetailWebViewImpl.fromJson;
+  factory _NovelWebViewNovel.fromJson(Map<String, dynamic> json) =
+      _$NovelWebViewNovelImpl.fromJson;
 
   @override
   @JsonKey(name: "id")
@@ -648,7 +931,7 @@ abstract class _NovelDetailWebView implements NovelDetailWebView {
   String get text;
   @override
   @JsonKey(name: "marker")
-  dynamic get marker;
+  NovelWebViewNovelMarker? get marker;
   @override
   @JsonKey(name: "illusts")
   Map<String, IllustValue> get illusts;
@@ -672,8 +955,603 @@ abstract class _NovelDetailWebView implements NovelDetailWebView {
   bool get isOriginal;
   @override
   @JsonKey(ignore: true)
-  _$$NovelDetailWebViewImplCopyWith<_$NovelDetailWebViewImpl> get copyWith =>
+  _$$NovelWebViewNovelImplCopyWith<_$NovelWebViewNovelImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+NovelWebViewNovelMarker _$NovelWebViewNovelMarkerFromJson(
+    Map<String, dynamic> json) {
+  return _NovelWebViewNovelMarker.fromJson(json);
+}
+
+/// @nodoc
+mixin _$NovelWebViewNovelMarker {
+  @JsonKey(name: "page")
+  int get page => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $NovelWebViewNovelMarkerCopyWith<NovelWebViewNovelMarker> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $NovelWebViewNovelMarkerCopyWith<$Res> {
+  factory $NovelWebViewNovelMarkerCopyWith(NovelWebViewNovelMarker value,
+          $Res Function(NovelWebViewNovelMarker) then) =
+      _$NovelWebViewNovelMarkerCopyWithImpl<$Res, NovelWebViewNovelMarker>;
+  @useResult
+  $Res call({@JsonKey(name: "page") int page});
+}
+
+/// @nodoc
+class _$NovelWebViewNovelMarkerCopyWithImpl<$Res,
+        $Val extends NovelWebViewNovelMarker>
+    implements $NovelWebViewNovelMarkerCopyWith<$Res> {
+  _$NovelWebViewNovelMarkerCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? page = null,
+  }) {
+    return _then(_value.copyWith(
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$NovelWebViewNovelMarkerImplCopyWith<$Res>
+    implements $NovelWebViewNovelMarkerCopyWith<$Res> {
+  factory _$$NovelWebViewNovelMarkerImplCopyWith(
+          _$NovelWebViewNovelMarkerImpl value,
+          $Res Function(_$NovelWebViewNovelMarkerImpl) then) =
+      __$$NovelWebViewNovelMarkerImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: "page") int page});
+}
+
+/// @nodoc
+class __$$NovelWebViewNovelMarkerImplCopyWithImpl<$Res>
+    extends _$NovelWebViewNovelMarkerCopyWithImpl<$Res,
+        _$NovelWebViewNovelMarkerImpl>
+    implements _$$NovelWebViewNovelMarkerImplCopyWith<$Res> {
+  __$$NovelWebViewNovelMarkerImplCopyWithImpl(
+      _$NovelWebViewNovelMarkerImpl _value,
+      $Res Function(_$NovelWebViewNovelMarkerImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? page = null,
+  }) {
+    return _then(_$NovelWebViewNovelMarkerImpl(
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$NovelWebViewNovelMarkerImpl implements _NovelWebViewNovelMarker {
+  const _$NovelWebViewNovelMarkerImpl(
+      {@JsonKey(name: "page") required this.page});
+
+  factory _$NovelWebViewNovelMarkerImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NovelWebViewNovelMarkerImplFromJson(json);
+
+  @override
+  @JsonKey(name: "page")
+  final int page;
+
+  @override
+  String toString() {
+    return 'NovelWebViewNovelMarker(page: $page)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NovelWebViewNovelMarkerImpl &&
+            (identical(other.page, page) || other.page == page));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, page);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NovelWebViewNovelMarkerImplCopyWith<_$NovelWebViewNovelMarkerImpl>
+      get copyWith => __$$NovelWebViewNovelMarkerImplCopyWithImpl<
+          _$NovelWebViewNovelMarkerImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$NovelWebViewNovelMarkerImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _NovelWebViewNovelMarker implements NovelWebViewNovelMarker {
+  const factory _NovelWebViewNovelMarker(
+          {@JsonKey(name: "page") required final int page}) =
+      _$NovelWebViewNovelMarkerImpl;
+
+  factory _NovelWebViewNovelMarker.fromJson(Map<String, dynamic> json) =
+      _$NovelWebViewNovelMarkerImpl.fromJson;
+
+  @override
+  @JsonKey(name: "page")
+  int get page;
+  @override
+  @JsonKey(ignore: true)
+  _$$NovelWebViewNovelMarkerImplCopyWith<_$NovelWebViewNovelMarkerImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+NovelWebViewAuthorDetails _$NovelWebViewAuthorDetailsFromJson(
+    Map<String, dynamic> json) {
+  return _NovelWebViewAuthorDetails.fromJson(json);
+}
+
+/// @nodoc
+mixin _$NovelWebViewAuthorDetails {
+  @JsonKey(name: "userId")
+  int get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: "userName")
+  String get userName => throw _privateConstructorUsedError;
+  @JsonKey(name: "isFollowed")
+  bool get isFollowed => throw _privateConstructorUsedError;
+  @JsonKey(name: "isBlocked")
+  bool get isBlocked => throw _privateConstructorUsedError;
+  @JsonKey(name: "profileImg")
+  NovelWebViewAuthorDetailsProfileImg get profileImg =>
+      throw _privateConstructorUsedError;
+  @JsonKey(name: "isProfileImgMasked")
+  bool get isProfileImgMasked => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $NovelWebViewAuthorDetailsCopyWith<NovelWebViewAuthorDetails> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $NovelWebViewAuthorDetailsCopyWith<$Res> {
+  factory $NovelWebViewAuthorDetailsCopyWith(NovelWebViewAuthorDetails value,
+          $Res Function(NovelWebViewAuthorDetails) then) =
+      _$NovelWebViewAuthorDetailsCopyWithImpl<$Res, NovelWebViewAuthorDetails>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "userId") int userId,
+      @JsonKey(name: "userName") String userName,
+      @JsonKey(name: "isFollowed") bool isFollowed,
+      @JsonKey(name: "isBlocked") bool isBlocked,
+      @JsonKey(name: "profileImg")
+      NovelWebViewAuthorDetailsProfileImg profileImg,
+      @JsonKey(name: "isProfileImgMasked") bool isProfileImgMasked});
+
+  $NovelWebViewAuthorDetailsProfileImgCopyWith<$Res> get profileImg;
+}
+
+/// @nodoc
+class _$NovelWebViewAuthorDetailsCopyWithImpl<$Res,
+        $Val extends NovelWebViewAuthorDetails>
+    implements $NovelWebViewAuthorDetailsCopyWith<$Res> {
+  _$NovelWebViewAuthorDetailsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? userName = null,
+    Object? isFollowed = null,
+    Object? isBlocked = null,
+    Object? profileImg = null,
+    Object? isProfileImgMasked = null,
+  }) {
+    return _then(_value.copyWith(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      isFollowed: null == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isBlocked: null == isBlocked
+          ? _value.isBlocked
+          : isBlocked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      profileImg: null == profileImg
+          ? _value.profileImg
+          : profileImg // ignore: cast_nullable_to_non_nullable
+              as NovelWebViewAuthorDetailsProfileImg,
+      isProfileImgMasked: null == isProfileImgMasked
+          ? _value.isProfileImgMasked
+          : isProfileImgMasked // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $NovelWebViewAuthorDetailsProfileImgCopyWith<$Res> get profileImg {
+    return $NovelWebViewAuthorDetailsProfileImgCopyWith<$Res>(_value.profileImg,
+        (value) {
+      return _then(_value.copyWith(profileImg: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$NovelWebViewAuthorDetailsImplCopyWith<$Res>
+    implements $NovelWebViewAuthorDetailsCopyWith<$Res> {
+  factory _$$NovelWebViewAuthorDetailsImplCopyWith(
+          _$NovelWebViewAuthorDetailsImpl value,
+          $Res Function(_$NovelWebViewAuthorDetailsImpl) then) =
+      __$$NovelWebViewAuthorDetailsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "userId") int userId,
+      @JsonKey(name: "userName") String userName,
+      @JsonKey(name: "isFollowed") bool isFollowed,
+      @JsonKey(name: "isBlocked") bool isBlocked,
+      @JsonKey(name: "profileImg")
+      NovelWebViewAuthorDetailsProfileImg profileImg,
+      @JsonKey(name: "isProfileImgMasked") bool isProfileImgMasked});
+
+  @override
+  $NovelWebViewAuthorDetailsProfileImgCopyWith<$Res> get profileImg;
+}
+
+/// @nodoc
+class __$$NovelWebViewAuthorDetailsImplCopyWithImpl<$Res>
+    extends _$NovelWebViewAuthorDetailsCopyWithImpl<$Res,
+        _$NovelWebViewAuthorDetailsImpl>
+    implements _$$NovelWebViewAuthorDetailsImplCopyWith<$Res> {
+  __$$NovelWebViewAuthorDetailsImplCopyWithImpl(
+      _$NovelWebViewAuthorDetailsImpl _value,
+      $Res Function(_$NovelWebViewAuthorDetailsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? userName = null,
+    Object? isFollowed = null,
+    Object? isBlocked = null,
+    Object? profileImg = null,
+    Object? isProfileImgMasked = null,
+  }) {
+    return _then(_$NovelWebViewAuthorDetailsImpl(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      isFollowed: null == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isBlocked: null == isBlocked
+          ? _value.isBlocked
+          : isBlocked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      profileImg: null == profileImg
+          ? _value.profileImg
+          : profileImg // ignore: cast_nullable_to_non_nullable
+              as NovelWebViewAuthorDetailsProfileImg,
+      isProfileImgMasked: null == isProfileImgMasked
+          ? _value.isProfileImgMasked
+          : isProfileImgMasked // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$NovelWebViewAuthorDetailsImpl implements _NovelWebViewAuthorDetails {
+  const _$NovelWebViewAuthorDetailsImpl(
+      {@JsonKey(name: "userId") required this.userId,
+      @JsonKey(name: "userName") required this.userName,
+      @JsonKey(name: "isFollowed") required this.isFollowed,
+      @JsonKey(name: "isBlocked") required this.isBlocked,
+      @JsonKey(name: "profileImg") required this.profileImg,
+      @JsonKey(name: "isProfileImgMasked") required this.isProfileImgMasked});
+
+  factory _$NovelWebViewAuthorDetailsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NovelWebViewAuthorDetailsImplFromJson(json);
+
+  @override
+  @JsonKey(name: "userId")
+  final int userId;
+  @override
+  @JsonKey(name: "userName")
+  final String userName;
+  @override
+  @JsonKey(name: "isFollowed")
+  final bool isFollowed;
+  @override
+  @JsonKey(name: "isBlocked")
+  final bool isBlocked;
+  @override
+  @JsonKey(name: "profileImg")
+  final NovelWebViewAuthorDetailsProfileImg profileImg;
+  @override
+  @JsonKey(name: "isProfileImgMasked")
+  final bool isProfileImgMasked;
+
+  @override
+  String toString() {
+    return 'NovelWebViewAuthorDetails(userId: $userId, userName: $userName, isFollowed: $isFollowed, isBlocked: $isBlocked, profileImg: $profileImg, isProfileImgMasked: $isProfileImgMasked)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NovelWebViewAuthorDetailsImpl &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.userName, userName) ||
+                other.userName == userName) &&
+            (identical(other.isFollowed, isFollowed) ||
+                other.isFollowed == isFollowed) &&
+            (identical(other.isBlocked, isBlocked) ||
+                other.isBlocked == isBlocked) &&
+            (identical(other.profileImg, profileImg) ||
+                other.profileImg == profileImg) &&
+            (identical(other.isProfileImgMasked, isProfileImgMasked) ||
+                other.isProfileImgMasked == isProfileImgMasked));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, userId, userName, isFollowed,
+      isBlocked, profileImg, isProfileImgMasked);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NovelWebViewAuthorDetailsImplCopyWith<_$NovelWebViewAuthorDetailsImpl>
+      get copyWith => __$$NovelWebViewAuthorDetailsImplCopyWithImpl<
+          _$NovelWebViewAuthorDetailsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$NovelWebViewAuthorDetailsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _NovelWebViewAuthorDetails implements NovelWebViewAuthorDetails {
+  const factory _NovelWebViewAuthorDetails(
+          {@JsonKey(name: "userId") required final int userId,
+          @JsonKey(name: "userName") required final String userName,
+          @JsonKey(name: "isFollowed") required final bool isFollowed,
+          @JsonKey(name: "isBlocked") required final bool isBlocked,
+          @JsonKey(name: "profileImg")
+          required final NovelWebViewAuthorDetailsProfileImg profileImg,
+          @JsonKey(name: "isProfileImgMasked")
+          required final bool isProfileImgMasked}) =
+      _$NovelWebViewAuthorDetailsImpl;
+
+  factory _NovelWebViewAuthorDetails.fromJson(Map<String, dynamic> json) =
+      _$NovelWebViewAuthorDetailsImpl.fromJson;
+
+  @override
+  @JsonKey(name: "userId")
+  int get userId;
+  @override
+  @JsonKey(name: "userName")
+  String get userName;
+  @override
+  @JsonKey(name: "isFollowed")
+  bool get isFollowed;
+  @override
+  @JsonKey(name: "isBlocked")
+  bool get isBlocked;
+  @override
+  @JsonKey(name: "profileImg")
+  NovelWebViewAuthorDetailsProfileImg get profileImg;
+  @override
+  @JsonKey(name: "isProfileImgMasked")
+  bool get isProfileImgMasked;
+  @override
+  @JsonKey(ignore: true)
+  _$$NovelWebViewAuthorDetailsImplCopyWith<_$NovelWebViewAuthorDetailsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+NovelWebViewAuthorDetailsProfileImg
+    _$NovelWebViewAuthorDetailsProfileImgFromJson(Map<String, dynamic> json) {
+  return _NovelWebViewAuthorDetailsProfileImg.fromJson(json);
+}
+
+/// @nodoc
+mixin _$NovelWebViewAuthorDetailsProfileImg {
+  @JsonKey(name: "url")
+  String get url => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $NovelWebViewAuthorDetailsProfileImgCopyWith<
+          NovelWebViewAuthorDetailsProfileImg>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $NovelWebViewAuthorDetailsProfileImgCopyWith<$Res> {
+  factory $NovelWebViewAuthorDetailsProfileImgCopyWith(
+          NovelWebViewAuthorDetailsProfileImg value,
+          $Res Function(NovelWebViewAuthorDetailsProfileImg) then) =
+      _$NovelWebViewAuthorDetailsProfileImgCopyWithImpl<$Res,
+          NovelWebViewAuthorDetailsProfileImg>;
+  @useResult
+  $Res call({@JsonKey(name: "url") String url});
+}
+
+/// @nodoc
+class _$NovelWebViewAuthorDetailsProfileImgCopyWithImpl<$Res,
+        $Val extends NovelWebViewAuthorDetailsProfileImg>
+    implements $NovelWebViewAuthorDetailsProfileImgCopyWith<$Res> {
+  _$NovelWebViewAuthorDetailsProfileImgCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+  }) {
+    return _then(_value.copyWith(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$NovelWebViewAuthorDetailsProfileImgImplCopyWith<$Res>
+    implements $NovelWebViewAuthorDetailsProfileImgCopyWith<$Res> {
+  factory _$$NovelWebViewAuthorDetailsProfileImgImplCopyWith(
+          _$NovelWebViewAuthorDetailsProfileImgImpl value,
+          $Res Function(_$NovelWebViewAuthorDetailsProfileImgImpl) then) =
+      __$$NovelWebViewAuthorDetailsProfileImgImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: "url") String url});
+}
+
+/// @nodoc
+class __$$NovelWebViewAuthorDetailsProfileImgImplCopyWithImpl<$Res>
+    extends _$NovelWebViewAuthorDetailsProfileImgCopyWithImpl<$Res,
+        _$NovelWebViewAuthorDetailsProfileImgImpl>
+    implements _$$NovelWebViewAuthorDetailsProfileImgImplCopyWith<$Res> {
+  __$$NovelWebViewAuthorDetailsProfileImgImplCopyWithImpl(
+      _$NovelWebViewAuthorDetailsProfileImgImpl _value,
+      $Res Function(_$NovelWebViewAuthorDetailsProfileImgImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+  }) {
+    return _then(_$NovelWebViewAuthorDetailsProfileImgImpl(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$NovelWebViewAuthorDetailsProfileImgImpl
+    implements _NovelWebViewAuthorDetailsProfileImg {
+  const _$NovelWebViewAuthorDetailsProfileImgImpl(
+      {@JsonKey(name: "url") required this.url});
+
+  factory _$NovelWebViewAuthorDetailsProfileImgImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$NovelWebViewAuthorDetailsProfileImgImplFromJson(json);
+
+  @override
+  @JsonKey(name: "url")
+  final String url;
+
+  @override
+  String toString() {
+    return 'NovelWebViewAuthorDetailsProfileImg(url: $url)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NovelWebViewAuthorDetailsProfileImgImpl &&
+            (identical(other.url, url) || other.url == url));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, url);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NovelWebViewAuthorDetailsProfileImgImplCopyWith<
+          _$NovelWebViewAuthorDetailsProfileImgImpl>
+      get copyWith => __$$NovelWebViewAuthorDetailsProfileImgImplCopyWithImpl<
+          _$NovelWebViewAuthorDetailsProfileImgImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$NovelWebViewAuthorDetailsProfileImgImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _NovelWebViewAuthorDetailsProfileImg
+    implements NovelWebViewAuthorDetailsProfileImg {
+  const factory _NovelWebViewAuthorDetailsProfileImg(
+          {@JsonKey(name: "url") required final String url}) =
+      _$NovelWebViewAuthorDetailsProfileImgImpl;
+
+  factory _NovelWebViewAuthorDetailsProfileImg.fromJson(
+          Map<String, dynamic> json) =
+      _$NovelWebViewAuthorDetailsProfileImgImpl.fromJson;
+
+  @override
+  @JsonKey(name: "url")
+  String get url;
+  @override
+  @JsonKey(ignore: true)
+  _$$NovelWebViewAuthorDetailsProfileImgImplCopyWith<
+          _$NovelWebViewAuthorDetailsProfileImgImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 IllustValue _$IllustValueFromJson(Map<String, dynamic> json) {

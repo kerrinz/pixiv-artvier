@@ -4,12 +4,14 @@ import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/dialog_custom.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
-import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
+import 'package:artvier/model_response/user/common_user.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
+import 'package:artvier/pages/novel/detail/arguments/novel_element.dart';
 import 'package:artvier/pages/novel/detail/logic.dart';
 import 'package:artvier/pages/novel/detail/provider/novel_detail_provider.dart';
 import 'package:artvier/pages/novel/detail/widgets/menu_bottom_sheet.dart';
+import 'package:artvier/pages/novel/detail/widgets/novel_elements.dart';
 import 'package:artvier/pages/novel/detail/widgets/novel_overlay_settings.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
@@ -39,18 +41,24 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
   get novelDetail => widget.args.detail;
 
   @override
-  get worksId => widget.args.worksId;
+  get novelId => widget.args.novelId;
 
   bool _hasMountedListener = false;
   bool _firstScrolled = false;
 
+  @override
+  get scrollController => _scrollController;
+
   late final ScrollController _scrollController;
 
-  /// 章节 Keys
-  final List<GlobalKey> _chaptersKey = [];
+  /// 渲染元素块
+  List<NovelElementModel> elements = [];
 
   /// 容器 Key
   final GlobalKey _bodyKey = GlobalKey();
+
+  /// 小说章节标题样式
+  get novelChapterTitleStyle => textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold);
 
   @override
   void initState() {
@@ -63,6 +71,10 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
     super.didChangeDependencies();
     if (!_hasMountedListener) {
       _scrollController = PrimaryScrollController.of(context);
+      _scrollController.addListener(() {
+        overlayShow = false;
+        animateOverlay();
+      });
       _hasMountedListener = true;
     }
   }
@@ -71,26 +83,18 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
   Widget build(BuildContext context) {
     final result = Scaffold(
       body: Container(
-        key: _bodyKey, // 关键：标记页面内容区域
-        child: ref.watch(novelDetailProvider(worksId)).when(
-              data: (detailResponse) {
-                return ref.watch(novelDetailWebViewProvider(worksId)).when(
-                    data: (data) => _buildSuccessContent(detailResponse!.novel, data!),
-                    error: (obj, error) => _buildBeforeSuccessContent(true),
-                    loading: () => _buildBeforeSuccessContent(false));
-              },
-              error: (obj, error) => _buildBeforeSuccessContent(true),
-              loading: () => _buildBeforeSuccessContent(false),
-            ),
+        key: _bodyKey,
+        child: ref.watch(novelWebViewDetailProvider(novelId)).when(
+            data: (data) => _buildSuccessContent(data),
+            error: (obj, error) => _buildBeforeSuccessContent(true),
+            loading: () => _buildBeforeSuccessContent(false)),
       ),
     );
 
-    if (!_firstScrolled && widget.args.toPage != null && widget.args.toPage! > -1) {
+    if (elements.isNotEmpty && !_firstScrolled && widget.args.toPage != null && widget.args.toPage! > -1) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (widget.args.toPage! < _chaptersKey.length) {
-          scrollToChapter(true, widget.args.toPage!);
-          _firstScrolled = true;
-        }
+        scrollToPage(context, elements, _bodyKey, false, widget.args.toPage!);
+        _firstScrolled = true;
       });
     }
     return result;
@@ -106,19 +110,19 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
           // backgroundColor: Colors.transparent,
           leading: const AppbarLeadingButtton(),
           shadowColor: Colors.transparent,
-          title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.worksId)),
+          title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.novelId)),
         ),
       ),
       Builder(builder: (context) {
         if (isFailed) {
-          return RequestLoadingFailed(onRetry: () => ref.refresh(novelDetailProvider(worksId)));
+          return RequestLoadingFailed(onRetry: () => ref.refresh(novelWebViewDetailProvider(novelId)));
         }
         return const RequestLoading();
       }),
     ]);
   }
 
-  Widget _buildSuccessContent(CommonNovel detail, NovelDetailWebView webViewData) {
+  Widget _buildSuccessContent(NovelDetailWebView webViewData) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.light,
@@ -131,7 +135,7 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
                 width: double.infinity,
                 height: 180,
                 image: ExtendedNetworkImageProvider(
-                  HttpHostOverrides().pxImgUrl(detail.imageUrls.medium),
+                  HttpHostOverrides().pxImgUrl(webViewData.novel.coverUrl),
                   headers: HttpHostOverrides().pximgHeaders,
                   cache: true,
                 ),
@@ -143,7 +147,7 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 4.0),
                 child: Text.rich(
                   TextSpan(children: [
-                    if (detail.xRestrict == 1)
+                    if (webViewData.novel.tags.contains("R-18"))
                       TextSpan(
                         text: "R18  ",
                         style: textTheme.bodyMedium?.copyWith(
@@ -151,7 +155,7 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    TextSpan(text: detail.title),
+                    TextSpan(text: webViewData.novel.title),
                   ]),
                   style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
@@ -162,8 +166,17 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
               child: Column(
                 children: [
                   // 作者卡片
-                  AuthorCardWidget(user: detail.user, createDate: detail.createDate),
-                  _buildInformation(detail),
+                  AuthorCardWidget(
+                      user: CommonUser(
+                        webViewData.authorDetails.userId,
+                        webViewData.authorDetails.userName,
+                        null,
+                        Profile_image_urls(webViewData.authorDetails.profileImg.url),
+                        null,
+                        webViewData.authorDetails.isFollowed,
+                      ),
+                      createDate: webViewData.novel.cdate),
+                  _buildInformation(webViewData),
                 ],
               ),
             ),
@@ -191,7 +204,7 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
                       exitOnClickModal: true,
                       enableDrag: false,
                       child: NovelDetailMenu(
-                        detail: widget.args.detail ?? detail,
+                        novelId: webViewData.novel.id,
                       ),
                     );
                   },
@@ -203,16 +216,19 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
           Positioned(
             left: 0,
             right: 0,
-            bottom: 8,
+            bottom: 0,
             child: SlideTransition(
               position: overlayOffsetAnimation,
-              child: NovelDetailOverlaySettings(
-                novel: detail,
-                webViewData: webViewData,
-                catalogCallback: (index, name) {
-                  scrollToChapter(false, index + 1);
-                  Navigator.maybeOf(context)?.pop();
-                },
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: NovelDetailOverlaySettings(
+                  novelId: novelId,
+                  webViewData: webViewData,
+                  catalogCallback: (index, name) {
+                    scrollToChapter(context, elements, _bodyKey, false, index);
+                    Navigator.maybeOf(context)?.pop();
+                  },
+                ),
               ),
             ),
           ),
@@ -221,65 +237,39 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
     );
   }
 
-  /// 滚动到第几章节，0是首页前的内容，1是首页
-  scrollToChapter(bool animate, int chapterIndex) {
-    RenderBox targetBox = _chaptersKey[chapterIndex].currentContext!.findRenderObject() as RenderBox;
-    RenderBox bodyBox = _bodyKey.currentContext!.findRenderObject() as RenderBox;
-
-    Offset targetPosition = targetBox.localToGlobal(Offset.zero);
-    Offset bodyPosition = bodyBox.localToGlobal(Offset.zero);
-
-    double relative = (targetPosition - bodyPosition).dy +
-        _scrollController.offset -
-        kToolbarHeight -
-        MediaQuery.paddingOf(context).top;
-    animate
-        ? _scrollController.animateTo(
-            relative,
-            duration: Durations.extralong1,
-            curve: Curves.fastEaseInToSlowEaseOut,
-          )
-        : _scrollController.jumpTo(relative);
-  }
-
   /// 小说内容
   List<Widget> _buildContent(NovelDetailWebView webViewData) {
     final settings = ref.watch(novelViewerSettings);
-    final lines = webViewData.text.split('\n');
-    List<InlineSpan> spanList = [];
-    // 拆分章节
-    List<List<InlineSpan>> chapters = [];
-    chapters.add([]);
-    _chaptersKey.add(GlobalKey());
+    final lines = webViewData.novel.text.split('\n');
 
     for (final line in lines) {
-      // 首页
+      // 新页
       if (line.startsWith('[newpage]')) {
-        chapters.add([]);
-        _chaptersKey.add(GlobalKey());
-        const textSpan = TextSpan(text: '——————');
-        chapters.last.add(textSpan);
-        spanList.add(textSpan);
+        elements.add(
+            NovelElementModel(type: NovelElementType.pageDivider, key: GlobalKey(), element: const NovelPageDivider()));
         continue;
       }
-      // 断章
+      // 断章，章节标题
       final chapterMatch = RegExp(r'\[chapter:([^\n\]]+)\]').firstMatch(line);
       if (line.startsWith('[chapter') && (chapterMatch?.groupCount ?? 0) > 0) {
         final text = chapterMatch?.group(1);
         if (text != null) {
-          chapters.add([]);
-          _chaptersKey.add(GlobalKey());
-          final textSpan =
-              TextSpan(text: '$text\n', style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold));
-          chapters.last.add(textSpan);
-          spanList.add(textSpan);
+          final textSpan = TextSpan(text: '$text\n', style: novelChapterTitleStyle);
+          elements.add(NovelElementModel(
+            type: NovelElementType.chapterTitle,
+            key: GlobalKey(),
+            element: [textSpan],
+          ));
         }
         continue;
       }
       // 其他内容
       final textSpan = TextSpan(text: '$line\n');
-      chapters.last.add(textSpan);
-      spanList.add(textSpan);
+      if (elements.isNotEmpty && elements.last.type == NovelElementType.text) {
+        (elements.last.element as NovelTextElement).add(textSpan);
+      } else {
+        elements.add(NovelElementModel(type: NovelElementType.text, element: [textSpan]));
+      }
     }
 
     // TextPainter textPainter = TextPainter(text: TextSpan(children: spanList), textDirection: TextDirection.ltr);
@@ -290,26 +280,59 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
     // );
     // print(caretOffset);
 
-    return [
-      for (int i = 0; i < chapters.length; i++)
-        SliverPadding(
-          padding: const EdgeInsets.all(20),
-          sliver: SliverToBoxAdapter(
-            child: SelectableText.rich(
-              TextSpan(children: chapters[i]),
-              key: _chaptersKey[i],
-              style: textTheme.bodyLarge?.copyWith(fontSize: settings.textSize),
-              onTap: () {
-                overlayShow = !overlayShow;
-                animateOverlay();
-              },
+    final List<Widget> results = [];
+    for (int i = 0; i < elements.length; i++) {
+      final element = elements[i];
+      switch (element.type) {
+        case NovelElementType.chapterTitle:
+          results.add(SliverPadding(
+            padding: const EdgeInsets.only(top: 16, bottom: 4, left: 20, right: 20),
+            sliver: SliverToBoxAdapter(
+              child: NovelText(
+                key: element.key,
+                textSpanList: element.element,
+                textSize: settings.textSize,
+                onTap: () {
+                  overlayShow = !overlayShow;
+                  animateOverlay();
+                },
+              ),
             ),
-          ),
-        )
-    ];
+          ));
+          break;
+        case NovelElementType.text:
+          results.add(SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            sliver: SliverToBoxAdapter(
+              child: NovelText(
+                key: element.key,
+                textSpanList: element.element,
+                textSize: settings.textSize,
+                onTap: () {
+                  overlayShow = !overlayShow;
+                  animateOverlay();
+                },
+              ),
+            ),
+          ));
+          break;
+
+        case NovelElementType.pageDivider:
+          results.add(SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            sliver: SliverToBoxAdapter(child: NovelPageDivider(key: element.key)),
+          ));
+          break;
+
+        /// TODO: 小说插图
+        case NovelElementType.illust:
+          break;
+      }
+    }
+    return results;
   }
 
-  Widget _buildInformation(CommonNovel detail) {
+  Widget _buildInformation(NovelDetailWebView webViewData) {
     return Padding(
       padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
       child: Column(
@@ -322,13 +345,15 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
                   // ID
                   Expanded(
                       flex: 1,
-                      child: Text("id: ${detail.id}", style: textTheme.bodyMedium?.copyWith(color: Colors.grey))),
+                      child: Text("id: ${webViewData.novel.id}",
+                          style: textTheme.bodyMedium?.copyWith(color: Colors.grey))),
                   // 收藏数
                   Expanded(
                     flex: 1,
                     child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       const Icon(Icons.favorite, size: 18, color: Colors.grey),
-                      Text(" ${detail.totalBookmarks}", style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
+                      Text(" ${webViewData.novel.rating.bookmark}",
+                          style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
                     ]),
                   ),
                   // 浏览数
@@ -336,7 +361,8 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
                     flex: 1,
                     child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                       const Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
-                      Text(" ${detail.totalView}", style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
+                      Text(" ${webViewData.novel.rating.view}",
+                          style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
                     ]),
                   ),
                 ],
@@ -345,7 +371,7 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: HtmlWidget(
-              detail.caption,
+              webViewData.novel.caption,
               onTapUrl: (url) => showOpenLinkDialog(context, url),
             ),
           ),
@@ -357,7 +383,7 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
               runSpacing: 8,
               children: [
                 // 遍历Tag
-                for (var element in detail.tags) _tagItemWidget(element.name, element.translatedName)
+                for (var element in webViewData.novel.tags) _tagItemWidget(element, null)
               ],
             ),
           ),

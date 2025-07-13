@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$NovelDetailPageArguments {
-  String get worksId => throw _privateConstructorUsedError;
+  String get novelId => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   CommonNovel? get detail => throw _privateConstructorUsedError;
 
@@ -34,7 +34,7 @@ abstract class $NovelDetailPageArgumentsCopyWith<$Res> {
           $Res Function(NovelDetailPageArguments) then) =
       _$NovelDetailPageArgumentsCopyWithImpl<$Res, NovelDetailPageArguments>;
   @useResult
-  $Res call({String worksId, String? title, CommonNovel? detail, int? toPage});
+  $Res call({String novelId, String? title, CommonNovel? detail, int? toPage});
 }
 
 /// @nodoc
@@ -51,15 +51,15 @@ class _$NovelDetailPageArgumentsCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? worksId = null,
+    Object? novelId = null,
     Object? title = freezed,
     Object? detail = freezed,
     Object? toPage = freezed,
   }) {
     return _then(_value.copyWith(
-      worksId: null == worksId
-          ? _value.worksId
-          : worksId // ignore: cast_nullable_to_non_nullable
+      novelId: null == novelId
+          ? _value.novelId
+          : novelId // ignore: cast_nullable_to_non_nullable
               as String,
       title: freezed == title
           ? _value.title
@@ -86,7 +86,7 @@ abstract class _$$NovelDetailPageArgumentsImplCopyWith<$Res>
       __$$NovelDetailPageArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String worksId, String? title, CommonNovel? detail, int? toPage});
+  $Res call({String novelId, String? title, CommonNovel? detail, int? toPage});
 }
 
 /// @nodoc
@@ -102,15 +102,15 @@ class __$$NovelDetailPageArgumentsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? worksId = null,
+    Object? novelId = null,
     Object? title = freezed,
     Object? detail = freezed,
     Object? toPage = freezed,
   }) {
     return _then(_$NovelDetailPageArgumentsImpl(
-      worksId: null == worksId
-          ? _value.worksId
-          : worksId // ignore: cast_nullable_to_non_nullable
+      novelId: null == novelId
+          ? _value.novelId
+          : novelId // ignore: cast_nullable_to_non_nullable
               as String,
       title: freezed == title
           ? _value.title
@@ -132,10 +132,10 @@ class __$$NovelDetailPageArgumentsImplCopyWithImpl<$Res>
 
 class _$NovelDetailPageArgumentsImpl implements _NovelDetailPageArguments {
   const _$NovelDetailPageArgumentsImpl(
-      {required this.worksId, this.title, this.detail, this.toPage});
+      {required this.novelId, this.title, this.detail, this.toPage});
 
   @override
-  final String worksId;
+  final String novelId;
   @override
   final String? title;
   @override
@@ -147,7 +147,7 @@ class _$NovelDetailPageArgumentsImpl implements _NovelDetailPageArguments {
 
   @override
   String toString() {
-    return 'NovelDetailPageArguments(worksId: $worksId, title: $title, detail: $detail, toPage: $toPage)';
+    return 'NovelDetailPageArguments(novelId: $novelId, title: $title, detail: $detail, toPage: $toPage)';
   }
 
   @override
@@ -155,14 +155,14 @@ class _$NovelDetailPageArgumentsImpl implements _NovelDetailPageArguments {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NovelDetailPageArgumentsImpl &&
-            (identical(other.worksId, worksId) || other.worksId == worksId) &&
+            (identical(other.novelId, novelId) || other.novelId == novelId) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.detail, detail) || other.detail == detail) &&
             (identical(other.toPage, toPage) || other.toPage == toPage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, worksId, title, detail, toPage);
+  int get hashCode => Object.hash(runtimeType, novelId, title, detail, toPage);
 
   @JsonKey(ignore: true)
   @override
@@ -174,13 +174,13 @@ class _$NovelDetailPageArgumentsImpl implements _NovelDetailPageArguments {
 
 abstract class _NovelDetailPageArguments implements NovelDetailPageArguments {
   const factory _NovelDetailPageArguments(
-      {required final String worksId,
+      {required final String novelId,
       final String? title,
       final CommonNovel? detail,
       final int? toPage}) = _$NovelDetailPageArgumentsImpl;
 
   @override
-  String get worksId;
+  String get novelId;
   @override
   String? get title;
   @override

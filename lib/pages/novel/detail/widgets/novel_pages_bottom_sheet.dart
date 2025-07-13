@@ -1,6 +1,5 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/bottom_sheet/close_bar.dart';
-import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,12 +10,10 @@ typedef NovelCatalogCallback = void Function(int index, String name);
 class NovelPagesBottomSheet extends ConsumerStatefulWidget {
   const NovelPagesBottomSheet({
     super.key,
-    required this.novel,
     required this.webViewData,
     this.callback,
   });
 
-  final CommonNovel novel;
   final NovelDetailWebView webViewData;
   final NovelCatalogCallback? callback;
 
@@ -29,7 +26,7 @@ class _NovelPagesBottomSheetState extends BasePageState<NovelPagesBottomSheet> {
 
   @override
   void initState() {
-    final lines = widget.webViewData.text.split('\n');
+    final lines = widget.webViewData.novel.text.split('\n');
     pages.add('homepage');
     for (final line in lines) {
       final chapterMatch = RegExp(r'\[chapter:([^\n\]]+)\]').firstMatch(line);

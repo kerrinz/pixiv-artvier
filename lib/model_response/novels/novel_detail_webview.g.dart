@@ -11,6 +11,27 @@ part of 'novel_detail_webview.dart';
 _$NovelDetailWebViewImpl _$$NovelDetailWebViewImplFromJson(
         Map<String, dynamic> json) =>
     _$NovelDetailWebViewImpl(
+      isV2: json['isV2'] as bool?,
+      userLang: json['userLang'] as String?,
+      isOwnWork: json['isOwnWork'] as bool?,
+      authorDetails: NovelWebViewAuthorDetails.fromJson(
+          json['authorDetails'] as Map<String, dynamic>),
+      novel: NovelWebViewNovel.fromJson(json['novel'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$NovelDetailWebViewImplToJson(
+        _$NovelDetailWebViewImpl instance) =>
+    <String, dynamic>{
+      'isV2': instance.isV2,
+      'userLang': instance.userLang,
+      'isOwnWork': instance.isOwnWork,
+      'authorDetails': instance.authorDetails,
+      'novel': instance.novel,
+    };
+
+_$NovelWebViewNovelImpl _$$NovelWebViewNovelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$NovelWebViewNovelImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       seriesId: json['seriesId'],
@@ -23,7 +44,10 @@ _$NovelDetailWebViewImpl _$$NovelDetailWebViewImplFromJson(
       cdate: DateTime.parse(json['cdate'] as String),
       rating: Rating.fromJson(json['rating'] as Map<String, dynamic>),
       text: json['text'] as String,
-      marker: json['marker'],
+      marker: json['marker'] == null
+          ? null
+          : NovelWebViewNovelMarker.fromJson(
+              json['marker'] as Map<String, dynamic>),
       illusts: (json['illusts'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, IllustValue.fromJson(e as Map<String, dynamic>)),
       ),
@@ -40,8 +64,8 @@ _$NovelDetailWebViewImpl _$$NovelDetailWebViewImplFromJson(
       isOriginal: json['isOriginal'] as bool,
     );
 
-Map<String, dynamic> _$$NovelDetailWebViewImplToJson(
-        _$NovelDetailWebViewImpl instance) =>
+Map<String, dynamic> _$$NovelWebViewNovelImplToJson(
+        _$NovelWebViewNovelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
@@ -63,6 +87,54 @@ Map<String, dynamic> _$$NovelDetailWebViewImplToJson(
       'replaceableItemIds': instance.replaceableItemIds,
       'aiType': instance.aiType,
       'isOriginal': instance.isOriginal,
+    };
+
+_$NovelWebViewNovelMarkerImpl _$$NovelWebViewNovelMarkerImplFromJson(
+        Map<String, dynamic> json) =>
+    _$NovelWebViewNovelMarkerImpl(
+      page: (json['page'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$NovelWebViewNovelMarkerImplToJson(
+        _$NovelWebViewNovelMarkerImpl instance) =>
+    <String, dynamic>{
+      'page': instance.page,
+    };
+
+_$NovelWebViewAuthorDetailsImpl _$$NovelWebViewAuthorDetailsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$NovelWebViewAuthorDetailsImpl(
+      userId: (json['userId'] as num).toInt(),
+      userName: json['userName'] as String,
+      isFollowed: json['isFollowed'] as bool,
+      isBlocked: json['isBlocked'] as bool,
+      profileImg: NovelWebViewAuthorDetailsProfileImg.fromJson(
+          json['profileImg'] as Map<String, dynamic>),
+      isProfileImgMasked: json['isProfileImgMasked'] as bool,
+    );
+
+Map<String, dynamic> _$$NovelWebViewAuthorDetailsImplToJson(
+        _$NovelWebViewAuthorDetailsImpl instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'userName': instance.userName,
+      'isFollowed': instance.isFollowed,
+      'isBlocked': instance.isBlocked,
+      'profileImg': instance.profileImg,
+      'isProfileImgMasked': instance.isProfileImgMasked,
+    };
+
+_$NovelWebViewAuthorDetailsProfileImgImpl
+    _$$NovelWebViewAuthorDetailsProfileImgImplFromJson(
+            Map<String, dynamic> json) =>
+        _$NovelWebViewAuthorDetailsProfileImgImpl(
+          url: json['url'] as String,
+        );
+
+Map<String, dynamic> _$$NovelWebViewAuthorDetailsProfileImgImplToJson(
+        _$NovelWebViewAuthorDetailsProfileImgImpl instance) =>
+    <String, dynamic>{
+      'url': instance.url,
     };
 
 _$IllustValueImpl _$$IllustValueImplFromJson(Map<String, dynamic> json) =>
