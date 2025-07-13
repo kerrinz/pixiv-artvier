@@ -15,6 +15,19 @@ String novelDetailWebViewToJson(NovelDetailWebView data) => json.encode(data.toJ
 @freezed
 class NovelDetailWebView with _$NovelDetailWebView {
   const factory NovelDetailWebView({
+    @JsonKey(name: "isV2") bool? isV2,
+    @JsonKey(name: "userLang") String? userLang,
+    @JsonKey(name: "isOwnWork") bool? isOwnWork,
+    @JsonKey(name: "authorDetails") required NovelWebViewAuthorDetails authorDetails,
+    @JsonKey(name: "novel") required NovelWebViewNovel novel,
+  }) = _NovelDetailWebView;
+
+  factory NovelDetailWebView.fromJson(Map<String, dynamic> json) => _$NovelDetailWebViewFromJson(json);
+}
+
+@freezed
+class NovelWebViewNovel with _$NovelWebViewNovel {
+  const factory NovelWebViewNovel({
     @JsonKey(name: "id") required String id,
     @JsonKey(name: "title") required String title,
     @JsonKey(name: "seriesId") required dynamic seriesId,
@@ -27,7 +40,7 @@ class NovelDetailWebView with _$NovelDetailWebView {
     @JsonKey(name: "cdate") required DateTime cdate,
     @JsonKey(name: "rating") required Rating rating,
     @JsonKey(name: "text") required String text,
-    @JsonKey(name: "marker") required dynamic marker,
+    @JsonKey(name: "marker") required NovelWebViewNovelMarker? marker,
     @JsonKey(name: "illusts") required Map<String, IllustValue> illusts,
     @JsonKey(name: "images") required Map<String, Image> images,
     @JsonKey(name: "seriesNavigation") SeriesNavigation? seriesNavigation,
@@ -35,9 +48,40 @@ class NovelDetailWebView with _$NovelDetailWebView {
     @JsonKey(name: "replaceableItemIds") required dynamic replaceableItemIds,
     @JsonKey(name: "aiType") required int aiType,
     @JsonKey(name: "isOriginal") required bool isOriginal,
-  }) = _NovelDetailWebView;
+  }) = _NovelWebViewNovel;
 
-  factory NovelDetailWebView.fromJson(Map<String, dynamic> json) => _$NovelDetailWebViewFromJson(json);
+  factory NovelWebViewNovel.fromJson(Map<String, dynamic> json) => _$NovelWebViewNovelFromJson(json);
+}
+
+@freezed
+class NovelWebViewNovelMarker with _$NovelWebViewNovelMarker {
+  const factory NovelWebViewNovelMarker({
+    @JsonKey(name: "page") required int page,
+  }) = _NovelWebViewNovelMarker;
+
+  factory NovelWebViewNovelMarker.fromJson(Map<String, dynamic> json) => _$NovelWebViewNovelMarkerFromJson(json);
+}
+@freezed
+class NovelWebViewAuthorDetails with _$NovelWebViewAuthorDetails {
+  const factory NovelWebViewAuthorDetails({
+    @JsonKey(name: "userId") required int userId,
+    @JsonKey(name: "userName") required String userName,
+    @JsonKey(name: "isFollowed") required bool isFollowed,
+    @JsonKey(name: "isBlocked") required bool isBlocked,
+    @JsonKey(name: "profileImg") required NovelWebViewAuthorDetailsProfileImg profileImg,
+    @JsonKey(name: "isProfileImgMasked") required bool isProfileImgMasked,
+  }) = _NovelWebViewAuthorDetails;
+
+  factory NovelWebViewAuthorDetails.fromJson(Map<String, dynamic> json) => _$NovelWebViewAuthorDetailsFromJson(json);
+}
+
+@freezed
+class NovelWebViewAuthorDetailsProfileImg with _$NovelWebViewAuthorDetailsProfileImg {
+  const factory NovelWebViewAuthorDetailsProfileImg({
+    @JsonKey(name: "url") required String url,
+  }) = _NovelWebViewAuthorDetailsProfileImg;
+
+  factory NovelWebViewAuthorDetailsProfileImg.fromJson(Map<String, dynamic> json) => _$NovelWebViewAuthorDetailsProfileImgFromJson(json);
 }
 
 @freezed

@@ -206,7 +206,8 @@ mixin _$MarkedNovel {
   @JsonKey(name: "novel")
   CommonNovel get novel => throw _privateConstructorUsedError;
   @JsonKey(name: "novel_marker")
-  NovelMarker get novelMarker => throw _privateConstructorUsedError;
+  NovelMarker? get novelMarker => throw _privateConstructorUsedError;
+  MarkerState? get markerState => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -222,9 +223,10 @@ abstract class $MarkedNovelCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "novel") CommonNovel novel,
-      @JsonKey(name: "novel_marker") NovelMarker novelMarker});
+      @JsonKey(name: "novel_marker") NovelMarker? novelMarker,
+      MarkerState? markerState});
 
-  $NovelMarkerCopyWith<$Res> get novelMarker;
+  $NovelMarkerCopyWith<$Res>? get novelMarker;
 }
 
 /// @nodoc
@@ -241,24 +243,33 @@ class _$MarkedNovelCopyWithImpl<$Res, $Val extends MarkedNovel>
   @override
   $Res call({
     Object? novel = null,
-    Object? novelMarker = null,
+    Object? novelMarker = freezed,
+    Object? markerState = freezed,
   }) {
     return _then(_value.copyWith(
       novel: null == novel
           ? _value.novel
           : novel // ignore: cast_nullable_to_non_nullable
               as CommonNovel,
-      novelMarker: null == novelMarker
+      novelMarker: freezed == novelMarker
           ? _value.novelMarker
           : novelMarker // ignore: cast_nullable_to_non_nullable
-              as NovelMarker,
+              as NovelMarker?,
+      markerState: freezed == markerState
+          ? _value.markerState
+          : markerState // ignore: cast_nullable_to_non_nullable
+              as MarkerState?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $NovelMarkerCopyWith<$Res> get novelMarker {
-    return $NovelMarkerCopyWith<$Res>(_value.novelMarker, (value) {
+  $NovelMarkerCopyWith<$Res>? get novelMarker {
+    if (_value.novelMarker == null) {
+      return null;
+    }
+
+    return $NovelMarkerCopyWith<$Res>(_value.novelMarker!, (value) {
       return _then(_value.copyWith(novelMarker: value) as $Val);
     });
   }
@@ -274,10 +285,11 @@ abstract class _$$MarkedNovelImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "novel") CommonNovel novel,
-      @JsonKey(name: "novel_marker") NovelMarker novelMarker});
+      @JsonKey(name: "novel_marker") NovelMarker? novelMarker,
+      MarkerState? markerState});
 
   @override
-  $NovelMarkerCopyWith<$Res> get novelMarker;
+  $NovelMarkerCopyWith<$Res>? get novelMarker;
 }
 
 /// @nodoc
@@ -292,17 +304,22 @@ class __$$MarkedNovelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? novel = null,
-    Object? novelMarker = null,
+    Object? novelMarker = freezed,
+    Object? markerState = freezed,
   }) {
     return _then(_$MarkedNovelImpl(
       novel: null == novel
           ? _value.novel
           : novel // ignore: cast_nullable_to_non_nullable
               as CommonNovel,
-      novelMarker: null == novelMarker
+      novelMarker: freezed == novelMarker
           ? _value.novelMarker
           : novelMarker // ignore: cast_nullable_to_non_nullable
-              as NovelMarker,
+              as NovelMarker?,
+      markerState: freezed == markerState
+          ? _value.markerState
+          : markerState // ignore: cast_nullable_to_non_nullable
+              as MarkerState?,
     ));
   }
 }
@@ -312,7 +329,8 @@ class __$$MarkedNovelImplCopyWithImpl<$Res>
 class _$MarkedNovelImpl implements _MarkedNovel {
   const _$MarkedNovelImpl(
       {@JsonKey(name: "novel") required this.novel,
-      @JsonKey(name: "novel_marker") required this.novelMarker});
+      @JsonKey(name: "novel_marker") this.novelMarker,
+      this.markerState});
 
   factory _$MarkedNovelImpl.fromJson(Map<String, dynamic> json) =>
       _$$MarkedNovelImplFromJson(json);
@@ -322,11 +340,13 @@ class _$MarkedNovelImpl implements _MarkedNovel {
   final CommonNovel novel;
   @override
   @JsonKey(name: "novel_marker")
-  final NovelMarker novelMarker;
+  final NovelMarker? novelMarker;
+  @override
+  final MarkerState? markerState;
 
   @override
   String toString() {
-    return 'MarkedNovel(novel: $novel, novelMarker: $novelMarker)';
+    return 'MarkedNovel(novel: $novel, novelMarker: $novelMarker, markerState: $markerState)';
   }
 
   @override
@@ -336,12 +356,14 @@ class _$MarkedNovelImpl implements _MarkedNovel {
             other is _$MarkedNovelImpl &&
             (identical(other.novel, novel) || other.novel == novel) &&
             (identical(other.novelMarker, novelMarker) ||
-                other.novelMarker == novelMarker));
+                other.novelMarker == novelMarker) &&
+            (identical(other.markerState, markerState) ||
+                other.markerState == markerState));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, novel, novelMarker);
+  int get hashCode => Object.hash(runtimeType, novel, novelMarker, markerState);
 
   @JsonKey(ignore: true)
   @override
@@ -360,8 +382,8 @@ class _$MarkedNovelImpl implements _MarkedNovel {
 abstract class _MarkedNovel implements MarkedNovel {
   const factory _MarkedNovel(
       {@JsonKey(name: "novel") required final CommonNovel novel,
-      @JsonKey(name: "novel_marker")
-      required final NovelMarker novelMarker}) = _$MarkedNovelImpl;
+      @JsonKey(name: "novel_marker") final NovelMarker? novelMarker,
+      final MarkerState? markerState}) = _$MarkedNovelImpl;
 
   factory _MarkedNovel.fromJson(Map<String, dynamic> json) =
       _$MarkedNovelImpl.fromJson;
@@ -371,7 +393,9 @@ abstract class _MarkedNovel implements MarkedNovel {
   CommonNovel get novel;
   @override
   @JsonKey(name: "novel_marker")
-  NovelMarker get novelMarker;
+  NovelMarker? get novelMarker;
+  @override
+  MarkerState? get markerState;
   @override
   @JsonKey(ignore: true)
   _$$MarkedNovelImplCopyWith<_$MarkedNovelImpl> get copyWith =>

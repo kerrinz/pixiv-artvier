@@ -15,7 +15,7 @@ part 'common_user.g.dart';
   String name;
 
   @JsonKey(name: 'account')
-  String account;
+  String? account;
 
   @JsonKey(name: 'profile_image_urls')
   Profile_image_urls profileImageUrls;

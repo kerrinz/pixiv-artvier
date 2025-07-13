@@ -2,6 +2,7 @@
 //
 //     final markedNovelsResponse = markedNovelsResponseFromJson(jsonString);
 
+import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
@@ -27,7 +28,8 @@ class MarkedNovelsResponse with _$MarkedNovelsResponse {
 class MarkedNovel with _$MarkedNovel {
   const factory MarkedNovel({
     @JsonKey(name: "novel") required CommonNovel novel,
-    @JsonKey(name: "novel_marker") required NovelMarker novelMarker,
+    @JsonKey(name: "novel_marker") NovelMarker? novelMarker,
+    MarkerState? markerState,
   }) = _MarkedNovel;
 
   factory MarkedNovel.fromJson(Map<String, dynamic> json) => _$MarkedNovelFromJson(json);

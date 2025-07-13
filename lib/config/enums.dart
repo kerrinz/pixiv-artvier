@@ -46,6 +46,21 @@ enum CollectState {
   notCollect,
 }
 
+///书签状态
+enum MarkerState {
+  /// 请求添加书签中
+  addingMarker,
+
+  /// 请求取消书签
+  removingMarker,
+
+  /// 已加书签
+  marked,
+
+  /// 未加书签
+  unmarked,
+}
+
 /// 用户关注状态
 enum UserFollowState {
   /// 请求关注中

@@ -10,7 +10,7 @@ mixin NovelListViewLogic {
   void handleTapItem(CommonNovel novel) {
     Navigator.of(ref.context).pushNamed(
       RouteNames.novelDetail.name,
-      arguments: NovelDetailPageArguments(detail: novel, worksId: novel.id.toString()),
+      arguments: NovelDetailPageArguments(detail: novel, novelId: novel.id.toString()),
     );
   }
 }

@@ -114,7 +114,7 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
             onPressed: () => Navigator.of(ref.context).pushNamed(
               RouteNames.novelDetail.name,
               arguments: NovelDetailPageArguments(
-                  worksId: widget.novelSeries.latestContentId.toString(), title: widget.novelSeries.title),
+                  novelId: widget.novelSeries.latestContentId.toString(), title: widget.novelSeries.title),
             ),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),

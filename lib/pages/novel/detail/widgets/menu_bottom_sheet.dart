@@ -1,7 +1,6 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/bottom_sheet/close_bar.dart';
 import 'package:artvier/config/constants.dart';
-import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,10 +10,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 class NovelDetailMenu extends BasePage {
   const NovelDetailMenu({
     super.key,
-    required this.detail,
+    required this.novelId,
   });
 
-  final CommonNovel detail;
+  final String novelId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,7 +32,7 @@ class NovelDetailMenu extends BasePage {
                   context: context,
                   text: l10n(context).copyLink,
                   icon: const Icon(Icons.link_rounded),
-                  onTap: () => Clipboard.setData(ClipboardData(text: CONSTANTS.novel_share_url + detail.id.toString()))
+                  onTap: () => Clipboard.setData(ClipboardData(text: CONSTANTS.novel_share_url + novelId.toString()))
                       .then((value) {
                     Fluttertoast.showToast(
                       msg: l10n(context).copiedToClipboard,

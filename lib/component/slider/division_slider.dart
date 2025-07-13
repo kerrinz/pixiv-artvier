@@ -52,6 +52,12 @@ class _DivisionsSliderState extends State<DivisionSlider> {
   }
 
   @override
+  void didUpdateWidget(covariant DivisionSlider oldWidget) {
+    _value = widget.value;
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SliderTheme(
       data: SliderTheme.of(context).copyWith(

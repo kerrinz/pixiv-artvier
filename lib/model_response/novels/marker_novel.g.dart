@@ -27,15 +27,26 @@ Map<String, dynamic> _$$MarkedNovelsResponseImplToJson(
 _$MarkedNovelImpl _$$MarkedNovelImplFromJson(Map<String, dynamic> json) =>
     _$MarkedNovelImpl(
       novel: CommonNovel.fromJson(json['novel'] as Map<String, dynamic>),
-      novelMarker:
-          NovelMarker.fromJson(json['novel_marker'] as Map<String, dynamic>),
+      novelMarker: json['novel_marker'] == null
+          ? null
+          : NovelMarker.fromJson(json['novel_marker'] as Map<String, dynamic>),
+      markerState:
+          $enumDecodeNullable(_$MarkerStateEnumMap, json['markerState']),
     );
 
 Map<String, dynamic> _$$MarkedNovelImplToJson(_$MarkedNovelImpl instance) =>
     <String, dynamic>{
       'novel': instance.novel,
       'novel_marker': instance.novelMarker,
+      'markerState': _$MarkerStateEnumMap[instance.markerState],
     };
+
+const _$MarkerStateEnumMap = {
+  MarkerState.addingMarker: 'addingMarker',
+  MarkerState.removingMarker: 'removingMarker',
+  MarkerState.marked: 'marked',
+  MarkerState.unmarked: 'unmarked',
+};
 
 _$NovelMarkerImpl _$$NovelMarkerImplFromJson(Map<String, dynamic> json) =>
     _$NovelMarkerImpl(
