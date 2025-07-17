@@ -275,23 +275,21 @@ mixin _MarkedNovelListViewItemLogic {
     }
     var l10n = LocalizationIntl.of(ref.context);
     var state = ref.read(markerStateProvider);
+    // TODO: 取消书签后再添加书签有 bug
     if (state.state == MarkerState.unmarked) {
       ref
           .read(markerStateProvider.notifier)
           .marker(page: novelMarker!.page)
           .then((result) => Fluttertoast.showToast(
-              msg: result ? l10n.addCollectSucceed : l10n.addMarkerFailed, toastLength: Toast.LENGTH_LONG))
-          .catchError((_) => Fluttertoast.showToast(
-              msg: l10n.addMarkerFailed, toastLength: Toast.LENGTH_LONG));
-    }
-    if (state.state == MarkerState.marked) {
+              msg: result ? l10n.addMarkerSucceed : l10n.addMarkerFailed, toastLength: Toast.LENGTH_LONG))
+          .catchError((_) => Fluttertoast.showToast(msg: l10n.addMarkerFailed, toastLength: Toast.LENGTH_LONG));
+    } else if (state.state == MarkerState.marked) {
       ref
           .read(markerStateProvider.notifier)
           .unmarker()
           .then((result) => Fluttertoast.showToast(
               msg: result ? l10n.removeMarkerSucceed : l10n.removeMarkerFailed, toastLength: Toast.LENGTH_LONG))
-          .catchError((_) => Fluttertoast.showToast(
-              msg: l10n.removeMarkerFailed, toastLength: Toast.LENGTH_LONG));
+          .catchError((_) => Fluttertoast.showToast(msg: l10n.removeMarkerFailed, toastLength: Toast.LENGTH_LONG));
     }
   }
 }

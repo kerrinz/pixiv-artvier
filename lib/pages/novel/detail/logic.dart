@@ -1,13 +1,10 @@
-import 'package:artvier/model_response/novels/common_novel.dart';
+import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 mixin NovelDetailPageLogic {
   WidgetRef get ref;
-
-  /// 作品详细信息
-  late CommonNovel? novelDetail;
 
   /// 作品ID
   late String novelId;
@@ -107,6 +104,42 @@ mixin NovelDetailPageLogic {
             curve: Curves.fastEaseInToSlowEaseOut,
           )
         : scrollController.jumpTo(relative);
+  }
+
+  /// 书签按钮点击事件
+  handleMarkerClick(
+    BuildContext context,
+    List<NovelElementModel> elements,
+    GlobalKey bodyKey,
+    void Function(int) callback,
+  ) {
+    // 页码
+    int page = 1;
+    for (var element in elements) {
+      if (element.type == NovelElementType.pageDivider) {
+        final key = element.key;
+        if (key == null) {
+          logger.w('handleMarkerClick find a null key of NovelElementType.pageDivider.');
+          return;
+        }
+        RenderBox targetBox = key.currentContext!.findRenderObject() as RenderBox;
+        RenderBox bodyBox = bodyKey.currentContext!.findRenderObject() as RenderBox;
+        Offset targetPosition = targetBox.localToGlobal(Offset.zero);
+        Offset bodyPosition = bodyBox.localToGlobal(Offset.zero);
+
+        double relative = (targetPosition - bodyPosition).dy - MediaQuery.paddingOf(context).top;
+        double screenHeight = MediaQuery.sizeOf(context).height;
+
+        if (relative < screenHeight) {
+          // 已经读过的页
+          page++;
+        } else {
+          // 其余的都是未读内容
+          break;
+        }
+      }
+    }
+    callback(page);
   }
 }
 
