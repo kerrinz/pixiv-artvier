@@ -37,7 +37,6 @@ class NovelDetailPage extends ConsumerStatefulWidget {
 
 class _NovelDetailState extends BasePageState<NovelDetailPage>
     with SingleTickerProviderStateMixin, NovelDetailPageLogic, NovelDetailOverlaySettingsAnimation<NovelDetailPage> {
-  @override
   get novelDetail => widget.args.detail;
 
   @override
@@ -228,6 +227,7 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
                     scrollToChapter(context, elements, _bodyKey, false, index);
                     Navigator.maybeOf(context)?.pop();
                   },
+                  markerCallback: (callback) => handleMarkerClick(context, elements, _bodyKey, callback),
                 ),
               ),
             ),
