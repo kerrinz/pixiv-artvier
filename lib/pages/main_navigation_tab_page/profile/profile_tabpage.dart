@@ -47,8 +47,8 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
             ),
         (context) => IconButtonModel(
               LocalizationIntl.of(context).works,
-              Icon(Icons.inventory_2_outlined, color: Theme.of(context).primaryColor.withOpacity(0.5), size: 26),
-              "",
+              Icon(Icons.inventory_2_outlined, color: Theme.of(context).primaryColor, size: 26),
+              RouteNames.myWorks.name,
               ref.watch(globalCurrentAccountProvider)?.user.id,
             ),
         (context) => IconButtonModel(

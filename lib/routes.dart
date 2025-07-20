@@ -118,7 +118,7 @@ class Routes {
     RouteNames.expandSearch.name: (context, arguments) => const ExpandSearchPage(),
     RouteNames.searchResult.name: (context, arguments) => SearchResultPage(arguments!),
     RouteNames.myBookmarks.name: (context, arguments) => MyBookmarksPage(arguments!),
-    RouteNames.myWorks.name: (context, arguments) => MyWorksPage(arguments),
+    RouteNames.myWorks.name: (context, arguments) => MyWorksPage(arguments!),
     RouteNames.history.name: (context, arguments) => const ViewHistoryPage(),
     RouteNames.accountManage.name: (context, arguments) => const AccountManagePage(),
     RouteNames.downloadManage.name: (context, arguments) => const DownloadManagePage(),
