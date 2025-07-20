@@ -20,12 +20,6 @@ NovelDetailWebView _$NovelDetailWebViewFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$NovelDetailWebView {
-  @JsonKey(name: "isV2")
-  bool? get isV2 => throw _privateConstructorUsedError;
-  @JsonKey(name: "userLang")
-  String? get userLang => throw _privateConstructorUsedError;
-  @JsonKey(name: "isOwnWork")
-  bool? get isOwnWork => throw _privateConstructorUsedError;
   @JsonKey(name: "authorDetails")
   NovelWebViewAuthorDetails get authorDetails =>
       throw _privateConstructorUsedError;
@@ -45,10 +39,7 @@ abstract class $NovelDetailWebViewCopyWith<$Res> {
       _$NovelDetailWebViewCopyWithImpl<$Res, NovelDetailWebView>;
   @useResult
   $Res call(
-      {@JsonKey(name: "isV2") bool? isV2,
-      @JsonKey(name: "userLang") String? userLang,
-      @JsonKey(name: "isOwnWork") bool? isOwnWork,
-      @JsonKey(name: "authorDetails") NovelWebViewAuthorDetails authorDetails,
+      {@JsonKey(name: "authorDetails") NovelWebViewAuthorDetails authorDetails,
       @JsonKey(name: "novel") NovelWebViewNovel novel});
 
   $NovelWebViewAuthorDetailsCopyWith<$Res> get authorDetails;
@@ -68,25 +59,10 @@ class _$NovelDetailWebViewCopyWithImpl<$Res, $Val extends NovelDetailWebView>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isV2 = freezed,
-    Object? userLang = freezed,
-    Object? isOwnWork = freezed,
     Object? authorDetails = null,
     Object? novel = null,
   }) {
     return _then(_value.copyWith(
-      isV2: freezed == isV2
-          ? _value.isV2
-          : isV2 // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      userLang: freezed == userLang
-          ? _value.userLang
-          : userLang // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isOwnWork: freezed == isOwnWork
-          ? _value.isOwnWork
-          : isOwnWork // ignore: cast_nullable_to_non_nullable
-              as bool?,
       authorDetails: null == authorDetails
           ? _value.authorDetails
           : authorDetails // ignore: cast_nullable_to_non_nullable
@@ -125,10 +101,7 @@ abstract class _$$NovelDetailWebViewImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "isV2") bool? isV2,
-      @JsonKey(name: "userLang") String? userLang,
-      @JsonKey(name: "isOwnWork") bool? isOwnWork,
-      @JsonKey(name: "authorDetails") NovelWebViewAuthorDetails authorDetails,
+      {@JsonKey(name: "authorDetails") NovelWebViewAuthorDetails authorDetails,
       @JsonKey(name: "novel") NovelWebViewNovel novel});
 
   @override
@@ -148,25 +121,10 @@ class __$$NovelDetailWebViewImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isV2 = freezed,
-    Object? userLang = freezed,
-    Object? isOwnWork = freezed,
     Object? authorDetails = null,
     Object? novel = null,
   }) {
     return _then(_$NovelDetailWebViewImpl(
-      isV2: freezed == isV2
-          ? _value.isV2
-          : isV2 // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      userLang: freezed == userLang
-          ? _value.userLang
-          : userLang // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isOwnWork: freezed == isOwnWork
-          ? _value.isOwnWork
-          : isOwnWork // ignore: cast_nullable_to_non_nullable
-              as bool?,
       authorDetails: null == authorDetails
           ? _value.authorDetails
           : authorDetails // ignore: cast_nullable_to_non_nullable
@@ -183,24 +141,12 @@ class __$$NovelDetailWebViewImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
   const _$NovelDetailWebViewImpl(
-      {@JsonKey(name: "isV2") this.isV2,
-      @JsonKey(name: "userLang") this.userLang,
-      @JsonKey(name: "isOwnWork") this.isOwnWork,
-      @JsonKey(name: "authorDetails") required this.authorDetails,
+      {@JsonKey(name: "authorDetails") required this.authorDetails,
       @JsonKey(name: "novel") required this.novel});
 
   factory _$NovelDetailWebViewImpl.fromJson(Map<String, dynamic> json) =>
       _$$NovelDetailWebViewImplFromJson(json);
 
-  @override
-  @JsonKey(name: "isV2")
-  final bool? isV2;
-  @override
-  @JsonKey(name: "userLang")
-  final String? userLang;
-  @override
-  @JsonKey(name: "isOwnWork")
-  final bool? isOwnWork;
   @override
   @JsonKey(name: "authorDetails")
   final NovelWebViewAuthorDetails authorDetails;
@@ -210,7 +156,7 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
 
   @override
   String toString() {
-    return 'NovelDetailWebView(isV2: $isV2, userLang: $userLang, isOwnWork: $isOwnWork, authorDetails: $authorDetails, novel: $novel)';
+    return 'NovelDetailWebView(authorDetails: $authorDetails, novel: $novel)';
   }
 
   @override
@@ -218,11 +164,6 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NovelDetailWebViewImpl &&
-            (identical(other.isV2, isV2) || other.isV2 == isV2) &&
-            (identical(other.userLang, userLang) ||
-                other.userLang == userLang) &&
-            (identical(other.isOwnWork, isOwnWork) ||
-                other.isOwnWork == isOwnWork) &&
             (identical(other.authorDetails, authorDetails) ||
                 other.authorDetails == authorDetails) &&
             (identical(other.novel, novel) || other.novel == novel));
@@ -230,8 +171,7 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isV2, userLang, isOwnWork, authorDetails, novel);
+  int get hashCode => Object.hash(runtimeType, authorDetails, novel);
 
   @JsonKey(ignore: true)
   @override
@@ -250,10 +190,7 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
 
 abstract class _NovelDetailWebView implements NovelDetailWebView {
   const factory _NovelDetailWebView(
-          {@JsonKey(name: "isV2") final bool? isV2,
-          @JsonKey(name: "userLang") final String? userLang,
-          @JsonKey(name: "isOwnWork") final bool? isOwnWork,
-          @JsonKey(name: "authorDetails")
+          {@JsonKey(name: "authorDetails")
           required final NovelWebViewAuthorDetails authorDetails,
           @JsonKey(name: "novel") required final NovelWebViewNovel novel}) =
       _$NovelDetailWebViewImpl;
@@ -261,15 +198,6 @@ abstract class _NovelDetailWebView implements NovelDetailWebView {
   factory _NovelDetailWebView.fromJson(Map<String, dynamic> json) =
       _$NovelDetailWebViewImpl.fromJson;
 
-  @override
-  @JsonKey(name: "isV2")
-  bool? get isV2;
-  @override
-  @JsonKey(name: "userLang")
-  String? get userLang;
-  @override
-  @JsonKey(name: "isOwnWork")
-  bool? get isOwnWork;
   @override
   @JsonKey(name: "authorDetails")
   NovelWebViewAuthorDetails get authorDetails;

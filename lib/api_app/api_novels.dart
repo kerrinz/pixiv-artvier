@@ -39,9 +39,17 @@ class ApiNovels extends ApiBase {
     NovelDetailWebView result;
     final data = res.data.toString();
     try {
-      final objectStr = StringUtil.extractPixivNovelWebviewValueObject(data);
-      final fixObjectStr = StringUtil.fixToStrictJson(objectStr!);
-      result = NovelDetailWebView.fromJson(json.decode(fixObjectStr));
+      final startAt = data.indexOf("Object.defineProperty(window, 'pixiv'");
+      final novelStartAt = data.indexOf("novel", startAt);
+      final authorDetailsStartAt = data.indexOf("authorDetails", startAt);
+      final novelJson = StringUtil.extractJsonValueInJs(data, "novel", startAt: novelStartAt)
+          // 转化 List 和 Map 格式
+          ?.replaceFirst('"illusts": []', '"illusts":{}')
+          .replaceFirst('"images": []', '"images":{}')
+          .replaceFirst('"illusts":[]', '"illusts":{}')
+          .replaceFirst('"images":[]', '"images":{}');
+      final authorDetailsJson = StringUtil.extractJsonValueInJs(data, "authorDetails", startAt: authorDetailsStartAt);
+      result = NovelDetailWebView.fromJson(json.decode('{"novel":$novelJson,"authorDetails":$authorDetailsJson}'));
     } catch (e) {
       // log(objStr);
       logger.e(e);
