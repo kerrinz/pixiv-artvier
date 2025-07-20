@@ -387,7 +387,13 @@
   },
   "works": "作品",
   "@works": {
-    "description": "Function group item. My created artwork",
+    "description": "Function group item. My created works",
+    "type": "text",
+    "placeholders": {}
+  },
+  "myWorks": "我的作品",
+  "@myWorks": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },
@@ -866,6 +872,30 @@
   "editCollectionFailed": "编辑收藏失败！",
   "@editCollectionFailed": {
     "description": "Prompt of edit collection failed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addMarkerSucceed": "添加书签成功！",
+  "@addMarkerSucceed": {
+    "description": "Prompt success of add marker a novel",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addMarkerFailed": "添加书签失败！",
+  "@addMarkerFailed": {
+    "description": "Prompt failed of add marker a novel",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeMarkerSucceed": "移除书签成功！",
+  "@removeMarkerSucceed": {
+    "description": "Prompt success of remove marker of a novel",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeMarkerFailed": "移除书签失败！",
+  "@removeMarkerFailed": {
+    "description": "Prompt failed of remove marker of a novel",
     "type": "text",
     "placeholders": {}
   },

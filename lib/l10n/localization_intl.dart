@@ -115,7 +115,7 @@ class LocalizationIntl {
   String get history => Intl.message('History', name: 'history', desc: 'Function group item');
   String get downloads => Intl.message('Download', name: 'downloads', desc: 'Name of button in function group');
   String get works => Intl.message('Works', name: 'works', desc: 'Function group item. My created works');
-  String get myWorks => Intl.message('My works', name: 'works', desc: '');
+  String get myWorks => Intl.message('My works', name: 'myWorks', desc: '');
   String get collections =>
       Intl.message('Collection', name: 'collections', desc: 'Function group item. User favorite works');
   String get markers => Intl.message('Markers', name: 'markers', desc: 'Function group item. Same as novel bookmark');

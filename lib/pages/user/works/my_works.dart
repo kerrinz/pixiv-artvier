@@ -38,7 +38,7 @@ class MyWorksPageState extends BasePageState<MyWorksPage> with AutomaticKeepAliv
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.works),
+        title: Text(l10n.myWorks),
       ),
       body: RefreshIndicator(
         onRefresh: () async => handleRefresh,
