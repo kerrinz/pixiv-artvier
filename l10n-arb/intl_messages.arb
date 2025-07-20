@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-06-25T00:48:18.007273",
+  "@@last_modified": "2025-07-21T00:14:54.316",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -386,7 +386,13 @@
   },
   "works": "Works",
   "@works": {
-    "description": "Function group item. My created artwork",
+    "description": "Function group item. My created works",
+    "type": "text",
+    "placeholders": {}
+  },
+  "myWorks": "My works",
+  "@myWorks": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },
@@ -877,6 +883,30 @@
   "editCollectionFailed": "Edit collection failed!",
   "@editCollectionFailed": {
     "description": "Prompt of edit collection failed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addMarkerSucceed": "Add marker succeed!",
+  "@addMarkerSucceed": {
+    "description": "Prompt success of add marker a novel",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addMarkerFailed": "Add marker failed!",
+  "@addMarkerFailed": {
+    "description": "Prompt failed of add marker a novel",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeMarkerSucceed": "Remove marker succeed!",
+  "@removeMarkerSucceed": {
+    "description": "Prompt success of remove marker of a novel",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeMarkerFailed": "Remove marker failed!",
+  "@removeMarkerFailed": {
+    "description": "Prompt failed of remove marker of a novel",
     "type": "text",
     "placeholders": {}
   },
