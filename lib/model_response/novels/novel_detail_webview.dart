@@ -15,11 +15,8 @@ String novelDetailWebViewToJson(NovelDetailWebView data) => json.encode(data.toJ
 @freezed
 class NovelDetailWebView with _$NovelDetailWebView {
   const factory NovelDetailWebView({
-    @JsonKey(name: "isV2") bool? isV2,
-    @JsonKey(name: "userLang") String? userLang,
-    @JsonKey(name: "isOwnWork") bool? isOwnWork,
-    @JsonKey(name: "authorDetails") required NovelWebViewAuthorDetails authorDetails,
     @JsonKey(name: "novel") required NovelWebViewNovel novel,
+    @JsonKey(name: "authorDetails") required NovelWebViewAuthorDetails authorDetails,
   }) = _NovelDetailWebView;
 
   factory NovelDetailWebView.fromJson(Map<String, dynamic> json) => _$NovelDetailWebViewFromJson(json);

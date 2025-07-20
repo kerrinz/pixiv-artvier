@@ -11,9 +11,6 @@ part of 'novel_detail_webview.dart';
 _$NovelDetailWebViewImpl _$$NovelDetailWebViewImplFromJson(
         Map<String, dynamic> json) =>
     _$NovelDetailWebViewImpl(
-      isV2: json['isV2'] as bool?,
-      userLang: json['userLang'] as String?,
-      isOwnWork: json['isOwnWork'] as bool?,
       authorDetails: NovelWebViewAuthorDetails.fromJson(
           json['authorDetails'] as Map<String, dynamic>),
       novel: NovelWebViewNovel.fromJson(json['novel'] as Map<String, dynamic>),
@@ -22,9 +19,6 @@ _$NovelDetailWebViewImpl _$$NovelDetailWebViewImplFromJson(
 Map<String, dynamic> _$$NovelDetailWebViewImplToJson(
         _$NovelDetailWebViewImpl instance) =>
     <String, dynamic>{
-      'isV2': instance.isV2,
-      'userLang': instance.userLang,
-      'isOwnWork': instance.isOwnWork,
       'authorDetails': instance.authorDetails,
       'novel': instance.novel,
     };
