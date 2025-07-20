@@ -53,7 +53,7 @@ class MarkerStateNotifier extends BaseStateNotifier<MarkerStateChangedArguments>
     try {
       result = await ApiNovels(requester).markerNovel(novelId: novelId, page: page);
       // 分析结果，取得新的状态
-      newState = result ? oldState.copyWith(state: MarkerState.marked) : oldState;
+      newState = result ? oldState.copyWith(state: MarkerState.marked, page: page) : oldState;
       if (mounted) {
         state = newState;
       }
