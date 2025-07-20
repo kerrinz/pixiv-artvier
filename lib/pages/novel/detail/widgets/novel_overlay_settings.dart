@@ -75,6 +75,7 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
               children: [
                 IconButton(
                   onPressed: () {
+                    HapticFeedback.lightImpact();
                     ref.read(novelViewerSettings.notifier).minusTextSize();
                   },
                   icon: const Icon(Icons.text_decrease_rounded),
@@ -93,6 +94,7 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                         return DivisionSlider(
                             value: value > 1 ? 1 : (value < 0 ? 0 : value),
                             onChanged: (double value) {
+                              HapticFeedback.lightImpact();
                               ref.read(novelViewerSettings.notifier).changeTextSize(10 + value * 20);
                             },
                             divisions: textSizeList);
@@ -102,6 +104,7 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                 ),
                 IconButton(
                   onPressed: () {
+                    HapticFeedback.lightImpact();
                     ref.read(novelViewerSettings.notifier).plusTextSize();
                   },
                   icon: const Icon(Icons.text_increase_rounded),
@@ -166,13 +169,21 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
     HapticFeedback.lightImpact();
     final state = ref.read(markerStateProvider).state;
     if (state == MarkerState.marked) {
-      ref.read(markerStateProvider.notifier).unmarker().then((value) {
-        Fluttertoast.showToast(msg: "移除书签成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-      });
+      ref
+          .read(markerStateProvider.notifier)
+          .unmarker()
+          .then((value) =>
+              Fluttertoast.showToast(msg: l10n.removeMarkerSucceed, toastLength: Toast.LENGTH_SHORT, fontSize: 16.0))
+          .catchError((_) =>
+              Fluttertoast.showToast(msg: l10n.removeMarkerFailed, toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
     } else if (state == MarkerState.unmarked) {
-      ref.read(markerStateProvider.notifier).marker(page: page).then((value) {
-        Fluttertoast.showToast(msg: "添加书签成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
-      });
+      ref
+          .read(markerStateProvider.notifier)
+          .marker(page: page)
+          .then((value) =>
+              Fluttertoast.showToast(msg: l10n.addMarkerSucceed, toastLength: Toast.LENGTH_SHORT, fontSize: 16.0))
+          .catchError((_) =>
+              Fluttertoast.showToast(msg: l10n.addMarkerFailed, toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
     }
   }
 }
