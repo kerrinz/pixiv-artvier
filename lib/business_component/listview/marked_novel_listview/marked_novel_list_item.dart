@@ -1,3 +1,4 @@
+import 'package:artvier/base/base_page.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/global/model/marker_state_changed_arguments/marker_state_changed_arguments.dart';
 import 'package:artvier/global/provider/novel_marker_provider.dart';
@@ -34,7 +35,7 @@ class MarkedNovelWaterfallItem extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MarkedNovelWaterfallItemState();
 }
 
-class _MarkedNovelWaterfallItemState extends ConsumerState<MarkedNovelWaterfallItem>
+class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallItem>
     with _MarkedNovelListViewItemLogic {
   @override
   MarkedNovel get marked => widget.marked;
@@ -54,7 +55,6 @@ class _MarkedNovelWaterfallItemState extends ConsumerState<MarkedNovelWaterfallI
         double height = constraints.maxWidth * 0.36;
         return Container(
           width: constraints.maxWidth,
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
             borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -68,11 +68,14 @@ class _MarkedNovelWaterfallItemState extends ConsumerState<MarkedNovelWaterfallI
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   // 封面
-                  _novelCover(constraints.maxWidth * 0.26, height),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    child: _novelCover(constraints.maxWidth * 0.26, height),
+                  ),
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 8),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -83,20 +86,23 @@ class _MarkedNovelWaterfallItemState extends ConsumerState<MarkedNovelWaterfallI
                               Row(
                                 children: [
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        if (widget.marked.novel.series.title != null)
-                                          // 小说系列的信息栏
-                                          _seriesInfo(),
-                                        // 小说标题
-                                        Text(
-                                          widget.marked.novel.title,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                        ),
-                                      ],
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          if (widget.marked.novel.series.title != null)
+                                            // 小说系列的信息栏
+                                            _seriesInfo(),
+                                          // 小说标题
+                                          Text(
+                                            widget.marked.novel.title,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Builder(builder: (context) {
@@ -149,7 +155,7 @@ class _MarkedNovelWaterfallItemState extends ConsumerState<MarkedNovelWaterfallI
                                       child: Text(
                                         widget.marked.novel.user.name,
                                         overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(fontSize: 12),
+                                        style: textTheme.bodySmall,
                                       ),
                                     ),
                                   ],
@@ -233,7 +239,7 @@ class _MarkedNovelWaterfallItemState extends ConsumerState<MarkedNovelWaterfallI
             children: [
               TextSpan(
                 text: sb.toString(),
-                style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface.withAlpha(200)),
+                style: textTheme.labelSmall?.copyWith(color: Theme.of(context).colorScheme.onSurface.withAlpha(200)),
               ),
             ],
           ),
