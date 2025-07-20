@@ -148,15 +148,15 @@ mixin _Logic on ConsumerState<MyWorksPage> {
   /// 作品类型筛选
   final worksTypeProvider = StateProvider.autoDispose((ref) => WorksType.illust);
 
-  /// 收藏插画
+  /// 插画
   late final illustWorksProvider = AutoDisposeAsyncNotifierProvider<UserIllustWorksNotifier, List<CommonIllust>>(
       () => UserIllustWorksNotifier(userId: userId));
 
-  /// 收藏漫画
+  /// 漫画
   late final mangaWorksProvider = AutoDisposeAsyncNotifierProvider<UserMangaWorksNotifier, List<CommonIllust>>(
       () => UserMangaWorksNotifier(userId: userId));
 
-  /// 收藏小说
+  /// 小说
   late final novelWorksProvider = AutoDisposeAsyncNotifierProvider<UserNovelWorksNotifier, List<CommonNovel>>(
       () => UserNovelWorksNotifier(userId: userId));
 
