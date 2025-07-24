@@ -75,7 +75,7 @@ class DropDownMenuExpandIndex extends ChangeNotifier {
     _expandedIndex = expandedIndex;
   }
 
-  setExpandedIndex(int index) {
+  void setExpandedIndex(int index) {
     _expandedIndex = index;
     notifyListeners();
   }
@@ -86,7 +86,7 @@ class DropDownMenuExpandIndex extends ChangeNotifier {
   }
 
   /// 关闭已展开的菜单
-  closeExpanded() {
+  void closeExpanded() {
     if (_expandedIndex != -1) {
       _expandedIndex = -1;
       notifyListeners();
@@ -106,12 +106,12 @@ class DropDownMenuSelectValues extends ChangeNotifier {
     _selectedValues = selectedValues;
   }
 
-  setAllSelectedValues(List<List<String>> selectedValues) {
+  void setAllSelectedValues(List<List<String>> selectedValues) {
     _selectedValues = selectedValues;
     notifyListeners();
   }
 
-  setMenuSelectedValues(int menuIndex, List<String> selectedValueList) {
+  void setMenuSelectedValues(int menuIndex, List<String> selectedValueList) {
     _selectedValues[menuIndex] = selectedValueList;
     notifyListeners();
   }
@@ -242,7 +242,7 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return PopScope(
       canPop: _canPop,
-      onPopInvoked: (_) {
+      onPopInvokedWithResult: (_, __) {
         closeMenu();
       },
       child: Builder(builder: ((context) {

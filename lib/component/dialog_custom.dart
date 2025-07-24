@@ -61,8 +61,8 @@ class DialogCustom {
 }
 
 /// 打开外部链接的提示
-showOpenLinkDialog(BuildContext context, String url) {
-  return showDialog(
+Future<bool> showOpenLinkDialog(BuildContext context, String url) async {
+  final result = await showDialog<bool>(
     context: context,
     builder: (context) {
       return AlertDialog(
@@ -85,4 +85,5 @@ showOpenLinkDialog(BuildContext context, String url) {
       );
     },
   );
+  return result ?? false;
 }

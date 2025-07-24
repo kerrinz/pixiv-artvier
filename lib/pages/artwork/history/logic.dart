@@ -17,6 +17,10 @@ mixin HistoryPageLogic {
       Fluttertoast.showToast(msg: "操作错误");
       logger.e(err);
       return null;
-    }).whenComplete(() => Navigator.of(ref.context).pop());
+    }).whenComplete(() {
+      if (ref.context.mounted) {
+        Navigator.of(ref.context).pop();
+      }
+    });
   }
 }

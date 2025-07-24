@@ -106,7 +106,7 @@ class _CustomDropDownOverlayState extends State<CustomDropDownOverlay> with Sing
   Widget build(BuildContext context) {
     return PopScope(
       canPop: _canPop,
-      onPopInvoked: (_) {
+      onPopInvokedWithResult: (_, __) {
         _customDropDownController.close();
       },
       child: Builder(builder: ((context) {
@@ -139,7 +139,7 @@ class _CustomDropDownOverlayState extends State<CustomDropDownOverlay> with Sing
     Overlay.of(context).insert(_overlayEntry!);
   }
 
-  OverlayEntry buildOverlay({required link, required offset}) {
+  OverlayEntry buildOverlay({required LayerLink link, required Offset offset}) {
     return OverlayEntry(
       builder: (context) {
         return CompositedTransformFollower(

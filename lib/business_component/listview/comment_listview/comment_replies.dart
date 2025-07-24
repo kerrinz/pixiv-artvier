@@ -103,7 +103,7 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                        child: Divider(color: Colors.grey.withOpacity(0.2)),
+                        child: Divider(color: Colors.grey.withValues(alpha: 0.2)),
                       ),
                     ],
                   ),
@@ -207,7 +207,7 @@ class _CommentRepliesState extends BasePageState<CommentReplies> with CommentRep
   }
 
   /// Show Comments bar bottom sheet and focus input.
-  showCommentsBarInput(bool initialFocusInput) {
+  void showCommentsBarInput(bool initialFocusInput) {
     BottomSheets.showCustomBottomSheet<bool>(
         context: ref.context,
         exitOnClickModal: true,

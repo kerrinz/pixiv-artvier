@@ -47,7 +47,7 @@ class RecommendUsersWidget extends BasePage {
                       width: avatarSize,
                       height: avatarSize,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.withOpacity(0.25), width: 1),
+                        border: Border.all(color: Colors.grey.withValues(alpha: 0.25), width: 1),
                         borderRadius: const BorderRadius.all(Radius.circular(50)),
                         image: DecorationImage(
                           fit: BoxFit.cover,

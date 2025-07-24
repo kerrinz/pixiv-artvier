@@ -76,7 +76,7 @@ class DragController extends ChangeNotifier {
   }
 }
 
-/// 拓展List<double>
+/// 拓展 [List<double>]
 extension ExtensionList on List<double> {
   /// 是否为有序数组，[smallToLarge]是否从小到大，[canContainsDuplicates]是否可以包含重复项
   bool isSorted({bool smallToLarge = true, bool canContainsDuplicates = true}) {

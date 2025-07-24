@@ -1,6 +1,6 @@
 /// Http请求的默认参数
 class HttpBaseOptions {
-  static get baseUrl => 'https://$appApiHost';
+  static String get baseUrl => 'https://$appApiHost';
 
   // Get ip by https://dns.sb/doh
   static const String appApiHost = "app-api.pixiv.net";

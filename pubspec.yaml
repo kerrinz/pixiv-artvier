@@ -21,66 +21,68 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 0.5.3
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ">=3.0.0 <=3.8.1"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  archive: ^3.6.1
-  crypto: ^3.0.1
+  archive: ^4.0.7
+  crypto: ^3.0.6
   # The following adds the Cupertino Icons font to your application.flutter_downloader
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  date_format: ^2.0.2
+  cupertino_icons: ^1.0.8
+  date_format: ^2.0.9
   # device_info_plus: ^10.1.2 # 设备信息
-  dio: ^5.4.2+1
-  drift: ^2.17.0 # 数据库
-  extended_image: ^8.0.2 # 图片
-  extended_nested_scroll_view: ^6.0.0
+  dio: ^5.8.0+1
+  drift: ^2.25.0 # 数据库
+  extended_image: ^10.0.1 # 图片
+  extended_nested_scroll_view: ^6.2.1
   extended_sliver: ^2.1.3
 #  flutter_downloader: 1.7.0 # 文件下载
 #  flutter_staggered_grid_view: ^0.4.0
-  flutter_markdown: ^0.7.3+1
-  flutter_riverpod: ^2.1.3 # 状态管理
-  flutter_sticky_header: ^0.6.5 # 多个header的吸顶效果
-  flutter_svg: ^2.0.0
-  flutter_widget_from_html: ^0.15.3
-  fluttertoast: ^8.0.8
-  freezed_annotation: ^2.2.0 # 模板代码生成
-  html: ^0.15.4 # 解析 HTML
+  flutter_markdown: ^0.7.7+1
+  flutter_riverpod: ^2.6.1 # 状态管理
+  flutter_sticky_header: ^0.8.0 # 多个header的吸顶效果
+  flutter_svg: ^2.2.0
+  flutter_widget_from_html: ^0.17.0
+  fluttertoast: ^8.2.12
+  freezed_annotation: ^3.1.0 # 模板代码生成
+  html: ^0.15.6 # 解析 HTML
   image_gallery_saver: ^2.0.3 # 图片保存
-  image: ^4.2.0
-  intl: ^0.18.0 # 国际化
-  json_annotation: ^4.7.0
-  logger: ^2.2.0 # 输出日志
+  image: ^4.5.4
+  intl: ^0.20.2 # 国际化
+  json_annotation: ^4.9.0
+  logger: ^2.6.1 # 输出日志
   # package_info_plus: ^4.0.2 # 获取本App的信息
   modal_bottom_sheet: ^3.0.0
-  path: ^1.9.0
-  path_provider: ^2.0.1
-  permission_handler: ^11.3.1 # 权限管理
-  package_info_plus: ^6.0.0
-  photo_view: ^0.14.0 # 图片预览
-  provider: ^6.1.2
-  shared_preferences: ^2.0.5
-  sqlite3_flutter_libs: ^0.5.20
-  url_launcher: ^6.2.5 # 用于打开第三方应用
+  path: ^1.9.1
+  path_provider: ^2.1.5
+  permission_handler: ^12.0.1 # 权限管理
+  package_info_plus: ^8.3.0
+  photo_view: ^0.15.0 # 图片预览
+  provider: ^6.1.5
+  shared_preferences: ^2.5.3
+  sqlite3_flutter_libs: ^0.5.37
+  url_launcher: ^6.3.2 # 用于打开第三方应用
   visibility_detector: ^0.4.0+2 # 用于判断组件是否在视口内
-  waterfall_flow: ^3.0.1 # 瀑布流
-  webview_flutter: ^4.7.0
+  waterfall_flow: ^3.1.1 # 瀑布流
+  webview_flutter: ^4.13.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  analyzer: ^6.4.1
-  build_runner: ^2.3.3 # 构建工具，命令：dart run build_runner build
-  drift_dev: ^2.17.0
-  flutter_lints: ^3.0.2
-  freezed: ^2.3.2 # 模板代码生成工具
-  intl_translation: ^0.19.0 # 国际化
-  json_serializable: ^6.5.4 # json序列化
-  source_gen: ^1.2.6 # 让工具生成的代码忽视lints
+  analyzer: ^6.11.0
+  build_runner: ^2.5.4 # 构建工具，命令：dart run build_runner build
+  dart_style: ^2.3.8
+  drift_dev: ^2.25.2
+  lints: ^6.0.0
+  flutter_lints: ^6.0.0
+  freezed: ^3.0.0 # 模板代码生成工具
+  intl_translation: ^0.20.1 # 国际化
+  json_serializable: ^6.9.5 # json序列化
+  source_gen: ^2.0.0 # 让工具生成的代码忽视lints
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

@@ -49,8 +49,8 @@ class OAuth {
   static const String grantTypeRefresh = "refresh_token";
 
   // 鉴权公钥
-  static get clientId => androidClientId;
-  static get clientSecret => androidClientSecret;
+  static String get clientId => androidClientId;
+  static String get clientSecret => androidClientSecret;
 
   // pixiv-ios 鉴权公钥
   static const String iosClientId = "KzEZED7aC0vird8jWyHM38mXjNTY";
@@ -139,7 +139,7 @@ class OAuth {
   }
 
   /// 生成code_verifier，即生成随机字符串并进行base64Url处理
-  static String createCodeVerifier({length = 32}) {
+  static String createCodeVerifier({int length = 32}) {
     var random = Random();
     var text = "";
     String possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -163,7 +163,7 @@ class OAuth {
   }
 
   /// x-client-hash
-  static String getXClientHash({required xClientTime}) {
+  static String getXClientHash({required String xClientTime}) {
     var content = const Utf8Encoder().convert(xClientTime + hashSalt);
     return md5.convert(content).toString();
   }

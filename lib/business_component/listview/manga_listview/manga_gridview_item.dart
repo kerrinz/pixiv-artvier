@@ -164,8 +164,8 @@ class _MangaGridItemState extends ConsumerState<MangaGridItem> with MangaGridIte
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
-                  splashColor: Colors.black12.withOpacity(0.15),
-                  highlightColor: Colors.black12.withOpacity(0.1),
+                  splashColor: Colors.black12.withValues(alpha: 0.15),
+                  highlightColor: Colors.black12.withValues(alpha: 0.1),
                   onTap: () {},
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,

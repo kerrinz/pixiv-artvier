@@ -100,8 +100,8 @@ class DownloadManagePageState extends BasePageState<DownloadManagePage> with Tic
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        splashColor: Colors.black12.withOpacity(0.15),
-                        highlightColor: Colors.black12.withOpacity(0.1),
+                        splashColor: Colors.black12.withValues(alpha: 0.15),
+                        highlightColor: Colors.black12.withValues(alpha: 0.1),
                         onTap: () {
                           Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
                               arguments: IllustDetailPageArguments(illustId: item.worksId, title: item.title));

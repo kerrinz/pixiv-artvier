@@ -173,7 +173,7 @@ class _MyFlexibleSpaceBarState extends State<MyFlexibleSpaceBar> {
           if (opacity > 0.0) {
             TextStyle titleStyle = theme.primaryTextTheme.titleLarge!;
             titleStyle = titleStyle.copyWith(
-              color: titleStyle.color!.withOpacity(opacity),
+              color: titleStyle.color!.withValues(alpha: opacity),
             );
             final bool effectiveCenterTitle = _getEffectiveCenterTitle(theme);
             final EdgeInsetsGeometry padding = widget.titlePadding ??

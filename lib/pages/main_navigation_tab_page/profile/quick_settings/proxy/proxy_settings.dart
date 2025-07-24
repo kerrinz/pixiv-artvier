@@ -112,7 +112,7 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                       Builder(builder: (context) {
                         return CupertinoSwitch(
                           value: state.isEnabled,
-                          activeColor: Theme.of(context).colorScheme.primary,
+                          activeTrackColor: Theme.of(context).colorScheme.primary,
                           onChanged: (value) async {
                             if (Theme.of(context).platform == TargetPlatform.android) {
                               HapticFeedback.lightImpact();
@@ -150,7 +150,7 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                       Text(
                         l10n.directConnectionHint,
                         style: textTheme.labelSmall?.copyWith(
-                          color: textTheme.labelSmall?.color?.withOpacity(0.5),
+                          color: textTheme.labelSmall?.color?.withValues(alpha: 0.5),
                         ),
                       ),
                     ],
@@ -158,7 +158,7 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                   Builder(builder: (context) {
                     return CupertinoSwitch(
                       value: enable,
-                      activeColor: Theme.of(context).colorScheme.primary,
+                      activeTrackColor: Theme.of(context).colorScheme.primary,
                       onChanged: (value) async {
                         if (Theme.of(context).platform == TargetPlatform.android) {
                           HapticFeedback.lightImpact();
@@ -254,9 +254,11 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                               _hostController.text.isNotEmpty ? _hostController.text : CONSTANTS.proxy_default_host;
                           var port =
                               _portController.text.isNotEmpty ? _portController.text : CONSTANTS.proxy_default_port;
-                          handleSaveProxyHostPort(ref, host: host, port: port)
-                              .then((value) => Navigator.of(context).pop())
-                              .catchError((_) => Fluttertoast.showToast(msg: "Save error"));
+                          handleSaveProxyHostPort(ref, host: host, port: port).then((value) {
+                            if (context.mounted) Navigator.of(context).pop();
+                          }).catchError((_) {
+                            Fluttertoast.showToast(msg: "Save error");
+                          });
                         },
                       ),
                     ],
@@ -325,9 +327,11 @@ class ProxySettingsPageState extends BasePageState<ProxySettings> with ProxyLogi
                         var host = _imageHostController.text.isNotEmpty
                             ? _imageHostController.text
                             : HttpBaseOptions.pximgHost;
-                        handleSaveImageHost(ref, host: host)
-                            .then((value) => Navigator.of(context).pop())
-                            .catchError((_) => Fluttertoast.showToast(msg: "Save error"));
+                        handleSaveImageHost(ref, host: host).then((value) {
+                          if (context.mounted) Navigator.of(context).pop();
+                        }).catchError((_) {
+                          Fluttertoast.showToast(msg: "Save error");
+                        });
                       },
                     ),
                   ],

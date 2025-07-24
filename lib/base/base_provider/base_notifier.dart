@@ -58,7 +58,7 @@ abstract class BaseStateNotifier<State> extends StateNotifier<State> with _BaseN
   @override
   Reader get read => ref.read;
 
-  update(State state) {
+  void update(State state) {
     this.state = state;
   }
 }

@@ -35,16 +35,16 @@ class MangaRankingMode {
 
 /// 小说排行模式
 class NovelRankingMode {
-  static get daily => IllustRankingMode.daily;
-  static get dailyMale => IllustRankingMode.dailyMale;
-  static get dailyFemale => IllustRankingMode.dailyFemale;
-  static get weekly => IllustRankingMode.weekly;
-  static get weeklyAi => "week_ai";
-  static get weeklyRookie => IllustRankingMode.weeklyRookie;
+  static String get daily => IllustRankingMode.daily;
+  static String get dailyMale => IllustRankingMode.dailyMale;
+  static String get dailyFemale => IllustRankingMode.dailyFemale;
+  static String get weekly => IllustRankingMode.weekly;
+  static String get weeklyAi => "week_ai";
+  static String get weeklyRookie => IllustRankingMode.weeklyRookie;
 
   static String get dailyR18 => IllustRankingMode.dailyR18;
   static String get weeklyR18 => IllustRankingMode.weeklyR18;
   static String get dailyMaleR18 => IllustRankingMode.dailyMaleR18;
   static String get dailyFemaleR18 => IllustRankingMode.dailyFemaleR18;
-  static get weeklyAiR18 => "week_ai_r18";
+  static String get weeklyAiR18 => "week_ai_r18";
 }

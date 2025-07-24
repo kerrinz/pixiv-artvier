@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:artvier/global/model/account_profile/account_profile.dart';
 import 'package:artvier/base/base_storage.dart';
 
-/// 账号集合的结构：Map<String, AccountProfile>
+/// 账号集合的结构：[Map<String, AccountProfile>]
 /// 单账号结构：AccountProfile
 class AccountStorage extends BaseStorage {
   AccountStorage(super.sharedPreferences);

@@ -124,7 +124,7 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
                                         break;
                                       case MarkerState.removingMarker:
                                         icon = Icons.bookmark;
-                                        color = Colors.red.withOpacity(0.5);
+                                        color = Colors.red.withValues(alpha: 0.5);
                                         break;
                                       case MarkerState.marked:
                                         icon = Icons.bookmark;
@@ -134,7 +134,6 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
                                         icon = Icons.bookmark_add_outlined;
                                         color = null;
                                         break;
-                                      default:
                                     }
                                     return IconButton(
                                       onPressed: handleTapMarker,
@@ -178,7 +177,7 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
     );
   }
 
-  Widget _novelCover(width, height) {
+  Widget _novelCover(double width, double height) {
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(4)),
       child: EnhanceNetworkImage(

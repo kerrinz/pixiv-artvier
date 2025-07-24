@@ -29,7 +29,7 @@ class _CommentsBarPreviewState extends BasePageState<CommentsBarPreview> {
     return Container(
       padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
       decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: Colors.grey.withOpacity(0.1), width: 1)),
+        border: Border(top: BorderSide(color: Colors.grey.withValues(alpha: 0.1), width: 1)),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -60,13 +60,13 @@ class _CommentsBarPreviewState extends BasePageState<CommentsBarPreview> {
       onTap: widget.onTapInput,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.1),
+          color: Colors.grey.withValues(alpha: 0.1),
           borderRadius: const BorderRadius.all(Radius.circular(8.0)),
         ),
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         padding: const EdgeInsets.only(top: 7, left: 12, right: 12, bottom: 9),
         child: Text(widget.text,
-            style: textTheme.bodyMedium?.copyWith(color: textTheme.bodyMedium?.color?.withOpacity(0.75))),
+            style: textTheme.bodyMedium?.copyWith(color: textTheme.bodyMedium?.color?.withValues(alpha: 0.75))),
       ),
     );
   }

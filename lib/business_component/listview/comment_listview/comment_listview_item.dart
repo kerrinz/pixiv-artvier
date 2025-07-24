@@ -143,7 +143,7 @@ class CommentListViewItem extends BasePage {
                       margin: const EdgeInsets.only(top: 4, bottom: 8),
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.1),
+                        color: Colors.grey.withValues(alpha: 0.1),
                         borderRadius: const BorderRadius.all(Radius.circular(8)),
                       ),
                       child: Column(

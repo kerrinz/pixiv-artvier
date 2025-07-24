@@ -26,15 +26,16 @@ class _LoginWebState extends BasePageState<LoginWebPage> {
         if (request.url.startsWith("pixiv://account/")) {
           // 拦截，拿到code
           String? code = Uri.parse(request.url).queryParameters["code"];
-          if (code != null) {
+          if (code != null ) {
             // OAuth登录
             ref.read(globalCurrentAccountProvider.notifier).oAuthLogin(code).then((value) {
-              Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+              // ignore: use_build_context_synchronously
+              if (context.mounted) Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
             }).catchError((onError) {
               // TODO: 待处理登录失败的逻辑
             });
           } else {
-            //
+              // TODO: 异常处理
           }
           return NavigationDecision.prevent;
         }

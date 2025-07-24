@@ -117,7 +117,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
     );
   }
 
-  Widget _novelCover(width, height) {
+  Widget _novelCover(double width, double height) {
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(4)),
       child: EnhanceNetworkImage(

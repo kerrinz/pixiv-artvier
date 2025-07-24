@@ -33,7 +33,7 @@ class MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (_) {
+      onPopInvokedWithResult: (_, __) {
         // 拦截短时间内的单按返回
         if (_lastPressedBack == null || DateTime.now().difference(_lastPressedBack!) > const Duration(seconds: 1)) {
           // 两次点击间隔超过1秒则重新计时

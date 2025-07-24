@@ -39,7 +39,7 @@ class PerferenceSingleChoisePanel extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .labelSmall
-                      ?.copyWith(color: Theme.of(context).textTheme.labelSmall?.color?.withOpacity(0.5)),
+                      ?.copyWith(color: Theme.of(context).textTheme.labelSmall?.color?.withValues(alpha: 0.5)),
                 ),
             ],
           ),

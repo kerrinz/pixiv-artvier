@@ -89,7 +89,7 @@ class CollectionsFilterSheet extends ConsumerWidget {
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 4.0),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Theme.of(context).colorScheme.surfaceVariant),
+                  border: Border.all(color: Theme.of(context).colorScheme.surfaceContainerHighest),
                   borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: Consumer(
@@ -124,7 +124,7 @@ class CollectionsFilterSheet extends ConsumerWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 12, left: 0, right: 4),
                     child: CupertinoButton(
-                      color: Theme.of(context).colorScheme.surfaceVariant,
+                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                       onPressed: () {

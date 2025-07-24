@@ -4,11 +4,11 @@ PODS:
   - Flutter (1.0.0)
   - fluttertoast (0.0.2):
     - Flutter
-    - Toast
   - image_gallery_saver (2.0.2):
     - Flutter
   - just_audio (0.0.1):
     - Flutter
+    - FlutterMacOS
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -19,28 +19,31 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - sqflite (0.0.3):
+  - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
-  - sqlite3 (3.47.2):
-    - sqlite3/common (= 3.47.2)
-  - sqlite3/common (3.47.2)
-  - sqlite3/dbstatvtab (3.47.2):
+  - sqlite3 (3.50.3):
+    - sqlite3/common (= 3.50.3)
+  - sqlite3/common (3.50.3)
+  - sqlite3/dbstatvtab (3.50.3):
     - sqlite3/common
-  - sqlite3/fts5 (3.47.2):
+  - sqlite3/fts5 (3.50.3):
     - sqlite3/common
-  - sqlite3/perf-threadsafe (3.47.2):
+  - sqlite3/math (3.50.3):
     - sqlite3/common
-  - sqlite3/rtree (3.47.2):
+  - sqlite3/perf-threadsafe (3.50.3):
+    - sqlite3/common
+  - sqlite3/rtree (3.50.3):
     - sqlite3/common
   - sqlite3_flutter_libs (0.0.1):
     - Flutter
-    - sqlite3 (~> 3.47.0)
+    - FlutterMacOS
+    - sqlite3 (~> 3.50.3)
     - sqlite3/dbstatvtab
     - sqlite3/fts5
+    - sqlite3/math
     - sqlite3/perf-threadsafe
     - sqlite3/rtree
-  - Toast (4.0.0)
   - url_launcher_ios (0.0.1):
     - Flutter
   - video_player_avfoundation (0.0.1):
@@ -50,28 +53,28 @@ PODS:
     - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - Flutter (from `Flutter`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
-  - just_audio (from `.symlinks/plugins/just_audio/ios`)
+  - just_audio (from `.symlinks/plugins/just_audio/darwin`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
-  - sqflite (from `.symlinks/plugins/sqflite/darwin`)
-  - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/ios`)
+  - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
+  - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
   - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
-  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
 
 SPEC REPOS:
   trunk:
     - sqlite3
-    - Toast
 
 EXTERNAL SOURCES:
   audio_session:
@@ -83,7 +86,7 @@ EXTERNAL SOURCES:
   image_gallery_saver:
     :path: ".symlinks/plugins/image_gallery_saver/ios"
   just_audio:
-    :path: ".symlinks/plugins/just_audio/ios"
+    :path: ".symlinks/plugins/just_audio/darwin"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -92,10 +95,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
-  sqflite:
-    :path: ".symlinks/plugins/sqflite/darwin"
+  sqflite_darwin:
+    :path: ".symlinks/plugins/sqflite_darwin/darwin"
   sqlite3_flutter_libs:
-    :path: ".symlinks/plugins/sqlite3_flutter_libs/ios"
+    :path: ".symlinks/plugins/sqlite3_flutter_libs/darwin"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   video_player_avfoundation:
@@ -103,26 +106,25 @@ EXTERNAL SOURCES:
   wakelock_plus:
     :path: ".symlinks/plugins/wakelock_plus/ios"
   webview_flutter_wkwebview:
-    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
-  audio_session: 088d2483ebd1dc43f51d253d4a1c517d9a2e7207
+  audio_session: 19e9480dbdd4e5f6c4543826b2e8b0e4ab6145fe
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
+  fluttertoast: 21eecd6935e7064cc1fcb733a4c5a428f3f24f0f
   image_gallery_saver: cb43cc43141711190510e92c460eb1655cd343cb
-  just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
-  package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
+  just_audio: a42c63806f16995daf5b219ae1d679deb76e6a79
+  package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
-  sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
-  sqlite3: 7559e33dae4c78538df563795af3a86fc887ee71
-  sqlite3_flutter_libs: b55ef23cfafea5318ae5081e0bf3fbbce8417c94
-  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+  sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
+  sqlite3: 83105acd294c9137c026e2da1931c30b4588ab81
+  sqlite3_flutter_libs: e645eaf549cf0e924ca4d4d17b1b7d60cd2d3a05
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
   video_player_avfoundation: 7c6c11d8470e1675df7397027218274b6d2360b3
-  wakelock_plus: 78ec7c5b202cab7761af8e2b2b3d0671be6c4ae1
-  webview_flutter_wkwebview: 2a23822e9039b7b1bc52e5add778e5d89ad488d1
+  wakelock_plus: 76957ab028e12bfa4e66813c99e46637f367fc7e
+  webview_flutter_wkwebview: a4af96a051138e28e29f60101d094683b9f82188
 
 PODFILE CHECKSUM: c16347b4735bb4c1c5647361a0b52076b5100772
 

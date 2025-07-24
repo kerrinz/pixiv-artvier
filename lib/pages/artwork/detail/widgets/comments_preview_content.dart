@@ -61,7 +61,6 @@ class CommentsPreviewContentWidget extends BasePage {
           margin: const EdgeInsets.symmetric(horizontal: 12.0),
           padding: const EdgeInsets.only(top: 12, bottom: 8),
           child: CupertinoButton(
-            minSize: null,
             padding: const EdgeInsets.symmetric(vertical: 8),
             color: colorScheme.primary.withAlpha(32),
             borderRadius: const BorderRadius.all(Radius.circular(20.0)),

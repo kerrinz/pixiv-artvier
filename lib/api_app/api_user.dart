@@ -86,7 +86,7 @@ class ApiUser extends ApiBase {
   ///
   /// [worksType] = [WorksType.manga]]可切换为漫画作品
   Future<CommonIllustList> illustWorks(
-      {required userId, WorksType worksType = WorksType.illust, CancelToken? cancelToken}) async {
+      {required String userId, WorksType worksType = WorksType.illust, CancelToken? cancelToken}) async {
     assert([WorksType.illust, WorksType.manga].contains(worksType));
     String type = worksType == WorksType.illust ? CONSTANTS.type_illusts : CONSTANTS.type_manga;
     Response res = await requester.get<String>(
@@ -103,12 +103,12 @@ class ApiUser extends ApiBase {
   }
 
   /// 获取用户的漫画作品列表
-  Future<CommonIllustList> mangaWorks({required userId, CancelToken? cancelToken}) {
+  Future<CommonIllustList> mangaWorks({required String userId, CancelToken? cancelToken}) {
     return illustWorks(userId: userId, worksType: WorksType.manga, cancelToken: cancelToken);
   }
 
   /// 获取用户的小说作品列表
-  Future<CommonNovelList> novelWorks({required userId, CancelToken? cancelToken}) async {
+  Future<CommonNovelList> novelWorks({required String userId, CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
       "/v1/user/novels",
       queryParameters: {
@@ -122,7 +122,7 @@ class ApiUser extends ApiBase {
 
   /// 获取用户收藏的插画列表
   Future<CommonIllustList> artworkCollections({
-    required userId,
+    required String userId,
     Restrict restrict = Restrict.public,
     String? tag,
     CancelToken? cancelToken,

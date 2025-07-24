@@ -37,7 +37,7 @@ class UserDetailPageAppBarWidget extends ConsumerWidget {
     Color buttonForeground = Color.fromARGB(255, c, c, c);
     return AppBar(
       toolbarHeight: kToolbarHeight,
-      backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(backgroundOpacity),
+      backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: backgroundOpacity),
       leading: BlurButton(
         onPressed: () {
           Navigator.of(context).pop(-1);
@@ -63,7 +63,7 @@ class UserDetailPageAppBarWidget extends ConsumerWidget {
               width: 30,
               height: 30,
               decoration: BoxDecoration(
-                border: Border.all(color: Theme.of(context).colorScheme.outline.withOpacity(0.5), width: 1),
+                border: Border.all(color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.5), width: 1),
                 borderRadius: const BorderRadius.all(Radius.circular(80)),
                 image: DecorationImage(
                   fit: BoxFit.cover,

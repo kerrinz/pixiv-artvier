@@ -106,7 +106,7 @@ class HomePageState extends BasePageState with TickerProviderStateMixin, Automat
   /// Render AppBar
   Widget _buildAppBar(double opacity) {
     double bgOpacity = opacity;
-    Color inputBackgroundColor = bgOpacity > 0.5 ? Colors.grey.withOpacity(0.15) : Colors.black12;
+    Color inputBackgroundColor = bgOpacity > 0.5 ? Colors.grey.withValues(alpha: 0.15) : Colors.black12;
     Color textColor = Colors.white;
     final brightness = Theme.of(context).brightness;
     if (brightness == Brightness.light && (bgOpacity > 0.5 || tabIndex == 2)) {
@@ -116,7 +116,7 @@ class HomePageState extends BasePageState with TickerProviderStateMixin, Automat
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10, bottom: 10, left: 10, right: 10),
       height: (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) + MediaQuery.of(context).padding.top,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface.withOpacity(bgOpacity),
+        color: Theme.of(context).colorScheme.surface.withValues(alpha: bgOpacity),
       ),
       child: Row(
         children: [
@@ -129,7 +129,7 @@ class HomePageState extends BasePageState with TickerProviderStateMixin, Automat
             unselectedLabelStyle: textTheme.titleMedium?.copyWith(color: textColor, fontWeight: FontWeight.normal),
             labelColor: textColor,
             labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-            unselectedLabelColor: textColor.withOpacity(0.8),
+            unselectedLabelColor: textColor.withValues(alpha: 0.8),
             indicator: CustomUnderlineTabIndicator(
               indicatorWidth: 16,
               borderRadius: const BorderRadius.all(Radius.circular(4)),
