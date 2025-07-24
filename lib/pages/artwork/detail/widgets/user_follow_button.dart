@@ -37,15 +37,15 @@ class UserFollowButton extends ConsumerWidget with FollowButtonLogic {
 
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     Map<UserFollowState, Color> colorMap = {
-      UserFollowState.followed: colorScheme.surfaceVariant,
+      UserFollowState.followed: colorScheme.surfaceContainerHighest,
       UserFollowState.notFollow: colorScheme.primary,
       UserFollowState.requestingFollow: colorScheme.primary,
-      UserFollowState.requestingUnfollow: colorScheme.surfaceVariant,
+      UserFollowState.requestingUnfollow: colorScheme.surfaceContainerHighest,
     };
     Map<UserFollowState, Color> textColorMap = {
       UserFollowState.followed: colorScheme.primary,
-      UserFollowState.notFollow: colorScheme.surfaceVariant,
-      UserFollowState.requestingFollow: colorScheme.surfaceVariant,
+      UserFollowState.notFollow: colorScheme.surfaceContainerHighest,
+      UserFollowState.requestingFollow: colorScheme.surfaceContainerHighest,
       UserFollowState.requestingUnfollow: colorScheme.primary,
     };
     Map<UserFollowState, String> textMap = {
@@ -60,11 +60,11 @@ class UserFollowButton extends ConsumerWidget with FollowButtonLogic {
       padding: const EdgeInsets.only(right: 4.0, left: 4.0),
       child: CupertinoButton(
         onPressed: () => handlePressed(ref),
-        minSize: 0,
+        minimumSize: Size(0, 0),
         pressedOpacity: 1,
         alignment: Alignment.center,
         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         color: colorMap[state],
         child: SizedBox(
           height: 16,

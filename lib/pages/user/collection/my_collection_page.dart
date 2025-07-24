@@ -73,7 +73,7 @@ class _MyCollectionsState extends BasePageState<MyBookmarksPage> with TickerProv
                       var filter = ref.watch(collectionsFilterProvider);
                       return CupertinoButton(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        minSize: tabBar.preferredSize.height,
+                        minimumSize: Size(0, tabBar.preferredSize.height),
                         onPressed: () => handlePressedFilter(),
                         child: Row(
                           children: [

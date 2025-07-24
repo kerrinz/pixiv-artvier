@@ -169,9 +169,9 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
                   case "male":
                     return const Icon(Icons.male, color: Colors.blue, size: 22);
                   case "female":
-                    return Icon(Icons.female, color: Colors.pink.shade300.withOpacity(0.75), size: 22);
+                    return Icon(Icons.female, color: Colors.pink.shade300.withValues(alpha: 0.75), size: 22);
                   case "unknown":
-                    return Icon(Icons.transgender_outlined, color: Colors.blueGrey.withOpacity(0.75), size: 22);
+                    return Icon(Icons.transgender_outlined, color: Colors.blueGrey.withValues(alpha: 0.75), size: 22);
                   default:
                     return const Text("-", style: numberTextStyle);
                 }

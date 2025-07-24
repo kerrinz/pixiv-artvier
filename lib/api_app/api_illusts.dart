@@ -160,7 +160,7 @@ class ApiIllusts extends ApiBase {
   }
 
   // 获取插画亮点 Pixivision
-  Future<SpotlightArticles> illustPixivision({isManga = false, CancelToken? cancelToken}) async {
+  Future<SpotlightArticles> illustPixivision({bool isManga = false, CancelToken? cancelToken}) async {
     var query = <String, dynamic>{};
     query.addAll({
       "filter": "for_ios",

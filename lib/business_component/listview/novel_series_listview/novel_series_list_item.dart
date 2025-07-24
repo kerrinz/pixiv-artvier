@@ -94,13 +94,13 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
                       children: [
                         Text(l10n.seriesUpdateTo(widget.novelSeries.publishedContentCount),
                             style: textTheme.bodySmall
-                                ?.copyWith(color: textTheme.bodySmall?.color?.withOpacity(0.5), height: 1.5)),
+                                ?.copyWith(color: textTheme.bodySmall?.color?.withValues(alpha: 0.5), height: 1.5)),
                         Text(
                           formatDate(
                             widget.novelSeries.lastPublishedContentDatetime.toLocal(),
                             [yyyy, '-', mm, '-', dd, ' '],
                           ),
-                          style: textTheme.bodyMedium?.copyWith(color: textTheme.bodyMedium?.color?.withOpacity(0.5)),
+                          style: textTheme.bodyMedium?.copyWith(color: textTheme.bodyMedium?.color?.withValues(alpha: 0.5)),
                         ),
                       ]),
                 ],
@@ -119,9 +119,9 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                border: Border.all(color: colorScheme.primary.withOpacity(0.5)),
+                border: Border.all(color: colorScheme.primary.withValues(alpha: 0.5)),
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
-                // color: colorScheme.primary.withOpacity(0.1),
+                // color: colorScheme.primary.withValues(alpha: 0.1),
               ),
               child: Row(
                 children: [

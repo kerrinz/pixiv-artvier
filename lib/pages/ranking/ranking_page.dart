@@ -175,7 +175,7 @@ class RankingPageState extends BasePageState<RankingPage> with TickerProviderSta
                               width: double.infinity,
                               height: 40,
                               decoration: BoxDecoration(
-                                color: colorScheme.primary.withOpacity(0.1),
+                                color: colorScheme.primary.withValues(alpha: 0.1),
                                 border: Border.all(color: colorScheme.primary.withAlpha(100)),
                                 borderRadius: const BorderRadius.all(Radius.circular(10)),
                               ),

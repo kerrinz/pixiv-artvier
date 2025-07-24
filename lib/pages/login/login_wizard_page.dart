@@ -68,7 +68,7 @@ class _LoginWizardPageState extends BasePageState<LoginWizardPage> {
                         // Web login button
                         CupertinoButton(
                           color: colorScheme.primary,
-                          minSize: 0,
+                          minimumSize: Size(0, 0),
                           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
                           borderRadius: const BorderRadius.all(Radius.circular(10)),
                           onPressed: () => Navigator.pushNamed(context, RouteNames.loginWeb.name),
@@ -88,7 +88,7 @@ class _LoginWizardPageState extends BasePageState<LoginWizardPage> {
                             width: 300,
                             child: CupertinoButton(
                               color: colorScheme.secondaryContainer,
-                              minSize: 0,
+                              minimumSize: Size(0, 0),
                               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
                               borderRadius: const BorderRadius.all(Radius.circular(10)),
                               onPressed: () => showDialog<bool>(
@@ -132,12 +132,12 @@ class _LoginWizardPageState extends BasePageState<LoginWizardPage> {
                 children: [
                   BlurButton(
                     borderRadius: const BorderRadius.all(Radius.circular(40)),
-                    background: Colors.grey.withOpacity(0.66),
+                    background: Colors.grey.withValues(alpha: 0.66),
                     onPressed: () => BottomSheets.showCustomBottomSheet(
                       context: context,
                       child: LoginSettingsBottomSheet(hideSomeSettings: hideSettings),
                     ),
-                    child: const Icon(Icons.settings,color: Colors.white),
+                    child: const Icon(Icons.settings, color: Colors.white),
                   ),
                 ],
               ),

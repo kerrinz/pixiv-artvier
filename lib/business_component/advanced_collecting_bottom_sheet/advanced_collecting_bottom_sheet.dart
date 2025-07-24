@@ -100,7 +100,7 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
                         // 分隔线
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
-                          decoration: BoxDecoration(color: colorScheme.surfaceVariant),
+                          decoration: BoxDecoration(color: colorScheme.surfaceContainerHighest),
                           child: const SizedBox(height: 2, width: double.infinity),
                         ),
                         // 附加标签标题栏
@@ -210,7 +210,7 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
           Container(
             padding: const EdgeInsets.all(1.0),
             decoration: BoxDecoration(
-              color: colorScheme.surfaceVariant,
+              color: colorScheme.surfaceContainerHighest,
               borderRadius: const BorderRadius.all(Radius.circular(20.0)),
             ),
             child: Consumer(builder: (_, ref, __) {

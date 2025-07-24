@@ -33,7 +33,7 @@ class BadgeWithRemoveIcon extends StatelessWidget {
         child: Container(
           padding: padding,
           decoration: BoxDecoration(
-            border: border ?? Border.all(width: 1, color: colorScheme.primary.withOpacity(0.5)),
+            border: border ?? Border.all(width: 1, color: colorScheme.primary.withValues(alpha: 0.5)),
             borderRadius: borderRadius,
           ),
           child: Row(

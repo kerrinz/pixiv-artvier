@@ -152,7 +152,7 @@ class _CommentsPageState extends BasePageState<CommentsPage> {
   }
 
   /// Show Comments bar bottom sheet and focus input.
-  showCommentsBarInput(bool initialFocusInput, int? parentCommentId, String? parentCommentName) {
+  void showCommentsBarInput(bool initialFocusInput, int? parentCommentId, String? parentCommentName) {
     final commentBarNotifier = ref.read(commentBarProvider(worksId).notifier);
     if (parentCommentId != null && parentCommentName != null) {
       commentBarNotifier.enableReply(parentCommentId, parentCommentName);

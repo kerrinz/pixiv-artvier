@@ -62,8 +62,8 @@ class EnhanceNetworkImage extends StatefulWidget {
   /// How to align the image within its bounds.
   final AlignmentGeometry alignment;
 
-  /// if not, chear memory cache in disposed.
-  final bool enableMemoryCache;
+  /// if true, chear memory cache in disposed.
+  final bool clearMemoryCacheWhenDispose;
 
   const EnhanceNetworkImage({
     super.key,
@@ -77,7 +77,7 @@ class EnhanceNetworkImage extends StatefulWidget {
     this.alignment = Alignment.center,
     this.errorWidget,
     this.loadingWidget,
-    this.enableMemoryCache = false,
+    this.clearMemoryCacheWhenDispose = true,
     // this.fadeOutDuration = const Duration(milliseconds: 1000),
     // this.fadeOutCurve = Curves.easeOut,
     this.fadeInDuration = const Duration(milliseconds: 500),
@@ -116,7 +116,7 @@ class _EnhanceNetworkImageState extends State<EnhanceNetworkImage> with SingleTi
       colorBlendMode: widget.colorBlendMode,
       filterQuality: widget.filterQuality,
       opacity: _opacityAnimation,
-      enableMemoryCache: widget.enableMemoryCache,
+      clearMemoryCacheWhenDispose: widget.clearMemoryCacheWhenDispose,
       enableLoadState: false,
       handleLoadingProgress: true,
       loadStateChanged: ((state) {

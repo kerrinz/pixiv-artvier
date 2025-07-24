@@ -42,7 +42,7 @@ class BottomSheets {
   }
 
   // 列表选择菜单
-  static showSelectItemsBottomSheet({
+  static void showSelectItemsBottomSheet({
     required BuildContext context,
     required List<Widget> items,
     barrierColor = Colors.black38,

@@ -98,7 +98,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                           }),
                           Icon(
                             Icons.arrow_forward_ios_rounded,
-                            color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
+                            color: Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.5),
                             size: 12,
                           ),
                         ],

@@ -125,7 +125,7 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                       break;
                     case MarkerState.removingMarker:
                       icon = Icons.bookmark;
-                      color = Colors.red.withOpacity(0.5);
+                      color = Colors.red.withValues(alpha: 0.5);
                       break;
                     case MarkerState.marked:
                       icon = Icons.bookmark;
@@ -135,7 +135,6 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                       icon = Icons.bookmark_add_outlined;
                       color = null;
                       break;
-                    default:
                   }
                   return IconButton(
                     onPressed: widget.markerCallback != null ? () => widget.markerCallback!(handleClickMarker) : null,

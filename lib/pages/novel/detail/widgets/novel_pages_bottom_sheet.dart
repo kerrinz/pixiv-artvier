@@ -83,7 +83,7 @@ class _NovelPagesBottomSheetState extends BasePageState<NovelPagesBottomSheet> {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(12)),
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
         ),
         padding: const EdgeInsets.all(12),
         child: Text(text),

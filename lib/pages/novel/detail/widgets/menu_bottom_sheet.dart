@@ -34,12 +34,14 @@ class NovelDetailMenu extends BasePage {
                   icon: const Icon(Icons.link_rounded),
                   onTap: () => Clipboard.setData(ClipboardData(text: CONSTANTS.novel_share_url + novelId.toString()))
                       .then((value) {
-                    Fluttertoast.showToast(
-                      msg: l10n(context).copiedToClipboard,
-                      toastLength: Toast.LENGTH_SHORT,
-                      fontSize: 16.0,
-                    );
-                    Navigator.of(context).pop();
+                    if (context.mounted) {
+                      Fluttertoast.showToast(
+                        msg: l10n(context).copiedToClipboard,
+                        toastLength: Toast.LENGTH_SHORT,
+                        fontSize: 16.0,
+                      );
+                      Navigator.of(context).pop();
+                    }
                   }),
                 ),
               ],
@@ -60,7 +62,7 @@ class NovelDetailMenu extends BasePage {
             Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(50)),
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
               ),
               padding: const EdgeInsets.all(12),
               child: icon,

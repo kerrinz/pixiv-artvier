@@ -113,7 +113,7 @@ class _AccountManagePageState extends BasePageState<AccountManagePage> with Acco
                   width: 56,
                   child: ClipOval(
                     child: DecoratedBox(
-                        decoration: BoxDecoration(color: Colors.grey.withOpacity(0.1)), child: const Icon(Icons.add)),
+                        decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.1)), child: const Icon(Icons.add)),
                   ),
                 ),
                 Expanded(
@@ -212,7 +212,7 @@ class _AccountManagePageState extends BasePageState<AccountManagePage> with Acco
                   }
                   if (profile.user.id == currrentProfile?.user.id) {
                     return MyBadge(
-                      color: colorScheme.primary.withOpacity(0.2),
+                      color: colorScheme.primary.withValues(alpha: 0.2),
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                       child: Text(l10n.current),
                     );

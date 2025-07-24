@@ -70,7 +70,7 @@ class BrightnessSettingsPanel extends ConsumerWidget with _Logic {
                   }
                   handleSwitchSystem(ref, value);
                 },
-                activeColor: Theme.of(context).colorScheme.primary,
+                activeTrackColor: Theme.of(context).colorScheme.primary,
               ),
             ),
           ]);
@@ -82,7 +82,7 @@ class BrightnessSettingsPanel extends ConsumerWidget with _Logic {
 
 mixin _Logic {
   /// 开关：浅色深色模式自动跟随系统
-  handleSwitchSystem(WidgetRef ref, bool value) {
+  void handleSwitchSystem(WidgetRef ref, bool value) {
     ThemeMode themeMode;
     if (value) {
       // 自动

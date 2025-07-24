@@ -28,7 +28,7 @@ class _RefreshTokenSettingsState extends BasePageState<RefreshTokenSettings> {
               Text(
                 account?.refreshToken ?? "null",
                 style: textTheme.labelSmall?.copyWith(
-                  color: textTheme.labelSmall?.color?.withOpacity(0.5),
+                  color: textTheme.labelSmall?.color?.withValues(alpha: 0.5),
                 ),
               ),
             ],

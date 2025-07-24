@@ -7,10 +7,10 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 abstract class BasePage extends ConsumerWidget {
   const BasePage({super.key});
 
-  LocalizationIntl l10n(context) => LocalizationIntl.of(context);
+  LocalizationIntl l10n(BuildContext context) => LocalizationIntl.of(context);
 
-  ColorScheme colorScheme(context) => Theme.of(context).colorScheme;
-  TextTheme textTheme(context) => Theme.of(context).textTheme;
+  ColorScheme colorScheme(BuildContext context) => Theme.of(context).colorScheme;
+  TextTheme textTheme(BuildContext context) => Theme.of(context).textTheme;
 
   // 淡入过渡跳转页面
   static Route createFadeRoute(String routeName, {Object? arguments}) {

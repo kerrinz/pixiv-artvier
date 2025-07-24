@@ -122,7 +122,7 @@ class DownloadTask {
   bool get isCanceled => _cancelToken.isCancelled;
 
   /// 开始任务
-  start() {
+  Future start() {
     return _start().whenComplete(() {
       if (onFinally != null) onFinally!();
     });
@@ -147,7 +147,7 @@ class DownloadTask {
     }
   }
 
-  _request(String url) async {
+  Future<Response> _request(String url) async {
     return await Dio().get(url,
         cancelToken: _cancelToken,
         options: Options(
@@ -163,15 +163,15 @@ class DownloadTask {
   }
 
   /// 取消任务
-  cancel() {
+  void cancel() {
     if (!_cancelToken.isCancelled) _cancelToken.cancel();
   }
 
   /// 暂停任务（暂未支持）
-  pause() => throw UnimplementedError();
+  Never pause() => throw UnimplementedError();
 
   /// 重新开始任务
-  restart() {
+  void restart() {
     start();
   }
 }

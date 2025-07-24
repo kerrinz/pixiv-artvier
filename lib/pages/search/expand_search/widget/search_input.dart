@@ -20,7 +20,7 @@ class SearchInput extends BasePage {
   Widget build(BuildContext context, WidgetRef ref) {
     return DecoratedBox(
       decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.15), borderRadius: const BorderRadius.all(Radius.circular(8.0))),
+          color: Colors.grey.withValues(alpha: 0.15), borderRadius: const BorderRadius.all(Radius.circular(8.0))),
       child: Row(
         children: [
           // 框左边的搜索图标

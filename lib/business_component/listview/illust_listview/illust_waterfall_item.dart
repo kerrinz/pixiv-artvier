@@ -194,8 +194,8 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                 clipBehavior: Clip.antiAlias,
                 child: GestureDetector(
                   // splashFactory: InkSparkle.splashFactory,
-                  // splashColor: Colors.black12.withOpacity(0.15),
-                  // highlightColor: Colors.black12.withOpacity(0.1),
+                  // splashColor: Colors.black12.withValues(alpha: 0.15),
+                  // highlightColor: Colors.black12.withValues(alpha: 0.1),
                   onTap: () {},
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,

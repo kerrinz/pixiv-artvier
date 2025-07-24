@@ -114,7 +114,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             disabled: isEmpty || isSending,
                             background:
-                                (isEmpty || isSending) ? colorScheme.primary.withOpacity(0.2) : colorScheme.primary,
+                                (isEmpty || isSending) ? colorScheme.primary.withValues(alpha: 0.2) : colorScheme.primary,
                             borderRadius: const BorderRadius.all(Radius.circular(8)),
                             onPressed: () {
                               // Send message
@@ -126,12 +126,14 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
                                   .onSendMessage(widget.textController.text, worksId, widget.parentCommentId)
                                   .then((value) {
                                 widget.textController.text = '';
-                                Navigator.of(context).pop();
+                                if (context.mounted) {
+                                  Navigator.of(context).pop();
+                                }
                               });
                             },
                             child: Text(l10n.send,
                                 style: isEmpty
-                                    ? textTheme.labelLarge?.copyWith(color: colorScheme.primary.withOpacity(0.5))
+                                    ? textTheme.labelLarge?.copyWith(color: colorScheme.primary.withValues(alpha: 0.5))
                                     : textTheme.labelLarge?.copyWith(color: colorScheme.onPrimary)),
                           );
                         },
@@ -152,7 +154,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Divider(height: 0.5, color: Colors.grey.withOpacity(0.5)),
+                Divider(height: 0.5, color: Colors.grey.withValues(alpha: 0.5)),
                 Center(
                   child: SizedBox(
                     height: 52,
@@ -284,7 +286,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
   Widget inputBox() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.1),
+        color: Colors.grey.withValues(alpha: 0.1),
         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -301,7 +303,7 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
                     margin: const EdgeInsets.only(bottom: 4),
                     padding: const EdgeInsets.only(top: 4, left: 8, right: 6, bottom: 4),
                     decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.1),
+                      color: Colors.grey.withValues(alpha: 0.1),
                       borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                     ),
                     child: Wrap(
@@ -335,11 +337,11 @@ class _CommentsBarBottomSheetState extends BasePageState<CommentsBarBottomSheet>
                 valueListenable: widget.textController,
                 builder: (BuildContext context, value, Widget? child) => Text(
                   '${value.text.length}/140',
-                  style: textTheme.labelSmall?.copyWith(color: textTheme.labelSmall?.color?.withOpacity(0.5)),
+                  style: textTheme.labelSmall?.copyWith(color: textTheme.labelSmall?.color?.withValues(alpha: 0.5)),
                 ),
               ),
               isDense: true,
-              hintStyle: textTheme.bodySmall?.copyWith(color: textTheme.labelSmall?.color?.withOpacity(0.5)),
+              hintStyle: textTheme.bodySmall?.copyWith(color: textTheme.labelSmall?.color?.withValues(alpha: 0.5)),
             ),
             onSubmitted: (value) {},
             onChanged: (value) {

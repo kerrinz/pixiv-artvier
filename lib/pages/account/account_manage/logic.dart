@@ -69,7 +69,10 @@ mixin AccountManagePageStateLogic on BasePageState<AccountManagePage> {
   void handleTapAccountCard(AccountProfile profile) {
     HapticFeedback.lightImpact();
     ref.read(accountManageProvider.notifier).switchAccount(profile.user.id).then((value) {
-      Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+      if (context.mounted) {
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+      }
     }).catchError((e) {
       Fluttertoast.showToast(msg: "Error to Switch account!");
       logger.e(e);

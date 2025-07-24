@@ -18,7 +18,7 @@ class SearchBox extends BasePage {
   Widget build(BuildContext context, WidgetRef ref) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: backgroundColor ?? Colors.grey.withOpacity(0.15),
+        color: backgroundColor ?? Colors.grey.withValues(alpha: 0.15),
         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
       ),
       child: Row(

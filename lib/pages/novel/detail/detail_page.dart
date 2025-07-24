@@ -372,7 +372,7 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: HtmlWidget(
               webViewData.novel.caption,
-              onTapUrl: (url) => showOpenLinkDialog(context, url),
+              onTapUrl: (url) async => showOpenLinkDialog(context, url),
             ),
           ),
           // 标签

@@ -35,7 +35,7 @@ mixin IllustListAsyncNotifierMixin implements AsyncListNotifier<State> {
   /// 注意：
   /// - 使用[AsyncValue.guard] 也会触发
   /// - 
-  handleCancel(Ref ref) {
+  void handleCancel(Ref ref) {
     ref.onCancel(() {
       if (!cancelToken.isCancelled) cancelToken.cancel();
     });
@@ -45,14 +45,14 @@ mixin IllustListAsyncNotifierMixin implements AsyncListNotifier<State> {
   /// 
   /// - [AsyncValue.guard] 不会触发
   /// - 如果 [build] 中使用了 [ref.watch]，请使用 [handleCancel]
-  handleDispose(Ref ref) {
+  void handleDispose(Ref ref) {
     ref.onDispose(() {
       if (!cancelToken.isCancelled) cancelToken.cancel();
     });
   }
 
   /// 监听全局收藏状态的变化，更新列表
-  handleCollectState(Ref ref) {
+  void handleCollectState(Ref ref) {
     ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
       if (next != null && state.hasValue) {
         var value = (state.value ?? []);

@@ -50,16 +50,23 @@ class BootingPageState extends ConsumerState<BootingPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       initData().then((value) {
-        String? id = ref.read(globalCurrentAccountProvider)?.user.id;
-        if (id == null) {
-          // 拦截未登录
-          Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
-        } else {
-          Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+        if (context.mounted) {
+          String? id = ref.read(globalCurrentAccountProvider)?.user.id;
+          if (id == null) {
+            // 拦截未登录
+            // ignore: use_build_context_synchronously
+            Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
+          } else {
+            // ignore: use_build_context_synchronously
+            Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+          }
         }
       }).catchError((onError) {
         logger.e(onError);
-        Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
+        if (context.mounted) {
+          // ignore: use_build_context_synchronously
+          Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
+        }
       });
     });
   }

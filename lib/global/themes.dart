@@ -56,7 +56,7 @@ abstract class BaseTheme {
           color: colorScheme.surface,
           titleTextStyle: TextStyle(fontSize: 18, color: colorScheme.onSurface, fontWeight: FontWeight.w600),
         ),
-        tabBarTheme: TabBarTheme(
+        tabBarTheme: TabBarThemeData(
           labelColor: colorScheme.brightness == Brightness.light ? Colors.black : Colors.white,
           labelPadding: const EdgeInsets.symmetric(horizontal: 12.0),
           unselectedLabelColor: colorScheme.onSurface.withAlpha(150),
@@ -64,6 +64,7 @@ abstract class BaseTheme {
           unselectedLabelStyle: const TextStyle(fontSize: 14),
           indicatorSize: TabBarIndicatorSize.label,
           dividerHeight: 0,
+          indicatorColor: colorScheme.primary,
           indicator: CustomUnderlineTabIndicator(
             indicatorWidth: 16,
             borderRadius: const BorderRadius.all(Radius.circular(4)),
@@ -73,8 +74,7 @@ abstract class BaseTheme {
             ),
           ),
         ),
-        indicatorColor: colorScheme.primary,
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           color: colorScheme.surface,
           surfaceTintColor: colorScheme.surface,
           elevation: 1.0,
@@ -83,7 +83,7 @@ abstract class BaseTheme {
           shape: CircleBorder(),
         ),
         useMaterial3: true,
-        splashFactory: InkSparkle.splashFactory,        
+        splashFactory: InkSparkle.splashFactory,
         // textTheme: BaseTheme.textTheme,
       );
 }

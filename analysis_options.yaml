@@ -32,3 +32,4 @@ linter:
 analyzer:
   errors:
     invalid_annotation_target: ignore
+    strict_top_level_inference: ignore

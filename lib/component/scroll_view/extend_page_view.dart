@@ -1,5 +1,3 @@
-library expandable_page_view;
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:artvier/component/layout/size_reporting_widget.dart';

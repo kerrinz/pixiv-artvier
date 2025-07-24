@@ -93,7 +93,7 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
           height: 34,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.15), borderRadius: const BorderRadius.all(Radius.circular(8.0))),
+              color: Colors.grey.withValues(alpha: 0.15), borderRadius: const BorderRadius.all(Radius.circular(8.0))),
           child: TextField(
             controller: _textController,
             keyboardType: TextInputType.text,

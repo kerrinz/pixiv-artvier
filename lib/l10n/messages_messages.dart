@@ -21,13 +21,13 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'messages';
 
-  static m0(name) => "Are you sure to delete this account (${name}) ?";
+  static String m0(name) => "Are you sure to delete this account (${name}) ?";
 
-  static m1(name) => "Reply @${name}";
+  static String m1(name) => "Reply @${name}";
 
-  static m2(count) => "${count} chapters in total";
+  static String m2(count) => "${count} chapters in total";
 
-  static m3(size) => "Updated to chapter ${size}";
+  static String m3(size) => "Updated to chapter ${size}";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);

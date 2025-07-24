@@ -87,7 +87,7 @@ class _BlurButtonState extends State<BlurButton> with SingleTickerProviderStateM
                 height: widget.height,
                 decoration: BoxDecoration(
                   borderRadius: widget.borderRadius,
-                  color: widget.background ?? const Color(0xff000000).withOpacity(0.33),
+                  color: widget.background ?? const Color(0xff000000).withValues(alpha: 0.33),
                 ),
                 child: widget.child,
               ),

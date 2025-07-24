@@ -189,7 +189,7 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
     Color buttonForeground = Color.fromARGB(255, c, c, c);
     return AppBar(
       toolbarHeight: kToolbarHeight,
-      backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(bgOpacity),
+      backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: bgOpacity),
       leading: BlurButton(
         onPressed: () {
           Navigator.of(context).pop(-1);

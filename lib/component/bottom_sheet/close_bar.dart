@@ -48,7 +48,7 @@ class BottomSheetCloseButton extends StatelessWidget {
       onTap: onTap,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
           borderRadius: const BorderRadius.all(Radius.circular(50)),
         ),
         child: const Padding(
