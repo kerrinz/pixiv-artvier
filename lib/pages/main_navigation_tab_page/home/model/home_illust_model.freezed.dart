@@ -19,7 +19,9 @@ mixin _$HomeIllustModel {
   List<CommonIllust> get ranking => throw _privateConstructorUsedError;
   List<CommonIllust> get recommended => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeIllustModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HomeIllustModelCopyWith<HomeIllustModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$HomeIllustModelCopyWithImpl<$Res, $Val extends HomeIllustModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HomeIllustModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class __$$HomeIllustModelImplCopyWithImpl<$Res>
       _$HomeIllustModelImpl _value, $Res Function(_$HomeIllustModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomeIllustModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -146,7 +152,9 @@ class _$HomeIllustModelImpl implements _HomeIllustModel {
       const DeepCollectionEquality().hash(_ranking),
       const DeepCollectionEquality().hash(_recommended));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeIllustModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HomeIllustModelImplCopyWith<_$HomeIllustModelImpl> get copyWith =>
@@ -163,8 +171,11 @@ abstract class _HomeIllustModel implements HomeIllustModel {
   List<CommonIllust> get ranking;
   @override
   List<CommonIllust> get recommended;
+
+  /// Create a copy of HomeIllustModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HomeIllustModelImplCopyWith<_$HomeIllustModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

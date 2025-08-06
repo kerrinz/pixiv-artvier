@@ -24,7 +24,9 @@ mixin _$NovelElementModel {
   /// 小说渲染元素
   dynamic get element => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelElementModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NovelElementModelCopyWith<NovelElementModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +53,8 @@ class _$NovelElementModelCopyWithImpl<$Res, $Val extends NovelElementModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NovelElementModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -97,6 +101,8 @@ class __$$NovelElementModelImplCopyWithImpl<$Res>
       $Res Function(_$NovelElementModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NovelElementModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -156,7 +162,9 @@ class _$NovelElementModelImpl implements _NovelElementModel {
   int get hashCode => Object.hash(
       runtimeType, type, key, const DeepCollectionEquality().hash(element));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelElementModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NovelElementModelImplCopyWith<_$NovelElementModelImpl> get copyWith =>
@@ -170,18 +178,20 @@ abstract class _NovelElementModel implements NovelElementModel {
       final GlobalKey<State<StatefulWidget>>? key,
       required final dynamic element}) = _$NovelElementModelImpl;
 
-  @override
-
   /// 小说渲染元素的类型
+  @override
   NovelElementType get type;
   @override
   GlobalKey<State<StatefulWidget>>? get key;
-  @override
 
   /// 小说渲染元素
-  dynamic get element;
   @override
-  @JsonKey(ignore: true)
+  dynamic get element;
+
+  /// Create a copy of NovelElementModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NovelElementModelImplCopyWith<_$NovelElementModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

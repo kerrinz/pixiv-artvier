@@ -31,7 +31,9 @@ mixin _$ImageViewerPageArguments {
   /// 初始查看第几张图片
   int get index => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImageViewerPageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ImageViewerPageArgumentsCopyWith<ImageViewerPageArguments> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,6 +63,8 @@ class _$ImageViewerPageArgumentsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ImageViewerPageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -122,6 +126,8 @@ class __$$ImageViewerPageArgumentsImplCopyWithImpl<$Res>
       $Res Function(_$ImageViewerPageArgumentsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ImageViewerPageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -221,7 +227,9 @@ class _$ImageViewerPageArgumentsImpl implements _ImageViewerPageArguments {
       title,
       index);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImageViewerPageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImageViewerPageArgumentsImplCopyWith<_$ImageViewerPageArgumentsImpl>
@@ -237,28 +245,30 @@ abstract class _ImageViewerPageArguments implements ImageViewerPageArguments {
       required final String title,
       required final int index}) = _$ImageViewerPageArgumentsImpl;
 
-  @override
-
   /// 图片列表
-  List<ImageQualityUrl> get urlList;
   @override
+  List<ImageQualityUrl> get urlList;
 
   /// 资源类型
-  DownloadType get downloadType;
   @override
+  DownloadType get downloadType;
 
   /// 作品 id
-  String get worksId;
   @override
+  String get worksId;
 
   /// 作品标题
-  String get title;
   @override
+  String get title;
 
   /// 初始查看第几张图片
-  int get index;
   @override
-  @JsonKey(ignore: true)
+  int get index;
+
+  /// Create a copy of ImageViewerPageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImageViewerPageArgumentsImplCopyWith<_$ImageViewerPageArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -25,7 +25,9 @@ mixin _$CollectionsFilterModel {
   /// 作品类型
   WorksType get worksType => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CollectionsFilterModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CollectionsFilterModelCopyWith<CollectionsFilterModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +52,8 @@ class _$CollectionsFilterModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CollectionsFilterModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -96,6 +100,8 @@ class __$$CollectionsFilterModelImplCopyWithImpl<$Res>
       $Res Function(_$CollectionsFilterModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CollectionsFilterModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -159,7 +165,9 @@ class _$CollectionsFilterModelImpl implements _CollectionsFilterModel {
   @override
   int get hashCode => Object.hash(runtimeType, restrict, tag, worksType);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CollectionsFilterModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CollectionsFilterModelImplCopyWith<_$CollectionsFilterModelImpl>
@@ -173,20 +181,22 @@ abstract class _CollectionsFilterModel implements CollectionsFilterModel {
       final String? tag,
       required final WorksType worksType}) = _$CollectionsFilterModelImpl;
 
-  @override
-
   /// 隐私
-  Restrict get restrict;
   @override
+  Restrict get restrict;
 
   /// 根据tag筛选，当null时不根据tag筛选，当值为""即Empty String时，表示”未分類“
-  String? get tag;
   @override
+  String? get tag;
 
   /// 作品类型
-  WorksType get worksType;
   @override
-  @JsonKey(ignore: true)
+  WorksType get worksType;
+
+  /// Create a copy of CollectionsFilterModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CollectionsFilterModelImplCopyWith<_$CollectionsFilterModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

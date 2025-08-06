@@ -18,7 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$NovelViewerSettingsModel {
   double get textSize => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelViewerSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NovelViewerSettingsModelCopyWith<NovelViewerSettingsModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$NovelViewerSettingsModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NovelViewerSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -79,6 +83,8 @@ class __$$NovelViewerSettingsModelImplCopyWithImpl<$Res>
       $Res Function(_$NovelViewerSettingsModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NovelViewerSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,7 +124,9 @@ class _$NovelViewerSettingsModelImpl implements _NovelViewerSettingsModel {
   @override
   int get hashCode => Object.hash(runtimeType, textSize);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelViewerSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NovelViewerSettingsModelImplCopyWith<_$NovelViewerSettingsModelImpl>
@@ -132,8 +140,11 @@ abstract class _NovelViewerSettingsModel implements NovelViewerSettingsModel {
 
   @override
   double get textSize;
+
+  /// Create a copy of NovelViewerSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NovelViewerSettingsModelImplCopyWith<_$NovelViewerSettingsModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

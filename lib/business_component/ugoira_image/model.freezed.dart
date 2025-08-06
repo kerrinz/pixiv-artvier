@@ -23,7 +23,9 @@ mixin _$UgoiraImageState {
   UgoiraImageLoadingState get loadingState =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UgoiraImageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UgoiraImageStateCopyWith<UgoiraImageState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +53,8 @@ class _$UgoiraImageStateCopyWithImpl<$Res, $Val extends UgoiraImageState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UgoiraImageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -103,6 +107,8 @@ class __$$UgoiraImageStateImplCopyWithImpl<$Res>
       $Res Function(_$UgoiraImageStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UgoiraImageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -183,7 +189,9 @@ class _$UgoiraImageStateImpl implements _UgoiraImageState {
   int get hashCode => Object.hash(runtimeType, illustId,
       const DeepCollectionEquality().hash(_images), progress, loadingState);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UgoiraImageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UgoiraImageStateImplCopyWith<_$UgoiraImageStateImpl> get copyWith =>
@@ -203,13 +211,16 @@ abstract class _UgoiraImageState implements UgoiraImageState {
   String get illustId;
   @override
   List<GifImageMeta>? get images;
-  @override
   /** 0 - 1 */
+  @override
   double get progress;
   @override
   UgoiraImageLoadingState get loadingState;
+
+  /// Create a copy of UgoiraImageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UgoiraImageStateImplCopyWith<_$UgoiraImageStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

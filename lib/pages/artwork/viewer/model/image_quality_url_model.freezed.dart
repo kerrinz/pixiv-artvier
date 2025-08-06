@@ -22,7 +22,9 @@ mixin _$ImageQualityUrl {
   /// 原图画质
   String get original => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImageQualityUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ImageQualityUrlCopyWith<ImageQualityUrl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,6 +48,8 @@ class _$ImageQualityUrlCopyWithImpl<$Res, $Val extends ImageQualityUrl>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ImageQualityUrl
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -84,6 +88,8 @@ class __$$ImageQualityUrlImplCopyWithImpl<$Res>
       _$ImageQualityUrlImpl _value, $Res Function(_$ImageQualityUrlImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ImageQualityUrl
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -134,7 +140,9 @@ class _$ImageQualityUrlImpl implements _ImageQualityUrl {
   @override
   int get hashCode => Object.hash(runtimeType, normal, original);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImageQualityUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImageQualityUrlImplCopyWith<_$ImageQualityUrlImpl> get copyWith =>
@@ -147,16 +155,18 @@ abstract class _ImageQualityUrl implements ImageQualityUrl {
       {required final String normal,
       required final String original}) = _$ImageQualityUrlImpl;
 
-  @override
-
   /// 普通画质
-  String get normal;
   @override
+  String get normal;
 
   /// 原图画质
-  String get original;
   @override
-  @JsonKey(ignore: true)
+  String get original;
+
+  /// Create a copy of ImageQualityUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImageQualityUrlImplCopyWith<_$ImageQualityUrlImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

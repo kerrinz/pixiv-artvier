@@ -24,8 +24,12 @@ mixin _$PredictiveSearchWorks {
   @JsonKey(name: "tags")
   List<PredictiveSearchWorksTag> get tags => throw _privateConstructorUsedError;
 
+  /// Serializes this PredictiveSearchWorks to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PredictiveSearchWorks
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PredictiveSearchWorksCopyWith<PredictiveSearchWorks> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$PredictiveSearchWorksCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PredictiveSearchWorks
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -85,6 +91,8 @@ class __$$PredictiveSearchWorksImplCopyWithImpl<$Res>
       $Res Function(_$PredictiveSearchWorksImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PredictiveSearchWorks
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -132,12 +140,14 @@ class _$PredictiveSearchWorksImpl implements _PredictiveSearchWorks {
             const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_tags));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PredictiveSearchWorks
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PredictiveSearchWorksImplCopyWith<_$PredictiveSearchWorksImpl>
@@ -164,8 +174,11 @@ abstract class _PredictiveSearchWorks implements PredictiveSearchWorks {
   @override
   @JsonKey(name: "tags")
   List<PredictiveSearchWorksTag> get tags;
+
+  /// Create a copy of PredictiveSearchWorks
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PredictiveSearchWorksImplCopyWith<_$PredictiveSearchWorksImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -182,8 +195,12 @@ mixin _$PredictiveSearchWorksTag {
   @JsonKey(name: "translated_name")
   String? get translatedName => throw _privateConstructorUsedError;
 
+  /// Serializes this PredictiveSearchWorksTag to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PredictiveSearchWorksTag
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PredictiveSearchWorksTagCopyWith<PredictiveSearchWorksTag> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -210,6 +227,8 @@ class _$PredictiveSearchWorksTagCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PredictiveSearchWorksTag
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -253,6 +272,8 @@ class __$$PredictiveSearchWorksTagImplCopyWithImpl<$Res>
       $Res Function(_$PredictiveSearchWorksTagImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PredictiveSearchWorksTag
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -304,11 +325,13 @@ class _$PredictiveSearchWorksTagImpl implements _PredictiveSearchWorksTag {
                 other.translatedName == translatedName));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, translatedName);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PredictiveSearchWorksTag
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PredictiveSearchWorksTagImplCopyWith<_$PredictiveSearchWorksTagImpl>
@@ -338,8 +361,11 @@ abstract class _PredictiveSearchWorksTag implements PredictiveSearchWorksTag {
   @override
   @JsonKey(name: "translated_name")
   String? get translatedName;
+
+  /// Create a copy of PredictiveSearchWorksTag
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PredictiveSearchWorksTagImplCopyWith<_$PredictiveSearchWorksTagImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

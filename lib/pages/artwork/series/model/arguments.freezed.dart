@@ -28,7 +28,9 @@ mixin _$MangaSeriesDetailPagePageArguments {
   /// 作者
   User get user => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MangaSeriesDetailPagePageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MangaSeriesDetailPagePageArgumentsCopyWith<
           MangaSeriesDetailPagePageArguments>
       get copyWith => throw _privateConstructorUsedError;
@@ -58,6 +60,8 @@ class _$MangaSeriesDetailPagePageArgumentsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MangaSeriesDetailPagePageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +90,8 @@ class _$MangaSeriesDetailPagePageArgumentsCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of MangaSeriesDetailPagePageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserCopyWith<$Res> get user {
@@ -120,6 +126,8 @@ class __$$MangaSeriesDetailPagePageArgumentsImplCopyWithImpl<$Res>
       $Res Function(_$MangaSeriesDetailPagePageArgumentsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MangaSeriesDetailPagePageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -194,7 +202,9 @@ class _$MangaSeriesDetailPagePageArgumentsImpl
   @override
   int get hashCode => Object.hash(runtimeType, id, title, url, user);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MangaSeriesDetailPagePageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MangaSeriesDetailPagePageArgumentsImplCopyWith<
@@ -211,24 +221,26 @@ abstract class _MangaSeriesDetailPagePageArguments
       required final String url,
       required final User user}) = _$MangaSeriesDetailPagePageArgumentsImpl;
 
-  @override
-
   /// ID
-  int get id;
   @override
+  int get id;
 
   /// 作品标题
-  String get title;
   @override
+  String get title;
 
   /// 封面图
-  String get url;
   @override
+  String get url;
 
   /// 作者
-  User get user;
   @override
-  @JsonKey(ignore: true)
+  User get user;
+
+  /// Create a copy of MangaSeriesDetailPagePageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MangaSeriesDetailPagePageArgumentsImplCopyWith<
           _$MangaSeriesDetailPagePageArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;

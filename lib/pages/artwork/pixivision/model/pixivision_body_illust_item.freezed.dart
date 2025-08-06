@@ -37,7 +37,9 @@ mixin _$PixivisionBodyIllustItem {
   /// 作品描述
   List<String>? get description => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PixivisionBodyIllustItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PixivisionBodyIllustItemCopyWith<PixivisionBodyIllustItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -69,6 +71,8 @@ class _$PixivisionBodyIllustItemCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PixivisionBodyIllustItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -142,6 +146,8 @@ class __$$PixivisionBodyIllustItemImplCopyWithImpl<$Res>
       $Res Function(_$PixivisionBodyIllustItemImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PixivisionBodyIllustItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -273,7 +279,9 @@ class _$PixivisionBodyIllustItemImpl implements _PixivisionBodyIllustItem {
       authorId,
       const DeepCollectionEquality().hash(_description));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PixivisionBodyIllustItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PixivisionBodyIllustItemImplCopyWith<_$PixivisionBodyIllustItemImpl>
@@ -292,36 +300,38 @@ abstract class _PixivisionBodyIllustItem implements PixivisionBodyIllustItem {
           required final List<String>? description}) =
       _$PixivisionBodyIllustItemImpl;
 
-  @override
-
   /// 作品名
-  String get illustTitle;
   @override
+  String get illustTitle;
 
   /// 作品ID
-  String get illustId;
   @override
+  String get illustId;
 
   /// 图片地址
-  String get illustUrl;
   @override
+  String get illustUrl;
 
   /// 作者名
-  String get authorName;
   @override
+  String get authorName;
 
   /// 作者头像
-  String get authorAvatar;
   @override
+  String get authorAvatar;
 
   /// 作者Id
-  String get authorId;
   @override
+  String get authorId;
 
   /// 作品描述
-  List<String>? get description;
   @override
-  @JsonKey(ignore: true)
+  List<String>? get description;
+
+  /// Create a copy of PixivisionBodyIllustItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PixivisionBodyIllustItemImplCopyWith<_$PixivisionBodyIllustItemImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

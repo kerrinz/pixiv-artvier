@@ -20,7 +20,9 @@ mixin _$IllustDetailPageArguments {
   String? get title => throw _privateConstructorUsedError;
   CommonIllust? get detail => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IllustDetailPageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IllustDetailPageArgumentsCopyWith<IllustDetailPageArguments> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$IllustDetailPageArgumentsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IllustDetailPageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -91,6 +95,8 @@ class __$$IllustDetailPageArgumentsImplCopyWithImpl<$Res>
       $Res Function(_$IllustDetailPageArgumentsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IllustDetailPageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -147,7 +153,9 @@ class _$IllustDetailPageArgumentsImpl implements _IllustDetailPageArguments {
   @override
   int get hashCode => Object.hash(runtimeType, illustId, title, detail);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IllustDetailPageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IllustDetailPageArgumentsImplCopyWith<_$IllustDetailPageArgumentsImpl>
@@ -167,8 +175,11 @@ abstract class _IllustDetailPageArguments implements IllustDetailPageArguments {
   String? get title;
   @override
   CommonIllust? get detail;
+
+  /// Create a copy of IllustDetailPageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IllustDetailPageArgumentsImplCopyWith<_$IllustDetailPageArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

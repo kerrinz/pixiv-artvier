@@ -28,7 +28,9 @@ mixin _$PixivisionWebViewPageArguments {
   /// 作品封面图链接
   String get coverUrl => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PixivisionWebViewPageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PixivisionWebViewPageArgumentsCopyWith<PixivisionWebViewPageArguments>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -55,6 +57,8 @@ class _$PixivisionWebViewPageArgumentsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PixivisionWebViewPageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -106,6 +110,8 @@ class __$$PixivisionWebViewPageArgumentsImplCopyWithImpl<$Res>
       $Res Function(_$PixivisionWebViewPageArgumentsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PixivisionWebViewPageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -182,7 +188,9 @@ class _$PixivisionWebViewPageArgumentsImpl
   @override
   int get hashCode => Object.hash(runtimeType, language, id, title, coverUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PixivisionWebViewPageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PixivisionWebViewPageArgumentsImplCopyWith<
@@ -199,24 +207,26 @@ abstract class _PixivisionWebViewPageArguments
       required final String title,
       required final String coverUrl}) = _$PixivisionWebViewPageArgumentsImpl;
 
-  @override
-
   /// 语言
-  String get language;
   @override
+  String get language;
 
   /// ID
-  int get id;
   @override
+  int get id;
 
   /// 作品标题
-  String get title;
   @override
+  String get title;
 
   /// 作品封面图链接
-  String get coverUrl;
   @override
-  @JsonKey(ignore: true)
+  String get coverUrl;
+
+  /// Create a copy of PixivisionWebViewPageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PixivisionWebViewPageArgumentsImplCopyWith<
           _$PixivisionWebViewPageArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;
