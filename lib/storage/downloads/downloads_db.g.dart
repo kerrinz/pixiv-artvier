@@ -66,13 +66,11 @@ class $DownloadTaskTableTable extends DownloadTaskTable
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
   late final GeneratedColumnWithTypeConverter<DownloadType, String> type =
       GeneratedColumn<String>('type', aliasedName, false,
               type: DriftSqlType.string, requiredDuringInsert: true)
           .withConverter<DownloadType>($DownloadTaskTableTable.$convertertype);
-  static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumnWithTypeConverter<DownloadState, String> status =
       GeneratedColumn<String>('status', aliasedName, false,
@@ -149,8 +147,6 @@ class $DownloadTaskTableTable extends DownloadTaskTable
           receivedBytes.isAcceptableOrUnknown(
               data['received_bytes']!, _receivedBytesMeta));
     }
-    context.handle(_typeMeta, const VerificationResult.success());
-    context.handle(_statusMeta, const VerificationResult.success());
     return context;
   }
 
@@ -348,6 +344,27 @@ class DownloadTaskTableData extends DataClass
         type: type ?? this.type,
         status: status ?? this.status,
       );
+  DownloadTaskTableData copyWithCompanion(DownloadTaskTableCompanion data) {
+    return DownloadTaskTableData(
+      taskId: data.taskId.present ? data.taskId.value : this.taskId,
+      title: data.title.present ? data.title.value : this.title,
+      worksId: data.worksId.present ? data.worksId.value : this.worksId,
+      downloadUrl:
+          data.downloadUrl.present ? data.downloadUrl.value : this.downloadUrl,
+      savePath: data.savePath.present ? data.savePath.value : this.savePath,
+      previewImageUrl: data.previewImageUrl.present
+          ? data.previewImageUrl.value
+          : this.previewImageUrl,
+      totalBytes:
+          data.totalBytes.present ? data.totalBytes.value : this.totalBytes,
+      receivedBytes: data.receivedBytes.present
+          ? data.receivedBytes.value
+          : this.receivedBytes,
+      type: data.type.present ? data.type.value : this.type,
+      status: data.status.present ? data.status.value : this.status,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('DownloadTaskTableData(')
@@ -533,6 +550,7 @@ class DownloadTaskTableCompanion
 
 abstract class _$DownloadsDatabase extends GeneratedDatabase {
   _$DownloadsDatabase(QueryExecutor e) : super(e);
+  $DownloadsDatabaseManager get managers => $DownloadsDatabaseManager(this);
   late final $DownloadTaskTableTable downloadTaskTable =
       $DownloadTaskTableTable(this);
   @override
@@ -540,4 +558,265 @@ abstract class _$DownloadsDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [downloadTaskTable];
+}
+
+typedef $$DownloadTaskTableTableCreateCompanionBuilder
+    = DownloadTaskTableCompanion Function({
+  Value<int?> taskId,
+  required String title,
+  required String worksId,
+  required String downloadUrl,
+  Value<String?> savePath,
+  Value<String?> previewImageUrl,
+  Value<int> totalBytes,
+  Value<int> receivedBytes,
+  required DownloadType type,
+  required DownloadState status,
+});
+typedef $$DownloadTaskTableTableUpdateCompanionBuilder
+    = DownloadTaskTableCompanion Function({
+  Value<int?> taskId,
+  Value<String> title,
+  Value<String> worksId,
+  Value<String> downloadUrl,
+  Value<String?> savePath,
+  Value<String?> previewImageUrl,
+  Value<int> totalBytes,
+  Value<int> receivedBytes,
+  Value<DownloadType> type,
+  Value<DownloadState> status,
+});
+
+class $$DownloadTaskTableTableFilterComposer
+    extends Composer<_$DownloadsDatabase, $DownloadTaskTableTable> {
+  $$DownloadTaskTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get taskId => $composableBuilder(
+      column: $table.taskId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get worksId => $composableBuilder(
+      column: $table.worksId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get downloadUrl => $composableBuilder(
+      column: $table.downloadUrl, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get savePath => $composableBuilder(
+      column: $table.savePath, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get previewImageUrl => $composableBuilder(
+      column: $table.previewImageUrl,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get totalBytes => $composableBuilder(
+      column: $table.totalBytes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get receivedBytes => $composableBuilder(
+      column: $table.receivedBytes, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<DownloadType, DownloadType, String> get type =>
+      $composableBuilder(
+          column: $table.type,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<DownloadState, DownloadState, String>
+      get status => $composableBuilder(
+          column: $table.status,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+}
+
+class $$DownloadTaskTableTableOrderingComposer
+    extends Composer<_$DownloadsDatabase, $DownloadTaskTableTable> {
+  $$DownloadTaskTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get taskId => $composableBuilder(
+      column: $table.taskId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get worksId => $composableBuilder(
+      column: $table.worksId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get downloadUrl => $composableBuilder(
+      column: $table.downloadUrl, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get savePath => $composableBuilder(
+      column: $table.savePath, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get previewImageUrl => $composableBuilder(
+      column: $table.previewImageUrl,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get totalBytes => $composableBuilder(
+      column: $table.totalBytes, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get receivedBytes => $composableBuilder(
+      column: $table.receivedBytes,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnOrderings(column));
+}
+
+class $$DownloadTaskTableTableAnnotationComposer
+    extends Composer<_$DownloadsDatabase, $DownloadTaskTableTable> {
+  $$DownloadTaskTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get taskId =>
+      $composableBuilder(column: $table.taskId, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get worksId =>
+      $composableBuilder(column: $table.worksId, builder: (column) => column);
+
+  GeneratedColumn<String> get downloadUrl => $composableBuilder(
+      column: $table.downloadUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get savePath =>
+      $composableBuilder(column: $table.savePath, builder: (column) => column);
+
+  GeneratedColumn<String> get previewImageUrl => $composableBuilder(
+      column: $table.previewImageUrl, builder: (column) => column);
+
+  GeneratedColumn<int> get totalBytes => $composableBuilder(
+      column: $table.totalBytes, builder: (column) => column);
+
+  GeneratedColumn<int> get receivedBytes => $composableBuilder(
+      column: $table.receivedBytes, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<DownloadType, String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<DownloadState, String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+}
+
+class $$DownloadTaskTableTableTableManager extends RootTableManager<
+    _$DownloadsDatabase,
+    $DownloadTaskTableTable,
+    DownloadTaskTableData,
+    $$DownloadTaskTableTableFilterComposer,
+    $$DownloadTaskTableTableOrderingComposer,
+    $$DownloadTaskTableTableAnnotationComposer,
+    $$DownloadTaskTableTableCreateCompanionBuilder,
+    $$DownloadTaskTableTableUpdateCompanionBuilder,
+    (
+      DownloadTaskTableData,
+      BaseReferences<_$DownloadsDatabase, $DownloadTaskTableTable,
+          DownloadTaskTableData>
+    ),
+    DownloadTaskTableData,
+    PrefetchHooks Function()> {
+  $$DownloadTaskTableTableTableManager(
+      _$DownloadsDatabase db, $DownloadTaskTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DownloadTaskTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DownloadTaskTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DownloadTaskTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int?> taskId = const Value.absent(),
+            Value<String> title = const Value.absent(),
+            Value<String> worksId = const Value.absent(),
+            Value<String> downloadUrl = const Value.absent(),
+            Value<String?> savePath = const Value.absent(),
+            Value<String?> previewImageUrl = const Value.absent(),
+            Value<int> totalBytes = const Value.absent(),
+            Value<int> receivedBytes = const Value.absent(),
+            Value<DownloadType> type = const Value.absent(),
+            Value<DownloadState> status = const Value.absent(),
+          }) =>
+              DownloadTaskTableCompanion(
+            taskId: taskId,
+            title: title,
+            worksId: worksId,
+            downloadUrl: downloadUrl,
+            savePath: savePath,
+            previewImageUrl: previewImageUrl,
+            totalBytes: totalBytes,
+            receivedBytes: receivedBytes,
+            type: type,
+            status: status,
+          ),
+          createCompanionCallback: ({
+            Value<int?> taskId = const Value.absent(),
+            required String title,
+            required String worksId,
+            required String downloadUrl,
+            Value<String?> savePath = const Value.absent(),
+            Value<String?> previewImageUrl = const Value.absent(),
+            Value<int> totalBytes = const Value.absent(),
+            Value<int> receivedBytes = const Value.absent(),
+            required DownloadType type,
+            required DownloadState status,
+          }) =>
+              DownloadTaskTableCompanion.insert(
+            taskId: taskId,
+            title: title,
+            worksId: worksId,
+            downloadUrl: downloadUrl,
+            savePath: savePath,
+            previewImageUrl: previewImageUrl,
+            totalBytes: totalBytes,
+            receivedBytes: receivedBytes,
+            type: type,
+            status: status,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$DownloadTaskTableTableProcessedTableManager = ProcessedTableManager<
+    _$DownloadsDatabase,
+    $DownloadTaskTableTable,
+    DownloadTaskTableData,
+    $$DownloadTaskTableTableFilterComposer,
+    $$DownloadTaskTableTableOrderingComposer,
+    $$DownloadTaskTableTableAnnotationComposer,
+    $$DownloadTaskTableTableCreateCompanionBuilder,
+    $$DownloadTaskTableTableUpdateCompanionBuilder,
+    (
+      DownloadTaskTableData,
+      BaseReferences<_$DownloadsDatabase, $DownloadTaskTableTable,
+          DownloadTaskTableData>
+    ),
+    DownloadTaskTableData,
+    PrefetchHooks Function()>;
+
+class $DownloadsDatabaseManager {
+  final _$DownloadsDatabase _db;
+  $DownloadsDatabaseManager(this._db);
+  $$DownloadTaskTableTableTableManager get downloadTaskTable =>
+      $$DownloadTaskTableTableTableManager(_db, _db.downloadTaskTable);
 }

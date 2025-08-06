@@ -20,7 +20,9 @@ mixin _$AdvancedCollectingDataModel {
   Restrict get restrict => throw _privateConstructorUsedError;
   CollectState get collectState => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AdvancedCollectingDataModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AdvancedCollectingDataModelCopyWith<AdvancedCollectingDataModel>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -50,6 +52,8 @@ class _$AdvancedCollectingDataModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AdvancedCollectingDataModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -99,6 +103,8 @@ class __$$AdvancedCollectingDataModelImplCopyWithImpl<$Res>
       $Res Function(_$AdvancedCollectingDataModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AdvancedCollectingDataModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -167,7 +173,9 @@ class _$AdvancedCollectingDataModelImpl
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_tags), restrict, collectState);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AdvancedCollectingDataModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AdvancedCollectingDataModelImplCopyWith<_$AdvancedCollectingDataModelImpl>
@@ -189,8 +197,11 @@ abstract class _AdvancedCollectingDataModel
   Restrict get restrict;
   @override
   CollectState get collectState;
+
+  /// Create a copy of AdvancedCollectingDataModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AdvancedCollectingDataModelImplCopyWith<_$AdvancedCollectingDataModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

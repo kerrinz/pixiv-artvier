@@ -20,7 +20,9 @@ mixin _$WorksBadgeArgument {
   Color? get textColor => throw _privateConstructorUsedError;
   Color? get backgroundColor => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WorksBadgeArgument
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WorksBadgeArgumentCopyWith<WorksBadgeArgument> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,6 +46,8 @@ class _$WorksBadgeArgumentCopyWithImpl<$Res, $Val extends WorksBadgeArgument>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WorksBadgeArgument
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +91,8 @@ class __$$WorksBadgeArgumentImplCopyWithImpl<$Res>
       $Res Function(_$WorksBadgeArgumentImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WorksBadgeArgument
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -145,7 +151,9 @@ class _$WorksBadgeArgumentImpl implements _WorksBadgeArgument {
   int get hashCode =>
       Object.hash(runtimeType, text, textColor, backgroundColor);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WorksBadgeArgument
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WorksBadgeArgumentImplCopyWith<_$WorksBadgeArgumentImpl> get copyWith =>
@@ -165,8 +173,11 @@ abstract class _WorksBadgeArgument implements WorksBadgeArgument {
   Color? get textColor;
   @override
   Color? get backgroundColor;
+
+  /// Create a copy of WorksBadgeArgument
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WorksBadgeArgumentImplCopyWith<_$WorksBadgeArgumentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

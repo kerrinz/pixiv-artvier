@@ -23,7 +23,9 @@ mixin _$NovelDetailPageArguments {
   /// 前往第几章节
   int? get toPage => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelDetailPageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NovelDetailPageArgumentsCopyWith<NovelDetailPageArguments> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +50,8 @@ class _$NovelDetailPageArgumentsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NovelDetailPageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -99,6 +103,8 @@ class __$$NovelDetailPageArgumentsImplCopyWithImpl<$Res>
       $Res Function(_$NovelDetailPageArgumentsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NovelDetailPageArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -164,7 +170,9 @@ class _$NovelDetailPageArgumentsImpl implements _NovelDetailPageArguments {
   @override
   int get hashCode => Object.hash(runtimeType, novelId, title, detail, toPage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelDetailPageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NovelDetailPageArgumentsImplCopyWith<_$NovelDetailPageArgumentsImpl>
@@ -185,12 +193,15 @@ abstract class _NovelDetailPageArguments implements NovelDetailPageArguments {
   String? get title;
   @override
   CommonNovel? get detail;
-  @override
 
   /// 前往第几章节
-  int? get toPage;
   @override
-  @JsonKey(ignore: true)
+  int? get toPage;
+
+  /// Create a copy of NovelDetailPageArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NovelDetailPageArgumentsImplCopyWith<_$NovelDetailPageArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

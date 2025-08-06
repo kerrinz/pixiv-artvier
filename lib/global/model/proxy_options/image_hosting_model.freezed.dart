@@ -22,7 +22,9 @@ mixin _$ImageHostingModel {
   /// 是否开启自定义图片源
   bool get isEnabled => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImageHostingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ImageHostingModelCopyWith<ImageHostingModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,6 +48,8 @@ class _$ImageHostingModelCopyWithImpl<$Res, $Val extends ImageHostingModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ImageHostingModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -84,6 +88,8 @@ class __$$ImageHostingModelImplCopyWithImpl<$Res>
       $Res Function(_$ImageHostingModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ImageHostingModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -134,7 +140,9 @@ class _$ImageHostingModelImpl implements _ImageHostingModel {
   @override
   int get hashCode => Object.hash(runtimeType, host, isEnabled);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImageHostingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImageHostingModelImplCopyWith<_$ImageHostingModelImpl> get copyWith =>
@@ -147,16 +155,18 @@ abstract class _ImageHostingModel implements ImageHostingModel {
       {required final String host,
       required final bool isEnabled}) = _$ImageHostingModelImpl;
 
-  @override
-
   /// 图片源
-  String get host;
   @override
+  String get host;
 
   /// 是否开启自定义图片源
-  bool get isEnabled;
   @override
-  @JsonKey(ignore: true)
+  bool get isEnabled;
+
+  /// Create a copy of ImageHostingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImageHostingModelImplCopyWith<_$ImageHostingModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

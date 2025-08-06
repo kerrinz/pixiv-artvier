@@ -25,8 +25,12 @@ mixin _$MarkedNovelsResponse {
   @JsonKey(name: "next_url")
   dynamic get nextUrl => throw _privateConstructorUsedError;
 
+  /// Serializes this MarkedNovelsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MarkedNovelsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MarkedNovelsResponseCopyWith<MarkedNovelsResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,6 +57,8 @@ class _$MarkedNovelsResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MarkedNovelsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,6 +99,8 @@ class __$$MarkedNovelsResponseImplCopyWithImpl<$Res>
       $Res Function(_$MarkedNovelsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MarkedNovelsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -152,14 +160,16 @@ class _$MarkedNovelsResponseImpl implements _MarkedNovelsResponse {
             const DeepCollectionEquality().equals(other.nextUrl, nextUrl));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_markedNovels),
       const DeepCollectionEquality().hash(nextUrl));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MarkedNovelsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MarkedNovelsResponseImplCopyWith<_$MarkedNovelsResponseImpl>
@@ -191,8 +201,11 @@ abstract class _MarkedNovelsResponse implements MarkedNovelsResponse {
   @override
   @JsonKey(name: "next_url")
   dynamic get nextUrl;
+
+  /// Create a copy of MarkedNovelsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MarkedNovelsResponseImplCopyWith<_$MarkedNovelsResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -209,8 +222,12 @@ mixin _$MarkedNovel {
   NovelMarker? get novelMarker => throw _privateConstructorUsedError;
   MarkerState? get markerState => throw _privateConstructorUsedError;
 
+  /// Serializes this MarkedNovel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MarkedNovel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MarkedNovelCopyWith<MarkedNovel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -239,6 +256,8 @@ class _$MarkedNovelCopyWithImpl<$Res, $Val extends MarkedNovel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MarkedNovel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -262,6 +281,8 @@ class _$MarkedNovelCopyWithImpl<$Res, $Val extends MarkedNovel>
     ) as $Val);
   }
 
+  /// Create a copy of MarkedNovel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $NovelMarkerCopyWith<$Res>? get novelMarker {
@@ -300,6 +321,8 @@ class __$$MarkedNovelImplCopyWithImpl<$Res>
       _$MarkedNovelImpl _value, $Res Function(_$MarkedNovelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MarkedNovel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -361,11 +384,13 @@ class _$MarkedNovelImpl implements _MarkedNovel {
                 other.markerState == markerState));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, novel, novelMarker, markerState);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MarkedNovel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MarkedNovelImplCopyWith<_$MarkedNovelImpl> get copyWith =>
@@ -396,8 +421,11 @@ abstract class _MarkedNovel implements MarkedNovel {
   NovelMarker? get novelMarker;
   @override
   MarkerState? get markerState;
+
+  /// Create a copy of MarkedNovel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MarkedNovelImplCopyWith<_$MarkedNovelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -411,8 +439,12 @@ mixin _$NovelMarker {
   @JsonKey(name: "page")
   int get page => throw _privateConstructorUsedError;
 
+  /// Serializes this NovelMarker to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NovelMarker
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NovelMarkerCopyWith<NovelMarker> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -436,6 +468,8 @@ class _$NovelMarkerCopyWithImpl<$Res, $Val extends NovelMarker>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NovelMarker
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -469,6 +503,8 @@ class __$$NovelMarkerImplCopyWithImpl<$Res>
       _$NovelMarkerImpl _value, $Res Function(_$NovelMarkerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NovelMarker
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -508,11 +544,13 @@ class _$NovelMarkerImpl implements _NovelMarker {
             (identical(other.page, page) || other.page == page));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, page);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelMarker
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NovelMarkerImplCopyWith<_$NovelMarkerImpl> get copyWith =>
@@ -536,8 +574,11 @@ abstract class _NovelMarker implements NovelMarker {
   @override
   @JsonKey(name: "page")
   int get page;
+
+  /// Create a copy of NovelMarker
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NovelMarkerImplCopyWith<_$NovelMarkerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

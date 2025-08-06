@@ -20,14 +20,18 @@ NovelDetailWebView _$NovelDetailWebViewFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$NovelDetailWebView {
+  @JsonKey(name: "novel")
+  NovelWebViewNovel get novel => throw _privateConstructorUsedError;
   @JsonKey(name: "authorDetails")
   NovelWebViewAuthorDetails get authorDetails =>
       throw _privateConstructorUsedError;
-  @JsonKey(name: "novel")
-  NovelWebViewNovel get novel => throw _privateConstructorUsedError;
 
+  /// Serializes this NovelDetailWebView to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NovelDetailWebView
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NovelDetailWebViewCopyWith<NovelDetailWebView> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -39,11 +43,11 @@ abstract class $NovelDetailWebViewCopyWith<$Res> {
       _$NovelDetailWebViewCopyWithImpl<$Res, NovelDetailWebView>;
   @useResult
   $Res call(
-      {@JsonKey(name: "authorDetails") NovelWebViewAuthorDetails authorDetails,
-      @JsonKey(name: "novel") NovelWebViewNovel novel});
+      {@JsonKey(name: "novel") NovelWebViewNovel novel,
+      @JsonKey(name: "authorDetails") NovelWebViewAuthorDetails authorDetails});
 
-  $NovelWebViewAuthorDetailsCopyWith<$Res> get authorDetails;
   $NovelWebViewNovelCopyWith<$Res> get novel;
+  $NovelWebViewAuthorDetailsCopyWith<$Res> get authorDetails;
 }
 
 /// @nodoc
@@ -56,38 +60,44 @@ class _$NovelDetailWebViewCopyWithImpl<$Res, $Val extends NovelDetailWebView>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NovelDetailWebView
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? authorDetails = null,
     Object? novel = null,
+    Object? authorDetails = null,
   }) {
     return _then(_value.copyWith(
-      authorDetails: null == authorDetails
-          ? _value.authorDetails
-          : authorDetails // ignore: cast_nullable_to_non_nullable
-              as NovelWebViewAuthorDetails,
       novel: null == novel
           ? _value.novel
           : novel // ignore: cast_nullable_to_non_nullable
               as NovelWebViewNovel,
+      authorDetails: null == authorDetails
+          ? _value.authorDetails
+          : authorDetails // ignore: cast_nullable_to_non_nullable
+              as NovelWebViewAuthorDetails,
     ) as $Val);
   }
 
+  /// Create a copy of NovelDetailWebView
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NovelWebViewNovelCopyWith<$Res> get novel {
+    return $NovelWebViewNovelCopyWith<$Res>(_value.novel, (value) {
+      return _then(_value.copyWith(novel: value) as $Val);
+    });
+  }
+
+  /// Create a copy of NovelDetailWebView
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $NovelWebViewAuthorDetailsCopyWith<$Res> get authorDetails {
     return $NovelWebViewAuthorDetailsCopyWith<$Res>(_value.authorDetails,
         (value) {
       return _then(_value.copyWith(authorDetails: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $NovelWebViewNovelCopyWith<$Res> get novel {
-    return $NovelWebViewNovelCopyWith<$Res>(_value.novel, (value) {
-      return _then(_value.copyWith(novel: value) as $Val);
     });
   }
 }
@@ -101,13 +111,13 @@ abstract class _$$NovelDetailWebViewImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "authorDetails") NovelWebViewAuthorDetails authorDetails,
-      @JsonKey(name: "novel") NovelWebViewNovel novel});
+      {@JsonKey(name: "novel") NovelWebViewNovel novel,
+      @JsonKey(name: "authorDetails") NovelWebViewAuthorDetails authorDetails});
 
   @override
-  $NovelWebViewAuthorDetailsCopyWith<$Res> get authorDetails;
-  @override
   $NovelWebViewNovelCopyWith<$Res> get novel;
+  @override
+  $NovelWebViewAuthorDetailsCopyWith<$Res> get authorDetails;
 }
 
 /// @nodoc
@@ -118,21 +128,23 @@ class __$$NovelDetailWebViewImplCopyWithImpl<$Res>
       $Res Function(_$NovelDetailWebViewImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NovelDetailWebView
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? authorDetails = null,
     Object? novel = null,
+    Object? authorDetails = null,
   }) {
     return _then(_$NovelDetailWebViewImpl(
-      authorDetails: null == authorDetails
-          ? _value.authorDetails
-          : authorDetails // ignore: cast_nullable_to_non_nullable
-              as NovelWebViewAuthorDetails,
       novel: null == novel
           ? _value.novel
           : novel // ignore: cast_nullable_to_non_nullable
               as NovelWebViewNovel,
+      authorDetails: null == authorDetails
+          ? _value.authorDetails
+          : authorDetails // ignore: cast_nullable_to_non_nullable
+              as NovelWebViewAuthorDetails,
     ));
   }
 }
@@ -141,22 +153,22 @@ class __$$NovelDetailWebViewImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
   const _$NovelDetailWebViewImpl(
-      {@JsonKey(name: "authorDetails") required this.authorDetails,
-      @JsonKey(name: "novel") required this.novel});
+      {@JsonKey(name: "novel") required this.novel,
+      @JsonKey(name: "authorDetails") required this.authorDetails});
 
   factory _$NovelDetailWebViewImpl.fromJson(Map<String, dynamic> json) =>
       _$$NovelDetailWebViewImplFromJson(json);
 
   @override
-  @JsonKey(name: "authorDetails")
-  final NovelWebViewAuthorDetails authorDetails;
-  @override
   @JsonKey(name: "novel")
   final NovelWebViewNovel novel;
+  @override
+  @JsonKey(name: "authorDetails")
+  final NovelWebViewAuthorDetails authorDetails;
 
   @override
   String toString() {
-    return 'NovelDetailWebView(authorDetails: $authorDetails, novel: $novel)';
+    return 'NovelDetailWebView(novel: $novel, authorDetails: $authorDetails)';
   }
 
   @override
@@ -164,16 +176,18 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NovelDetailWebViewImpl &&
+            (identical(other.novel, novel) || other.novel == novel) &&
             (identical(other.authorDetails, authorDetails) ||
-                other.authorDetails == authorDetails) &&
-            (identical(other.novel, novel) || other.novel == novel));
+                other.authorDetails == authorDetails));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, authorDetails, novel);
+  int get hashCode => Object.hash(runtimeType, novel, authorDetails);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelDetailWebView
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NovelDetailWebViewImplCopyWith<_$NovelDetailWebViewImpl> get copyWith =>
@@ -190,22 +204,25 @@ class _$NovelDetailWebViewImpl implements _NovelDetailWebView {
 
 abstract class _NovelDetailWebView implements NovelDetailWebView {
   const factory _NovelDetailWebView(
-          {@JsonKey(name: "authorDetails")
-          required final NovelWebViewAuthorDetails authorDetails,
-          @JsonKey(name: "novel") required final NovelWebViewNovel novel}) =
+          {@JsonKey(name: "novel") required final NovelWebViewNovel novel,
+          @JsonKey(name: "authorDetails")
+          required final NovelWebViewAuthorDetails authorDetails}) =
       _$NovelDetailWebViewImpl;
 
   factory _NovelDetailWebView.fromJson(Map<String, dynamic> json) =
       _$NovelDetailWebViewImpl.fromJson;
 
   @override
-  @JsonKey(name: "authorDetails")
-  NovelWebViewAuthorDetails get authorDetails;
-  @override
   @JsonKey(name: "novel")
   NovelWebViewNovel get novel;
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(name: "authorDetails")
+  NovelWebViewAuthorDetails get authorDetails;
+
+  /// Create a copy of NovelDetailWebView
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NovelDetailWebViewImplCopyWith<_$NovelDetailWebViewImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -257,8 +274,12 @@ mixin _$NovelWebViewNovel {
   @JsonKey(name: "isOriginal")
   bool get isOriginal => throw _privateConstructorUsedError;
 
+  /// Serializes this NovelWebViewNovel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NovelWebViewNovel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NovelWebViewNovelCopyWith<NovelWebViewNovel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -306,6 +327,8 @@ class _$NovelWebViewNovelCopyWithImpl<$Res, $Val extends NovelWebViewNovel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NovelWebViewNovel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -414,6 +437,8 @@ class _$NovelWebViewNovelCopyWithImpl<$Res, $Val extends NovelWebViewNovel>
     ) as $Val);
   }
 
+  /// Create a copy of NovelWebViewNovel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RatingCopyWith<$Res> get rating {
@@ -422,6 +447,8 @@ class _$NovelWebViewNovelCopyWithImpl<$Res, $Val extends NovelWebViewNovel>
     });
   }
 
+  /// Create a copy of NovelWebViewNovel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $NovelWebViewNovelMarkerCopyWith<$Res>? get marker {
@@ -434,6 +461,8 @@ class _$NovelWebViewNovelCopyWithImpl<$Res, $Val extends NovelWebViewNovel>
     });
   }
 
+  /// Create a copy of NovelWebViewNovel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SeriesNavigationCopyWith<$Res>? get seriesNavigation {
@@ -493,6 +522,8 @@ class __$$NovelWebViewNovelImplCopyWithImpl<$Res>
       $Res Function(_$NovelWebViewNovelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NovelWebViewNovel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -751,7 +782,7 @@ class _$NovelWebViewNovelImpl implements _NovelWebViewNovel {
                 other.isOriginal == isOriginal));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -777,7 +808,9 @@ class _$NovelWebViewNovelImpl implements _NovelWebViewNovel {
         isOriginal
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelWebViewNovel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NovelWebViewNovelImplCopyWith<_$NovelWebViewNovelImpl> get copyWith =>
@@ -881,8 +914,11 @@ abstract class _NovelWebViewNovel implements NovelWebViewNovel {
   @override
   @JsonKey(name: "isOriginal")
   bool get isOriginal;
+
+  /// Create a copy of NovelWebViewNovel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NovelWebViewNovelImplCopyWith<_$NovelWebViewNovelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -897,8 +933,12 @@ mixin _$NovelWebViewNovelMarker {
   @JsonKey(name: "page")
   int get page => throw _privateConstructorUsedError;
 
+  /// Serializes this NovelWebViewNovelMarker to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NovelWebViewNovelMarker
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NovelWebViewNovelMarkerCopyWith<NovelWebViewNovelMarker> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -923,6 +963,8 @@ class _$NovelWebViewNovelMarkerCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NovelWebViewNovelMarker
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -959,6 +1001,8 @@ class __$$NovelWebViewNovelMarkerImplCopyWithImpl<$Res>
       $Res Function(_$NovelWebViewNovelMarkerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NovelWebViewNovelMarker
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -999,11 +1043,13 @@ class _$NovelWebViewNovelMarkerImpl implements _NovelWebViewNovelMarker {
             (identical(other.page, page) || other.page == page));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, page);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelWebViewNovelMarker
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NovelWebViewNovelMarkerImplCopyWith<_$NovelWebViewNovelMarkerImpl>
@@ -1029,8 +1075,11 @@ abstract class _NovelWebViewNovelMarker implements NovelWebViewNovelMarker {
   @override
   @JsonKey(name: "page")
   int get page;
+
+  /// Create a copy of NovelWebViewNovelMarker
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NovelWebViewNovelMarkerImplCopyWith<_$NovelWebViewNovelMarkerImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1056,8 +1105,12 @@ mixin _$NovelWebViewAuthorDetails {
   @JsonKey(name: "isProfileImgMasked")
   bool get isProfileImgMasked => throw _privateConstructorUsedError;
 
+  /// Serializes this NovelWebViewAuthorDetails to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NovelWebViewAuthorDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NovelWebViewAuthorDetailsCopyWith<NovelWebViewAuthorDetails> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1091,6 +1144,8 @@ class _$NovelWebViewAuthorDetailsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NovelWebViewAuthorDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1129,6 +1184,8 @@ class _$NovelWebViewAuthorDetailsCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of NovelWebViewAuthorDetails
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $NovelWebViewAuthorDetailsProfileImgCopyWith<$Res> get profileImg {
@@ -1171,6 +1228,8 @@ class __$$NovelWebViewAuthorDetailsImplCopyWithImpl<$Res>
       $Res Function(_$NovelWebViewAuthorDetailsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NovelWebViewAuthorDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1266,12 +1325,14 @@ class _$NovelWebViewAuthorDetailsImpl implements _NovelWebViewAuthorDetails {
                 other.isProfileImgMasked == isProfileImgMasked));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, userId, userName, isFollowed,
       isBlocked, profileImg, isProfileImgMasked);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelWebViewAuthorDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NovelWebViewAuthorDetailsImplCopyWith<_$NovelWebViewAuthorDetailsImpl>
@@ -1319,8 +1380,11 @@ abstract class _NovelWebViewAuthorDetails implements NovelWebViewAuthorDetails {
   @override
   @JsonKey(name: "isProfileImgMasked")
   bool get isProfileImgMasked;
+
+  /// Create a copy of NovelWebViewAuthorDetails
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NovelWebViewAuthorDetailsImplCopyWith<_$NovelWebViewAuthorDetailsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1335,8 +1399,12 @@ mixin _$NovelWebViewAuthorDetailsProfileImg {
   @JsonKey(name: "url")
   String get url => throw _privateConstructorUsedError;
 
+  /// Serializes this NovelWebViewAuthorDetailsProfileImg to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NovelWebViewAuthorDetailsProfileImg
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NovelWebViewAuthorDetailsProfileImgCopyWith<
           NovelWebViewAuthorDetailsProfileImg>
       get copyWith => throw _privateConstructorUsedError;
@@ -1364,6 +1432,8 @@ class _$NovelWebViewAuthorDetailsProfileImgCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NovelWebViewAuthorDetailsProfileImg
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1400,6 +1470,8 @@ class __$$NovelWebViewAuthorDetailsProfileImgImplCopyWithImpl<$Res>
       $Res Function(_$NovelWebViewAuthorDetailsProfileImgImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NovelWebViewAuthorDetailsProfileImg
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1442,11 +1514,13 @@ class _$NovelWebViewAuthorDetailsProfileImgImpl
             (identical(other.url, url) || other.url == url));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, url);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NovelWebViewAuthorDetailsProfileImg
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NovelWebViewAuthorDetailsProfileImgImplCopyWith<
@@ -1475,8 +1549,11 @@ abstract class _NovelWebViewAuthorDetailsProfileImg
   @override
   @JsonKey(name: "url")
   String get url;
+
+  /// Create a copy of NovelWebViewAuthorDetailsProfileImg
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NovelWebViewAuthorDetailsProfileImgImplCopyWith<
           _$NovelWebViewAuthorDetailsProfileImgImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1501,8 +1578,12 @@ mixin _$IllustValue {
   @JsonKey(name: "page")
   int get page => throw _privateConstructorUsedError;
 
+  /// Serializes this IllustValue to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IllustValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IllustValueCopyWith<IllustValue> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1535,6 +1616,8 @@ class _$IllustValueCopyWithImpl<$Res, $Val extends IllustValue>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IllustValue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1573,6 +1656,8 @@ class _$IllustValueCopyWithImpl<$Res, $Val extends IllustValue>
     ) as $Val);
   }
 
+  /// Create a copy of IllustValue
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IllustIllustCopyWith<$Res> get illust {
@@ -1581,6 +1666,8 @@ class _$IllustValueCopyWithImpl<$Res, $Val extends IllustValue>
     });
   }
 
+  /// Create a copy of IllustValue
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserCopyWith<$Res> get user {
@@ -1620,6 +1707,8 @@ class __$$IllustValueImplCopyWithImpl<$Res>
       _$IllustValueImpl _value, $Res Function(_$IllustValueImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IllustValue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1711,7 +1800,7 @@ class _$IllustValueImpl implements _IllustValue {
             (identical(other.page, page) || other.page == page));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -1722,7 +1811,9 @@ class _$IllustValueImpl implements _IllustValue {
       id,
       page);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IllustValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IllustValueImplCopyWith<_$IllustValueImpl> get copyWith =>
@@ -1767,8 +1858,11 @@ abstract class _IllustValue implements IllustValue {
   @override
   @JsonKey(name: "page")
   int get page;
+
+  /// Create a copy of IllustValue
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IllustValueImplCopyWith<_$IllustValueImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1794,8 +1888,12 @@ mixin _$IllustIllust {
   @JsonKey(name: "images")
   Images get images => throw _privateConstructorUsedError;
 
+  /// Serializes this IllustIllust to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IllustIllust
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IllustIllustCopyWith<IllustIllust> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1828,6 +1926,8 @@ class _$IllustIllustCopyWithImpl<$Res, $Val extends IllustIllust>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IllustIllust
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1871,6 +1971,8 @@ class _$IllustIllustCopyWithImpl<$Res, $Val extends IllustIllust>
     ) as $Val);
   }
 
+  /// Create a copy of IllustIllust
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ImagesCopyWith<$Res> get images {
@@ -1909,6 +2011,8 @@ class __$$IllustIllustImplCopyWithImpl<$Res>
       _$IllustIllustImpl _value, $Res Function(_$IllustIllustImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IllustIllust
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2019,12 +2123,14 @@ class _$IllustIllustImpl implements _IllustIllust {
             (identical(other.images, images) || other.images == images));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, title, description, restrict,
       xRestrict, sl, const DeepCollectionEquality().hash(_tags), images);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IllustIllust
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IllustIllustImplCopyWith<_$IllustIllustImpl> get copyWith =>
@@ -2073,8 +2179,11 @@ abstract class _IllustIllust implements IllustIllust {
   @override
   @JsonKey(name: "images")
   Images get images;
+
+  /// Create a copy of IllustIllust
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IllustIllustImplCopyWith<_$IllustIllustImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2092,8 +2201,12 @@ mixin _$Images {
   @JsonKey(name: "original")
   dynamic get original => throw _privateConstructorUsedError;
 
+  /// Serializes this Images to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Images
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ImagesCopyWith<Images> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -2118,6 +2231,8 @@ class _$ImagesCopyWithImpl<$Res, $Val extends Images>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Images
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2163,6 +2278,8 @@ class __$$ImagesImplCopyWithImpl<$Res>
       _$ImagesImpl _value, $Res Function(_$ImagesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Images
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2223,7 +2340,7 @@ class _$ImagesImpl implements _Images {
             const DeepCollectionEquality().equals(other.original, original));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -2231,7 +2348,9 @@ class _$ImagesImpl implements _Images {
       medium,
       const DeepCollectionEquality().hash(original));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Images
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImagesImplCopyWith<_$ImagesImpl> get copyWith =>
@@ -2263,8 +2382,11 @@ abstract class _Images implements Images {
   @override
   @JsonKey(name: "original")
   dynamic get original;
+
+  /// Create a copy of Images
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImagesImplCopyWith<_$ImagesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2280,8 +2402,12 @@ mixin _$Tag {
   @JsonKey(name: "userId")
   String get userId => throw _privateConstructorUsedError;
 
+  /// Serializes this Tag to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Tag
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TagCopyWith<Tag> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -2304,6 +2430,8 @@ class _$TagCopyWithImpl<$Res, $Val extends Tag> implements $TagCopyWith<$Res> {
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Tag
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2340,6 +2468,8 @@ class __$$TagImplCopyWithImpl<$Res> extends _$TagCopyWithImpl<$Res, _$TagImpl>
   __$$TagImplCopyWithImpl(_$TagImpl _value, $Res Function(_$TagImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Tag
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2390,11 +2520,13 @@ class _$TagImpl implements _Tag {
             (identical(other.userId, userId) || other.userId == userId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, tag, userId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Tag
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TagImplCopyWith<_$TagImpl> get copyWith =>
@@ -2421,8 +2553,11 @@ abstract class _Tag implements Tag {
   @override
   @JsonKey(name: "userId")
   String get userId;
+
+  /// Create a copy of Tag
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TagImplCopyWith<_$TagImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2440,8 +2575,12 @@ mixin _$User {
   @JsonKey(name: "image")
   String get image => throw _privateConstructorUsedError;
 
+  /// Serializes this User to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -2466,6 +2605,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2510,6 +2651,8 @@ class __$$UserImplCopyWithImpl<$Res>
   __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2570,11 +2713,13 @@ class _$UserImpl implements _User {
             (identical(other.image, image) || other.image == image));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, image);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
@@ -2605,8 +2750,11 @@ abstract class _User implements User {
   @override
   @JsonKey(name: "image")
   String get image;
+
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2624,8 +2772,12 @@ mixin _$Image {
   @JsonKey(name: "urls")
   Urls get urls => throw _privateConstructorUsedError;
 
+  /// Serializes this Image to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Image
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ImageCopyWith<Image> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -2652,6 +2804,8 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Image
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2675,6 +2829,8 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
     ) as $Val);
   }
 
+  /// Create a copy of Image
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UrlsCopyWith<$Res> get urls {
@@ -2708,6 +2864,8 @@ class __$$ImageImplCopyWithImpl<$Res>
       _$ImageImpl _value, $Res Function(_$ImageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Image
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2769,11 +2927,13 @@ class _$ImageImpl implements _Image {
             (identical(other.urls, urls) || other.urls == urls));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, novelImageId, sl, urls);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Image
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImageImplCopyWith<_$ImageImpl> get copyWith =>
@@ -2804,8 +2964,11 @@ abstract class _Image implements Image {
   @override
   @JsonKey(name: "urls")
   Urls get urls;
+
+  /// Create a copy of Image
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImageImplCopyWith<_$ImageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2827,8 +2990,12 @@ mixin _$Urls {
   @JsonKey(name: "original")
   String get original => throw _privateConstructorUsedError;
 
+  /// Serializes this Urls to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Urls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UrlsCopyWith<Urls> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -2855,6 +3022,8 @@ class _$UrlsCopyWithImpl<$Res, $Val extends Urls>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Urls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2911,6 +3080,8 @@ class __$$UrlsImplCopyWithImpl<$Res>
   __$$UrlsImplCopyWithImpl(_$UrlsImpl _value, $Res Function(_$UrlsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Urls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2996,12 +3167,14 @@ class _$UrlsImpl implements _Urls {
                 other.original == original));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, the240Mw, the480Mw, the1200X1200, the128X128, original);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Urls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UrlsImplCopyWith<_$UrlsImpl> get copyWith =>
@@ -3040,8 +3213,11 @@ abstract class _Urls implements Urls {
   @override
   @JsonKey(name: "original")
   String get original;
+
+  /// Create a copy of Urls
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UrlsImplCopyWith<_$UrlsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3059,8 +3235,12 @@ mixin _$Rating {
   @JsonKey(name: "view")
   int get view => throw _privateConstructorUsedError;
 
+  /// Serializes this Rating to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Rating
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RatingCopyWith<Rating> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -3085,6 +3265,8 @@ class _$RatingCopyWithImpl<$Res, $Val extends Rating>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Rating
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3130,6 +3312,8 @@ class __$$RatingImplCopyWithImpl<$Res>
       _$RatingImpl _value, $Res Function(_$RatingImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Rating
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3191,11 +3375,13 @@ class _$RatingImpl implements _Rating {
             (identical(other.view, view) || other.view == view));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, like, bookmark, view);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Rating
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RatingImplCopyWith<_$RatingImpl> get copyWith =>
@@ -3226,8 +3412,11 @@ abstract class _Rating implements Rating {
   @override
   @JsonKey(name: "view")
   int get view;
+
+  /// Create a copy of Rating
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RatingImplCopyWith<_$RatingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3243,8 +3432,12 @@ mixin _$SeriesNavigation {
   @JsonKey(name: "prevNovel")
   PrevNovel? get prevNovel => throw _privateConstructorUsedError;
 
+  /// Serializes this SeriesNavigation to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SeriesNavigation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SeriesNavigationCopyWith<SeriesNavigation> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3273,6 +3466,8 @@ class _$SeriesNavigationCopyWithImpl<$Res, $Val extends SeriesNavigation>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SeriesNavigation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3291,6 +3486,8 @@ class _$SeriesNavigationCopyWithImpl<$Res, $Val extends SeriesNavigation>
     ) as $Val);
   }
 
+  /// Create a copy of SeriesNavigation
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PrevNovelCopyWith<$Res>? get nextNovel {
@@ -3303,6 +3500,8 @@ class _$SeriesNavigationCopyWithImpl<$Res, $Val extends SeriesNavigation>
     });
   }
 
+  /// Create a copy of SeriesNavigation
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PrevNovelCopyWith<$Res>? get prevNovel {
@@ -3342,6 +3541,8 @@ class __$$SeriesNavigationImplCopyWithImpl<$Res>
       $Res Function(_$SeriesNavigationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SeriesNavigation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3394,11 +3595,13 @@ class _$SeriesNavigationImpl implements _SeriesNavigation {
                 other.prevNovel == prevNovel));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, nextNovel, prevNovel);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SeriesNavigation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SeriesNavigationImplCopyWith<_$SeriesNavigationImpl> get copyWith =>
@@ -3428,8 +3631,11 @@ abstract class _SeriesNavigation implements SeriesNavigation {
   @override
   @JsonKey(name: "prevNovel")
   PrevNovel? get prevNovel;
+
+  /// Create a copy of SeriesNavigation
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SeriesNavigationImplCopyWith<_$SeriesNavigationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3453,8 +3659,12 @@ mixin _$PrevNovel {
   @JsonKey(name: "viewableMessage")
   dynamic get viewableMessage => throw _privateConstructorUsedError;
 
+  /// Serializes this PrevNovel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PrevNovel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PrevNovelCopyWith<PrevNovel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3483,6 +3693,8 @@ class _$PrevNovelCopyWithImpl<$Res, $Val extends PrevNovel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PrevNovel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3547,6 +3759,8 @@ class __$$PrevNovelImplCopyWithImpl<$Res>
       _$PrevNovelImpl _value, $Res Function(_$PrevNovelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PrevNovel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3641,12 +3855,14 @@ class _$PrevNovelImpl implements _PrevNovel {
                 .equals(other.viewableMessage, viewableMessage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, viewable, contentOrder,
       title, coverUrl, const DeepCollectionEquality().hash(viewableMessage));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PrevNovel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PrevNovelImplCopyWith<_$PrevNovelImpl> get copyWith =>
@@ -3691,8 +3907,11 @@ abstract class _PrevNovel implements PrevNovel {
   @override
   @JsonKey(name: "viewableMessage")
   dynamic get viewableMessage;
+
+  /// Create a copy of PrevNovel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PrevNovelImplCopyWith<_$PrevNovelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -48,7 +48,7 @@ dependencies:
   flutter_svg: ^2.2.0
   flutter_widget_from_html: ^0.17.0
   fluttertoast: ^8.2.12
-  freezed_annotation: ^3.1.0 # 模板代码生成
+  freezed_annotation: ^2.4.4 # 模板代码生成
   html: ^0.15.6 # 解析 HTML
   image_gallery_saver: ^2.0.3 # 图片保存
   image: ^4.5.4
@@ -73,16 +73,20 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  analyzer: ^6.11.0
+  analyzer: ^7.7.1
   build_runner: ^2.5.4 # 构建工具，命令：dart run build_runner build
   dart_style: ^2.3.8
   drift_dev: ^2.25.2
   lints: ^6.0.0
   flutter_lints: ^6.0.0
-  freezed: ^3.0.0 # 模板代码生成工具
+  freezed: ^2.5.8 # 模板代码生成工具
   intl_translation: ^0.20.1 # 国际化
   json_serializable: ^6.9.5 # json序列化
   source_gen: ^2.0.0 # 让工具生成的代码忽视lints
+
+dependency_overrides:
+  analyzer: '7.7.1'
+  dart_style: ^2.3.8
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

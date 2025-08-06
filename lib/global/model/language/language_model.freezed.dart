@@ -22,7 +22,9 @@ mixin _$LanguageModel {
   /// 跟随系统回调的 Locale
   Locale get callbackLocale => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LanguageModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LanguageModelCopyWith<LanguageModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,6 +48,8 @@ class _$LanguageModelCopyWithImpl<$Res, $Val extends LanguageModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LanguageModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -84,6 +88,8 @@ class __$$LanguageModelImplCopyWithImpl<$Res>
       _$LanguageModelImpl _value, $Res Function(_$LanguageModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LanguageModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,7 +143,9 @@ class _$LanguageModelImpl extends _LanguageModel {
   @override
   int get hashCode => Object.hash(runtimeType, appLocale, callbackLocale);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LanguageModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LanguageModelImplCopyWith<_$LanguageModelImpl> get copyWith =>
@@ -150,16 +158,18 @@ abstract class _LanguageModel extends LanguageModel {
       required final Locale callbackLocale}) = _$LanguageModelImpl;
   const _LanguageModel._() : super._();
 
-  @override
-
   /// MaterialApp locale，当 null 时为跟随系统
-  Locale? get appLocale;
   @override
+  Locale? get appLocale;
 
   /// 跟随系统回调的 Locale
-  Locale get callbackLocale;
   @override
-  @JsonKey(ignore: true)
+  Locale get callbackLocale;
+
+  /// Create a copy of LanguageModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LanguageModelImplCopyWith<_$LanguageModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

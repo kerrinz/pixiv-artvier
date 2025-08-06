@@ -11,16 +11,16 @@ part of 'novel_detail_webview.dart';
 _$NovelDetailWebViewImpl _$$NovelDetailWebViewImplFromJson(
         Map<String, dynamic> json) =>
     _$NovelDetailWebViewImpl(
+      novel: NovelWebViewNovel.fromJson(json['novel'] as Map<String, dynamic>),
       authorDetails: NovelWebViewAuthorDetails.fromJson(
           json['authorDetails'] as Map<String, dynamic>),
-      novel: NovelWebViewNovel.fromJson(json['novel'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$NovelDetailWebViewImplToJson(
         _$NovelDetailWebViewImpl instance) =>
     <String, dynamic>{
-      'authorDetails': instance.authorDetails,
       'novel': instance.novel,
+      'authorDetails': instance.authorDetails,
     };
 
 _$NovelWebViewNovelImpl _$$NovelWebViewNovelImplFromJson(

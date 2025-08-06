@@ -32,8 +32,12 @@ mixin _$MangaSeriesDetailResponse {
   @JsonKey(name: "next_url")
   String? get nextUrl => throw _privateConstructorUsedError;
 
+  /// Serializes this MangaSeriesDetailResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MangaSeriesDetailResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MangaSeriesDetailResponseCopyWith<MangaSeriesDetailResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$MangaSeriesDetailResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MangaSeriesDetailResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -94,6 +100,8 @@ class _$MangaSeriesDetailResponseCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of MangaSeriesDetailResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IllustSeriesDetailCopyWith<$Res> get illustSeriesDetail {
@@ -135,6 +143,8 @@ class __$$MangaSeriesDetailResponseImplCopyWithImpl<$Res>
       $Res Function(_$MangaSeriesDetailResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MangaSeriesDetailResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -216,7 +226,7 @@ class _$MangaSeriesDetailResponseImpl implements _MangaSeriesDetailResponse {
             (identical(other.nextUrl, nextUrl) || other.nextUrl == nextUrl));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -225,7 +235,9 @@ class _$MangaSeriesDetailResponseImpl implements _MangaSeriesDetailResponse {
       const DeepCollectionEquality().hash(_illusts),
       nextUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MangaSeriesDetailResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MangaSeriesDetailResponseImplCopyWith<_$MangaSeriesDetailResponseImpl>
@@ -265,8 +277,11 @@ abstract class _MangaSeriesDetailResponse implements MangaSeriesDetailResponse {
   @override
   @JsonKey(name: "next_url")
   String? get nextUrl;
+
+  /// Create a copy of MangaSeriesDetailResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MangaSeriesDetailResponseImplCopyWith<_$MangaSeriesDetailResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -298,8 +313,12 @@ mixin _$IllustSeriesDetail {
   @JsonKey(name: "watchlist_added")
   bool get watchlistAdded => throw _privateConstructorUsedError;
 
+  /// Serializes this IllustSeriesDetail to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IllustSeriesDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IllustSeriesDetailCopyWith<IllustSeriesDetail> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -335,6 +354,8 @@ class _$IllustSeriesDetailCopyWithImpl<$Res, $Val extends IllustSeriesDetail>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IllustSeriesDetail
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -393,6 +414,8 @@ class _$IllustSeriesDetailCopyWithImpl<$Res, $Val extends IllustSeriesDetail>
     ) as $Val);
   }
 
+  /// Create a copy of IllustSeriesDetail
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ImageUrlsCopyWith<$Res> get coverImageUrls {
@@ -434,6 +457,8 @@ class __$$IllustSeriesDetailImplCopyWithImpl<$Res>
       $Res Function(_$IllustSeriesDetailImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IllustSeriesDetail
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -568,7 +593,7 @@ class _$IllustSeriesDetailImpl implements _IllustSeriesDetail {
                 other.watchlistAdded == watchlistAdded));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -583,7 +608,9 @@ class _$IllustSeriesDetailImpl implements _IllustSeriesDetail {
       user,
       watchlistAdded);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IllustSeriesDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IllustSeriesDetailImplCopyWith<_$IllustSeriesDetailImpl> get copyWith =>
@@ -646,8 +673,11 @@ abstract class _IllustSeriesDetail implements IllustSeriesDetail {
   @override
   @JsonKey(name: "watchlist_added")
   bool get watchlistAdded;
+
+  /// Create a copy of IllustSeriesDetail
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IllustSeriesDetailImplCopyWith<_$IllustSeriesDetailImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -661,8 +691,12 @@ mixin _$ImageUrls {
   @JsonKey(name: "medium")
   String get medium => throw _privateConstructorUsedError;
 
+  /// Serializes this ImageUrls to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ImageUrls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ImageUrlsCopyWith<ImageUrls> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -685,6 +719,8 @@ class _$ImageUrlsCopyWithImpl<$Res, $Val extends ImageUrls>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ImageUrls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -718,6 +754,8 @@ class __$$ImageUrlsImplCopyWithImpl<$Res>
       _$ImageUrlsImpl _value, $Res Function(_$ImageUrlsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ImageUrls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -757,11 +795,13 @@ class _$ImageUrlsImpl implements _ImageUrls {
             (identical(other.medium, medium) || other.medium == medium));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, medium);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImageUrls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImageUrlsImplCopyWith<_$ImageUrlsImpl> get copyWith =>
@@ -786,8 +826,11 @@ abstract class _ImageUrls implements ImageUrls {
   @override
   @JsonKey(name: "medium")
   String get medium;
+
+  /// Create a copy of ImageUrls
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImageUrlsImplCopyWith<_$ImageUrlsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

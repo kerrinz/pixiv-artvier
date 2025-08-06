@@ -22,7 +22,9 @@ mixin _$MarkerStateChangedArguments {
   int? get page => throw _privateConstructorUsedError;
   MarkerState get state => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MarkerStateChangedArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MarkerStateChangedArgumentsCopyWith<MarkerStateChangedArguments>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -49,6 +51,8 @@ class _$MarkerStateChangedArgumentsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MarkerStateChangedArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -95,6 +99,8 @@ class __$$MarkerStateChangedArgumentsImplCopyWithImpl<$Res>
       $Res Function(_$MarkerStateChangedArgumentsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MarkerStateChangedArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -153,7 +159,9 @@ class _$MarkerStateChangedArgumentsImpl
   @override
   int get hashCode => Object.hash(runtimeType, worksId, page, state);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MarkerStateChangedArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MarkerStateChangedArgumentsImplCopyWith<_$MarkerStateChangedArgumentsImpl>
@@ -170,14 +178,17 @@ abstract class _MarkerStateChangedArguments
 
   @override
   String get worksId;
-  @override
 
   /// 书签页
+  @override
   int? get page;
   @override
   MarkerState get state;
+
+  /// Create a copy of MarkerStateChangedArguments
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MarkerStateChangedArgumentsImplCopyWith<_$MarkerStateChangedArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

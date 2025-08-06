@@ -22,7 +22,9 @@ mixin _$ImageViewerPageState {
   /// （分辨率）是否原图
   bool get isOriginal => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImageViewerPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ImageViewerPageStateCopyWith<ImageViewerPageState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +49,8 @@ class _$ImageViewerPageStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ImageViewerPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -85,6 +89,8 @@ class __$$ImageViewerPageStateImplCopyWithImpl<$Res>
       $Res Function(_$ImageViewerPageStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ImageViewerPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,7 +143,9 @@ class _$ImageViewerPageStateImpl implements _ImageViewerPageState {
   @override
   int get hashCode => Object.hash(runtimeType, pageIndex, isOriginal);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImageViewerPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImageViewerPageStateImplCopyWith<_$ImageViewerPageStateImpl>
@@ -151,16 +159,18 @@ abstract class _ImageViewerPageState implements ImageViewerPageState {
       {required final int pageIndex,
       required final bool isOriginal}) = _$ImageViewerPageStateImpl;
 
-  @override
-
   /// 当前图片索引
-  int get pageIndex;
   @override
+  int get pageIndex;
 
   /// （分辨率）是否原图
-  bool get isOriginal;
   @override
-  @JsonKey(ignore: true)
+  bool get isOriginal;
+
+  /// Create a copy of ImageViewerPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImageViewerPageStateImplCopyWith<_$ImageViewerPageStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

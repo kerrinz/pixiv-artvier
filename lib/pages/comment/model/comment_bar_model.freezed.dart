@@ -29,7 +29,9 @@ mixin _$CommentBarModel {
   /// 输入框的内容
   String? get comment => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommentBarModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CommentBarModelCopyWith<CommentBarModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,6 +60,8 @@ class _$CommentBarModelCopyWithImpl<$Res, $Val extends CommentBarModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CommentBarModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -116,6 +120,8 @@ class __$$CommentBarModelImplCopyWithImpl<$Res>
       _$CommentBarModelImpl _value, $Res Function(_$CommentBarModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CommentBarModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -205,7 +211,9 @@ class _$CommentBarModelImpl implements _CommentBarModel {
   int get hashCode => Object.hash(runtimeType, parentCommentId,
       parentCommentName, isSending, isActived, comment);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommentBarModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CommentBarModelImplCopyWith<_$CommentBarModelImpl> get copyWith =>
@@ -221,26 +229,28 @@ abstract class _CommentBarModel implements CommentBarModel {
       final bool isActived,
       final String? comment}) = _$CommentBarModelImpl;
 
-  @override
-
   /// 回复哪个评论
+  @override
   int? get parentCommentId;
   @override
   String? get parentCommentName;
-  @override
 
   /// 是否正在发布中
-  bool get isSending;
   @override
+  bool get isSending;
 
   /// 是否处于激活状态
-  bool get isActived;
   @override
+  bool get isActived;
 
   /// 输入框的内容
-  String? get comment;
   @override
-  @JsonKey(ignore: true)
+  String? get comment;
+
+  /// Create a copy of CommentBarModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CommentBarModelImplCopyWith<_$CommentBarModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -38,8 +38,12 @@ mixin _$ImageDownloadTaskModel {
   String get url => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
 
+  /// Serializes this ImageDownloadTaskModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ImageDownloadTaskModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ImageDownloadTaskModelCopyWith<ImageDownloadTaskModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -71,6 +75,8 @@ class _$ImageDownloadTaskModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ImageDownloadTaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -144,6 +150,8 @@ class __$$ImageDownloadTaskModelImplCopyWithImpl<$Res>
       $Res Function(_$ImageDownloadTaskModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ImageDownloadTaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -249,12 +257,14 @@ class _$ImageDownloadTaskModelImpl implements _ImageDownloadTaskModel {
             (identical(other.title, title) || other.title == title));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, worksId, pIndex, downloadState,
       receivedBytes, totalBytes, url, title);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImageDownloadTaskModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImageDownloadTaskModelImplCopyWith<_$ImageDownloadTaskModelImpl>
@@ -282,32 +292,34 @@ abstract class _ImageDownloadTaskModel implements ImageDownloadTaskModel {
   factory _ImageDownloadTaskModel.fromJson(Map<String, dynamic> json) =
       _$ImageDownloadTaskModelImpl.fromJson;
 
-  @override
-
   /// 所属作品的ID
-  String get worksId;
   @override
+  String get worksId;
 
   /// 图片在作品中的索引，eg: p0, p1 p2 p3
-  int get pIndex;
   @override
+  int get pIndex;
 
   /// 参阅[DownloadStorage.downloadStateMap]
-  int get downloadState;
   @override
+  int get downloadState;
 
   /// 已下载进度（字节）
-  double? get receivedBytes;
   @override
+  double? get receivedBytes;
 
   /// 图片总大小（字节）
+  @override
   double? get totalBytes;
   @override
   String get url;
   @override
   String get title;
+
+  /// Create a copy of ImageDownloadTaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImageDownloadTaskModelImplCopyWith<_$ImageDownloadTaskModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -25,7 +25,9 @@ mixin _$ProxyStateModel {
   /// 是否开启代理
   bool get isProxyEnabled => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ProxyStateModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ProxyStateModelCopyWith<ProxyStateModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,6 +51,8 @@ class _$ProxyStateModelCopyWithImpl<$Res, $Val extends ProxyStateModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ProxyStateModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,6 +96,8 @@ class __$$ProxyStateModelImplCopyWithImpl<$Res>
       _$ProxyStateModelImpl _value, $Res Function(_$ProxyStateModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ProxyStateModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -153,7 +159,9 @@ class _$ProxyStateModelImpl implements _ProxyStateModel {
   @override
   int get hashCode => Object.hash(runtimeType, host, port, isProxyEnabled);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ProxyStateModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ProxyStateModelImplCopyWith<_$ProxyStateModelImpl> get copyWith =>
@@ -167,20 +175,22 @@ abstract class _ProxyStateModel implements ProxyStateModel {
       required final String port,
       required final bool isProxyEnabled}) = _$ProxyStateModelImpl;
 
-  @override
-
   /// 主机
-  String get host;
   @override
+  String get host;
 
   /// 端口
-  String get port;
   @override
+  String get port;
 
   /// 是否开启代理
-  bool get isProxyEnabled;
   @override
-  @JsonKey(ignore: true)
+  bool get isProxyEnabled;
+
+  /// Create a copy of ProxyStateModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ProxyStateModelImplCopyWith<_$ProxyStateModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

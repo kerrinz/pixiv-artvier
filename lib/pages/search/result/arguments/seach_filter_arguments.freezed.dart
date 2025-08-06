@@ -37,7 +37,9 @@ mixin _$SearchFilterArguments {
   /// 收藏数（标签、非会员）
   String? get bookmarkCountNotPremium => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchFilterArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SearchFilterArgumentsCopyWith<SearchFilterArguments> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -69,6 +71,8 @@ class _$SearchFilterArgumentsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SearchFilterArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -141,6 +145,8 @@ class __$$SearchFilterArgumentsImplCopyWithImpl<$Res>
       $Res Function(_$SearchFilterArgumentsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchFilterArguments
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -257,7 +263,9 @@ class _$SearchFilterArgumentsImpl implements _SearchFilterArguments {
   int get hashCode => Object.hash(runtimeType, searchTarget, searchAiType,
       startDate, endDate, sort, match, bookmarkCountNotPremium);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchFilterArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SearchFilterArgumentsImplCopyWith<_$SearchFilterArgumentsImpl>
@@ -275,36 +283,38 @@ abstract class _SearchFilterArguments implements SearchFilterArguments {
       final String match,
       final String? bookmarkCountNotPremium}) = _$SearchFilterArgumentsImpl;
 
-  @override
-
   /// 搜索对象
-  String? get searchTarget;
   @override
+  String? get searchTarget;
 
   /// AI
-  int? get searchAiType;
   @override
+  int? get searchAiType;
 
   /// 最早日期
-  String? get startDate;
   @override
+  String? get startDate;
 
   /// 最晚日期
-  String? get endDate;
   @override
+  String? get endDate;
 
   /// 排序方式
-  String get sort;
   @override
+  String get sort;
 
   /// 匹配规则
-  String get match;
   @override
+  String get match;
 
   /// 收藏数（标签、非会员）
-  String? get bookmarkCountNotPremium;
   @override
-  @JsonKey(ignore: true)
+  String? get bookmarkCountNotPremium;
+
+  /// Create a copy of SearchFilterArguments
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SearchFilterArgumentsImplCopyWith<_$SearchFilterArgumentsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
