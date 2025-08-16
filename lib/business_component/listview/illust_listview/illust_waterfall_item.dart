@@ -241,18 +241,6 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
     );
   }
 
-  /// 格式化总收藏量
-  String formatTotalCollected(int number) {
-    if (number > 1000000) {
-      return "${(number / 1000000).floor()}M";
-    }
-    if (number > 1000) {
-      return "${(number / 1000).floor()}K";
-    } else {
-      return number.toString();
-    }
-  }
-
   /// 收藏按钮
   Widget _collectButton() {
     return GestureDetector(
@@ -291,7 +279,7 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
             return Row(
               children: [
                 Text(
-                  formatTotalCollected(widget.totalCollected),
+                  StringUtil.formatTotalCollected(widget.totalCollected),
                   style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 Padding(

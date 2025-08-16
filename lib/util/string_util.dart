@@ -13,6 +13,18 @@ class StringUtil {
     return breakWord;
   }
 
+  /// 格式化总收藏量
+  static String formatTotalCollected(int number) {
+    if (number > 1000000) {
+      return "${(number / 1000000).floor()}M";
+    }
+    if (number > 1000) {
+      return "${(number / 1000).floor()}K";
+    } else {
+      return number.toString();
+    }
+  }
+
   /// 转义字符串使其能够被 JSON 转义
   static String escapeStringJsonLiterals(String input) {
     return input.replaceAllMapped(
