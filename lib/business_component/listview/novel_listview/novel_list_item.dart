@@ -1,4 +1,5 @@
 import 'package:artvier/request/http_host_overrides.dart';
+import 'package:artvier/util/string_util.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,8 @@ class NovelWaterfallItem extends ConsumerStatefulWidget {
     required this.novel,
     required this.collectState,
     required this.onTap,
+    this.onTapCollect,
+    this.onLongPressCollect,
   });
 
   final CommonNovel novel;
@@ -27,6 +30,12 @@ class NovelWaterfallItem extends ConsumerStatefulWidget {
 
   /// 点击卡片的事件
   final VoidCallback onTap;
+
+  /// 点击收藏的事件
+  final void Function()? onTapCollect;
+
+  /// 长按收藏的事件
+  final void Function()? onLongPressCollect;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _NovelWaterfallItemState();
@@ -47,7 +56,7 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
         double height = constraints.maxWidth * 0.36;
         return Container(
           width: constraints.maxWidth,
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          padding: const EdgeInsets.only(left: 8, bottom: 8, right: 8, top: 4),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
             borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -61,7 +70,10 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   // 封面
-                  _novelCover(constraints.maxWidth * 0.26, height),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: _novelCover(constraints.maxWidth * 0.26, height),
+                  ),
                   Expanded(
                     flex: 1,
                     child: Container(
@@ -70,38 +82,65 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          if (widget.novel.series.title != null)
-                            // 小说系列的信息栏
-                            _seriesInfo(),
-                          Column(
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // 小说标题
-                              Text(
-                                widget.novel.title,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                              // 作者
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 2),
-                                child: Row(
-                                  children: [
-                                    const Icon(Icons.person_2_rounded, size: 16),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 2.0),
-                                      child: Text(
-                                        widget.novel.user.name,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 4.0),
+                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                    if (widget.novel.series.title != null)
+                                      // 小说系列的信息栏
+                                      _seriesInfo(),
+                                    // 小说标题
+                                    Text(
+                                      widget.novel.title,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                                     ),
-                                  ],
+                                    if (widget.novel.series.title == null)
+                                      // 作者
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 2),
+                                        child: Row(
+                                          children: [
+                                            const Icon(Icons.person_2_rounded, size: 16),
+                                            Padding(
+                                              padding: const EdgeInsets.only(bottom: 2.0),
+                                              child: Text(
+                                                widget.novel.user.name,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(fontSize: 12),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                  ]),
                                 ),
                               ),
+                              _collectButton(),
                             ],
                           ),
+                          if (widget.novel.series.title != null)
+                            // 作者
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.person_2_rounded, size: 16),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 2.0),
+                                    child: Text(
+                                      widget.novel.user.name,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           // 小说标签
                           _tagItems(),
                         ],
@@ -189,6 +228,59 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
       ],
     );
   }
+
+  /// 收藏按钮
+  Widget _collectButton() {
+    return GestureDetector(
+      onLongPress: widget.onLongPressCollect ?? handleLongPressCollect,
+      child: InkWell(
+        splashFactory: InkSparkle.splashFactory,
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        onTap: widget.onTapCollect ?? handleTapCollect,
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Consumer(builder: (_, ref, __) {
+            const double size = 22;
+            CollectState state = ref.watch(collectStateProvider);
+            Map<CollectState, Icon> map = {
+              CollectState.collecting: Icon(
+                Icons.favorite,
+                color: Colors.grey.withAlpha(150),
+                size: size,
+              ),
+              CollectState.uncollecting: Icon(
+                Icons.favorite,
+                color: Colors.red.shade200,
+                size: size,
+              ),
+              CollectState.collected: const Icon(
+                Icons.favorite,
+                color: Colors.red,
+                size: size,
+              ),
+              CollectState.notCollect: Icon(
+                Icons.favorite_border_outlined,
+                color: Colors.grey.withAlpha(150),
+                size: size,
+              )
+            };
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 2.0),
+                  child: map[state]!,
+                ),
+                Text(
+                  StringUtil.formatTotalCollected(widget.novel.totalBookmarks),
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ],
+            );
+          }),
+        ),
+      ),
+    );
+  }
 }
 
 mixin _NovelListViewItemLogic {
@@ -233,5 +325,37 @@ mixin _NovelListViewItemLogic {
           .catchError((_) => Fluttertoast.showToast(
               msg: "${l10n.removeCollectionFailed}, (Maybe already un-collected)", toastLength: Toast.LENGTH_LONG));
     }
+  }
+
+  void handleLongPressCollect() {
+    HapticFeedback.lightImpact();
+
+    /// TODO
+    // var l10n = LocalizationIntl.of(ref.context);
+    // var state = ref.read(collectStateProvider);
+    // if ([CollectState.collecting, CollectState.uncollecting].contains(state)) {
+    //   return;
+    // }
+    // // // 高级收藏弹窗
+    // BottomSheets.showCustomBottomSheet<AdvancedCollectingDataModel>(
+    //   context: ref.context,
+    //   exitOnClickModal: false,
+    //   enableDrag: false,
+    //   child: AdvancedCollectingBottomSheet(
+    //     isCollected: state == CollectState.collected ? true : false,
+    //     worksId: illustId,
+    //     worksType: WorksType.illust,
+    //   ),
+    // ).then((value) {
+    //   if (value != null) {
+    //     ref
+    //         .read(collectStateProvider.notifier)
+    //         .collect(args: value)
+    //         .then((result) => Fluttertoast.showToast(
+    //             msg: result ? l10n.addCollectSucceed : l10n.addCollectFailed, toastLength: Toast.LENGTH_LONG))
+    //         .catchError((_) => Fluttertoast.showToast(
+    //             msg: "${l10n.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG));
+    //   }
+    // });
   }
 }
