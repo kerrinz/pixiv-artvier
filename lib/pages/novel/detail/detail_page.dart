@@ -1,7 +1,6 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
-import 'package:artvier/component/dialog_custom.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
@@ -372,7 +371,6 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: HtmlWidget(
               webViewData.novel.caption,
-              onTapUrl: (url) async => showOpenLinkDialog(context, url),
             ),
           ),
           // 标签

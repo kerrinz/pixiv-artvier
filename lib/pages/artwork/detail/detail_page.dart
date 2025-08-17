@@ -1,7 +1,6 @@
 import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/business_component/ugoira_image/ugoira_image.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
-import 'package:artvier/component/dialog_custom.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
@@ -399,7 +398,6 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: HtmlWidget(
               detail.caption,
-              onTapUrl: (url) => showOpenLinkDialog(context, url),
             ),
           ),
           // 标签列的标题
