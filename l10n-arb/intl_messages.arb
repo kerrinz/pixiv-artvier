@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-07-21T00:14:54.316",
+  "@@last_modified": "2025-08-20T00:06:19.150276",
   "importToken": "Import token",
   "@importToken": {
     "description": "",
@@ -913,6 +913,18 @@
   "addNewTagPlaceholder": "Add new tag...",
   "@addNewTagPlaceholder": {
     "description": "The placeholder of input tag name to add a new tag",
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchAddTagPlaceholder": "Search or add a tag...",
+  "@searchAddTagPlaceholder": {
+    "description": "The placeholder of input tag name to search or add a tag",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addTag": "Add tag",
+  "@addTag": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },

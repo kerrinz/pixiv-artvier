@@ -27,6 +27,9 @@ mixin AdvancedCollectingBottomSheetLogic {
       AsyncNotifierProvider.autoDispose<AdvancedCollectingStatesNotifier, AdvancedCollectingDataModel>(
           () => AdvancedCollectingStatesNotifier(worksId: worksId, worksType: worksType));
 
+  /// 搜索、添加 Tag 的输入框内容
+  late final inputTagProvider = StateProvider.autoDispose<String>((ref) => "");
+
   /// 收藏事件
   void handlePressedCollecting() {
     HapticFeedback.lightImpact();
@@ -52,10 +55,10 @@ mixin AdvancedCollectingBottomSheetLogic {
   }
 
   /// 添加标签
-  void handleSubmittedAddTag() {
+  bool handleSubmittedAddTag() {
     String inputText = addTagTextController.text;
     if (inputText.isEmpty) {
-      return;
+      return false;
     }
     var data = ref.read(statesProvider).value!;
     // 统计选择数量
@@ -68,11 +71,14 @@ mixin AdvancedCollectingBottomSheetLogic {
       if (isNotExist) {
         ref.read(statesProvider.notifier).addTag(inputText, true);
         addTagTextController.text = "";
+        return true;
       } else {
         Fluttertoast.showToast(msg: LocalizationIntl.of(ref.context).tagAlreadyExists);
+        return false;
       }
     } else {
       Fluttertoast.showToast(msg: LocalizationIntl.of(ref.context).tagsReachedMaximun);
+      return false;
     }
   }
 

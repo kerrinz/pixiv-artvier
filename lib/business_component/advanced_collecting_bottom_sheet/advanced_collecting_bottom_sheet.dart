@@ -1,3 +1,4 @@
+import 'package:artvier/base/base_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/business_component/advanced_collecting_bottom_sheet/logic.dart';
@@ -6,7 +7,6 @@ import 'package:artvier/business_component/advanced_collecting_bottom_sheet/widg
 import 'package:artvier/component/filter/stateless_flow_filter.dart';
 import 'package:artvier/component/loading/request_loading.dart';
 import 'package:artvier/config/enums.dart';
-import 'package:artvier/l10n/localization_intl.dart';
 
 /// 高级收藏的弹窗，支持插画漫画小说
 class AdvancedCollectingBottomSheet extends ConsumerStatefulWidget {
@@ -36,7 +36,7 @@ class AdvancedCollectingBottomSheet extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _AdvancedCollectingBottomSheetState();
 }
 
-class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollectingBottomSheet>
+class _AdvancedCollectingBottomSheetState extends BasePageState<AdvancedCollectingBottomSheet>
     with AdvancedCollectingBottomSheetLogic {
   /// 添加新标签的输入控制器
   late TextEditingController _addTagTextController;
@@ -44,8 +44,6 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
   late FocusNode _addTagFocusNode;
 
   int get maxSelectedTags => AdvancedCollectingBottomSheet.maxSelectedTags;
-
-  ColorScheme get colorScheme => Theme.of(context).colorScheme;
 
   @override
   String get worksId => widget.worksId;
@@ -105,8 +103,8 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
                         ),
                         // 附加标签标题栏
                         _attachTagsHeader(),
-                        // 输入添加新的标签
-                        _inputNewTagWidget(),
+                        // 搜索或添加标签
+                        _searchOrAddTagInput(),
                         // 标签列表
                         Expanded(
                           flex: 1,
@@ -150,9 +148,7 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
         Expanded(
           child: Center(
             child: Builder(builder: (context) {
-              return Text(isCollected
-                  ? LocalizationIntl.of(context).editCollection
-                  : LocalizationIntl.of(context).addToCollections);
+              return Text(isCollected ? l10n.editCollection : l10n.addToCollections);
             }),
           ),
         ),
@@ -175,7 +171,7 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
         children: [
           Expanded(
             child: Text(
-              LocalizationIntl.of(context).attachTags,
+              l10n.attachTags,
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
@@ -203,7 +199,7 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
         children: [
           Expanded(
             child: Text(
-              LocalizationIntl.of(context).privacyRestrict,
+              l10n.privacyRestrict,
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
@@ -221,7 +217,7 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
                   color: colorScheme.primary,
                 ),
                 unselectedTextStyle: TextStyle(color: colorScheme.onSurfaceVariant.withAlpha(200)),
-                texts: [LocalizationIntl.of(context).public, LocalizationIntl.of(context).private],
+                texts: [l10n.public, l10n.private],
                 textPadding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
                 initialIndexes: {Restrict.public == restrict ? 0 : 1},
                 onTap: handleTapRestrictSelection,
@@ -233,32 +229,66 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
     );
   }
 
-  Widget _inputNewTagWidget() {
+  Widget _searchOrAddTagInput() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12.0),
       decoration: BoxDecoration(
         color: colorScheme.background,
         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
       ),
-      child: TextField(
-        controller: _addTagTextController,
-        focusNode: _addTagFocusNode,
-        maxLines: 1,
-        scrollPadding: EdgeInsets.zero,
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(borderSide: BorderSide.none),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          hintText: LocalizationIntl.of(context).addNewTagPlaceholder,
-          hintMaxLines: 1,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          isCollapsed: true, // 高度包裹，不会存在默认高度
-        ),
-        onSubmitted: ((value) {
-          _addTagFocusNode.unfocus();
-          handleSubmittedAddTag();
-        }),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _addTagTextController,
+              focusNode: _addTagFocusNode,
+              maxLines: 1,
+              scrollPadding: EdgeInsets.zero,
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(borderSide: BorderSide.none),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                hintText: l10n.searchAddTagPlaceholder,
+                hintMaxLines: 1,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                isCollapsed: true, // 高度包裹，不会存在默认高度
+              ),
+              onChanged: (value) {
+                ref.read(inputTagProvider.notifier).update((_) => value);
+              },
+              onSubmitted: ((value) {
+                _addTagFocusNode.unfocus();
+                final result = handleSubmittedAddTag();
+                if (result) ref.read(inputTagProvider.notifier).update((_) => '');
+              }),
+            ),
+          ),
+          Consumer(builder: (context, ref, child) {
+            final searchText = ref.watch(inputTagProvider);
+            return searchText.trim() == ''
+                ? SizedBox()
+                : Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: SizedBox(
+                      height: 30,
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        ),
+                        onPressed: () {},
+                        child: Row(
+                          spacing: 2,
+                          children: [
+                            Icon(Icons.add_circle_outline_rounded, color: colorScheme.secondary),
+                            Text(l10n.addTag, style: textTheme.labelSmall?.copyWith(color: colorScheme.secondary)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+          }),
+        ],
       ),
     );
   }
@@ -267,15 +297,20 @@ class _AdvancedCollectingBottomSheetState extends ConsumerState<AdvancedCollecti
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
       child: Consumer(builder: (context, ref, _) {
-        var tags = ref.watch(statesProvider.select((value) => value.value!.tags));
+        final tags = ref.watch(statesProvider.select((value) => value.value!.tags));
+        final seatchText = ref.watch(inputTagProvider);
+        final searchTags = (seatchText.trim() != ''
+                ? tags.where((v) => v.name?.toLowerCase().contains(seatchText.toLowerCase()) ?? false)
+                : tags)
+            .toList();
         return ListView.builder(
           shrinkWrap: true,
           itemBuilder: (itemContext, index) => TagListItemWidget(
-            name: tags[index].name ?? "",
-            isRegistered: tags[index].isRegistered ?? false,
+            name: searchTags[index].name ?? "",
+            isRegistered: searchTags[index].isRegistered ?? false,
             onTap: () => handleTapTagsItem(index, tags),
           ),
-          itemCount: tags.length,
+          itemCount: searchTags.length,
         );
       }),
     );

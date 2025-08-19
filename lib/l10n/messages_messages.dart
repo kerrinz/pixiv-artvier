@@ -21,13 +21,13 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'messages';
 
-  static String m0(name) => "Are you sure to delete this account (${name}) ?";
+  static m0(name) => "Are you sure to delete this account (${name}) ?";
 
-  static String m1(name) => "Reply @${name}";
+  static m1(name) => "Reply @${name}";
 
-  static String m2(count) => "${count} chapters in total";
+  static m2(count) => "${count} chapters in total";
 
-  static String m3(size) => "Updated to chapter ${size}";
+  static m3(size) => "Updated to chapter ${size}";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -41,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'addMarkerFailed': MessageLookupByLibrary.simpleMessage('Add marker failed!'),
     'addMarkerSucceed': MessageLookupByLibrary.simpleMessage('Add marker succeed!'),
     'addNewTagPlaceholder': MessageLookupByLibrary.simpleMessage('Add new tag...'),
+    'addTag': MessageLookupByLibrary.simpleMessage('Add tag'),
     'addToCollections': MessageLookupByLibrary.simpleMessage('Add to collections'),
     'age': MessageLookupByLibrary.simpleMessage('Age'),
     'all': MessageLookupByLibrary.simpleMessage('All'),
@@ -193,6 +194,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'retryOnFailure': MessageLookupByLibrary.simpleMessage('Click to try again'),
     'scanner': MessageLookupByLibrary.simpleMessage('Scanner'),
     'search': MessageLookupByLibrary.simpleMessage('Search'),
+    'searchAddTagPlaceholder': MessageLookupByLibrary.simpleMessage('Search or add a tag...'),
     'searchHalfYear': MessageLookupByLibrary.simpleMessage('Half a year'),
     'searchOneMonth': MessageLookupByLibrary.simpleMessage('One month'),
     'searchOneWeek': MessageLookupByLibrary.simpleMessage('One week'),
