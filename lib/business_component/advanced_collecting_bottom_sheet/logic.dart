@@ -25,7 +25,7 @@ mixin AdvancedCollectingBottomSheetLogic {
   /// 高级收藏展示的内容状态
   late final statesProvider =
       AsyncNotifierProvider.autoDispose<AdvancedCollectingStatesNotifier, AdvancedCollectingDataModel>(
-          () => AdvancedCollectingStatesNotifier(worksId: worksId, worksType: WorksType.illust));
+          () => AdvancedCollectingStatesNotifier(worksId: worksId, worksType: worksType));
 
   /// 收藏事件
   void handlePressedCollecting() {

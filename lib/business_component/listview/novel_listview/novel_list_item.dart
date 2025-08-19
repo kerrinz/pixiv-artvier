@@ -1,3 +1,6 @@
+import 'package:artvier/business_component/advanced_collecting_bottom_sheet/advanced_collecting_bottom_sheet.dart';
+import 'package:artvier/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
+import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/util/string_util.dart';
 import 'package:extended_image/extended_image.dart';
@@ -330,32 +333,31 @@ mixin _NovelListViewItemLogic {
   void handleLongPressCollect() {
     HapticFeedback.lightImpact();
 
-    /// TODO
-    // var l10n = LocalizationIntl.of(ref.context);
-    // var state = ref.read(collectStateProvider);
-    // if ([CollectState.collecting, CollectState.uncollecting].contains(state)) {
-    //   return;
-    // }
-    // // // 高级收藏弹窗
-    // BottomSheets.showCustomBottomSheet<AdvancedCollectingDataModel>(
-    //   context: ref.context,
-    //   exitOnClickModal: false,
-    //   enableDrag: false,
-    //   child: AdvancedCollectingBottomSheet(
-    //     isCollected: state == CollectState.collected ? true : false,
-    //     worksId: illustId,
-    //     worksType: WorksType.illust,
-    //   ),
-    // ).then((value) {
-    //   if (value != null) {
-    //     ref
-    //         .read(collectStateProvider.notifier)
-    //         .collect(args: value)
-    //         .then((result) => Fluttertoast.showToast(
-    //             msg: result ? l10n.addCollectSucceed : l10n.addCollectFailed, toastLength: Toast.LENGTH_LONG))
-    //         .catchError((_) => Fluttertoast.showToast(
-    //             msg: "${l10n.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG));
-    //   }
-    // });
+    var l10n = LocalizationIntl.of(ref.context);
+    var state = ref.read(collectStateProvider);
+    if ([CollectState.collecting, CollectState.uncollecting].contains(state)) {
+      return;
+    }
+    // // 高级收藏弹窗
+    BottomSheets.showCustomBottomSheet<AdvancedCollectingDataModel>(
+      context: ref.context,
+      exitOnClickModal: false,
+      enableDrag: false,
+      child: AdvancedCollectingBottomSheet(
+        isCollected: state == CollectState.collected ? true : false,
+        worksId: novelId,
+        worksType: WorksType.novel,
+      ),
+    ).then((value) {
+      if (value != null) {
+        ref
+            .read(collectStateProvider.notifier)
+            .collect(args: value)
+            .then((result) => Fluttertoast.showToast(
+                msg: result ? l10n.addCollectSucceed : l10n.addCollectFailed, toastLength: Toast.LENGTH_LONG))
+            .catchError((_) => Fluttertoast.showToast(
+                msg: "${l10n.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG));
+      }
+    });
   }
 }
