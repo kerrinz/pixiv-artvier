@@ -905,6 +905,18 @@
     "type": "text",
     "placeholders": {}
   },
+  "searchAddTagPlaceholder": "搜索或者添加标签...",
+  "@searchAddTagPlaceholder": {
+    "description": "The placeholder of input tag name to search or add a tag",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addTag": "添加标签",
+  "@addTag": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "tagAlreadyExists": "该标签已存在！",
   "@tagAlreadyExists": {
     "description": "Prompt the tag already exists by add new tag",

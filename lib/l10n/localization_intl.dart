@@ -240,6 +240,9 @@ class LocalizationIntl {
       name: 'removeMarkerFailed', desc: 'Prompt failed of remove marker of a novel');
   String get addNewTagPlaceholder => Intl.message("Add new tag...",
       name: 'addNewTagPlaceholder', desc: 'The placeholder of input tag name to add a new tag');
+  String get searchAddTagPlaceholder => Intl.message("Search or add a tag...",
+      name: 'searchAddTagPlaceholder', desc: 'The placeholder of input tag name to search or add a tag');
+  String get addTag => Intl.message("Add tag", name: 'addTag', desc: '');
   String get tagAlreadyExists => Intl.message("Tag already exists!",
       name: 'tagAlreadyExists', desc: 'Prompt the tag already exists by add new tag');
   String get tagsReachedMaximun => Intl.message("Maximum number of tags reached!",
