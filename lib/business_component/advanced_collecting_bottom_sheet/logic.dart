@@ -34,7 +34,7 @@ mixin AdvancedCollectingBottomSheetLogic {
   void handlePressedCollecting() {
     HapticFeedback.lightImpact();
     try {
-      var collectingProvider = worksType == WorksType.novel
+      var collectingProvider = (worksType == WorksType.novel)
           ? novelAdvancedCollectingProvider(worksId)
           : artworkAdvancedCollectingProvider(worksId);
       var states = ref.read(statesProvider).value!;

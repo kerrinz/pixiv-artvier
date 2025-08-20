@@ -57,9 +57,13 @@ class CollectNotifier extends BaseStateNotifier<CollectState> {
   }
 
   void notifyGlobal(CollectState collectState) {
-    ref
-        .read(globalArtworkCollectionStateChangedProvider.notifier)
-        .update((args) => CollectStateChangedArguments(state: collectState, worksId: worksId));
+    (worksType == WorksType.novel)
+        ? ref
+            .read(globalNovelCollectionStateChangedProvider.notifier)
+            .update((args) => CollectStateChangedArguments(state: collectState, worksId: worksId))
+        : ref
+            .read(globalArtworkCollectionStateChangedProvider.notifier)
+            .update((args) => CollectStateChangedArguments(state: collectState, worksId: worksId));
   }
 
   /// 收藏该作品
@@ -75,7 +79,7 @@ class CollectNotifier extends BaseStateNotifier<CollectState> {
     var tags = [for (WorksCollectTag item in args?.tags ?? []) item.name!];
 
     try {
-      result = worksType == WorksType.novel
+      result = (worksType == WorksType.novel)
           ? await ApiNovels(requester).collectNovel(novelId: worksId, tags: tags, restrict: args?.restrict)
           : await ApiIllusts(requester).collectIllust(illustId: worksId, tags: tags, restrict: args?.restrict);
       // 分析结果，取得新的收藏状态

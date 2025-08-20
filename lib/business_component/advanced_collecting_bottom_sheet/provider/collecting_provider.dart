@@ -34,7 +34,7 @@ class _AdvancedCollectNotifier extends BaseStateNotifier<CollectState?> {
 
   void notifyGlobal(CollectState collectState) {
     ref
-        .read(worksType == WorksType.novel
+        .read((worksType == WorksType.novel)
             ? globalNovelCollectionStateChangedProvider.notifier
             : globalArtworkCollectionStateChangedProvider.notifier)
         .update((args) => CollectStateChangedArguments(state: collectState, worksId: worksId));
@@ -56,7 +56,7 @@ class _AdvancedCollectNotifier extends BaseStateNotifier<CollectState?> {
     bool result = false;
 
     try {
-      result = worksType == WorksType.novel
+      result = (worksType == WorksType.novel)
           ? await ApiNovels(requester).collectNovel(novelId: worksId, tags: tagNameList, restrict: restrict)
           : await ApiIllusts(requester).collectIllust(illustId: worksId, tags: tagNameList, restrict: restrict);
       // 分析结果，取得新的收藏状态
