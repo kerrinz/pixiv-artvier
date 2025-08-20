@@ -90,7 +90,7 @@ class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogi
     var novel = novelList[index];
     return NovelWaterfallItem(
       novel: novel,
-      collectState: novel.isBookmarked ? CollectState.collected : CollectState.notCollect,
+      collectState: novel.collectState ?? (novel.isBookmarked ? CollectState.collected : CollectState.notCollect),
       onTap: () => handleTapItem(novel),
     );
   }

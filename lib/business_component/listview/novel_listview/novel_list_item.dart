@@ -286,16 +286,17 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
   }
 }
 
-mixin _NovelListViewItemLogic {
+mixin _NovelListViewItemLogic on ConsumerState<NovelWaterfallItem> {
   late CollectState collectState;
 
   late String novelId;
 
+  @override
   WidgetRef get ref;
 
   late final collectStateProvider = StateNotifierProvider.autoDispose<CollectNotifier, CollectState>((ref) {
     // 监听全局小说收藏状态通知器的变化
-    ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
+    ref.listen<CollectStateChangedArguments?>(globalNovelCollectionStateChangedProvider, (previous, next) {
       if (next != null && next.worksId == novelId) {
         ref.notifier.setCollectState(next.state);
       }
