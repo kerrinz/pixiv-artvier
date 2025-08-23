@@ -65,6 +65,7 @@ class SearchNovelsNotifier extends BaseAsyncNotifier<List<CommonNovel>> with Nov
   @override
   FutureOr<List<CommonNovel>> build() {
     beforeBuild(ref);
+    handleCollectState(ref);
     return fetch();
   }
 

@@ -51,6 +51,7 @@ class EverybodyNewestNovelsNotifier extends BaseAsyncNotifier<List<CommonNovel>>
   @override
   FutureOr<List<CommonNovel>> build() async {
     beforeBuild(ref);
+    handleCollectState(ref);
     return fetch();
   }
 
