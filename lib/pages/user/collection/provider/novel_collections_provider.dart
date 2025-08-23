@@ -23,6 +23,7 @@ class _MyNovelCollectionsStateNotifier extends BaseAutoDisposeAsyncNotifier<List
   @override
   FutureOr<List<CommonNovel>> build() {
     beforeBuild(ref);
+    handleCollectState(ref);
     userId = ref.watch(globalCurrentAccountProvider)!.user.id;
     filterModel = ref.watch(collectionsFilterProvider);
     return fetch();

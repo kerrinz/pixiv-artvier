@@ -34,6 +34,7 @@ class FriendsNewestNovelsNotifier extends BaseAsyncNotifier<List<CommonNovel>> w
   @override
   FutureOr<List<CommonNovel>> build() async {
     beforeBuild(ref);
+    handleCollectState(ref);
     return fetch();
   }
 
