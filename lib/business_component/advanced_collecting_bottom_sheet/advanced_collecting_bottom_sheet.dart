@@ -257,11 +257,7 @@ class _AdvancedCollectingBottomSheetState extends BasePageState<AdvancedCollecti
               onChanged: (value) {
                 ref.read(inputTagProvider.notifier).update((_) => value);
               },
-              onSubmitted: ((value) {
-                _addTagFocusNode.unfocus();
-                final result = handleSubmittedAddTag();
-                if (result) ref.read(inputTagProvider.notifier).update((_) => '');
-              }),
+              onSubmitted: (_) => handleAddTag(),
             ),
           ),
           Consumer(builder: (context, ref, child) {
@@ -276,7 +272,7 @@ class _AdvancedCollectingBottomSheetState extends BasePageState<AdvancedCollecti
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         ),
-                        onPressed: () {},
+                        onPressed: handleAddTag,
                         child: Row(
                           spacing: 2,
                           children: [
@@ -314,5 +310,12 @@ class _AdvancedCollectingBottomSheetState extends BasePageState<AdvancedCollecti
         );
       }),
     );
+  }
+
+  // 添加标签
+  handleAddTag() {
+    _addTagFocusNode.unfocus();
+    final result = handleSubmittedAddTag();
+    if (result) ref.read(inputTagProvider.notifier).update((_) => '');
   }
 }
