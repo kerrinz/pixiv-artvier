@@ -3,6 +3,7 @@ import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
+import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/model_response/user/common_user.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
@@ -30,11 +31,11 @@ class NovelDetailPage extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return _NovelDetailState();
+    return NovelDetailState();
   }
 }
 
-class _NovelDetailState extends BasePageState<NovelDetailPage>
+class NovelDetailState extends BasePageState<NovelDetailPage>
     with SingleTickerProviderStateMixin, NovelDetailPageLogic, NovelDetailOverlaySettingsAnimation<NovelDetailPage> {
   get novelDetail => widget.args.detail;
 
@@ -120,6 +121,57 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
     ]);
   }
 
+  /// 收藏按钮
+  Widget _collectButton() {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    return GestureDetector(
+      onLongPress: (() => handleLongTapCollect(ref)),
+      child: GestureDetector(
+        onTap: () => handleTapCollect(ref),
+        child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: colorScheme.surface,
+              gradient: LinearGradient(colors: [
+                colorScheme.surface,
+                colorScheme.surface,
+                colorScheme.surface,
+              ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+              borderRadius: const BorderRadius.all(Radius.circular(50)),
+            ),
+            child: Consumer(builder: ((context, ref, child) {
+              CollectState status = ref.watch(novelDetailCollectStateProvider);
+              switch (status) {
+                case CollectState.collecting:
+                  return const Icon(
+                    Icons.favorite,
+                    color: Colors.grey,
+                    size: 28,
+                  );
+                case CollectState.uncollecting:
+                  return Icon(
+                    Icons.favorite,
+                    color: Colors.red.shade200,
+                    size: 28,
+                  );
+                case CollectState.collected:
+                  return const Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                    size: 28,
+                  );
+                case CollectState.notCollect:
+                  return const Icon(
+                    Icons.favorite_border_outlined,
+                    color: Colors.grey,
+                    size: 28,
+                  );
+              }
+            }))),
+      ),
+    );
+  }
+
   Widget _buildSuccessContent(NovelDetailWebView webViewData) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -129,33 +181,47 @@ class _NovelDetailState extends BasePageState<NovelDetailPage>
         children: [
           CustomScrollView(slivers: [
             SliverToBoxAdapter(
-              child: EnhanceNetworkImage(
-                width: double.infinity,
-                height: 180,
-                image: ExtendedNetworkImageProvider(
-                  HttpHostOverrides().pxImgUrl(webViewData.novel.coverUrl),
-                  headers: HttpHostOverrides().pximgHeaders,
-                  cache: true,
-                ),
+              child: Stack(
+                children: [
+                  EnhanceNetworkImage(
+                    width: double.infinity,
+                    height: 180,
+                    image: ExtendedNetworkImageProvider(
+                      HttpHostOverrides().pxImgUrl(webViewData.novel.coverUrl),
+                      headers: HttpHostOverrides().pximgHeaders,
+                      cache: true,
+                    ),
+                  ),
+                ],
               ),
             ),
             // 作品标题
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 4.0),
-                child: Text.rich(
-                  TextSpan(children: [
-                    if (webViewData.novel.tags.contains("R-18"))
-                      TextSpan(
-                        text: "R18  ",
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: const Color(0xFFFF3855),
-                          fontWeight: FontWeight.bold,
-                        ),
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 4.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text.rich(
+                        TextSpan(children: [
+                          if (webViewData.novel.tags.contains("R-18"))
+                            TextSpan(
+                              text: "R18  ",
+                              style: textTheme.bodyMedium?.copyWith(
+                                color: const Color(0xFFFF3855),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          TextSpan(text: webViewData.novel.title),
+                        ]),
+                        style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                    TextSpan(text: webViewData.novel.title),
-                  ]),
-                  style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: _collectButton(),
+                    ),
+                  ],
                 ),
               ),
             ),
