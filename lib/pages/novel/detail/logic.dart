@@ -25,16 +25,19 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
   /// 可能有多个插画详情页同时存在于页面栈中，因此使用.family为不同插画id做区分
   late final novelDetailCollectStateProvider = StateNotifierProvider.autoDispose<CollectNotifier, CollectState>((ref) {
     // 监听全局美术作品收藏状态通知器的变化
-    ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
+    ref.listen<CollectStateChangedArguments?>(globalNovelCollectionStateChangedProvider, (previous, next) {
       if (next != null && next.worksId == novelId) {
         ref.notifier.setCollectState(next.state);
       }
     });
     var detail = ref.watch(novelDetailProvider(novelId)).value?.novel;
+    final state = detail?.isBookmarked ?? widget.args.detail?.isBookmarked;
     return CollectNotifier(
-      (detail?.isBookmarked ?? widget.args.detail?.isBookmarked ?? false)
-          ? CollectState.collected
-          : CollectState.notCollect,
+      (state == null
+          ? CollectState.loading
+          : state
+              ? CollectState.collected
+              : CollectState.notCollect),
       ref: ref,
       worksId: novelId,
       worksType: WorksType.novel,

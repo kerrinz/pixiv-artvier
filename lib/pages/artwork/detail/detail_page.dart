@@ -355,6 +355,12 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
                     color: Colors.grey,
                     size: 28,
                   );
+                case CollectState.loading:
+                  return Icon(
+                    Icons.favorite_border_outlined,
+                    color: Colors.grey.withAlpha(100),
+                    size: 28,
+                  );
               }
             }))),
       ),

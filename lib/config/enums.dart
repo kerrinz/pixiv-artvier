@@ -33,6 +33,9 @@ enum LazyloadState {
 
 /// 收藏状态
 enum CollectState {
+  /// 未知状态，加载中
+  loading,
+
   /// 请求收藏中
   collecting,
 
