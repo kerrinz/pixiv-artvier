@@ -38,6 +38,7 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
     // // 监听全局收藏状态的变化，更新列表
     ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
       if (next != null) {
+        // Recommended
         var list = ref.read(homeIllustRecommendedProvider);
         int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
         if (index >= 0 && index < list.length) {
@@ -45,6 +46,17 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
             ..isBookmarked = next.state == CollectState.collected
             ..collectState = next.state;
           ref.read(homeIllustRecommendedProvider.notifier).update(list..[index] = newItem);
+        }
+      }
+      if (next != null) {
+        // Ranking
+        final list = ref.read(homeIllustRankingProvider);
+        int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
+        if (index >= 0 && index < list.length) {
+          var newItem = list[index]
+            ..isBookmarked = next.state == CollectState.collected
+            ..collectState = next.state;
+          ref.read(homeIllustRankingProvider.notifier).update((state) => list..[index] = newItem);
         }
       }
     });
