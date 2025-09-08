@@ -7,7 +7,7 @@ import 'package:artvier/storage/downloads/downloads_db.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 
 typedef RequestExecution = Future<Response> Function(CancelToken cancelToken);
 
@@ -52,7 +52,7 @@ class DownloadTaskQueue {
     downloadTask
       ..onSuccess = (data) async {
         _imageTaskQuene.remove(downloadTask);
-        var saveResult = await ImageGallerySaver.saveImage(Uint8List.fromList(data), quality: 100);
+        var saveResult = await ImageGallerySaverPlus.saveImage(Uint8List.fromList(data), quality: 100);
         bool result = saveResult["isSuccess"];
         if (result) {
           downloadsDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.success);

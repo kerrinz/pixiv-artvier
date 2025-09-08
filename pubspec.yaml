@@ -41,7 +41,6 @@ dependencies:
   extended_nested_scroll_view: ^6.2.1
   extended_sliver: ^2.1.3
 #  flutter_downloader: 1.7.0 # 文件下载
-#  flutter_staggered_grid_view: ^0.4.0
   flutter_markdown: ^0.7.7+1
   flutter_riverpod: ^2.6.1 # 状态管理
   flutter_sticky_header: ^0.8.0 # 多个header的吸顶效果
@@ -50,7 +49,8 @@ dependencies:
   fluttertoast: ^8.2.12
   freezed_annotation: ^2.4.4 # 模板代码生成
   html: ^0.15.6 # 解析 HTML
-  image_gallery_saver: ^2.0.3 # 图片保存
+  # image_gallery_saver: ^2.0.3 # 图片保存，太久没更新，弃用
+  image_gallery_saver_plus: ^4.0.1 # 图片保存
   image: ^4.5.4
   intl: ^0.20.2 # 国际化
   json_annotation: ^4.9.0
