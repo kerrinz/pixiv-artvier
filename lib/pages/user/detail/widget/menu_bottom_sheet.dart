@@ -16,7 +16,7 @@ class UserDetailMenu extends BasePage with FollowButtonLogic {
     super.key,
     required this.followState,
     required this.userId,
-    required this.avatarUrl,
+    this.avatarUrl,
     required this.name,
   });
 
@@ -31,7 +31,7 @@ class UserDetailMenu extends BasePage with FollowButtonLogic {
 
   final String userId;
 
-  final String avatarUrl;
+  final String? avatarUrl;
 
   final String name;
 
