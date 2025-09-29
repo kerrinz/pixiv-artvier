@@ -21,7 +21,7 @@ class UserDetailPageAppBarWidget extends ConsumerWidget {
 
   final String userId;
 
-  final String avatarUrl;
+  final String? avatarUrl;
 
   final String name;
 
@@ -68,10 +68,12 @@ class UserDetailPageAppBarWidget extends ConsumerWidget {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   filterQuality: FilterQuality.none,
-                  image: ExtendedNetworkImageProvider(
-                    HttpHostOverrides().pxImgUrl(avatarUrl),
-                    headers: HttpHostOverrides().pximgHeaders,
-                  ),
+                  image: (avatarUrl != null)
+                      ? ExtendedNetworkImageProvider(
+                          HttpHostOverrides().pxImgUrl(avatarUrl!),
+                          headers: HttpHostOverrides().pximgHeaders,
+                        )
+                      : ExtendedAssetImageProvider('assets/image/default_avatar.png') as ImageProvider<Object>,
                 ),
               ),
             ),

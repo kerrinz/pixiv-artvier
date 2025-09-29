@@ -4,6 +4,11 @@ import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/provider/language_provider.dart';
 import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:artvier/global/variable.dart';
+import 'package:artvier/model_response/user/preload_user_least_info.dart';
+import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
+import 'package:artvier/pages/main_navigation_tab_page/main_navigation.dart';
+import 'package:artvier/request/my_http_overrides.dart';
+import 'package:artvier/storage/network_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,15 +19,14 @@ import 'package:artvier/global/provider/shared_preferences_provider.dart';
 import 'package:artvier/l10n/localization_intl.dart';
 import 'package:artvier/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'pages/framework/booting/booting_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // 启动之前加载高优先的数据，其他低优先度的数据在BootingPage里进行加载
-  await beforeRunApp();
   // Shared Preferences实例
   final prefs = await SharedPreferences.getInstance();
   globalSharedPreferences = prefs;
+  // 启动之前加载数据
+  await beforeRunApp();
   // 运行APP，注入Riverpod
   runApp(
     ProviderScope(
@@ -56,6 +60,13 @@ beforeRunApp() async {
     DeviceOrientation.portraitUp, // 除特定页面外，仅允许竖屏
     DeviceOrientation.portraitDown,
   ]);
+
+  // Apply HttpOverrides with proxy
+  HttpOverrides.global = MyHttpOverrides();
+  final proxyStorage = NetworkStorage(globalSharedPreferences);
+  String host = proxyStorage.getProxyHost() ?? CONSTANTS.proxy_default_host;
+  String port = proxyStorage.getProxyPort() ?? CONSTANTS.proxy_default_port;
+  MyHttpOverrides.instance.setProxyAddress(proxyStorage.getProxyEnable() ? "$host:$port" : null);
 }
 
 // 初始化一些APP全局设定，不加载内容
@@ -67,6 +78,26 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class MyAppState extends ConsumerState<MyApp> {
+  MaterialPageRoute? checkAppLinks(String? link) {
+    if (link == null) return null;
+    final uri = Uri.parse(link);
+    if (uri.pathSegments[0] == 'artworks') {
+      final String artworkId = uri.pathSegments[1];
+      if (RegExp(r'^\d+$').hasMatch(artworkId)) {
+        RouteWidgetBuilder builder = Routes.match(context, RouteNames.artworkDetail.name);
+        return MaterialPageRoute(
+            builder: (context) => builder(context, IllustDetailPageArguments(illustId: artworkId)));
+      }
+    } else if (uri.pathSegments[0] == 'users') {
+      final String userId = uri.pathSegments[1];
+      if (RegExp(r'^\d+$').hasMatch(userId)) {
+        RouteWidgetBuilder builder = Routes.match(context, RouteNames.userDetail.name);
+        return MaterialPageRoute(builder: (context) => builder(context, PreloadUserLeastInfo(userId, null, null)));
+      }
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeDataLight = Themes.match(ThemeTypes.purple, Brightness.light).themeData;
@@ -87,12 +118,24 @@ class MyAppState extends ConsumerState<MyApp> {
       child: MaterialApp(
         title: ref.watch(packageInfoProvider).whenOrNull(data: (data) => data.appName) ?? "",
         debugShowCheckedModeBanner: false, // 禁用Debug角标
+        // TODO: 更换新版路由
+        // initialRoute: '/',
+        // routes: {
+        //   '/': (context) => HomePage(),
+        //   '/booting': (context) => BootingPage(),
+        // },
         onGenerateRoute: (RouteSettings settings) {
-          RouteWidgetBuilder builder = Routes.match(context, settings.name);
-          return MaterialPageRoute(builder: (context) => builder(context, settings.arguments));
+          final result = checkAppLinks(settings.name!);
+          if (result != null) {
+            return result;
+          } else {
+            RouteWidgetBuilder builder = Routes.match(context, settings.name);
+            return MaterialPageRoute(builder: (context) => builder(context, settings.arguments));
+          }
         },
         // 启动加载页面，在这里面初始化全局数据
-        home: const BootingPage(),
+        home: const MainNavigation(),
+        navigatorObservers: [AutoHomeNavigatorObserver()],
         theme: themeDataLight,
         darkTheme: themeDataDark,
         themeMode: themeMode,
@@ -139,5 +182,26 @@ class MyAppState extends ConsumerState<MyApp> {
       }
     }
     return defaultLocale;
+  }
+}
+
+// 全局的导航观察者
+class AutoHomeNavigatorObserver extends NavigatorObserver {
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    // 检查 pop 后是否会导致黑屏
+    if (previousRoute == null) {
+      // 延迟执行，确保在导航栈更新后检查
+      Future.microtask(() {
+        final navigator = route.navigator;
+        if (navigator != null && !navigator.canPop()) {
+          // 路由栈为空，自动跳转到首页
+          navigator.pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const MainNavigation()),
+            (route) => false,
+          );
+        }
+      });
+    }
   }
 }
