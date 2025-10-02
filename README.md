@@ -58,14 +58,14 @@
 |![](https://kerrinz.com/files/images/artvier/user_detail_230227.jpg)|![](https://kerrinz.com/files/images/artvier/illust_detail_230227.jpg)
 
 ## 开发环境
-- Flutter 3.32.7 • channel stable • https://github.com/flutter/flutter.git
-- Tools • Dart 3.8.1 • DevTools 2.45.1
+- Flutter 3.35.1 • channel stable • https://github.com/flutter/flutter.git
+- Tools • Dart 3.9.0 • DevTools 2.48.0
 
 ## 辅助命令
 ### 切换 gradle 版本
 ```sh
 cd android
-./gradlew wrapper --gradle-version=7.3
+./gradlew wrapper --gradle-version=x.x
 ```
 ### flutter 切换 jdk
 ```sh
