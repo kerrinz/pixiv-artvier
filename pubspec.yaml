@@ -29,6 +29,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   archive: ^4.0.7
+  app_links: ^6.4.1
   crypto: ^3.0.6
   # The following adds the Cupertino Icons font to your application.flutter_downloader
   # Use with the CupertinoIcons class for iOS style icons.
@@ -48,6 +49,7 @@ dependencies:
   flutter_widget_from_html: ^0.17.0
   fluttertoast: ^8.2.12
   freezed_annotation: ^2.4.4 # 模板代码生成
+  go_router: ^16.2.1 # 路由
   html: ^0.15.6 # 解析 HTML
   # image_gallery_saver: ^2.0.3 # 图片保存，太久没更新，弃用
   image_gallery_saver_plus: ^4.0.1 # 图片保存

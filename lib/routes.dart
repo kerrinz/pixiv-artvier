@@ -33,6 +33,16 @@ import 'package:artvier/pages/user/works/my_works.dart';
 /// [WidgetBuilder] 的改造版，增加传参：[RouteSettings.arguments]
 typedef RouteWidgetBuilder = Widget Function(BuildContext context, Object? arguments);
 
+// TODO: 更换新版路由
+// final router = GoRouter(
+//   routes: [
+//     GoRoute(
+//       path: '/',
+//       builder: (context, state) => const HomePage(),
+//     ),
+//   ],
+// );
+
 enum RouteNames {
   /// 找不到页面时跳转到此
   notFound,
@@ -93,8 +103,6 @@ enum RouteNames {
   aboutApp,
   checkUpdate,
 }
-
-class RouteItem<T> {}
 
 class Routes {
   static var routes = <String, RouteWidgetBuilder>{

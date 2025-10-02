@@ -3,9 +3,9 @@
 class PreloadUserLeastInfo extends Object {
   String id;
 
-  String name;
+  String? name;
 
-  String avatar;
+  String? avatar;
 
   PreloadUserLeastInfo(this.id,this.name,this.avatar,);
 
