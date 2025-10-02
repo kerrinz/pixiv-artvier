@@ -140,12 +140,15 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
                           const BorderRadius.only(topRight: Radius.circular(12.0), topLeft: Radius.circular(12.0)),
                     ),
                     // 用户面板（简要的资料信息）
-                    child: UserDetailPageUserPanelWidget(
-                      userId: userId,
-                      userName: widget.leastInfo.name,
-                      avatarUrl: widget.leastInfo.avatar,
-                      avatarDiameter: _avatarDiameter,
-                    ),
+                    child: Builder(builder: (context) {
+                      final user = ref.watch(userDetailProvider(userId));
+                      return UserDetailPageUserPanelWidget(
+                        userId: userId,
+                        userName: widget.leastInfo.name ?? user.valueOrNull?.user.name ?? '...',
+                        avatarUrl: widget.leastInfo.avatar ?? user.valueOrNull?.user.profileImageUrls.medium,
+                        avatarDiameter: _avatarDiameter,
+                      );
+                    }),
                   ),
                 ),
               ),
@@ -220,20 +223,25 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
   Widget _bannerWidget() {
     return Consumer(
       builder: (_, ref, __) {
-        String? bg = ref.watch(userDetailProvider(userId)).value?.profile.backgroundImageUrl;
+        final user = ref.watch(userDetailProvider(userId)).valueOrNull;
+        String? bg = user?.profile.backgroundImageUrl;
         if (bg == null) {
           // 未加载用户详情，或者用户没有设置封面图，则使用用户头像作为封面图
           return ImageFiltered(
             imageFilter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
             child: EnhanceNetworkImage(
               image: ExtendedNetworkImageProvider(
-                HttpHostOverrides().pxImgUrl(widget.leastInfo.avatar),
+                HttpHostOverrides().pxImgUrl(widget.leastInfo.avatar ??
+                    user?.profile.backgroundImageUrl ??
+                    user?.user.profileImageUrls.medium ??
+                    ''),
                 headers: HttpHostOverrides().pximgHeaders,
               ),
               width: double.infinity,
               fit: BoxFit.cover,
               color: const Color(0x33000000), // 等同于black.opacity(0.2)
               colorBlendMode: BlendMode.multiply,
+              errorWidget: (_, __, ___) => Container(color: Colors.grey),
             ),
           );
         }
@@ -272,7 +280,7 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
     }
     return UserDetailPageAppBarWidget(
       userId: userId,
-      name: widget.leastInfo.name,
+      name: widget.leastInfo.name ?? '...',
       avatarUrl: widget.leastInfo.avatar,
       backgroundOpacity: bgOpacity,
       titleOpacity: titleOpacity,

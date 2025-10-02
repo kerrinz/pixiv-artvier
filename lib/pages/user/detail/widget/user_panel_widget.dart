@@ -26,7 +26,7 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
 
   final String userName;
 
-  final String avatarUrl;
+  final String? avatarUrl;
 
   /// 头像的直径
   final double avatarDiameter;
@@ -53,10 +53,12 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
                     borderRadius: const BorderRadius.all(Radius.circular(80)),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: ExtendedNetworkImageProvider(
-                        HttpHostOverrides().pxImgUrl(avatarUrl),
-                        headers: HttpHostOverrides().pximgHeaders,
-                      ),
+                      image: (avatarUrl != null)
+                          ? ExtendedNetworkImageProvider(
+                              HttpHostOverrides().pxImgUrl(avatarUrl!),
+                              headers: HttpHostOverrides().pximgHeaders,
+                            )
+                          : ExtendedAssetImageProvider('assets/image/default_avatar.png') as ImageProvider<Object>,
                     ),
                   ),
                 ),
