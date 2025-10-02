@@ -7,6 +7,7 @@ import 'package:artvier/global/variable.dart';
 import 'package:artvier/model_response/user/preload_user_least_info.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:artvier/pages/main_navigation_tab_page/main_navigation.dart';
+import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
 import 'package:artvier/request/my_http_overrides.dart';
 import 'package:artvier/storage/network_store.dart';
 import 'package:flutter/material.dart';
@@ -93,6 +94,14 @@ class MyAppState extends ConsumerState<MyApp> {
       if (RegExp(r'^\d+$').hasMatch(userId)) {
         RouteWidgetBuilder builder = Routes.match(context, RouteNames.userDetail.name);
         return MaterialPageRoute(builder: (context) => builder(context, PreloadUserLeastInfo(userId, null, null)));
+      }
+    } else if (uri.pathSegments[0] == 'novel') {
+      final novelId = uri.queryParameters['id'];
+      if (novelId != null && novelId != '') {
+        if (RegExp(r'^\d+$').hasMatch(novelId)) {
+          RouteWidgetBuilder builder = Routes.match(context, RouteNames.novelDetail.name);
+          return MaterialPageRoute(builder: (context) => builder(context, NovelDetailPageArguments(novelId: novelId)));
+        }
       }
     }
     return null;
