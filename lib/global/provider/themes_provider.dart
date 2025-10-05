@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/base/base_provider/base_notifier.dart';
 import 'package:artvier/global/provider/shared_preferences_provider.dart';
-import 'package:artvier/storage/theme_storage.dart';
+import 'package:artvier/preferences/theme_storage.dart';
 
 /// 全局主题模式，浅色、深色、跟随系统
 final globalThemeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>((ref) {

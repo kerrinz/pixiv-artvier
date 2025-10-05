@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/global/provider/network_provider.dart';
 import 'package:artvier/global/provider/shared_preferences_provider.dart';
-import 'package:artvier/storage/network_store.dart';
+import 'package:artvier/preferences/network_store.dart';
 
 mixin ProxyLogic {
   /// 代理主机的输入框值

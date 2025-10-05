@@ -1,9 +1,8 @@
 import 'dart:typed_data';
 
+import 'package:artvier/database/database.dart';
 import 'package:artvier/global/logger.dart';
-import 'package:artvier/pages/artwork/download_manage/provider/download_manage_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
-import 'package:artvier/storage/downloads/downloads_db.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -41,12 +40,12 @@ class DownloadTaskQueue {
     // 无任务 Id 则在数据库新建新任务
     if (taskData.taskId == null) {
       insertedData = insertedData.copyWith(status: canDownload ? DownloadState.downloading : DownloadState.waiting);
-      insertedData = await downloadsDatabase.addDownloadTask(insertedData.toCompanion(true));
+      insertedData = await appDatabase.addDownloadTask(insertedData.toCompanion(true));
     } else {
       // 有任务 Id 则初始化下载状态
       insertedData = insertedData.copyWith(
           receivedBytes: 0, totalBytes: 0, status: canDownload ? DownloadState.downloading : DownloadState.waiting);
-      await downloadsDatabase.updateTask(insertedData);
+      await appDatabase.updateTask(insertedData);
     }
     DownloadTask downloadTask = DownloadTask(taskData: insertedData);
     downloadTask
@@ -55,21 +54,21 @@ class DownloadTaskQueue {
         var saveResult = await ImageGallerySaverPlus.saveImage(Uint8List.fromList(data), quality: 100);
         bool result = saveResult["isSuccess"];
         if (result) {
-          downloadsDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.success);
+          appDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.success);
           Fluttertoast.showToast(msg: "下载成功");
         } else {
-          downloadsDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.failed);
+          appDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.failed);
           Fluttertoast.showToast(msg: "下载失败");
         }
       }
       ..onProgress = (int receivedBytes, int totalBytes) {
-        downloadsDatabase.updateTaskBytes(insertedData.taskId!, receivedBytes, totalBytes);
+        appDatabase.updateTaskBytes(insertedData.taskId!, receivedBytes, totalBytes);
       }
       ..onFailed = (statusCode) {
-        downloadsDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.failed);
+        appDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.failed);
       }
       ..onError = (e) {
-        downloadsDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.failed);
+        appDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.failed);
         logger.e(e);
       }
       ..onFinally = () {

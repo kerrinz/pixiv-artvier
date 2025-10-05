@@ -1,6 +1,12 @@
 {
   "@@locale": "zh_CN",
-  "@@last_modified": "2024-10-04T17:07:20.176789",
+  "@@last_modified": "2025-10-05T18:06:10.149334",
+  "bootingPageUpdatingHint": "正在更新本地数据中，请勿退出软件！",
+  "@bootingPageUpdatingHint": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "importToken": "导入 Token",
   "@importToken": {
     "description": "",

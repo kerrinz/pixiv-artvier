@@ -1,8 +1,8 @@
 import 'package:artvier/component/image/enhance_network_image.dart';
+import 'package:artvier/database/database.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/routes.dart';
-import 'package:artvier/storage/viewing_history/viewing_history_db.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

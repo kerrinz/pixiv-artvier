@@ -1,5 +1,5 @@
 import 'package:artvier/config/enums.dart';
-import 'package:artvier/storage/viewing_history/viewing_history_table.dart';
+import 'package:artvier/database/tables/viewing_history_table.dart';
 import 'package:drift/drift.dart';
 import 'dart:io';
 import 'package:drift/native.dart';
@@ -8,8 +8,9 @@ import 'package:path/path.dart' as p;
 
 part 'viewing_history_db.g.dart';
 
-ViewingHistoryDatabase viewingHistoryDatabase = ViewingHistoryDatabase();
-
+@Deprecated(
+  'Merge into lib/database/database.dart',
+)
 @DriftDatabase(tables: [ViewingHistoryTable])
 class ViewingHistoryDatabase extends _$ViewingHistoryDatabase {
   ViewingHistoryDatabase() : super(_openConnection());
