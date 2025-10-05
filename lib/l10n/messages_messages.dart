@@ -60,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'birthday': MessageLookupByLibrary.simpleMessage('Birthday'),
     'bookmarkCountNotPremium': MessageLookupByLibrary.simpleMessage('Bookmark count (Not premium)'),
     'bookmarksCount': MessageLookupByLibrary.simpleMessage('Bookmark count'),
+    'bootingPageUpdatingHint': MessageLookupByLibrary.simpleMessage('Local data is being updated. Please do not exit the software!'),
     'cancel': MessageLookupByLibrary.simpleMessage('Cancel'),
     'cancelFollow': MessageLookupByLibrary.simpleMessage('Cancel follow'),
     'catalog': MessageLookupByLibrary.simpleMessage('Catalog'),

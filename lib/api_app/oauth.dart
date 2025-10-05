@@ -11,7 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/global/provider/shared_preferences_provider.dart';
 import 'package:artvier/global/model/account_profile/account_profile.dart';
 import 'package:artvier/request/http_requester.dart';
-import 'package:artvier/storage/account_storage.dart';
+import 'package:artvier/preferences/account_storage.dart';
 
 typedef Read = T Function<T>(ProviderListenable<T> provider);
 

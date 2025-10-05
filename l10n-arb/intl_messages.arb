@@ -1,5 +1,11 @@
 {
-  "@@last_modified": "2025-08-20T00:06:19.150276",
+  "@@last_modified": "2025-10-05T18:10:38.345877",
+  "bootingPageUpdatingHint": "Local data is being updated. Please do not exit the software!",
+  "@bootingPageUpdatingHint": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "importToken": "Import token",
   "@importToken": {
     "description": "",

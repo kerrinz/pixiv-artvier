@@ -4,7 +4,7 @@ import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/model/language/language_model.dart';
 import 'package:artvier/global/variable.dart';
 import 'package:artvier/request/http_host_overrides.dart';
-import 'package:artvier/storage/language_store.dart';
+import 'package:artvier/preferences/language_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// APP Language

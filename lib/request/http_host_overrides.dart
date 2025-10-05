@@ -2,8 +2,8 @@ import 'dart:io' show HttpHeaders;
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/http_base_options.dart';
 import 'package:artvier/global/variable.dart';
-import 'package:artvier/storage/language_store.dart';
-import 'package:artvier/storage/network_store.dart';
+import 'package:artvier/preferences/language_store.dart';
+import 'package:artvier/preferences/network_store.dart';
 
 /// 根据设置，覆盖 Http 链接的 url
 /// 单例模式，依赖变化后需要手动调用 [reload()] 重载
