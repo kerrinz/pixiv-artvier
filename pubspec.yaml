@@ -29,7 +29,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   archive: ^4.0.7
-  app_links: ^6.4.1
+  # app_links: ^6.4.1
   crypto: ^3.0.6
   # The following adds the Cupertino Icons font to your application.flutter_downloader
   # Use with the CupertinoIcons class for iOS style icons.
