@@ -5,6 +5,8 @@ import 'package:artvier/component/perference/perference_item.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';
 import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
+import 'package:artvier/database/database.dart';
+import 'package:artvier/database/database_migration.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -476,6 +478,29 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                 size: 12,
               ),
             ],
+          ),
+        ),
+        PerferenceItem(
+          onTap: () async {
+            final appDatabase = AppDatabase();
+
+            // 执行数据库迁移
+            if (await DatabaseMigration.needsMigration()) {
+              print('开始数据库迁移...');
+              await DatabaseMigration.migrateToNewDatabase(appDatabase);
+              print('数据库迁移完成！');
+            }
+          },
+          icon: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Icon(Icons.settings, color: colorScheme.primary),
+          ),
+          text: Text(
+            'Test',
+            style: TextStyle(
+              fontSize: 14,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
           ),
         ),
       ]),

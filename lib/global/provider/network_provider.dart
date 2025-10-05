@@ -6,7 +6,7 @@ import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/model/proxy_options/proxy_state_model.dart';
 import 'package:artvier/global/provider/shared_preferences_provider.dart';
 import 'package:artvier/request/my_http_overrides.dart';
-import 'package:artvier/storage/network_store.dart';
+import 'package:artvier/preferences/network_store.dart';
 
 /// 全局代理配置
 final globalProxyStateProvider = StateNotifierProvider<_HttpProxyNotifier, ProxyStateModel>((ref) {

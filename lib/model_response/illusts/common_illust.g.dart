@@ -74,6 +74,7 @@ Map<String, dynamic> _$CommonIllustToJson(CommonIllust instance) =>
     };
 
 const _$CollectStateEnumMap = {
+  CollectState.loading: 'loading',
   CollectState.collecting: 'collecting',
   CollectState.uncollecting: 'uncollecting',
   CollectState.collected: 'collected',
