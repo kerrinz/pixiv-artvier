@@ -60,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'birthday': MessageLookupByLibrary.simpleMessage('生日'),
     'bookmarkCountNotPremium': MessageLookupByLibrary.simpleMessage('收藏数(非会员)'),
     'bookmarksCount': MessageLookupByLibrary.simpleMessage('收藏数'),
+    'bootingPageUpdatingHint': MessageLookupByLibrary.simpleMessage('正在更新本地数据中，请勿退出软件！'),
     'cancel': MessageLookupByLibrary.simpleMessage('取消'),
     'cancelFollow': MessageLookupByLibrary.simpleMessage('取消关注'),
     'catalog': MessageLookupByLibrary.simpleMessage('目录'),

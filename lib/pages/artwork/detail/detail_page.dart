@@ -2,11 +2,11 @@ import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/business_component/ugoira_image/ugoira_image.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
+import 'package:artvier/database/database.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
 import 'package:artvier/pages/artwork/detail/widgets/menu_bottom_sheet.dart';
 import 'package:artvier/request/http_host_overrides.dart';
-import 'package:artvier/storage/viewing_history/viewing_history_db.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,7 +59,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
   void initState() {
     _dragController = DragController();
     if (widget.args.detail != null) {
-      viewingHistoryDatabase
+      appDatabase
           .addRecordWithRemoveDuplicates(ViewingHistoryTableData(
             title: widget.args.detail!.title,
             type: WorksType.illust,

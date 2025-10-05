@@ -21,6 +21,10 @@ class LocalizationIntl {
     return Localizations.of<LocalizationIntl>(context, LocalizationIntl)!;
   }
 
+  // 启动页
+  String get bootingPageUpdatingHint => Intl.message('Local data is being updated. Please do not exit the software!',
+      name: 'bootingPageUpdatingHint', desc: '');
+
   // 引导页
   String get importToken => Intl.message('Import token', name: 'importToken', desc: '');
   String get webLogin => Intl.message('Web login', name: 'webLogin', desc: 'Button and title of login by web');

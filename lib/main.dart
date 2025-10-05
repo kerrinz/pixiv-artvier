@@ -6,10 +6,12 @@ import 'package:artvier/global/provider/version_and_update_provider.dart';
 import 'package:artvier/global/variable.dart';
 import 'package:artvier/model_response/user/preload_user_least_info.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
+import 'package:artvier/pages/framework/booting/booting_page.dart';
+import 'package:artvier/pages/framework/booting/model.dart';
 import 'package:artvier/pages/main_navigation_tab_page/main_navigation.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
 import 'package:artvier/request/my_http_overrides.dart';
-import 'package:artvier/storage/network_store.dart';
+import 'package:artvier/preferences/network_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -85,22 +87,27 @@ class MyAppState extends ConsumerState<MyApp> {
     if (uri.pathSegments[0] == 'artworks') {
       final String artworkId = uri.pathSegments[1];
       if (RegExp(r'^\d+$').hasMatch(artworkId)) {
-        RouteWidgetBuilder builder = Routes.match(context, RouteNames.artworkDetail.name);
-        return MaterialPageRoute(
-            builder: (context) => builder(context, IllustDetailPageArguments(illustId: artworkId)));
+        final nextPageArgs = IllustDetailPageArguments(illustId: artworkId);
+        final bootingPageArgs =
+            BootingPageArguments(nextRoute: RouteNames.artworkDetail.name, nextRouteArguments: nextPageArgs);
+        return MaterialPageRoute(builder: (context) => BootingPage(bootingPageArgs));
       }
     } else if (uri.pathSegments[0] == 'users') {
       final String userId = uri.pathSegments[1];
       if (RegExp(r'^\d+$').hasMatch(userId)) {
-        RouteWidgetBuilder builder = Routes.match(context, RouteNames.userDetail.name);
-        return MaterialPageRoute(builder: (context) => builder(context, PreloadUserLeastInfo(userId, null, null)));
+        final nextPageArgs = PreloadUserLeastInfo(userId, null, null);
+        final bootingPageArgs =
+            BootingPageArguments(nextRoute: RouteNames.userDetail.name, nextRouteArguments: nextPageArgs);
+        return MaterialPageRoute(builder: (context) => BootingPage(bootingPageArgs));
       }
     } else if (uri.pathSegments[0] == 'novel') {
       final novelId = uri.queryParameters['id'];
       if (novelId != null && novelId != '') {
         if (RegExp(r'^\d+$').hasMatch(novelId)) {
-          RouteWidgetBuilder builder = Routes.match(context, RouteNames.novelDetail.name);
-          return MaterialPageRoute(builder: (context) => builder(context, NovelDetailPageArguments(novelId: novelId)));
+          final nextPageArgs = NovelDetailPageArguments(novelId: novelId);
+          final bootingPageArgs =
+              BootingPageArguments(nextRoute: RouteNames.novelDetail.name, nextRouteArguments: nextPageArgs);
+          return MaterialPageRoute(builder: (context) => BootingPage(bootingPageArgs));
         }
       }
     }
@@ -142,8 +149,7 @@ class MyAppState extends ConsumerState<MyApp> {
             return MaterialPageRoute(builder: (context) => builder(context, settings.arguments));
           }
         },
-        // 启动加载页面，在这里面初始化全局数据
-        home: const MainNavigation(),
+        home: BootingPage(BootingPageArguments(nextRoute: RouteNames.mainNavigation.name)),
         navigatorObservers: [AutoHomeNavigatorObserver()],
         theme: themeDataLight,
         darkTheme: themeDataDark,

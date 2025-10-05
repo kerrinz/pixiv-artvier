@@ -64,6 +64,7 @@ Map<String, dynamic> _$CommonNovelToJson(CommonNovel instance) =>
     };
 
 const _$CollectStateEnumMap = {
+  CollectState.loading: 'loading',
   CollectState.collecting: 'collecting',
   CollectState.uncollecting: 'uncollecting',
   CollectState.collected: 'collected',
