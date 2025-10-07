@@ -1,4 +1,6 @@
+import 'package:artvier/business_component/search/search_history/provider.dart';
 import 'package:artvier/component/filter_dropdown/filter_dropdown_list.dart';
+import 'package:artvier/database/database.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,6 +45,12 @@ mixin SearchResultPageLogic on State<SearchResultPage> {
 
   /// 搜索输入框的提交
   void handleInputSubmit(String value) {
+    // 添加搜索历史记录
+    ref.read(searchHistoryProvider.notifier).addSearchHistory(SearchHistoryTableData(
+          searchText: widget.label,
+          type: ref.read(searchTypeProvider),
+          lastTime: DateTime.now(),
+        ));
     searchWord = value;
     _doSearch(value);
   }

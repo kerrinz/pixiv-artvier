@@ -197,6 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'search': MessageLookupByLibrary.simpleMessage('Search'),
     'searchAddTagPlaceholder': MessageLookupByLibrary.simpleMessage('Search or add a tag...'),
     'searchHalfYear': MessageLookupByLibrary.simpleMessage('Half a year'),
+    'searchHistory': MessageLookupByLibrary.simpleMessage('Search history'),
     'searchOneMonth': MessageLookupByLibrary.simpleMessage('One month'),
     'searchOneWeek': MessageLookupByLibrary.simpleMessage('One week'),
     'searchOneYear': MessageLookupByLibrary.simpleMessage('One year'),

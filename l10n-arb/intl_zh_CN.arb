@@ -1270,5 +1270,11 @@
     "description": "Tending tags",
     "type": "text",
     "placeholders": {}
+  },
+  "searchHistory": "搜索历史",
+  "@searchHistory": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
   }
 }

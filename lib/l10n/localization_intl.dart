@@ -327,6 +327,7 @@ class LocalizationIntl {
 
   // 发现页
   String get trendingTags => Intl.message("Trending tags", name: 'trendingTags', desc: 'Tending tags');
+  String get searchHistory => Intl.message("Search history", name: 'searchHistory', desc: '');
 }
 
 class LocalizationIntlDelegate extends LocalizationsDelegate<LocalizationIntl> {
