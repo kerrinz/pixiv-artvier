@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-10-05T18:10:38.345877",
+  "@@last_modified": "2025-10-08T00:05:03.902369",
   "bootingPageUpdatingHint": "Local data is being updated. Please do not exit the software!",
   "@bootingPageUpdatingHint": {
     "description": "",
@@ -1279,6 +1279,12 @@
   "trendingTags": "Trending tags",
   "@trendingTags": {
     "description": "Tending tags",
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchHistory": "Search history",
+  "@searchHistory": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   }

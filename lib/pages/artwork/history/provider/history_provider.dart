@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 浏览历史的状态管理
 final viewingHistoryProvider =
-    AutoDisposeAsyncNotifierProvider<DownloadsNotifier, List<ViewingHistoryTableData>>(DownloadsNotifier.new);
+    AutoDisposeAsyncNotifierProvider<ViewingHistoryNotifier, List<ViewingHistoryTableData>>(ViewingHistoryNotifier.new);
 
-class DownloadsNotifier extends AutoDisposeAsyncNotifier<List<ViewingHistoryTableData>> {
+class ViewingHistoryNotifier extends AutoDisposeAsyncNotifier<List<ViewingHistoryTableData>> {
   int page = 1;
   int pageSize = 1000;
   int count = 0;

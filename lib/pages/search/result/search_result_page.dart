@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:artvier/api_app/api_serach.dart';
+import 'package:artvier/business_component/search/search_history/provider.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/filter_dropdown/filter_dropdown_list.dart';
+import 'package:artvier/database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/business_component/listview/illust_listview/illust_waterfall_gridview.dart';
@@ -48,6 +50,12 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
   @override
   void initState() {
     super.initState();
+    // 添加搜索历史记录
+    ref.read(searchHistoryProvider.notifier).addSearchHistory(SearchHistoryTableData(
+          searchText: widget.label,
+          type: ref.read(searchTypeProvider),
+          lastTime: DateTime.now(),
+        ));
     _textController = TextEditingController(text: widget.label);
     dropDownMenuController = DropDownMenuController();
     _focusNode = FocusNode();

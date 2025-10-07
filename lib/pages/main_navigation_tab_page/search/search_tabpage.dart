@@ -1,4 +1,5 @@
 import 'package:artvier/business_component/input/search_box.dart';
+import 'package:artvier/business_component/search/search_history/search_history.dart';
 import 'package:artvier/component/filter/stateless_flow_filter.dart';
 import 'package:artvier/component/sliver_persistent_header/widget_delegate.dart';
 import 'package:artvier/config/enums.dart';
@@ -83,6 +84,7 @@ class SearchTabPageState extends BasePageState<SearchTabPage> with AutomaticKeep
         },
         child: CustomScrollView(
           slivers: [
+            SliverToBoxAdapter(child: SearchHistory()),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.only(top: 8, left: 12, right: 12),
