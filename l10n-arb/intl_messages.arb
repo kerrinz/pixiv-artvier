@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-10-08T00:05:03.902369",
+  "@@last_modified": "2025-10-09T00:39:38.084911",
   "bootingPageUpdatingHint": "Local data is being updated. Please do not exit the software!",
   "@bootingPageUpdatingHint": {
     "description": "",
@@ -1284,6 +1284,12 @@
   },
   "searchHistory": "Search history",
   "@searchHistory": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "clearSearchHistoryPromptContent": "Are you sure to clear search history?",
+  "@clearSearchHistoryPromptContent": {
     "description": "",
     "type": "text",
     "placeholders": {}

@@ -67,6 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'chair': MessageLookupByLibrary.simpleMessage('Chair'),
     'changelog': MessageLookupByLibrary.simpleMessage('Changelog'),
     'checkUpdateLimitForGithubApi': MessageLookupByLibrary.simpleMessage('The number of Github API access times exceeds the limit, please try again in one hour, or manually access the project address: '),
+    'clearSearchHistoryPromptContent': MessageLookupByLibrary.simpleMessage('Are you sure to clear search history?'),
     'collections': MessageLookupByLibrary.simpleMessage('Collection'),
     'commentDetails': MessageLookupByLibrary.simpleMessage('Comment details'),
     'commentHint': MessageLookupByLibrary.simpleMessage('Send a friendly comment'),

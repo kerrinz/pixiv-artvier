@@ -67,6 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'chair': MessageLookupByLibrary.simpleMessage('椅子'),
     'changelog': MessageLookupByLibrary.simpleMessage('更新日志'),
     'checkUpdateLimitForGithubApi': MessageLookupByLibrary.simpleMessage('Github API访问次数超过限制，请一个小时后重试，或者手动访问项目地址： '),
+    'clearSearchHistoryPromptContent': MessageLookupByLibrary.simpleMessage('确定清空搜索历史吗?'),
     'collections': MessageLookupByLibrary.simpleMessage('收藏'),
     'commentDetails': MessageLookupByLibrary.simpleMessage('评论详情'),
     'commentHint': MessageLookupByLibrary.simpleMessage('发一条友善的评论'),
