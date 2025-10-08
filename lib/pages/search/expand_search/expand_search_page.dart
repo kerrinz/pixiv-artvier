@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/business_component/search/search_history/search_history.dart';
 import 'package:artvier/component/filter/stateless_flow_filter.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/user/preload_user_least_info.dart';
@@ -119,6 +120,7 @@ class _ExpandSearchPageState extends BasePageState<ExpandSearchPage> {
           Expanded(
             child: CustomScrollView(
               slivers: [
+                SliverToBoxAdapter(child: SearchHistory()),
                 Consumer(builder: (_, ref, __) {
                   final worksPreSearch = ref.watch(predictiveSearchWorksProvider).value;
                   final usersPreSearch = ref.watch(predictiveSearchUsersProvider).value;
@@ -131,7 +133,13 @@ class _ExpandSearchPageState extends BasePageState<ExpandSearchPage> {
                   return SliverPadding(
                     padding: const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 0),
                     sliver: SliverToBoxAdapter(
-                      child: Text('${l10n.youMayWantToSearch}:'),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                          '${l10n.youMayWantToSearch}:',
+                          style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
                   );
                 }),
