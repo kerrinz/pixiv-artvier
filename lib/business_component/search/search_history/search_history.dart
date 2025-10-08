@@ -42,7 +42,28 @@ class _SearchHistoryState extends BasePageState {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    bool isCancel = true; // 用户是否取消
+                    await showDialog(
+                      context: ref.context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(l10n.promptTitle),
+                          content: Text(l10n.clearSearchHistoryPromptContent),
+                          actions: <Widget>[
+                            TextButton(child: Text(l10n.promptCancel), onPressed: () => Navigator.pop(context)),
+                            TextButton(
+                              child: Text(l10n.promptConform),
+                              onPressed: () {
+                                isCancel = false;
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    if (isCancel) return;
                     ref.read(searchHistoryProvider.notifier).clearAll();
                   },
                   icon: SvgPicture.asset(
