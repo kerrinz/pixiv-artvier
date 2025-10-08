@@ -1270,5 +1270,17 @@
     "description": "Tending tags",
     "type": "text",
     "placeholders": {}
+  },
+  "searchHistory": "搜索历史",
+  "@searchHistory": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "clearSearchHistoryPromptContent": "确定清空搜索历史吗?",
+  "@clearSearchHistoryPromptContent": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
   }
 }

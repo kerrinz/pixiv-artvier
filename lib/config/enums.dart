@@ -133,6 +133,7 @@ enum DownloadType {
 }
 
 /// 搜索类型
+/// 注意：不要轻易删改，会影响数据库储存
 enum SearchType {
   artwork,
   novel,
