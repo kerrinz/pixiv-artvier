@@ -25,6 +25,12 @@ class SearchHistoryNotifier extends AutoDisposeAsyncNotifier<List<SearchHistoryT
     reloadState();
   }
 
+  /// 删除某个搜索历史
+  removeOneSearchHistory(String text) async {
+    await appDatabase.deleteSearchHistory(text);
+    reloadState();
+  }
+
   /// 清空历史记录
   Future<List<SearchHistoryTableData>> clearAll() async {
     await appDatabase.clearAllSearchHistory();

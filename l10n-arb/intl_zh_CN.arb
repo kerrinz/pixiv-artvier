@@ -199,6 +199,24 @@
     "type": "text",
     "placeholders": {}
   },
+  "complete": "完成",
+  "@complete": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "clear": "清空",
+  "@clear": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "clearAll": "全部清空",
+  "@clearAll": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "delete": "删除",
   "@delete": {
     "description": "",

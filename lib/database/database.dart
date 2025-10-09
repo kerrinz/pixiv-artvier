@@ -123,6 +123,13 @@ class AppDatabase extends _$AppDatabase {
     return await into(searchHistoryTable).insertReturning(data);
   }
 
+  /// 添加搜索历史记录，重复时自动替换已有的记录
+  Future<List<SearchHistoryTableData>> deleteSearchHistory(String searchText) async {
+    final statement = delete(searchHistoryTable)
+      ..where((tbl) => Expression.and([tbl.searchText.trim().equals(searchText.trim())]));
+    return statement.goAndReturn();
+  }
+
   /// 清空搜索历史记录
   Future<List<SearchHistoryTableData>> clearAllSearchHistory() async {
     return delete(searchHistoryTable).goAndReturn();

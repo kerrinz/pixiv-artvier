@@ -18,6 +18,8 @@ class SearchHistory extends BaseStatefulPage {
 }
 
 class _SearchHistoryState extends BasePageState {
+  ValueNotifier<bool> isEditMode = ValueNotifier(false);
+
   @override
   Widget build(BuildContext context) {
     final data = ref.watch(searchHistoryProvider).valueOrNull;
@@ -41,50 +43,95 @@ class _SearchHistoryState extends BasePageState {
                     style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
-                IconButton(
-                  onPressed: () async {
-                    bool isCancel = true; // 用户是否取消
-                    await showDialog(
-                      context: ref.context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text(l10n.promptTitle),
-                          content: Text(l10n.clearSearchHistoryPromptContent),
-                          actions: <Widget>[
-                            TextButton(child: Text(l10n.promptCancel), onPressed: () => Navigator.pop(context)),
-                            TextButton(
-                              child: Text(l10n.promptConform),
-                              onPressed: () {
-                                isCancel = false;
-                                Navigator.pop(context);
-                              },
+                ValueListenableBuilder<bool>(
+                  valueListenable: isEditMode,
+                  builder: (_, isEditModeValue, __) {
+                    return isEditModeValue
+                        ? editModeContent()
+                        : IconButton(
+                            onPressed: () => isEditMode.value = !isEditMode.value,
+                            icon: SvgPicture.asset(
+                              'assets/icon/trash_clear.svg',
+                              width: 20,
+                              height: 20,
+                              colorFilter: ColorFilter.mode(textTheme.bodySmall?.color ?? Colors.grey, BlendMode.srcIn),
                             ),
-                          ],
-                        );
-                      },
-                    );
-                    if (isCancel) return;
-                    ref.read(searchHistoryProvider.notifier).clearAll();
+                          );
                   },
-                  icon: SvgPicture.asset(
-                    'assets/icon/trash_clear.svg',
-                    width: 20,
-                    height: 20,
-                    colorFilter: ColorFilter.mode(textTheme.bodySmall?.color ?? Colors.grey, BlendMode.srcIn),
-                  ),
                 ),
               ],
             ),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                ...data.map((v) => SearchHistoryItem(data: v)),
-              ],
+            ValueListenableBuilder<bool>(
+              valueListenable: isEditMode,
+              builder: (_, isEditModeValue, __) {
+                return Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    ...data.map(
+                      (v) => SearchHistoryItem(
+                        data: v,
+                        isEditMode: isEditModeValue,
+                        onTap: () {
+                          if (isEditModeValue) {
+                            ref.read(searchHistoryProvider.notifier).removeOneSearchHistory(v.searchText);
+                          } else {
+                            Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: v.searchText);
+                          }
+                        },
+                        onLongPress: () => isEditMode.value = !isEditMode.value,
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ],
         ),
       ),
+    );
+  }
+
+  /// 编辑模式下的按钮
+  Widget editModeContent() {
+    return Row(
+      spacing: 4,
+      children: [
+        IconButton(
+            onPressed: () async {
+              bool isCancel = true; // 用户是否取消
+              await showDialog(
+                context: ref.context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text(l10n.promptTitle),
+                    content: Text(l10n.clearSearchHistoryPromptContent),
+                    actions: <Widget>[
+                      TextButton(child: Text(l10n.promptCancel), onPressed: () => Navigator.pop(context)),
+                      TextButton(
+                        child: Text(l10n.promptConform),
+                        onPressed: () {
+                          isCancel = false;
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+              if (isCancel) return;
+              ref.read(searchHistoryProvider.notifier).clearAll();
+            },
+            icon: Text(l10n.clearAll, style: textTheme.labelMedium)),
+        Container(
+          width: 1,
+          height: textTheme.labelMedium?.fontSize ?? 16,
+          color: colorScheme.outlineVariant,
+        ),
+        IconButton(
+            onPressed: () => isEditMode.value = !isEditMode.value,
+            icon: Text(l10n.complete, style: textTheme.labelMedium?.copyWith(color: colorScheme.primary)))
+      ],
     );
   }
 }
@@ -94,22 +141,37 @@ class SearchHistoryItem extends BasePage {
   const SearchHistoryItem({
     super.key,
     required this.data,
+    this.isEditMode = false,
+    this.onTap,
+    this.onLongPress,
   });
 
   final SearchHistoryTableData data;
+  final bool isEditMode;
+  final void Function()? onTap;
+  final void Function()? onLongPress;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: data.searchText);
-      },
+      onTap: onTap,
+      onLongPress: onLongPress,
       child: MyBadge(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
         color: colorScheme(context).surface,
-        child: Text(
-          data.searchText,
-          style: textTheme(context).labelMedium,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              data.searchText,
+              style: textTheme(context).labelMedium,
+            ),
+            if (isEditMode)
+              Padding(
+                padding: const EdgeInsets.only(left: 4.0),
+                child: Icon(Icons.close, size: (textTheme(context).labelMedium?.fontSize ?? 12) + 2),
+              ),
+          ],
         ),
       ),
     );

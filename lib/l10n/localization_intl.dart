@@ -63,6 +63,9 @@ class LocalizationIntl {
   String get not => Intl.message('Not', name: 'not', desc: '');
   String get cancel => Intl.message('Cancel', name: 'cancel', desc: '');
   String get edit => Intl.message('Edit', name: 'edit', desc: '');
+  String get complete => Intl.message('Complete', name: 'complete', desc: '');
+  String get clear => Intl.message("Clear", name: 'clear', desc: '');
+  String get clearAll => Intl.message("Clear all", name: 'clearAll', desc: '');
   String get delete => Intl.message('Delete', name: 'delete', desc: '');
   String get deleteSuccess => Intl.message('Delete success', name: 'deleteSuccess', desc: '');
   String get deleteFailed => Intl.message('Delete failed', name: 'deleteFailed', desc: '');
