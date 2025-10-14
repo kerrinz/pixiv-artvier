@@ -1,9 +1,11 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/business_component/search/search_history/provider.dart';
 import 'package:artvier/component/badge.dart';
+import 'package:artvier/component/expanded/expandable_wrap.dart';
 import 'package:artvier/database/database.dart';
 import 'package:artvier/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -19,6 +21,7 @@ class SearchHistory extends BaseStatefulPage {
 
 class _SearchHistoryState extends BasePageState {
   ValueNotifier<bool> isEditMode = ValueNotifier(false);
+  final tags = List.generate(20, (i) => '标签$i');
 
   @override
   Widget build(BuildContext context) {
@@ -64,25 +67,58 @@ class _SearchHistoryState extends BasePageState {
             ValueListenableBuilder<bool>(
               valueListenable: isEditMode,
               builder: (_, isEditModeValue, __) {
-                return Wrap(
+                // return Wrap(
+                //   spacing: 8,
+                //   runSpacing: 8,
+                //   children: [
+                //     ...data.map(
+                //       (v) => SearchHistoryItem(
+                //         data: v,
+                //         isEditMode: isEditModeValue,
+                //         onTap: () {
+                //           if (isEditModeValue) {
+                //             ref.read(searchHistoryProvider.notifier).removeOneSearchHistory(v.searchText);
+                //           } else {
+                //             Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: v.searchText);
+                //           }
+                //         },
+                //         onLongPress: () => isEditMode.value = !isEditMode.value,
+                //       ),
+                //     ),
+                //   ],
+                // );
+                return ExpandableWrap(
+                  maxLines: 2,
                   spacing: 8,
                   runSpacing: 8,
-                  children: [
-                    ...data.map(
-                      (v) => SearchHistoryItem(
-                        data: v,
-                        isEditMode: isEditModeValue,
-                        onTap: () {
-                          if (isEditModeValue) {
-                            ref.read(searchHistoryProvider.notifier).removeOneSearchHistory(v.searchText);
-                          } else {
-                            Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: v.searchText);
-                          }
-                        },
-                        onLongPress: () => isEditMode.value = !isEditMode.value,
-                      ),
+                  animationDuration: Duration.zero,
+                  expandButtonBuilder: (expanded) => MyBadge(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
+                    color: colorScheme.surface,
+                    child: Icon(
+                      expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                      size: (textTheme.labelMedium?.fontSize ?? 12) + 4,
                     ),
-                  ],
+                  ),
+                  children: data
+                      .map(
+                        (v) => SearchHistoryItem(
+                          data: v,
+                          isEditMode: isEditModeValue,
+                          onTap: () {
+                            if (isEditModeValue) {
+                              ref.read(searchHistoryProvider.notifier).removeOneSearchHistory(v.searchText);
+                            } else {
+                              Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: v.searchText);
+                            }
+                          },
+                          onLongPress: () {
+                            HapticFeedback.lightImpact();
+                            isEditMode.value = !isEditMode.value;
+                          },
+                        ),
+                      )
+                      .toList(),
                 );
               },
             ),
