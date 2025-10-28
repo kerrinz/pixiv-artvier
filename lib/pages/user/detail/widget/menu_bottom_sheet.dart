@@ -85,7 +85,7 @@ class UserDetailMenu extends BasePage with FollowButtonLogic {
                       icon: const Icon(Icons.remove_red_eye_outlined),
                       onTap: () {
                         Navigator.of(context).pop();
-                        handlePressed(ref);
+                        handlePressed(ref, restrict: Restrict.private);
                       },
                     );
                   },
