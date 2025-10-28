@@ -92,7 +92,7 @@ class UserFollowButton extends ConsumerWidget with FollowButtonLogic {
 mixin FollowButtonLogic {
   StateNotifierProvider<FollowNotifier, UserFollowState> get userFollowProvider;
 
-  void handlePressed(WidgetRef ref) {
+  void handlePressed(WidgetRef ref, {Restrict restrict = Restrict.public}) {
     HapticFeedback.lightImpact();
     UserFollowState state = ref.read(userFollowProvider);
     if ([UserFollowState.requestingFollow, UserFollowState.requestingUnfollow].contains(state)) {
@@ -108,7 +108,7 @@ mixin FollowButtonLogic {
           );
     } else {
       notifier
-          .follow(restrict: Restrict.public)
+          .follow(restrict: restrict)
           .then((value) => Fluttertoast.showToast(msg: "关注成功", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0))
           .onError((error, stackTrace) =>
               Fluttertoast.showToast(msg: "关注失败", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
