@@ -463,6 +463,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "blockingSettings": "屏蔽设定",
+  "@blockingSettings": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "otherSettings": "其他设置",
   "@otherSettings": {
     "description": "A preference item",
@@ -640,6 +646,18 @@
         "example": "username"
       }
     }
+  },
+  "blocking": "屏蔽",
+  "@blocking": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "unblock": "取消屏蔽",
+  "@unblock": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
   },
   "follow": "关注",
   "@follow": {
