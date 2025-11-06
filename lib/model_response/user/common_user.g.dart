@@ -16,7 +16,7 @@ CommonUser _$CommonUserFromJson(Map<String, dynamic> json) => CommonUser(
           json['profile_image_urls'] as Map<String, dynamic>),
       json['comment'] as String?,
       json['is_followed'] as bool?,
-    );
+    )..isAcceptRequest = json['is_accept_request'] as bool?;
 
 Map<String, dynamic> _$CommonUserToJson(CommonUser instance) =>
     <String, dynamic>{
@@ -26,6 +26,7 @@ Map<String, dynamic> _$CommonUserToJson(CommonUser instance) =>
       'profile_image_urls': instance.profileImageUrls,
       'comment': instance.comment,
       'is_followed': instance.isFollowed,
+      'is_accept_request': instance.isAcceptRequest,
     };
 
 Profile_image_urls _$Profile_image_urlsFromJson(Map<String, dynamic> json) =>

@@ -134,6 +134,7 @@ class LocalizationIntl {
   String get themeSettings => Intl.message('Theme settings', name: 'themeSettings', desc: 'A preference item');
   String get networkSettings =>
       Intl.message('Network settings', name: 'networkSettings', desc: 'A preference item of configure network');
+  String get blockingSettings => Intl.message('Blocking settings', name: 'blockingSettings', desc: '');
   String get otherSettings => Intl.message('Other settings', name: 'otherSettings', desc: 'A preference item');
   String get themeModePromptContent =>
       Intl.message('Manually switching theme mode will turn off the auto-follow system mode, are you sure to switch?',
@@ -179,6 +180,10 @@ class LocalizationIntl {
   String get deleteAccount => Intl.message('Delete account', name: 'deleteAccount', desc: '');
   String deleteAccountPromptMessage(String name) => Intl.message("Are you sure to delete this account ($name) ?",
       args: [name], name: 'deleteAccountPromptMessage', desc: '', examples: const {'name': 'username'});
+
+  // 屏蔽设定
+  String get blocking => Intl.message('Blocking', name: 'blocking', desc: '');
+  String get unblock => Intl.message('Unblock', name: 'unblock', desc: '');
 
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');

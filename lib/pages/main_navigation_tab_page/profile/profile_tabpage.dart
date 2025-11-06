@@ -439,6 +439,20 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
       margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
       child: PerferenceGroup(items: [
         PerferenceItem(
+          onTap: () => Navigator.of(context).pushNamed(RouteNames.blockingSettings.name),
+          icon: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Icon(Icons.block_rounded, color: colorScheme.primary),
+          ),
+          text: Text(
+            l10n.blockingSettings,
+            style: TextStyle(
+              fontSize: 14,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
+        ),
+        PerferenceItem(
           onTap: () => Navigator.of(context).pushNamed(RouteNames.allSettings.name),
           icon: Padding(
             padding: const EdgeInsets.only(left: 8.0),

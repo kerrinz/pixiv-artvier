@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-10-09T19:03:56.216390",
+  "@@last_modified": "2025-11-06T10:49:22.551924",
   "bootingPageUpdatingHint": "Local data is being updated. Please do not exit the software!",
   "@bootingPageUpdatingHint": {
     "description": "",
@@ -462,6 +462,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "blockingSettings": "Blocking settings",
+  "@blockingSettings": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "otherSettings": "Other settings",
   "@otherSettings": {
     "description": "A preference item",
@@ -651,6 +657,18 @@
         "example": "username"
       }
     }
+  },
+  "blocking": "Blocking",
+  "@blocking": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "unblock": "Unblock",
+  "@unblock": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
   },
   "follow": "Follow",
   "@follow": {

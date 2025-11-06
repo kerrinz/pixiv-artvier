@@ -28,6 +28,10 @@ part 'common_user.g.dart';
   @JsonKey(name: 'is_followed')
   bool? isFollowed;
 
+  /// 是否接收内容（是否非屏蔽）
+  @JsonKey(name: 'is_accept_request')
+  bool? isAcceptRequest;
+
   CommonUser(this.id,this.name,this.account,this.profileImageUrls,this.comment,this.isFollowed,);
 
   factory CommonUser.fromJson(Map<String, dynamic> srcJson) => _$CommonUserFromJson(srcJson);
