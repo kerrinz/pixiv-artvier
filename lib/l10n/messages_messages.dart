@@ -57,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'autoSwitchFollowingSystem': MessageLookupByLibrary.simpleMessage('Auto switch following system'),
     'autoSwitchFollowingSystemDesc': MessageLookupByLibrary.simpleMessage('Automatically switch between light and dark following the system settings'),
     'backgroundMusic': MessageLookupByLibrary.simpleMessage('Background music'),
+    'batchEdit': MessageLookupByLibrary.simpleMessage('Batch edit'),
     'birthday': MessageLookupByLibrary.simpleMessage('Birthday'),
     'blocking': MessageLookupByLibrary.simpleMessage('Blocking'),
     'blockingSettings': MessageLookupByLibrary.simpleMessage('Blocking settings'),

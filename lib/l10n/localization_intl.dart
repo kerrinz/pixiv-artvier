@@ -63,6 +63,7 @@ class LocalizationIntl {
   String get not => Intl.message('Not', name: 'not', desc: '');
   String get cancel => Intl.message('Cancel', name: 'cancel', desc: '');
   String get edit => Intl.message('Edit', name: 'edit', desc: '');
+  String get batchEdit => Intl.message('Batch edit', name: 'batchEdit', desc: '');
   String get complete => Intl.message('Complete', name: 'complete', desc: '');
   String get clear => Intl.message("Clear", name: 'clear', desc: '');
   String get clearAll => Intl.message("Clear all", name: 'clearAll', desc: '');

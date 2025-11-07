@@ -1,13 +1,46 @@
+import 'dart:async';
+
 import 'package:artvier/api_app/api_blocking.dart';
+import 'package:artvier/base/base_provider/base_notifier.dart';
+import 'package:artvier/base/base_provider/list_notifier.dart';
 import 'package:artvier/global/provider/requester_provider.dart';
 import 'package:artvier/model_response/blocking/blocking_list.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 屏蔽列表
-final blockingListProvider = FutureProvider.autoDispose<BlockingListResponse>((ref) async {
-  final cancelToken = CancelToken();
-  ref.onDispose(() => cancelToken.cancel());
-  final response = await ApiBlocking(ref.read(httpRequesterProvider)).blockingList(cancelToken: cancelToken);
-  return response;
+final blockingListProvider = AutoDisposeAsyncNotifierProvider<BlockingListNotifier, BlockingListResponse>(() {
+  return BlockingListNotifier();
 });
+
+/// 屏蔽用户列表的已勾选项索引
+final blockingUsersCheckedListProvider = StateProvider.autoDispose<List<int>>((ref) {
+  return [];
+});
+
+/// 屏蔽标签列表的已勾选项索引
+final blockingTagsCheckedListProvider = StateProvider.autoDispose<List<int>>((ref) {
+  return [];
+});
+
+// 相关作品
+class BlockingListNotifier extends BaseAutoDisposeAsyncNotifier<BlockingListResponse>
+    with ListAsyncNotifierMixin<BlockingListResponse> {
+  @override
+  FutureOr<BlockingListResponse> build() async {
+    handleCancel(ref);
+    return fetch();
+  }
+
+  /// 初始化数据
+  @override
+  Future<BlockingListResponse> fetch() async {
+    final result = await ApiBlocking(ref.read(httpRequesterProvider)).blockingList(cancelToken: cancelToken);
+    nextUrl = null;
+    return result;
+  }
+
+  @override
+  Future<bool> next() async {
+    return false;
+  }
+}

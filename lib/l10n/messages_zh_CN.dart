@@ -57,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'autoSwitchFollowingSystem': MessageLookupByLibrary.simpleMessage('跟随系统自动切换'),
     'autoSwitchFollowingSystemDesc': MessageLookupByLibrary.simpleMessage('开启后，将跟随系统设置自动切换浅色或深色'),
     'backgroundMusic': MessageLookupByLibrary.simpleMessage('绘图时听的音乐'),
+    'batchEdit': MessageLookupByLibrary.simpleMessage('批量编辑'),
     'birthday': MessageLookupByLibrary.simpleMessage('生日'),
     'blocking': MessageLookupByLibrary.simpleMessage('屏蔽'),
     'blockingSettings': MessageLookupByLibrary.simpleMessage('屏蔽设定'),

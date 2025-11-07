@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/config/enums.dart';
 
 mixin LazyloadLogic {
-  Future<bool> Function() get onLazyload;
+  Future<bool> Function()? get onLazyload;
 
   /// 懒加载状态
   final lazyloadStateProvider = StateProvider.autoDispose<LazyloadState>((ref) {
@@ -27,9 +27,10 @@ mixin LazyloadLogic {
 
   /// 加载失败的重试
   Future<void> handleRetry(WidgetRef ref) async {
+    if (onLazyload == null) return;
     ref.read(lazyloadStateProvider.notifier).update((state) => LazyloadState.loading);
     try {
-      bool hasMore = await onLazyload();
+      bool hasMore = await onLazyload!();
       ref.read(lazyloadStateProvider.notifier).update((state) => hasMore ? LazyloadState.idle : LazyloadState.noMore);
     } catch (e) {
       logger.e(e.toString());

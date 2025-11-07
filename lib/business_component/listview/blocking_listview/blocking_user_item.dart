@@ -12,8 +12,10 @@ class BlockingUserItem extends BasePage {
     required this.avatar,
     required this.name,
     required this.isBlocked,
+    this.checked,
     this.onTap,
     this.onTapButton,
+    this.onCheckboxChange,
   });
 
   final String avatar;
@@ -22,9 +24,13 @@ class BlockingUserItem extends BasePage {
 
   final bool isBlocked;
 
+  final bool? checked;
+
   final VoidCallback? onTap;
 
   final VoidCallback? onTapButton;
+
+  final void Function(bool? value)? onCheckboxChange;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,32 +73,49 @@ class BlockingUserItem extends BasePage {
                       child: Text(name),
                     ),
                   ),
-                  CupertinoButton(
-                    onPressed: onTapButton,
-                    minimumSize: Size(0, 0),
-                    pressedOpacity: 1,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.zero,
-                    color: isBlocked ? colorScheme(context).primary : colorScheme(context).surfaceBright,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        border: !isBlocked ? Border.all(color: colorScheme(context).primary, width: 1) : null,
-                        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                      ),
-                      child: SizedBox(
-                        height: 16,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 2.0),
-                          child: Text(
-                            isBlocked ? l10n(context).unblock : l10n(context).blocking,
-                            style: textTheme(context).labelLarge?.copyWith(
-                                height: 1,
-                                color: isBlocked ? colorScheme(context).onPrimary : colorScheme(context).primary),
+                  Stack(
+                    children: [
+                      Opacity(
+                        opacity: checked == null ? 1 : 0,
+                        child: CupertinoButton(
+                          onPressed: checked == null ? onTapButton : null,
+                          minimumSize: Size(0, 0),
+                          pressedOpacity: 1,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.zero,
+                          color: isBlocked ? colorScheme(context).primary : colorScheme(context).surfaceBright,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              border: !isBlocked ? Border.all(color: colorScheme(context).primary, width: 1) : null,
+                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                            ),
+                            child: SizedBox(
+                              height: 16,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 2.0),
+                                child: Text(
+                                  isBlocked ? l10n(context).unblock : l10n(context).blocking,
+                                  style: textTheme(context).labelLarge?.copyWith(
+                                      height: 1,
+                                      color: isBlocked ? colorScheme(context).onPrimary : colorScheme(context).primary),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      if (checked != null)
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: Checkbox(
+                            value: checked,
+                            onChanged: onCheckboxChange,
+                          ),
+                        )
+                    ],
                   ),
                 ],
               ),
