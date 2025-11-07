@@ -199,6 +199,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "batchEdit": "批量编辑",
+  "@batchEdit": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "complete": "完成",
   "@complete": {
     "description": "",

@@ -13,11 +13,17 @@ typedef CommentDeleteCallback = void Function(int commentId);
 class BlockingListView extends ConsumerWidget with LazyloadLogic {
   final List<MutedUser> list;
 
+  /// 编辑模式
+  final bool editMode;
+
+  /// 编辑模式下的哪些索引位置已勾选
+  final List<int>? checkedList;
+
   /// 懒加载异步事件
   /// - return bool of hasMore. 需要返回是否还有更多数据
   /// - 当[lazyloadState] = [LazyloadState.loading]/[LazyloadState.noMore] 时**不会执行**此函数
   @override
-  final Future<bool> Function() onLazyload;
+  final Future<bool> Function()? onLazyload;
 
   /// 赋值后本组件将不再负责懒加载状态，转变为静态组件
   final LazyloadState? lazyloadState;
@@ -28,17 +34,21 @@ class BlockingListView extends ConsumerWidget with LazyloadLogic {
 
   final void Function(int index)? onTapItem;
   final void Function(int index)? onTapButton;
+  final void Function(int index, bool? value)? onCheckboxChange;
 
   BlockingListView({
     super.key,
     required this.list,
-    required this.onLazyload,
+    this.editMode = false,
+    this.checkedList,
+    this.onLazyload,
     this.lazyloadState,
     this.scrollController,
     this.physics,
     this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
     this.onTapItem,
     this.onTapButton,
+    this.onCheckboxChange,
   });
 
   @override
@@ -47,15 +57,15 @@ class BlockingListView extends ConsumerWidget with LazyloadLogic {
       padding: padding,
       controller: scrollController,
       physics: physics,
-      itemCount: list.length + 1,
+      itemCount: list.length + (onLazyload != null ? 1 : 0),
       itemBuilder: ((context, index) => itemBuilder(ref, index)),
     );
   }
 
   Widget itemBuilder(WidgetRef ref, index) {
     // 如果滑动到了表尾加载更多的项
-    if (index == list.length) {
-      handleViewLazyloadWidget(ref, onLazyload);
+    if (onLazyload != null && index == list.length) {
+      handleViewLazyloadWidget(ref, onLazyload!);
       // 尾部懒加载组件
       return lazyloadWidget(ref);
     }
@@ -66,6 +76,8 @@ class BlockingListView extends ConsumerWidget with LazyloadLogic {
       isBlocked: !(item.user.isAcceptRequest ?? true),
       onTap: onTapItem != null ? () => onTapItem!(index) : null,
       onTapButton: onTapButton != null ? () => onTapButton!(index) : null,
+      onCheckboxChange: onCheckboxChange != null ? (bool? value) => onCheckboxChange!(index, value) : null,
+      checked: editMode ? (checkedList?.contains(index) ?? false) : null,
     );
   }
 
@@ -107,7 +119,9 @@ class SliverBlockingListView extends BlockingListView {
   SliverBlockingListView({
     super.key,
     required super.list,
-    required super.onLazyload,
+    super.editMode,
+    super.checkedList,
+    super.onLazyload,
     super.lazyloadState,
     super.scrollController,
     super.physics,
