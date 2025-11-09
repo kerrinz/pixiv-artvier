@@ -157,6 +157,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "selectAll": "全选",
+  "@selectAll": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "all": "全部",
   "@all": {
     "description": "",
@@ -664,6 +670,22 @@
     "description": "",
     "type": "text",
     "placeholders": {}
+  },
+  "unblockSelected": "取消屏蔽所选项",
+  "@unblockSelected": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "promptOfUnblock": "确定取消屏蔽 {name} 吗？",
+  "@promptOfUnblock": {
+    "description": "",
+    "type": "text",
+    "placeholders": {
+      "name": {
+        "example": "name"
+      }
+    }
   },
   "follow": "关注",
   "@follow": {

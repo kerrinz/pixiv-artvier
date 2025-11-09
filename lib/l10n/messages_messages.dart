@@ -23,11 +23,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(name) => "Are you sure to delete this account (${name}) ?";
 
-  static m1(name) => "Reply @${name}";
+  static m1(name) => "Are you sure you want to unblock ${name} ?";
 
-  static m2(count) => "${count} chapters in total";
+  static m2(name) => "Reply @${name}";
 
-  static m3(size) => "Updated to chapter ${size}";
+  static m3(count) => "${count} chapters in total";
+
+  static m4(size) => "Updated to chapter ${size}";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -170,6 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'promptCancel': MessageLookupByLibrary.simpleMessage('Cancel'),
     'promptConform': MessageLookupByLibrary.simpleMessage('Conform'),
     'promptDeleteComment': MessageLookupByLibrary.simpleMessage('Are you sure to delete this comment?'),
+    'promptOfUnblock': m1,
     'promptReset': MessageLookupByLibrary.simpleMessage('Reset'),
     'promptTitle': MessageLookupByLibrary.simpleMessage('Prompt'),
     'proxySettingsTitle': MessageLookupByLibrary.simpleMessage('HTTP Proxy settings'),
@@ -197,7 +200,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'removeMarkerFailed': MessageLookupByLibrary.simpleMessage('Remove marker failed!'),
     'removeMarkerSucceed': MessageLookupByLibrary.simpleMessage('Remove marker succeed!'),
     'reply': MessageLookupByLibrary.simpleMessage('Reply'),
-    'replyHint': m1,
+    'replyHint': m2,
     'requestFailed': MessageLookupByLibrary.simpleMessage('Poor network, please try reloading'),
     'retryOnFailure': MessageLookupByLibrary.simpleMessage('Click to try again'),
     'scanner': MessageLookupByLibrary.simpleMessage('Scanner'),
@@ -209,6 +212,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'searchOneWeek': MessageLookupByLibrary.simpleMessage('One week'),
     'searchOneYear': MessageLookupByLibrary.simpleMessage('One year'),
     'searchTwentyFourHour': MessageLookupByLibrary.simpleMessage('24 hours'),
+    'selectAll': MessageLookupByLibrary.simpleMessage('Select all'),
     'selectDate': MessageLookupByLibrary.simpleMessage('Select date'),
     'selectLanguage': MessageLookupByLibrary.simpleMessage('Select language'),
     'selectPeriod': MessageLookupByLibrary.simpleMessage('Select period'),
@@ -217,8 +221,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'sendSuccess': MessageLookupByLibrary.simpleMessage('Send success'),
     'series': MessageLookupByLibrary.simpleMessage('Series'),
     'seriesLatestChapter': MessageLookupByLibrary.simpleMessage('Latest'),
-    'seriesTotals': m2,
-    'seriesUpdateTo': m3,
+    'seriesTotals': m3,
+    'seriesUpdateTo': m4,
     'settings': MessageLookupByLibrary.simpleMessage('Settings'),
     'showAiResult': MessageLookupByLibrary.simpleMessage('Show AI'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('Social Media'),
@@ -244,6 +248,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'titleOrDescriptionMatch': MessageLookupByLibrary.simpleMessage('Title, Description'),
     'trendingTags': MessageLookupByLibrary.simpleMessage('Trending tags'),
     'unblock': MessageLookupByLibrary.simpleMessage('Unblock'),
+    'unblockSelected': MessageLookupByLibrary.simpleMessage('Unblock selected'),
     'users': MessageLookupByLibrary.simpleMessage('Users'),
     'viewMore': MessageLookupByLibrary.simpleMessage('View more'),
     'viewReplies': MessageLookupByLibrary.simpleMessage('View replies'),
