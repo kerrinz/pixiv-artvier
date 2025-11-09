@@ -51,15 +51,42 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
             data: (data) => ValueListenableBuilder<bool>(
               valueListenable: isEditMode,
               builder: (_, isEdit, __) {
-                return BlockingListView(
-                  list: data.mutedUsers,
-                  editMode: isEdit,
-                  checkedList: usersCheckedList,
-                  onTapItem: (index) => onTapItem(data.mutedUsers, index),
-                  onTapButton: (int index) {
-                    //
-                  },
-                  onCheckboxChange: (index, value) => onCheckboxChange(index, value),
+                return Column(
+                  children: [
+                    Expanded(
+                      child: BlockingListView(
+                        list: data.mutedUsers,
+                        editMode: isEdit,
+                        checkedList: usersCheckedList,
+                        onTapItem: (index) => onTapItem(data.mutedUsers, index),
+                        onTapButton: (int index) => handleUnblock('@${data.mutedUsers[index].user.name}'),
+                        onCheckboxChange: (index, value) => onCheckboxChange(index, value),
+                      ),
+                    ),
+                    if (isEdit)
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: colorScheme.surface,
+                        ),
+                        child: SafeArea(
+                          bottom: true,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                child: Text(l10n.selectAll, style: textTheme.labelLarge),
+                                onPressed: () {},
+                              ),
+                              TextButton(
+                                child: Text(l10n.unblockSelected),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                  ],
                 );
               },
             ),
@@ -91,6 +118,30 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
     Navigator.of(context).pushNamed(
       RouteNames.userDetail.name,
       arguments: PreloadUserLeastInfo(item.user.id.toString(), item.user.name, item.user.profileImageUrls.medium),
+    );
+  }
+
+  handleUnblock(String name) {
+    showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.promptTitle),
+          content: Text(l10n.promptOfUnblock(name)),
+          actions: <Widget>[
+            TextButton(
+              child: Text(l10n.promptCancel),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(l10n.promptConform),
+            ),
+          ],
+        );
+      },
     );
   }
 

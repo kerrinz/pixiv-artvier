@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-11-07T13:45:35.392349",
+  "@@last_modified": "2025-11-10T00:26:00.654142",
   "bootingPageUpdatingHint": "Local data is being updated. Please do not exit the software!",
   "@bootingPageUpdatingHint": {
     "description": "",
@@ -152,6 +152,12 @@
   },
   "promptReset": "Reset",
   "@promptReset": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectAll": "Select all",
+  "@selectAll": {
     "description": "",
     "type": "text",
     "placeholders": {}
@@ -675,6 +681,22 @@
     "description": "",
     "type": "text",
     "placeholders": {}
+  },
+  "unblockSelected": "Unblock selected",
+  "@unblockSelected": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "promptOfUnblock": "Are you sure you want to unblock {name} ?",
+  "@promptOfUnblock": {
+    "description": "",
+    "type": "text",
+    "placeholders": {
+      "name": {
+        "example": "name"
+      }
+    }
   },
   "follow": "Follow",
   "@follow": {
