@@ -163,6 +163,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "deselectAll": "全不选",
+  "@deselectAll": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "all": "全部",
   "@all": {
     "description": "",
@@ -684,6 +690,16 @@
     "placeholders": {
       "name": {
         "example": "name"
+      }
+    }
+  },
+  "promptOfUnblockList": "确定取消屏蔽这 {size} 个用户吗 ?",
+  "@promptOfUnblockList": {
+    "description": "",
+    "type": "text",
+    "placeholders": {
+      "size": {
+        "example": "1"
       }
     }
   },

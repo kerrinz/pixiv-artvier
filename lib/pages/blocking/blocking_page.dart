@@ -2,6 +2,7 @@ import 'package:artvier/business_component/listview/blocking_listview/blocking_u
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/loading/request_loading.dart';
 import 'package:artvier/model_response/blocking/blocking_list.dart';
+import 'package:artvier/model_response/user/common_user.dart';
 import 'package:artvier/model_response/user/preload_user_least_info.dart';
 import 'package:artvier/pages/blocking/provider.dart';
 import 'package:artvier/routes.dart';
@@ -58,8 +59,11 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
                         list: data.mutedUsers,
                         editMode: isEdit,
                         checkedList: usersCheckedList,
+                        onLazyload: () async {
+                          return false;
+                        },
                         onTapItem: (index) => onTapItem(data.mutedUsers, index),
-                        onTapButton: (int index) => handleUnblock('@${data.mutedUsers[index].user.name}'),
+                        onTapButton: (int index) => handleUnblock(data.mutedUsers[index].user),
                         onCheckboxChange: (index, value) => onCheckboxChange(index, value),
                       ),
                     ),
@@ -75,12 +79,30 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
-                                child: Text(l10n.selectAll, style: textTheme.labelLarge),
-                                onPressed: () {},
+                                child: Text(
+                                    usersCheckedList.length == data.mutedUsers.length
+                                        ? l10n.deselectAll
+                                        : l10n.selectAll,
+                                    style: textTheme.labelLarge),
+                                onPressed: () {
+                                  if (usersCheckedList.length == data.mutedUsers.length) {
+                                    // 全不选
+                                    ref.read(blockingUsersCheckedListProvider.notifier).update((_) => []);
+                                  } else {
+                                    // 全选
+                                    ref
+                                        .read(blockingUsersCheckedListProvider.notifier)
+                                        .update((_) => List.generate(data.mutedUsers.length, (i) => i));
+                                  }
+                                },
                               ),
+                              // 一键屏蔽
                               TextButton(
+                                onPressed: usersCheckedList.isNotEmpty
+                                    ? handleUnblockList(List.generate(
+                                        usersCheckedList.length, (i) => data.mutedUsers[usersCheckedList[i]].user))
+                                    : null,
                                 child: Text(l10n.unblockSelected),
-                                onPressed: () {},
                               ),
                             ],
                           ),
@@ -107,6 +129,8 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
 
   ValueNotifier<bool> isEditMode = ValueNotifier(false);
 
+  ValueNotifier<bool> dialogLoading = ValueNotifier(false);
+
   /// 编辑
   void handlePressedEdit() {
     HapticFeedback.lightImpact();
@@ -121,27 +145,86 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
     );
   }
 
-  handleUnblock(String name) {
+  handleUnblock(CommonUser user) {
+    dialogLoading.value = false;
     showDialog<bool>(
       context: context,
-      builder: (context) {
-        return AlertDialog(
+      builder: (context) => ValueListenableBuilder<bool>(
+        valueListenable: dialogLoading,
+        builder: (_, loading, __) => AlertDialog(
           title: Text(l10n.promptTitle),
-          content: Text(l10n.promptOfUnblock(name)),
+          content: Text(l10n.promptOfUnblock(user.name)),
           actions: <Widget>[
             TextButton(
               child: Text(l10n.promptCancel),
               onPressed: () => Navigator.of(context).pop(),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(l10n.promptConform),
+              onPressed: loading
+                  ? null
+                  : () {
+                      Navigator.of(context).pop();
+                      dialogLoading.value = true;
+                      ref.read(blockingListProvider.notifier).unblock(userIds: [user.id.toString()]).whenComplete(() {
+                        dialogLoading.value = false;
+                        ref.read(blockingListProvider.notifier).reload();
+                      });
+                    },
+              child: Wrap(
+                spacing: 8,
+                children: [
+                  if (!loading) Text(l10n.promptConform),
+                  if (loading)
+                    SizedBox(width: 16, height: 16, child: const CircularProgressIndicator(strokeWidth: 1.0)),
+                ],
+              ),
             ),
           ],
-        );
-      },
+        ),
+      ),
+    );
+  }
+
+  handleUnblockList(List<CommonUser> users) {
+    dialogLoading.value = false;
+    showDialog<bool>(
+      context: context,
+      builder: (context) => ValueListenableBuilder<bool>(
+        valueListenable: dialogLoading,
+        builder: (_, loading, __) => AlertDialog(
+          title: Text(l10n.promptTitle),
+          content: Text(l10n.promptOfUnblockList(users.length)),
+          actions: <Widget>[
+            TextButton(
+              child: Text(l10n.promptCancel),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              onPressed: loading
+                  ? null
+                  : () {
+                      Navigator.of(context).pop();
+                      dialogLoading.value = true;
+                      ref
+                          .read(blockingListProvider.notifier)
+                          .unblock(userIds: List.generate(users.length, (index) => users[index].id.toString()))
+                          .whenComplete(() {
+                        dialogLoading.value = false;
+                        ref.read(blockingListProvider.notifier).reload();
+                      });
+                    },
+              child: Wrap(
+                spacing: 8,
+                children: [
+                  if (!loading) Text(l10n.promptConform),
+                  if (loading)
+                    SizedBox(width: 16, height: 16, child: const CircularProgressIndicator(strokeWidth: 1.0)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
