@@ -22,7 +22,6 @@ final blockingTagsCheckedListProvider = StateProvider.autoDispose<List<int>>((re
   return [];
 });
 
-// 相关作品
 class BlockingListNotifier extends BaseAutoDisposeAsyncNotifier<BlockingListResponse>
     with ListAsyncNotifierMixin<BlockingListResponse> {
   @override
@@ -37,6 +36,10 @@ class BlockingListNotifier extends BaseAutoDisposeAsyncNotifier<BlockingListResp
     final result = await ApiBlocking(ref.read(httpRequesterProvider)).blockingList(cancelToken: cancelToken);
     nextUrl = null;
     return result;
+  }
+
+  Future<bool> unblock({List<String>? userIds, List<String>? tags}) {
+    return ApiBlocking(ref.read(httpRequesterProvider)).editBlocking(deleteUseIds: userIds, deleteTags: tags);
   }
 
   @override

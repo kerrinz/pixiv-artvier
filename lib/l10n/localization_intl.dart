@@ -57,6 +57,7 @@ class LocalizationIntl {
   String get promptConform => Intl.message('Conform', name: 'promptConform', desc: '');
   String get promptReset => Intl.message('Reset', name: 'promptReset', desc: '');
   String get selectAll => Intl.message('Select all', name: 'selectAll', desc: '');
+  String get deselectAll => Intl.message('Deselect all', name: 'deselectAll', desc: '');
   String get all => Intl.message('All', name: 'all', desc: '');
   String get public => Intl.message('Public', name: 'public', desc: '');
   String get private => Intl.message('Private', name: 'private', desc: 'non-public');
@@ -189,6 +190,8 @@ class LocalizationIntl {
   String get unblockSelected => Intl.message('Unblock selected', name: 'unblockSelected', desc: '');
   String promptOfUnblock(String name) => Intl.message("Are you sure you want to unblock $name ?",
       args: [name], name: 'promptOfUnblock', desc: '', examples: const {'name': 'name'});
+  String promptOfUnblockList(int size) => Intl.message("Are you sure you want to unblock $size users ?",
+      args: [size], name: 'promptOfUnblockList', desc: '', examples: const {'size': '1'});
 
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');

@@ -18,12 +18,14 @@ class ApiBlocking extends ApiBase {
   }
 
   /// 批量编辑屏蔽
-  Future<bool> editBlocking({List<String>? addUseIds, List<String>? deleteUseIds, CancelToken? cancelToken}) async {
+  Future<bool> editBlocking(
+      {List<String>? addUseIds, List<String>? deleteUseIds, List<String>? deleteTags, CancelToken? cancelToken}) async {
     Response res = await requester.post<String>(
       "/v1/mute/edit",
       data: {
         if (addUseIds != null && addUseIds.isNotEmpty) 'add_user_ids[]': addUseIds,
         if (deleteUseIds != null && deleteUseIds.isNotEmpty) 'delete_user_ids[]': deleteUseIds,
+        if (deleteTags != null && deleteTags.isNotEmpty) 'delete_tags[]': deleteTags,
       },
       options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
       cancelToken: cancelToken,

@@ -25,11 +25,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m1(name) => "确定取消屏蔽 ${name} 吗？";
 
-  static m2(name) => "回复 @${name}";
+  static m2(size) => "确定取消屏蔽这 ${size} 个用户吗 ?";
 
-  static m3(count) => "共 ${count} 话";
+  static m3(name) => "回复 @${name}";
 
-  static m4(size) => "更新至 ${size} 话";
+  static m4(count) => "共 ${count} 话";
+
+  static m5(size) => "更新至 ${size} 话";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -97,6 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'deleteAccountPromptMessage': m0,
     'deleteFailed': MessageLookupByLibrary.simpleMessage('删除失败'),
     'deleteSuccess': MessageLookupByLibrary.simpleMessage('删除成功'),
+    'deselectAll': MessageLookupByLibrary.simpleMessage('全不选'),
     'directConnectionHint': MessageLookupByLibrary.simpleMessage('该功能暂不支持网页登录'),
     'doubleBackToExitPrompt': MessageLookupByLibrary.simpleMessage('连续返回两次退出程序'),
     'downloadLink': MessageLookupByLibrary.simpleMessage('下载链接'),
@@ -171,6 +174,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'promptConform': MessageLookupByLibrary.simpleMessage('确定'),
     'promptDeleteComment': MessageLookupByLibrary.simpleMessage('确定删除该评论吗?'),
     'promptOfUnblock': m1,
+    'promptOfUnblockList': m2,
     'promptReset': MessageLookupByLibrary.simpleMessage('重置'),
     'promptTitle': MessageLookupByLibrary.simpleMessage('提示'),
     'proxySettingsTitle': MessageLookupByLibrary.simpleMessage('HTTP 网络代理'),
@@ -198,7 +202,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'removeMarkerFailed': MessageLookupByLibrary.simpleMessage('移除书签失败！'),
     'removeMarkerSucceed': MessageLookupByLibrary.simpleMessage('移除书签成功！'),
     'reply': MessageLookupByLibrary.simpleMessage('回复'),
-    'replyHint': m2,
+    'replyHint': m3,
     'requestFailed': MessageLookupByLibrary.simpleMessage('网络不给力，请尝试重新加载'),
     'retryOnFailure': MessageLookupByLibrary.simpleMessage('点击重试'),
     'scanner': MessageLookupByLibrary.simpleMessage('扫描仪'),
@@ -219,8 +223,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'sendSuccess': MessageLookupByLibrary.simpleMessage('发布成功'),
     'series': MessageLookupByLibrary.simpleMessage('系列'),
     'seriesLatestChapter': MessageLookupByLibrary.simpleMessage('最新话'),
-    'seriesTotals': m3,
-    'seriesUpdateTo': m4,
+    'seriesTotals': m4,
+    'seriesUpdateTo': m5,
     'settings': MessageLookupByLibrary.simpleMessage('设置'),
     'showAiResult': MessageLookupByLibrary.simpleMessage('显示 AI 作品'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('社交媒体'),

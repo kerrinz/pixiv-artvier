@@ -25,11 +25,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m1(name) => "Are you sure you want to unblock ${name} ?";
 
-  static m2(name) => "Reply @${name}";
+  static m2(size) => "Are you sure you want to unblock ${size} users ?";
 
-  static m3(count) => "${count} chapters in total";
+  static m3(name) => "Reply @${name}";
 
-  static m4(size) => "Updated to chapter ${size}";
+  static m4(count) => "${count} chapters in total";
+
+  static m5(size) => "Updated to chapter ${size}";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -97,6 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'deleteAccountPromptMessage': m0,
     'deleteFailed': MessageLookupByLibrary.simpleMessage('Delete failed'),
     'deleteSuccess': MessageLookupByLibrary.simpleMessage('Delete success'),
+    'deselectAll': MessageLookupByLibrary.simpleMessage('Deselect all'),
     'directConnectionHint': MessageLookupByLibrary.simpleMessage('This feature does not currently support login by web'),
     'doubleBackToExitPrompt': MessageLookupByLibrary.simpleMessage('Double back to confirm exit.'),
     'downloadLink': MessageLookupByLibrary.simpleMessage('Download link'),
@@ -173,6 +176,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'promptConform': MessageLookupByLibrary.simpleMessage('Conform'),
     'promptDeleteComment': MessageLookupByLibrary.simpleMessage('Are you sure to delete this comment?'),
     'promptOfUnblock': m1,
+    'promptOfUnblockList': m2,
     'promptReset': MessageLookupByLibrary.simpleMessage('Reset'),
     'promptTitle': MessageLookupByLibrary.simpleMessage('Prompt'),
     'proxySettingsTitle': MessageLookupByLibrary.simpleMessage('HTTP Proxy settings'),
@@ -200,7 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'removeMarkerFailed': MessageLookupByLibrary.simpleMessage('Remove marker failed!'),
     'removeMarkerSucceed': MessageLookupByLibrary.simpleMessage('Remove marker succeed!'),
     'reply': MessageLookupByLibrary.simpleMessage('Reply'),
-    'replyHint': m2,
+    'replyHint': m3,
     'requestFailed': MessageLookupByLibrary.simpleMessage('Poor network, please try reloading'),
     'retryOnFailure': MessageLookupByLibrary.simpleMessage('Click to try again'),
     'scanner': MessageLookupByLibrary.simpleMessage('Scanner'),
@@ -221,8 +225,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'sendSuccess': MessageLookupByLibrary.simpleMessage('Send success'),
     'series': MessageLookupByLibrary.simpleMessage('Series'),
     'seriesLatestChapter': MessageLookupByLibrary.simpleMessage('Latest'),
-    'seriesTotals': m3,
-    'seriesUpdateTo': m4,
+    'seriesTotals': m4,
+    'seriesUpdateTo': m5,
     'settings': MessageLookupByLibrary.simpleMessage('Settings'),
     'showAiResult': MessageLookupByLibrary.simpleMessage('Show AI'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('Social Media'),
