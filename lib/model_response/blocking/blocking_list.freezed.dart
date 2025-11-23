@@ -21,7 +21,7 @@ BlockingListResponse _$BlockingListResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BlockingListResponse {
   @JsonKey(name: "muted_tags")
-  List<dynamic> get mutedTags => throw _privateConstructorUsedError;
+  List<MutedTag> get mutedTags => throw _privateConstructorUsedError;
   @JsonKey(name: "muted_users")
   List<MutedUser> get mutedUsers => throw _privateConstructorUsedError;
   @JsonKey(name: "muted_count")
@@ -52,7 +52,7 @@ abstract class $BlockingListResponseCopyWith<$Res> {
       _$BlockingListResponseCopyWithImpl<$Res, BlockingListResponse>;
   @useResult
   $Res call(
-      {@JsonKey(name: "muted_tags") List<dynamic> mutedTags,
+      {@JsonKey(name: "muted_tags") List<MutedTag> mutedTags,
       @JsonKey(name: "muted_users") List<MutedUser> mutedUsers,
       @JsonKey(name: "muted_count") int mutedCount,
       @JsonKey(name: "muted_tags_count") int mutedTagsCount,
@@ -91,7 +91,7 @@ class _$BlockingListResponseCopyWithImpl<$Res,
       mutedTags: null == mutedTags
           ? _value.mutedTags
           : mutedTags // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<MutedTag>,
       mutedUsers: null == mutedUsers
           ? _value.mutedUsers
           : mutedUsers // ignore: cast_nullable_to_non_nullable
@@ -139,7 +139,7 @@ abstract class _$$BlockingListResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "muted_tags") List<dynamic> mutedTags,
+      {@JsonKey(name: "muted_tags") List<MutedTag> mutedTags,
       @JsonKey(name: "muted_users") List<MutedUser> mutedUsers,
       @JsonKey(name: "muted_count") int mutedCount,
       @JsonKey(name: "muted_tags_count") int mutedTagsCount,
@@ -176,7 +176,7 @@ class __$$BlockingListResponseImplCopyWithImpl<$Res>
       mutedTags: null == mutedTags
           ? _value._mutedTags
           : mutedTags // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<MutedTag>,
       mutedUsers: null == mutedUsers
           ? _value._mutedUsers
           : mutedUsers // ignore: cast_nullable_to_non_nullable
@@ -209,7 +209,7 @@ class __$$BlockingListResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BlockingListResponseImpl implements _BlockingListResponse {
   const _$BlockingListResponseImpl(
-      {@JsonKey(name: "muted_tags") required final List<dynamic> mutedTags,
+      {@JsonKey(name: "muted_tags") required final List<MutedTag> mutedTags,
       @JsonKey(name: "muted_users") required final List<MutedUser> mutedUsers,
       @JsonKey(name: "muted_count") required this.mutedCount,
       @JsonKey(name: "muted_tags_count") required this.mutedTagsCount,
@@ -222,10 +222,10 @@ class _$BlockingListResponseImpl implements _BlockingListResponse {
   factory _$BlockingListResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$BlockingListResponseImplFromJson(json);
 
-  final List<dynamic> _mutedTags;
+  final List<MutedTag> _mutedTags;
   @override
   @JsonKey(name: "muted_tags")
-  List<dynamic> get mutedTags {
+  List<MutedTag> get mutedTags {
     if (_mutedTags is EqualUnmodifiableListView) return _mutedTags;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_mutedTags);
@@ -313,7 +313,7 @@ class _$BlockingListResponseImpl implements _BlockingListResponse {
 
 abstract class _BlockingListResponse implements BlockingListResponse {
   const factory _BlockingListResponse(
-      {@JsonKey(name: "muted_tags") required final List<dynamic> mutedTags,
+      {@JsonKey(name: "muted_tags") required final List<MutedTag> mutedTags,
       @JsonKey(name: "muted_users") required final List<MutedUser> mutedUsers,
       @JsonKey(name: "muted_count") required final int mutedCount,
       @JsonKey(name: "muted_tags_count") required final int mutedTagsCount,
@@ -327,7 +327,7 @@ abstract class _BlockingListResponse implements BlockingListResponse {
 
   @override
   @JsonKey(name: "muted_tags")
-  List<dynamic> get mutedTags;
+  List<MutedTag> get mutedTags;
   @override
   @JsonKey(name: "muted_users")
   List<MutedUser> get mutedUsers;
@@ -720,6 +720,354 @@ abstract class _MutedUser implements MutedUser {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MutedUserImplCopyWith<_$MutedUserImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+MutedTag _$MutedTagFromJson(Map<String, dynamic> json) {
+  return _MutedTag.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MutedTag {
+  @JsonKey(name: "tag")
+  MutedTagInfo get tag => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_accept_request")
+  bool? get isAcceptRequest => throw _privateConstructorUsedError;
+
+  /// Serializes this MutedTag to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of MutedTag
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $MutedTagCopyWith<MutedTag> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MutedTagCopyWith<$Res> {
+  factory $MutedTagCopyWith(MutedTag value, $Res Function(MutedTag) then) =
+      _$MutedTagCopyWithImpl<$Res, MutedTag>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "tag") MutedTagInfo tag,
+      @JsonKey(name: "is_accept_request") bool? isAcceptRequest});
+
+  $MutedTagInfoCopyWith<$Res> get tag;
+}
+
+/// @nodoc
+class _$MutedTagCopyWithImpl<$Res, $Val extends MutedTag>
+    implements $MutedTagCopyWith<$Res> {
+  _$MutedTagCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of MutedTag
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tag = null,
+    Object? isAcceptRequest = freezed,
+  }) {
+    return _then(_value.copyWith(
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as MutedTagInfo,
+      isAcceptRequest: freezed == isAcceptRequest
+          ? _value.isAcceptRequest
+          : isAcceptRequest // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ) as $Val);
+  }
+
+  /// Create a copy of MutedTag
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $MutedTagInfoCopyWith<$Res> get tag {
+    return $MutedTagInfoCopyWith<$Res>(_value.tag, (value) {
+      return _then(_value.copyWith(tag: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$MutedTagImplCopyWith<$Res>
+    implements $MutedTagCopyWith<$Res> {
+  factory _$$MutedTagImplCopyWith(
+          _$MutedTagImpl value, $Res Function(_$MutedTagImpl) then) =
+      __$$MutedTagImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "tag") MutedTagInfo tag,
+      @JsonKey(name: "is_accept_request") bool? isAcceptRequest});
+
+  @override
+  $MutedTagInfoCopyWith<$Res> get tag;
+}
+
+/// @nodoc
+class __$$MutedTagImplCopyWithImpl<$Res>
+    extends _$MutedTagCopyWithImpl<$Res, _$MutedTagImpl>
+    implements _$$MutedTagImplCopyWith<$Res> {
+  __$$MutedTagImplCopyWithImpl(
+      _$MutedTagImpl _value, $Res Function(_$MutedTagImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of MutedTag
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tag = null,
+    Object? isAcceptRequest = freezed,
+  }) {
+    return _then(_$MutedTagImpl(
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as MutedTagInfo,
+      isAcceptRequest: freezed == isAcceptRequest
+          ? _value.isAcceptRequest
+          : isAcceptRequest // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MutedTagImpl implements _MutedTag {
+  const _$MutedTagImpl(
+      {@JsonKey(name: "tag") required this.tag,
+      @JsonKey(name: "is_accept_request") this.isAcceptRequest});
+
+  factory _$MutedTagImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MutedTagImplFromJson(json);
+
+  @override
+  @JsonKey(name: "tag")
+  final MutedTagInfo tag;
+  @override
+  @JsonKey(name: "is_accept_request")
+  final bool? isAcceptRequest;
+
+  @override
+  String toString() {
+    return 'MutedTag(tag: $tag, isAcceptRequest: $isAcceptRequest)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MutedTagImpl &&
+            (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.isAcceptRequest, isAcceptRequest) ||
+                other.isAcceptRequest == isAcceptRequest));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, tag, isAcceptRequest);
+
+  /// Create a copy of MutedTag
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MutedTagImplCopyWith<_$MutedTagImpl> get copyWith =>
+      __$$MutedTagImplCopyWithImpl<_$MutedTagImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MutedTagImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MutedTag implements MutedTag {
+  const factory _MutedTag(
+          {@JsonKey(name: "tag") required final MutedTagInfo tag,
+          @JsonKey(name: "is_accept_request") final bool? isAcceptRequest}) =
+      _$MutedTagImpl;
+
+  factory _MutedTag.fromJson(Map<String, dynamic> json) =
+      _$MutedTagImpl.fromJson;
+
+  @override
+  @JsonKey(name: "tag")
+  MutedTagInfo get tag;
+  @override
+  @JsonKey(name: "is_accept_request")
+  bool? get isAcceptRequest;
+
+  /// Create a copy of MutedTag
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MutedTagImplCopyWith<_$MutedTagImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+MutedTagInfo _$MutedTagInfoFromJson(Map<String, dynamic> json) {
+  return _MutedTagInfo.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MutedTagInfo {
+  @JsonKey(name: "name")
+  String get name => throw _privateConstructorUsedError;
+
+  /// Serializes this MutedTagInfo to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of MutedTagInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $MutedTagInfoCopyWith<MutedTagInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MutedTagInfoCopyWith<$Res> {
+  factory $MutedTagInfoCopyWith(
+          MutedTagInfo value, $Res Function(MutedTagInfo) then) =
+      _$MutedTagInfoCopyWithImpl<$Res, MutedTagInfo>;
+  @useResult
+  $Res call({@JsonKey(name: "name") String name});
+}
+
+/// @nodoc
+class _$MutedTagInfoCopyWithImpl<$Res, $Val extends MutedTagInfo>
+    implements $MutedTagInfoCopyWith<$Res> {
+  _$MutedTagInfoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of MutedTagInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MutedTagInfoImplCopyWith<$Res>
+    implements $MutedTagInfoCopyWith<$Res> {
+  factory _$$MutedTagInfoImplCopyWith(
+          _$MutedTagInfoImpl value, $Res Function(_$MutedTagInfoImpl) then) =
+      __$$MutedTagInfoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: "name") String name});
+}
+
+/// @nodoc
+class __$$MutedTagInfoImplCopyWithImpl<$Res>
+    extends _$MutedTagInfoCopyWithImpl<$Res, _$MutedTagInfoImpl>
+    implements _$$MutedTagInfoImplCopyWith<$Res> {
+  __$$MutedTagInfoImplCopyWithImpl(
+      _$MutedTagInfoImpl _value, $Res Function(_$MutedTagInfoImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of MutedTagInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+  }) {
+    return _then(_$MutedTagInfoImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MutedTagInfoImpl implements _MutedTagInfo {
+  const _$MutedTagInfoImpl({@JsonKey(name: "name") required this.name});
+
+  factory _$MutedTagInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MutedTagInfoImplFromJson(json);
+
+  @override
+  @JsonKey(name: "name")
+  final String name;
+
+  @override
+  String toString() {
+    return 'MutedTagInfo(name: $name)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MutedTagInfoImpl &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, name);
+
+  /// Create a copy of MutedTagInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MutedTagInfoImplCopyWith<_$MutedTagInfoImpl> get copyWith =>
+      __$$MutedTagInfoImplCopyWithImpl<_$MutedTagInfoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MutedTagInfoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MutedTagInfo implements MutedTagInfo {
+  const factory _MutedTagInfo(
+      {@JsonKey(name: "name") required final String name}) = _$MutedTagInfoImpl;
+
+  factory _MutedTagInfo.fromJson(Map<String, dynamic> json) =
+      _$MutedTagInfoImpl.fromJson;
+
+  @override
+  @JsonKey(name: "name")
+  String get name;
+
+  /// Create a copy of MutedTagInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MutedTagInfoImplCopyWith<_$MutedTagInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

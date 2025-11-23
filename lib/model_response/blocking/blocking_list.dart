@@ -16,7 +16,7 @@ String blockingListResponseToJson(BlockingListResponse data) => json.encode(data
 @freezed
 class BlockingListResponse with _$BlockingListResponse {
   const factory BlockingListResponse({
-    @JsonKey(name: "muted_tags") required List<dynamic> mutedTags,
+    @JsonKey(name: "muted_tags") required List<MutedTag> mutedTags,
     @JsonKey(name: "muted_users") required List<MutedUser> mutedUsers,
     @JsonKey(name: "muted_count") required int mutedCount,
     @JsonKey(name: "muted_tags_count") required int mutedTagsCount,
@@ -46,6 +46,25 @@ class MutedUser with _$MutedUser {
   }) = _MutedUser;
 
   factory MutedUser.fromJson(Map<String, dynamic> json) => _$MutedUserFromJson(json);
+}
+
+@freezed
+class MutedTag with _$MutedTag {
+  const factory MutedTag({
+    @JsonKey(name: "tag") required MutedTagInfo tag,
+    @JsonKey(name: "is_accept_request") bool? isAcceptRequest,
+  }) = _MutedTag;
+
+  factory MutedTag.fromJson(Map<String, dynamic> json) => _$MutedTagFromJson(json);
+}
+
+@freezed
+class MutedTagInfo with _$MutedTagInfo {
+  const factory MutedTagInfo({
+    @JsonKey(name: "name") required String name,
+  }) = _MutedTagInfo;
+
+  factory MutedTagInfo.fromJson(Map<String, dynamic> json) => _$MutedTagInfoFromJson(json);
 }
 
 @freezed

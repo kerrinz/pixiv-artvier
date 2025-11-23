@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types
 
+import 'package:artvier/model_response/common/common_tag.dart';
 import 'package:artvier/model_response/user/common_user.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:artvier/config/enums.dart';
@@ -32,7 +33,7 @@ class CommonIllust extends Object {
   CommonUser user;
 
   @JsonKey(name: 'tags')
-  List<Tags> tags;
+  List<CommonTag> tags;
 
   @JsonKey(name: 'tools')
   List<dynamic> tools;
