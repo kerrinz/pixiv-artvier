@@ -17,7 +17,7 @@ CommonIllust _$CommonIllustFromJson(Map<String, dynamic> json) => CommonIllust(
       (json['restrict'] as num).toInt(),
       CommonUser.fromJson(json['user'] as Map<String, dynamic>),
       (json['tags'] as List<dynamic>)
-          .map((e) => Tags.fromJson(e as Map<String, dynamic>))
+          .map((e) => CommonTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['tools'] as List<dynamic>,
       DateTime.parse(json['create_date'] as String),

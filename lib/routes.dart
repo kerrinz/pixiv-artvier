@@ -133,7 +133,7 @@ class Routes {
     RouteNames.accountManage.name: (context, arguments) => const AccountManagePage(),
     RouteNames.downloadManage.name: (context, arguments) => const DownloadManagePage(),
     RouteNames.allSettings.name: (context, arguments) => const AllSettingsPage(),
-    RouteNames.blockingSettings.name: (context, arguments) => const BlockingPage(),
+    RouteNames.blockingSettings.name: (context, arguments) => BlockingPage(arguments),
     RouteNames.downloadSettings.name: (context, arguments) => const SettingDownload(),
     RouteNames.languageSettings.name: (context, arguments) => const LanguageSettingPage(),
     RouteNames.developerSettings.name: (context, arguments) => const DeveloperPage(),

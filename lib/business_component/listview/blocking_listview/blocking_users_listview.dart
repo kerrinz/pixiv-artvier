@@ -1,3 +1,4 @@
+import 'package:artvier/business_component/listview/blocking_listview/blocking_tag_item.dart';
 import 'package:artvier/business_component/listview/blocking_listview/blocking_user_item.dart';
 import 'package:artvier/model_response/blocking/blocking_list.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,10 @@ typedef CommentDeleteCallback = void Function(int commentId);
 
 /// 屏蔽用户列表
 class BlockingListView extends ConsumerWidget with LazyloadLogic {
-  final List<MutedUser> list;
+  final List<MutedUser> userList;
+  final List<MutedTag> tagList;
+
+  List<dynamic> get list => [...userList, ...tagList];
 
   /// 编辑模式
   final bool editMode;
@@ -38,7 +42,8 @@ class BlockingListView extends ConsumerWidget with LazyloadLogic {
 
   BlockingListView({
     super.key,
-    required this.list,
+    required this.userList,
+    required this.tagList,
     this.editMode = false,
     this.checkedList,
     this.onLazyload,
@@ -70,15 +75,28 @@ class BlockingListView extends ConsumerWidget with LazyloadLogic {
       return lazyloadWidget(ref);
     }
     final item = list[index];
-    return BlockingUserItem(
-      avatar: item.user.profileImageUrls.medium,
-      name: item.user.name,
-      isBlocked: !(item.user.isAcceptRequest ?? true),
-      onTap: onTapItem != null ? () => onTapItem!(index) : null,
-      onTapButton: onTapButton != null ? () => onTapButton!(index) : null,
-      onCheckboxChange: onCheckboxChange != null ? (bool? value) => onCheckboxChange!(index, value) : null,
-      checked: editMode ? (checkedList?.contains(index) ?? false) : null,
-    );
+    if (item is MutedUser) {
+      return BlockingUserItem(
+        avatar: item.user.profileImageUrls.medium,
+        name: item.user.name,
+        isBlocked: !(item.user.isAcceptRequest ?? true),
+        onTap: onTapItem != null ? () => onTapItem!(index) : null,
+        onTapButton: onTapButton != null ? () => onTapButton!(index) : null,
+        onCheckboxChange: onCheckboxChange != null ? (bool? value) => onCheckboxChange!(index, value) : null,
+        checked: editMode ? (checkedList?.contains(index) ?? false) : null,
+      );
+    } else if (item is MutedTag) {
+      return BlockingTagItem(
+        name: item.tag.name,
+        isBlocked: !(item.isAcceptRequest ?? false),
+        onTap: onTapItem != null ? () => onTapItem!(index) : null,
+        onTapButton: onTapButton != null ? () => onTapButton!(index) : null,
+        onCheckboxChange: onCheckboxChange != null ? (bool? value) => onCheckboxChange!(index, value) : null,
+        checked: editMode ? (checkedList?.contains(index) ?? false) : null,
+      );
+    } else {
+      return SizedBox();
+    }
   }
 
   /// 懒加载组件的构建
@@ -118,7 +136,8 @@ class BlockingListView extends ConsumerWidget with LazyloadLogic {
 class SliverBlockingListView extends BlockingListView {
   SliverBlockingListView({
     super.key,
-    required super.list,
+    required super.userList,
+    required super.tagList,
     super.editMode,
     super.checkedList,
     super.onLazyload,

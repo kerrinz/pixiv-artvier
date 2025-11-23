@@ -11,7 +11,9 @@ part of 'blocking_list.dart';
 _$BlockingListResponseImpl _$$BlockingListResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$BlockingListResponseImpl(
-      mutedTags: json['muted_tags'] as List<dynamic>,
+      mutedTags: (json['muted_tags'] as List<dynamic>)
+          .map((e) => MutedTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
       mutedUsers: (json['muted_users'] as List<dynamic>)
           .map((e) => MutedUser.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -58,6 +60,28 @@ Map<String, dynamic> _$$MutedUserImplToJson(_$MutedUserImpl instance) =>
     <String, dynamic>{
       'user': instance.user,
       'is_premium_slot': instance.isPremiumSlot,
+    };
+
+_$MutedTagImpl _$$MutedTagImplFromJson(Map<String, dynamic> json) =>
+    _$MutedTagImpl(
+      tag: MutedTagInfo.fromJson(json['tag'] as Map<String, dynamic>),
+      isAcceptRequest: json['is_accept_request'] as bool?,
+    );
+
+Map<String, dynamic> _$$MutedTagImplToJson(_$MutedTagImpl instance) =>
+    <String, dynamic>{
+      'tag': instance.tag,
+      'is_accept_request': instance.isAcceptRequest,
+    };
+
+_$MutedTagInfoImpl _$$MutedTagInfoImplFromJson(Map<String, dynamic> json) =>
+    _$MutedTagInfoImpl(
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$$MutedTagInfoImplToJson(_$MutedTagInfoImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
     };
 
 _$ProfileImageUrlsImpl _$$ProfileImageUrlsImplFromJson(

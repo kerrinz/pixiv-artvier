@@ -12,13 +12,8 @@ final blockingListProvider = AutoDisposeAsyncNotifierProvider<BlockingListNotifi
   return BlockingListNotifier();
 });
 
-/// 屏蔽用户列表的已勾选项索引
-final blockingUsersCheckedListProvider = StateProvider.autoDispose<List<int>>((ref) {
-  return [];
-});
-
-/// 屏蔽标签列表的已勾选项索引
-final blockingTagsCheckedListProvider = StateProvider.autoDispose<List<int>>((ref) {
+/// 屏蔽列表的已勾选项索引
+final blockingCheckedListProvider = StateProvider.autoDispose<List<int>>((ref) {
   return [];
 });
 
