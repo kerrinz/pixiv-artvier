@@ -1,20 +1,14 @@
-import 'package:json_annotation/json_annotation.dart'; 
-      
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'common_tag.freezed.dart';
 part 'common_tag.g.dart';
-    
 
-@JsonSerializable()
-class CommonTag extends Object {
+@freezed
+class CommonTag with _$CommonTag {
+  const factory CommonTag({
+    @JsonKey(name: "name") required String name,
+    @JsonKey(name: "translated_name") String? translatedName,
+  }) = _CommonTag;
 
-  @JsonKey(name: 'name')
-  String name;
-
-  @JsonKey(name: 'translated_name')
-  String? translatedName;
-
-  CommonTag(this.name,this.translatedName,);
-
-  factory CommonTag.fromJson(Map<String, dynamic> srcJson) => _$CommonTagFromJson(srcJson);
-
-  Map<String, dynamic> toJson() => _$CommonTagToJson(this);
+  factory CommonTag.fromJson(Map<String, dynamic> json) => _$CommonTagFromJson(json);
 }

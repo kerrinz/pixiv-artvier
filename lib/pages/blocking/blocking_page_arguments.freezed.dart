@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$BlockingPageArguments {
-  List<CommonUser?> get users => throw _privateConstructorUsedError;
-  List<CommonTag?> get tags => throw _privateConstructorUsedError;
+  List<CommonUser> get users => throw _privateConstructorUsedError;
+  List<CommonTag> get tags => throw _privateConstructorUsedError;
 
   /// Create a copy of BlockingPageArguments
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +32,7 @@ abstract class $BlockingPageArgumentsCopyWith<$Res> {
           $Res Function(BlockingPageArguments) then) =
       _$BlockingPageArgumentsCopyWithImpl<$Res, BlockingPageArguments>;
   @useResult
-  $Res call({List<CommonUser?> users, List<CommonTag?> tags});
+  $Res call({List<CommonUser> users, List<CommonTag> tags});
 }
 
 /// @nodoc
@@ -58,11 +58,11 @@ class _$BlockingPageArgumentsCopyWithImpl<$Res,
       users: null == users
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
-              as List<CommonUser?>,
+              as List<CommonUser>,
       tags: null == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<CommonTag?>,
+              as List<CommonTag>,
     ) as $Val);
   }
 }
@@ -76,7 +76,7 @@ abstract class _$$BlockingPageArgumentsImplCopyWith<$Res>
       __$$BlockingPageArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<CommonUser?> users, List<CommonTag?> tags});
+  $Res call({List<CommonUser> users, List<CommonTag> tags});
 }
 
 /// @nodoc
@@ -100,11 +100,11 @@ class __$$BlockingPageArgumentsImplCopyWithImpl<$Res>
       users: null == users
           ? _value._users
           : users // ignore: cast_nullable_to_non_nullable
-              as List<CommonUser?>,
+              as List<CommonUser>,
       tags: null == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<CommonTag?>,
+              as List<CommonTag>,
     ));
   }
 }
@@ -113,22 +113,22 @@ class __$$BlockingPageArgumentsImplCopyWithImpl<$Res>
 
 class _$BlockingPageArgumentsImpl implements _BlockingPageArguments {
   const _$BlockingPageArgumentsImpl(
-      {required final List<CommonUser?> users,
-      required final List<CommonTag?> tags})
+      {required final List<CommonUser> users,
+      required final List<CommonTag> tags})
       : _users = users,
         _tags = tags;
 
-  final List<CommonUser?> _users;
+  final List<CommonUser> _users;
   @override
-  List<CommonUser?> get users {
+  List<CommonUser> get users {
     if (_users is EqualUnmodifiableListView) return _users;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_users);
   }
 
-  final List<CommonTag?> _tags;
+  final List<CommonTag> _tags;
   @override
-  List<CommonTag?> get tags {
+  List<CommonTag> get tags {
     if (_tags is EqualUnmodifiableListView) return _tags;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_tags);
@@ -166,13 +166,13 @@ class _$BlockingPageArgumentsImpl implements _BlockingPageArguments {
 
 abstract class _BlockingPageArguments implements BlockingPageArguments {
   const factory _BlockingPageArguments(
-      {required final List<CommonUser?> users,
-      required final List<CommonTag?> tags}) = _$BlockingPageArgumentsImpl;
+      {required final List<CommonUser> users,
+      required final List<CommonTag> tags}) = _$BlockingPageArgumentsImpl;
 
   @override
-  List<CommonUser?> get users;
+  List<CommonUser> get users;
   @override
-  List<CommonTag?> get tags;
+  List<CommonTag> get tags;
 
   /// Create a copy of BlockingPageArguments
   /// with the given fields replaced by the non-null parameter values.

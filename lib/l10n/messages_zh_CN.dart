@@ -23,15 +23,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(name) => "确定删除该账号 (${name}) 吗?";
 
-  static m1(name) => "确定取消屏蔽 ${name} 吗？";
+  static m1(name) => "确定屏蔽 ${name} 吗？";
 
-  static m2(size) => "确定取消屏蔽这 ${size} 个用户吗 ?";
+  static m2(name) => "确定取消屏蔽 ${name} 吗？";
 
-  static m3(name) => "回复 @${name}";
+  static m3(size) => "确定取消屏蔽这 ${size} 个用户吗 ?";
 
-  static m4(count) => "共 ${count} 话";
+  static m4(name) => "回复 @${name}";
 
-  static m5(size) => "更新至 ${size} 话";
+  static m5(count) => "共 ${count} 话";
+
+  static m6(size) => "更新至 ${size} 话";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -63,6 +65,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'backgroundMusic': MessageLookupByLibrary.simpleMessage('绘图时听的音乐'),
     'batchEdit': MessageLookupByLibrary.simpleMessage('批量编辑'),
     'birthday': MessageLookupByLibrary.simpleMessage('生日'),
+    'blocked': MessageLookupByLibrary.simpleMessage('已屏蔽'),
+    'blockedList': MessageLookupByLibrary.simpleMessage('已屏蔽列表'),
     'blocking': MessageLookupByLibrary.simpleMessage('屏蔽'),
     'blockingSettings': MessageLookupByLibrary.simpleMessage('屏蔽设定'),
     'bookmarkCountNotPremium': MessageLookupByLibrary.simpleMessage('收藏数(非会员)'),
@@ -70,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'bootingPageUpdatingHint': MessageLookupByLibrary.simpleMessage('正在更新本地数据中，请勿退出软件！'),
     'cancel': MessageLookupByLibrary.simpleMessage('取消'),
     'cancelFollow': MessageLookupByLibrary.simpleMessage('取消关注'),
+    'candidates': MessageLookupByLibrary.simpleMessage('候选项'),
     'catalog': MessageLookupByLibrary.simpleMessage('目录'),
     'chair': MessageLookupByLibrary.simpleMessage('椅子'),
     'changelog': MessageLookupByLibrary.simpleMessage('更新日志'),
@@ -173,8 +178,9 @@ class MessageLookup extends MessageLookupByLibrary {
     'promptCancel': MessageLookupByLibrary.simpleMessage('取消'),
     'promptConform': MessageLookupByLibrary.simpleMessage('确定'),
     'promptDeleteComment': MessageLookupByLibrary.simpleMessage('确定删除该评论吗?'),
-    'promptOfUnblock': m1,
-    'promptOfUnblockList': m2,
+    'promptOfBlocking': m1,
+    'promptOfUnblock': m2,
+    'promptOfUnblockList': m3,
     'promptReset': MessageLookupByLibrary.simpleMessage('重置'),
     'promptTitle': MessageLookupByLibrary.simpleMessage('提示'),
     'proxySettingsTitle': MessageLookupByLibrary.simpleMessage('HTTP 网络代理'),
@@ -202,7 +208,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'removeMarkerFailed': MessageLookupByLibrary.simpleMessage('移除书签失败！'),
     'removeMarkerSucceed': MessageLookupByLibrary.simpleMessage('移除书签成功！'),
     'reply': MessageLookupByLibrary.simpleMessage('回复'),
-    'replyHint': m3,
+    'replyHint': m4,
     'requestFailed': MessageLookupByLibrary.simpleMessage('网络不给力，请尝试重新加载'),
     'retryOnFailure': MessageLookupByLibrary.simpleMessage('点击重试'),
     'scanner': MessageLookupByLibrary.simpleMessage('扫描仪'),
@@ -223,8 +229,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'sendSuccess': MessageLookupByLibrary.simpleMessage('发布成功'),
     'series': MessageLookupByLibrary.simpleMessage('系列'),
     'seriesLatestChapter': MessageLookupByLibrary.simpleMessage('最新话'),
-    'seriesTotals': m4,
-    'seriesUpdateTo': m5,
+    'seriesTotals': m5,
+    'seriesUpdateTo': m6,
     'settings': MessageLookupByLibrary.simpleMessage('设置'),
     'showAiResult': MessageLookupByLibrary.simpleMessage('显示 AI 作品'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('社交媒体'),

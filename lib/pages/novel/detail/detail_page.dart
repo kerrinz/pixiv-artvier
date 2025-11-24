@@ -238,12 +238,10 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                   // 作者卡片
                   AuthorCardWidget(
                       user: CommonUser(
-                        webViewData.authorDetails.userId,
-                        webViewData.authorDetails.userName,
-                        null,
-                        Profile_image_urls(webViewData.authorDetails.profileImg.url),
-                        null,
-                        webViewData.authorDetails.isFollowed,
+                        id: webViewData.authorDetails.userId,
+                        name: webViewData.authorDetails.userName,
+                        profileImageUrls: Profile_image_urls(medium: webViewData.authorDetails.profileImg.url),
+                        isFollowed: webViewData.authorDetails.isFollowed,
                       ),
                       createDate: webViewData.novel.cdate),
                   _buildInformation(webViewData),

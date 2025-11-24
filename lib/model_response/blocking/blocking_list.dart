@@ -52,7 +52,7 @@ class MutedUser with _$MutedUser {
 class MutedTag with _$MutedTag {
   const factory MutedTag({
     @JsonKey(name: "tag") required MutedTagInfo tag,
-    @JsonKey(name: "is_accept_request") bool? isAcceptRequest,
+    @JsonKey(name: "is_access_blocking") bool? isAccessBlocking,
   }) = _MutedTag;
 
   factory MutedTag.fromJson(Map<String, dynamic> json) => _$MutedTagFromJson(json);

@@ -10,7 +10,7 @@ part 'blocking_page_arguments.freezed.dart';
 )
 class BlockingPageArguments with _$BlockingPageArguments {
   const factory BlockingPageArguments({
-    required List<CommonUser?> users,
-    required List<CommonTag?> tags,
+    required List<CommonUser> users,
+    required List<CommonTag> tags,
   }) = _BlockingPageArguments;
 }

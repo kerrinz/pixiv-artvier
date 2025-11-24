@@ -8,12 +8,14 @@ part of 'common_tag.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CommonTag _$CommonTagFromJson(Map<String, dynamic> json) => CommonTag(
-      json['name'] as String,
-      json['translated_name'] as String?,
+_$CommonTagImpl _$$CommonTagImplFromJson(Map<String, dynamic> json) =>
+    _$CommonTagImpl(
+      name: json['name'] as String,
+      translatedName: json['translated_name'] as String?,
     );
 
-Map<String, dynamic> _$CommonTagToJson(CommonTag instance) => <String, dynamic>{
+Map<String, dynamic> _$$CommonTagImplToJson(_$CommonTagImpl instance) =>
+    <String, dynamic>{
       'name': instance.name,
       'translated_name': instance.translatedName,
     };

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/blocking/blocking_list.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/base/base_api.dart';
@@ -14,17 +15,23 @@ class ApiBlocking extends ApiBase {
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
+    logger.d(res.data);
     return BlockingListResponse.fromJson(json.decode(res.data));
   }
 
   /// 批量编辑屏蔽
   Future<bool> editBlocking(
-      {List<String>? addUseIds, List<String>? deleteUseIds, List<String>? deleteTags, CancelToken? cancelToken}) async {
+      {List<String>? addUseIds,
+      List<String>? deleteUseIds,
+      List<String>? addTags,
+      List<String>? deleteTags,
+      CancelToken? cancelToken}) async {
     Response res = await requester.post<String>(
       "/v1/mute/edit",
       data: {
         if (addUseIds != null && addUseIds.isNotEmpty) 'add_user_ids[]': addUseIds,
         if (deleteUseIds != null && deleteUseIds.isNotEmpty) 'delete_user_ids[]': deleteUseIds,
+        if (addTags != null && addTags.isNotEmpty) 'add_tags[]': addTags,
         if (deleteTags != null && deleteTags.isNotEmpty) 'delete_tags[]': deleteTags,
       },
       options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),

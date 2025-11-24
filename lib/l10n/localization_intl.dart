@@ -188,6 +188,11 @@ class LocalizationIntl {
   String get blocking => Intl.message('Blocking', name: 'blocking', desc: '');
   String get unblock => Intl.message('Unblock', name: 'unblock', desc: '');
   String get unblockSelected => Intl.message('Unblock selected', name: 'unblockSelected', desc: '');
+  String get blocked => Intl.message('Blocked', name: 'blocked', desc: '');
+  String get blockedList => Intl.message('Blocked list', name: 'blockedList', desc: '');
+  String get candidates => Intl.message('Candidates', name: 'candidates', desc: 'Blocking candidates');
+  String promptOfBlocking(String name) => Intl.message("Are you sure you want to block $name ?",
+      args: [name], name: 'promptOfBlocking', desc: '', examples: const {'name': 'name'});
   String promptOfUnblock(String name) => Intl.message("Are you sure you want to unblock $name ?",
       args: [name], name: 'promptOfUnblock', desc: '', examples: const {'name': 'name'});
   String promptOfUnblockList(int size) => Intl.message("Are you sure you want to unblock $size users ?",

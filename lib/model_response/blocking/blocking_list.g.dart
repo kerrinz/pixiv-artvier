@@ -65,13 +65,13 @@ Map<String, dynamic> _$$MutedUserImplToJson(_$MutedUserImpl instance) =>
 _$MutedTagImpl _$$MutedTagImplFromJson(Map<String, dynamic> json) =>
     _$MutedTagImpl(
       tag: MutedTagInfo.fromJson(json['tag'] as Map<String, dynamic>),
-      isAcceptRequest: json['is_accept_request'] as bool?,
+      isAccessBlocking: json['is_access_blocking'] as bool?,
     );
 
 Map<String, dynamic> _$$MutedTagImplToJson(_$MutedTagImpl instance) =>
     <String, dynamic>{
       'tag': instance.tag,
-      'is_accept_request': instance.isAcceptRequest,
+      'is_access_blocking': instance.isAccessBlocking,
     };
 
 _$MutedTagInfoImpl _$$MutedTagInfoImplFromJson(Map<String, dynamic> json) =>
