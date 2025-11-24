@@ -368,6 +368,8 @@ abstract class $NovelSeriesDetailCopyWith<$Res> {
       @JsonKey(name: "display_text") String displayText,
       @JsonKey(name: "novel_ai_type") int novelAiType,
       @JsonKey(name: "watchlist_added") bool watchlistAdded});
+
+  $CommonUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -444,6 +446,16 @@ class _$NovelSeriesDetailCopyWithImpl<$Res, $Val extends NovelSeriesDetail>
               as bool,
     ) as $Val);
   }
+
+  /// Create a copy of NovelSeriesDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CommonUserCopyWith<$Res> get user {
+    return $CommonUserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -466,6 +478,9 @@ abstract class _$$NovelSeriesDetailImplCopyWith<$Res>
       @JsonKey(name: "display_text") String displayText,
       @JsonKey(name: "novel_ai_type") int novelAiType,
       @JsonKey(name: "watchlist_added") bool watchlistAdded});
+
+  @override
+  $CommonUserCopyWith<$Res> get user;
 }
 
 /// @nodoc

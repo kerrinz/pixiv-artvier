@@ -8,17 +8,20 @@ part of 'common_user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CommonUser _$CommonUserFromJson(Map<String, dynamic> json) => CommonUser(
-      (json['id'] as num).toInt(),
-      json['name'] as String,
-      json['account'] as String?,
-      Profile_image_urls.fromJson(
+_$CommonUserImpl _$$CommonUserImplFromJson(Map<String, dynamic> json) =>
+    _$CommonUserImpl(
+      id: (json['id'] as num).toInt(),
+      name: json['name'] as String,
+      account: json['account'] as String?,
+      profileImageUrls: Profile_image_urls.fromJson(
           json['profile_image_urls'] as Map<String, dynamic>),
-      json['comment'] as String?,
-      json['is_followed'] as bool?,
-    )..isAcceptRequest = json['is_accept_request'] as bool?;
+      comment: json['comment'] as String?,
+      isFollowed: json['is_followed'] as bool?,
+      isAcceptRequest: json['is_accept_request'] as bool?,
+      isAccessBlockingUser: json['is_access_blocking_user'] as bool?,
+    );
 
-Map<String, dynamic> _$CommonUserToJson(CommonUser instance) =>
+Map<String, dynamic> _$$CommonUserImplToJson(_$CommonUserImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -27,14 +30,17 @@ Map<String, dynamic> _$CommonUserToJson(CommonUser instance) =>
       'comment': instance.comment,
       'is_followed': instance.isFollowed,
       'is_accept_request': instance.isAcceptRequest,
+      'is_access_blocking_user': instance.isAccessBlockingUser,
     };
 
-Profile_image_urls _$Profile_image_urlsFromJson(Map<String, dynamic> json) =>
-    Profile_image_urls(
-      json['medium'] as String,
+_$Profile_image_urlsImpl _$$Profile_image_urlsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$Profile_image_urlsImpl(
+      medium: json['medium'] as String,
     );
 
-Map<String, dynamic> _$Profile_image_urlsToJson(Profile_image_urls instance) =>
+Map<String, dynamic> _$$Profile_image_urlsImplToJson(
+        _$Profile_image_urlsImpl instance) =>
     <String, dynamic>{
       'medium': instance.medium,
     };

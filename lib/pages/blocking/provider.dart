@@ -29,8 +29,15 @@ class BlockingListNotifier extends BaseAutoDisposeAsyncNotifier<BlockingListResp
   @override
   Future<BlockingListResponse> fetch() async {
     final result = await ApiBlocking(ref.read(httpRequesterProvider)).blockingList(cancelToken: cancelToken);
+    final mutedUsers =
+        result.mutedUsers.map((v) => v.copyWith(user: v.user.copyWith(isAccessBlockingUser: true))).toList();
+    final mutedTags = result.mutedTags.map((v) => v.copyWith(isAccessBlocking: true)).toList();
     nextUrl = null;
-    return result;
+    return result.copyWith(mutedUsers: mutedUsers, mutedTags: mutedTags);
+  }
+
+  Future<bool> blocking({List<String>? userIds, List<String>? tags}) {
+    return ApiBlocking(ref.read(httpRequesterProvider)).editBlocking(addUseIds: userIds, deleteTags: tags);
   }
 
   Future<bool> unblock({List<String>? userIds, List<String>? tags}) {

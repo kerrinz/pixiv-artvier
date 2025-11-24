@@ -23,15 +23,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(name) => "Are you sure to delete this account (${name}) ?";
 
-  static m1(name) => "Are you sure you want to unblock ${name} ?";
+  static m1(name) => "Are you sure you want to block ${name} ?";
 
-  static m2(size) => "Are you sure you want to unblock ${size} users ?";
+  static m2(name) => "Are you sure you want to unblock ${name} ?";
 
-  static m3(name) => "Reply @${name}";
+  static m3(size) => "Are you sure you want to unblock ${size} users ?";
 
-  static m4(count) => "${count} chapters in total";
+  static m4(name) => "Reply @${name}";
 
-  static m5(size) => "Updated to chapter ${size}";
+  static m5(count) => "${count} chapters in total";
+
+  static m6(size) => "Updated to chapter ${size}";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -63,6 +65,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'backgroundMusic': MessageLookupByLibrary.simpleMessage('Background music'),
     'batchEdit': MessageLookupByLibrary.simpleMessage('Batch edit'),
     'birthday': MessageLookupByLibrary.simpleMessage('Birthday'),
+    'blocked': MessageLookupByLibrary.simpleMessage('Blocked'),
+    'blockedList': MessageLookupByLibrary.simpleMessage('Blocked list'),
     'blocking': MessageLookupByLibrary.simpleMessage('Blocking'),
     'blockingSettings': MessageLookupByLibrary.simpleMessage('Blocking settings'),
     'bookmarkCountNotPremium': MessageLookupByLibrary.simpleMessage('Bookmark count (Not premium)'),
@@ -70,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'bootingPageUpdatingHint': MessageLookupByLibrary.simpleMessage('Local data is being updated. Please do not exit the software!'),
     'cancel': MessageLookupByLibrary.simpleMessage('Cancel'),
     'cancelFollow': MessageLookupByLibrary.simpleMessage('Cancel follow'),
+    'candidates': MessageLookupByLibrary.simpleMessage('Candidates'),
     'catalog': MessageLookupByLibrary.simpleMessage('Catalog'),
     'chair': MessageLookupByLibrary.simpleMessage('Chair'),
     'changelog': MessageLookupByLibrary.simpleMessage('Changelog'),
@@ -175,8 +180,9 @@ class MessageLookup extends MessageLookupByLibrary {
     'promptCancel': MessageLookupByLibrary.simpleMessage('Cancel'),
     'promptConform': MessageLookupByLibrary.simpleMessage('Conform'),
     'promptDeleteComment': MessageLookupByLibrary.simpleMessage('Are you sure to delete this comment?'),
-    'promptOfUnblock': m1,
-    'promptOfUnblockList': m2,
+    'promptOfBlocking': m1,
+    'promptOfUnblock': m2,
+    'promptOfUnblockList': m3,
     'promptReset': MessageLookupByLibrary.simpleMessage('Reset'),
     'promptTitle': MessageLookupByLibrary.simpleMessage('Prompt'),
     'proxySettingsTitle': MessageLookupByLibrary.simpleMessage('HTTP Proxy settings'),
@@ -204,7 +210,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'removeMarkerFailed': MessageLookupByLibrary.simpleMessage('Remove marker failed!'),
     'removeMarkerSucceed': MessageLookupByLibrary.simpleMessage('Remove marker succeed!'),
     'reply': MessageLookupByLibrary.simpleMessage('Reply'),
-    'replyHint': m3,
+    'replyHint': m4,
     'requestFailed': MessageLookupByLibrary.simpleMessage('Poor network, please try reloading'),
     'retryOnFailure': MessageLookupByLibrary.simpleMessage('Click to try again'),
     'scanner': MessageLookupByLibrary.simpleMessage('Scanner'),
@@ -225,8 +231,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'sendSuccess': MessageLookupByLibrary.simpleMessage('Send success'),
     'series': MessageLookupByLibrary.simpleMessage('Series'),
     'seriesLatestChapter': MessageLookupByLibrary.simpleMessage('Latest'),
-    'seriesTotals': m4,
-    'seriesUpdateTo': m5,
+    'seriesTotals': m5,
+    'seriesUpdateTo': m6,
     'settings': MessageLookupByLibrary.simpleMessage('Settings'),
     'showAiResult': MessageLookupByLibrary.simpleMessage('Show AI'),
     'socialMedia': MessageLookupByLibrary.simpleMessage('Social Media'),

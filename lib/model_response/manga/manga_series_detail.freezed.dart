@@ -342,6 +342,7 @@ abstract class $IllustSeriesDetailCopyWith<$Res> {
       @JsonKey(name: "watchlist_added") bool watchlistAdded});
 
   $ImageUrlsCopyWith<$Res> get coverImageUrls;
+  $CommonUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -423,6 +424,16 @@ class _$IllustSeriesDetailCopyWithImpl<$Res, $Val extends IllustSeriesDetail>
       return _then(_value.copyWith(coverImageUrls: value) as $Val);
     });
   }
+
+  /// Create a copy of IllustSeriesDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CommonUserCopyWith<$Res> get user {
+    return $CommonUserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -447,6 +458,8 @@ abstract class _$$IllustSeriesDetailImplCopyWith<$Res>
 
   @override
   $ImageUrlsCopyWith<$Res> get coverImageUrls;
+  @override
+  $CommonUserCopyWith<$Res> get user;
 }
 
 /// @nodoc

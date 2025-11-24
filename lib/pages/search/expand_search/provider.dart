@@ -82,9 +82,9 @@ class PredictiveSearchUsersNotivier extends BaseAutoDisposeAsyncNotifier<List<Co
         final valueItem = value[i];
         if (valueItem.user.id.toString() != next.userId) return;
         if (next.state == UserFollowState.followed) {
-          update((p0) => p0..[i].user.isFollowed = true);
+          update((p0) => p0..[i].user = p0[i].user.copyWith(isFollowed: true));
         } else if (next.state == UserFollowState.notFollow) {
-          update((p0) => p0..[i].user.isFollowed = false);
+          update((p0) => p0..[i].user = p0[i].user.copyWith(isFollowed: false));
         }
       }
     });

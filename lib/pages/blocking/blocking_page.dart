@@ -2,6 +2,7 @@ import 'package:artvier/business_component/listview/blocking_listview/blocking_u
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/loading/request_loading.dart';
 import 'package:artvier/model_response/blocking/blocking_list.dart';
+import 'package:artvier/model_response/user/common_user.dart';
 import 'package:artvier/model_response/user/preload_user_least_info.dart';
 import 'package:artvier/pages/blocking/blocking_page_arguments.dart';
 import 'package:artvier/pages/blocking/provider.dart';
@@ -26,83 +27,156 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: const AppbarLeadingButtton(),
-        titleSpacing: 0,
-        title: Text(l10n.blockingSettings),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: ValueListenableBuilder<bool>(
-              valueListenable: isEditMode,
-              builder: (_, isEdit, __) {
-                return BlurButton(
-                  onPressed: handlePressedEdit,
-                  background: Colors.transparent,
-                  child: isEdit ? Text(l10n.cancel) : Text(l10n.batchEdit),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+      appBar: AppBar(leading: const AppbarLeadingButtton(), titleSpacing: 0, title: Text(l10n.blockingSettings)),
       body: Consumer(
         builder: (context, ref, child) {
           final res = ref.watch(blockingListProvider);
           final blockingCheckedList = ref.watch(blockingCheckedListProvider);
-          /// TODO: 为传入的users和tags，提供屏蔽设定
+
           return res.when(
-            data: (data) => ValueListenableBuilder<bool>(
-              valueListenable: isEditMode,
-              builder: (_, isEdit, __) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: BlockingListView(
-                        userList: data.mutedUsers,
-                        tagList: data.mutedTags,
-                        editMode: isEdit,
-                        checkedList: blockingCheckedList,
-                        onLazyload: () async {
-                          return false;
-                        },
-                        onTapItem: (index) => onTapItem,
-                        onTapButton: handleUnblock,
-                        onCheckboxChange: (index, value) => onCheckboxChange(index, value),
+            data: (data) {
+              final mutedUsers = data.mutedUsers;
+              final mutedTags = data.mutedTags;
+              final argUsers = widget.arguments?.users
+                      .map((v) => mutedUsers.firstWhere((el) => el.user.id == v.id,
+                          orElse: () => MutedUser(user: v, isPremiumSlot: false)))
+                      .toList() ??
+                  [];
+              final argTags = widget.arguments?.tags
+                      .map((v) => data.mutedTags.firstWhere((el) => el.tag.name == v.name,
+                          orElse: () => MutedTag(tag: MutedTagInfo(name: v.name))))
+                      .toList() ??
+                  [];
+
+              return ValueListenableBuilder<bool>(
+                valueListenable: isEditMode,
+                builder: (_, isEdit, __) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: CustomScrollView(
+                          slivers: [
+                            if (argUsers.isNotEmpty || argTags.isNotEmpty)
+                              SliverPadding(
+                                padding: const EdgeInsets.only(left: 10.0, right: 10, top: 12, bottom: 4),
+                                sliver: SliverToBoxAdapter(
+                                  child: Text(l10n.candidates, style: textTheme.titleMedium),
+                                ),
+                              ),
+                            if (argUsers.isNotEmpty || argTags.isNotEmpty)
+                              SliverBlockingListView(
+                                userList: argUsers,
+                                tagList: argTags,
+                                // editMode: isEdit,
+                                // checkedList: blockingCheckedList,
+                                onLazyload: null,
+                                onTapItem: (index) => onTapItem(argUsers[index].user),
+                                onTapButton: (index) {
+                                  if (index < argUsers.length) {
+                                    final user = argUsers[index].user;
+                                    (user.isAccessBlockingUser ?? false)
+                                        ? handleUnblock(user: user)
+                                        : handleBlocking(user: user);
+                                  } else {
+                                    final metedTag = argTags[index - argUsers.length];
+                                    (metedTag.isAccessBlocking ?? false)
+                                        ? handleUnblock(tagName: metedTag.tag.name)
+                                        : handleBlocking(tagName: metedTag.tag.name);
+                                  }
+                                },
+                                // onCheckboxChange: (index, value) => onCheckboxChange(index, value),
+                              ),
+                            if (argUsers.isNotEmpty || argTags.isNotEmpty)
+                              SliverPadding(
+                                padding: const EdgeInsets.only(left: 10.0, right: 10, top: 4, bottom: 0),
+                                sliver: SliverToBoxAdapter(
+                                  child: Divider(color: colorScheme.outline.withAlpha(100)),
+                                ),
+                              ),
+                            SliverPadding(
+                              padding: const EdgeInsets.only(left: 10.0, right: 10, top: 12, bottom: 4),
+                              sliver: SliverToBoxAdapter(
+                                child: Row(
+                                  children: [
+                                    Expanded(child: Text(l10n.blocked, style: textTheme.titleMedium)),
+                                    ValueListenableBuilder<bool>(
+                                      valueListenable: isEditMode,
+                                      builder: (_, isEdit, __) {
+                                        return BlurButton(
+                                          onPressed: handlePressedEdit,
+                                          background: Colors.transparent,
+                                          child: isEdit ? Text(l10n.cancel) : Text(l10n.batchEdit),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SliverPadding(
+                              padding: const EdgeInsets.only(bottom: 56),
+                              sliver: SliverBlockingListView(
+                                userList: mutedUsers,
+                                tagList: mutedTags,
+                                editMode: isEdit,
+                                checkedList: blockingCheckedList,
+                                onLazyload: () async {
+                                  return false;
+                                },
+                                onTapItem: (index) =>
+                                    (index < mutedUsers.length) ? onTapItem(mutedUsers[index].user) : null,
+                                onTapButton: (index) {
+                                  if (index < mutedUsers.length) {
+                                    final user = mutedUsers[index].user;
+                                    (user.isAccessBlockingUser ?? false)
+                                        ? handleUnblock(user: user)
+                                        : handleBlocking(user: user);
+                                  } else {
+                                    final metedTag = mutedTags[index - argUsers.length];
+                                    (metedTag.isAccessBlocking ?? false)
+                                        ? handleUnblock(tagName: metedTag.tag.name)
+                                        : handleBlocking(tagName: metedTag.tag.name);
+                                  }
+                                },
+                                onCheckboxChange: (index, value) => onCheckboxChange(index, value),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    if (isEdit)
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        decoration: BoxDecoration(
-                          color: colorScheme.surface,
-                        ),
-                        child: SafeArea(
-                          bottom: true,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton(
-                                onPressed: handleSelectOrDeselectAll,
-                                child: Text(
-                                    blockingCheckedList.length == (data.mutedUsers.length + data.mutedTags.length)
-                                        ? l10n.deselectAll
-                                        : l10n.selectAll,
-                                    style: textTheme.labelLarge),
-                              ),
-                              // 一键屏蔽
-                              TextButton(
-                                onPressed: blockingCheckedList.isNotEmpty ? handleUnblockList : null,
-                                child: Text(l10n.unblockSelected),
-                              ),
-                            ],
+                      if (isEdit)
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          decoration: BoxDecoration(
+                            color: colorScheme.surface,
                           ),
-                        ),
-                      )
-                  ],
-                );
-              },
-            ),
+                          child: SafeArea(
+                            bottom: true,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                  onPressed: handleSelectOrDeselectAll,
+                                  child: Text(
+                                      blockingCheckedList.length == (mutedUsers.length + mutedTags.length)
+                                          ? l10n.deselectAll
+                                          : l10n.selectAll,
+                                      style: textTheme.labelLarge),
+                                ),
+                                // 一键屏蔽
+                                TextButton(
+                                  onPressed: blockingCheckedList.isNotEmpty ? handleUnblockList : null,
+                                  child: Text(l10n.unblockSelected),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                    ],
+                  );
+                },
+              );
+            },
             error: (error, stackTrace) => Center(
               child: RequestLoadingFailed(onRetry: () => ref.invalidate(blockingListProvider)),
             ),
@@ -142,31 +216,25 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
     }
   }
 
-  onTapItem(int index) {
-    final data = ref.read(blockingListProvider).valueOrNull;
-    if (data == null) return;
-    if (index < data.mutedUsers.length) {
-      final item = data.mutedUsers[index];
-      Navigator.of(context).pushNamed(
-        RouteNames.userDetail.name,
-        arguments: PreloadUserLeastInfo(item.user.id.toString(), item.user.name, item.user.profileImageUrls.medium),
-      );
-    }
+  onTapItem(CommonUser user) {
+    Navigator.of(context).pushNamed(
+      RouteNames.userDetail.name,
+      arguments: PreloadUserLeastInfo(user.id.toString(), user.name, user.profileImageUrls.medium),
+    );
   }
 
-  handleUnblock(int index) {
-    final data = ref.read(blockingListProvider).valueOrNull;
-    if (data == null) return;
-    if (index < data.mutedUsers.length) {
-      final user = data.mutedUsers[index].user;
-      dialogLoading.value = false;
+  handleBlocking({CommonUser? user, String? tagName}) {
+    assert(user == null || tagName == null);
+    dialogLoading.value = false;
+    if (user != null) {
       showDialog<bool>(
         context: context,
+        barrierDismissible: false,
         builder: (context) => ValueListenableBuilder<bool>(
           valueListenable: dialogLoading,
           builder: (_, loading, __) => AlertDialog(
             title: Text(l10n.promptTitle),
-            content: Text(l10n.promptOfUnblock(user.name)),
+            content: Text(l10n.promptOfBlocking(user.name)),
             actions: <Widget>[
               TextButton(
                 child: Text(l10n.promptCancel),
@@ -175,12 +243,15 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
               TextButton(
                 onPressed: loading
                     ? null
-                    : () {
-                        Navigator.of(context).pop();
+                    : () async {
                         dialogLoading.value = true;
-                        ref.read(blockingListProvider.notifier).unblock(userIds: [user.id.toString()]).whenComplete(() {
+                        ref.read(blockingListProvider.notifier).blocking(userIds: [user.id.toString()]).then((_) {
+                          return ref.read(blockingListProvider.notifier).reload();
+                        }).whenComplete(() {
                           dialogLoading.value = false;
-                          ref.read(blockingListProvider.notifier).reload();
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
                         });
                       },
                 child: Wrap(
@@ -196,15 +267,15 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
           ),
         ),
       );
-    } else {
-      final metedTag = data.mutedTags[index];
+    } else if (tagName != null) {
       showDialog<bool>(
         context: context,
+        barrierDismissible: false,
         builder: (context) => ValueListenableBuilder<bool>(
           valueListenable: dialogLoading,
           builder: (_, loading, __) => AlertDialog(
             title: Text(l10n.promptTitle),
-            content: Text(l10n.promptOfUnblock(metedTag.tag.name)),
+            content: Text(l10n.promptOfBlocking(tagName)),
             actions: <Widget>[
               TextButton(
                 child: Text(l10n.promptCancel),
@@ -214,13 +285,102 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
                 onPressed: loading
                     ? null
                     : () {
-                        Navigator.of(context).pop();
                         dialogLoading.value = true;
-                        ref
-                            .read(blockingListProvider.notifier)
-                            .unblock(tags: [metedTag.tag.name.toString()]).whenComplete(() {
+                        ref.read(blockingListProvider.notifier).blocking(tags: [tagName]).then((_) {
+                          return ref.read(blockingListProvider.notifier).reload();
+                        }).whenComplete(() {
                           dialogLoading.value = false;
-                          ref.read(blockingListProvider.notifier).reload();
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
+                        });
+                      },
+                child: Wrap(
+                  spacing: 8,
+                  children: [
+                    if (!loading) Text(l10n.promptConform),
+                    if (loading)
+                      SizedBox(width: 16, height: 16, child: const CircularProgressIndicator(strokeWidth: 1.0)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  handleUnblock({CommonUser? user, String? tagName}) {
+    assert(user == null || tagName == null);
+    dialogLoading.value = false;
+    if (user != null) {
+      showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => ValueListenableBuilder<bool>(
+          valueListenable: dialogLoading,
+          builder: (_, loading, __) => AlertDialog(
+            title: Text(l10n.promptTitle),
+            content: Text(l10n.promptOfUnblock(user.name)),
+            actions: <Widget>[
+              TextButton(
+                child: Text(l10n.promptCancel),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              TextButton(
+                onPressed: loading
+                    ? null
+                    : () {
+                        dialogLoading.value = true;
+                        ref.read(blockingListProvider.notifier).unblock(userIds: [user.id.toString()]).then((_) {
+                          return ref.read(blockingListProvider.notifier).reload();
+                        }).whenComplete(() {
+                          dialogLoading.value = false;
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
+                        });
+                      },
+                child: Wrap(
+                  spacing: 8,
+                  children: [
+                    if (!loading) Text(l10n.promptConform),
+                    if (loading)
+                      SizedBox(width: 16, height: 16, child: const CircularProgressIndicator(strokeWidth: 1.0)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else if (tagName != null) {
+      showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => ValueListenableBuilder<bool>(
+          valueListenable: dialogLoading,
+          builder: (_, loading, __) => AlertDialog(
+            title: Text(l10n.promptTitle),
+            content: Text(l10n.promptOfUnblock(tagName)),
+            actions: <Widget>[
+              TextButton(
+                child: Text(l10n.promptCancel),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              TextButton(
+                onPressed: loading
+                    ? null
+                    : () {
+                        dialogLoading.value = true;
+                        ref.read(blockingListProvider.notifier).unblock(tags: [tagName]).then((_) {
+                          return ref.read(blockingListProvider.notifier).reload();
+                        }).whenComplete(() {
+                          dialogLoading.value = false;
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
                         });
                       },
                 child: Wrap(
@@ -256,6 +416,7 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
     dialogLoading.value = false;
     showDialog<bool>(
       context: context,
+      barrierDismissible: false,
       builder: (context) => ValueListenableBuilder<bool>(
         valueListenable: dialogLoading,
         builder: (_, loading, __) => AlertDialog(
@@ -270,14 +431,17 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
               onPressed: loading
                   ? null
                   : () {
-                      Navigator.of(context).pop();
                       dialogLoading.value = true;
                       ref
                           .read(blockingListProvider.notifier)
                           .unblock(userIds: List.generate(users.length, (index) => users[index].user.id.toString()))
-                          .whenComplete(() {
+                          .then((_) {
+                        return ref.read(blockingListProvider.notifier).reload();
+                      }).whenComplete(() {
                         dialogLoading.value = false;
-                        ref.read(blockingListProvider.notifier).reload();
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
+                        }
                       });
                     },
               child: Wrap(

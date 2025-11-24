@@ -683,6 +683,34 @@
     "type": "text",
     "placeholders": {}
   },
+  "blocked": "已屏蔽",
+  "@blocked": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "blockedList": "已屏蔽列表",
+  "@blockedList": {
+    "description": "Blocking candidates",
+    "type": "text",
+    "placeholders": {}
+  },
+  "candidates": "候选项",
+  "@candidates": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "promptOfBlocking": "确定屏蔽 {name} 吗？",
+  "@promptOfBlocking": {
+    "description": "",
+    "type": "text",
+    "placeholders": {
+      "name": {
+        "example": "name"
+      }
+    }
+  },
   "promptOfUnblock": "确定取消屏蔽 {name} 吗？",
   "@promptOfUnblock": {
     "description": "",

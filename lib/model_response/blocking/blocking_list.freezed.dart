@@ -572,6 +572,8 @@ abstract class $MutedUserCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "user") CommonUser user,
       @JsonKey(name: "is_premium_slot") bool isPremiumSlot});
+
+  $CommonUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -603,6 +605,16 @@ class _$MutedUserCopyWithImpl<$Res, $Val extends MutedUser>
               as bool,
     ) as $Val);
   }
+
+  /// Create a copy of MutedUser
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CommonUserCopyWith<$Res> get user {
+    return $CommonUserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -616,6 +628,9 @@ abstract class _$$MutedUserImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: "user") CommonUser user,
       @JsonKey(name: "is_premium_slot") bool isPremiumSlot});
+
+  @override
+  $CommonUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -731,8 +746,8 @@ MutedTag _$MutedTagFromJson(Map<String, dynamic> json) {
 mixin _$MutedTag {
   @JsonKey(name: "tag")
   MutedTagInfo get tag => throw _privateConstructorUsedError;
-  @JsonKey(name: "is_accept_request")
-  bool? get isAcceptRequest => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_access_blocking")
+  bool? get isAccessBlocking => throw _privateConstructorUsedError;
 
   /// Serializes this MutedTag to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -751,7 +766,7 @@ abstract class $MutedTagCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "tag") MutedTagInfo tag,
-      @JsonKey(name: "is_accept_request") bool? isAcceptRequest});
+      @JsonKey(name: "is_access_blocking") bool? isAccessBlocking});
 
   $MutedTagInfoCopyWith<$Res> get tag;
 }
@@ -772,16 +787,16 @@ class _$MutedTagCopyWithImpl<$Res, $Val extends MutedTag>
   @override
   $Res call({
     Object? tag = null,
-    Object? isAcceptRequest = freezed,
+    Object? isAccessBlocking = freezed,
   }) {
     return _then(_value.copyWith(
       tag: null == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as MutedTagInfo,
-      isAcceptRequest: freezed == isAcceptRequest
-          ? _value.isAcceptRequest
-          : isAcceptRequest // ignore: cast_nullable_to_non_nullable
+      isAccessBlocking: freezed == isAccessBlocking
+          ? _value.isAccessBlocking
+          : isAccessBlocking // ignore: cast_nullable_to_non_nullable
               as bool?,
     ) as $Val);
   }
@@ -807,7 +822,7 @@ abstract class _$$MutedTagImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "tag") MutedTagInfo tag,
-      @JsonKey(name: "is_accept_request") bool? isAcceptRequest});
+      @JsonKey(name: "is_access_blocking") bool? isAccessBlocking});
 
   @override
   $MutedTagInfoCopyWith<$Res> get tag;
@@ -827,16 +842,16 @@ class __$$MutedTagImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? tag = null,
-    Object? isAcceptRequest = freezed,
+    Object? isAccessBlocking = freezed,
   }) {
     return _then(_$MutedTagImpl(
       tag: null == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as MutedTagInfo,
-      isAcceptRequest: freezed == isAcceptRequest
-          ? _value.isAcceptRequest
-          : isAcceptRequest // ignore: cast_nullable_to_non_nullable
+      isAccessBlocking: freezed == isAccessBlocking
+          ? _value.isAccessBlocking
+          : isAccessBlocking // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
   }
@@ -847,7 +862,7 @@ class __$$MutedTagImplCopyWithImpl<$Res>
 class _$MutedTagImpl implements _MutedTag {
   const _$MutedTagImpl(
       {@JsonKey(name: "tag") required this.tag,
-      @JsonKey(name: "is_accept_request") this.isAcceptRequest});
+      @JsonKey(name: "is_access_blocking") this.isAccessBlocking});
 
   factory _$MutedTagImpl.fromJson(Map<String, dynamic> json) =>
       _$$MutedTagImplFromJson(json);
@@ -856,12 +871,12 @@ class _$MutedTagImpl implements _MutedTag {
   @JsonKey(name: "tag")
   final MutedTagInfo tag;
   @override
-  @JsonKey(name: "is_accept_request")
-  final bool? isAcceptRequest;
+  @JsonKey(name: "is_access_blocking")
+  final bool? isAccessBlocking;
 
   @override
   String toString() {
-    return 'MutedTag(tag: $tag, isAcceptRequest: $isAcceptRequest)';
+    return 'MutedTag(tag: $tag, isAccessBlocking: $isAccessBlocking)';
   }
 
   @override
@@ -870,13 +885,13 @@ class _$MutedTagImpl implements _MutedTag {
         (other.runtimeType == runtimeType &&
             other is _$MutedTagImpl &&
             (identical(other.tag, tag) || other.tag == tag) &&
-            (identical(other.isAcceptRequest, isAcceptRequest) ||
-                other.isAcceptRequest == isAcceptRequest));
+            (identical(other.isAccessBlocking, isAccessBlocking) ||
+                other.isAccessBlocking == isAccessBlocking));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, tag, isAcceptRequest);
+  int get hashCode => Object.hash(runtimeType, tag, isAccessBlocking);
 
   /// Create a copy of MutedTag
   /// with the given fields replaced by the non-null parameter values.
@@ -897,7 +912,7 @@ class _$MutedTagImpl implements _MutedTag {
 abstract class _MutedTag implements MutedTag {
   const factory _MutedTag(
           {@JsonKey(name: "tag") required final MutedTagInfo tag,
-          @JsonKey(name: "is_accept_request") final bool? isAcceptRequest}) =
+          @JsonKey(name: "is_access_blocking") final bool? isAccessBlocking}) =
       _$MutedTagImpl;
 
   factory _MutedTag.fromJson(Map<String, dynamic> json) =
@@ -907,8 +922,8 @@ abstract class _MutedTag implements MutedTag {
   @JsonKey(name: "tag")
   MutedTagInfo get tag;
   @override
-  @JsonKey(name: "is_accept_request")
-  bool? get isAcceptRequest;
+  @JsonKey(name: "is_access_blocking")
+  bool? get isAccessBlocking;
 
   /// Create a copy of MutedTag
   /// with the given fields replaced by the non-null parameter values.

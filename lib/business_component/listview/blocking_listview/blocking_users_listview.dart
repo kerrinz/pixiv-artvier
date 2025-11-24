@@ -76,23 +76,29 @@ class BlockingListView extends ConsumerWidget with LazyloadLogic {
     }
     final item = list[index];
     if (item is MutedUser) {
-      return BlockingUserItem(
-        avatar: item.user.profileImageUrls.medium,
-        name: item.user.name,
-        isBlocked: !(item.user.isAcceptRequest ?? true),
-        onTap: onTapItem != null ? () => onTapItem!(index) : null,
-        onTapButton: onTapButton != null ? () => onTapButton!(index) : null,
-        onCheckboxChange: onCheckboxChange != null ? (bool? value) => onCheckboxChange!(index, value) : null,
-        checked: editMode ? (checkedList?.contains(index) ?? false) : null,
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: BlockingUserItem(
+          avatar: item.user.profileImageUrls.medium,
+          name: item.user.name,
+          isBlocked: item.user.isAccessBlockingUser ?? false,
+          onTap: onTapItem != null ? () => onTapItem!(index) : null,
+          onTapButton: onTapButton != null ? () => onTapButton!(index) : null,
+          onCheckboxChange: onCheckboxChange != null ? (bool? value) => onCheckboxChange!(index, value) : null,
+          checked: editMode ? (checkedList?.contains(index) ?? false) : null,
+        ),
       );
     } else if (item is MutedTag) {
-      return BlockingTagItem(
-        name: item.tag.name,
-        isBlocked: !(item.isAcceptRequest ?? false),
-        onTap: onTapItem != null ? () => onTapItem!(index) : null,
-        onTapButton: onTapButton != null ? () => onTapButton!(index) : null,
-        onCheckboxChange: onCheckboxChange != null ? (bool? value) => onCheckboxChange!(index, value) : null,
-        checked: editMode ? (checkedList?.contains(index) ?? false) : null,
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: BlockingTagItem(
+          name: item.tag.name,
+          isBlocked: item.isAccessBlocking ?? false,
+          onTap: onTapItem != null ? () => onTapItem!(index) : null,
+          onTapButton: onTapButton != null ? () => onTapButton!(index) : null,
+          onCheckboxChange: onCheckboxChange != null ? (bool? value) => onCheckboxChange!(index, value) : null,
+          checked: editMode ? (checkedList?.contains(index) ?? false) : null,
+        ),
       );
     } else {
       return SizedBox();
@@ -146,6 +152,8 @@ class SliverBlockingListView extends BlockingListView {
     super.physics,
     super.padding,
     super.onTapButton,
+    super.onTapItem,
+    super.onCheckboxChange,
   });
 
   @override
@@ -154,6 +162,7 @@ class SliverBlockingListView extends BlockingListView {
       padding: padding ?? EdgeInsets.zero,
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
+          childCount: list.length + (onLazyload != null ? 1 : 0),
           (context, index) => itemBuilder(ref, index),
         ),
       ),
