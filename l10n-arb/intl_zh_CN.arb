@@ -731,6 +731,30 @@
       }
     }
   },
+  "workWasMuted": "该作品已被屏蔽",
+  "@workWasMuted": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mutedPageHint": "可以隐藏特定创作者的作品、特定标签的作品。",
+  "@mutedPageHint": {
+    "description": "Description in Muted Page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mutedPagePremiumHint1": "一般会员只能设定1项屏蔽内容。",
+  "@mutedPagePremiumHint1": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mutedPagePremiumHint2": "成为pixiv高级会员可以设定2项以上屏蔽内容。（暂不支持该功能，请前往 pixiv 官网开通）",
+  "@mutedPagePremiumHint2": {
+    "description": "In muted page",
+    "type": "text",
+    "placeholders": {}
+  },
   "follow": "关注",
   "@follow": {
     "description": "",
