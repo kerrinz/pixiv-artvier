@@ -1,6 +1,6 @@
-import 'package:artvier/business_component/listview/blocking_listview/blocking_tag_item.dart';
-import 'package:artvier/business_component/listview/blocking_listview/blocking_user_item.dart';
-import 'package:artvier/model_response/blocking/blocking_list.dart';
+import 'package:artvier/business_component/listview/muted_listview/muted_tag_item.dart';
+import 'package:artvier/business_component/listview/muted_listview/muted_user_item.dart';
+import 'package:artvier/model_response/muted/muted_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/business_component/listview/lazyload_logic_mixin.dart';
@@ -11,7 +11,7 @@ typedef CommentReplyCallback = void Function(int commentId, String commentName);
 typedef CommentDeleteCallback = void Function(int commentId);
 
 /// 屏蔽用户列表
-class BlockingListView extends ConsumerWidget with LazyloadLogic {
+class MutedListView extends ConsumerWidget with LazyloadLogic {
   final List<MutedUser> userList;
   final List<MutedTag> tagList;
 
@@ -40,7 +40,7 @@ class BlockingListView extends ConsumerWidget with LazyloadLogic {
   final void Function(int index)? onTapButton;
   final void Function(int index, bool? value)? onCheckboxChange;
 
-  BlockingListView({
+  MutedListView({
     super.key,
     required this.userList,
     required this.tagList,
@@ -78,7 +78,7 @@ class BlockingListView extends ConsumerWidget with LazyloadLogic {
     if (item is MutedUser) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
-        child: BlockingUserItem(
+        child: MuteUserItem(
           avatar: item.user.profileImageUrls.medium,
           name: item.user.name,
           isBlocked: item.user.isAccessBlockingUser ?? false,
@@ -91,7 +91,7 @@ class BlockingListView extends ConsumerWidget with LazyloadLogic {
     } else if (item is MutedTag) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
-        child: BlockingTagItem(
+        child: MuteTagItem(
           name: item.tag.name,
           isBlocked: item.isAccessBlocking ?? false,
           onTap: onTapItem != null ? () => onTapItem!(index) : null,
@@ -138,9 +138,9 @@ class BlockingListView extends ConsumerWidget with LazyloadLogic {
       );
 }
 
-/// See [BlockingListView].
-class SliverBlockingListView extends BlockingListView {
-  SliverBlockingListView({
+/// See [MutedListView].
+class SliverMutedListView extends MutedListView {
+  SliverMutedListView({
     super.key,
     required super.userList,
     required super.tagList,

@@ -1,37 +1,37 @@
-import 'package:artvier/business_component/listview/blocking_listview/blocking_users_listview.dart';
+import 'package:artvier/business_component/listview/muted_listview/muted_users_listview.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/loading/request_loading.dart';
-import 'package:artvier/model_response/blocking/blocking_list.dart';
+import 'package:artvier/model_response/muted/muted_list.dart';
 import 'package:artvier/model_response/user/common_user.dart';
 import 'package:artvier/model_response/user/preload_user_least_info.dart';
-import 'package:artvier/pages/blocking/blocking_page_arguments.dart';
-import 'package:artvier/pages/blocking/provider.dart';
+import 'package:artvier/pages/muted/muted_page_arguments.dart';
+import 'package:artvier/pages/muted/provider.dart';
 import 'package:artvier/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/base/base_page.dart';
 
-class BlockingPage extends BaseStatefulPage {
-  final BlockingPageArguments? arguments;
+class MutedPage extends BaseStatefulPage {
+  final MutedPageArguments? arguments;
 
-  const BlockingPage(Object? arguments, {super.key}) : arguments = arguments as BlockingPageArguments?;
+  const MutedPage(Object? arguments, {super.key}) : arguments = arguments as MutedPageArguments?;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return _BlockingPageState();
+    return _MutedPageState();
   }
 }
 
-class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageLogic {
+class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: const AppbarLeadingButtton(), titleSpacing: 0, title: Text(l10n.blockingSettings)),
+      appBar: AppBar(leading: const AppbarLeadingButtton(), titleSpacing: 0, title: Text(l10n.mutedSettings)),
       body: Consumer(
         builder: (context, ref, child) {
-          final res = ref.watch(blockingListProvider);
-          final blockingCheckedList = ref.watch(blockingCheckedListProvider);
+          final res = ref.watch(mutedListProvider);
+          final muteCheckedList = ref.watch(muteCheckedListProvider);
 
           return res.when(
             data: (data) {
@@ -86,24 +86,24 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
                                 ),
                               ),
                             if (argUsers.isNotEmpty || argTags.isNotEmpty)
-                              SliverBlockingListView(
+                              SliverMutedListView(
                                 userList: argUsers,
                                 tagList: argTags,
                                 // editMode: isEdit,
-                                // checkedList: blockingCheckedList,
+                                // checkedList: muteCheckedList,
                                 onLazyload: null,
                                 onTapItem: (index) => onTapItem(argUsers[index].user),
                                 onTapButton: (index) {
                                   if (index < argUsers.length) {
                                     final user = argUsers[index].user;
                                     (user.isAccessBlockingUser ?? false)
-                                        ? handleUnblock(user: user)
-                                        : handleBlocking(user: user);
+                                        ? handleUnmute(user: user)
+                                        : handleMute(user: user);
                                   } else {
                                     final metedTag = argTags[index - argUsers.length];
                                     (metedTag.isAccessBlocking ?? false)
-                                        ? handleUnblock(tagName: metedTag.tag.name)
-                                        : handleBlocking(tagName: metedTag.tag.name);
+                                        ? handleUnmute(tagName: metedTag.tag.name)
+                                        : handleMute(tagName: metedTag.tag.name);
                                   }
                                 },
                                 // onCheckboxChange: (index, value) => onCheckboxChange(index, value),
@@ -120,7 +120,7 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
                               sliver: SliverToBoxAdapter(
                                 child: Row(
                                   children: [
-                                    Expanded(child: Text(l10n.blocked, style: textTheme.titleMedium)),
+                                    Expanded(child: Text(l10n.muted, style: textTheme.titleMedium)),
                                     ValueListenableBuilder<bool>(
                                       valueListenable: isEditMode,
                                       builder: (_, isEdit, __) {
@@ -137,11 +137,11 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
                             ),
                             SliverPadding(
                               padding: const EdgeInsets.only(bottom: 56),
-                              sliver: SliverBlockingListView(
+                              sliver: SliverMutedListView(
                                 userList: mutedUsers,
                                 tagList: mutedTags,
                                 editMode: isEdit,
-                                checkedList: blockingCheckedList,
+                                checkedList: muteCheckedList,
                                 onLazyload: () async {
                                   return false;
                                 },
@@ -151,13 +151,13 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
                                   if (index < mutedUsers.length) {
                                     final user = mutedUsers[index].user;
                                     (user.isAccessBlockingUser ?? false)
-                                        ? handleUnblock(user: user)
-                                        : handleBlocking(user: user);
+                                        ? handleUnmute(user: user)
+                                        : handleMute(user: user);
                                   } else {
                                     final metedTag = mutedTags[index - mutedUsers.length];
                                     (metedTag.isAccessBlocking ?? false)
-                                        ? handleUnblock(tagName: metedTag.tag.name)
-                                        : handleBlocking(tagName: metedTag.tag.name);
+                                        ? handleUnmute(tagName: metedTag.tag.name)
+                                        : handleMute(tagName: metedTag.tag.name);
                                   }
                                 },
                                 onCheckboxChange: (index, value) => onCheckboxChange(index, value),
@@ -180,15 +180,15 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
                                 TextButton(
                                   onPressed: handleSelectOrDeselectAll,
                                   child: Text(
-                                      blockingCheckedList.length == (mutedUsers.length + mutedTags.length)
+                                      muteCheckedList.length == (mutedUsers.length + mutedTags.length)
                                           ? l10n.deselectAll
                                           : l10n.selectAll,
                                       style: textTheme.labelLarge),
                                 ),
                                 // 一键屏蔽
                                 TextButton(
-                                  onPressed: blockingCheckedList.isNotEmpty ? handleUnblockList : null,
-                                  child: Text(l10n.unblockSelected),
+                                  onPressed: muteCheckedList.isNotEmpty ? handleUnmuteList : null,
+                                  child: Text(l10n.unmuteSelected),
                                 ),
                               ],
                             ),
@@ -200,7 +200,7 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
               );
             },
             error: (error, stackTrace) => Center(
-              child: RequestLoadingFailed(onRetry: () => ref.invalidate(blockingListProvider)),
+              child: RequestLoadingFailed(onRetry: () => ref.invalidate(mutedListProvider)),
             ),
             loading: (() => Center(child: RequestLoading())),
           );
@@ -210,7 +210,7 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
   }
 }
 
-mixin _BlockingPageLogic on BasePageState<BlockingPage> {
+mixin _MutedPageLogic on BasePageState<MutedPage> {
   @override
   WidgetRef get ref;
 
@@ -225,16 +225,16 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
   }
 
   handleSelectOrDeselectAll() {
-    final blockingCheckedList = ref.read(blockingCheckedListProvider);
-    final data = ref.read(blockingListProvider).valueOrNull;
+    final muteCheckedList = ref.read(muteCheckedListProvider);
+    final data = ref.read(mutedListProvider).valueOrNull;
     if (data == null) return;
     final fullLength = data.mutedUsers.length + data.mutedTags.length;
-    if (blockingCheckedList.length == fullLength) {
+    if (muteCheckedList.length == fullLength) {
       // 全不选
-      ref.read(blockingCheckedListProvider.notifier).update((_) => []);
+      ref.read(muteCheckedListProvider.notifier).update((_) => []);
     } else {
       // 全选
-      ref.read(blockingCheckedListProvider.notifier).update((_) => List.generate(fullLength, (i) => i));
+      ref.read(muteCheckedListProvider.notifier).update((_) => List.generate(fullLength, (i) => i));
     }
   }
 
@@ -245,7 +245,7 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
     );
   }
 
-  handleBlocking({CommonUser? user, String? tagName}) {
+  handleMute({CommonUser? user, String? tagName}) {
     assert(user == null || tagName == null);
     dialogLoading.value = false;
     if (user != null) {
@@ -256,7 +256,7 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
           valueListenable: dialogLoading,
           builder: (_, loading, __) => AlertDialog(
             title: Text(l10n.promptTitle),
-            content: Text(l10n.promptOfBlocking(user.name)),
+            content: Text(l10n.promptOfMute(user.name)),
             actions: <Widget>[
               TextButton(
                 child: Text(l10n.promptCancel),
@@ -267,8 +267,8 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
                     ? null
                     : () async {
                         dialogLoading.value = true;
-                        ref.read(blockingListProvider.notifier).blocking(userIds: [user.id.toString()]).then((_) {
-                          return ref.read(blockingListProvider.notifier).reload();
+                        ref.read(mutedListProvider.notifier).mute(userIds: [user.id.toString()]).then((_) {
+                          return ref.read(mutedListProvider.notifier).reload();
                         }).whenComplete(() {
                           dialogLoading.value = false;
                           if (context.mounted) {
@@ -297,7 +297,7 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
           valueListenable: dialogLoading,
           builder: (_, loading, __) => AlertDialog(
             title: Text(l10n.promptTitle),
-            content: Text(l10n.promptOfBlocking(tagName)),
+            content: Text(l10n.promptOfMute(tagName)),
             actions: <Widget>[
               TextButton(
                 child: Text(l10n.promptCancel),
@@ -308,8 +308,8 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
                     ? null
                     : () {
                         dialogLoading.value = true;
-                        ref.read(blockingListProvider.notifier).blocking(tags: [tagName]).then((_) {
-                          return ref.read(blockingListProvider.notifier).reload();
+                        ref.read(mutedListProvider.notifier).mute(tags: [tagName]).then((_) {
+                          return ref.read(mutedListProvider.notifier).reload();
                         }).whenComplete(() {
                           dialogLoading.value = false;
                           if (context.mounted) {
@@ -333,7 +333,7 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
     }
   }
 
-  handleUnblock({CommonUser? user, String? tagName}) {
+  handleUnmute({CommonUser? user, String? tagName}) {
     assert(user == null || tagName == null);
     dialogLoading.value = false;
     if (user != null) {
@@ -344,7 +344,7 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
           valueListenable: dialogLoading,
           builder: (_, loading, __) => AlertDialog(
             title: Text(l10n.promptTitle),
-            content: Text(l10n.promptOfUnblock(user.name)),
+            content: Text(l10n.promptOfUnmute(user.name)),
             actions: <Widget>[
               TextButton(
                 child: Text(l10n.promptCancel),
@@ -355,8 +355,8 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
                     ? null
                     : () {
                         dialogLoading.value = true;
-                        ref.read(blockingListProvider.notifier).unblock(userIds: [user.id.toString()]).then((_) {
-                          return ref.read(blockingListProvider.notifier).reload();
+                        ref.read(mutedListProvider.notifier).unmute(userIds: [user.id.toString()]).then((_) {
+                          return ref.read(mutedListProvider.notifier).reload();
                         }).whenComplete(() {
                           dialogLoading.value = false;
                           if (context.mounted) {
@@ -385,7 +385,7 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
           valueListenable: dialogLoading,
           builder: (_, loading, __) => AlertDialog(
             title: Text(l10n.promptTitle),
-            content: Text(l10n.promptOfUnblock(tagName)),
+            content: Text(l10n.promptOfUnmute(tagName)),
             actions: <Widget>[
               TextButton(
                 child: Text(l10n.promptCancel),
@@ -396,8 +396,8 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
                     ? null
                     : () {
                         dialogLoading.value = true;
-                        ref.read(blockingListProvider.notifier).unblock(tags: [tagName]).then((_) {
-                          return ref.read(blockingListProvider.notifier).reload();
+                        ref.read(mutedListProvider.notifier).unmute(tags: [tagName]).then((_) {
+                          return ref.read(mutedListProvider.notifier).reload();
                         }).whenComplete(() {
                           dialogLoading.value = false;
                           if (context.mounted) {
@@ -421,14 +421,14 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
     }
   }
 
-  handleUnblockList() {
-    final data = ref.read(blockingListProvider).valueOrNull;
+  handleUnmuteList() {
+    final data = ref.read(mutedListProvider).valueOrNull;
     if (data == null) return;
-    final blockingCheckedList = ref.read(blockingCheckedListProvider);
+    final muteCheckedList = ref.read(muteCheckedListProvider);
     List<MutedUser> users = [];
     List<MutedTag> tags = [];
-    for (var i = 0; i < blockingCheckedList.length; i++) {
-      final index = blockingCheckedList[i];
+    for (var i = 0; i < muteCheckedList.length; i++) {
+      final index = muteCheckedList[i];
       if (i < data.mutedUsers.length) {
         users.add(data.mutedUsers[index]);
       } else {
@@ -443,7 +443,7 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
         valueListenable: dialogLoading,
         builder: (_, loading, __) => AlertDialog(
           title: Text(l10n.promptTitle),
-          content: Text(l10n.promptOfUnblockList(users.length + tags.length)),
+          content: Text(l10n.promptOfUnmuteList(users.length + tags.length)),
           actions: <Widget>[
             TextButton(
               child: Text(l10n.promptCancel),
@@ -455,10 +455,10 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
                   : () {
                       dialogLoading.value = true;
                       ref
-                          .read(blockingListProvider.notifier)
-                          .unblock(userIds: List.generate(users.length, (index) => users[index].user.id.toString()))
+                          .read(mutedListProvider.notifier)
+                          .unmute(userIds: List.generate(users.length, (index) => users[index].user.id.toString()))
                           .then((_) {
-                        return ref.read(blockingListProvider.notifier).reload();
+                        return ref.read(mutedListProvider.notifier).reload();
                       }).whenComplete(() {
                         dialogLoading.value = false;
                         if (context.mounted) {
@@ -483,17 +483,17 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
 
   onCheckboxChange(int index, bool? value) {
     if (value == null) return;
-    final state = ref.read(blockingCheckedListProvider).toSet().toList();
+    final state = ref.read(muteCheckedListProvider).toSet().toList();
     if (value) {
       if (!state.contains(index)) {
         state.add(index);
       }
-      ref.read(blockingCheckedListProvider.notifier).update((old) => state);
+      ref.read(muteCheckedListProvider.notifier).update((old) => state);
     } else {
       if (state.contains(index)) {
         state.remove(index);
       }
-      ref.read(blockingCheckedListProvider.notifier).update((old) => state);
+      ref.read(muteCheckedListProvider.notifier).update((old) => state);
     }
   }
 }

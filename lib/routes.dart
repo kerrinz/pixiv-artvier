@@ -1,6 +1,6 @@
 import 'package:artvier/pages/artwork/pixivision/illust_pixivision_page.dart';
 import 'package:artvier/pages/artwork/series/manga_series_detail_page.dart';
-import 'package:artvier/pages/blocking/blocking_page.dart';
+import 'package:artvier/pages/muted/muted_page.dart';
 import 'package:artvier/pages/novel/detail/detail_page.dart';
 import 'package:artvier/pages/novel/series/novel_series_detail_page.dart';
 import 'package:artvier/pages/search/expand_search/expand_search_page.dart';
@@ -96,7 +96,7 @@ enum RouteNames {
 
   // 设置
   allSettings,
-  blockingSettings,
+  mutedSettings,
   downloadSettings,
   themeSettings,
   networkSettings,
@@ -133,7 +133,7 @@ class Routes {
     RouteNames.accountManage.name: (context, arguments) => const AccountManagePage(),
     RouteNames.downloadManage.name: (context, arguments) => const DownloadManagePage(),
     RouteNames.allSettings.name: (context, arguments) => const AllSettingsPage(),
-    RouteNames.blockingSettings.name: (context, arguments) => BlockingPage(arguments),
+    RouteNames.mutedSettings.name: (context, arguments) => MutedPage(arguments),
     RouteNames.downloadSettings.name: (context, arguments) => const SettingDownload(),
     RouteNames.languageSettings.name: (context, arguments) => const LanguageSettingPage(),
     RouteNames.developerSettings.name: (context, arguments) => const DeveloperPage(),

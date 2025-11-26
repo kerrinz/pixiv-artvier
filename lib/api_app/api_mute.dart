@@ -1,24 +1,24 @@
 import 'dart:convert';
 
-import 'package:artvier/model_response/blocking/blocking_list.dart';
+import 'package:artvier/model_response/muted/muted_list.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/base/base_api.dart';
 
-class ApiBlocking extends ApiBase {
-  ApiBlocking(super.requester);
+class ApiMute extends ApiBase {
+  ApiMute(super.requester);
 
   /// 获取屏蔽列表
-  Future<BlockingListResponse> blockingList({CancelToken? cancelToken}) async {
+  Future<MutedListResponse> mutedList({CancelToken? cancelToken}) async {
     Response res = await requester.get<String>(
       "/v1/mute/list",
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
-    return BlockingListResponse.fromJson(json.decode(res.data));
+    return MutedListResponse.fromJson(json.decode(res.data));
   }
 
   /// 批量编辑屏蔽
-  Future<bool> editBlocking(
+  Future<bool> editMuted(
       {List<String>? addUseIds,
       List<String>? deleteUseIds,
       List<String>? addTags,

@@ -137,7 +137,7 @@ class LocalizationIntl {
   String get themeSettings => Intl.message('Theme settings', name: 'themeSettings', desc: 'A preference item');
   String get networkSettings =>
       Intl.message('Network settings', name: 'networkSettings', desc: 'A preference item of configure network');
-  String get blockingSettings => Intl.message('Blocking settings', name: 'blockingSettings', desc: '');
+  String get mutedSettings => Intl.message('Muted settings', name: 'mutedSettings', desc: '');
   String get otherSettings => Intl.message('Other settings', name: 'otherSettings', desc: 'A preference item');
   String get themeModePromptContent =>
       Intl.message('Manually switching theme mode will turn off the auto-follow system mode, are you sure to switch?',
@@ -185,26 +185,26 @@ class LocalizationIntl {
       args: [name], name: 'deleteAccountPromptMessage', desc: '', examples: const {'name': 'username'});
 
   // 屏蔽设定
-  String get blocking => Intl.message('Blocking', name: 'blocking', desc: '');
-  String get unblock => Intl.message('Unblock', name: 'unblock', desc: '');
-  String get unblockSelected => Intl.message('Unblock selected', name: 'unblockSelected', desc: '');
-  String get blocked => Intl.message('Blocked', name: 'blocked', desc: '');
-  String get blockedList => Intl.message('Blocked list', name: 'blockedList', desc: '');
-  String get candidates => Intl.message('Candidates', name: 'candidates', desc: 'Blocking candidates');
-  String promptOfBlocking(String name) => Intl.message("Are you sure you want to block $name ?",
-      args: [name], name: 'promptOfBlocking', desc: '', examples: const {'name': 'name'});
-  String promptOfUnblock(String name) => Intl.message("Are you sure you want to unblock $name ?",
-      args: [name], name: 'promptOfUnblock', desc: '', examples: const {'name': 'name'});
-  String promptOfUnblockList(int size) => Intl.message("Are you sure you want to unblock $size items ?",
-      args: [size], name: 'promptOfUnblockList', desc: '', examples: const {'size': '1'});
+  String get mute => Intl.message('Mute', name: 'mute', desc: '');
+  String get unmute => Intl.message('Unmute', name: 'unmute', desc: '');
+  String get unmuteSelected => Intl.message('Unmute selected', name: 'unmuteSelected', desc: '');
+  String get muted => Intl.message('Muted', name: 'muted', desc: '');
+  String get mutedList => Intl.message('Muted list', name: 'mutedList', desc: '');
+  String get candidates => Intl.message('Candidates', name: 'candidates', desc: 'Mute candidates');
+  String promptOfMute(String name) => Intl.message("Are you sure you want to mute $name ?",
+      args: [name], name: 'promptOfMute', desc: '', examples: const {'name': 'name'});
+  String promptOfUnmute(String name) => Intl.message("Are you sure you want to unmute $name ?",
+      args: [name], name: 'promptOfUnmute', desc: '', examples: const {'name': 'name'});
+  String promptOfUnmuteList(int size) => Intl.message("Are you sure you want to ummute $size items ?",
+      args: [size], name: 'promptOfUnmuteList', desc: '', examples: const {'size': '1'});
   String get workWasMuted => Intl.message('This work was muted.', name: 'workWasMuted', desc: '');
   String get mutedPageHint =>
       Intl.message('Works by specific creators or works tagged with specific tags can be hidden.',
           name: 'mutedPageHint', desc: 'Description in Muted Page');
   String get mutedPagePremiumHint1 =>
-      Intl.message('Regular members can only set one blocked content item.', name: 'mutedPagePremiumHint1', desc: '');
+      Intl.message('Regular members can only set one muted content item.', name: 'mutedPagePremiumHint1', desc: '');
   String get mutedPagePremiumHint2 => Intl.message(
-      'Becoming a pixiv premium member allows you to set two or more blocked content items. (This feature is not currently supported. Please go to the Pixiv website to enable it.)',
+      'Becoming a pixiv premium member allows you to set two or more muted content items. (This feature is not currently supported. Please go to the Pixiv website to enable it.)',
       name: 'mutedPagePremiumHint2',
       desc: 'In muted page');
 

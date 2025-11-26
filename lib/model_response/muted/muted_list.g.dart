@@ -2,15 +2,15 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of 'blocking_list.dart';
+part of 'muted_list.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$BlockingListResponseImpl _$$BlockingListResponseImplFromJson(
+_$MutedListResponseImpl _$$MutedListResponseImplFromJson(
         Map<String, dynamic> json) =>
-    _$BlockingListResponseImpl(
+    _$MutedListResponseImpl(
       mutedTags: (json['muted_tags'] as List<dynamic>)
           .map((e) => MutedTag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -24,8 +24,8 @@ _$BlockingListResponseImpl _$$BlockingListResponseImplFromJson(
       forText: ForText.fromJson(json['for_text'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$BlockingListResponseImplToJson(
-        _$BlockingListResponseImpl instance) =>
+Map<String, dynamic> _$$MutedListResponseImplToJson(
+        _$MutedListResponseImpl instance) =>
     <String, dynamic>{
       'muted_tags': instance.mutedTags,
       'muted_users': instance.mutedUsers,

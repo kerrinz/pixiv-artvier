@@ -9,7 +9,7 @@
 // typedef CommentDeleteCallback = void Function(int commentId);
 
 // /// 屏蔽列表
-// class BlockingListView extends ConsumerWidget with LazyloadLogic, BlockingListViewLogic {
+// class MutedListView extends ConsumerWidget with LazyloadLogic, MutedListViewLogic {
 //   /// 插画（或漫画）列表
 //   final List<Comments> commentList;
 
@@ -33,7 +33,7 @@
 
 //   @override
 //   late final WidgetRef ref;
-//   BlockingListView({
+//   MutedListView({
 //     super.key,
 //     required this.worksId,
 //     required this.commentList,
@@ -66,7 +66,7 @@
 //       return lazyloadWidget(ref);
 //     }
 //     var comment = commentList[index];
-//     return BlockingListViewItem(
+//     return MutedListViewItem(
 //       worksId: worksId,
 //       comment: comment,
 //       onReply: onReply != null ? () => onReply!(comment.id, comment.user.name) : null,
@@ -107,9 +107,9 @@
 //       );
 // }
 
-// /// See [BlockingListView].
-// class SliverBlockingListView extends BlockingListView {
-//   SliverBlockingListView({
+// /// See [MutedListView].
+// class SliverMutedListView extends MutedListView {
+//   SliverMutedListView({
 //     super.key,
 //     required super.worksId,
 //     required super.commentList,
@@ -134,7 +134,7 @@
 //   }
 // }
 
-// mixin BlockingListViewLogic {
+// mixin MutedListViewLogic {
 //   WidgetRef get ref;
 
 //   void handleTapItem( ) { 

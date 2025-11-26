@@ -2,7 +2,7 @@ import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/bottom_sheet/close_bar.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
-import 'package:artvier/pages/blocking/blocking_page_arguments.dart';
+import 'package:artvier/pages/muted/muted_page_arguments.dart';
 import 'package:artvier/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,10 +50,10 @@ class ArtworkDetailMenu extends BasePage {
                 ),
                 rowListItem(
                   context: context,
-                  text: l10n(context).blockingSettings,
+                  text: l10n(context).mutedSettings,
                   icon: const Icon(Icons.block),
-                  onTap: () => Navigator.of(context).pushNamed(RouteNames.blockingSettings.name,
-                      arguments: BlockingPageArguments(users: [detail.user], tags: detail.tags)),
+                  onTap: () => Navigator.of(context).pushNamed(RouteNames.mutedSettings.name,
+                      arguments: MutedPageArguments(users: [detail.user], tags: detail.tags)),
                 ),
               ],
             ),
