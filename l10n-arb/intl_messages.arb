@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-11-26T23:57:06.699",
+  "@@last_modified": "2025-11-27T00:14:38.895018",
   "bootingPageUpdatingHint": "Local data is being updated. Please do not exit the software!",
   "@bootingPageUpdatingHint": {
     "description": "",
@@ -480,8 +480,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "blockingSettings": "Blocking settings",
-  "@blockingSettings": {
+  "mutedSettings": "Muted settings",
+  "@mutedSettings": {
     "description": "",
     "type": "text",
     "placeholders": {}
@@ -676,44 +676,44 @@
       }
     }
   },
-  "blocking": "Blocking",
-  "@blocking": {
+  "mute": "Mute",
+  "@mute": {
     "description": "",
     "type": "text",
     "placeholders": {}
   },
-  "unblock": "Unblock",
-  "@unblock": {
+  "unmute": "Unmute",
+  "@unmute": {
     "description": "",
     "type": "text",
     "placeholders": {}
   },
-  "unblockSelected": "Unblock selected",
-  "@unblockSelected": {
+  "unmuteSelected": "Unmute selected",
+  "@unmuteSelected": {
     "description": "",
     "type": "text",
     "placeholders": {}
   },
-  "blocked": "Blocked",
-  "@blocked": {
+  "muted": "Muted",
+  "@muted": {
     "description": "",
     "type": "text",
     "placeholders": {}
   },
-  "blockedList": "Blocked list",
-  "@blockedList": {
+  "mutedList": "Muted list",
+  "@mutedList": {
     "description": "",
     "type": "text",
     "placeholders": {}
   },
   "candidates": "Candidates",
   "@candidates": {
-    "description": "Blocking candidates",
+    "description": "Mute candidates",
     "type": "text",
     "placeholders": {}
   },
-  "promptOfBlocking": "Are you sure you want to block {name} ?",
-  "@promptOfBlocking": {
+  "promptOfMute": "Are you sure you want to mute {name} ?",
+  "@promptOfMute": {
     "description": "",
     "type": "text",
     "placeholders": {
@@ -722,8 +722,8 @@
       }
     }
   },
-  "promptOfUnblock": "Are you sure you want to unblock {name} ?",
-  "@promptOfUnblock": {
+  "promptOfUnmute": "Are you sure you want to unmute {name} ?",
+  "@promptOfUnmute": {
     "description": "",
     "type": "text",
     "placeholders": {
@@ -732,8 +732,8 @@
       }
     }
   },
-  "promptOfUnblockList": "Are you sure you want to unblock {size} items ?",
-  "@promptOfUnblockList": {
+  "promptOfUnmuteList": "Are you sure you want to ummute {size} items ?",
+  "@promptOfUnmuteList": {
     "description": "",
     "type": "text",
     "placeholders": {
@@ -754,13 +754,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "mutedPagePremiumHint1": "Regular members can only set one blocked content item.",
+  "mutedPagePremiumHint1": "Regular members can only set one muted content item.",
   "@mutedPagePremiumHint1": {
     "description": "",
     "type": "text",
     "placeholders": {}
   },
-  "mutedPagePremiumHint2": "Becoming a pixiv premium member allows you to set two or more blocked content items. (This feature is not currently supported. Please go to the Pixiv website to enable it.)",
+  "mutedPagePremiumHint2": "Becoming a pixiv premium member allows you to set two or more muted content items. (This feature is not currently supported. Please go to the Pixiv website to enable it.)",
   "@mutedPagePremiumHint2": {
     "description": "In muted page",
     "type": "text",

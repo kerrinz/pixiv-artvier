@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'blocking_list.dart';
+part of 'muted_list.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-BlockingListResponse _$BlockingListResponseFromJson(Map<String, dynamic> json) {
-  return _BlockingListResponse.fromJson(json);
+MutedListResponse _$MutedListResponseFromJson(Map<String, dynamic> json) {
+  return _MutedListResponse.fromJson(json);
 }
 
 /// @nodoc
-mixin _$BlockingListResponse {
+mixin _$MutedListResponse {
   @JsonKey(name: "muted_tags")
   List<MutedTag> get mutedTags => throw _privateConstructorUsedError;
   @JsonKey(name: "muted_users")
@@ -35,21 +35,21 @@ mixin _$BlockingListResponse {
   @JsonKey(name: "for_text")
   ForText get forText => throw _privateConstructorUsedError;
 
-  /// Serializes this BlockingListResponse to a JSON map.
+  /// Serializes this MutedListResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of BlockingListResponse
+  /// Create a copy of MutedListResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $BlockingListResponseCopyWith<BlockingListResponse> get copyWith =>
+  $MutedListResponseCopyWith<MutedListResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $BlockingListResponseCopyWith<$Res> {
-  factory $BlockingListResponseCopyWith(BlockingListResponse value,
-          $Res Function(BlockingListResponse) then) =
-      _$BlockingListResponseCopyWithImpl<$Res, BlockingListResponse>;
+abstract class $MutedListResponseCopyWith<$Res> {
+  factory $MutedListResponseCopyWith(
+          MutedListResponse value, $Res Function(MutedListResponse) then) =
+      _$MutedListResponseCopyWithImpl<$Res, MutedListResponse>;
   @useResult
   $Res call(
       {@JsonKey(name: "muted_tags") List<MutedTag> mutedTags,
@@ -64,17 +64,16 @@ abstract class $BlockingListResponseCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BlockingListResponseCopyWithImpl<$Res,
-        $Val extends BlockingListResponse>
-    implements $BlockingListResponseCopyWith<$Res> {
-  _$BlockingListResponseCopyWithImpl(this._value, this._then);
+class _$MutedListResponseCopyWithImpl<$Res, $Val extends MutedListResponse>
+    implements $MutedListResponseCopyWith<$Res> {
+  _$MutedListResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of BlockingListResponse
+  /// Create a copy of MutedListResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -119,7 +118,7 @@ class _$BlockingListResponseCopyWithImpl<$Res,
     ) as $Val);
   }
 
-  /// Create a copy of BlockingListResponse
+  /// Create a copy of MutedListResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -131,11 +130,11 @@ class _$BlockingListResponseCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$BlockingListResponseImplCopyWith<$Res>
-    implements $BlockingListResponseCopyWith<$Res> {
-  factory _$$BlockingListResponseImplCopyWith(_$BlockingListResponseImpl value,
-          $Res Function(_$BlockingListResponseImpl) then) =
-      __$$BlockingListResponseImplCopyWithImpl<$Res>;
+abstract class _$$MutedListResponseImplCopyWith<$Res>
+    implements $MutedListResponseCopyWith<$Res> {
+  factory _$$MutedListResponseImplCopyWith(_$MutedListResponseImpl value,
+          $Res Function(_$MutedListResponseImpl) then) =
+      __$$MutedListResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -152,14 +151,14 @@ abstract class _$$BlockingListResponseImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$BlockingListResponseImplCopyWithImpl<$Res>
-    extends _$BlockingListResponseCopyWithImpl<$Res, _$BlockingListResponseImpl>
-    implements _$$BlockingListResponseImplCopyWith<$Res> {
-  __$$BlockingListResponseImplCopyWithImpl(_$BlockingListResponseImpl _value,
-      $Res Function(_$BlockingListResponseImpl) _then)
+class __$$MutedListResponseImplCopyWithImpl<$Res>
+    extends _$MutedListResponseCopyWithImpl<$Res, _$MutedListResponseImpl>
+    implements _$$MutedListResponseImplCopyWith<$Res> {
+  __$$MutedListResponseImplCopyWithImpl(_$MutedListResponseImpl _value,
+      $Res Function(_$MutedListResponseImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of BlockingListResponse
+  /// Create a copy of MutedListResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -172,7 +171,7 @@ class __$$BlockingListResponseImplCopyWithImpl<$Res>
     Object? muteLimitCount = null,
     Object? forText = null,
   }) {
-    return _then(_$BlockingListResponseImpl(
+    return _then(_$MutedListResponseImpl(
       mutedTags: null == mutedTags
           ? _value._mutedTags
           : mutedTags // ignore: cast_nullable_to_non_nullable
@@ -207,8 +206,8 @@ class __$$BlockingListResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$BlockingListResponseImpl implements _BlockingListResponse {
-  const _$BlockingListResponseImpl(
+class _$MutedListResponseImpl implements _MutedListResponse {
+  const _$MutedListResponseImpl(
       {@JsonKey(name: "muted_tags") required final List<MutedTag> mutedTags,
       @JsonKey(name: "muted_users") required final List<MutedUser> mutedUsers,
       @JsonKey(name: "muted_count") required this.mutedCount,
@@ -219,8 +218,8 @@ class _$BlockingListResponseImpl implements _BlockingListResponse {
       : _mutedTags = mutedTags,
         _mutedUsers = mutedUsers;
 
-  factory _$BlockingListResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BlockingListResponseImplFromJson(json);
+  factory _$MutedListResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MutedListResponseImplFromJson(json);
 
   final List<MutedTag> _mutedTags;
   @override
@@ -258,14 +257,14 @@ class _$BlockingListResponseImpl implements _BlockingListResponse {
 
   @override
   String toString() {
-    return 'BlockingListResponse(mutedTags: $mutedTags, mutedUsers: $mutedUsers, mutedCount: $mutedCount, mutedTagsCount: $mutedTagsCount, mutedUsersCount: $mutedUsersCount, muteLimitCount: $muteLimitCount, forText: $forText)';
+    return 'MutedListResponse(mutedTags: $mutedTags, mutedUsers: $mutedUsers, mutedCount: $mutedCount, mutedTagsCount: $mutedTagsCount, mutedUsersCount: $mutedUsersCount, muteLimitCount: $muteLimitCount, forText: $forText)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BlockingListResponseImpl &&
+            other is _$MutedListResponseImpl &&
             const DeepCollectionEquality()
                 .equals(other._mutedTags, _mutedTags) &&
             const DeepCollectionEquality()
@@ -293,26 +292,25 @@ class _$BlockingListResponseImpl implements _BlockingListResponse {
       muteLimitCount,
       forText);
 
-  /// Create a copy of BlockingListResponse
+  /// Create a copy of MutedListResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$BlockingListResponseImplCopyWith<_$BlockingListResponseImpl>
-      get copyWith =>
-          __$$BlockingListResponseImplCopyWithImpl<_$BlockingListResponseImpl>(
-              this, _$identity);
+  _$$MutedListResponseImplCopyWith<_$MutedListResponseImpl> get copyWith =>
+      __$$MutedListResponseImplCopyWithImpl<_$MutedListResponseImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$BlockingListResponseImplToJson(
+    return _$$MutedListResponseImplToJson(
       this,
     );
   }
 }
 
-abstract class _BlockingListResponse implements BlockingListResponse {
-  const factory _BlockingListResponse(
+abstract class _MutedListResponse implements MutedListResponse {
+  const factory _MutedListResponse(
       {@JsonKey(name: "muted_tags") required final List<MutedTag> mutedTags,
       @JsonKey(name: "muted_users") required final List<MutedUser> mutedUsers,
       @JsonKey(name: "muted_count") required final int mutedCount,
@@ -320,10 +318,10 @@ abstract class _BlockingListResponse implements BlockingListResponse {
       @JsonKey(name: "muted_users_count") required final int mutedUsersCount,
       @JsonKey(name: "mute_limit_count") required final int muteLimitCount,
       @JsonKey(name: "for_text")
-      required final ForText forText}) = _$BlockingListResponseImpl;
+      required final ForText forText}) = _$MutedListResponseImpl;
 
-  factory _BlockingListResponse.fromJson(Map<String, dynamic> json) =
-      _$BlockingListResponseImpl.fromJson;
+  factory _MutedListResponse.fromJson(Map<String, dynamic> json) =
+      _$MutedListResponseImpl.fromJson;
 
   @override
   @JsonKey(name: "muted_tags")
@@ -347,12 +345,12 @@ abstract class _BlockingListResponse implements BlockingListResponse {
   @JsonKey(name: "for_text")
   ForText get forText;
 
-  /// Create a copy of BlockingListResponse
+  /// Create a copy of MutedListResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BlockingListResponseImplCopyWith<_$BlockingListResponseImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$MutedListResponseImplCopyWith<_$MutedListResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 ForText _$ForTextFromJson(Map<String, dynamic> json) {

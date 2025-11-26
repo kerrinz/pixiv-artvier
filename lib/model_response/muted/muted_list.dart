@@ -1,21 +1,21 @@
 // To parse this JSON data, do
 //
-//     final blockingListResponse = blockingListResponseFromJson(jsonString);
+//     final mutedListResponse = mutedListResponseFromJson(jsonString);
 
 import 'package:artvier/model_response/user/common_user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
 
-part 'blocking_list.freezed.dart';
-part 'blocking_list.g.dart';
+part 'muted_list.freezed.dart';
+part 'muted_list.g.dart';
 
-BlockingListResponse blockingListResponseFromJson(String str) => BlockingListResponse.fromJson(json.decode(str));
+MutedListResponse mutedListResponseFromJson(String str) => MutedListResponse.fromJson(json.decode(str));
 
-String blockingListResponseToJson(BlockingListResponse data) => json.encode(data.toJson());
+String mutedListResponseToJson(MutedListResponse data) => json.encode(data.toJson());
 
 @freezed
-class BlockingListResponse with _$BlockingListResponse {
-  const factory BlockingListResponse({
+class MutedListResponse with _$MutedListResponse {
+  const factory MutedListResponse({
     @JsonKey(name: "muted_tags") required List<MutedTag> mutedTags,
     @JsonKey(name: "muted_users") required List<MutedUser> mutedUsers,
     @JsonKey(name: "muted_count") required int mutedCount,
@@ -23,9 +23,9 @@ class BlockingListResponse with _$BlockingListResponse {
     @JsonKey(name: "muted_users_count") required int mutedUsersCount,
     @JsonKey(name: "mute_limit_count") required int muteLimitCount,
     @JsonKey(name: "for_text") required ForText forText,
-  }) = _BlockingListResponse;
+  }) = _MutedListResponse;
 
-  factory BlockingListResponse.fromJson(Map<String, dynamic> json) => _$BlockingListResponseFromJson(json);
+  factory MutedListResponse.fromJson(Map<String, dynamic> json) => _$MutedListResponseFromJson(json);
 }
 
 @freezed

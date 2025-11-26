@@ -1,15 +1,11 @@
 import 'package:artvier/base/base_page.dart';
-import 'package:artvier/request/http_host_overrides.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:artvier/component/image/enhance_network_image.dart';
 
-class BlockingUserItem extends BasePage {
-  const BlockingUserItem({
+class MuteTagItem extends BasePage {
+  const MuteTagItem({
     super.key,
-    required this.avatar,
     required this.name,
     required this.isBlocked,
     this.checked,
@@ -17,8 +13,6 @@ class BlockingUserItem extends BasePage {
     this.onTapButton,
     this.onCheckboxChange,
   });
-
-  final String avatar;
 
   final String name;
 
@@ -49,24 +43,6 @@ class BlockingUserItem extends BasePage {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Row(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 1),
-                      borderRadius: const BorderRadius.all(Radius.circular(40)),
-                    ),
-                    child: ClipOval(
-                      child: EnhanceNetworkImage(
-                        image: ExtendedNetworkImageProvider(
-                          HttpHostOverrides().pxImgUrl(avatar),
-                          headers: HttpHostOverrides().pximgHeaders,
-                          cache: true,
-                        ),
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -95,7 +71,7 @@ class BlockingUserItem extends BasePage {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 2.0),
                                 child: Text(
-                                  isBlocked ? l10n(context).unblock : l10n(context).blocking,
+                                  isBlocked ? l10n(context).unmute : l10n(context).muted,
                                   style: textTheme(context).labelLarge?.copyWith(
                                       height: 1,
                                       color: isBlocked ? colorScheme(context).onPrimary : colorScheme(context).primary),

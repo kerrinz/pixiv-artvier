@@ -30,9 +30,9 @@ class MutedWorks extends StatelessWidget {
           ),
           TextButton(
               onPressed: () => Navigator.of(context).pushNamed(
-                    RouteNames.blockingSettings.name,
+                    RouteNames.mutedSettings.name,
                   ),
-              child: Text(LocalizationIntl.of(context).blockingSettings)),
+              child: Text(LocalizationIntl.of(context).mutedSettings)),
         ],
       ),
     );

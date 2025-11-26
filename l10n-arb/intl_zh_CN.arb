@@ -481,8 +481,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "blockingSettings": "屏蔽设定",
-  "@blockingSettings": {
+  "mutedSettings": "屏蔽设定",
+  "@mutedSettings": {
     "description": "",
     "type": "text",
     "placeholders": {}
@@ -665,33 +665,33 @@
       }
     }
   },
-  "blocking": "屏蔽",
-  "@blocking": {
+  "mute": "屏蔽",
+  "@mute": {
     "description": "",
     "type": "text",
     "placeholders": {}
   },
-  "unblock": "解开屏蔽",
-  "@unblock": {
+  "unmute": "解开屏蔽",
+  "@unmute": {
     "description": "",
     "type": "text",
     "placeholders": {}
   },
-  "unblockSelected": "解开屏蔽所选项",
-  "@unblockSelected": {
+  "unmuteSelected": "解开屏蔽所选项",
+  "@unmuteSelected": {
     "description": "",
     "type": "text",
     "placeholders": {}
   },
-  "blocked": "已屏蔽",
-  "@blocked": {
+  "muted": "已屏蔽",
+  "@muted": {
     "description": "",
     "type": "text",
     "placeholders": {}
   },
-  "blockedList": "已屏蔽列表",
-  "@blockedList": {
-    "description": "Blocking candidates",
+  "mutedList": "已屏蔽列表",
+  "@mutedList": {
+    "description": "Mute candidates",
     "type": "text",
     "placeholders": {}
   },
@@ -701,8 +701,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "promptOfBlocking": "确定屏蔽 {name} 吗？",
-  "@promptOfBlocking": {
+  "promptOfMute": "确定屏蔽 {name} 吗？",
+  "@promptOfMute": {
     "description": "",
     "type": "text",
     "placeholders": {
@@ -711,8 +711,8 @@
       }
     }
   },
-  "promptOfUnblock": "确定解开屏蔽 {name} 吗？",
-  "@promptOfUnblock": {
+  "promptOfUnmute": "确定解开屏蔽 {name} 吗？",
+  "@promptOfUnmute": {
     "description": "",
     "type": "text",
     "placeholders": {
@@ -721,8 +721,8 @@
       }
     }
   },
-  "promptOfUnblockList": "确定解开屏蔽这 {size} 个用户或标签吗 ?",
-  "@promptOfUnblockList": {
+  "promptOfUnmuteList": "确定解开屏蔽这 {size} 个用户或标签吗 ?",
+  "@promptOfUnmuteList": {
     "description": "",
     "type": "text",
     "placeholders": {

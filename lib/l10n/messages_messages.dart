@@ -23,11 +23,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(name) => "Are you sure to delete this account (${name}) ?";
 
-  static m1(name) => "Are you sure you want to block ${name} ?";
+  static m1(name) => "Are you sure you want to mute ${name} ?";
 
-  static m2(name) => "Are you sure you want to unblock ${name} ?";
+  static m2(name) => "Are you sure you want to unmute ${name} ?";
 
-  static m3(size) => "Are you sure you want to unblock ${size} items ?";
+  static m3(size) => "Are you sure you want to ummute ${size} items ?";
 
   static m4(name) => "Reply @${name}";
 
@@ -65,10 +65,6 @@ class MessageLookup extends MessageLookupByLibrary {
     'backgroundMusic': MessageLookupByLibrary.simpleMessage('Background music'),
     'batchEdit': MessageLookupByLibrary.simpleMessage('Batch edit'),
     'birthday': MessageLookupByLibrary.simpleMessage('Birthday'),
-    'blocked': MessageLookupByLibrary.simpleMessage('Blocked'),
-    'blockedList': MessageLookupByLibrary.simpleMessage('Blocked list'),
-    'blocking': MessageLookupByLibrary.simpleMessage('Blocking'),
-    'blockingSettings': MessageLookupByLibrary.simpleMessage('Blocking settings'),
     'bookmarkCountNotPremium': MessageLookupByLibrary.simpleMessage('Bookmark count (Not premium)'),
     'bookmarksCount': MessageLookupByLibrary.simpleMessage('Bookmark count'),
     'bootingPageUpdatingHint': MessageLookupByLibrary.simpleMessage('Local data is being updated. Please do not exit the software!'),
@@ -151,10 +147,14 @@ class MessageLookup extends MessageLookupByLibrary {
     'monitor': MessageLookupByLibrary.simpleMessage('Monitor'),
     'more': MessageLookupByLibrary.simpleMessage('More'),
     'mouse': MessageLookupByLibrary.simpleMessage('Mouse'),
+    'mute': MessageLookupByLibrary.simpleMessage('Mute'),
     'muteSettings': MessageLookupByLibrary.simpleMessage('Mute settings'),
+    'muted': MessageLookupByLibrary.simpleMessage('Muted'),
+    'mutedList': MessageLookupByLibrary.simpleMessage('Muted list'),
     'mutedPageHint': MessageLookupByLibrary.simpleMessage('Works by specific creators or works tagged with specific tags can be hidden.'),
-    'mutedPagePremiumHint1': MessageLookupByLibrary.simpleMessage('Regular members can only set one blocked content item.'),
-    'mutedPagePremiumHint2': MessageLookupByLibrary.simpleMessage('Becoming a pixiv premium member allows you to set two or more blocked content items. (This feature is not currently supported. Please go to the Pixiv website to enable it.)'),
+    'mutedPagePremiumHint1': MessageLookupByLibrary.simpleMessage('Regular members can only set one muted content item.'),
+    'mutedPagePremiumHint2': MessageLookupByLibrary.simpleMessage('Becoming a pixiv premium member allows you to set two or more muted content items. (This feature is not currently supported. Please go to the Pixiv website to enable it.)'),
+    'mutedSettings': MessageLookupByLibrary.simpleMessage('Muted settings'),
     'myCollections': MessageLookupByLibrary.simpleMessage('My collections'),
     'myWorks': MessageLookupByLibrary.simpleMessage('My works'),
     'navDiscover': MessageLookupByLibrary.simpleMessage('Discover'),
@@ -183,9 +183,9 @@ class MessageLookup extends MessageLookupByLibrary {
     'promptCancel': MessageLookupByLibrary.simpleMessage('Cancel'),
     'promptConform': MessageLookupByLibrary.simpleMessage('Conform'),
     'promptDeleteComment': MessageLookupByLibrary.simpleMessage('Are you sure to delete this comment?'),
-    'promptOfBlocking': m1,
-    'promptOfUnblock': m2,
-    'promptOfUnblockList': m3,
+    'promptOfMute': m1,
+    'promptOfUnmute': m2,
+    'promptOfUnmuteList': m3,
     'promptReset': MessageLookupByLibrary.simpleMessage('Reset'),
     'promptTitle': MessageLookupByLibrary.simpleMessage('Prompt'),
     'proxySettingsTitle': MessageLookupByLibrary.simpleMessage('HTTP Proxy settings'),
@@ -260,8 +260,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'themeSettings': MessageLookupByLibrary.simpleMessage('Theme settings'),
     'titleOrDescriptionMatch': MessageLookupByLibrary.simpleMessage('Title, Description'),
     'trendingTags': MessageLookupByLibrary.simpleMessage('Trending tags'),
-    'unblock': MessageLookupByLibrary.simpleMessage('Unblock'),
-    'unblockSelected': MessageLookupByLibrary.simpleMessage('Unblock selected'),
+    'unmute': MessageLookupByLibrary.simpleMessage('Unmute'),
+    'unmuteSelected': MessageLookupByLibrary.simpleMessage('Unmute selected'),
     'users': MessageLookupByLibrary.simpleMessage('Users'),
     'viewMore': MessageLookupByLibrary.simpleMessage('View more'),
     'viewReplies': MessageLookupByLibrary.simpleMessage('View replies'),
