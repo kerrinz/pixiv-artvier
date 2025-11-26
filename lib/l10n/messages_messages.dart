@@ -27,7 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m2(name) => "Are you sure you want to unblock ${name} ?";
 
-  static m3(size) => "Are you sure you want to unblock ${size} users ?";
+  static m3(size) => "Are you sure you want to unblock ${size} items ?";
 
   static m4(name) => "Reply @${name}";
 

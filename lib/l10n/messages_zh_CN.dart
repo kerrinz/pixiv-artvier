@@ -25,9 +25,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m1(name) => "确定屏蔽 ${name} 吗？";
 
-  static m2(name) => "确定取消屏蔽 ${name} 吗？";
+  static m2(name) => "确定解开屏蔽 ${name} 吗？";
 
-  static m3(size) => "确定取消屏蔽这 ${size} 个用户吗 ?";
+  static m3(size) => "确定解开屏蔽这 ${size} 个用户或标签吗 ?";
 
   static m4(name) => "回复 @${name}";
 
@@ -255,8 +255,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'themeSettings': MessageLookupByLibrary.simpleMessage('主题设置'),
     'titleOrDescriptionMatch': MessageLookupByLibrary.simpleMessage('标题 • 作品简介'),
     'trendingTags': MessageLookupByLibrary.simpleMessage('热门标签'),
-    'unblock': MessageLookupByLibrary.simpleMessage('取消屏蔽'),
-    'unblockSelected': MessageLookupByLibrary.simpleMessage('取消屏蔽所选项'),
+    'unblock': MessageLookupByLibrary.simpleMessage('解开屏蔽'),
+    'unblockSelected': MessageLookupByLibrary.simpleMessage('解开屏蔽所选项'),
     'users': MessageLookupByLibrary.simpleMessage('用户'),
     'viewMore': MessageLookupByLibrary.simpleMessage('查看更多'),
     'viewReplies': MessageLookupByLibrary.simpleMessage('查看回复'),

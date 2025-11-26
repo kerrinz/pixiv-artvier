@@ -37,7 +37,7 @@ class BlockingListNotifier extends BaseAutoDisposeAsyncNotifier<BlockingListResp
   }
 
   Future<bool> blocking({List<String>? userIds, List<String>? tags}) {
-    return ApiBlocking(ref.read(httpRequesterProvider)).editBlocking(addUseIds: userIds, deleteTags: tags);
+    return ApiBlocking(ref.read(httpRequesterProvider)).editBlocking(addUseIds: userIds, addTags: tags);
   }
 
   Future<bool> unblock({List<String>? userIds, List<String>? tags}) {

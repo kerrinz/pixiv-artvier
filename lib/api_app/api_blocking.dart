@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/blocking/blocking_list.dart';
 import 'package:dio/dio.dart';
 import 'package:artvier/base/base_api.dart';
@@ -15,7 +14,6 @@ class ApiBlocking extends ApiBase {
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
-    logger.d(res.data);
     return BlockingListResponse.fromJson(json.decode(res.data));
   }
 
