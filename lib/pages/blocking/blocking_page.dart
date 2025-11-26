@@ -132,7 +132,7 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
                                         ? handleUnblock(user: user)
                                         : handleBlocking(user: user);
                                   } else {
-                                    final metedTag = mutedTags[index - argUsers.length];
+                                    final metedTag = mutedTags[index - mutedUsers.length];
                                     (metedTag.isAccessBlocking ?? false)
                                         ? handleUnblock(tagName: metedTag.tag.name)
                                         : handleBlocking(tagName: metedTag.tag.name);
@@ -421,7 +421,7 @@ mixin _BlockingPageLogic on BasePageState<BlockingPage> {
         valueListenable: dialogLoading,
         builder: (_, loading, __) => AlertDialog(
           title: Text(l10n.promptTitle),
-          content: Text(l10n.promptOfUnblockList(users.length)),
+          content: Text(l10n.promptOfUnblockList(users.length + tags.length)),
           actions: <Widget>[
             TextButton(
               child: Text(l10n.promptCancel),

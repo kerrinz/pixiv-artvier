@@ -195,7 +195,7 @@ class LocalizationIntl {
       args: [name], name: 'promptOfBlocking', desc: '', examples: const {'name': 'name'});
   String promptOfUnblock(String name) => Intl.message("Are you sure you want to unblock $name ?",
       args: [name], name: 'promptOfUnblock', desc: '', examples: const {'name': 'name'});
-  String promptOfUnblockList(int size) => Intl.message("Are you sure you want to unblock $size users ?",
+  String promptOfUnblockList(int size) => Intl.message("Are you sure you want to unblock $size items ?",
       args: [size], name: 'promptOfUnblockList', desc: '', examples: const {'size': '1'});
 
   // 用户详情页

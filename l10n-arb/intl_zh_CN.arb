@@ -671,13 +671,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "unblock": "取消屏蔽",
+  "unblock": "解开屏蔽",
   "@unblock": {
     "description": "",
     "type": "text",
     "placeholders": {}
   },
-  "unblockSelected": "取消屏蔽所选项",
+  "unblockSelected": "解开屏蔽所选项",
   "@unblockSelected": {
     "description": "",
     "type": "text",
@@ -711,7 +711,7 @@
       }
     }
   },
-  "promptOfUnblock": "确定取消屏蔽 {name} 吗？",
+  "promptOfUnblock": "确定解开屏蔽 {name} 吗？",
   "@promptOfUnblock": {
     "description": "",
     "type": "text",
@@ -721,7 +721,7 @@
       }
     }
   },
-  "promptOfUnblockList": "确定取消屏蔽这 {size} 个用户吗 ?",
+  "promptOfUnblockList": "确定解开屏蔽这 {size} 个用户或标签吗 ?",
   "@promptOfUnblockList": {
     "description": "",
     "type": "text",
