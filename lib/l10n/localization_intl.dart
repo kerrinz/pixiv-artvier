@@ -197,6 +197,16 @@ class LocalizationIntl {
       args: [name], name: 'promptOfUnblock', desc: '', examples: const {'name': 'name'});
   String promptOfUnblockList(int size) => Intl.message("Are you sure you want to unblock $size items ?",
       args: [size], name: 'promptOfUnblockList', desc: '', examples: const {'size': '1'});
+  String get workWasMuted => Intl.message('This work was muted.', name: 'workWasMuted', desc: '');
+  String get mutedPageHint =>
+      Intl.message('Works by specific creators or works tagged with specific tags can be hidden.',
+          name: 'mutedPageHint', desc: 'Description in Muted Page');
+  String get mutedPagePremiumHint1 =>
+      Intl.message('Regular members can only set one blocked content item.', name: 'mutedPagePremiumHint1', desc: '');
+  String get mutedPagePremiumHint2 => Intl.message(
+      'Becoming a pixiv premium member allows you to set two or more blocked content items. (This feature is not currently supported. Please go to the Pixiv website to enable it.)',
+      name: 'mutedPagePremiumHint2',
+      desc: 'In muted page');
 
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');

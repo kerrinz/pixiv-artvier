@@ -2,6 +2,7 @@ import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/business_component/ugoira_image/ugoira_image.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
+import 'package:artvier/component/loading/muted_works.dart';
 import 'package:artvier/database/database.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
@@ -78,17 +79,33 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
   @override
   Widget build(BuildContext context) {
     if (widget.args.detail != null) {
+      // 已被屏蔽
+      if (widget.args.detail!.isMuted) return Scaffold(body: _buildMutedContent());
+      // 未屏蔽
       CommonIllust detail = widget.args.detail!;
       return Scaffold(body: _buildSuccessContent(detail));
     } else {
       return Scaffold(
         body: ref.watch(illustDetailProvider(artworkId)).when(
-              data: (data) => _buildSuccessContent(data!.illust),
+              data: (data) => data!.illust.isMuted ? _buildMutedContent() : _buildSuccessContent(data.illust),
               error: (obj, error) => _buildBeforeSuccessContent(true),
               loading: () => _buildBeforeSuccessContent(false),
             ),
       );
     }
+  }
+
+  /// 显示作品被屏蔽
+  Widget _buildMutedContent() {
+    return Stack(children: [
+      AppBar(
+        // backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        leading: const AppbarLeadingButtton(enableBackground: true),
+        title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.illustId)),
+      ),
+      MutedWorks(),
+    ]);
   }
 
   Widget _buildBeforeSuccessContent(bool isFailed) {

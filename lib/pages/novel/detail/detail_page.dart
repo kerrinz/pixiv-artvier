@@ -3,6 +3,7 @@ import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
+import 'package:artvier/component/loading/muted_works.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/model_response/user/common_user.dart';
@@ -80,6 +81,9 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.args.detail != null && widget.args.detail!.isMuted) {
+      return Scaffold(body: _buildMutedContent());
+    }
     final result = Scaffold(
       body: Container(
         key: _bodyKey,
@@ -97,6 +101,19 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
       });
     }
     return result;
+  }
+
+  /// 显示作品被屏蔽
+  Widget _buildMutedContent() {
+    return Stack(children: [
+      AppBar(
+        // backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        leading: const AppbarLeadingButtton(enableBackground: true),
+        title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.novelId)),
+      ),
+      MutedWorks(),
+    ]);
   }
 
   Widget _buildBeforeSuccessContent(bool isFailed) {

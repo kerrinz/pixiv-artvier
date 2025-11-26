@@ -56,6 +56,28 @@ class _BlockingPageState extends BasePageState<BlockingPage> with _BlockingPageL
                       Expanded(
                         child: CustomScrollView(
                           slivers: [
+                            SliverPadding(
+                              padding: const EdgeInsets.only(left: 10.0, right: 10, top: 12, bottom: 4),
+                              sliver: SliverToBoxAdapter(
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: colorScheme.surface,
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(l10n.mutedPageHint),
+                                        Text(l10n.mutedPagePremiumHint1),
+                                        Text(l10n.mutedPagePremiumHint2),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             if (argUsers.isNotEmpty || argTags.isNotEmpty)
                               SliverPadding(
                                 padding: const EdgeInsets.only(left: 10.0, right: 10, top: 12, bottom: 4),
