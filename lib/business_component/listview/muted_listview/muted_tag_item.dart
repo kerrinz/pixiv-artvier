@@ -71,7 +71,7 @@ class MuteTagItem extends BasePage {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 2.0),
                                 child: Text(
-                                  isBlocked ? l10n(context).unmute : l10n(context).muted,
+                                  isBlocked ? l10n(context).unmute : l10n(context).mute,
                                   style: textTheme(context).labelLarge?.copyWith(
                                       height: 1,
                                       color: isBlocked ? colorScheme(context).onPrimary : colorScheme(context).primary),
