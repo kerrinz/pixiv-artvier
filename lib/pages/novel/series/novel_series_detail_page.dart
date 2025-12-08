@@ -1,10 +1,12 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/business_component/listview/novel_listview/novel_list.dart';
 import 'package:artvier/business_component/page_layout/banner_appbar_page_layout.dart';
+import 'package:artvier/business_component/series/series_watch_button.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/loading/request_loading.dart';
+import 'package:artvier/config/enums.dart';
 import 'package:artvier/pages/novel/series/model/arguments.dart';
 import 'package:artvier/pages/novel/series/provider.dart';
 import 'package:artvier/pages/novel/series/widget/author_card.dart';
@@ -120,6 +122,22 @@ class __NovelSeriesDetailPageState extends BasePageState<NovelSeriesDetailPage> 
                         SliverPadding(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                           sliver: SliverToBoxAdapter(
+                            child: SeriesWatchButton(
+                              seriesIsWatched: data.novelSeriesDetail.watchlistAdded,
+                              seriesId: data.novelSeriesDetail.id.toString(),
+                              worksType: WorksType.novel,
+                            ),
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            child: Divider(color: colorScheme.outline.withAlpha(100)),
+                          ),
+                        ),
+                        SliverPadding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          sliver: SliverToBoxAdapter(
                             child: Text(l10n.seriesTotals(data.novelSeriesDetail.contentCount)),
                           ),
                         ),
@@ -148,18 +166,22 @@ class __NovelSeriesDetailPageState extends BasePageState<NovelSeriesDetailPage> 
 
   // Banner
   Widget _bannerWidget() {
+    final data = ref.watch(novelSeriesDetailProvider(widget.arguments.id.toString())).valueOrNull;
     return Stack(
       children: [
-        EnhanceNetworkImage(
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.cover,
-          image: ExtendedNetworkImageProvider(
-            HttpHostOverrides().pxImgUrl(widget.arguments.url),
-            headers: HttpHostOverrides().pximgHeaders,
-            cache: true,
-          ),
-        ),
+        if (widget.arguments.url != null || data?.novelSeriesFirstNovel.imageUrls.medium != null)
+          EnhanceNetworkImage(
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
+            image: ExtendedNetworkImageProvider(
+              HttpHostOverrides().pxImgUrl(widget.arguments.url ?? data!.novelSeriesFirstNovel.imageUrls.medium),
+              headers: HttpHostOverrides().pximgHeaders,
+              cache: true,
+            ),
+          )
+        else
+          DecoratedBox(decoration: BoxDecoration(color: colorScheme.surface)),
         const Positioned.fill(child: DecoratedBox(decoration: BoxDecoration(color: Colors.black12))),
       ],
     );

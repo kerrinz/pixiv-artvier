@@ -23,10 +23,10 @@ mixin _$NovelSeriesDetailPagePageArguments {
   String get title => throw _privateConstructorUsedError;
 
   /// 封面图
-  String get url => throw _privateConstructorUsedError;
+  String? get url => throw _privateConstructorUsedError;
 
   /// 作者
-  User get user => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
 
   /// Create a copy of NovelSeriesDetailPagePageArguments
   /// with the given fields replaced by the non-null parameter values.
@@ -44,9 +44,9 @@ abstract class $NovelSeriesDetailPagePageArgumentsCopyWith<$Res> {
       _$NovelSeriesDetailPagePageArgumentsCopyWithImpl<$Res,
           NovelSeriesDetailPagePageArguments>;
   @useResult
-  $Res call({int id, String title, String url, User user});
+  $Res call({int id, String title, String? url, User? user});
 
-  $UserCopyWith<$Res> get user;
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -67,8 +67,8 @@ class _$NovelSeriesDetailPagePageArgumentsCopyWithImpl<$Res,
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? url = null,
-    Object? user = null,
+    Object? url = freezed,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -79,14 +79,14 @@ class _$NovelSeriesDetailPagePageArgumentsCopyWithImpl<$Res,
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      url: null == url
+      url: freezed == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      user: null == user
+              as String?,
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
     ) as $Val);
   }
 
@@ -94,8 +94,12 @@ class _$NovelSeriesDetailPagePageArgumentsCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get user {
-    return $UserCopyWith<$Res>(_value.user, (value) {
+  $UserCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -110,10 +114,10 @@ abstract class _$$NovelSeriesDetailPagePageArgumentsImplCopyWith<$Res>
       __$$NovelSeriesDetailPagePageArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String title, String url, User user});
+  $Res call({int id, String title, String? url, User? user});
 
   @override
-  $UserCopyWith<$Res> get user;
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -133,8 +137,8 @@ class __$$NovelSeriesDetailPagePageArgumentsImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? url = null,
-    Object? user = null,
+    Object? url = freezed,
+    Object? user = freezed,
   }) {
     return _then(_$NovelSeriesDetailPagePageArgumentsImpl(
       id: null == id
@@ -145,14 +149,14 @@ class __$$NovelSeriesDetailPagePageArgumentsImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      url: null == url
+      url: freezed == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      user: null == user
+              as String?,
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
     ));
   }
 }
@@ -162,10 +166,7 @@ class __$$NovelSeriesDetailPagePageArgumentsImplCopyWithImpl<$Res>
 class _$NovelSeriesDetailPagePageArgumentsImpl
     implements _NovelSeriesDetailPagePageArguments {
   const _$NovelSeriesDetailPagePageArgumentsImpl(
-      {required this.id,
-      required this.title,
-      required this.url,
-      required this.user});
+      {required this.id, required this.title, this.url, this.user});
 
   /// ID
   @override
@@ -177,11 +178,11 @@ class _$NovelSeriesDetailPagePageArgumentsImpl
 
   /// 封面图
   @override
-  final String url;
+  final String? url;
 
   /// 作者
   @override
-  final User user;
+  final User? user;
 
   @override
   String toString() {
@@ -218,8 +219,8 @@ abstract class _NovelSeriesDetailPagePageArguments
   const factory _NovelSeriesDetailPagePageArguments(
       {required final int id,
       required final String title,
-      required final String url,
-      required final User user}) = _$NovelSeriesDetailPagePageArgumentsImpl;
+      final String? url,
+      final User? user}) = _$NovelSeriesDetailPagePageArgumentsImpl;
 
   /// ID
   @override
@@ -231,11 +232,11 @@ abstract class _NovelSeriesDetailPagePageArguments
 
   /// 封面图
   @override
-  String get url;
+  String? get url;
 
   /// 作者
   @override
-  User get user;
+  User? get user;
 
   /// Create a copy of NovelSeriesDetailPagePageArguments
   /// with the given fields replaced by the non-null parameter values.

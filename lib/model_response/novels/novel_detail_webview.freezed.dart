@@ -238,11 +238,11 @@ mixin _$NovelWebViewNovel {
   @JsonKey(name: "title")
   String get title => throw _privateConstructorUsedError;
   @JsonKey(name: "seriesId")
-  dynamic get seriesId => throw _privateConstructorUsedError;
+  String? get seriesId => throw _privateConstructorUsedError;
   @JsonKey(name: "seriesTitle")
-  dynamic get seriesTitle => throw _privateConstructorUsedError;
+  String? get seriesTitle => throw _privateConstructorUsedError;
   @JsonKey(name: "seriesIsWatched")
-  dynamic get seriesIsWatched => throw _privateConstructorUsedError;
+  bool? get seriesIsWatched => throw _privateConstructorUsedError;
   @JsonKey(name: "userId")
   String get userId => throw _privateConstructorUsedError;
   @JsonKey(name: "coverUrl")
@@ -293,9 +293,9 @@ abstract class $NovelWebViewNovelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "id") String id,
       @JsonKey(name: "title") String title,
-      @JsonKey(name: "seriesId") dynamic seriesId,
-      @JsonKey(name: "seriesTitle") dynamic seriesTitle,
-      @JsonKey(name: "seriesIsWatched") dynamic seriesIsWatched,
+      @JsonKey(name: "seriesId") String? seriesId,
+      @JsonKey(name: "seriesTitle") String? seriesTitle,
+      @JsonKey(name: "seriesIsWatched") bool? seriesIsWatched,
       @JsonKey(name: "userId") String userId,
       @JsonKey(name: "coverUrl") String coverUrl,
       @JsonKey(name: "tags") List<String> tags,
@@ -365,15 +365,15 @@ class _$NovelWebViewNovelCopyWithImpl<$Res, $Val extends NovelWebViewNovel>
       seriesId: freezed == seriesId
           ? _value.seriesId
           : seriesId // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       seriesTitle: freezed == seriesTitle
           ? _value.seriesTitle
           : seriesTitle // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       seriesIsWatched: freezed == seriesIsWatched
           ? _value.seriesIsWatched
           : seriesIsWatched // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as bool?,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -487,9 +487,9 @@ abstract class _$$NovelWebViewNovelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: "id") String id,
       @JsonKey(name: "title") String title,
-      @JsonKey(name: "seriesId") dynamic seriesId,
-      @JsonKey(name: "seriesTitle") dynamic seriesTitle,
-      @JsonKey(name: "seriesIsWatched") dynamic seriesIsWatched,
+      @JsonKey(name: "seriesId") String? seriesId,
+      @JsonKey(name: "seriesTitle") String? seriesTitle,
+      @JsonKey(name: "seriesIsWatched") bool? seriesIsWatched,
       @JsonKey(name: "userId") String userId,
       @JsonKey(name: "coverUrl") String coverUrl,
       @JsonKey(name: "tags") List<String> tags,
@@ -560,15 +560,15 @@ class __$$NovelWebViewNovelImplCopyWithImpl<$Res>
       seriesId: freezed == seriesId
           ? _value.seriesId
           : seriesId // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       seriesTitle: freezed == seriesTitle
           ? _value.seriesTitle
           : seriesTitle // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       seriesIsWatched: freezed == seriesIsWatched
           ? _value.seriesIsWatched
           : seriesIsWatched // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as bool?,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -639,9 +639,9 @@ class _$NovelWebViewNovelImpl implements _NovelWebViewNovel {
   const _$NovelWebViewNovelImpl(
       {@JsonKey(name: "id") required this.id,
       @JsonKey(name: "title") required this.title,
-      @JsonKey(name: "seriesId") required this.seriesId,
-      @JsonKey(name: "seriesTitle") required this.seriesTitle,
-      @JsonKey(name: "seriesIsWatched") required this.seriesIsWatched,
+      @JsonKey(name: "seriesId") this.seriesId,
+      @JsonKey(name: "seriesTitle") this.seriesTitle,
+      @JsonKey(name: "seriesIsWatched") this.seriesIsWatched,
       @JsonKey(name: "userId") required this.userId,
       @JsonKey(name: "coverUrl") required this.coverUrl,
       @JsonKey(name: "tags") required final List<String> tags,
@@ -672,13 +672,13 @@ class _$NovelWebViewNovelImpl implements _NovelWebViewNovel {
   final String title;
   @override
   @JsonKey(name: "seriesId")
-  final dynamic seriesId;
+  final String? seriesId;
   @override
   @JsonKey(name: "seriesTitle")
-  final dynamic seriesTitle;
+  final String? seriesTitle;
   @override
   @JsonKey(name: "seriesIsWatched")
-  final dynamic seriesIsWatched;
+  final bool? seriesIsWatched;
   @override
   @JsonKey(name: "userId")
   final String userId;
@@ -755,11 +755,12 @@ class _$NovelWebViewNovelImpl implements _NovelWebViewNovel {
             other is _$NovelWebViewNovelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            const DeepCollectionEquality().equals(other.seriesId, seriesId) &&
-            const DeepCollectionEquality()
-                .equals(other.seriesTitle, seriesTitle) &&
-            const DeepCollectionEquality()
-                .equals(other.seriesIsWatched, seriesIsWatched) &&
+            (identical(other.seriesId, seriesId) ||
+                other.seriesId == seriesId) &&
+            (identical(other.seriesTitle, seriesTitle) ||
+                other.seriesTitle == seriesTitle) &&
+            (identical(other.seriesIsWatched, seriesIsWatched) ||
+                other.seriesIsWatched == seriesIsWatched) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.coverUrl, coverUrl) ||
                 other.coverUrl == coverUrl) &&
@@ -788,9 +789,9 @@ class _$NovelWebViewNovelImpl implements _NovelWebViewNovel {
         runtimeType,
         id,
         title,
-        const DeepCollectionEquality().hash(seriesId),
-        const DeepCollectionEquality().hash(seriesTitle),
-        const DeepCollectionEquality().hash(seriesIsWatched),
+        seriesId,
+        seriesTitle,
+        seriesIsWatched,
         userId,
         coverUrl,
         const DeepCollectionEquality().hash(_tags),
@@ -829,9 +830,9 @@ abstract class _NovelWebViewNovel implements NovelWebViewNovel {
   const factory _NovelWebViewNovel(
       {@JsonKey(name: "id") required final String id,
       @JsonKey(name: "title") required final String title,
-      @JsonKey(name: "seriesId") required final dynamic seriesId,
-      @JsonKey(name: "seriesTitle") required final dynamic seriesTitle,
-      @JsonKey(name: "seriesIsWatched") required final dynamic seriesIsWatched,
+      @JsonKey(name: "seriesId") final String? seriesId,
+      @JsonKey(name: "seriesTitle") final String? seriesTitle,
+      @JsonKey(name: "seriesIsWatched") final bool? seriesIsWatched,
       @JsonKey(name: "userId") required final String userId,
       @JsonKey(name: "coverUrl") required final String coverUrl,
       @JsonKey(name: "tags") required final List<String> tags,
@@ -862,13 +863,13 @@ abstract class _NovelWebViewNovel implements NovelWebViewNovel {
   String get title;
   @override
   @JsonKey(name: "seriesId")
-  dynamic get seriesId;
+  String? get seriesId;
   @override
   @JsonKey(name: "seriesTitle")
-  dynamic get seriesTitle;
+  String? get seriesTitle;
   @override
   @JsonKey(name: "seriesIsWatched")
-  dynamic get seriesIsWatched;
+  bool? get seriesIsWatched;
   @override
   @JsonKey(name: "userId")
   String get userId;

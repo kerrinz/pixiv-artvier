@@ -16,9 +16,9 @@ class NovelSeriesDetailPagePageArguments with _$NovelSeriesDetailPagePageArgumen
     required String title,
 
     /// 封面图
-    required String url,
+    String? url,
 
     /// 作者
-    required User user,
+    User? user,
   }) = _NovelSeriesDetailPagePageArguments;
 }

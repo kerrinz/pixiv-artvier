@@ -79,6 +79,17 @@ enum UserFollowState {
   notFollow,
 }
 
+enum LoadState {
+  /// loading
+  loading,
+
+  /// completed
+  completed,
+
+  /// failed
+  failed,
+}
+
 /// 作品类型
 enum WorksType {
   illust,

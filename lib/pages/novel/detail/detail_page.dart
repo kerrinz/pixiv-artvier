@@ -1,5 +1,6 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/business_component/card/author_card.dart';
+import 'package:artvier/business_component/series/series_navigation.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
@@ -235,6 +236,14 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                          if (webViewData.novel.seriesId != null && webViewData.novel.seriesId != "")
+                            TextSpan(
+                              text: "${l10n.series}  ",
+                              style: textTheme.bodyMedium?.copyWith(
+                                color: const Color(0xfffeaf0f),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           TextSpan(text: webViewData.novel.title),
                         ]),
                         style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -263,6 +272,20 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                       createDate: webViewData.novel.cdate),
                   _buildInformation(webViewData),
                 ],
+              ),
+            ),
+            // 系列
+            if (webViewData.novel.seriesId != null && webViewData.novel.seriesId != "")
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: NovelSeriesNavigation(novel: webViewData.novel),
+                ),
+              ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Divider(color: colorScheme.outline.withAlpha(100)),
               ),
             ),
             ..._buildContent(webViewData),
