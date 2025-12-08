@@ -27,9 +27,9 @@ class NovelWebViewNovel with _$NovelWebViewNovel {
   const factory NovelWebViewNovel({
     @JsonKey(name: "id") required String id,
     @JsonKey(name: "title") required String title,
-    @JsonKey(name: "seriesId") required dynamic seriesId,
-    @JsonKey(name: "seriesTitle") required dynamic seriesTitle,
-    @JsonKey(name: "seriesIsWatched") required dynamic seriesIsWatched,
+    @JsonKey(name: "seriesId") String? seriesId,
+    @JsonKey(name: "seriesTitle") String? seriesTitle,
+    @JsonKey(name: "seriesIsWatched") bool? seriesIsWatched,
     @JsonKey(name: "userId") required String userId,
     @JsonKey(name: "coverUrl") required String coverUrl,
     @JsonKey(name: "tags") required List<String> tags,

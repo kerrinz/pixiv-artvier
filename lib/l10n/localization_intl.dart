@@ -51,6 +51,7 @@ class LocalizationIntl {
   String get users => Intl.message('Users', name: 'users', desc: 'a search type');
   String get series => Intl.message("Series", name: 'series', desc: 'the badge or manga or novel series');
   String get more => Intl.message('More', name: 'more', desc: '');
+  String get viewAll => Intl.message('View all', name: 'viewAll', desc: '');
   String get viewMore => Intl.message('View more', name: 'viewMore', desc: '');
   String get promptTitle => Intl.message('Prompt', name: 'promptTitle', desc: '');
   String get promptCancel => Intl.message('Cancel', name: 'promptCancel', desc: '');
@@ -324,11 +325,21 @@ class LocalizationIntl {
   String get rankingR18Female => Intl.message("R18 Female", name: 'rankingR18Female', desc: '');
 
   // 系列作品
-  String seriesTotals(int count) => Intl.message("$count chapters in total",
+  String seriesTotals(int count) => Intl.message("$count episodes in total",
       args: [count], name: 'seriesTotals', desc: 'Total works in series details', examples: const {'count': '12'});
-  String seriesUpdateTo(int size) => Intl.message("Updated to chapter $size",
-      args: [size], name: 'seriesUpdateTo', desc: 'Newest chapter', examples: const {'size': '12'});
+  String seriesUpdateTo(int size) => Intl.message("Updated to episode $size",
+      args: [size], name: 'seriesUpdateTo', desc: 'Newest episode', examples: const {'size': '12'});
   String get seriesLatestChapter => Intl.message("Latest", name: 'seriesLatestChapter', desc: '');
+  String get alreadyInWatchlist =>
+      Intl.message("Already in watchlist", name: 'alreadyInWatchlist', desc: 'Series already in watchlist');
+  String get removeFromWatchlist =>
+      Intl.message("Remove from watchlist", name: 'removeFromWatchlist', desc: 'Remove series from watchlist');
+  String get addToWatchlist =>
+      Intl.message("Add to watchlist", name: 'addToWatchlist', desc: 'Add series to watchlist');
+  String get previousEpisode => Intl.message("Previous episode", name: 'previousEpisode', desc: '');
+  String get nextEpisode => Intl.message("Next episode", name: 'nextEpisode', desc: '');
+  String get noPreviousEpisode => Intl.message("No previous episode", name: 'noPreviousEpisode', desc: '');
+  String get noNextEpisode => Intl.message("No next episode", name: 'noNextEpisode', desc: '');
 
   // 搜索
   String get search => Intl.message("Search", name: 'search', desc: 'Verb or noun of <search>');

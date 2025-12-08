@@ -203,4 +203,32 @@ class ApiNovels extends ApiBase {
     );
     return res.statusCode == 200;
   }
+
+  /// 添加小说系列到追更列表
+  /// - [seriesId] 小说系列id
+  Future<bool> addNovelSeriesWatchlist({required String seriesId, CancelToken? cancelToken}) async {
+    Response res = await requester.post<String>(
+      "/v1/watchlist/novel/add",
+      data: {
+        'series_id': seriesId,
+      },
+      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return res.statusCode == 200;
+  }
+
+  /// 移除小说系列追更
+  /// - [seriesId] 小说系列id
+  Future<bool> removeNovelSeriesWatchlist({required String seriesId, CancelToken? cancelToken}) async {
+    Response res = await requester.post<String>(
+      "/v1/watchlist/novel/delete",
+      data: {
+        'series_id': seriesId,
+      },
+      options: Options(contentType: Headers.formUrlEncodedContentType, responseType: ResponseType.json),
+      cancelToken: cancelToken,
+    );
+    return res.statusCode == 200;
+  }
 }
