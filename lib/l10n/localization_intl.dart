@@ -72,6 +72,7 @@ class LocalizationIntl {
   String get delete => Intl.message('Delete', name: 'delete', desc: '');
   String get deleteSuccess => Intl.message('Delete success', name: 'deleteSuccess', desc: '');
   String get deleteFailed => Intl.message('Delete failed', name: 'deleteFailed', desc: '');
+  String get loading_ => Intl.message('Loading...', name: 'loading_', desc: 'Page loading text');
   String get loadingFailed => Intl.message('Loading Failed', name: 'loadingFailed', desc: 'Image loading failed');
   String get requestFailed =>
       Intl.message('Poor network, please try reloading', name: 'requestFailed', desc: 'Request failed');
