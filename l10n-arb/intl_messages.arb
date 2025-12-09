@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-11-27T00:14:38.895018",
+  "@@last_modified": "2025-12-09T18:53:05.560291",
   "bootingPageUpdatingHint": "Local data is being updated. Please do not exit the software!",
   "@bootingPageUpdatingHint": {
     "description": "",
@@ -249,6 +249,12 @@
   "deleteFailed": "Delete failed",
   "@deleteFailed": {
     "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loading_": "Loading...",
+  "@loading_": {
+    "description": "Page loading text",
     "type": "text",
     "placeholders": {}
   },
