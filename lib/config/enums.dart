@@ -79,12 +79,42 @@ enum UserFollowState {
   notFollow,
 }
 
+/// 追更状态
+enum SeriesState {
+  /// 未知状态，加载中
+  loading,
+
+  /// 请求追更中
+  adding,
+
+  /// 请求取消追更
+  removing,
+
+  /// 已追更
+  watched,
+
+  /// 未追更
+  notWatch,
+}
+
+enum LoadState {
+  /// loading
+  loading,
+
+  /// completed
+  completed,
+
+  /// failed
+  failed,
+}
+
 /// 作品类型
 enum WorksType {
   illust,
   manga,
   mangaSeries,
   novel,
+  novelSeries,
 }
 
 /// 隐私（可见性）限制

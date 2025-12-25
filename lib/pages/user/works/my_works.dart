@@ -75,6 +75,7 @@ class MyWorksPageState extends BasePageState<MyWorksPage> with AutomaticKeepAliv
                 var worksType = ref.watch(worksTypeProvider);
                 switch (worksType) {
                   case WorksType.novel:
+                  case WorksType.novelSeries:
                     return _novelsWidget();
                   case WorksType.illust:
                     return _illustWidget();
@@ -164,6 +165,7 @@ mixin _Logic on ConsumerState<MyWorksPage> {
   Future<void> handleRefresh() async {
     switch (ref.read(worksTypeProvider)) {
       case WorksType.novel:
+      case WorksType.novelSeries:
         return ref.read(novelWorksProvider.notifier).refresh();
       case WorksType.illust:
         return ref.read(illustWorksProvider.notifier).refresh();

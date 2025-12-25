@@ -47,6 +47,8 @@ _$NovelSeriesDetailImpl _$$NovelSeriesDetailImplFromJson(
       displayText: json['display_text'] as String,
       novelAiType: (json['novel_ai_type'] as num).toInt(),
       watchlistAdded: json['watchlist_added'] as bool,
+      seriesWatchState:
+          $enumDecodeNullable(_$SeriesStateEnumMap, json['seriesWatchState']),
     );
 
 Map<String, dynamic> _$$NovelSeriesDetailImplToJson(
@@ -63,7 +65,16 @@ Map<String, dynamic> _$$NovelSeriesDetailImplToJson(
       'display_text': instance.displayText,
       'novel_ai_type': instance.novelAiType,
       'watchlist_added': instance.watchlistAdded,
+      'seriesWatchState': _$SeriesStateEnumMap[instance.seriesWatchState],
     };
+
+const _$SeriesStateEnumMap = {
+  SeriesState.loading: 'loading',
+  SeriesState.adding: 'adding',
+  SeriesState.removing: 'removing',
+  SeriesState.watched: 'watched',
+  SeriesState.notWatch: 'notWatch',
+};
 
 _$ImageUrlsImpl _$$ImageUrlsImplFromJson(Map<String, dynamic> json) =>
     _$ImageUrlsImpl(

@@ -126,6 +126,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "viewAll": "View all",
+  "@viewAll": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "viewMore": "View more",
   "@viewMore": {
     "description": "",
@@ -1274,7 +1280,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "seriesTotals": "{count} chapters in total",
+  "seriesTotals": "{count} episodes in total",
   "@seriesTotals": {
     "description": "Total works in series details",
     "type": "text",
@@ -1284,9 +1290,9 @@
       }
     }
   },
-  "seriesUpdateTo": "Updated to chapter {size}",
+  "seriesUpdateTo": "Updated to episode {size}",
   "@seriesUpdateTo": {
-    "description": "Newest chapter",
+    "description": "Newest episode",
     "type": "text",
     "placeholders": {
       "size": {
@@ -1296,6 +1302,48 @@
   },
   "seriesLatestChapter": "Latest",
   "@seriesLatestChapter": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "alreadyInWatchlist": "Already in watchlist",
+  "@alreadyInWatchlist": {
+    "description": "Series already in watchlist",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeFromWatchlist": "Remove from watchlist",
+  "@removeFromWatchlist": {
+    "description": "Remove series from watchlist",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addToWatchlist": "Add to watchlist",
+  "@addToWatchlist": {
+    "description": "Add series to watchlist",
+    "type": "text",
+    "placeholders": {}
+  },
+  "previousEpisode": "Previous episode",
+  "@previousEpisode": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nextEpisode": "Next episode",
+  "@nextEpisode": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noPreviousEpisode": "No previous episode",
+  "@noPreviousEpisode": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noNextEpisode": "No next episode",
+  "@noNextEpisode": {
     "description": "",
     "type": "text",
     "placeholders": {}
