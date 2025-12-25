@@ -2,6 +2,7 @@
 //
 //     final novelSeriesDetailResponse = novelSeriesDetailResponseFromJson(jsonString);
 
+import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:artvier/model_response/user/common_user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -42,6 +43,7 @@ class NovelSeriesDetail with _$NovelSeriesDetail {
     @JsonKey(name: "display_text") required String displayText,
     @JsonKey(name: "novel_ai_type") required int novelAiType,
     @JsonKey(name: "watchlist_added") required bool watchlistAdded,
+    SeriesState? seriesWatchState,
   }) = _NovelSeriesDetail;
 
   factory NovelSeriesDetail.fromJson(Map<String, dynamic> json) => _$NovelSeriesDetailFromJson(json);

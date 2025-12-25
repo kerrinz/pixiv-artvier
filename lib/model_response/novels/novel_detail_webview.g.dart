@@ -28,9 +28,9 @@ _$NovelWebViewNovelImpl _$$NovelWebViewNovelImplFromJson(
     _$NovelWebViewNovelImpl(
       id: json['id'] as String,
       title: json['title'] as String,
-      seriesId: json['seriesId'],
-      seriesTitle: json['seriesTitle'],
-      seriesIsWatched: json['seriesIsWatched'],
+      seriesId: json['seriesId'] as String?,
+      seriesTitle: json['seriesTitle'] as String?,
+      seriesIsWatched: json['seriesIsWatched'] as bool?,
       userId: json['userId'] as String,
       coverUrl: json['coverUrl'] as String,
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),

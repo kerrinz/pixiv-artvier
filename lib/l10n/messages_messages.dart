@@ -31,9 +31,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m4(name) => "Reply @${name}";
 
-  static m5(count) => "${count} chapters in total";
+  static m5(count) => "${count} episodes in total";
 
-  static m6(size) => "Updated to chapter ${size}";
+  static m6(size) => "Updated to episode ${size}";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -49,11 +49,13 @@ class MessageLookup extends MessageLookupByLibrary {
     'addNewTagPlaceholder': MessageLookupByLibrary.simpleMessage('Add new tag...'),
     'addTag': MessageLookupByLibrary.simpleMessage('Add tag'),
     'addToCollections': MessageLookupByLibrary.simpleMessage('Add to collections'),
+    'addToWatchlist': MessageLookupByLibrary.simpleMessage('Add to watchlist'),
     'age': MessageLookupByLibrary.simpleMessage('Age'),
     'all': MessageLookupByLibrary.simpleMessage('All'),
     'allComments': MessageLookupByLibrary.simpleMessage('All comments'),
     'allPeriod': MessageLookupByLibrary.simpleMessage('All Period'),
     'allReplies': MessageLookupByLibrary.simpleMessage('All replies'),
+    'alreadyInWatchlist': MessageLookupByLibrary.simpleMessage('Already in watchlist'),
     'appAuthor': MessageLookupByLibrary.simpleMessage('Author'),
     'appProjectLink': MessageLookupByLibrary.simpleMessage('Project link'),
     'appShortTerms': MessageLookupByLibrary.simpleMessage('1. This software is free of charge and is only for learning and communication use, and may not be used for any other purpose (especially not for commercial purposes), and the legal liability for any other use shall not be borne by me.\n2. This software will not be available for download anywhere other than the Github repository, please comply with local laws and regulations, and you shall bear the legal responsibility for downloading and distributing this software.\n3. If access to the official Pixiv website is not supported in your current country or region, you will also not be able to use and will not be permitted to use the Software.\n4. This software does not set up a server and does not provide resources and services, all network data in the software comes from Pixiv\'s official interface, and the copyright of all works (including illustrations, comics, novels, etc.) belongs to Pixiv or the original author.'),
@@ -163,7 +165,10 @@ class MessageLookup extends MessageLookupByLibrary {
     'navHome': MessageLookupByLibrary.simpleMessage('Home'),
     'navProfile': MessageLookupByLibrary.simpleMessage('Profile'),
     'networkSettings': MessageLookupByLibrary.simpleMessage('Network settings'),
+    'nextEpisode': MessageLookupByLibrary.simpleMessage('Next episode'),
     'nickname': MessageLookupByLibrary.simpleMessage('Nickname'),
+    'noNextEpisode': MessageLookupByLibrary.simpleMessage('No next episode'),
+    'noPreviousEpisode': MessageLookupByLibrary.simpleMessage('No previous episode'),
     'not': MessageLookupByLibrary.simpleMessage('Not'),
     'novelHomepage': MessageLookupByLibrary.simpleMessage('Home page'),
     'novelRankings': MessageLookupByLibrary.simpleMessage('Novel rankings'),
@@ -177,6 +182,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'period': MessageLookupByLibrary.simpleMessage('period'),
     'pixivPremium': MessageLookupByLibrary.simpleMessage('Pixiv Premium'),
     'portEditing': MessageLookupByLibrary.simpleMessage('Port:'),
+    'previousEpisode': MessageLookupByLibrary.simpleMessage('Previous episode'),
     'printer': MessageLookupByLibrary.simpleMessage('Printer'),
     'privacyRestrict': MessageLookupByLibrary.simpleMessage('Privacy restrict'),
     'private': MessageLookupByLibrary.simpleMessage('Private'),
@@ -211,6 +217,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'recommended': MessageLookupByLibrary.simpleMessage('Recommended'),
     'removeCollectionFailed': MessageLookupByLibrary.simpleMessage('Remove collection failed!'),
     'removeCollectionSucceed': MessageLookupByLibrary.simpleMessage('Remove collection succeed!'),
+    'removeFromWatchlist': MessageLookupByLibrary.simpleMessage('Remove from watchlist'),
     'removeMarkerFailed': MessageLookupByLibrary.simpleMessage('Remove marker failed!'),
     'removeMarkerSucceed': MessageLookupByLibrary.simpleMessage('Remove marker succeed!'),
     'reply': MessageLookupByLibrary.simpleMessage('Reply'),
@@ -264,6 +271,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'unmute': MessageLookupByLibrary.simpleMessage('Unmute'),
     'unmuteSelected': MessageLookupByLibrary.simpleMessage('Unmute selected'),
     'users': MessageLookupByLibrary.simpleMessage('Users'),
+    'viewAll': MessageLookupByLibrary.simpleMessage('View all'),
     'viewMore': MessageLookupByLibrary.simpleMessage('View more'),
     'viewReplies': MessageLookupByLibrary.simpleMessage('View replies'),
     'webLogin': MessageLookupByLibrary.simpleMessage('Web login'),

@@ -127,6 +127,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "viewAll": "查看全部",
+  "@viewAll": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "viewMore": "查看更多",
   "@viewMore": {
     "description": "",
@@ -1285,6 +1291,48 @@
   },
   "seriesLatestChapter": "最新话",
   "@seriesLatestChapter": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "alreadyInWatchlist": "已追更",
+  "@alreadyInWatchlist": {
+    "description": "Series already in watchlist",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeFromWatchlist": "移除追更",
+  "@removeFromWatchlist": {
+    "description": "Remove series from watchlist",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addToWatchlist": "添加到追更列表",
+  "@addToWatchlist": {
+    "description": "Add series to watchlist",
+    "type": "text",
+    "placeholders": {}
+  },
+  "previousEpisode": "上一话",
+  "@previousEpisode": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nextEpisode": "下一话",
+  "@nextEpisode": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noPreviousEpisode": "没有上一话",
+  "@noPreviousEpisode": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noNextEpisode": "没有下一话",
+  "@noNextEpisode": {
     "description": "",
     "type": "text",
     "placeholders": {}

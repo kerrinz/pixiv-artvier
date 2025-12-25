@@ -339,6 +339,7 @@ mixin _$NovelSeriesDetail {
   int get novelAiType => throw _privateConstructorUsedError;
   @JsonKey(name: "watchlist_added")
   bool get watchlistAdded => throw _privateConstructorUsedError;
+  SeriesState? get seriesWatchState => throw _privateConstructorUsedError;
 
   /// Serializes this NovelSeriesDetail to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -367,7 +368,8 @@ abstract class $NovelSeriesDetailCopyWith<$Res> {
       @JsonKey(name: "user") CommonUser user,
       @JsonKey(name: "display_text") String displayText,
       @JsonKey(name: "novel_ai_type") int novelAiType,
-      @JsonKey(name: "watchlist_added") bool watchlistAdded});
+      @JsonKey(name: "watchlist_added") bool watchlistAdded,
+      SeriesState? seriesWatchState});
 
   $CommonUserCopyWith<$Res> get user;
 }
@@ -398,6 +400,7 @@ class _$NovelSeriesDetailCopyWithImpl<$Res, $Val extends NovelSeriesDetail>
     Object? displayText = null,
     Object? novelAiType = null,
     Object? watchlistAdded = null,
+    Object? seriesWatchState = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -444,6 +447,10 @@ class _$NovelSeriesDetailCopyWithImpl<$Res, $Val extends NovelSeriesDetail>
           ? _value.watchlistAdded
           : watchlistAdded // ignore: cast_nullable_to_non_nullable
               as bool,
+      seriesWatchState: freezed == seriesWatchState
+          ? _value.seriesWatchState
+          : seriesWatchState // ignore: cast_nullable_to_non_nullable
+              as SeriesState?,
     ) as $Val);
   }
 
@@ -477,7 +484,8 @@ abstract class _$$NovelSeriesDetailImplCopyWith<$Res>
       @JsonKey(name: "user") CommonUser user,
       @JsonKey(name: "display_text") String displayText,
       @JsonKey(name: "novel_ai_type") int novelAiType,
-      @JsonKey(name: "watchlist_added") bool watchlistAdded});
+      @JsonKey(name: "watchlist_added") bool watchlistAdded,
+      SeriesState? seriesWatchState});
 
   @override
   $CommonUserCopyWith<$Res> get user;
@@ -507,6 +515,7 @@ class __$$NovelSeriesDetailImplCopyWithImpl<$Res>
     Object? displayText = null,
     Object? novelAiType = null,
     Object? watchlistAdded = null,
+    Object? seriesWatchState = freezed,
   }) {
     return _then(_$NovelSeriesDetailImpl(
       id: null == id
@@ -553,6 +562,10 @@ class __$$NovelSeriesDetailImplCopyWithImpl<$Res>
           ? _value.watchlistAdded
           : watchlistAdded // ignore: cast_nullable_to_non_nullable
               as bool,
+      seriesWatchState: freezed == seriesWatchState
+          ? _value.seriesWatchState
+          : seriesWatchState // ignore: cast_nullable_to_non_nullable
+              as SeriesState?,
     ));
   }
 }
@@ -571,7 +584,8 @@ class _$NovelSeriesDetailImpl implements _NovelSeriesDetail {
       @JsonKey(name: "user") required this.user,
       @JsonKey(name: "display_text") required this.displayText,
       @JsonKey(name: "novel_ai_type") required this.novelAiType,
-      @JsonKey(name: "watchlist_added") required this.watchlistAdded});
+      @JsonKey(name: "watchlist_added") required this.watchlistAdded,
+      this.seriesWatchState});
 
   factory _$NovelSeriesDetailImpl.fromJson(Map<String, dynamic> json) =>
       _$$NovelSeriesDetailImplFromJson(json);
@@ -609,10 +623,12 @@ class _$NovelSeriesDetailImpl implements _NovelSeriesDetail {
   @override
   @JsonKey(name: "watchlist_added")
   final bool watchlistAdded;
+  @override
+  final SeriesState? seriesWatchState;
 
   @override
   String toString() {
-    return 'NovelSeriesDetail(id: $id, title: $title, caption: $caption, isOriginal: $isOriginal, isConcluded: $isConcluded, contentCount: $contentCount, totalCharacterCount: $totalCharacterCount, user: $user, displayText: $displayText, novelAiType: $novelAiType, watchlistAdded: $watchlistAdded)';
+    return 'NovelSeriesDetail(id: $id, title: $title, caption: $caption, isOriginal: $isOriginal, isConcluded: $isConcluded, contentCount: $contentCount, totalCharacterCount: $totalCharacterCount, user: $user, displayText: $displayText, novelAiType: $novelAiType, watchlistAdded: $watchlistAdded, seriesWatchState: $seriesWatchState)';
   }
 
   @override
@@ -637,7 +653,9 @@ class _$NovelSeriesDetailImpl implements _NovelSeriesDetail {
             (identical(other.novelAiType, novelAiType) ||
                 other.novelAiType == novelAiType) &&
             (identical(other.watchlistAdded, watchlistAdded) ||
-                other.watchlistAdded == watchlistAdded));
+                other.watchlistAdded == watchlistAdded) &&
+            (identical(other.seriesWatchState, seriesWatchState) ||
+                other.seriesWatchState == seriesWatchState));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -654,7 +672,8 @@ class _$NovelSeriesDetailImpl implements _NovelSeriesDetail {
       user,
       displayText,
       novelAiType,
-      watchlistAdded);
+      watchlistAdded,
+      seriesWatchState);
 
   /// Create a copy of NovelSeriesDetail
   /// with the given fields replaced by the non-null parameter values.
@@ -686,8 +705,8 @@ abstract class _NovelSeriesDetail implements NovelSeriesDetail {
       @JsonKey(name: "user") required final CommonUser user,
       @JsonKey(name: "display_text") required final String displayText,
       @JsonKey(name: "novel_ai_type") required final int novelAiType,
-      @JsonKey(name: "watchlist_added")
-      required final bool watchlistAdded}) = _$NovelSeriesDetailImpl;
+      @JsonKey(name: "watchlist_added") required final bool watchlistAdded,
+      final SeriesState? seriesWatchState}) = _$NovelSeriesDetailImpl;
 
   factory _NovelSeriesDetail.fromJson(Map<String, dynamic> json) =
       _$NovelSeriesDetailImpl.fromJson;
@@ -725,6 +744,8 @@ abstract class _NovelSeriesDetail implements NovelSeriesDetail {
   @override
   @JsonKey(name: "watchlist_added")
   bool get watchlistAdded;
+  @override
+  SeriesState? get seriesWatchState;
 
   /// Create a copy of NovelSeriesDetail
   /// with the given fields replaced by the non-null parameter values.

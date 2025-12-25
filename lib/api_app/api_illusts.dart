@@ -316,4 +316,12 @@ class ApiIllusts extends ApiBase {
     );
     return res.data;
   }
+
+  Future addIllustSeriesWatchlist({required String seriesId}) async {
+    /// TODO
+  }
+
+  Future removeIllustSeriesWatchlist({required String seriesId}) async {
+    /// TODO
+  }
 }
