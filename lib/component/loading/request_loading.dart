@@ -1,19 +1,29 @@
+import 'package:artvier/base/base_page.dart';
 import 'package:flutter/material.dart';
 import 'package:artvier/l10n/localization_intl.dart';
+import 'package:lottie/lottie.dart';
 
 /// 网络请求加载中显示的组件
-class RequestLoading extends StatelessWidget {
+class RequestLoading extends BasePage {
   const RequestLoading({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return Center(
       child: Wrap(
         direction: Axis.vertical,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          Image.asset("assets/image/page_loading.gif", height: 100),
-          const Text("Loading..."),
+          Lottie.asset(
+            'assets/image/page_loading.json',
+            width: 120,
+            height: 80,
+            fit: BoxFit.cover,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 24.0, bottom: 32),
+            child: Text(l10n(context).loading_),
+          ),
         ],
       ),
     );
