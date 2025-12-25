@@ -78,6 +78,7 @@ class UserWorksTabPageState extends ConsumerState<UserWorksTabPage> with Automat
               var worksType = ref.watch(worksTypeProvider);
               switch (worksType) {
                 case WorksType.novel:
+                case WorksType.novelSeries:
                   return _novelsWidget();
                 case WorksType.illust:
                   return _illustWidget();
@@ -166,6 +167,7 @@ mixin _Logic on ConsumerState<UserWorksTabPage> {
   Future<void> handleRefresh() async {
     switch (ref.read(worksTypeProvider)) {
       case WorksType.novel:
+      case WorksType.novelSeries:
         return ref.read(novelWorksProvider.notifier).refresh();
       case WorksType.illust:
         return ref.read(illustWorksProvider.notifier).refresh();

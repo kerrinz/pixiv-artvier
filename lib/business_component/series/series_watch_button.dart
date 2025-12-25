@@ -1,8 +1,8 @@
 import 'package:artvier/base/base_page.dart';
-import 'package:artvier/business_component/series/series_navigation_model.dart';
-import 'package:artvier/business_component/series/series_navigation_provider.dart';
 import 'package:artvier/component/buttons/label_button.dart';
 import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/model/series_state_changed_arguments/series_state_changed_arguments.dart';
+import 'package:artvier/global/provider/series_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,18 +25,22 @@ class SeriesWatchButton extends BaseStatefulPage {
 
 class _SeriesWatchButtonState extends BasePageState<SeriesWatchButton> {
   /// 小说系列追更按钮
-  late final AutoDisposeStateNotifierProvider<SeriesWatchButtonNotifier, SeriesNavigationModel>
-      novelSeriesWatchButtonProvider;
+  late final AutoDisposeStateNotifierProvider<SeriesStateNotifier, SeriesState> novelSeriesWatchButtonProvider;
 
   @override
   void initState() {
-    novelSeriesWatchButtonProvider =
-        StateNotifierProvider.autoDispose<SeriesWatchButtonNotifier, SeriesNavigationModel>((ref) {
-      return SeriesWatchButtonNotifier(
-          SeriesNavigationModel(seriesIsWatched: widget.seriesIsWatched, loadstate: LoadState.completed),
-          seriesId: widget.seriesId,
-          worksType: widget.worksType,
-          ref: ref);
+    novelSeriesWatchButtonProvider = StateNotifierProvider.autoDispose<SeriesStateNotifier, SeriesState>((ref) {
+      ref.listen<SeriesStateChangedArguments?>(globalNovelSeriesStateChangedProvider, (previous, next) {
+        if (next != null && next.seriesId == widget.seriesId) {
+          ref.notifier.setSeriesState(next.state);
+        }
+      });
+      return SeriesStateNotifier(
+        (widget.seriesIsWatched) ? SeriesState.watched : SeriesState.notWatch,
+        seriesId: widget.seriesId,
+        worksType: WorksType.novel,
+        ref: ref,
+      );
     });
     super.initState();
   }
@@ -45,11 +49,13 @@ class _SeriesWatchButtonState extends BasePageState<SeriesWatchButton> {
   Widget build(BuildContext context) {
     final value = ref.watch(novelSeriesWatchButtonProvider);
     return SeriesWatchButtonStateless(
-      seriesIsWatched: value.seriesIsWatched,
-      loadState: value.loadstate,
+      seriesIsWatched: value == SeriesState.watched || value == SeriesState.adding,
+      loadState:
+          (value == SeriesState.watched || value == SeriesState.notWatch) ? LoadState.completed : LoadState.loading,
       onPressedWatchButton: () {
         final notifier = ref.read(novelSeriesWatchButtonProvider.notifier);
-        value.seriesIsWatched ? notifier.removeSeriesFromWatchlist() : notifier.addSeriesToWatchlist();
+        if (value != SeriesState.watched && value != SeriesState.notWatch) return;
+        value == SeriesState.watched ? notifier.removeWatch() : notifier.addWatch();
       },
     );
   }
