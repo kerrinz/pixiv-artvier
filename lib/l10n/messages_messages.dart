@@ -136,6 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'leaveAComment': MessageLookupByLibrary.simpleMessage('Leave a comment...'),
     'lightBrightness': MessageLookupByLibrary.simpleMessage('Light'),
     'loadingFailed': MessageLookupByLibrary.simpleMessage('Loading Failed'),
+    'loading_': MessageLookupByLibrary.simpleMessage('Loading...'),
     'location': MessageLookupByLibrary.simpleMessage('Location'),
     'login': MessageLookupByLibrary.simpleMessage('Login'),
     'loginFailed': MessageLookupByLibrary.simpleMessage('Login failed!'),

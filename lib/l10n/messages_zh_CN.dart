@@ -134,6 +134,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'leaveAComment': MessageLookupByLibrary.simpleMessage('添加评论...'),
     'lightBrightness': MessageLookupByLibrary.simpleMessage('浅色'),
     'loadingFailed': MessageLookupByLibrary.simpleMessage('加载失败'),
+    'loading_': MessageLookupByLibrary.simpleMessage('加载中...'),
     'location': MessageLookupByLibrary.simpleMessage('地理位置'),
     'login': MessageLookupByLibrary.simpleMessage('登录'),
     'loginFailed': MessageLookupByLibrary.simpleMessage('登录失败！'),

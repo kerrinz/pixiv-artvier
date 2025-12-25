@@ -259,6 +259,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "loading_": "加载中...",
+  "@loading_": {
+    "description": "Page loading text",
+    "type": "text",
+    "placeholders": {}
+  },
   "loadingFailed": "加载失败",
   "@loadingFailed": {
     "description": "Image loading failed",
