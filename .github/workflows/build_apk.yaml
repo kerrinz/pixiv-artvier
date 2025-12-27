@@ -1,11 +1,6 @@
 name: Build and Release
 
 on:
-    push:
-        branches:
-            - main
-        paths-ignore:
-            - "*.md"
     pull_request:
         types: [closed]
         branches: [main]
@@ -18,7 +13,7 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            #   检出代码
+            # 检出代码
             - uses: actions/checkout@v3
               with:
                   fetch-depth: 0 # 获取完整的 git 历史
