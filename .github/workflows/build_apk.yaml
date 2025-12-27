@@ -1,8 +1,8 @@
 name: Build and Release
 
 permissions:
-  contents: write
-  pull-requests: read
+    contents: write
+    pull-requests: read
 
 on:
     push:
@@ -37,6 +37,7 @@ jobs:
               with:
                   flutter-version: "3.35.1"
                   channel: "stable"
+                  cache: true
             # 获取依赖
             - name: Get dependencies
               run: flutter pub get
@@ -67,7 +68,6 @@ jobs:
     create-release:
         needs: build-android
         runs-on: ubuntu-latest
-        if: github.event.pull_request.merged == true
 
         steps:
             # 下载构建产物
