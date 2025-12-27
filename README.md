@@ -61,6 +61,12 @@
 - Flutter 3.35.1 • channel stable • https://github.com/flutter/flutter.git
 - Tools • Dart 3.9.0 • DevTools 2.48.0
 
+## github 工作流
+需要配置以下 secrets：
+- `KEYSTORE_BASE64`：keystore 文件的 base64 编码字符串
+- `KEYSTORE_PASSWORD`：keystore 密码
+- `KEY_ALIAS`：key 别名
+- `KEY_PASSWORD`：key 密码
 ## 辅助命令
 ### 切换 gradle 版本
 ```sh
