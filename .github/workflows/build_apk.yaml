@@ -1,6 +1,14 @@
 name: Build and Release
 
+permissions:
+  contents: write
+  pull-requests: read
+
 on:
+    push:
+        branches: [main]
+        paths-ignore:
+            - "*.md"
     pull_request:
         types: [closed]
         branches: [main]
@@ -56,3 +64,43 @@ jobs:
                       build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
                       build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
                       build/app/outputs/flutter-apk/app-x86_64-release.apk
+    create-release:
+        needs: build-android
+        runs-on: ubuntu-latest
+        if: github.event.pull_request.merged == true
+
+        steps:
+            # 下载构建产物
+            - name: Download  artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: ./dist/
+
+            # 读取 pubspec.yaml 的 version 字段
+            - name: Extract version from pubspec.yaml
+              id: extract_version
+              run: |
+                  VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+                  echo "version=$VERSION" >> $GITHUB_ENV
+
+            # 创建 GitHub Release 并上传 APK 文件
+            - name: Create Release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: v${{ env.version  }}
+                  release_name: Release for PR #${{ github.event.pull_request.number }}
+                  draft: false
+                  prerelease: true
+                  body: |
+                      Auto-generated release for merged PR #${{ github.event.pull_request.number }}.
+                        See the PR for details: ${{ github.event.pull_request.html_url }}
+
+            - name: Upload Release Assets
+              uses: softprops/action-gh-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  name: everything
+                  files: ./dist/*
