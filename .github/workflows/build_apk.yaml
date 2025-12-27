@@ -1,0 +1,63 @@
+name: Build and Release
+
+on:
+    push:
+        branches:
+            - main
+        paths-ignore:
+            - "*.md"
+    pull_request:
+        types: [closed]
+        branches: [main]
+        paths-ignore:
+            - "*.md"
+    workflow_dispatch:
+
+jobs:
+    build-android:
+        runs-on: ubuntu-latest
+
+        steps:
+            #   检出代码
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0 # 获取完整的 git 历史
+            #  设置 Java 环境
+            - name: Setup Java
+              uses: actions/setup-java@v3
+              with:
+                  distribution: "zulu"
+                  java-version: "17"
+            # 设置 Flutter 环境
+            - name: Setup Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                  flutter-version: "3.35.1"
+                  channel: "stable"
+            # 获取依赖
+            - name: Get dependencies
+              run: flutter pub get
+            # 构建 APK
+            - name: Create key.properties
+              run: |
+                  echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" >> android/key.properties
+                  echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+                  echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+                  echo "storeFile=ghaction-keystore.jks" >> android/key.properties
+                  echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/ghaction-keystore.jks
+
+            - name: Build APK
+              run: flutter build apk --split-per-abi --release
+
+            - name: Build Universal APK
+              run: flutter build apk --release
+
+            - name: Upload Android artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: android-build
+                  path: |
+                      build/app/outputs/flutter-apk/app-release.apk
+                      build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+                      build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+                      build/app/outputs/flutter-apk/app-x86_64-release.apk
