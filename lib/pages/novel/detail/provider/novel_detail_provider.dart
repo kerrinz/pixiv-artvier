@@ -34,9 +34,11 @@ final novelViewerSettings = StateNotifierProvider<NovelViewerSettingsNotifier, N
 
   // 从本地读取配置
   final textSize = storage.textSize() ?? 12.0;
+  final pageTheme = storage.pageTheme;
+  final pageCustomTheme = storage.pageCustomTheme;
 
   return NovelViewerSettingsNotifier(
-    NovelViewerSettingsModel(textSize: textSize),
+    NovelViewerSettingsModel(textSize: textSize, themeName: pageTheme, customTheme: pageCustomTheme),
     ref: ref,
   );
 });
@@ -103,5 +105,25 @@ class NovelViewerSettingsNotifier extends BaseStateNotifier<NovelViewerSettingsM
   Future<bool> minusTextSize() async {
     final textSize = state.textSize - 1;
     return changeTextSize(textSize);
+  }
+
+  /// 切换阅读器主题
+  Future<bool> changePageTheme(String? themeName) async {
+    var storage = NovelViewerStorage(prefs);
+    final result = await storage.setPageTheme(themeName);
+    if (result) {
+      state = state.copyWith(themeName: themeName);
+    }
+    return result;
+  }
+
+  /// 编辑自定义阅读器主题
+  Future<bool> editPageCustomTheme(NovelViewerTheme customTheme) async {
+    var storage = NovelViewerStorage(prefs);
+    final result = await storage.setPageCustomTheme(customTheme);
+    if (result) {
+      state = state.copyWith(customTheme: customTheme);
+    }
+    return result;
   }
 }

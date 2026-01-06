@@ -1,8 +1,10 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/slider/division_slider.dart';
+import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/global/model/marker_state_changed_arguments/marker_state_changed_arguments.dart';
+import 'package:artvier/global/model/novel_viewer/novel_viewer_settings_model.dart';
 import 'package:artvier/global/provider/novel_marker_provider.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/pages/novel/detail/provider/novel_detail_provider.dart';
@@ -111,6 +113,31 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                 )
               ],
             ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Consumer(builder: (context, ref, child) {
+                final themeName = ref.watch(novelViewerSettings.select((state) => state.themeName));
+                // final customTheme = ref.watch(novelViewerSettings.select((state) => state.customTheme));
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  spacing: 16,
+                  children: [
+                    for (final item in CONSTANTS.viewer_themes.entries)
+                      _swatchBackgroundItem(
+                        theme: item.value,
+                        checked: (themeName ?? 'default') == item.key,
+                        onTap: () {
+                          if (item.value == null) {
+                            ref.read(novelViewerSettings.notifier).changePageTheme(null);
+                          } else {
+                            ref.read(novelViewerSettings.notifier).changePageTheme(item.key);
+                          }
+                        },
+                      ),
+                  ],
+                );
+              }),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -160,6 +187,40 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  /// 切换背景颜色的色块
+  Widget _swatchBackgroundItem({required NovelViewerTheme? theme, bool checked = false, VoidCallback? onTap}) {
+    final background = theme != null ? Color(theme.background) : colorScheme.surface;
+    final foreground = theme != null ? Color(theme.foreground) : colorScheme.onSurface;
+    return SizedBox(
+      width: 32,
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: onTap,
+            child: Container(
+              width: double.infinity,
+              height: 32,
+              decoration: BoxDecoration(
+                color: background,
+                border: Border.all(color: foreground),
+                borderRadius: BorderRadius.all(Radius.circular(32)),
+              ),
+              child: Center(child: Icon(Icons.text_format_rounded, color: foreground)),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: SizedBox(
+              height: 2,
+              width: double.infinity,
+              child: checked ? DecoratedBox(decoration: BoxDecoration(color: colorScheme.primary)) : null,
+            ),
+          )
+        ],
       ),
     );
   }

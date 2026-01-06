@@ -26,6 +26,7 @@ class NovelText extends BasePage {
     super.key,
     required this.textSpanList,
     required this.textSize,
+    this.foreground,
     this.onTap,
   });
 
@@ -33,13 +34,15 @@ class NovelText extends BasePage {
 
   final double textSize;
 
+  final Color? foreground;
+
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SelectableText.rich(
       TextSpan(children: textSpanList),
-      style: textTheme(context).bodyLarge?.copyWith(fontSize: textSize),
+      style: textTheme(context).bodyLarge?.copyWith(fontSize: textSize, color: foreground),
       onTap: onTap,
     );
   }
