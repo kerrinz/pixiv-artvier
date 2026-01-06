@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:artvier/global/model/novel_viewer/novel_viewer_settings_model.dart';
+
 class CONSTANTS {
   static const String mode_all = "all";
   static const String mode_safe = "safe";
@@ -125,5 +127,15 @@ class CONSTANTS {
     "108_s": 108,
     "109_s": 109,
     "110_s": 110,
+  };
+
+  static const viewer_themes = {
+    "default": null,
+    "snow_white": NovelViewerTheme(foreground: 0xff333333, background: 0xffffffff), // 白雪Gray-Green
+    "gray_green": NovelViewerTheme(foreground: 0xff333333, background: 0xffd8e7eb), // 灰绿
+    "grass_green": NovelViewerTheme(foreground: 0xff333333, background: 0xffcce8cf), // 草绿
+    "bright_yellow": NovelViewerTheme(foreground: 0xff333333, background: 0xffffffed), // 明黄
+    "night_reading": NovelViewerTheme(foreground: 0xffe6edf3, background: 0xff0d1117), // 夜读
+    "light_and_dark_gray": NovelViewerTheme(foreground: 0xffb8b8b8, background: 0xff1a1a1a), // 深浅灰
   };
 }

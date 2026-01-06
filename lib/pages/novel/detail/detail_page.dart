@@ -5,6 +5,7 @@ import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/component/layout/single_line_fitted_box.dart';
 import 'package:artvier/component/loading/muted_works.dart';
+import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/model_response/user/common_user.dart';
@@ -57,6 +58,9 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
 
   /// 容器 Key
   final GlobalKey _bodyKey = GlobalKey();
+
+  // 使用 key 来保持 CustomScrollView 的状态
+  final viewerScrollKey = GlobalKey();
 
   /// 小说章节标题样式
   get novelChapterTitleStyle => textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold);
@@ -197,157 +201,166 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
   }
 
   Widget _buildSuccessContent(NovelDetailWebView webViewData) {
+    // 页面主题色
+    final themeName = ref.watch(novelViewerSettings.select((state) => state.themeName));
+    final theme = CONSTANTS.viewer_themes[themeName];
+    // 阅读器背景色
+    final background = theme != null ? Color(theme.background) : null;
+    final foreground = theme != null ? Color(theme.foreground) : null;
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.light,
       ),
-      child: Stack(
-        children: [
-          CustomScrollView(slivers: [
-            SliverToBoxAdapter(
-              child: Stack(
-                children: [
-                  EnhanceNetworkImage(
-                    width: double.infinity,
-                    height: 180,
-                    image: ExtendedNetworkImageProvider(
-                      HttpHostOverrides().pxImgUrl(webViewData.novel.coverUrl),
-                      headers: HttpHostOverrides().pximgHeaders,
-                      cache: true,
+      child: Container(
+        color: background,
+        child: Stack(
+          children: [
+            CustomScrollView(
+              key: viewerScrollKey,
+              slivers: [
+                // 小说信息
+                SliverToBoxAdapter(
+                  child: Container(
+                    color: colorScheme.surface,
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: [
+                            EnhanceNetworkImage(
+                              width: double.infinity,
+                              height: 180,
+                              image: ExtendedNetworkImageProvider(
+                                HttpHostOverrides().pxImgUrl(webViewData.novel.coverUrl),
+                                headers: HttpHostOverrides().pximgHeaders,
+                                cache: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                        // 作品标题
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 4.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text.rich(
+                                  TextSpan(children: [
+                                    if (webViewData.novel.tags.contains("R-18"))
+                                      TextSpan(
+                                        text: "R18  ",
+                                        style: textTheme.bodyMedium?.copyWith(
+                                          color: const Color(0xFFFF3855),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    if (webViewData.novel.seriesId != null && webViewData.novel.seriesId != "")
+                                      TextSpan(
+                                        text: "${l10n.series}  ",
+                                        style: textTheme.bodyMedium?.copyWith(
+                                          color: const Color(0xfffeaf0f),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    TextSpan(text: webViewData.novel.title),
+                                  ]),
+                                  style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: _collectButton(),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // 概述信息
+                        AuthorCardWidget(
+                            user: CommonUser(
+                              id: webViewData.authorDetails.userId,
+                              name: webViewData.authorDetails.userName,
+                              profileImageUrls: Profile_image_urls(medium: webViewData.authorDetails.profileImg.url),
+                              isFollowed: webViewData.authorDetails.isFollowed,
+                            ),
+                            createDate: webViewData.novel.cdate),
+                        _buildInformation(webViewData),
+                        // 系列
+                        if (webViewData.novel.seriesId != null && webViewData.novel.seriesId != "")
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            child: NovelSeriesNavigation(novel: webViewData.novel),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          child: Divider(color: colorScheme.outline.withAlpha(100)),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            // 作品标题
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 4.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text.rich(
-                        TextSpan(children: [
-                          if (webViewData.novel.tags.contains("R-18"))
-                            TextSpan(
-                              text: "R18  ",
-                              style: textTheme.bodyMedium?.copyWith(
-                                color: const Color(0xFFFF3855),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          if (webViewData.novel.seriesId != null && webViewData.novel.seriesId != "")
-                            TextSpan(
-                              text: "${l10n.series}  ",
-                              style: textTheme.bodyMedium?.copyWith(
-                                color: const Color(0xfffeaf0f),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          TextSpan(text: webViewData.novel.title),
-                        ]),
-                        style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: _collectButton(),
-                    ),
-                  ],
                 ),
-              ),
-            ),
-            // 概述信息
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  // 作者卡片
-                  AuthorCardWidget(
-                      user: CommonUser(
-                        id: webViewData.authorDetails.userId,
-                        name: webViewData.authorDetails.userName,
-                        profileImageUrls: Profile_image_urls(medium: webViewData.authorDetails.profileImg.url),
-                        isFollowed: webViewData.authorDetails.isFollowed,
-                      ),
-                      createDate: webViewData.novel.cdate),
-                  _buildInformation(webViewData),
-                ],
-              ),
-            ),
-            // 系列
-            if (webViewData.novel.seriesId != null && webViewData.novel.seriesId != "")
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: NovelSeriesNavigation(novel: webViewData.novel),
-                ),
-              ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Divider(color: colorScheme.outline.withAlpha(100)),
-              ),
-            ),
-            ..._buildContent(webViewData),
-          ]),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: AppBar(
-              backgroundColor: Colors.transparent,
-              shadowColor: Colors.transparent,
-              // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-              leading: const AppbarLeadingButtton(
-                color: Colors.white,
-                enableBackground: true,
-              ),
-              actions: [
-                AppbarBlurIconButton(
-                  icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
-                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                  onPressed: () {
-                    BottomSheets.showCustomBottomSheet<bool>(
-                      context: context,
-                      exitOnClickModal: true,
-                      enableDrag: false,
-                      child: NovelDetailMenu(
-                        novelId: webViewData.novel.id,
-                      ),
-                    );
-                  },
-                )
+
+                ..._buildContent(webViewData, background, foreground),
               ],
             ),
-          ),
-          // 设置栏
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: SlideTransition(
-              position: overlayOffsetAnimation,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: NovelDetailOverlaySettings(
-                  novelId: novelId,
-                  webViewData: webViewData,
-                  catalogCallback: (index, name) {
-                    scrollToChapter(context, elements, _bodyKey, false, index);
-                    Navigator.maybeOf(context)?.pop();
-                  },
-                  markerCallback: (callback) => handleMarkerClick(context, elements, _bodyKey, callback),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: AppBar(
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
+                leading: const AppbarLeadingButtton(
+                  color: Colors.white,
+                  enableBackground: true,
+                ),
+                actions: [
+                  AppbarBlurIconButton(
+                    icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                    onPressed: () {
+                      BottomSheets.showCustomBottomSheet<bool>(
+                        context: context,
+                        exitOnClickModal: true,
+                        enableDrag: false,
+                        child: NovelDetailMenu(
+                          novelId: webViewData.novel.id,
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
+            // 设置栏
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: SlideTransition(
+                position: overlayOffsetAnimation,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: NovelDetailOverlaySettings(
+                    novelId: novelId,
+                    webViewData: webViewData,
+                    catalogCallback: (index, name) {
+                      scrollToChapter(context, elements, _bodyKey, false, index);
+                      Navigator.maybeOf(context)?.pop();
+                    },
+                    markerCallback: (callback) => handleMarkerClick(context, elements, _bodyKey, callback),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   /// 小说内容
-  List<Widget> _buildContent(NovelDetailWebView webViewData) {
+  List<Widget> _buildContent(NovelDetailWebView webViewData, Color? background, Color? foreground) {
     final settings = ref.watch(novelViewerSettings);
     final lines = webViewData.novel.text.split('\n');
 
@@ -401,6 +414,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                 key: element.key,
                 textSpanList: element.element,
                 textSize: settings.textSize,
+                foreground: foreground,
                 onTap: () {
                   overlayShow = !overlayShow;
                   animateOverlay();
@@ -417,6 +431,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                 key: element.key,
                 textSpanList: element.element,
                 textSize: settings.textSize,
+                foreground: foreground,
                 onTap: () {
                   overlayShow = !overlayShow;
                   animateOverlay();
