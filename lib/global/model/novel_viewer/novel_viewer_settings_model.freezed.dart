@@ -220,6 +220,176 @@ abstract class _NovelViewerSettingsModel implements NovelViewerSettingsModel {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+/// @nodoc
+mixin _$NovelViewerPresetTheme {
+  NovelViewerTheme? get theme => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+
+  /// Create a copy of NovelViewerPresetTheme
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $NovelViewerPresetThemeCopyWith<NovelViewerPresetTheme> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $NovelViewerPresetThemeCopyWith<$Res> {
+  factory $NovelViewerPresetThemeCopyWith(NovelViewerPresetTheme value,
+          $Res Function(NovelViewerPresetTheme) then) =
+      _$NovelViewerPresetThemeCopyWithImpl<$Res, NovelViewerPresetTheme>;
+  @useResult
+  $Res call({NovelViewerTheme? theme, String? name});
+
+  $NovelViewerThemeCopyWith<$Res>? get theme;
+}
+
+/// @nodoc
+class _$NovelViewerPresetThemeCopyWithImpl<$Res,
+        $Val extends NovelViewerPresetTheme>
+    implements $NovelViewerPresetThemeCopyWith<$Res> {
+  _$NovelViewerPresetThemeCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of NovelViewerPresetTheme
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? theme = freezed,
+    Object? name = freezed,
+  }) {
+    return _then(_value.copyWith(
+      theme: freezed == theme
+          ? _value.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as NovelViewerTheme?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+
+  /// Create a copy of NovelViewerPresetTheme
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NovelViewerThemeCopyWith<$Res>? get theme {
+    if (_value.theme == null) {
+      return null;
+    }
+
+    return $NovelViewerThemeCopyWith<$Res>(_value.theme!, (value) {
+      return _then(_value.copyWith(theme: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$NovelViewerPresetThemeImplCopyWith<$Res>
+    implements $NovelViewerPresetThemeCopyWith<$Res> {
+  factory _$$NovelViewerPresetThemeImplCopyWith(
+          _$NovelViewerPresetThemeImpl value,
+          $Res Function(_$NovelViewerPresetThemeImpl) then) =
+      __$$NovelViewerPresetThemeImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({NovelViewerTheme? theme, String? name});
+
+  @override
+  $NovelViewerThemeCopyWith<$Res>? get theme;
+}
+
+/// @nodoc
+class __$$NovelViewerPresetThemeImplCopyWithImpl<$Res>
+    extends _$NovelViewerPresetThemeCopyWithImpl<$Res,
+        _$NovelViewerPresetThemeImpl>
+    implements _$$NovelViewerPresetThemeImplCopyWith<$Res> {
+  __$$NovelViewerPresetThemeImplCopyWithImpl(
+      _$NovelViewerPresetThemeImpl _value,
+      $Res Function(_$NovelViewerPresetThemeImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NovelViewerPresetTheme
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? theme = freezed,
+    Object? name = freezed,
+  }) {
+    return _then(_$NovelViewerPresetThemeImpl(
+      theme: freezed == theme
+          ? _value.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as NovelViewerTheme?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$NovelViewerPresetThemeImpl implements _NovelViewerPresetTheme {
+  const _$NovelViewerPresetThemeImpl({this.theme, this.name});
+
+  @override
+  final NovelViewerTheme? theme;
+  @override
+  final String? name;
+
+  @override
+  String toString() {
+    return 'NovelViewerPresetTheme(theme: $theme, name: $name)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NovelViewerPresetThemeImpl &&
+            (identical(other.theme, theme) || other.theme == theme) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, theme, name);
+
+  /// Create a copy of NovelViewerPresetTheme
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NovelViewerPresetThemeImplCopyWith<_$NovelViewerPresetThemeImpl>
+      get copyWith => __$$NovelViewerPresetThemeImplCopyWithImpl<
+          _$NovelViewerPresetThemeImpl>(this, _$identity);
+}
+
+abstract class _NovelViewerPresetTheme implements NovelViewerPresetTheme {
+  const factory _NovelViewerPresetTheme(
+      {final NovelViewerTheme? theme,
+      final String? name}) = _$NovelViewerPresetThemeImpl;
+
+  @override
+  NovelViewerTheme? get theme;
+  @override
+  String? get name;
+
+  /// Create a copy of NovelViewerPresetTheme
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$NovelViewerPresetThemeImplCopyWith<_$NovelViewerPresetThemeImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 NovelViewerTheme _$NovelViewerThemeFromJson(Map<String, dynamic> json) {
   return _NovelViewerTheme.fromJson(json);
 }

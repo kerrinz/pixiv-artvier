@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:artvier/global/model/novel_viewer/novel_viewer_settings_model.dart';
+import 'package:artvier/l10n/localization_intl.dart';
 
 class CONSTANTS {
   static const String mode_all = "all";
@@ -129,13 +130,36 @@ class CONSTANTS {
     "110_s": 110,
   };
 
-  static const viewer_themes = {
-    "default": null,
-    "snow_white": NovelViewerTheme(foreground: 0xff333333, background: 0xffffffff), // 白雪Gray-Green
-    "gray_green": NovelViewerTheme(foreground: 0xff333333, background: 0xffd8e7eb), // 灰绿
-    "grass_green": NovelViewerTheme(foreground: 0xff333333, background: 0xffcce8cf), // 草绿
-    "bright_yellow": NovelViewerTheme(foreground: 0xff333333, background: 0xffffffed), // 明黄
-    "night_reading": NovelViewerTheme(foreground: 0xffe6edf3, background: 0xff0d1117), // 夜读
-    "light_and_dark_gray": NovelViewerTheme(foreground: 0xffb8b8b8, background: 0xff1a1a1a), // 深浅灰
-  };
+  /// 小说阅读器的预设配色主题
+  static Map<String, NovelViewerPresetTheme> viewerThemes(context) {
+    final l10n = LocalizationIntl.of(context);
+    return {
+      "default": NovelViewerPresetTheme(
+        name: l10n.default_,
+        theme: null,
+      ),
+      // "custom": NovelViewerPresetTheme(
+      //   name: "Cusomize",
+      //   theme: null,
+      // ),
+      "snow_white": NovelViewerPresetTheme(
+        theme: NovelViewerTheme(foreground: 0xff333333, background: 0xffffffff),
+      ), // 白雪
+      "gray_green": NovelViewerPresetTheme(
+        theme: NovelViewerTheme(foreground: 0xff333333, background: 0xffd8e7eb),
+      ), // 灰绿
+      "grass_green": NovelViewerPresetTheme(
+        theme: NovelViewerTheme(foreground: 0xff333333, background: 0xffcce8cf),
+      ), // 草绿
+      "bright_yellow": NovelViewerPresetTheme(
+        theme: NovelViewerTheme(foreground: 0xff333333, background: 0xffffffed),
+      ), // 明黄
+      "night_reading": NovelViewerPresetTheme(
+        theme: NovelViewerTheme(foreground: 0xffe6edf3, background: 0xff0d1117),
+      ), // 夜读
+      "darker_light_gray": NovelViewerPresetTheme(
+        theme: NovelViewerTheme(foreground: 0xffb8b8b8, background: 0xff1a1a1a),
+      ), // 深浅灰
+    };
+  }
 }
