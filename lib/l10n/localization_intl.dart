@@ -43,6 +43,7 @@ class LocalizationIntl {
   // 通用
   String get account => Intl.message('Account', name: 'account', desc: 'Title of user account');
   String get current => Intl.message('Current', name: 'current', desc: '');
+  String get default_ => Intl.message('Default', name: 'default_', desc: '');
   String get illust => Intl.message('Illust', name: 'illust', desc: 'An option of works type');
   String get manga => Intl.message('Manga', name: 'manga', desc: 'An option of works type');
   String get mangaSeries => Intl.message('Manga series', name: 'mangaSeries', desc: 'An option of works type');
@@ -104,6 +105,8 @@ class LocalizationIntl {
   String get autoSwitchFollowingSystemDesc =>
       Intl.message("Automatically switch between light and dark following the system settings",
           name: 'autoSwitchFollowingSystemDesc', desc: 'The description of options of following system');
+  String get foregroundColor => Intl.message("Foreground color", name: 'foregroundColor', desc: '');
+  String get backgroundColor => Intl.message("Background color", name: 'backgroundColor', desc: '');
 
   // 首页
   String get rankings => Intl.message('Rankings', name: 'rankings', desc: 'Function group item.');

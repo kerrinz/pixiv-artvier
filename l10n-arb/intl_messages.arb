@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-12-09T18:53:05.560291",
+  "@@last_modified": "2026-01-07T15:59:29.256189",
   "bootingPageUpdatingHint": "Local data is being updated. Please do not exit the software!",
   "@bootingPageUpdatingHint": {
     "description": "",
@@ -74,6 +74,12 @@
   },
   "current": "Current",
   "@current": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "default_": "Default",
+  "@default_": {
     "description": "",
     "type": "text",
     "placeholders": {}
@@ -357,6 +363,18 @@
   "autoSwitchFollowingSystemDesc": "Automatically switch between light and dark following the system settings",
   "@autoSwitchFollowingSystemDesc": {
     "description": "The description of options of following system",
+    "type": "text",
+    "placeholders": {}
+  },
+  "foregroundColor": "Foreground color",
+  "@foregroundColor": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "backgroundColor": "Background color",
+  "@backgroundColor": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },

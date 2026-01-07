@@ -41,6 +41,7 @@ dependencies:
   extended_image: ^10.0.1 # 图片
   extended_nested_scroll_view: ^6.2.1
   extended_sliver: ^2.1.3
+  flutter_colorpicker: ^1.1.0
 #  flutter_downloader: 1.7.0 # 文件下载
   flutter_markdown: ^0.7.7+1
   flutter_riverpod: ^2.6.1 # 状态管理

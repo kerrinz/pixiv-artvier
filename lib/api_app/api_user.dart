@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:artvier/global/logger.dart';
 import 'package:artvier/model_response/novels/marker_novel.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
@@ -30,7 +29,6 @@ class ApiUser extends ApiBase {
       options: Options(responseType: ResponseType.json),
       cancelToken: cancelToken,
     );
-    logger.d(res.data.toString());
     return UserDetail.fromJson(json.decode(res.data));
   }
 

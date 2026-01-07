@@ -79,6 +79,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "default_": "默认",
+  "@default_": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
   "illust": "插画",
   "@illust": {
     "description": "An option of works type",
@@ -358,6 +364,18 @@
   "autoSwitchFollowingSystemDesc": "开启后，将跟随系统设置自动切换浅色或深色",
   "@autoSwitchFollowingSystemDesc": {
     "description": "The description of options of following system",
+    "type": "text",
+    "placeholders": {}
+  },
+  "foregroundColor": "前景色",
+  "@foregroundColor": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "backgroundColor": "背景色",
+  "@backgroundColor": {
+    "description": "",
     "type": "text",
     "placeholders": {}
   },

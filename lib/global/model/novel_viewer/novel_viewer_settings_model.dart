@@ -19,6 +19,17 @@ class NovelViewerSettingsModel with _$NovelViewerSettingsModel {
   }) = _NovelViewerSettingsModel;
 }
 
+/// 小说阅读器预设主题
+@Freezed(
+  copyWith: true,
+)
+class NovelViewerPresetTheme with _$NovelViewerPresetTheme {
+  const factory NovelViewerPresetTheme({
+    NovelViewerTheme? theme,
+    String? name,
+  }) = _NovelViewerPresetTheme;
+}
+
 /// 小说阅读器主题
 @Freezed(
   copyWith: true,
