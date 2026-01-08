@@ -113,23 +113,18 @@ jobs:
                   echo "EOF" >> $GITHUB_ENV
 
             # 创建 GitHub Release 并上传 APK 文件
-            - name: Create Release
-              uses: actions/create-release@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Create Release and Upload Assets
+              uses: softprops/action-gh-release@v1
               with:
-                  tag_name: v${{ env.version  }}
-                  release_name: v${{ env.version  }}
+                  tag_name: v${{ env.version }}
+                  name: v${{ env.version }}
                   draft: false
                   prerelease: true
                   body: |
-                      Changes since ${{ env.prev_version }}:
+                      ## Changes since ${{ env.prev_version }}
                       ${{ env.changelog }}
-
-            - name: Upload Release Assets
-              uses: softprops/action-gh-release@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  name: everything
-                  files: ./dist/*
+                  files: |
+                      ./dist/android-build/app-release.apk
+                      ./dist/android-build/app-armeabi-v7a-release.apk
+                      ./dist/android-build/app-arm64-v8a-release.apk
+                      ./dist/android-build/app-x86_64-release.apk
