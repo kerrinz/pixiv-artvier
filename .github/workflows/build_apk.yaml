@@ -24,6 +24,19 @@ jobs:
               with:
                   distribution: "zulu"
                   java-version: "17"
+            # 缓存 Android SDK，避免每次重新下载平台和 CMake
+            - name: Cache Android SDK
+              uses: actions/cache@v4
+              with:
+                  path: /usr/local/lib/android/sdk
+                  key: ${{ runner.os }}-android-sdk-33-cmake322
+
+            # 确保需要的 SDK 组件已安装（命中缓存时会非常快）
+            - name: Install Android SDK components
+              run: |
+                  export ANDROID_SDK_ROOT=/usr/local/lib/android/sdk
+                  yes | sdkmanager --licenses
+                  sdkmanager --install "platforms;android-33" "build-tools;33.0.2" "cmake;3.22.1"
             # 设置 Flutter 环境
             - name: Setup Flutter
               uses: subosito/flutter-action@v2
