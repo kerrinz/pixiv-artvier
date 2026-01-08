@@ -136,9 +136,11 @@ jobs:
           fi
 
           echo "prev_version=$PREV_VERSION" >> $GITHUB_ENV
-          echo "changelog<<'EOF'" >> $GITHUB_ENV
-          echo "$LOG" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          {
+            echo "changelog<<EOF_CHANGELOG_MARKER"
+            echo "$LOG"
+            echo "EOF_CHANGELOG_MARKER"
+          } >> $GITHUB_ENV
 
       # 创建 GitHub Release 并上传 APK 文件
       - name: Create Release and Upload Assets
