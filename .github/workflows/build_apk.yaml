@@ -18,18 +18,52 @@ jobs:
     steps:
       # 检出代码
       - uses: actions/checkout@v3
+
       #  设置 Java 环境
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
           distribution: "zulu"
           java-version: "17"
+
       # 设置 Flutter 环境
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
           cache: true
+
+      # 缓存 Gradle 依赖
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # 缓存 Android 构建输出（包括 NDK、CMake 编译产物等）
+      - name: Cache Android build
+        uses: actions/cache@v4
+        with:
+          path: |
+            build
+            android/.gradle
+            android/app/build
+            ~/.android/build-cache
+          key: ${{ runner.os }}-android-build-${{ hashFiles('**/*.dart', 'pubspec.yaml', 'android/**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-android-build-
+
+      # 设置 Android SDK 环境并预安装组件
+      - name: Setup Android SDK components
+        run: |
+          export ANDROID_SDK_ROOT=$ANDROID_HOME
+          export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools
+          yes | sdkmanager --licenses || true
+          sdkmanager --install "platforms;android-33" "build-tools;33.0.2" "cmake;3.22.1" "ndk;26.1.10909125" || true
 
       # 获取依赖
       - name: Get dependencies
