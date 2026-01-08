@@ -83,7 +83,7 @@ class NovelViewerCustomizeThemeEditor extends BaseStatefulPage {
 
   final NovelViewerTheme? theme;
 
-  final VoidCallback? onConfirm;
+  final void Function(int foreground, int background)? onConfirm;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -106,74 +106,105 @@ class _NovelViewerCustomizeThemeEditorState extends BasePageState<NovelViewerCus
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      spacing: 8,
-      children: [
-        // 前景色
-        Row(
-          children: [
-            Expanded(child: Text('${l10n.foregroundColor}: ')),
-            _colorBadgeItem(
-              onTap: () async {
-                // create some values
-                Color pickerColor = foreground != null ? Color(foreground!) : Colors.black;
-                Color? resultColor;
-                await showDialog(
-                  builder: (context) => AlertDialog(
-                    title: Text(l10n.foregroundColor),
-                    content: SingleChildScrollView(
-                      child: ColorPicker(
-                        pickerColor: pickerColor,
-                        onColorChanged: (Color color) {
-                          pickerColor = color;
-                        },
-                      ),
-                    ),
-                    actions: <Widget>[
-                      ElevatedButton(
-                        child: Text(l10n.promptConform),
-                        onPressed: () {
-                          resultColor = pickerColor;
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ),
-                  context: context,
-                );
-                if (resultColor != null) {
-                  print(resultColor);
-                }
-              },
-              color: foreground != null ? Color(foreground!) : null,
-              text: foreground != null ? '0x${foreground!.toRadixString(16).toUpperCase()}' : l10n.edit,
-            ),
-          ],
-        ),
-        // 背景色
-        Row(
-          children: [
-            Expanded(child: Text('${l10n.backgroundColor}: ')),
-            _colorBadgeItem(
-              onTap: () {},
-              color: background != null ? Color(background!) : null,
-              text: background != null ? '0x${background!.toRadixString(16).toUpperCase()}' : l10n.edit,
-            ),
-          ],
-        ),
-        // 预览
-        if (background != null && foreground != null)
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-              color: Color(theme!.background),
-            ),
-            child: Text('ABCDEFGHIJK', style: textTheme.bodyMedium?.copyWith(color: Color(foreground!))),
+    return AlertDialog(
+      title: Text(l10n.themeSettings),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 8,
+        children: [
+          // 前景色
+          Row(
+            children: [
+              Expanded(child: Text('${l10n.foregroundColor}: ')),
+              _colorBadgeItem(
+                onTap: () async {
+                  int? result = await runPickerColor(foreground != null ? Color(foreground!) : Colors.black);
+                  if (result != null) {
+                    setState(() {
+                      foreground = result;
+                    });
+                  }
+                },
+                color: foreground != null ? Color(foreground!) : null,
+                text: foreground != null ? '0x${foreground!.toRadixString(16).toUpperCase()}' : l10n.edit,
+              ),
+            ],
           ),
+          // 背景色
+          Row(
+            children: [
+              Expanded(child: Text('${l10n.backgroundColor}: ')),
+              _colorBadgeItem(
+                onTap: () async {
+                  int? result = await runPickerColor(background != null ? Color(background!) : Colors.black);
+                  if (result != null) {
+                    setState(() {
+                      background = result;
+                    });
+                  }
+                },
+                color: background != null ? Color(background!) : null,
+                text: background != null ? '0x${background!.toRadixString(16).toUpperCase()}' : l10n.edit,
+              ),
+            ],
+          ),
+          // 预览
+          if (background != null && foreground != null)
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+                color: Color(background!),
+              ),
+              child: Text('ABCDEFGHIJK', style: textTheme.bodyMedium?.copyWith(color: Color(foreground!))),
+            ),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(child: Text(l10n.promptCancel), onPressed: () => Navigator.pop(context)),
+        TextButton(
+          onPressed: foreground != null && background != null
+              ? () {
+                  if (widget.onConfirm != null && foreground != null && background != null) {
+                    widget.onConfirm!(foreground!, background!);
+                    Navigator.pop(context);
+                  }
+                }
+              : null,
+          child: Text(l10n.promptConform),
+        ),
       ],
     );
+  }
+
+  /// 唤起颜色选择器
+  Future<int?> runPickerColor(Color initColor) async {
+    Color pickerColor = initColor;
+    Color? resultColor;
+    await showDialog(
+      builder: (context) => AlertDialog(
+        title: Text(l10n.foregroundColor),
+        content: SingleChildScrollView(
+          child: ColorPicker(
+            pickerColor: pickerColor,
+            onColorChanged: (Color color) {
+              pickerColor = color;
+            },
+          ),
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            child: Text(l10n.promptConform),
+            onPressed: () {
+              resultColor = pickerColor;
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+      context: context,
+    );
+    return resultColor?.toARGB32();
   }
 
   Widget _colorBadgeItem({required Color? color, required String text, VoidCallback? onTap}) {

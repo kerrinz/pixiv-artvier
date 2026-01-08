@@ -203,11 +203,22 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
   Widget _buildSuccessContent(NovelDetailWebView webViewData) {
     final viewerThemes = CONSTANTS.viewerThemes(context);
     // 页面主题色
-    final themeName = ref.watch(novelViewerSettings.select((state) => state.themeName)) ?? 'default';
+    final settings = ref.watch(novelViewerSettings);
+    final themeName = settings.themeName ?? 'default';
     final theme = viewerThemes[themeName];
     // 阅读器背景色
-    final background = theme?.theme != null ? Color(theme!.theme!.background) : null;
-    final foreground = theme?.theme != null ? Color(theme!.theme!.foreground) : null;
+    print(theme?.name);
+    final isCustomTheme = themeName == 'custom' && settings.customTheme != null;
+    final background = isCustomTheme
+        ? Color(settings.customTheme!.background)
+        : theme?.theme != null
+            ? Color(theme!.theme!.background)
+            : null;
+    final foreground = isCustomTheme
+        ? Color(settings.customTheme!.foreground)
+        : theme?.theme != null
+            ? Color(theme!.theme!.foreground)
+            : null;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
