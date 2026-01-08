@@ -5,6 +5,7 @@ import 'package:artvier/component/slider/division_slider.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/global/model/marker_state_changed_arguments/marker_state_changed_arguments.dart';
+import 'package:artvier/global/model/novel_viewer/novel_viewer_settings_model.dart';
 import 'package:artvier/global/provider/novel_marker_provider.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/pages/novel/detail/provider/novel_detail_provider.dart';
@@ -135,31 +136,38 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                         checked: themeName == item.key,
                         onTap: () async {
                           if (item.key == 'custom') {
-                            bool isCancel = true; // 用户是否取消
-                            await showDialog(
-                              context: ref.context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text(l10n.promptTitle),
-                                  content: NovelViewerCustomizeThemeEditor(theme: item.value.theme),
-                                  actions: <Widget>[
-                                    TextButton(child: Text(l10n.promptCancel), onPressed: () => Navigator.pop(context)),
-                                    TextButton(
-                                      child: Text(l10n.promptConform),
-                                      onPressed: () {
-                                        isCancel = false;
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                            if (isCancel) return;
-
-                            /// TODO
-                            // ref.read(novelViewerSettings.notifier).editPageCustomTheme('custom');
-                            ref.read(novelViewerSettings.notifier).changePageTheme('custom');
+                            final customTheme = ref.read(novelViewerSettings).customTheme;
+                            int? resultForeground = customTheme?.foreground;
+                            int? resultBackground = customTheme?.background;
+                            if (themeName != 'custom' && resultForeground != null && resultBackground != null) {
+                              // 当前已应用的主题非自定义主题，且已保存过自定义主题配色，那直接切换主题不用编辑颜色
+                              ref.read(novelViewerSettings.notifier).changePageTheme('custom');
+                            } else {
+                              // 先编辑保存颜色，再切换到自定义主题
+                              await showDialog(
+                                context: ref.context,
+                                builder: (context) {
+                                  return NovelViewerCustomizeThemeEditor(
+                                    theme: customTheme?.foreground != null && customTheme?.background != null
+                                        ? NovelViewerTheme(background: resultBackground!, foreground: resultForeground!)
+                                        : null,
+                                    onConfirm: (int foreground, int background) {
+                                      resultForeground = foreground;
+                                      resultBackground = background;
+                                    },
+                                  );
+                                },
+                              );
+                              // 切换自定义主题配色
+                              if (resultForeground != null &&
+                                  resultBackground != null &&
+                                  resultForeground != customTheme?.foreground &&
+                                  resultBackground != customTheme?.background) {
+                                ref.read(novelViewerSettings.notifier).editPageCustomTheme(
+                                    NovelViewerTheme(foreground: resultForeground!, background: resultBackground!),
+                                    'custom');
+                              }
+                            }
                           } else if (item.key == 'default' || item.value.theme == null) {
                             ref.read(novelViewerSettings.notifier).changePageTheme(null);
                           } else {

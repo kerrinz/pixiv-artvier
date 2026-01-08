@@ -118,12 +118,15 @@ class NovelViewerSettingsNotifier extends BaseStateNotifier<NovelViewerSettingsM
   }
 
   /// 编辑自定义阅读器主题
-  Future<bool> editPageCustomTheme(NovelViewerTheme customTheme) async {
-    var storage = NovelViewerStorage(prefs);
-    final result = await storage.setPageCustomTheme(customTheme);
-    if (result) {
-      state = state.copyWith(customTheme: customTheme);
+  Future<bool> editPageCustomTheme(NovelViewerTheme customTheme, String? themeName) async {
+    state = state.copyWith(
+        customTheme: NovelViewerTheme(foreground: 0xffffffff, background: 0xffff0000), themeName: 'custom');
+    final storage = NovelViewerStorage(prefs);
+    final result1 = await storage.setPageCustomTheme(customTheme);
+    final result2 = await storage.setPageTheme(themeName);
+    if (result1 && result2) {
+      state = state.copyWith(customTheme: customTheme, themeName: themeName);
     }
-    return result;
+    return result1 && result2;
   }
 }

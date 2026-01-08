@@ -44,6 +44,7 @@ class NovelViewerStorage extends BaseStorage {
   /// 获取自定义主题前景、背景色
   NovelViewerTheme? get pageCustomTheme {
     final str = sharedPreferences.getString(_pageCustomTheme);
+    print(str);
     if (str == null || str.length <= 2) return null;
     NovelViewerTheme? theme;
     try {
