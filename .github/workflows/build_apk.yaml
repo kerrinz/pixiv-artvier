@@ -6,7 +6,6 @@ permissions:
 
 on:
   push:
-    branches: [main]
     tags:
       - "*"
   workflow_dispatch:
@@ -116,36 +115,47 @@ jobs:
           echo "tag_name=$TAG_NAME" >> $GITHUB_ENV
           echo "Release tag: $TAG_NAME"
 
-      # 生成变更日志（当前 tag 到上一个 tag 的 commit messages）
-      - name: Generate changelog
+      # 生成 Changelog
+      - name: Generate Changelog
         id: changelog
         run: |
-          git fetch --tags
-          CURRENT_TAG=${GITHUB_REF#refs/tags/}
+          # 获取当前 tag
+          CURRENT_TAG="${{ env.tag_name }}"
           
           # 获取上一个 tag
-          PREV_TAG=$(git tag --sort=-v:refname | grep -v "^${CURRENT_TAG}$" | head -n 1)
+          PREVIOUS_TAG=$(git tag --sort=-v:refname | grep -A1 "^${CURRENT_TAG}$" | tail -n1)
           
-          if [ -z "$PREV_TAG" ]; then
-            RANGE="$CURRENT_TAG"
-            TITLE="### All changes in $CURRENT_TAG"
+          echo "Current tag: $CURRENT_TAG"
+          echo "Previous tag: $PREVIOUS_TAG"
+          
+          # 如果没有上一个 tag，则从第一个 commit 开始
+          if [ -z "$PREVIOUS_TAG" ] || [ "$PREVIOUS_TAG" == "$CURRENT_TAG" ]; then
+            echo "No previous tag found, generating changelog from first commit"
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
           else
-            RANGE="$PREV_TAG..$CURRENT_TAG"
-            TITLE="### Changes from $PREV_TAG to $CURRENT_TAG"
+            # 生成两个 tag 之间的 changelog
+            CHANGELOG=$(git log ${PREVIOUS_TAG}..${CURRENT_TAG} --pretty=format:"- %s (%h)" --no-merges)
           fi
           
-          COMMITS=$(git log $RANGE --pretty=format:"- %s (%h)" --no-merges)
+          # 如果 changelog 为空
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="No changes"
+          fi
           
-          {
-            echo "changelog<<EOF_CHANGELOG_MARKER"
-            echo "$TITLE"
-            echo ""
-            echo "$COMMITS"
-            echo ""
-            echo "**Commit:** \`${{ github.sha }}\`"
-            echo "**Build Time:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-            echo "EOF_CHANGELOG_MARKER"
-          } >> $GITHUB_ENV
+          # 保存到文件
+          echo "## What's Changed" > changelog.md
+          echo "" >> changelog.md
+          echo "$CHANGELOG" >> changelog.md
+          echo "" >> changelog.md
+          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}" >> changelog.md
+          
+          # 输出 changelog 用于 release
+          cat changelog.md
+          
+          # 将 changelog 设置为输出（处理多行）
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat changelog.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       # 创建 GitHub Release 并上传 APK 文件
       - name: Create Release and Upload Assets
@@ -153,9 +163,9 @@ jobs:
         with:
           tag_name: ${{ env.tag_name }}
           name: ${{ env.tag_name }}
+          body: ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: false
-          body: ${{ env.changelog }}
           files: |
             ./dist/android-build/app-release.apk
             ./dist/android-build/app-armeabi-v7a-release.apk
