@@ -7,6 +7,8 @@ permissions:
 on:
   push:
     branches: [main]
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
     paths-ignore:
       - "*.md"
   workflow_dispatch:
@@ -108,37 +110,68 @@ jobs:
         with:
           path: ./dist/
 
-      # 读取 pubspec.yaml 的 version 字段
-      - name: Extract version from pubspec.yaml
-        id: extract_version
+      # 判断是 tag push 还是 commit push
+      - name: Determine release type
+        id: release_type
         run: |
-          VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
-          echo "version=$VERSION" >> $GITHUB_ENV
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            # Tag push: 使用 tag 名称，创建正式 release（纯版本号）
+            TAG_NAME=${GITHUB_REF#refs/tags/}
+            echo "tag_name=$TAG_NAME" >> $GITHUB_ENV
+            echo "release_name=v$TAG_NAME" >> $GITHUB_ENV
+            echo "is_prerelease=false" >> $GITHUB_ENV
+            echo "Release type: Official release for tag $TAG_NAME"
+          else
+            # Commit push: 使用 version + short SHA，创建 pre-release
+            VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+            SHORT_SHA=${GITHUB_SHA::7}
+            echo "tag_name=${VERSION}-dev-${SHORT_SHA}" >> $GITHUB_ENV
+            echo "release_name=${VERSION}-dev-${SHORT_SHA}" >> $GITHUB_ENV
+            echo "is_prerelease=true" >> $GITHUB_ENV
+            echo "Release type: Pre-release for commit $SHORT_SHA"
+          fi
 
-      # 生成变更日志（当前版本与上一标记版本之间的提交）
+      # 生成变更日志
       - name: Generate changelog
         id: changelog
         run: |
           git fetch --tags
-          CURRENT_VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
-          PREV_VERSION_COMMIT=$(git log -G '^version:' --pretty=format:%H -- pubspec.yaml | sed -n '2p')
-
-          if [ -z "$PREV_VERSION_COMMIT" ]; then
-            PREV_VERSION=none
-            LOG=$(git log --oneline)
+          
+          # 获取上一个正式版本 tag（纯数字版本号，按版本排序）
+          PREV_TAG=$(git tag --sort=-v:refname | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n 2 | tail -n 1)
+          
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            # Tag push: 两个 tag 之间的 commit messages
+            CURRENT_TAG=${GITHUB_REF#refs/tags/}
+            if [ -z "$PREV_TAG" ] || [ "$PREV_TAG" == "$CURRENT_TAG" ]; then
+              RANGE="$CURRENT_TAG"
+              TITLE="### All changes in $CURRENT_TAG"
+            else
+              RANGE="$PREV_TAG..$CURRENT_TAG"
+              TITLE="### Changes from $PREV_TAG to $CURRENT_TAG"
+            fi
           else
-            PREV_VERSION=$(git show "${PREV_VERSION_COMMIT}":pubspec.yaml | grep '^version:' | awk '{print $2}')
-            LOG=$(git log "${PREV_VERSION_COMMIT}..HEAD" --oneline)
+            # Commit push: 最新 tag 到 HEAD 的 commit messages
+            LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+            if [ -z "$LATEST_TAG" ]; then
+              RANGE="HEAD"
+              TITLE="### Recent Changes"
+            else
+              RANGE="$LATEST_TAG..HEAD"
+              TITLE="### Changes since $LATEST_TAG"
+            fi
           fi
 
-          if [ -z "$LOG" ]; then
-            LOG="No commits found between versions."
-          fi
+          COMMITS=$(git log $RANGE --pretty=format:"- %s (%h)" --no-merges)
 
-          echo "prev_version=$PREV_VERSION" >> $GITHUB_ENV
           {
             echo "changelog<<EOF_CHANGELOG_MARKER"
-            echo "$LOG"
+            echo "$TITLE"
+            echo ""
+            echo "$COMMITS"
+            echo ""
+            echo "**Commit:** \`${{ github.sha }}\`"
+            echo "**Build Time:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             echo "EOF_CHANGELOG_MARKER"
           } >> $GITHUB_ENV
 
@@ -146,15 +179,9 @@ jobs:
       - name: Create Release and Upload Assets
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ env.version }}
-          name: v${{ env.version }}
+          tag_name: ${{ env.tag_name }}
+          name: ${{ env.release_name }}
           draft: false
-          prerelease: true
-          body: |
-            ## Changes since ${{ env.prev_version }}
-            ${{ env.changelog }}
-          files: |
-            ./dist/android-build/app-release.apk
-            ./dist/android-build/app-armeabi-v7a-release.apk
-            ./dist/android-build/app-arm64-v8a-release.apk
-            ./dist/android-build/app-x86_64-release.apk
+          prerelease: ${{ env.is_prerelease }}
+          body: ${{ env.changelog }}
+          files: ./dist/
