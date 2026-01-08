@@ -64,9 +64,11 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
 
             # 下载构建产物
-            - name: Download  artifacts
+            - name: Download artifacts
               uses: actions/download-artifact@v4
               with:
                   path: ./dist/
@@ -78,6 +80,31 @@ jobs:
                   VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
                   echo "version=$VERSION" >> $GITHUB_ENV
 
+            # 生成变更日志（当前版本与上一标记版本之间的提交）
+            - name: Generate changelog
+              id: changelog
+              run: |
+                  git fetch --tags
+                  CURRENT_VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+                  PREV_VERSION_COMMIT=$(git log -G '^version:' --pretty=format:%H -- pubspec.yaml | sed -n '2p')
+
+                  if [ -z "$PREV_VERSION_COMMIT" ]; then
+                    PREV_VERSION=none
+                    LOG=$(git log --oneline)
+                  else
+                    PREV_VERSION=$(git show "${PREV_VERSION_COMMIT}":pubspec.yaml | grep '^version:' | awk '{print $2}')
+                    LOG=$(git log "${PREV_VERSION_COMMIT}..HEAD" --oneline)
+                  fi
+
+                  if [ -z "$LOG" ]; then
+                    LOG="No commits found between versions."
+                  fi
+
+                  echo "prev_version=$PREV_VERSION" >> $GITHUB_ENV
+                  echo "changelog<<'EOF'" >> $GITHUB_ENV
+                  echo "$LOG" >> $GITHUB_ENV
+                  echo "EOF" >> $GITHUB_ENV
+
             # 创建 GitHub Release 并上传 APK 文件
             - name: Create Release
               uses: actions/create-release@v1
@@ -88,7 +115,9 @@ jobs:
                   release_name: v${{ env.version  }}
                   draft: false
                   prerelease: true
-                  body: ${{ github.event.head_commit.message }}
+                  body: |
+                      Changes since ${{ env.prev_version }}:
+                      ${{ env.changelog }}
 
             - name: Upload Release Assets
               uses: softprops/action-gh-release@v1
