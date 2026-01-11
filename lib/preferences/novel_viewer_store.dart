@@ -37,14 +37,13 @@ class NovelViewerStorage extends BaseStorage {
 
   // /// 设置自定义主题前景、背景色
   Future<bool> setPageCustomTheme(NovelViewerTheme theme) async {
-    final str = theme.toJson().toString();
+    final str = json.encode(theme.toJson());
     return await sharedPreferences.setString(_pageCustomTheme, str);
   }
 
   /// 获取自定义主题前景、背景色
   NovelViewerTheme? get pageCustomTheme {
     final str = sharedPreferences.getString(_pageCustomTheme);
-    print(str);
     if (str == null || str.length <= 2) return null;
     NovelViewerTheme? theme;
     try {
