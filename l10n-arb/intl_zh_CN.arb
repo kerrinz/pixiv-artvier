@@ -379,6 +379,18 @@
     "type": "text",
     "placeholders": {}
   },
+  "custom": "自定义",
+  "@custom": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "customize": "个性化",
+  "@customize": {
+    "description": "Customize of theme",
+    "type": "text",
+    "placeholders": {}
+  },
   "rankings": "排行榜",
   "@rankings": {
     "description": "Function group item.",
