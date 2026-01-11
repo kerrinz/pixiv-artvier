@@ -107,6 +107,8 @@ class LocalizationIntl {
           name: 'autoSwitchFollowingSystemDesc', desc: 'The description of options of following system');
   String get foregroundColor => Intl.message("Foreground color", name: 'foregroundColor', desc: '');
   String get backgroundColor => Intl.message("Background color", name: 'backgroundColor', desc: '');
+  String get custom => Intl.message("Custom", name: 'custom', desc: '');
+  String get customize => Intl.message("Customize", name: 'customize', desc: 'Customize of theme');
 
   // 首页
   String get rankings => Intl.message('Rankings', name: 'rankings', desc: 'Function group item.');

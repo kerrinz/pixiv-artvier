@@ -139,7 +139,7 @@ class CONSTANTS {
         theme: null,
       ),
       "custom": NovelViewerPresetTheme(
-        name: "Customize",
+        name: l10n.custom,
         theme: null,
       ),
       "snow_white": NovelViewerPresetTheme(
