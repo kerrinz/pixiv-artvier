@@ -159,10 +159,7 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                                 },
                               );
                               // 切换自定义主题配色
-                              if (resultForeground != null &&
-                                  resultBackground != null &&
-                                  resultForeground != customTheme?.foreground &&
-                                  resultBackground != customTheme?.background) {
+                              if (resultForeground != null && resultBackground != null) {
                                 ref.read(novelViewerSettings.notifier).editPageCustomTheme(
                                     NovelViewerTheme(foreground: resultForeground!, background: resultBackground!),
                                     'custom');
