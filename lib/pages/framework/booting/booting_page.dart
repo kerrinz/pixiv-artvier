@@ -72,7 +72,12 @@ class BootingPageState extends BasePageState<BootingPage> {
         } else {
           if (context.mounted) {
             // ignore: use_build_context_synchronously
-            Navigator.pushNamedAndRemoveUntil(context, widget.arguemnts.nextRoute, (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              widget.arguemnts.nextRoute,
+              (route) => false,
+              arguments: widget.arguemnts.nextRouteArguments,
+            );
           }
         }
       });
