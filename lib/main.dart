@@ -84,7 +84,7 @@ class MyAppState extends ConsumerState<MyApp> {
   MaterialPageRoute? checkAppLinks(String? link) {
     if (link == null) return null;
     final uri = Uri.parse(link);
-    if (uri.pathSegments[0] == 'artworks') {
+    if (uri.pathSegments[0].toLowerCase() == 'artworks') {
       final String artworkId = uri.pathSegments[1];
       if (RegExp(r'^\d+$').hasMatch(artworkId)) {
         final nextPageArgs = IllustDetailPageArguments(illustId: artworkId);
@@ -92,7 +92,7 @@ class MyAppState extends ConsumerState<MyApp> {
             BootingPageArguments(nextRoute: RouteNames.artworkDetail.name, nextRouteArguments: nextPageArgs);
         return MaterialPageRoute(builder: (context) => BootingPage(bootingPageArgs));
       }
-    } else if (uri.pathSegments[0] == 'users') {
+    } else if (uri.pathSegments[0].toLowerCase() == 'users') {
       final String userId = uri.pathSegments[1];
       if (RegExp(r'^\d+$').hasMatch(userId)) {
         final nextPageArgs = PreloadUserLeastInfo(userId, null, null);
@@ -100,7 +100,7 @@ class MyAppState extends ConsumerState<MyApp> {
             BootingPageArguments(nextRoute: RouteNames.userDetail.name, nextRouteArguments: nextPageArgs);
         return MaterialPageRoute(builder: (context) => BootingPage(bootingPageArgs));
       }
-    } else if (uri.pathSegments[0] == 'novel') {
+    } else if (uri.pathSegments[0].toLowerCase() == 'novel') {
       final novelId = uri.queryParameters['id'];
       if (novelId != null && novelId != '') {
         if (RegExp(r'^\d+$').hasMatch(novelId)) {
@@ -141,7 +141,7 @@ class MyAppState extends ConsumerState<MyApp> {
         //   '/booting': (context) => BootingPage(),
         // },
         onGenerateRoute: (RouteSettings settings) {
-          final result = checkAppLinks(settings.name!);
+          final result = checkAppLinks(settings.name);
           if (result != null) {
             return result;
           } else {
