@@ -52,9 +52,23 @@ android {
 
     buildTypes {
         release {
+            // 启用分包
+            isMinifyEnabled = true
+            isShrinkResources = true
+
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("release")
+
+            // 分包配置
+            splits {
+                abi {
+                    isEnable = true
+                    reset()
+                    include("armeabi-v7a", "arm64-v8a", "x86_64")
+                    isUniversalApk = true  // 是否生成通用 APK
+                }
+            }
         }
         debug {
             signingConfig = signingConfigs.getByName("release")
