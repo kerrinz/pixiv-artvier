@@ -1,0 +1,173 @@
+name: Build and Release
+
+permissions:
+  contents: write
+  pull-requests: read
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出代码
+      - uses: actions/checkout@v3
+
+      #  设置 Java 环境
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      # 设置 Flutter 环境
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      # 缓存 Gradle 依赖
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # 缓存 Android 构建输出（包括 NDK、CMake 编译产物等）
+      - name: Cache Android build
+        uses: actions/cache@v4
+        with:
+          path: |
+            build
+            android/.gradle
+            android/app/build
+            ~/.android/build-cache
+          key: ${{ runner.os }}-android-build-${{ hashFiles('**/*.dart', 'pubspec.yaml', 'android/**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-android-build-
+
+      # 设置 Android SDK 环境并预安装组件
+      - name: Setup Android SDK components
+        run: |
+          export ANDROID_SDK_ROOT=$ANDROID_HOME
+          export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools
+          yes | sdkmanager --licenses || true
+          sdkmanager --install "platforms;android-33" "build-tools;33.0.2" "cmake;3.22.1" "ndk;26.1.10909125" || true
+
+      # 获取依赖
+      - name: Get dependencies
+        run: flutter pub get
+      # 构建 APK
+      - name: Create key.properties
+        run: |
+          echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+          echo "storeFile=ghaction-keystore.jks" >> android/key.properties
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/ghaction-keystore.jks
+
+      - name: Build APK
+        run: flutter build apk --split-per-abi --release
+
+      - name: Build Universal APK
+        run: flutter build apk --release
+
+      - name: Upload Android artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+            build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+            build/app/outputs/flutter-apk/app-x86_64-release.apk
+  create-release:
+    needs: build-android
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # 下载构建产物
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./dist/
+
+      # 提取 tag 名称
+      - name: Extract tag name
+        id: extract_tag
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "tag_name=$TAG_NAME" >> $GITHUB_ENV
+          echo "Release tag: $TAG_NAME"
+
+      # 生成 Changelog
+      - name: Generate Changelog
+        id: changelog
+        run: |
+          # 获取当前 tag
+          CURRENT_TAG="${{ env.tag_name }}"
+          
+          # 获取上一个 tag
+          PREVIOUS_TAG=$(git tag --sort=-v:refname | grep -A1 "^${CURRENT_TAG}$" | tail -n1)
+          
+          echo "Current tag: $CURRENT_TAG"
+          echo "Previous tag: $PREVIOUS_TAG"
+          
+          # 如果没有上一个 tag，则从第一个 commit 开始
+          if [ -z "$PREVIOUS_TAG" ] || [ "$PREVIOUS_TAG" == "$CURRENT_TAG" ]; then
+            echo "No previous tag found, generating changelog from first commit"
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
+          else
+            # 生成两个 tag 之间的 changelog
+            CHANGELOG=$(git log ${PREVIOUS_TAG}..${CURRENT_TAG} --pretty=format:"- %s (%h)" --no-merges)
+          fi
+          
+          # 如果 changelog 为空
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="No changes"
+          fi
+          
+          # 保存到文件
+          echo "## What's Changed" > changelog.md
+          echo "" >> changelog.md
+          echo "$CHANGELOG" >> changelog.md
+          echo "" >> changelog.md
+          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}" >> changelog.md
+          
+          # 输出 changelog 用于 release
+          cat changelog.md
+          
+          # 将 changelog 设置为输出（处理多行）
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat changelog.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      # 创建 GitHub Release 并上传 APK 文件
+      - name: Create Release and Upload Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.tag_name }}
+          name: ${{ env.tag_name }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+          files: |
+            ./dist/android-build/app-release.apk
+            ./dist/android-build/app-armeabi-v7a-release.apk
+            ./dist/android-build/app-arm64-v8a-release.apk
+            ./dist/android-build/app-x86_64-release.apk
