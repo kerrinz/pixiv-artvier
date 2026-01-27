@@ -97,7 +97,7 @@ class TrendingTagsGrid extends StatelessWidget {
                     arguments: IllustDetailPageArguments(
                       illustId: item.illust.id.toString(),
                       title: item.illust.title,
-                      detail: item.illust,
+                      illustList: [item.illust],
                     ),
                   );
                 }),

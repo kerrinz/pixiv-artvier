@@ -297,7 +297,8 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
                               RouteNames.artworkDetail.name,
                               arguments: IllustDetailPageArguments(
                                 illustId: rankingList[index].id.toString(),
-                                detail: rankingList[index],
+                                illustList: rankingList,
+                                currentIllustListIndex: index,
                               ),
                             );
                           },

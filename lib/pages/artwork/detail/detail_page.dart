@@ -1,3 +1,4 @@
+import 'package:artvier/base/base_page.dart';
 import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/business_component/ugoira_image/ugoira_image.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
@@ -30,6 +31,7 @@ import 'package:artvier/pages/artwork/detail/widgets/related_artworks_content.da
 import 'package:artvier/routes.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
+/// 插画漫画详情页
 class ArtWorksDetailPage extends ConsumerStatefulWidget {
   final IllustDetailPageArguments args; // 数据集
 
@@ -37,36 +39,93 @@ class ArtWorksDetailPage extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return _ArtWorksDetailState();
+    return _ArtWorksDetailPageState();
   }
 }
 
-class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
+/// 插画漫画详情页的子页面
+class ArtWorksDetailSubPage extends ConsumerStatefulWidget {
+  final CommonIllust? detail;
+
+  final String? illustId;
+
+  final String? title;
+
+  const ArtWorksDetailSubPage({
+    super.key,
+    this.detail,
+    this.illustId,
+    this.title,
+  }) : assert(detail != null || illustId != null);
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _ArtWorksDetailSubPageState();
+  }
+}
+
+class _ArtWorksDetailPageState extends BasePageState<ArtWorksDetailPage>
+    with TickerProviderStateMixin, ArtworkDetailPageLogic {
+  @override
+  get artworkDetail => widget.args.illustList?[widget.args.currentIllustListIndex ?? 0];
+
+  @override
+  get artworkId => widget.args.illustId ?? artworkDetail!.id.toString();
+
+  late PageController pageController;
+
+  @override
+  void initState() {
+    pageController = PageController(initialPage: widget.args.currentIllustListIndex ?? 0);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // 滑动分页
+    return PageView.builder(
+      controller: pageController,
+      itemBuilder: (context, index) {
+        return ArtWorksDetailSubPage(
+          illustId: widget.args.illustId,
+          title: widget.args.title,
+          detail: widget.args.illustList?[index],
+        );
+      },
+      itemCount: widget.args.illustList?.length ?? 1,
+    );
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+}
+
+class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
     with TickerProviderStateMixin, ArtworkDetailPageLogic {
   late final TabController _tabController;
 
   late final DragController _dragController;
 
   @override
-  get artworkDetail => widget.args.detail;
+  get artworkDetail => widget.detail;
 
   @override
-  get artworkId => widget.args.illustId;
-
-  TextTheme get textTheme => Theme.of(context).textTheme;
-  ColorScheme get colorScheme => Theme.of(context).colorScheme;
+  get artworkId => widget.illustId ?? artworkDetail!.id.toString();
 
   @override
   void initState() {
     _dragController = DragController();
-    if (widget.args.detail != null) {
+    if (artworkDetail != null) {
       appDatabase
           .addRecordWithRemoveDuplicates(ViewingHistoryTableData(
-            title: widget.args.detail!.title,
+            title: artworkDetail!.title,
             type: WorksType.illust,
-            worksId: widget.args.detail!.id.toString(),
-            previewImageUrl: widget.args.detail!.imageUrls.medium,
-            authorName: widget.args.detail!.user.name,
+            worksId: artworkDetail!.id.toString(),
+            previewImageUrl: artworkDetail!.imageUrls.medium,
+            authorName: artworkDetail!.user.name,
             lastTime: DateTime.now(),
           ))
           // ignore: invalid_return_type_for_catch_error
@@ -78,11 +137,11 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    if (widget.args.detail != null) {
+    if (artworkDetail != null) {
       // 已被屏蔽
-      if (widget.args.detail!.isMuted) return Scaffold(body: _buildMutedContent());
+      if (artworkDetail!.isMuted) return Scaffold(body: _buildMutedContent());
       // 未屏蔽
-      CommonIllust detail = widget.args.detail!;
+      CommonIllust detail = artworkDetail!;
       return Scaffold(body: _buildSuccessContent(detail));
     } else {
       return Scaffold(
@@ -102,7 +161,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
         // backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         leading: const AppbarLeadingButtton(enableBackground: true),
-        title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.illustId)),
+        title: SingleLineFittedBox(child: Text(widget.title ?? artworkId)),
       ),
       MutedWorks(),
     ]);
@@ -114,7 +173,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
         // backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         leading: const AppbarLeadingButtton(enableBackground: true),
-        title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.illustId)),
+        title: SingleLineFittedBox(child: Text(widget.title ?? artworkId)),
       ),
       Builder(builder: (context) {
         if (isFailed) {
@@ -148,7 +207,7 @@ class _ArtWorksDetailState extends ConsumerState<ArtWorksDetailPage>
                     exitOnClickModal: true,
                     enableDrag: false,
                     child: ArtworkDetailMenu(
-                      detail: widget.args.detail ?? detail,
+                      detail: artworkDetail ?? detail,
                     ),
                   );
                 },
