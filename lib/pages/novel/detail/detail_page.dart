@@ -206,8 +206,6 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
     final settings = ref.watch(novelViewerSettings);
     final themeName = settings.themeName ?? 'default';
     final theme = viewerThemes[themeName];
-    // 阅读器背景色
-    print(theme?.name);
     final isCustomTheme = themeName == 'custom' && settings.customTheme != null;
     final background = isCustomTheme
         ? Color(settings.customTheme!.background)
