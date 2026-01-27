@@ -9,12 +9,21 @@ class NovelViewerSwatchesButton extends BasePage {
   const NovelViewerSwatchesButton({
     super.key,
     required this.theme,
+    required this.themeKey,
+    required this.themeName,
     this.checked = false,
     this.onTap,
     this.colorWidth = 36.0,
   });
 
-  final NovelViewerPresetTheme theme;
+  /// 主题配色
+  final NovelViewerTheme? theme;
+
+  /// 主题标识
+  final String themeKey;
+
+  /// 主题名称
+  final String themeName;
   final bool checked;
   final VoidCallback? onTap;
 
@@ -24,11 +33,11 @@ class NovelViewerSwatchesButton extends BasePage {
   @override
   Widget build(BuildContext context, ref) {
     // 是否自定义主题
-    final isCustomizeTheme = theme.name == 'custom';
+    final isCustomizeTheme = themeKey == 'custom';
     // 是否默认主题
-    final isDefaultTheme = theme.name == 'default' || (!isCustomizeTheme && theme.theme == null);
-    final background = isDefaultTheme ? colorScheme(context).surface : Color(theme.theme!.background);
-    final foreground = isDefaultTheme ? colorScheme(context).onSurface : Color(theme.theme!.foreground);
+    final isDefaultTheme = themeKey == 'default';
+    final background = (!isDefaultTheme && theme != null) ? Color(theme!.background) : colorScheme(context).surface;
+    final foreground = (!isDefaultTheme && theme != null) ? Color(theme!.foreground) : colorScheme(context).onSurface;
     final width = (isDefaultTheme || isCustomizeTheme) ? null : colorWidth;
     final height = colorWidth;
     return SizedBox(
@@ -44,13 +53,25 @@ class NovelViewerSwatchesButton extends BasePage {
                 border: Border.all(color: foreground),
                 borderRadius: BorderRadius.all(Radius.circular(18)),
               ),
+              // 不同主题展示不同内容
               child: Center(
-                child: isDefaultTheme || isCustomizeTheme
+                child: isDefaultTheme
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(theme.name!, style: textTheme(context).labelSmall),
+                        child: Text(themeName, style: textTheme(context).labelSmall),
                       )
-                    : Icon(Icons.text_format_rounded, color: foreground),
+                    : isCustomizeTheme
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              spacing: 2,
+                              children: [
+                                if (checked) Icon(Icons.colorize, color: foreground, size: 16),
+                                Text(themeName, style: textTheme(context).labelSmall?.copyWith(color: foreground)),
+                              ],
+                            ),
+                          )
+                        : Icon(Icons.text_format_rounded, color: foreground),
               ),
             ),
           ),

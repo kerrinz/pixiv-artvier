@@ -124,7 +124,7 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
               scrollDirection: Axis.horizontal,
               child: Consumer(builder: (context, ref, child) {
                 final themeName = ref.watch(novelViewerSettings.select((state) => state.themeName)) ?? 'default';
-                // final customTheme = ref.watch(novelViewerSettings.select((state) => state.customTheme));
+                final customTheme = ref.watch(novelViewerSettings.select((state) => state.customTheme));
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +132,9 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                   children: [
                     for (final item in viewerThemes.entries)
                       NovelViewerSwatchesButton(
-                        theme: item.value,
+                        theme: (item.key == 'custom' && customTheme != null) ? customTheme : item.value.theme,
+                        themeKey: item.key,
+                        themeName: item.value.name ?? '',
                         checked: themeName == item.key,
                         onTap: () async {
                           if (item.key == 'custom') {
