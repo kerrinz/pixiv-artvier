@@ -17,13 +17,13 @@ import 'package:artvier/routes.dart';
 mixin IllustWaterfallGridViewLogic {
   WidgetRef get ref;
 
-  void handleTapItem(CommonIllust illust) {
+  void handleTapItem(int index, CommonIllust illust, List<CommonIllust> illustList) {
     if (illust.restrict == 2) {
       Fluttertoast.showToast(msg: "该图片已被删除或不公开", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
     } else {
       Navigator.of(ref.context).pushNamed(
         RouteNames.artworkDetail.name,
-        arguments: IllustDetailPageArguments(illustId: illust.id.toString(), detail: illust),
+        arguments: IllustDetailPageArguments(currentIllustListIndex: index, illustList: illustList),
       );
     }
   }

@@ -106,7 +106,7 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
       author: illust.user.name,
       totalCollected: illust.totalBookmarks,
       collectState: illust.collectState ?? (illust.isBookmarked ? CollectState.collected : CollectState.notCollect),
-      onTap: () => handleTapItem(illust),
+      onTap: () => handleTapItem(index, illust, artworkList),
     );
   }
 

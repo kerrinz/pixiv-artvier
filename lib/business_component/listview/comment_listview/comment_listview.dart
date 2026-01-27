@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/business_component/listview/comment_listview/comment_listview_item.dart';
-import 'package:artvier/business_component/listview/comment_listview/logic.dart';
 import 'package:artvier/business_component/listview/lazyload_logic_mixin.dart';
 import 'package:artvier/component/loading/lazyloading.dart';
 import 'package:artvier/config/enums.dart';
@@ -14,7 +13,7 @@ typedef CommentDeleteCallback = void Function(int commentId);
 /// - 默认为非静态组件！
 /// - 全权负责管理懒加载的状态，其他状态不在范围内。
 /// - 请不要为 [onLazyload] 捕获异常，否则会导致懒加载区域无法显示 errorWidget
-class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListViewLogic {
+class CommentListView extends ConsumerWidget with LazyloadLogic {
   /// 插画（或漫画）列表
   final List<Comments> commentList;
 
@@ -36,7 +35,6 @@ class CommentListView extends ConsumerWidget with LazyloadLogic, CommentListView
   final CommentReplyCallback? onReply;
   final CommentDeleteCallback? onDelete;
 
-  @override
   late final WidgetRef ref;
   CommentListView({
     super.key,

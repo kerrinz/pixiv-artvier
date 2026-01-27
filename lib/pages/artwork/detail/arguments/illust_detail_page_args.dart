@@ -9,8 +9,14 @@ part 'illust_detail_page_args.freezed.dart';
 )
 class IllustDetailPageArguments with _$IllustDetailPageArguments {
   const factory IllustDetailPageArguments({
-    required String illustId,
+    // 单个作品 ID
+    String? illustId,
+    // 单个作品标题
     String? title,
-    CommonIllust? detail,
+
+    // 多个作品完整信息
+    List<CommonIllust>? illustList,
+    // 多个作品中，当前作品的索引
+    int? currentIllustListIndex,
   }) = _IllustDetailPageArguments;
 }
