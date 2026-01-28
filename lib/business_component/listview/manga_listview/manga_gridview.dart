@@ -106,7 +106,7 @@ class MangaGridView extends ConsumerWidget with LazyloadLogic, MangaGridViewLogi
       author: illust.user.name,
       totalCollected: illust.totalBookmarks,
       collectState: illust.collectState ?? (illust.isBookmarked ? CollectState.collected : CollectState.notCollect),
-      onTap: () => handleTapItem(illust),
+      onTap: () => handleTapItem(index, artworkList, illust),
     );
   }
 

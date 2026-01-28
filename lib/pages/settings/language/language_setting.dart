@@ -11,7 +11,7 @@ class LanguageSettingPage extends BaseStatefulPage {
   LanguageSettingPageState createState() => LanguageSettingPageState();
 }
 
-class LanguageSettingPageState<LanguageSettingPage> extends BasePageState {
+class LanguageSettingPageState extends BasePageState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

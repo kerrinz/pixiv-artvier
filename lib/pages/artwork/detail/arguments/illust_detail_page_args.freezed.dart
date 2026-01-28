@@ -16,9 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$IllustDetailPageArguments {
-  String get illustId => throw _privateConstructorUsedError;
-  String? get title => throw _privateConstructorUsedError;
-  CommonIllust? get detail => throw _privateConstructorUsedError;
+// 单个作品 ID
+  String? get illustId => throw _privateConstructorUsedError; // 单个作品标题
+  String? get title => throw _privateConstructorUsedError; // 多个作品完整信息
+  List<CommonIllust>? get illustList =>
+      throw _privateConstructorUsedError; // 多个作品中，当前作品的索引
+  int? get currentIllustListIndex => throw _privateConstructorUsedError;
 
   /// Create a copy of IllustDetailPageArguments
   /// with the given fields replaced by the non-null parameter values.
@@ -33,7 +36,11 @@ abstract class $IllustDetailPageArgumentsCopyWith<$Res> {
           $Res Function(IllustDetailPageArguments) then) =
       _$IllustDetailPageArgumentsCopyWithImpl<$Res, IllustDetailPageArguments>;
   @useResult
-  $Res call({String illustId, String? title, CommonIllust? detail});
+  $Res call(
+      {String? illustId,
+      String? title,
+      List<CommonIllust>? illustList,
+      int? currentIllustListIndex});
 }
 
 /// @nodoc
@@ -52,23 +59,28 @@ class _$IllustDetailPageArgumentsCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? illustId = null,
+    Object? illustId = freezed,
     Object? title = freezed,
-    Object? detail = freezed,
+    Object? illustList = freezed,
+    Object? currentIllustListIndex = freezed,
   }) {
     return _then(_value.copyWith(
-      illustId: null == illustId
+      illustId: freezed == illustId
           ? _value.illustId
           : illustId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      detail: freezed == detail
-          ? _value.detail
-          : detail // ignore: cast_nullable_to_non_nullable
-              as CommonIllust?,
+      illustList: freezed == illustList
+          ? _value.illustList
+          : illustList // ignore: cast_nullable_to_non_nullable
+              as List<CommonIllust>?,
+      currentIllustListIndex: freezed == currentIllustListIndex
+          ? _value.currentIllustListIndex
+          : currentIllustListIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -82,7 +94,11 @@ abstract class _$$IllustDetailPageArgumentsImplCopyWith<$Res>
       __$$IllustDetailPageArgumentsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String illustId, String? title, CommonIllust? detail});
+  $Res call(
+      {String? illustId,
+      String? title,
+      List<CommonIllust>? illustList,
+      int? currentIllustListIndex});
 }
 
 /// @nodoc
@@ -100,23 +116,28 @@ class __$$IllustDetailPageArgumentsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? illustId = null,
+    Object? illustId = freezed,
     Object? title = freezed,
-    Object? detail = freezed,
+    Object? illustList = freezed,
+    Object? currentIllustListIndex = freezed,
   }) {
     return _then(_$IllustDetailPageArgumentsImpl(
-      illustId: null == illustId
+      illustId: freezed == illustId
           ? _value.illustId
           : illustId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      detail: freezed == detail
-          ? _value.detail
-          : detail // ignore: cast_nullable_to_non_nullable
-              as CommonIllust?,
+      illustList: freezed == illustList
+          ? _value._illustList
+          : illustList // ignore: cast_nullable_to_non_nullable
+              as List<CommonIllust>?,
+      currentIllustListIndex: freezed == currentIllustListIndex
+          ? _value.currentIllustListIndex
+          : currentIllustListIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -125,18 +146,37 @@ class __$$IllustDetailPageArgumentsImplCopyWithImpl<$Res>
 
 class _$IllustDetailPageArgumentsImpl implements _IllustDetailPageArguments {
   const _$IllustDetailPageArgumentsImpl(
-      {required this.illustId, this.title, this.detail});
+      {this.illustId,
+      this.title,
+      final List<CommonIllust>? illustList,
+      this.currentIllustListIndex})
+      : _illustList = illustList;
 
+// 单个作品 ID
   @override
-  final String illustId;
+  final String? illustId;
+// 单个作品标题
   @override
   final String? title;
+// 多个作品完整信息
+  final List<CommonIllust>? _illustList;
+// 多个作品完整信息
   @override
-  final CommonIllust? detail;
+  List<CommonIllust>? get illustList {
+    final value = _illustList;
+    if (value == null) return null;
+    if (_illustList is EqualUnmodifiableListView) return _illustList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+// 多个作品中，当前作品的索引
+  @override
+  final int? currentIllustListIndex;
 
   @override
   String toString() {
-    return 'IllustDetailPageArguments(illustId: $illustId, title: $title, detail: $detail)';
+    return 'IllustDetailPageArguments(illustId: $illustId, title: $title, illustList: $illustList, currentIllustListIndex: $currentIllustListIndex)';
   }
 
   @override
@@ -147,11 +187,15 @@ class _$IllustDetailPageArgumentsImpl implements _IllustDetailPageArguments {
             (identical(other.illustId, illustId) ||
                 other.illustId == illustId) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.detail, detail) || other.detail == detail));
+            const DeepCollectionEquality()
+                .equals(other._illustList, _illustList) &&
+            (identical(other.currentIllustListIndex, currentIllustListIndex) ||
+                other.currentIllustListIndex == currentIllustListIndex));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, illustId, title, detail);
+  int get hashCode => Object.hash(runtimeType, illustId, title,
+      const DeepCollectionEquality().hash(_illustList), currentIllustListIndex);
 
   /// Create a copy of IllustDetailPageArguments
   /// with the given fields replaced by the non-null parameter values.
@@ -165,16 +209,20 @@ class _$IllustDetailPageArgumentsImpl implements _IllustDetailPageArguments {
 
 abstract class _IllustDetailPageArguments implements IllustDetailPageArguments {
   const factory _IllustDetailPageArguments(
-      {required final String illustId,
+      {final String? illustId,
       final String? title,
-      final CommonIllust? detail}) = _$IllustDetailPageArgumentsImpl;
+      final List<CommonIllust>? illustList,
+      final int? currentIllustListIndex}) = _$IllustDetailPageArgumentsImpl;
 
+// 单个作品 ID
   @override
-  String get illustId;
+  String? get illustId; // 单个作品标题
   @override
-  String? get title;
+  String? get title; // 多个作品完整信息
   @override
-  CommonIllust? get detail;
+  List<CommonIllust>? get illustList; // 多个作品中，当前作品的索引
+  @override
+  int? get currentIllustListIndex;
 
   /// Create a copy of IllustDetailPageArguments
   /// with the given fields replaced by the non-null parameter values.
