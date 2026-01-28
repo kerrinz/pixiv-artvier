@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/api_app/api_serach.dart';
 import 'package:artvier/api_app/api_user.dart';
@@ -104,8 +103,6 @@ class SearchUsersNotifier extends BaseAsyncNotifier<List<CommonUserPreviews>>
     with ListAsyncNotifierMixin<List<CommonUserPreviews>> {
   SearchUsersNotifier({required this.searchWord});
   late final String searchWord;
-
-  final CancelToken cancelToken = CancelToken();
 
   @override
   FutureOr<List<CommonUserPreviews>> build() {
