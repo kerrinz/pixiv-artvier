@@ -6,8 +6,8 @@ permissions:
 
 on:
   push:
-    tags:
-      - "*"
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -91,83 +91,53 @@ jobs:
             build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
             build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
             build/app/outputs/flutter-apk/app-x86_64-release.apk
-  create-release:
-    needs: build-android
-    runs-on: ubuntu-latest
+
+  build-ios:
+    runs-on: macos-15
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      # 检出代码
+      - uses: actions/checkout@v3
 
-      # 下载构建产物
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
+      # 设置 Flutter 环境
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          path: ./dist/
+          channel: "stable"
+          flutter-version-file: pubspec.yaml
+          architecture: x64
+          cache: true
 
-      # 提取 tag 名称
-      - name: Extract tag name
-        id: extract_tag
+      # 选择 Xcode 版本
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
+
+      # 获取依赖
+      - name: Get dependencies
+        run: flutter pub get
+
+      # 构建 iOS (无签名)
+      - name: Build iOS
+        run: flutter build ios --release --no-codesign
+
+      # 创建 IPA 包
+      - name: Create IPA
         run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          echo "tag_name=$TAG_NAME" >> $GITHUB_ENV
-          echo "Release tag: $TAG_NAME"
+          mkdir -p build/ios/iphoneos/Payload
+          mv build/ios/iphoneos/Runner.app build/ios/iphoneos/Payload/
+          cd build/ios/iphoneos/
+          zip -r pixiv-artvier-ios.ipa Payload
 
-      # 生成 Changelog
-      - name: Generate Changelog
-        id: changelog
+      # 添加版本号到文件名
+      - name: Add version to filename
         run: |
-          # 获取当前 tag
-          CURRENT_TAG="${{ env.tag_name }}"
-          
-          # 获取上一个 tag
-          PREVIOUS_TAG=$(git tag --sort=-v:refname | grep -A1 "^${CURRENT_TAG}$" | tail -n1)
-          
-          echo "Current tag: $CURRENT_TAG"
-          echo "Previous tag: $PREVIOUS_TAG"
-          
-          # 如果没有上一个 tag，则从第一个 commit 开始
-          if [ -z "$PREVIOUS_TAG" ] || [ "$PREVIOUS_TAG" == "$CURRENT_TAG" ]; then
-            echo "No previous tag found, generating changelog from first commit"
-            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
-          else
-            # 生成两个 tag 之间的 changelog
-            CHANGELOG=$(git log ${PREVIOUS_TAG}..${CURRENT_TAG} --pretty=format:"- %s (%h)" --no-merges)
-          fi
-          
-          # 如果 changelog 为空
-          if [ -z "$CHANGELOG" ]; then
-            CHANGELOG="No changes"
-          fi
-          
-          # 保存到文件
-          echo "## What's Changed" > changelog.md
-          echo "" >> changelog.md
-          echo "$CHANGELOG" >> changelog.md
-          echo "" >> changelog.md
-          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}" >> changelog.md
-          
-          # 输出 changelog 用于 release
-          cat changelog.md
-          
-          # 将 changelog 设置为输出（处理多行）
-          echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          cat changelog.md >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          APP_VERSION=$(grep "version:" pubspec.yaml | cut -d':' -f2 | tr -d ' ')
+          mkdir -p result
+          mv build/ios/iphoneos/pixiv-artvier-ios.ipa result/pixiv-artvier-ios-$APP_VERSION.ipa
 
-      # 创建 GitHub Release 并上传 APK 文件
-      - name: Create Release and Upload Assets
-        uses: softprops/action-gh-release@v1
+      # 上传构建产物
+      - name: Upload iOS artifacts
+        uses: actions/upload-artifact@v4
         with:
-          tag_name: ${{ env.tag_name }}
-          name: ${{ env.tag_name }}
-          body: ${{ steps.changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
-          files: |
-            ./dist/android-build/app-release.apk
-            ./dist/android-build/app-armeabi-v7a-release.apk
-            ./dist/android-build/app-arm64-v8a-release.apk
-            ./dist/android-build/app-x86_64-release.apk
+          name: ios-build
+          path: result/
