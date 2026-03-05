@@ -444,38 +444,55 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
   }
 
   Widget _buildInformation(CommonIllust detail) {
+    final parameterTextStyle = textTheme.labelMedium?.copyWith(color: Colors.grey);
     return Padding(
       padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-              child: Row(
-                children: [
-                  // ID
-                  Expanded(
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 8),
+            child: Column(
+              spacing: 4,
+              children: [
+                Row(
+                  children: [
+                    // 浏览数
+                    Expanded(
                       flex: 1,
-                      child: Text("id: ${detail.id}", style: textTheme.bodyMedium?.copyWith(color: Colors.grey))),
-                  // 收藏数
-                  Expanded(
-                    flex: 1,
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      const Icon(Icons.favorite, size: 18, color: Colors.grey),
-                      Text(" ${detail.totalBookmarks}", style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
-                    ]),
-                  ),
-                  // 浏览数
-                  Expanded(
-                    flex: 1,
-                    child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      const Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
-                      Text(" ${detail.totalView}", style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
-                    ]),
-                  ),
-                ],
-              )),
-          // 简介
+                      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                        const Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
+                        Text(" ${detail.totalView}", style: parameterTextStyle),
+                      ]),
+                    ),
+                    // 收藏数
+                    Expanded(
+                      flex: 1,
+                      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                        const Icon(Icons.favorite, size: 18, color: Colors.grey),
+                        Text(" ${detail.totalBookmarks}", style: parameterTextStyle),
+                      ]),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    // ID
+                    Expanded(flex: 1, child: Text("ID: ${detail.id}", style: parameterTextStyle)),
+                    // 分辨率
+                    Expanded(
+                      flex: 1,
+                      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                        const Icon(Icons.phone_android_rounded, size: 18, color: Colors.grey),
+                        Text(" ${detail.width}x", style: parameterTextStyle),
+                        Text(" ${detail.height}", style: parameterTextStyle),
+                      ]),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ), // 简介
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: HtmlWidget(
