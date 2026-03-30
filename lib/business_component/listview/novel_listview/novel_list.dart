@@ -1,3 +1,4 @@
+import 'package:artvier/global/settings.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -68,9 +69,13 @@ class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogi
 
   void collectGarbage(List<int> garbages) {
     // print('collect garbage : $garbages');
+    // 根据画质设置，选用合适的图片
+    final quality = GlobalSettings.instance.listPreviewQuality;
     for (var index in garbages) {
+      final imageUrl =
+          quality == ListPreviewQuality.medium ? novelList[index].imageUrls.medium : novelList[index].imageUrls.large;
       final provider = ExtendedNetworkImageProvider(
-        HttpHostOverrides().pxImgUrl(novelList[index].imageUrls.medium),
+        HttpHostOverrides().pxImgUrl(imageUrl),
       );
       provider.evict();
     }

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2026-01-11T23:49:48.117651",
+  "@@last_modified": "2026-03-30T11:31:34.867910",
   "bootingPageUpdatingHint": "Local data is being updated. Please do not exit the software!",
   "@bootingPageUpdatingHint": {
     "description": "",
@@ -805,6 +805,48 @@
   "mutedPagePremiumHint2": "Becoming a pixiv premium member allows you to set two or more muted content items. (This feature is not currently supported. Please go to the Pixiv website to enable it.)",
   "@mutedPagePremiumHint2": {
     "description": "In muted page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "resourceLoadSettings": "Resource load",
+  "@resourceLoadSettings": {
+    "description": "A preference settings item of resource load.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "listPreviewQuality": "List preview quality",
+  "@listPreviewQuality": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "illustDetailQuality": "Illust detail quality",
+  "@illustDetailQuality": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mangaDetailQuality": "Manga detail quality",
+  "@mangaDetailQuality": {
+    "description": "A select option of image settings.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "originQuality": "Original",
+  "@originQuality": {
+    "description": "A select option of image settings.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mediumQuality": "Medium",
+  "@mediumQuality": {
+    "description": "A select option of image settings.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "largeQuality": "Large",
+  "@largeQuality": {
+    "description": "A select option of image settings.",
     "type": "text",
     "placeholders": {}
   },

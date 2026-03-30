@@ -10,6 +10,7 @@ class PerferenceItem extends StatelessWidget {
     required this.text,
     this.value,
     this.onTap,
+    this.arrow = true,
     this.borderRadius = BorderRadius.zero,
   });
 
@@ -18,6 +19,8 @@ class PerferenceItem extends StatelessWidget {
   final Widget text;
 
   final Widget? value;
+
+  final bool arrow;
 
   final void Function()? onTap;
 
@@ -48,15 +51,17 @@ class PerferenceItem extends StatelessWidget {
                         ],
                       ),
               ),
-              Wrap(
-                alignment: WrapAlignment.end,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                spacing: 8,
                 children: [
-                  value ??
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.5),
-                        size: 12,
-                      ),
+                  if (value != null) value!,
+                  if (arrow)
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.5),
+                      size: 12,
+                    ),
                 ],
               ),
             ],

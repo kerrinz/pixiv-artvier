@@ -1,8 +1,10 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/badge.dart';
+import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/perference/perference_group.dart';
 import 'package:artvier/component/perference/perference_item.dart';
 import 'package:artvier/global/provider/version_and_update_provider.dart';
+import 'package:artvier/pages/main_navigation_tab_page/profile/quick_settings/proxy/proxy_bottom_sheet.dart';
 import 'package:artvier/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,12 +49,33 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                 PerferenceGroup(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   items: [
-                    // 开发者
+                    // 资源加载
                     PerferenceItem(
-                        onTap: () => Navigator.of(context).pushNamed(RouteNames.developerSettings.name),
+                        onTap: () => Navigator.of(context).pushNamed(RouteNames.resourceLoadSettings.name),
                         icon: Icon(Icons.code, color: colorScheme.primary),
                         text: Text(
-                          "Developer",
+                          l10n.resourceLoadSettings,
+                          style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                        )),
+                    // 网络代理
+                    PerferenceItem(
+                        onTap: () {
+                          BottomSheets.showCustomBottomSheet(
+                            context: context,
+                            child: const ProxyOriginSettingsBottomSheet(),
+                          );
+                        },
+                        icon: Icon(Icons.public, color: colorScheme.primary),
+                        text: Text(
+                          l10n.networkSettings,
+                          style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                        )),
+                    // 屏蔽设定
+                    PerferenceItem(
+                        onTap: () => Navigator.of(context).pushNamed(RouteNames.mutedSettings.name),
+                        icon: Icon(Icons.code, color: colorScheme.primary),
+                        text: Text(
+                          l10n.muteSettings,
                           style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
                         )),
                   ],
@@ -66,6 +89,14 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                         icon: Icon(Icons.language_outlined, color: colorScheme.primary),
                         text: Text(
                           l10n.languageSettings,
+                          style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                        )),
+                    // 开发者
+                    PerferenceItem(
+                        onTap: () => Navigator.of(context).pushNamed(RouteNames.developerSettings.name),
+                        icon: Icon(Icons.code, color: colorScheme.primary),
+                        text: Text(
+                          "Developer",
                           style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
                         )),
                     // 软件更新
@@ -96,11 +127,6 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                             }
                             return const SizedBox();
                           }),
-                          Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.5),
-                            size: 12,
-                          ),
                         ],
                       ),
                     ),

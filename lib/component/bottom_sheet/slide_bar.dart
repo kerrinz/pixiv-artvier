@@ -16,7 +16,7 @@ class BottomSheetSlideBar extends StatelessWidget {
     super.key,
     this.width = 32.0,
     this.height = 4.0,
-    this.padding = const EdgeInsets.symmetric(vertical: 8.0),
+    this.padding = const EdgeInsets.symmetric(vertical: 12.0),
     this.color,
     this.alignment = Alignment.center,
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),

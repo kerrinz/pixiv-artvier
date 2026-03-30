@@ -1,3 +1,4 @@
+import 'package:artvier/component/bottom_sheet/slide_bar.dart';
 import 'package:artvier/l10n/localization_intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,16 +42,19 @@ class BottomSheets {
     );
   }
 
-  // 列表选择菜单
-  static void showSelectItemsBottomSheet({
+  // 列表选择菜单，返回选中的索引，无选择则返回-1
+  static Future<int> showSelectItemsBottomSheet({
     required BuildContext context,
-    required List<Widget> items,
+    required List<String> items,
+    String? title,
+    int selectedIndex = -1, // 选中哪一项
     barrierColor = Colors.black38,
     enableDrag = true,
-    showCancel = true, // 是否显示取消按钮
+    showCancel = false, // 是否显示取消按钮
     String? cancelText, // 取消按钮的文字
-  }) {
-    showModalBottomSheet<int>(
+  }) async {
+    int selected = -1;
+    await showModalBottomSheet<int>(
       context: context,
       isScrollControlled: true,
       enableDrag: enableDrag,
@@ -69,26 +73,76 @@ class BottomSheets {
                   color: Theme.of(context).dialogBackgroundColor,
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
                 ),
-                child: Column(
-                  children: [
-                    ...items,
-                    Container(
-                      width: double.infinity,
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      padding: const EdgeInsets.only(top: 8),
-                      child: CupertinoButton(
-                        color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.zero,
-                        child: Text(
-                          cancelText ?? LocalizationIntl.of(context).promptCancel,
-                          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                child: SafeArea(
+                  bottom: true,
+                  minimum: EdgeInsets.only(bottom: 16),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 0, left: 16, right: 16, bottom: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BottomSheetSlideBar(),
+                        if (title != null)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Text(title, style: TextTheme.of(context).titleSmall),
+                          ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            borderRadius: const BorderRadius.all(Radius.circular(16)),
+                          ),
+                          child: Column(
+                            children: [
+                              for (var i = 0; i < items.length; i++)
+                                InkWell(
+                                  splashFactory: InkSparkle.splashFactory,
+                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                  onTap: () {
+                                    selected = i;
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsetsGeometry.symmetric(vertical: 12, horizontal: 24),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(items[i]),
+                                        ),
+                                        Opacity(
+                                          opacity: selectedIndex == i ? 1 : 0,
+                                          child: Icon(Icons.check_rounded),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              if (showCancel)
+                                Container(
+                                  width: double.infinity,
+                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: SafeArea(
+                                    bottom: true,
+                                    child: CupertinoButton(
+                                      color: Theme.of(context).cardColor,
+                                      borderRadius: BorderRadius.zero,
+                                      child: Text(
+                                        cancelText ?? LocalizationIntl.of(context).promptCancel,
+                                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -96,5 +150,6 @@ class BottomSheets {
         );
       },
     );
+    return selected;
   }
 }

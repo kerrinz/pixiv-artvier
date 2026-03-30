@@ -797,6 +797,48 @@
     "type": "text",
     "placeholders": {}
   },
+  "resourceLoadSettings": "资源加载",
+  "@resourceLoadSettings": {
+    "description": "A preference settings item of resource load.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "listPreviewQuality": "列表预览画质",
+  "@listPreviewQuality": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "illustDetailQuality": "插画详情页画质",
+  "@illustDetailQuality": {
+    "description": "",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mangaDetailQuality": "漫画详情页画质",
+  "@mangaDetailQuality": {
+    "description": "A select option of image settings.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "originQuality": "原图",
+  "@originQuality": {
+    "description": "A select option of image settings.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mediumQuality": "中等",
+  "@mediumQuality": {
+    "description": "A select option of image settings.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "largeQuality": "大图",
+  "@largeQuality": {
+    "description": "A select option of image settings.",
+    "type": "text",
+    "placeholders": {}
+  },
   "follow": "关注",
   "@follow": {
     "description": "",
