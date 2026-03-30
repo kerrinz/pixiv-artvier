@@ -169,3 +169,16 @@ enum SearchType {
   novel,
   user,
 }
+
+/// 列表图片画质
+enum ListPreviewQuality {
+  medium,
+  large
+}
+
+/// 详情页图片画质
+enum DetailsPageQuality {
+  medium,
+  large,
+  original,
+}

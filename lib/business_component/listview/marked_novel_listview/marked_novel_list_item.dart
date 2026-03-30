@@ -2,6 +2,7 @@ import 'package:artvier/base/base_page.dart';
 import 'package:artvier/global/logger.dart';
 import 'package:artvier/global/model/marker_state_changed_arguments/marker_state_changed_arguments.dart';
 import 'package:artvier/global/provider/novel_marker_provider.dart';
+import 'package:artvier/global/settings.dart';
 import 'package:artvier/model_response/novels/marker_novel.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
@@ -178,11 +179,17 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
   }
 
   Widget _novelCover(double width, double height) {
+    // 画质设置
+    final quality = GlobalSettings.instance.listPreviewQuality;
+    // 根据画质设置，选用合适的图片
+    final imageUrl = quality == ListPreviewQuality.medium
+        ? widget.marked.novel.imageUrls.medium
+        : widget.marked.novel.imageUrls.large;
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(4)),
       child: EnhanceNetworkImage(
         image: ExtendedNetworkImageProvider(
-          HttpHostOverrides().pxImgUrl(widget.marked.novel.imageUrls.medium),
+          HttpHostOverrides().pxImgUrl(imageUrl),
           headers: HttpHostOverrides().pximgHeaders,
           cache: true,
         ),

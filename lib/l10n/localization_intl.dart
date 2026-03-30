@@ -215,6 +215,17 @@ class LocalizationIntl {
       name: 'mutedPagePremiumHint2',
       desc: 'In muted page');
 
+  // 资源加载设定
+  String get resourceLoadSettings =>
+      Intl.message('Resource load', name: 'resourceLoadSettings', desc: 'A preference settings item of resource load.');
+  String get listPreviewQuality => Intl.message('List preview quality', name: 'listPreviewQuality', desc: '');
+  String get illustDetailQuality => Intl.message('Illust detail quality', name: 'illustDetailQuality', desc: '');
+  String get mangaDetailQuality =>
+      Intl.message('Manga detail quality', name: 'mangaDetailQuality', desc: 'A select option of image settings.');
+  String get originQuality => Intl.message('Original', name: 'originQuality', desc: 'A select option of image settings.');
+  String get mediumQuality => Intl.message('Medium', name: 'mediumQuality', desc: 'A select option of image settings.');
+  String get largeQuality => Intl.message('Large', name: 'largeQuality', desc: 'A select option of image settings.');
+
   // 用户详情页
   String get follow => Intl.message('Follow', name: 'follow', desc: '');
   String get followed => Intl.message('Followed', name: 'followed', desc: '');

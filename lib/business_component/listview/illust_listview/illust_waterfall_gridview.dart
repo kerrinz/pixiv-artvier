@@ -1,3 +1,4 @@
+import 'package:artvier/global/settings.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -73,9 +74,14 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
 
   void collectGarbage(List<int> garbages) {
     // print('collect garbage : $garbages');
+    // 根据画质设置，选用合适的图片
+    final quality = GlobalSettings.instance.listPreviewQuality;
     for (var index in garbages) {
+      final imageUrl = quality == ListPreviewQuality.medium
+          ? artworkList[index].imageUrls.medium
+          : artworkList[index].imageUrls.large;
       final provider = ExtendedNetworkImageProvider(
-        HttpHostOverrides().pxImgUrl(artworkList[index].imageUrls.medium),
+        HttpHostOverrides().pxImgUrl(imageUrl),
       );
       provider.evict();
     }
@@ -86,6 +92,8 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
   }
 
   Widget itemBuilder(WidgetRef ref, index) {
+    // 画质设置
+    final quality = GlobalSettings.instance.listPreviewQuality;
     // 如果滑动到了表尾加载更多的项
     if (index == artworkList.length) {
       handleViewLazyloadWidget(ref, onLazyload);
@@ -93,9 +101,11 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
       return lazyloadWidget(ref);
     }
     var illust = artworkList[index];
+    // 根据画质设置，选用合适的图片
+    final imageUrl = quality == ListPreviewQuality.medium ? illust.imageUrls.medium : illust.imageUrls.large;
     return IllustWaterfallItem(
       worksId: illust.id.toString(),
-      imageUrl: illust.imageUrls.medium,
+      imageUrl: imageUrl,
       imageHeight: illust.height,
       imageWidth: illust.width,
       pageCount: illust.metaPages.length,
