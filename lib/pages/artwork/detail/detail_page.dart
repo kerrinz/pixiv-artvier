@@ -6,6 +6,7 @@ import 'package:artvier/component/layout/single_line_fitted_box.dart';
 import 'package:artvier/component/loading/muted_works.dart';
 import 'package:artvier/database/database.dart';
 import 'package:artvier/global/logger.dart';
+import 'package:artvier/global/settings.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
 import 'package:artvier/pages/artwork/detail/widgets/menu_bottom_sheet.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -289,13 +290,27 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
   }
 
   Widget _buildPreviewImages(CommonIllust detail) {
+    // 根据画质设置，选用合适的图片
+    final quality = GlobalSettings.instance.illustDetailsQuality;
     // 图片链接列表
     List<String> imageUrls = [];
     if (detail.metaPages.isEmpty) {
-      imageUrls.add(detail.imageUrls.large);
+      if (quality == DetailsPageQuality.original) {
+        imageUrls.add(detail.metaSinglePage.originalImageUrl!);
+      } else if (quality == DetailsPageQuality.medium) {
+        imageUrls.add(detail.imageUrls.medium);
+      } else {
+        imageUrls.add(detail.imageUrls.large);
+      }
     } else {
       for (var item in detail.metaPages) {
-        imageUrls.add(item.imageUrls.large);
+        if (quality == DetailsPageQuality.original) {
+          imageUrls.add(item.imageUrls.original);
+        } else if (quality == DetailsPageQuality.medium) {
+          imageUrls.add(item.imageUrls.medium);
+        } else {
+          imageUrls.add(item.imageUrls.large);
+        }
       }
     }
     return Center(

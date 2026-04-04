@@ -21,13 +21,13 @@ class ResourceLoadSettingsPageState extends BasePageState {
   ];
   final illustDetailQualityArray = [
     DetailsPageQuality.medium,
-    DetailsPageQuality.original,
     DetailsPageQuality.large,
+    DetailsPageQuality.original,
   ];
   final mangaDetailQualityArray = [
     DetailsPageQuality.medium,
-    DetailsPageQuality.original,
     DetailsPageQuality.large,
+    DetailsPageQuality.original,
   ];
 
   @override
@@ -64,8 +64,10 @@ class ResourceLoadSettingsPageState extends BasePageState {
                         ],
                         selectedIndex: listPreviewQualityArray.indexWhere((el) => el == quality),
                       );
-                      ref.read(resourceLoadSettingsProvider.notifier).switchListPreviewQuality(
-                          selected == 0 ? ListPreviewQuality.medium : ListPreviewQuality.large);
+                      if (selected >= 0) {
+                        ref.read(resourceLoadSettingsProvider.notifier).switchListPreviewQuality(
+                            selected == 0 ? ListPreviewQuality.medium : ListPreviewQuality.large);
+                      }
                     },
                     text: Text(
                       l10n.listPreviewQuality,
@@ -80,19 +82,20 @@ class ResourceLoadSettingsPageState extends BasePageState {
                   return PerferenceItem(
                     onTap: () async {
                       final selected = await BottomSheets.showSelectItemsBottomSheet(
-                          context: context,
-                          title: l10n.illustDetailQuality,
-                          selectedIndex: illustDetailQualityArray.indexWhere((el) => el == quality),
-                          items: [
-                            l10n.mediumQuality,
-                            l10n.largeQuality,
-                            l10n.originQuality,
-                          ]);
+                        context: context,
+                        title: l10n.illustDetailQuality,
+                        selectedIndex: illustDetailQualityArray.indexWhere((el) => el == quality),
+                        items: [
+                          l10n.mediumQuality,
+                          l10n.largeQuality,
+                          l10n.originQuality,
+                        ],
+                      );
                       if (selected >= 0 && selected < 3) {
                         ref.read(resourceLoadSettingsProvider.notifier).switchIllustDetailsQuality([
                               DetailsPageQuality.medium,
+                              DetailsPageQuality.large,
                               DetailsPageQuality.original,
-                              DetailsPageQuality.large
                             ][selected]);
                       }
                     },

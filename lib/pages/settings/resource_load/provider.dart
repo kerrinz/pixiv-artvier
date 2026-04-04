@@ -20,8 +20,8 @@ final resourceLoadSettingsProvider =
   return ResourceLoadSettingNotifier(
       ResourceLoadSettingsModel(
         listPreviewQuality: pref.listPreviewQuality(),
-        illustDetailsQuality: pref.mangaDetailsQuality(),
-        mangaDetailsQuality: pref.illustDetailsQuality(),
+        illustDetailsQuality: pref.illustDetailsQuality(),
+        mangaDetailsQuality: pref.mangaDetailsQuality(),
       ),
       ref: ref);
 });

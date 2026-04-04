@@ -1,3 +1,4 @@
+import 'package:artvier/global/settings.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -54,14 +55,32 @@ mixin ArtworkDetailPageLogic {
 
   /// 点击图片查看大图或原图
   void handleTapImage(CommonIllust detail, int index) {
+    // 根据画质设置，选用合适的图片
+    final quality = GlobalSettings.instance.illustDetailsQuality;
     List<ImageQualityUrl> urls = [];
     if (detail.metaPages.isEmpty) {
       // 单页作品
-      urls = [ImageQualityUrl(normal: detail.imageUrls.large, original: detail.metaSinglePage.originalImageUrl!)];
+      urls = [
+        ImageQualityUrl(
+          normal: quality == DetailsPageQuality.original
+              ? null
+              : quality == DetailsPageQuality.medium
+                  ? detail.imageUrls.medium
+                  : detail.imageUrls.large,
+          original: detail.metaSinglePage.originalImageUrl!,
+        )
+      ];
     } else {
       // 多页作品
       for (var meta in detail.metaPages) {
-        urls.add(ImageQualityUrl(normal: meta.imageUrls.large, original: meta.imageUrls.original));
+        urls.add(ImageQualityUrl(
+          normal: quality == DetailsPageQuality.original
+              ? null
+              : quality == DetailsPageQuality.medium
+                  ? meta.imageUrls.medium
+                  : meta.imageUrls.large,
+          original: meta.imageUrls.original,
+        ));
       }
     }
     Navigator.of(ref.context).pushNamed(

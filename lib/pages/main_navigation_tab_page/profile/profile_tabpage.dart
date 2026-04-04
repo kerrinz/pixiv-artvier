@@ -74,7 +74,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
             ),
         (context) => PerferenceBottomSheetModel(
               LocalizationIntl.of(context).networkSettings,
-              Icon(Icons.lan_outlined, color: Theme.of(context).primaryColor),
+              Icon(Icons.public, color: Theme.of(context).primaryColor),
               const ProxyOriginSettingsBottomSheet(),
               ref.watch(globalCurrentAccountProvider)?.user.id,
             ),

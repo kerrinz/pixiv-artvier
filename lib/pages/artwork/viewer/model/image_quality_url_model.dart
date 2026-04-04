@@ -9,7 +9,7 @@ part 'image_quality_url_model.freezed.dart';
 class ImageQualityUrl with _$ImageQualityUrl {
   const factory ImageQualityUrl({
     /// 普通画质
-    required String normal,
+    String? normal,
 
     /// 原图画质
     required String original,

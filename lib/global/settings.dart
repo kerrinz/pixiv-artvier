@@ -34,9 +34,9 @@ class GlobalSettings extends HttpOverrides {
   /// 插画详情页画质
   DetailsPageQuality _illustDetailsQuality = DetailsPageQuality.large;
 
-  get listPreviewQuality => _listPreviewQuality;
-  get mangaDetailsQuality => _mangaDetailsQuality;
-  get illustDetailsQuality => _illustDetailsQuality;
+  ListPreviewQuality get listPreviewQuality => _listPreviewQuality;
+  DetailsPageQuality get mangaDetailsQuality => _mangaDetailsQuality;
+  DetailsPageQuality get illustDetailsQuality => _illustDetailsQuality;
 
   void setListPreviewQuality(ListPreviewQuality quality) {
     _listPreviewQuality = quality;
