@@ -52,7 +52,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                     // 资源加载
                     PerferenceItem(
                         onTap: () => Navigator.of(context).pushNamed(RouteNames.resourceLoadSettings.name),
-                        icon: Icon(Icons.code, color: colorScheme.primary),
+                        icon: Icon(Icons.photo_outlined, color: colorScheme.primary),
                         text: Text(
                           l10n.resourceLoadSettings,
                           style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),

@@ -1,5 +1,6 @@
 import 'package:artvier/base/base_storage.dart';
 import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/logger.dart';
 
 /// 资源加载相关设置的存储
 class ResourceLoadStorage extends BaseStorage {
@@ -46,6 +47,7 @@ class ResourceLoadStorage extends BaseStorage {
       final findQuantity = DetailsPageQuality.values.byName(value);
       return findQuantity;
     } catch (e) {
+      logger.e("ResourceLoadStorage: illustDetailsQuality failed: $e");
       return defaultQuality;
     }
   }
@@ -58,6 +60,7 @@ class ResourceLoadStorage extends BaseStorage {
       final findQuantity = DetailsPageQuality.values.byName(value);
       return findQuantity;
     } catch (e) {
+      logger.e("ResourceLoadStorage: mangaDetailsQuality failed: $e");
       return defaultQuality;
     }
   }
