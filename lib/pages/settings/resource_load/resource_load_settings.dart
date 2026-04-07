@@ -1,5 +1,6 @@
 import 'package:artvier/base/base_page.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
+import 'package:artvier/component/perference/perference_group.dart';
 import 'package:artvier/component/perference/perference_item.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/l10n/localization_intl.dart';
@@ -34,12 +35,12 @@ class ResourceLoadSettingsPageState extends BasePageState {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.languageSettings),
+        title: Text(l10n.resourceLoadSettings),
       ),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
         child: Container(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           // 这样解决了内容不足以支撑全屏时，滑动回弹不会回到原位的问题
           constraints: BoxConstraints(
             minHeight: MediaQuery.sizeOf(context).height -
@@ -50,89 +51,97 @@ class ResourceLoadSettingsPageState extends BasePageState {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 列表预览画质
-                Builder(builder: (context) {
-                  final quality = ref.watch(resourceLoadSettingsProvider.select((value) => value.listPreviewQuality));
-                  return PerferenceItem(
-                    onTap: () async {
-                      final selected = await BottomSheets.showSelectItemsBottomSheet(
-                        context: context,
-                        title: l10n.listPreviewQuality,
-                        items: [
-                          l10n.mediumQuality,
-                          l10n.largeQuality,
-                        ],
-                        selectedIndex: listPreviewQualityArray.indexWhere((el) => el == quality),
+                PerferenceGroup(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  items: [
+                    // 列表预览画质
+                    Builder(builder: (context) {
+                      final quality =
+                          ref.watch(resourceLoadSettingsProvider.select((value) => value.listPreviewQuality));
+                      return PerferenceItem(
+                        onTap: () async {
+                          final selected = await BottomSheets.showSelectItemsBottomSheet(
+                            context: context,
+                            title: l10n.listPreviewQuality,
+                            items: [
+                              l10n.mediumQuality,
+                              l10n.largeQuality,
+                            ],
+                            selectedIndex: listPreviewQualityArray.indexWhere((el) => el == quality),
+                          );
+                          if (selected >= 0) {
+                            ref.read(resourceLoadSettingsProvider.notifier).switchListPreviewQuality(
+                                selected == 0 ? ListPreviewQuality.medium : ListPreviewQuality.large);
+                          }
+                        },
+                        text: Text(
+                          l10n.listPreviewQuality,
+                          style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                        ),
+                        value: Text(listPreviewQualityText(quality, l10n)),
                       );
-                      if (selected >= 0) {
-                        ref.read(resourceLoadSettingsProvider.notifier).switchListPreviewQuality(
-                            selected == 0 ? ListPreviewQuality.medium : ListPreviewQuality.large);
-                      }
-                    },
-                    text: Text(
-                      l10n.listPreviewQuality,
-                      style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
-                    ),
-                    value: Text(listPreviewQualityText(quality, l10n)),
-                  );
-                }),
-                // 插画详情页画质
-                Builder(builder: (context) {
-                  final quality = ref.watch(resourceLoadSettingsProvider.select((value) => value.illustDetailsQuality));
-                  return PerferenceItem(
-                    onTap: () async {
-                      final selected = await BottomSheets.showSelectItemsBottomSheet(
-                        context: context,
-                        title: l10n.illustDetailQuality,
-                        selectedIndex: illustDetailQualityArray.indexWhere((el) => el == quality),
-                        items: [
-                          l10n.mediumQuality,
-                          l10n.largeQuality,
-                          l10n.originQuality,
-                        ],
+                    }),
+                    // 插画详情页画质
+                    Builder(builder: (context) {
+                      final quality =
+                          ref.watch(resourceLoadSettingsProvider.select((value) => value.illustDetailsQuality));
+                      return PerferenceItem(
+                        onTap: () async {
+                          final selected = await BottomSheets.showSelectItemsBottomSheet(
+                            context: context,
+                            title: l10n.illustDetailQuality,
+                            selectedIndex: illustDetailQualityArray.indexWhere((el) => el == quality),
+                            items: [
+                              l10n.mediumQuality,
+                              l10n.largeQuality,
+                              l10n.originQuality,
+                            ],
+                          );
+                          if (selected >= 0 && selected < 3) {
+                            ref.read(resourceLoadSettingsProvider.notifier).switchIllustDetailsQuality([
+                                  DetailsPageQuality.medium,
+                                  DetailsPageQuality.large,
+                                  DetailsPageQuality.original,
+                                ][selected]);
+                          }
+                        },
+                        text: Text(
+                          l10n.illustDetailQuality,
+                          style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                        ),
+                        value: Text(detailsQuality(quality, l10n)),
                       );
-                      if (selected >= 0 && selected < 3) {
-                        ref.read(resourceLoadSettingsProvider.notifier).switchIllustDetailsQuality([
-                              DetailsPageQuality.medium,
-                              DetailsPageQuality.large,
-                              DetailsPageQuality.original,
-                            ][selected]);
-                      }
-                    },
-                    text: Text(
-                      l10n.illustDetailQuality,
-                      style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
-                    ),
-                    value: Text(detailsQuality(quality, l10n)),
-                  );
-                }),
-                // 漫画详情页画质
-                Builder(builder: (context) {
-                  final quality = ref.watch(resourceLoadSettingsProvider.select((value) => value.mangaDetailsQuality));
-                  return PerferenceItem(
-                    onTap: () async {
-                      final selected = await BottomSheets.showSelectItemsBottomSheet(
-                          context: context,
-                          title: l10n.mangaDetailQuality,
-                          selectedIndex: mangaDetailQualityArray.indexWhere((el) => el == quality),
-                          items: [
-                            l10n.mediumQuality,
-                            l10n.largeQuality,
-                            l10n.originQuality,
-                          ]);
-                      if (selected >= 0 && selected < 3) {
-                        ref.read(resourceLoadSettingsProvider.notifier).switchMangaDetailsQuality(
-                              mangaDetailQualityArray[selected],
-                            );
-                      }
-                    },
-                    text: Text(
-                      l10n.mangaDetailQuality,
-                      style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
-                    ),
-                    value: Text(detailsQuality(quality, l10n)),
-                  );
-                }),
+                    }),
+                    // 漫画详情页画质
+                    Builder(builder: (context) {
+                      final quality =
+                          ref.watch(resourceLoadSettingsProvider.select((value) => value.mangaDetailsQuality));
+                      return PerferenceItem(
+                        onTap: () async {
+                          final selected = await BottomSheets.showSelectItemsBottomSheet(
+                              context: context,
+                              title: l10n.mangaDetailQuality,
+                              selectedIndex: mangaDetailQualityArray.indexWhere((el) => el == quality),
+                              items: [
+                                l10n.mediumQuality,
+                                l10n.largeQuality,
+                                l10n.originQuality,
+                              ]);
+                          if (selected >= 0 && selected < 3) {
+                            ref.read(resourceLoadSettingsProvider.notifier).switchMangaDetailsQuality(
+                                  mangaDetailQualityArray[selected],
+                                );
+                          }
+                        },
+                        text: Text(
+                          l10n.mangaDetailQuality,
+                          style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                        ),
+                        value: Text(detailsQuality(quality, l10n)),
+                      );
+                    }),
+                  ],
+                ),
               ],
             );
           }),
