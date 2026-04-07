@@ -30,7 +30,6 @@ class ProfileTabPage extends ConsumerStatefulWidget {
 
 class ProfileTabPageState extends BasePageState<ProfileTabPage>
     with AutomaticKeepAliveClientMixin, ProfileTabPageLogic {
-  /// TODO: 早期烂代码，待整理
   /// 功能项列表的模型
   List<IconButtonModelBuilder> get _functionItemBuilders => [
         (context) => IconButtonModel(
@@ -75,7 +74,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
             ),
         (context) => PerferenceBottomSheetModel(
               LocalizationIntl.of(context).networkSettings,
-              Icon(Icons.lan_outlined, color: Theme.of(context).primaryColor),
+              Icon(Icons.public, color: Theme.of(context).primaryColor),
               const ProxyOriginSettingsBottomSheet(),
               ref.watch(globalCurrentAccountProvider)?.user.id,
             ),
@@ -484,11 +483,6 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                 }
                 return const SizedBox();
               }),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.5),
-                size: 12,
-              ),
             ],
           ),
         ),

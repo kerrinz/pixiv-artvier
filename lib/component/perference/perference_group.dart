@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:artvier/component/perference/perference_item.dart';
 
 typedef ItemBuilder = Widget Function(int index);
 
@@ -13,7 +12,7 @@ class PerferenceGroup extends StatelessWidget {
     this.padding,
   });
 
-  final List<PerferenceItem> items;
+  final List<Widget> items;
 
   final EdgeInsets? padding;
 

@@ -1,6 +1,7 @@
 import 'package:artvier/business_component/advanced_collecting_bottom_sheet/advanced_collecting_bottom_sheet.dart';
 import 'package:artvier/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
+import 'package:artvier/global/settings.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:artvier/util/string_util.dart';
 import 'package:extended_image/extended_image.dart';
@@ -160,11 +161,15 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
   }
 
   Widget _novelCover(double width, double height) {
+    // 根据画质设置，选用合适的图片
+    final quality = GlobalSettings.instance.listPreviewQuality;
+    final imageUrl =
+        quality == ListPreviewQuality.medium ? widget.novel.imageUrls.medium : widget.novel.imageUrls.large;
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(4)),
       child: EnhanceNetworkImage(
         image: ExtendedNetworkImageProvider(
-          HttpHostOverrides().pxImgUrl(widget.novel.imageUrls.medium),
+          HttpHostOverrides().pxImgUrl(imageUrl),
           headers: HttpHostOverrides().pximgHeaders,
           cache: true,
         ),

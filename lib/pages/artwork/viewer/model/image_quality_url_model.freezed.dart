@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ImageQualityUrl {
   /// 普通画质
-  String get normal => throw _privateConstructorUsedError;
+  String? get normal => throw _privateConstructorUsedError;
 
   /// 原图画质
   String get original => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ abstract class $ImageQualityUrlCopyWith<$Res> {
           ImageQualityUrl value, $Res Function(ImageQualityUrl) then) =
       _$ImageQualityUrlCopyWithImpl<$Res, ImageQualityUrl>;
   @useResult
-  $Res call({String normal, String original});
+  $Res call({String? normal, String original});
 }
 
 /// @nodoc
@@ -53,14 +53,14 @@ class _$ImageQualityUrlCopyWithImpl<$Res, $Val extends ImageQualityUrl>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? normal = null,
+    Object? normal = freezed,
     Object? original = null,
   }) {
     return _then(_value.copyWith(
-      normal: null == normal
+      normal: freezed == normal
           ? _value.normal
           : normal // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       original: null == original
           ? _value.original
           : original // ignore: cast_nullable_to_non_nullable
@@ -77,7 +77,7 @@ abstract class _$$ImageQualityUrlImplCopyWith<$Res>
       __$$ImageQualityUrlImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String normal, String original});
+  $Res call({String? normal, String original});
 }
 
 /// @nodoc
@@ -93,14 +93,14 @@ class __$$ImageQualityUrlImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? normal = null,
+    Object? normal = freezed,
     Object? original = null,
   }) {
     return _then(_$ImageQualityUrlImpl(
-      normal: null == normal
+      normal: freezed == normal
           ? _value.normal
           : normal // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       original: null == original
           ? _value.original
           : original // ignore: cast_nullable_to_non_nullable
@@ -112,11 +112,11 @@ class __$$ImageQualityUrlImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ImageQualityUrlImpl implements _ImageQualityUrl {
-  const _$ImageQualityUrlImpl({required this.normal, required this.original});
+  const _$ImageQualityUrlImpl({this.normal, required this.original});
 
   /// 普通画质
   @override
-  final String normal;
+  final String? normal;
 
   /// 原图画质
   @override
@@ -152,12 +152,12 @@ class _$ImageQualityUrlImpl implements _ImageQualityUrl {
 
 abstract class _ImageQualityUrl implements ImageQualityUrl {
   const factory _ImageQualityUrl(
-      {required final String normal,
+      {final String? normal,
       required final String original}) = _$ImageQualityUrlImpl;
 
   /// 普通画质
   @override
-  String get normal;
+  String? get normal;
 
   /// 原图画质
   @override
