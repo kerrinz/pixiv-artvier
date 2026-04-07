@@ -73,7 +73,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                     // 屏蔽设定
                     PerferenceItem(
                         onTap: () => Navigator.of(context).pushNamed(RouteNames.mutedSettings.name),
-                        icon: Icon(Icons.code, color: colorScheme.primary),
+                        icon: Icon(Icons.block_rounded, color: colorScheme.primary),
                         text: Text(
                           l10n.muteSettings,
                           style: textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),

@@ -70,7 +70,7 @@ class BottomSheets {
               right: 0,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).dialogBackgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
                 ),
                 child: SafeArea(
@@ -89,7 +89,7 @@ class BottomSheets {
                           ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).scaffoldBackgroundColor,
+                            color: Theme.of(context).colorScheme.surface,
                             borderRadius: const BorderRadius.all(Radius.circular(16)),
                           ),
                           child: Column(
