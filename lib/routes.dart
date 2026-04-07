@@ -8,6 +8,7 @@ import 'package:artvier/pages/settings/about/about_app_page.dart';
 import 'package:artvier/pages/settings/all_settings/all_settings_page.dart';
 import 'package:artvier/pages/settings/check_update/check_update.dart';
 import 'package:artvier/pages/settings/develop/developer_page.dart';
+import 'package:artvier/pages/settings/resource_load/resource_load_settings.dart';
 import 'package:artvier/pages/user/friends/user_friends_page.dart';
 import 'package:artvier/pages/user/marked_novels/user_marked_novels.dart';
 import 'package:artvier/pages/user/recommend/recommend_users_page.dart';
@@ -102,6 +103,7 @@ enum RouteNames {
   networkSettings,
   languageSettings,
   developerSettings,
+  resourceLoadSettings,
   aboutApp,
   checkUpdate,
 }
@@ -137,6 +139,7 @@ class Routes {
     RouteNames.downloadSettings.name: (context, arguments) => const SettingDownload(),
     RouteNames.languageSettings.name: (context, arguments) => const LanguageSettingPage(),
     RouteNames.developerSettings.name: (context, arguments) => const DeveloperPage(),
+    RouteNames.resourceLoadSettings.name: (context, arguments) => const ResourceLoadSettingsPage(),
     RouteNames.aboutApp.name: (context, arguments) => const AboutAppPage(),
     RouteNames.checkUpdate.name: (context, arguments) => const CheckUpdatePage(),
   };

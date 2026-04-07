@@ -1,5 +1,6 @@
 import 'package:artvier/business_component/listview/marked_novel_listview/logic.dart';
 import 'package:artvier/business_component/listview/marked_novel_listview/marked_novel_list_item.dart';
+import 'package:artvier/global/settings.dart';
 import 'package:artvier/model_response/novels/marker_novel.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
@@ -68,9 +69,14 @@ class MarkedNovelListView extends ConsumerWidget with LazyloadLogic, MarkedNovel
 
   void collectGarbage(List<int> garbages) {
     // print('collect garbage : $garbages');
+    // 根据画质设置，选用合适的图片
+    final quality = GlobalSettings.instance.listPreviewQuality;
     for (var index in garbages) {
+      final imageUrl = quality == ListPreviewQuality.medium
+          ? novelList[index].novel.imageUrls.medium
+          : novelList[index].novel.imageUrls.large;
       final provider = ExtendedNetworkImageProvider(
-        HttpHostOverrides().pxImgUrl(novelList[index].novel.imageUrls.medium),
+        HttpHostOverrides().pxImgUrl(imageUrl),
       );
       provider.evict();
     }

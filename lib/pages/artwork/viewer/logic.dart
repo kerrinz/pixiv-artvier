@@ -11,6 +11,7 @@ import 'package:artvier/base/base_page.dart';
 import 'package:artvier/pages/artwork/viewer/image_viewer_page.dart';
 import 'package:artvier/pages/artwork/viewer/model/image_quality_url_model.dart';
 import 'package:artvier/pages/artwork/viewer/model/image_viewer_state.dart';
+import 'package:artvier/pages/artwork/viewer/model/original_load_status.dart';
 
 mixin ImageViewerPageLogic on BasePageState<ImageViewerPage> {
   @override
@@ -24,7 +25,23 @@ mixin ImageViewerPageLogic on BasePageState<ImageViewerPage> {
 
   /// 图片浏览状态
   late final imageViewerProvider = StateProvider.autoDispose<ImageViewerPageState>(
-    (ref) => ImageViewerPageState(pageIndex: widget.arguments.index, isOriginal: false),
+    (ref) => ImageViewerPageState(
+        pageIndex: widget.arguments.index, isOriginal: widget.arguments.urlList[widget.arguments.index].normal == null),
+  );
+
+  /// 原图加载进度（按 index 记录）
+  /// [ImageQualityUrl.normal] 为空时仅有原图 URL，进入页面即已是原图，无需再显示“原图加载中”。
+  late final originalLoadProvider = StateProvider.autoDispose<Map<int, OriginalLoadStatus>>(
+    (ref) {
+      final list = widget.arguments.urlList;
+      final map = <int, OriginalLoadStatus>{};
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].normal == null) {
+          map[i] = const OriginalLoadStatus(isLoading: false, progress: 1, isLoaded: true);
+        }
+      }
+      return map;
+    },
   );
 
   // 检查权限，没权限会自动跳转app权限管理页
