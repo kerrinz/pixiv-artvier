@@ -291,7 +291,9 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
 
   Widget _buildPreviewImages(CommonIllust detail) {
     // 根据画质设置，选用合适的图片
-    final quality = GlobalSettings.instance.illustDetailsQuality;
+    final quality = detail.type == "manga"
+        ? GlobalSettings.instance.mangaDetailsQuality
+        : GlobalSettings.instance.illustDetailsQuality;
     // 图片链接列表
     List<String> imageUrls = [];
     if (detail.metaPages.isEmpty) {
