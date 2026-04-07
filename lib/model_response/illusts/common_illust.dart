@@ -17,6 +17,7 @@ class CommonIllust extends Object {
   @JsonKey(name: 'title')
   String title;
 
+  /// "illust" | "manga"
   @JsonKey(name: 'type')
   String type;
 
