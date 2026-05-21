@@ -1,4 +1,5 @@
 import 'package:artvier/global/settings.dart';
+import 'package:artvier/global/provider/muted_state_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,8 @@ import 'package:waterfall_flow/waterfall_flow.dart';
 /// - 默认为非静态组件！
 /// - 全权负责管理懒加载的状态，其他状态不在范围内。
 /// - 请不要为 [onLazyload] 捕获异常，否则会导致懒加载区域无法显示 errorWidget
-class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustWaterfallGridViewLogic {
+class IllustWaterfallGridView extends ConsumerWidget
+    with LazyloadLogic, IllustWaterfallGridViewLogic {
   /// 插画（或漫画）列表
   final List<CommonIllust> artworkList;
 
@@ -36,7 +38,7 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
   final double crossAxisSpacing;
 
   @override
-  late final WidgetRef ref;
+  late WidgetRef ref;
 
   IllustWaterfallGridView({
     super.key,
@@ -54,32 +56,42 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     this.ref = ref;
+    final mutedState = ref.watch(globalMutedStateProvider);
+    final visibleArtworkList = artworkList
+        .where((illust) => !mutedState.containsIllust(illust))
+        .toList();
     return WaterfallFlow.builder(
       padding: padding,
       controller: scrollController,
       physics: physics,
-      itemCount: artworkList.length + 1,
+      itemCount: visibleArtworkList.length + 1,
       gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
         mainAxisSpacing: mainAxisSpacing,
         crossAxisSpacing: crossAxisSpacing,
-        collectGarbage: collectGarbage,
+        collectGarbage: (garbages) =>
+            collectGarbage(garbages, visibleArtworkList),
         viewportBuilder: viewportBuilder,
         lastChildLayoutTypeBuilder: (index) =>
-            index == artworkList.length ? LastChildLayoutType.fullCrossAxisExtent : LastChildLayoutType.none,
+            index == visibleArtworkList.length
+                ? LastChildLayoutType.fullCrossAxisExtent
+                : LastChildLayoutType.none,
       ),
-      itemBuilder: (BuildContext context, int index) => itemBuilder(ref, index),
+      itemBuilder: (BuildContext context, int index) =>
+          itemBuilder(ref, index, visibleArtworkList),
     );
   }
 
-  void collectGarbage(List<int> garbages) {
+  void collectGarbage(
+      List<int> garbages, List<CommonIllust> visibleArtworkList) {
     // print('collect garbage : $garbages');
     // 根据画质设置，选用合适的图片
     final quality = GlobalSettings.instance.listPreviewQuality;
     for (var index in garbages) {
+      if (index < 0 || index >= visibleArtworkList.length) continue;
       final imageUrl = quality == ListPreviewQuality.medium
-          ? artworkList[index].imageUrls.medium
-          : artworkList[index].imageUrls.large;
+          ? visibleArtworkList[index].imageUrls.medium
+          : visibleArtworkList[index].imageUrls.large;
       final provider = ExtendedNetworkImageProvider(
         HttpHostOverrides().pxImgUrl(imageUrl),
       );
@@ -91,18 +103,21 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
     // print('viewport : [$firstIndex,$lastIndex]');
   }
 
-  Widget itemBuilder(WidgetRef ref, index) {
+  Widget itemBuilder(
+      WidgetRef ref, index, List<CommonIllust> visibleArtworkList) {
     // 画质设置
     final quality = GlobalSettings.instance.listPreviewQuality;
     // 如果滑动到了表尾加载更多的项
-    if (index == artworkList.length) {
+    if (index == visibleArtworkList.length) {
       handleViewLazyloadWidget(ref, onLazyload);
       // 尾部懒加载组件
       return lazyloadWidget(ref);
     }
-    var illust = artworkList[index];
+    var illust = visibleArtworkList[index];
     // 根据画质设置，选用合适的图片
-    final imageUrl = quality == ListPreviewQuality.medium ? illust.imageUrls.medium : illust.imageUrls.large;
+    final imageUrl = quality == ListPreviewQuality.medium
+        ? illust.imageUrls.medium
+        : illust.imageUrls.large;
     return IllustWaterfallItem(
       worksId: illust.id.toString(),
       imageUrl: imageUrl,
@@ -115,8 +130,11 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
       title: illust.title,
       author: illust.user.name,
       totalCollected: illust.totalBookmarks,
-      collectState: illust.collectState ?? (illust.isBookmarked ? CollectState.collected : CollectState.notCollect),
-      onTap: () => handleTapItem(index, illust, artworkList),
+      collectState: illust.collectState ??
+          (illust.isBookmarked
+              ? CollectState.collected
+              : CollectState.notCollect),
+      onTap: () => handleTapItem(index, illust, visibleArtworkList),
     );
   }
 
@@ -148,7 +166,12 @@ class IllustWaterfallGridView extends ConsumerWidget with LazyloadLogic, IllustW
               ),
             ),
           };
-          return SafeArea(left: true, top: false, right: true, bottom: true, child: map[lazyloadState]!);
+          return SafeArea(
+              left: true,
+              top: false,
+              right: true,
+              bottom: true,
+              child: map[lazyloadState]!);
         }),
       );
 }
@@ -168,6 +191,10 @@ class SliverIllustWaterfallGridView extends IllustWaterfallGridView {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     this.ref = ref;
+    final mutedState = ref.watch(globalMutedStateProvider);
+    final visibleArtworkList = artworkList
+        .where((illust) => !mutedState.containsIllust(illust))
+        .toList();
     return SliverPadding(
       padding: padding ?? EdgeInsets.zero,
       sliver: SliverWaterfallFlow(
@@ -175,14 +202,18 @@ class SliverIllustWaterfallGridView extends IllustWaterfallGridView {
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
-          collectGarbage: collectGarbage,
+          collectGarbage: (garbages) =>
+              collectGarbage(garbages, visibleArtworkList),
           viewportBuilder: viewportBuilder,
           lastChildLayoutTypeBuilder: (index) =>
-              index == artworkList.length ? LastChildLayoutType.fullCrossAxisExtent : LastChildLayoutType.none,
+              index == visibleArtworkList.length
+                  ? LastChildLayoutType.fullCrossAxisExtent
+                  : LastChildLayoutType.none,
         ),
         delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) => itemBuilder(ref, index),
-          childCount: artworkList.length + 1,
+          (BuildContext context, int index) =>
+              itemBuilder(ref, index, visibleArtworkList),
+          childCount: visibleArtworkList.length + 1,
         ),
       ),
     );
