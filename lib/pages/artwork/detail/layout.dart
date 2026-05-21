@@ -10,7 +10,7 @@ class ArtworkDetailPageLayout extends ConsumerStatefulWidget {
     required this.collectButton,
     required this.viewerContent,
     required this.slivers,
-    this.dragController,
+    required this.dragController,
     this.isShapedScreen = false,
   });
 
@@ -18,7 +18,7 @@ class ArtworkDetailPageLayout extends ConsumerStatefulWidget {
 
   final Widget collectButton;
 
-  final DragController? dragController;
+  final DragController dragController;
 
   /// 图片的浏览区域
   final Widget viewerContent;
@@ -41,8 +41,7 @@ class _ArtworkDetailPageLayoutState
   /// 拖拽组件内部滚动内容的控制器
   final ScrollController _scrollController = ScrollController();
 
-  late DragController _dragController;
-  late final bool _ownsDragController;
+  late final DragController _dragController;
 
   double _scrollOffset = 0;
 
@@ -61,16 +60,12 @@ class _ArtworkDetailPageLayoutState
   @override
   void dispose() {
     _scrollController.dispose();
-    if (_ownsDragController) {
-      _dragController.dispose();
-    }
     super.dispose();
   }
 
   @override
   void initState() {
-    _ownsDragController = widget.dragController == null;
-    _dragController = widget.dragController ?? DragController();
+    _dragController = widget.dragController;
     _scrollController.addListener(() {
       _scrollOffset = _scrollController.offset;
     });
