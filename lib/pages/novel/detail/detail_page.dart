@@ -7,6 +7,7 @@ import 'package:artvier/component/layout/single_line_fitted_box.dart';
 import 'package:artvier/component/loading/muted_works.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/enums.dart';
+import 'package:artvier/global/provider/muted_state_provider.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/model_response/user/common_user.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
@@ -30,7 +31,8 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 class NovelDetailPage extends ConsumerStatefulWidget {
   final NovelDetailPageArguments args; // 数据集
 
-  const NovelDetailPage(Object arguments, {super.key}) : args = arguments as NovelDetailPageArguments;
+  const NovelDetailPage(Object arguments, {super.key})
+      : args = arguments as NovelDetailPageArguments;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -39,7 +41,10 @@ class NovelDetailPage extends ConsumerStatefulWidget {
 }
 
 class NovelDetailState extends BasePageState<NovelDetailPage>
-    with SingleTickerProviderStateMixin, NovelDetailPageLogic, NovelDetailOverlaySettingsAnimation<NovelDetailPage> {
+    with
+        SingleTickerProviderStateMixin,
+        NovelDetailPageLogic,
+        NovelDetailOverlaySettingsAnimation<NovelDetailPage> {
   get novelDetail => widget.args.detail;
 
   @override
@@ -63,7 +68,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
   final viewerScrollKey = GlobalKey();
 
   /// 小说章节标题样式
-  get novelChapterTitleStyle => textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold);
+  get novelChapterTitleStyle =>
+      textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold);
 
   @override
   void initState() {
@@ -86,20 +92,27 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    if (widget.args.detail != null && widget.args.detail!.isMuted) {
+    final mutedState = ref.watch(globalMutedStateProvider);
+    if (widget.args.detail != null &&
+        mutedState.containsNovel(widget.args.detail!)) {
       return Scaffold(body: _buildMutedContent());
     }
     final result = Scaffold(
       body: Container(
         key: _bodyKey,
         child: ref.watch(novelWebViewDetailProvider(novelId)).when(
-            data: (data) => _buildSuccessContent(data),
+            data: (data) => mutedState.containsNovelWebView(data)
+                ? _buildMutedContent()
+                : _buildSuccessContent(data),
             error: (obj, error) => _buildBeforeSuccessContent(true),
             loading: () => _buildBeforeSuccessContent(false)),
       ),
     );
 
-    if (elements.isNotEmpty && !_firstScrolled && widget.args.toPage != null && widget.args.toPage! > -1) {
+    if (elements.isNotEmpty &&
+        !_firstScrolled &&
+        widget.args.toPage != null &&
+        widget.args.toPage! > -1) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         scrollToPage(context, elements, _bodyKey, false, widget.args.toPage!);
         _firstScrolled = true;
@@ -115,7 +128,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
         // backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         leading: const AppbarLeadingButtton(enableBackground: true),
-        title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.novelId)),
+        title: SingleLineFittedBox(
+            child: Text(widget.args.title ?? widget.args.novelId)),
       ),
       MutedWorks(),
     ]);
@@ -131,12 +145,14 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
           // backgroundColor: Colors.transparent,
           leading: const AppbarLeadingButtton(),
           shadowColor: Colors.transparent,
-          title: SingleLineFittedBox(child: Text(widget.args.title ?? widget.args.novelId)),
+          title: SingleLineFittedBox(
+              child: Text(widget.args.title ?? widget.args.novelId)),
         ),
       ),
       Builder(builder: (context) {
         if (isFailed) {
-          return RequestLoadingFailed(onRetry: () => ref.refresh(novelWebViewDetailProvider(novelId)));
+          return RequestLoadingFailed(
+              onRetry: () => ref.refresh(novelWebViewDetailProvider(novelId)));
         }
         return const RequestLoading();
       }),
@@ -241,7 +257,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                               width: double.infinity,
                               height: 180,
                               image: ExtendedNetworkImageProvider(
-                                HttpHostOverrides().pxImgUrl(webViewData.novel.coverUrl),
+                                HttpHostOverrides()
+                                    .pxImgUrl(webViewData.novel.coverUrl),
                                 headers: HttpHostOverrides().pximgHeaders,
                                 cache: true,
                               ),
@@ -250,7 +267,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                         ),
                         // 作品标题
                         Padding(
-                          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 4.0),
+                          padding: const EdgeInsets.only(
+                              left: 16.0, right: 16.0, top: 16.0, bottom: 4.0),
                           child: Row(
                             children: [
                               Expanded(
@@ -264,7 +282,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    if (webViewData.novel.seriesId != null && webViewData.novel.seriesId != "")
+                                    if (webViewData.novel.seriesId != null &&
+                                        webViewData.novel.seriesId != "")
                                       TextSpan(
                                         text: "${l10n.series}  ",
                                         style: textTheme.bodyMedium?.copyWith(
@@ -274,7 +293,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                                       ),
                                     TextSpan(text: webViewData.novel.title),
                                   ]),
-                                  style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                                  style: textTheme.titleSmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ),
                               Padding(
@@ -289,20 +309,27 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                             user: CommonUser(
                               id: webViewData.authorDetails.userId,
                               name: webViewData.authorDetails.userName,
-                              profileImageUrls: Profile_image_urls(medium: webViewData.authorDetails.profileImg.url),
+                              profileImageUrls: Profile_image_urls(
+                                  medium:
+                                      webViewData.authorDetails.profileImg.url),
                               isFollowed: webViewData.authorDetails.isFollowed,
                             ),
                             createDate: webViewData.novel.cdate),
                         _buildInformation(webViewData),
                         // 系列
-                        if (webViewData.novel.seriesId != null && webViewData.novel.seriesId != "")
+                        if (webViewData.novel.seriesId != null &&
+                            webViewData.novel.seriesId != "")
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            child: NovelSeriesNavigation(novel: webViewData.novel),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                            child:
+                                NovelSeriesNavigation(novel: webViewData.novel),
                           ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          child: Divider(color: colorScheme.outline.withAlpha(100)),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          child: Divider(
+                              color: colorScheme.outline.withAlpha(100)),
                         ),
                       ],
                     ),
@@ -326,7 +353,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                 ),
                 actions: [
                   AppbarBlurIconButton(
-                    icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
+                    icon: const Icon(Icons.more_horiz_rounded,
+                        color: Colors.white),
                     margin: const EdgeInsets.symmetric(horizontal: 8.0),
                     onPressed: () {
                       BottomSheets.showCustomBottomSheet<bool>(
@@ -355,10 +383,12 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                     novelId: novelId,
                     webViewData: webViewData,
                     catalogCallback: (index, name) {
-                      scrollToChapter(context, elements, _bodyKey, false, index);
+                      scrollToChapter(
+                          context, elements, _bodyKey, false, index);
                       Navigator.maybeOf(context)?.pop();
                     },
-                    markerCallback: (callback) => handleMarkerClick(context, elements, _bodyKey, callback),
+                    markerCallback: (callback) => handleMarkerClick(
+                        context, elements, _bodyKey, callback),
                   ),
                 ),
               ),
@@ -370,15 +400,18 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
   }
 
   /// 小说内容
-  List<Widget> _buildContent(NovelDetailWebView webViewData, Color? background, Color? foreground) {
+  List<Widget> _buildContent(
+      NovelDetailWebView webViewData, Color? background, Color? foreground) {
     final settings = ref.watch(novelViewerSettings);
     final lines = webViewData.novel.text.split('\n');
 
     for (final line in lines) {
       // 新页
       if (line.startsWith('[newpage]')) {
-        elements.add(
-            NovelElementModel(type: NovelElementType.pageDivider, key: GlobalKey(), element: const NovelPageDivider()));
+        elements.add(NovelElementModel(
+            type: NovelElementType.pageDivider,
+            key: GlobalKey(),
+            element: const NovelPageDivider()));
         continue;
       }
       // 断章，章节标题
@@ -386,7 +419,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
       if (line.startsWith('[chapter') && (chapterMatch?.groupCount ?? 0) > 0) {
         final text = chapterMatch?.group(1);
         if (text != null) {
-          final textSpan = TextSpan(text: '$text\n', style: novelChapterTitleStyle);
+          final textSpan =
+              TextSpan(text: '$text\n', style: novelChapterTitleStyle);
           elements.add(NovelElementModel(
             type: NovelElementType.chapterTitle,
             key: GlobalKey(),
@@ -400,7 +434,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
       if (elements.isNotEmpty && elements.last.type == NovelElementType.text) {
         (elements.last.element as NovelTextElement).add(textSpan);
       } else {
-        elements.add(NovelElementModel(type: NovelElementType.text, element: [textSpan]));
+        elements.add(NovelElementModel(
+            type: NovelElementType.text, element: [textSpan]));
       }
     }
 
@@ -418,7 +453,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
       switch (element.type) {
         case NovelElementType.chapterTitle:
           results.add(SliverPadding(
-            padding: const EdgeInsets.only(top: 16, bottom: 4, left: 20, right: 20),
+            padding:
+                const EdgeInsets.only(top: 16, bottom: 4, left: 20, right: 20),
             sliver: SliverToBoxAdapter(
               child: NovelText(
                 key: element.key,
@@ -454,7 +490,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
         case NovelElementType.pageDivider:
           results.add(SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: SliverToBoxAdapter(child: NovelPageDivider(key: element.key)),
+            sliver:
+                SliverToBoxAdapter(child: NovelPageDivider(key: element.key)),
           ));
           break;
 
@@ -480,24 +517,33 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                   Expanded(
                       flex: 1,
                       child: Text("id: ${webViewData.novel.id}",
-                          style: textTheme.bodyMedium?.copyWith(color: Colors.grey))),
+                          style: textTheme.bodyMedium
+                              ?.copyWith(color: Colors.grey))),
                   // 收藏数
                   Expanded(
                     flex: 1,
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      const Icon(Icons.favorite, size: 18, color: Colors.grey),
-                      Text(" ${webViewData.novel.rating.bookmark}",
-                          style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
-                    ]),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.favorite,
+                              size: 18, color: Colors.grey),
+                          Text(" ${webViewData.novel.rating.bookmark}",
+                              style: textTheme.bodyMedium
+                                  ?.copyWith(color: Colors.grey)),
+                        ]),
                   ),
                   // 浏览数
                   Expanded(
                     flex: 1,
-                    child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      const Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
-                      Text(" ${webViewData.novel.rating.view}",
-                          style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
-                    ]),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Icon(Icons.remove_red_eye,
+                              size: 18, color: Colors.grey),
+                          Text(" ${webViewData.novel.rating.view}",
+                              style: textTheme.bodyMedium
+                                  ?.copyWith(color: Colors.grey)),
+                        ]),
                   ),
                 ],
               )),
@@ -516,7 +562,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
               runSpacing: 8,
               children: [
                 // 遍历Tag
-                for (var element in webViewData.novel.tags) _tagItemWidget(element, null)
+                for (var element in webViewData.novel.tags)
+                  _tagItemWidget(element, null)
               ],
             ),
           ),
@@ -534,18 +581,21 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
           color: colorScheme.primary.withAlpha(32),
           padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
           onTap: () {
-            Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: text);
+            Navigator.of(context)
+                .pushNamed(RouteNames.searchResult.name, arguments: text);
           },
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
               "#$text ",
-              style: textTheme.bodyMedium?.copyWith(color: colorScheme.primary, fontWeight: FontWeight.w500),
+              style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.primary, fontWeight: FontWeight.w500),
             ),
           ),
         ),
         // 标签的翻译文字
-        if (translateText != null) Text("$translateText  ", style: textTheme.bodySmall),
+        if (translateText != null)
+          Text("$translateText  ", style: textTheme.bodySmall),
       ],
     );
   }

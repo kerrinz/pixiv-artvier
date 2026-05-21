@@ -32,7 +32,8 @@ class NovelDetailPageLayout extends ConsumerStatefulWidget {
   final bool isShapedScreen;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _NovelDetailPageLayoutState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _NovelDetailPageLayoutState();
 }
 
 class _NovelDetailPageLayoutState extends ConsumerState<NovelDetailPageLayout> {
@@ -40,6 +41,7 @@ class _NovelDetailPageLayoutState extends ConsumerState<NovelDetailPageLayout> {
   final ScrollController _scrollController = ScrollController();
 
   late DragController _dragController;
+  late final bool _ownsDragController;
 
   double _scrollOffset = 0;
 
@@ -58,12 +60,15 @@ class _NovelDetailPageLayoutState extends ConsumerState<NovelDetailPageLayout> {
   @override
   void dispose() {
     _scrollController.dispose();
-    _dragController.dispose();
+    if (_ownsDragController) {
+      _dragController.dispose();
+    }
     super.dispose();
   }
 
   @override
   void initState() {
+    _ownsDragController = widget.dragController == null;
     _dragController = widget.dragController ?? DragController();
     _scrollController.addListener(() {
       _scrollOffset = _scrollController.offset;
@@ -105,13 +110,16 @@ class _NovelDetailPageLayoutState extends ConsumerState<NovelDetailPageLayout> {
       children: [
         DragVerticalPanel(
           controller: _dragController,
-          height:
-              screenHeight - statusBarHeight - (screenHeight < screenWidth ? 0 : toolBarHeight) + _floatingButtonOffset,
+          height: screenHeight -
+              statusBarHeight -
+              (screenHeight < screenWidth ? 0 : toolBarHeight) +
+              _floatingButtonOffset,
           defaultPosition: screenHeight - _minRevealHeight,
           maximumPosition: _maximumPosition,
           dragStageOffset: 50,
           body: Container(
-            padding: const EdgeInsets.only(bottom: _minRevealHeight - _floatingButtonOffset - 20),
+            padding: const EdgeInsets.only(
+                bottom: _minRevealHeight - _floatingButtonOffset - 20),
             alignment: Alignment.topCenter,
             color: Colors.black,
             child: SizedBox(
@@ -126,7 +134,9 @@ class _NovelDetailPageLayoutState extends ConsumerState<NovelDetailPageLayout> {
                 margin: const EdgeInsets.only(top: _floatingButtonOffset),
                 decoration: BoxDecoration(
                   color: colorScheme.surface,
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
                   boxShadow: [
                     BoxShadow(
                         color: Colors.black.withAlpha(50),
@@ -136,7 +146,9 @@ class _NovelDetailPageLayoutState extends ConsumerState<NovelDetailPageLayout> {
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
                   child: CustomScrollView(
                     controller: _scrollController,
                     physics: const ClampingScrollPhysics(),

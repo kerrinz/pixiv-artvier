@@ -32,14 +32,17 @@ class ArtworkDetailPageLayout extends ConsumerStatefulWidget {
   final bool isShapedScreen;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ArtworkDetailPageLayoutState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ArtworkDetailPageLayoutState();
 }
 
-class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayout> {
+class _ArtworkDetailPageLayoutState
+    extends ConsumerState<ArtworkDetailPageLayout> {
   /// 拖拽组件内部滚动内容的控制器
   final ScrollController _scrollController = ScrollController();
 
   late DragController _dragController;
+  late final bool _ownsDragController;
 
   double _scrollOffset = 0;
 
@@ -58,12 +61,15 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
   @override
   void dispose() {
     _scrollController.dispose();
-    _dragController.dispose();
+    if (_ownsDragController) {
+      _dragController.dispose();
+    }
     super.dispose();
   }
 
   @override
   void initState() {
+    _ownsDragController = widget.dragController == null;
     _dragController = widget.dragController ?? DragController();
     _scrollController.addListener(() {
       _scrollOffset = _scrollController.offset;
@@ -82,7 +88,8 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
   @override
   void didChangeDependencies() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      double statusBarHeight = MediaQueryData.fromView(View.of(context)).padding.top; // 状态栏高度
+      double statusBarHeight =
+          MediaQueryData.fromView(View.of(context)).padding.top; // 状态栏高度
       double toolBarHeight = Theme.of(context).appBarTheme.toolbarHeight ?? 50;
       _dragController.updatePositions([
         statusBarHeight + toolBarHeight - _floatingButtonOffset,
@@ -96,7 +103,8 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
   Widget build(BuildContext context) {
     double screenHeight = MediaQueryData.fromView(View.of(context)).size.height;
     double screenWidth = MediaQueryData.fromView(View.of(context)).size.width;
-    double statusBarHeight = MediaQueryData.fromView(View.of(context)).padding.top; // 状态栏高度
+    double statusBarHeight =
+        MediaQueryData.fromView(View.of(context)).padding.top; // 状态栏高度
     double toolBarHeight = Theme.of(context).appBarTheme.toolbarHeight ?? 50;
     // 拖拽组件上拉到顶的极限距离
     _minimunPosition = statusBarHeight + toolBarHeight - _floatingButtonOffset;
@@ -105,13 +113,16 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
       children: [
         DragVerticalPanel(
           controller: _dragController,
-          height:
-              screenHeight - statusBarHeight - (screenHeight < screenWidth ? 0 : toolBarHeight) + _floatingButtonOffset,
+          height: screenHeight -
+              statusBarHeight -
+              (screenHeight < screenWidth ? 0 : toolBarHeight) +
+              _floatingButtonOffset,
           defaultPosition: screenHeight - _minRevealHeight,
           maximumPosition: _maximumPosition,
           dragStageOffset: 50,
           body: Container(
-            padding: const EdgeInsets.only(bottom: _minRevealHeight - _floatingButtonOffset - 20),
+            padding: const EdgeInsets.only(
+                bottom: _minRevealHeight - _floatingButtonOffset - 20),
             alignment: Alignment.topCenter,
             color: Colors.black,
             child: SizedBox(
@@ -126,7 +137,9 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
                 margin: const EdgeInsets.only(top: _floatingButtonOffset),
                 decoration: BoxDecoration(
                   color: colorScheme.surface,
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
                   boxShadow: [
                     BoxShadow(
                         color: Colors.black.withAlpha(50),
@@ -136,7 +149,9 @@ class _ArtworkDetailPageLayoutState extends ConsumerState<ArtworkDetailPageLayou
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
                   child: CustomScrollView(
                     controller: _scrollController,
                     physics: const ClampingScrollPhysics(),
