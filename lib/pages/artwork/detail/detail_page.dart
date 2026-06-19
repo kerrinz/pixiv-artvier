@@ -6,6 +6,7 @@ import 'package:artvier/component/layout/single_line_fitted_box.dart';
 import 'package:artvier/component/loading/muted_works.dart';
 import 'package:artvier/database/database.dart';
 import 'package:artvier/global/logger.dart';
+import 'package:artvier/global/provider/muted_state_provider.dart';
 import 'package:artvier/global/settings.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
 import 'package:artvier/pages/artwork/detail/widgets/menu_bottom_sheet.dart';
@@ -36,7 +37,8 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 class ArtWorksDetailPage extends ConsumerStatefulWidget {
   final IllustDetailPageArguments args; // 数据集
 
-  const ArtWorksDetailPage(Object arguments, {super.key}) : args = arguments as IllustDetailPageArguments;
+  const ArtWorksDetailPage(Object arguments, {super.key})
+      : args = arguments as IllustDetailPageArguments;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -68,7 +70,8 @@ class ArtWorksDetailSubPage extends ConsumerStatefulWidget {
 class _ArtWorksDetailPageState extends BasePageState<ArtWorksDetailPage>
     with TickerProviderStateMixin, ArtworkDetailPageLogic {
   @override
-  get artworkDetail => widget.args.illustList?[widget.args.currentIllustListIndex ?? 0];
+  get artworkDetail =>
+      widget.args.illustList?[widget.args.currentIllustListIndex ?? 0];
 
   @override
   get artworkId => widget.args.illustId ?? artworkDetail!.id.toString();
@@ -77,7 +80,8 @@ class _ArtWorksDetailPageState extends BasePageState<ArtWorksDetailPage>
 
   @override
   void initState() {
-    pageController = PageController(initialPage: widget.args.currentIllustListIndex ?? 0);
+    pageController =
+        PageController(initialPage: widget.args.currentIllustListIndex ?? 0);
     super.initState();
   }
 
@@ -138,16 +142,20 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
 
   @override
   Widget build(BuildContext context) {
+    final mutedState = ref.watch(globalMutedStateProvider);
     if (artworkDetail != null) {
       // 已被屏蔽
-      if (artworkDetail!.isMuted) return Scaffold(body: _buildMutedContent());
+      if (mutedState.containsIllust(artworkDetail!))
+        return Scaffold(body: _buildMutedContent());
       // 未屏蔽
       CommonIllust detail = artworkDetail!;
       return Scaffold(body: _buildSuccessContent(detail));
     } else {
       return Scaffold(
         body: ref.watch(illustDetailProvider(artworkId)).when(
-              data: (data) => data!.illust.isMuted ? _buildMutedContent() : _buildSuccessContent(data.illust),
+              data: (data) => mutedState.containsIllust(data!.illust)
+                  ? _buildMutedContent()
+                  : _buildSuccessContent(data.illust),
               error: (obj, error) => _buildBeforeSuccessContent(true),
               loading: () => _buildBeforeSuccessContent(false),
             ),
@@ -178,7 +186,8 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
       ),
       Builder(builder: (context) {
         if (isFailed) {
-          return RequestLoadingFailed(onRetry: () => ref.refresh(illustDetailProvider(artworkId)));
+          return RequestLoadingFailed(
+              onRetry: () => ref.refresh(illustDetailProvider(artworkId)));
         }
         return const RequestLoading();
       }),
@@ -197,7 +206,8 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             // 状态栏亮度，对应影响到字体颜色（dark为白色字体）
-            leading: const AppbarLeadingButtton(color: Colors.white, enableBackground: true),
+            leading: const AppbarLeadingButtton(
+                color: Colors.white, enableBackground: true),
             actions: [
               AppbarBlurIconButton(
                 icon: const Icon(Icons.more_horiz_rounded, color: Colors.white),
@@ -228,7 +238,8 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
             SliverStickyHeader(
               // 作品的标题
               header: Container(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
+                padding: const EdgeInsets.only(
+                    left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
                 color: colorScheme.surface,
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
@@ -245,7 +256,8 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
                         ),
                       TextSpan(text: detail.title),
                     ]),
-                    style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                    style: textTheme.titleSmall
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -254,7 +266,8 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
                 child: Column(
                   children: [
                     // 作者卡片
-                    AuthorCardWidget(user: detail.user, createDate: detail.createDate),
+                    AuthorCardWidget(
+                        user: detail.user, createDate: detail.createDate),
                     _buildInformation(detail),
                   ],
                 ),
@@ -264,24 +277,28 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
             SliverStickyHeader(
               // 评论的标题栏
               header: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 color: colorScheme.surface,
                 child: Text("评论", style: textTheme.titleMedium),
               ),
               // 评论列表（预览部分）
-              sliver: SliverToBoxAdapter(child: CommentsPreviewContentWidget(artworkId: artworkId)),
+              sliver: SliverToBoxAdapter(
+                  child: CommentsPreviewContentWidget(artworkId: artworkId)),
             ),
             // 相关作品区域，吸顶
             SliverStickyHeader(
               // 相关作品的标题栏
               header: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 color: colorScheme.surface,
                 child: Text("相关作品", style: textTheme.titleMedium),
               ),
               // 相关作品列表
               sliver: SliverDelayedBuildUntilViewportWidget(
-                placeholderWidget: const SliverToBoxAdapter(child: RequestLoading()),
+                placeholderWidget:
+                    const SliverToBoxAdapter(child: RequestLoading()),
                 child: RelatedArtworksContentWidget(worksId: artworkId),
               ),
             ),
@@ -320,7 +337,8 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
         clipBehavior: Clip.none,
         shrinkWrap: true,
         padding: EdgeInsets.zero, // 去除预留的安全区
-        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+        physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics()),
         itemBuilder: ((context, index) {
           String url = imageUrls[index];
           Key? imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
@@ -340,11 +358,14 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
                   // key: _imgKey,
                   errorWidget: (context, url, error) {
                     return LayoutBuilder(
-                      builder: (BuildContext context, BoxConstraints constraints) {
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
                         return Container(
                           alignment: Alignment.center,
                           width: constraints.maxWidth,
-                          height: detail.height / detail.width * constraints.maxWidth,
+                          height: detail.height /
+                              detail.width *
+                              constraints.maxWidth,
                           child: ElevatedButton(
                             onPressed: () {
                               (context as Element).markNeedsBuild();
@@ -356,13 +377,17 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
                     );
                   },
                   // 加载时显示loading图标
-                  loadingWidget: (BuildContext context, String url, ImageChunkEvent process) {
+                  loadingWidget: (BuildContext context, String url,
+                      ImageChunkEvent process) {
                     return LayoutBuilder(
-                      builder: (BuildContext context, BoxConstraints constraints) {
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
                         return Container(
                           alignment: Alignment.center,
                           width: constraints.maxWidth,
-                          height: detail.height / detail.width * constraints.maxWidth,
+                          height: detail.height /
+                              detail.width *
+                              constraints.maxWidth,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -372,8 +397,10 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
                                 value: process.progress,
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Text("${((process.progress ?? 0) * 100).toStringAsFixed(0)}%"),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text(
+                                    "${((process.progress ?? 0) * 100).toStringAsFixed(0)}%"),
                               ),
                             ],
                           ),
@@ -385,7 +412,8 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
               ),
               // 动图
               if (detail.type == "ugoira")
-                LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                LayoutBuilder(builder:
+                    (BuildContext context, BoxConstraints constraints) {
                   return UgoiraImage(
                     size: Size(
                       constraints.maxWidth,
@@ -461,7 +489,8 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
   }
 
   Widget _buildInformation(CommonIllust detail) {
-    final parameterTextStyle = textTheme.labelMedium?.copyWith(color: Colors.grey);
+    final parameterTextStyle =
+        textTheme.labelMedium?.copyWith(color: Colors.grey);
     return Padding(
       padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
       child: Column(
@@ -477,33 +506,49 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
                     // 浏览数
                     Expanded(
                       flex: 1,
-                      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                        const Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
-                        Text(" ${detail.totalView}", style: parameterTextStyle),
-                      ]),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.remove_red_eye,
+                                size: 18, color: Colors.grey),
+                            Text(" ${detail.totalView}",
+                                style: parameterTextStyle),
+                          ]),
                     ),
                     // 收藏数
                     Expanded(
                       flex: 1,
-                      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                        const Icon(Icons.favorite, size: 18, color: Colors.grey),
-                        Text(" ${detail.totalBookmarks}", style: parameterTextStyle),
-                      ]),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.favorite,
+                                size: 18, color: Colors.grey),
+                            Text(" ${detail.totalBookmarks}",
+                                style: parameterTextStyle),
+                          ]),
                     ),
                   ],
                 ),
                 Row(
                   children: [
                     // ID
-                    Expanded(flex: 1, child: Text("ID: ${detail.id}", style: parameterTextStyle)),
+                    Expanded(
+                        flex: 1,
+                        child: Text("ID: ${detail.id}",
+                            style: parameterTextStyle)),
                     // 分辨率
                     Expanded(
                       flex: 1,
-                      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                        const Icon(Icons.phone_android_rounded, size: 18, color: Colors.grey),
-                        Text(" ${detail.width}x", style: parameterTextStyle),
-                        Text(" ${detail.height}", style: parameterTextStyle),
-                      ]),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.phone_android_rounded,
+                                size: 18, color: Colors.grey),
+                            Text(" ${detail.width}x",
+                                style: parameterTextStyle),
+                            Text(" ${detail.height}",
+                                style: parameterTextStyle),
+                          ]),
                     ),
                   ],
                 ),
@@ -530,7 +575,8 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
               runSpacing: 8,
               children: [
                 // 遍历Tag
-                for (var element in detail.tags) _tagItemWidget(element.name, element.translatedName)
+                for (var element in detail.tags)
+                  _tagItemWidget(element.name, element.translatedName)
               ],
             ),
           ),
@@ -548,18 +594,21 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
           color: colorScheme.primary.withAlpha(32),
           padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
           onTap: () {
-            Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: text);
+            Navigator.of(context)
+                .pushNamed(RouteNames.searchResult.name, arguments: text);
           },
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
               "#$text ",
-              style: textTheme.bodyMedium?.copyWith(color: colorScheme.primary, fontWeight: FontWeight.w500),
+              style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.primary, fontWeight: FontWeight.w500),
             ),
           ),
         ),
         // 标签的翻译文字
-        if (translateText != null) Text("$translateText  ", style: textTheme.bodySmall),
+        if (translateText != null)
+          Text("$translateText  ", style: textTheme.bodySmall),
       ],
     );
   }

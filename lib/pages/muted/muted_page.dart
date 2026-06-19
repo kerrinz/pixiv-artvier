@@ -15,7 +15,8 @@ import 'package:artvier/base/base_page.dart';
 class MutedPage extends BaseStatefulPage {
   final MutedPageArguments? arguments;
 
-  const MutedPage(Object? arguments, {super.key}) : arguments = arguments as MutedPageArguments?;
+  const MutedPage(Object? arguments, {super.key})
+      : arguments = arguments as MutedPageArguments?;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -27,7 +28,10 @@ class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: const AppbarLeadingButtton(), titleSpacing: 0, title: Text(l10n.mutedSettings)),
+      appBar: AppBar(
+          leading: const AppbarLeadingButtton(),
+          titleSpacing: 0,
+          title: Text(l10n.mutedSettings)),
       body: Consumer(
         builder: (context, ref, child) {
           final res = ref.watch(mutedListProvider);
@@ -38,13 +42,17 @@ class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
               final mutedUsers = data.mutedUsers;
               final mutedTags = data.mutedTags;
               final argUsers = widget.arguments?.users
-                      .map((v) => mutedUsers.firstWhere((el) => el.user.id == v.id,
-                          orElse: () => MutedUser(user: v, isPremiumSlot: false)))
+                      .map((v) => mutedUsers.firstWhere(
+                          (el) => el.user.id == v.id,
+                          orElse: () =>
+                              MutedUser(user: v, isPremiumSlot: false)))
                       .toList() ??
                   [];
               final argTags = widget.arguments?.tags
-                      .map((v) => data.mutedTags.firstWhere((el) => el.tag.name == v.name,
-                          orElse: () => MutedTag(tag: MutedTagInfo(name: v.name))))
+                      .map((v) => data.mutedTags.firstWhere(
+                          (el) => el.tag.name == v.name,
+                          orElse: () =>
+                              MutedTag(tag: MutedTagInfo(name: v.name))))
                       .toList() ??
                   [];
 
@@ -57,17 +65,20 @@ class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
                         child: CustomScrollView(
                           slivers: [
                             SliverPadding(
-                              padding: const EdgeInsets.only(left: 10.0, right: 10, top: 12, bottom: 4),
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, right: 10, top: 12, bottom: 4),
                               sliver: SliverToBoxAdapter(
                                 child: DecoratedBox(
                                   decoration: BoxDecoration(
                                     color: colorScheme.surface,
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(l10n.mutedPageHint),
                                         Text(l10n.mutedPagePremiumHint1),
@@ -80,9 +91,11 @@ class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
                             ),
                             if (argUsers.isNotEmpty || argTags.isNotEmpty)
                               SliverPadding(
-                                padding: const EdgeInsets.only(left: 10.0, right: 10, top: 12, bottom: 4),
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10, top: 12, bottom: 4),
                                 sliver: SliverToBoxAdapter(
-                                  child: Text(l10n.candidates, style: textTheme.titleMedium),
+                                  child: Text(l10n.candidates,
+                                      style: textTheme.titleMedium),
                                 ),
                               ),
                             if (argUsers.isNotEmpty || argTags.isNotEmpty)
@@ -92,7 +105,8 @@ class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
                                 // editMode: isEdit,
                                 // checkedList: muteCheckedList,
                                 onLazyload: null,
-                                onTapItem: (index) => onTapItem(argUsers[index].user),
+                                onTapItem: (index) =>
+                                    onTapItem(argUsers[index].user),
                                 onTapButton: (index) {
                                   if (index < argUsers.length) {
                                     final user = argUsers[index].user;
@@ -100,34 +114,45 @@ class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
                                         ? handleUnmute(user: user)
                                         : handleMute(user: user);
                                   } else {
-                                    final metedTag = argTags[index - argUsers.length];
+                                    final metedTag =
+                                        argTags[index - argUsers.length];
                                     (metedTag.isAccessBlocking ?? false)
-                                        ? handleUnmute(tagName: metedTag.tag.name)
-                                        : handleMute(tagName: metedTag.tag.name);
+                                        ? handleUnmute(
+                                            tagName: metedTag.tag.name)
+                                        : handleMute(
+                                            tagName: metedTag.tag.name);
                                   }
                                 },
                                 // onCheckboxChange: (index, value) => onCheckboxChange(index, value),
                               ),
                             if (argUsers.isNotEmpty || argTags.isNotEmpty)
                               SliverPadding(
-                                padding: const EdgeInsets.only(left: 10.0, right: 10, top: 4, bottom: 0),
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10, top: 4, bottom: 0),
                                 sliver: SliverToBoxAdapter(
-                                  child: Divider(color: colorScheme.outline.withAlpha(100)),
+                                  child: Divider(
+                                      color:
+                                          colorScheme.outline.withAlpha(100)),
                                 ),
                               ),
                             SliverPadding(
-                              padding: const EdgeInsets.only(left: 10.0, right: 10, top: 12, bottom: 4),
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, right: 10, top: 12, bottom: 4),
                               sliver: SliverToBoxAdapter(
                                 child: Row(
                                   children: [
-                                    Expanded(child: Text(l10n.muted, style: textTheme.titleMedium)),
+                                    Expanded(
+                                        child: Text(l10n.muted,
+                                            style: textTheme.titleMedium)),
                                     ValueListenableBuilder<bool>(
                                       valueListenable: isEditMode,
                                       builder: (_, isEdit, __) {
                                         return BlurButton(
                                           onPressed: handlePressedEdit,
                                           background: Colors.transparent,
-                                          child: isEdit ? Text(l10n.cancel) : Text(l10n.batchEdit),
+                                          child: isEdit
+                                              ? Text(l10n.cancel)
+                                              : Text(l10n.batchEdit),
                                         );
                                       },
                                     ),
@@ -146,7 +171,9 @@ class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
                                   return false;
                                 },
                                 onTapItem: (index) =>
-                                    (index < mutedUsers.length) ? onTapItem(mutedUsers[index].user) : null,
+                                    (index < mutedUsers.length)
+                                        ? onTapItem(mutedUsers[index].user)
+                                        : null,
                                 onTapButton: (index) {
                                   if (index < mutedUsers.length) {
                                     final user = mutedUsers[index].user;
@@ -154,13 +181,17 @@ class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
                                         ? handleUnmute(user: user)
                                         : handleMute(user: user);
                                   } else {
-                                    final metedTag = mutedTags[index - mutedUsers.length];
+                                    final metedTag =
+                                        mutedTags[index - mutedUsers.length];
                                     (metedTag.isAccessBlocking ?? false)
-                                        ? handleUnmute(tagName: metedTag.tag.name)
-                                        : handleMute(tagName: metedTag.tag.name);
+                                        ? handleUnmute(
+                                            tagName: metedTag.tag.name)
+                                        : handleMute(
+                                            tagName: metedTag.tag.name);
                                   }
                                 },
-                                onCheckboxChange: (index, value) => onCheckboxChange(index, value),
+                                onCheckboxChange: (index, value) =>
+                                    onCheckboxChange(index, value),
                               ),
                             ),
                           ],
@@ -168,7 +199,8 @@ class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
                       ),
                       if (isEdit)
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
                           decoration: BoxDecoration(
                             color: colorScheme.surface,
                           ),
@@ -180,14 +212,18 @@ class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
                                 TextButton(
                                   onPressed: handleSelectOrDeselectAll,
                                   child: Text(
-                                      muteCheckedList.length == (mutedUsers.length + mutedTags.length)
+                                      muteCheckedList.length ==
+                                              (mutedUsers.length +
+                                                  mutedTags.length)
                                           ? l10n.deselectAll
                                           : l10n.selectAll,
                                       style: textTheme.labelLarge),
                                 ),
                                 // 一键屏蔽
                                 TextButton(
-                                  onPressed: muteCheckedList.isNotEmpty ? handleUnmuteList : null,
+                                  onPressed: muteCheckedList.isNotEmpty
+                                      ? handleUnmuteList
+                                      : null,
                                   child: Text(l10n.unmuteSelected),
                                 ),
                               ],
@@ -200,7 +236,8 @@ class _MutedPageState extends BasePageState<MutedPage> with _MutedPageLogic {
               );
             },
             error: (error, stackTrace) => Center(
-              child: RequestLoadingFailed(onRetry: () => ref.invalidate(mutedListProvider)),
+              child: RequestLoadingFailed(
+                  onRetry: () => ref.invalidate(mutedListProvider)),
             ),
             loading: (() => Center(child: RequestLoading())),
           );
@@ -234,14 +271,17 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
       ref.read(muteCheckedListProvider.notifier).update((_) => []);
     } else {
       // 全选
-      ref.read(muteCheckedListProvider.notifier).update((_) => List.generate(fullLength, (i) => i));
+      ref
+          .read(muteCheckedListProvider.notifier)
+          .update((_) => List.generate(fullLength, (i) => i));
     }
   }
 
   onTapItem(CommonUser user) {
     Navigator.of(context).pushNamed(
       RouteNames.userDetail.name,
-      arguments: PreloadUserLeastInfo(user.id.toString(), user.name, user.profileImageUrls.medium),
+      arguments: PreloadUserLeastInfo(
+          user.id.toString(), user.name, user.profileImageUrls.medium),
     );
   }
 
@@ -267,7 +307,9 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
                     ? null
                     : () async {
                         dialogLoading.value = true;
-                        ref.read(mutedListProvider.notifier).mute(userIds: [user.id.toString()]).then((_) {
+                        ref
+                            .read(mutedListProvider.notifier)
+                            .mute(userIds: [user.id.toString()]).then((_) {
                           return ref.read(mutedListProvider.notifier).reload();
                         }).whenComplete(() {
                           dialogLoading.value = false;
@@ -281,7 +323,11 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
                   children: [
                     if (!loading) Text(l10n.promptConform),
                     if (loading)
-                      SizedBox(width: 16, height: 16, child: const CircularProgressIndicator(strokeWidth: 1.0)),
+                      SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: const CircularProgressIndicator(
+                              strokeWidth: 1.0)),
                   ],
                 ),
               ),
@@ -308,7 +354,9 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
                     ? null
                     : () {
                         dialogLoading.value = true;
-                        ref.read(mutedListProvider.notifier).mute(tags: [tagName]).then((_) {
+                        ref
+                            .read(mutedListProvider.notifier)
+                            .mute(tags: [tagName]).then((_) {
                           return ref.read(mutedListProvider.notifier).reload();
                         }).whenComplete(() {
                           dialogLoading.value = false;
@@ -322,7 +370,11 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
                   children: [
                     if (!loading) Text(l10n.promptConform),
                     if (loading)
-                      SizedBox(width: 16, height: 16, child: const CircularProgressIndicator(strokeWidth: 1.0)),
+                      SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: const CircularProgressIndicator(
+                              strokeWidth: 1.0)),
                   ],
                 ),
               ),
@@ -355,7 +407,9 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
                     ? null
                     : () {
                         dialogLoading.value = true;
-                        ref.read(mutedListProvider.notifier).unmute(userIds: [user.id.toString()]).then((_) {
+                        ref
+                            .read(mutedListProvider.notifier)
+                            .unmute(userIds: [user.id.toString()]).then((_) {
                           return ref.read(mutedListProvider.notifier).reload();
                         }).whenComplete(() {
                           dialogLoading.value = false;
@@ -369,7 +423,11 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
                   children: [
                     if (!loading) Text(l10n.promptConform),
                     if (loading)
-                      SizedBox(width: 16, height: 16, child: const CircularProgressIndicator(strokeWidth: 1.0)),
+                      SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: const CircularProgressIndicator(
+                              strokeWidth: 1.0)),
                   ],
                 ),
               ),
@@ -396,7 +454,9 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
                     ? null
                     : () {
                         dialogLoading.value = true;
-                        ref.read(mutedListProvider.notifier).unmute(tags: [tagName]).then((_) {
+                        ref
+                            .read(mutedListProvider.notifier)
+                            .unmute(tags: [tagName]).then((_) {
                           return ref.read(mutedListProvider.notifier).reload();
                         }).whenComplete(() {
                           dialogLoading.value = false;
@@ -410,7 +470,11 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
                   children: [
                     if (!loading) Text(l10n.promptConform),
                     if (loading)
-                      SizedBox(width: 16, height: 16, child: const CircularProgressIndicator(strokeWidth: 1.0)),
+                      SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: const CircularProgressIndicator(
+                              strokeWidth: 1.0)),
                   ],
                 ),
               ),
@@ -424,17 +488,7 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
   handleUnmuteList() {
     final data = ref.read(mutedListProvider).valueOrNull;
     if (data == null) return;
-    final muteCheckedList = ref.read(muteCheckedListProvider);
-    List<MutedUser> users = [];
-    List<MutedTag> tags = [];
-    for (var i = 0; i < muteCheckedList.length; i++) {
-      final index = muteCheckedList[i];
-      if (i < data.mutedUsers.length) {
-        users.add(data.mutedUsers[index]);
-      } else {
-        tags.add(data.mutedTags[index]);
-      }
-    }
+    final (:users, :tags) = _getCheckedMutedItems(data);
     dialogLoading.value = false;
     showDialog<bool>(
       context: context,
@@ -456,7 +510,12 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
                       dialogLoading.value = true;
                       ref
                           .read(mutedListProvider.notifier)
-                          .unmute(userIds: List.generate(users.length, (index) => users[index].user.id.toString()))
+                          .unmute(
+                            userIds: List.generate(users.length,
+                                (index) => users[index].user.id.toString()),
+                            tags: List.generate(
+                                tags.length, (index) => tags[index].tag.name),
+                          )
                           .then((_) {
                         return ref.read(mutedListProvider.notifier).reload();
                       }).whenComplete(() {
@@ -471,7 +530,11 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
                 children: [
                   if (!loading) Text(l10n.promptConform),
                   if (loading)
-                    SizedBox(width: 16, height: 16, child: const CircularProgressIndicator(strokeWidth: 1.0)),
+                    SizedBox(
+                        width: 16,
+                        height: 16,
+                        child:
+                            const CircularProgressIndicator(strokeWidth: 1.0)),
                 ],
               ),
             ),
@@ -479,6 +542,22 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
         ),
       ),
     );
+  }
+
+  ({List<MutedUser> users, List<MutedTag> tags}) _getCheckedMutedItems(
+      MutedListResponse data) {
+    final checkedList = ref.read(muteCheckedListProvider);
+    final users = <MutedUser>[];
+    final tags = <MutedTag>[];
+    final mutedUserLength = data.mutedUsers.length;
+    for (final checkedIndex in checkedList) {
+      if (checkedIndex < mutedUserLength) {
+        users.add(data.mutedUsers[checkedIndex]);
+      } else {
+        tags.add(data.mutedTags[checkedIndex - mutedUserLength]);
+      }
+    }
+    return (users: users, tags: tags);
   }
 
   onCheckboxChange(int index, bool? value) {
