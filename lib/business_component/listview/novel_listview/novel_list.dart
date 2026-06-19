@@ -1,4 +1,5 @@
 import 'package:artvier/global/settings.dart';
+import 'package:artvier/global/provider/muted_state_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,8 @@ import 'package:artvier/model_response/novels/common_novel.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 /// 小说的瀑布流列表
-class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogic {
+class NovelListView extends ConsumerWidget
+    with LazyloadLogic, NovelListViewLogic {
   /// 小说列表
   final List<CommonNovel> novelList;
 
@@ -33,7 +35,7 @@ class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogi
   final double crossAxisSpacing;
 
   @override
-  late final WidgetRef ref;
+  late WidgetRef ref;
 
   NovelListView({
     super.key,
@@ -51,29 +53,36 @@ class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogi
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     this.ref = ref;
+    final mutedState = ref.watch(globalMutedStateProvider);
+    final visibleNovelList =
+        novelList.where((novel) => !mutedState.containsNovel(novel)).toList();
     return WaterfallFlow.builder(
       padding: padding,
       controller: scrollController,
       physics: physics,
-      itemCount: novelList.length + 1,
+      itemCount: visibleNovelList.length + 1,
       gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
         mainAxisSpacing: mainAxisSpacing,
         crossAxisSpacing: crossAxisSpacing,
-        collectGarbage: collectGarbage,
+        collectGarbage: (garbages) =>
+            collectGarbage(garbages, visibleNovelList),
         viewportBuilder: viewportBuilder,
       ),
-      itemBuilder: (BuildContext context, int index) => itemBuilder(ref, index),
+      itemBuilder: (BuildContext context, int index) =>
+          itemBuilder(ref, index, visibleNovelList),
     );
   }
 
-  void collectGarbage(List<int> garbages) {
+  void collectGarbage(List<int> garbages, List<CommonNovel> visibleNovelList) {
     // print('collect garbage : $garbages');
     // 根据画质设置，选用合适的图片
     final quality = GlobalSettings.instance.listPreviewQuality;
     for (var index in garbages) {
-      final imageUrl =
-          quality == ListPreviewQuality.medium ? novelList[index].imageUrls.medium : novelList[index].imageUrls.large;
+      if (index < 0 || index >= visibleNovelList.length) continue;
+      final imageUrl = quality == ListPreviewQuality.medium
+          ? visibleNovelList[index].imageUrls.medium
+          : visibleNovelList[index].imageUrls.large;
       final provider = ExtendedNetworkImageProvider(
         HttpHostOverrides().pxImgUrl(imageUrl),
       );
@@ -85,17 +94,20 @@ class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogi
     // print('viewport : [$firstIndex,$lastIndex]');
   }
 
-  Widget itemBuilder(WidgetRef ref, index) {
+  Widget itemBuilder(WidgetRef ref, index, List<CommonNovel> visibleNovelList) {
     // 如果滑动到了表尾加载更多的项
-    if (index == novelList.length) {
+    if (index == visibleNovelList.length) {
       handleViewLazyloadWidget(ref, onLazyload);
       // 尾部懒加载组件
       return lazyloadWidget(ref);
     }
-    var novel = novelList[index];
+    var novel = visibleNovelList[index];
     return NovelWaterfallItem(
       novel: novel,
-      collectState: novel.collectState ?? (novel.isBookmarked ? CollectState.collected : CollectState.notCollect),
+      collectState: novel.collectState ??
+          (novel.isBookmarked
+              ? CollectState.collected
+              : CollectState.notCollect),
       onTap: () => handleTapItem(novel),
     );
   }
@@ -128,7 +140,12 @@ class NovelListView extends ConsumerWidget with LazyloadLogic, NovelListViewLogi
               ),
             ),
           };
-          return SafeArea(left: true, top: false, right: true, bottom: true, child: map[lazyloadState]!);
+          return SafeArea(
+              left: true,
+              top: false,
+              right: true,
+              bottom: true,
+              child: map[lazyloadState]!);
         }),
       );
 }
@@ -148,6 +165,9 @@ class SliverNovelListView extends NovelListView {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     this.ref = ref;
+    final mutedState = ref.watch(globalMutedStateProvider);
+    final visibleNovelList =
+        novelList.where((novel) => !mutedState.containsNovel(novel)).toList();
     return SliverPadding(
       padding: padding ?? EdgeInsets.zero,
       sliver: SliverWaterfallFlow(
@@ -155,14 +175,18 @@ class SliverNovelListView extends NovelListView {
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
-          collectGarbage: collectGarbage,
+          collectGarbage: (garbages) =>
+              collectGarbage(garbages, visibleNovelList),
           viewportBuilder: viewportBuilder,
           lastChildLayoutTypeBuilder: (index) =>
-              index == novelList.length ? LastChildLayoutType.fullCrossAxisExtent : LastChildLayoutType.none,
+              index == visibleNovelList.length
+                  ? LastChildLayoutType.fullCrossAxisExtent
+                  : LastChildLayoutType.none,
         ),
         delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) => itemBuilder(ref, index),
-          childCount: novelList.length + 1,
+          (BuildContext context, int index) =>
+              itemBuilder(ref, index, visibleNovelList),
+          childCount: visibleNovelList.length + 1,
         ),
       ),
     );
