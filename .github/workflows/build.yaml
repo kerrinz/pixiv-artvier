@@ -13,6 +13,8 @@ on:
 jobs:
   build-android:
     runs-on: ubuntu-latest
+    # 指定环境
+    environment: production
 
     steps:
       # 检出代码
@@ -69,12 +71,38 @@ jobs:
         run: flutter pub get
       # 构建 APK
       - name: Create key.properties
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
-          echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" >> android/key.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
-          echo "storeFile=ghaction-keystore.jks" >> android/key.properties
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/ghaction-keystore.jks
+          store_password="${KEYSTORE_PASSWORD}"
+          key_password="${KEY_PASSWORD:-$store_password}"
+
+          if [ -z "$KEYSTORE_BASE64" ] || [ -z "$store_password" ] || [ -z "$KEY_ALIAS" ]; then
+            echo "::error::Missing required secrets: KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_ALIAS"
+            exit 1
+          fi
+
+          {
+            echo "storePassword=${store_password}"
+            echo "keyPassword=${key_password}"
+            echo "keyAlias=${KEY_ALIAS}"
+            echo "storeFile=ghaction-keystore.jks"
+          } > android/key.properties
+
+          printf '%s' "$KEYSTORE_BASE64" | tr -d '[:space:]' | base64 --decode > android/app/ghaction-keystore.jks
+
+          if [ ! -s android/app/ghaction-keystore.jks ]; then
+            echo "::error::Decoded keystore is empty. Re-encode with: openssl base64 -in your.jks -A"
+            exit 1
+          fi
+
+          if ! keytool -list -keystore android/app/ghaction-keystore.jks -storepass "$store_password" -alias "$KEY_ALIAS" >/dev/null 2>&1; then
+            echo "::error::Cannot read keystore. Check KEYSTORE_BASE64 encoding, passwords, and KEY_ALIAS."
+            exit 1
+          fi
 
       - name: Build APK
         run: flutter build apk --split-per-abi --release
