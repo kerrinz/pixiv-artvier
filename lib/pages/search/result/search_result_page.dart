@@ -225,7 +225,12 @@ class SearchResultPageState extends ConsumerState<SearchResultPage> with Widgets
                           CategoryModel(value: '1month', name: l10n.searchOneMonth, check: false),
                           CategoryModel(value: 'halfYear', name: l10n.searchHalfYear, check: false),
                           CategoryModel(value: '1year', name: l10n.searchOneYear, check: false),
-                          // CategoryModel(value: 'custom', name: l10n.selectPeriod, check: false),
+                          CategoryModel(
+                            value: 'custom',
+                            name: l10n.selectPeriod,
+                            check: false,
+                            onAction: handleTapCustomPeriod,
+                          ),
                         ],
                       ),
                       // 收藏数（非会员功能）

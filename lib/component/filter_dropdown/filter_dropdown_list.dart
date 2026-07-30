@@ -1,18 +1,26 @@
+import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:flutter/material.dart';
 
 typedef DropDownMenuListenerCallback = void Function();
 typedef DropDownMenuChangeCallback = void Function(int index, String? value);
 typedef DropDownMenuExpandCallback = void Function(int index, bool expanded);
+typedef CategoryCustomWidgetBuilder = Widget Function(BuildContext context, bool checked);
+/// 点击后执行动作，不改变选中态。用于「指定日期」这类需要二次弹窗的选项。
+typedef CategoryActionCallback = void Function(BuildContext context, int menuIndex);
 
 class CategoryModel {
   String value;
   String name;
   bool check;
+  CategoryCustomWidgetBuilder? customWidgetBuilder;
+  CategoryActionCallback? onAction;
 
   CategoryModel({
     required this.value,
     required this.name,
     required this.check,
+    this.customWidgetBuilder,
+    this.onAction,
   });
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
@@ -37,6 +45,8 @@ class DropDownMenuModel {
   String? id;
   String? defaultValue;
   List<CategoryModel> list = [];
+  // 自定义菜单底部内容（不参与菜单选择）
+  Widget? bottomWidget;
 
   String get selectText {
     if (list.isEmpty) return "";
@@ -61,6 +71,7 @@ class DropDownMenuModel {
     this.id,
     this.defaultValue,
     required this.list,
+    this.bottomWidget,
   });
 }
 
@@ -125,6 +136,7 @@ class DropDownMenuSelectValues extends ChangeNotifier {
 class DropDownMenuController {
   Iterable<DropDownMenuExpandIndex> get indexList => _indexList;
   final List<DropDownMenuExpandIndex> _indexList = <DropDownMenuExpandIndex>[];
+  _DropDownMenuOverlayHost? _overlayHost;
 
   bool isExpanded() {
     return _indexList.indexWhere((element) => element.index > -1) > -1;
@@ -136,6 +148,32 @@ class DropDownMenuController {
     }
   }
 
+  /// 打开子级弹窗时暂时让遮罩层不拦截点击，下拉菜单保持可见
+  Future<T?> showAboveMenu<T>({
+    required Widget child,
+    Color barrierColor = Colors.black54,
+    bool barrierDismissible = true,
+    Color? background,
+    BorderRadiusGeometry borderRadius =
+        const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+  }) {
+    if (_overlayHost != null) {
+      return _overlayHost!.showAboveMenu(
+        child: child,
+        barrierColor: barrierColor,
+        barrierDismissible: barrierDismissible,
+        background: background,
+        borderRadius: borderRadius,
+      );
+    }
+    return Future<T?>.value(null);
+  }
+
+  /// 程序化选中某菜单项（例如指定日期确认后高亮）
+  void selectMenuValue(int menuIndex, String value) {
+    _overlayHost?.selectMenuValue(menuIndex, value);
+  }
+
   void attach(DropDownMenuExpandIndex status) {
     assert(!_indexList.contains(status));
     _indexList.add(status);
@@ -144,6 +182,69 @@ class DropDownMenuController {
   void detach(DropDownMenuExpandIndex status) {
     assert(_indexList.contains(status));
     _indexList.remove(status);
+  }
+
+  void _attachOverlayHost(_DropDownMenuOverlayHost host) {
+    _overlayHost = host;
+  }
+
+  void _detachOverlayHost(_DropDownMenuOverlayHost host) {
+    if (_overlayHost == host) {
+      _overlayHost = null;
+    }
+  }
+}
+
+abstract class _DropDownMenuOverlayHost {
+  Future<T?> showAboveMenu<T>({
+    required Widget child,
+    Color barrierColor = Colors.black54,
+    bool barrierDismissible = true,
+    Color? background,
+    BorderRadiusGeometry borderRadius =
+        const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+  });
+
+  void selectMenuValue(int menuIndex, String value);
+}
+
+/// 供下拉菜单内自定义 Widget 获取 [DropDownMenuController]
+class DropDownMenuScope extends InheritedWidget {
+  const DropDownMenuScope({
+    super.key,
+    required this.controller,
+    required this.anchorContext,
+    required super.child,
+  });
+
+  final DropDownMenuController controller;
+  final BuildContext anchorContext;
+
+  static DropDownMenuScope? maybeOf(BuildContext context) {
+    // 在手势回调等非 build 场景使用，避免 dependOnInheritedWidget 断言
+    return context.getInheritedWidgetOfExactType<DropDownMenuScope>();
+  }
+
+  Future<T?> showAboveMenu<T>({
+    required Widget child,
+    Color barrierColor = Colors.black54,
+    bool barrierDismissible = true,
+    Color? background,
+    BorderRadiusGeometry borderRadius =
+        const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+  }) {
+    return controller.showAboveMenu(
+      child: child,
+      barrierColor: barrierColor,
+      barrierDismissible: barrierDismissible,
+      background: background,
+      borderRadius: borderRadius,
+    );
+  }
+
+  @override
+  bool updateShouldNotify(DropDownMenuScope oldWidget) {
+    return controller != oldWidget.controller || anchorContext != oldWidget.anchorContext;
   }
 }
 
@@ -175,7 +276,9 @@ class DropDownMenu extends StatefulWidget {
   State<DropDownMenu> createState() => _DropDownMenuState();
 }
 
-class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderStateMixin {
+class _DropDownMenuState extends State<DropDownMenu>
+    with SingleTickerProviderStateMixin
+    implements _DropDownMenuOverlayHost {
   OverlayEntry? _overlayEntry;
   List<DropDownMenuModel> get _filterList => widget.filterList;
   late AnimationController _animationController;
@@ -189,6 +292,8 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
   late final DropDownMenuSelectValues selectValues;
 
   bool _canPop = true;
+  OverlayEntry? _aboveOverlayEntry;
+  VoidCallback? _dismissAboveOverlay;
 
   @override
   void initState() {
@@ -202,6 +307,7 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
     _animation.addStatusListener((status) {
       if (_animation.value == 0 && _animation.status == AnimationStatus.dismissed) {
         // 移除遮罩层
+        _removeAboveOverlay();
         _overlayEntry?.remove();
         _overlayEntry = null;
       }
@@ -214,6 +320,7 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
     _dropDownMenuController = widget.controller ?? DropDownMenuController();
     // 初始化控制器
     _dropDownMenuController.attach(expandIndex);
+    _dropDownMenuController._attachOverlayHost(this);
     // 根据索引变化，收缩
     expandIndex.addListener(() {
       setState(() {
@@ -233,16 +340,71 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
 
   @override
   void dispose() {
+    _dropDownMenuController._detachOverlayHost(this);
     closeMenuNoAnimation();
     _animationController.dispose();
     super.dispose();
+  }
+
+  void _removeAboveOverlay() {
+    final dismiss = _dismissAboveOverlay;
+    if (dismiss != null) {
+      dismiss();
+      return;
+    }
+    _aboveOverlayEntry?.remove();
+    _aboveOverlayEntry = null;
+  }
+
+  @override
+  Future<T?> showAboveMenu<T>({
+    required Widget child,
+    Color barrierColor = Colors.black54,
+    bool barrierDismissible = true,
+    Color? background,
+    BorderRadiusGeometry borderRadius =
+        const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+  }) async {
+    // ModalRoute 插不进手动 OverlayEntry 之上，因此弹层也用 OverlayEntry。
+    final menuEntry = _overlayEntry;
+    if (menuEntry == null || !menuEntry.mounted) {
+      return null;
+    }
+
+    _removeAboveOverlay();
+
+    try {
+      return await BottomSheets.showCustomBottomSheetOverlay<T>(
+        overlayState: Overlay.of(context),
+        insertAbove: menuEntry,
+        child: child,
+        barrierColor: barrierColor,
+        exitOnClickModal: barrierDismissible,
+        background: background,
+        borderRadius: borderRadius,
+        enableDrag: true,
+        onAttached: (entry, close) {
+          _aboveOverlayEntry = entry;
+          _dismissAboveOverlay = close;
+        },
+      );
+    } finally {
+      _dismissAboveOverlay = null;
+      _aboveOverlayEntry = null;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: _canPop,
-      onPopInvokedWithResult: (_, __) {
+      onPopInvokedWithResult: (didPop, __) {
+        if (didPop) return;
+        // 先关上层日期弹窗，再关下拉菜单
+        if (_aboveOverlayEntry != null) {
+          _removeAboveOverlay();
+          return;
+        }
         closeMenu();
       },
       child: Builder(builder: ((context) {
@@ -299,33 +461,46 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
   }
 
   Widget _menuItem({required int itemIndex, required int menuIndex, required CategoryModel model}) {
-    return GestureDetector(
-      onTap: () => handleItemClick(itemIndex, menuIndex),
-      child: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: ListenableBuilder(
-          listenable: selectValues,
-          builder: (context, child) {
-            final itemValue = _filterList[menuIndex].list[itemIndex].value;
-            final isSelected = selectValues.values[menuIndex].contains(itemValue);
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  model.name,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        fontSize: 14,
-                        color: isSelected ? Theme.of(context).colorScheme.primary : null,
+    return ListenableBuilder(
+      listenable: selectValues,
+      builder: (context, child) {
+        final itemValue = _filterList[menuIndex].list[itemIndex].value;
+        final isSelected = selectValues.values[menuIndex].contains(itemValue);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => handleItemClick(itemIndex, menuIndex),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        model.name,
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              fontSize: 14,
+                              color: isSelected ? Theme.of(context).colorScheme.primary : null,
+                            ),
                       ),
+                    ),
+                    if (isSelected)
+                      Icon(Icons.check, size: 16, color: Theme.of(context).colorScheme.primary),
+                  ],
                 ),
-                if (isSelected) Icon(Icons.check, size: 16, color: Theme.of(context).colorScheme.primary),
-              ],
-            );
-          },
-        ),
-      ),
+              ),
+            ),
+            if (model.customWidgetBuilder != null && isSelected)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: model.customWidgetBuilder!(context, isSelected),
+              ),
+          ],
+        );
+      },
     );
   }
 
@@ -339,6 +514,20 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
 
   void handleItemClick(int itemIndex, int menuIndex) {
     final item = _filterList[menuIndex].list[itemIndex];
+
+    // 动作型选项：不改变选中态，关闭菜单后执行回调
+    if (item.onAction != null) {
+      final action = item.onAction!;
+      final menuContext = context;
+      closeMenu();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (menuContext.mounted) {
+          action(menuContext, menuIndex);
+        }
+      });
+      return;
+    }
+
     final itemValue = item.value;
     final menuSelectedValues = selectValues.values.elementAt(menuIndex);
     final newSelectedValues = [...menuSelectedValues];
@@ -350,9 +539,23 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
       menuIndex,
       newSelectedValues,
     );
-    closeMenu();
 
+    if (item.customWidgetBuilder != null) {
+      // 自定义选项展开后不关闭菜单，等待用户在自定义 Widget 内确认
+      changeOverlay(menuIndex: menuIndex, reset: true);
+      return;
+    }
+
+    closeMenu();
     if (widget.onChange != null) widget.onChange!(menuIndex, item.value);
+  }
+
+  @override
+  void selectMenuValue(int menuIndex, String value) {
+    if (menuIndex < 0 || menuIndex >= selectValues.values.length) return;
+    selectValues.setMenuSelectedValues(menuIndex, [value]);
+    _overlayEntry?.markNeedsBuild();
+    if (mounted) setState(() {});
   }
 
   void changeOverlay({required int menuIndex, bool reset = false}) {
@@ -370,17 +573,28 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
       offset: Offset(-left, renderBox.size.height),
     );
 
-    Overlay.of(context).insert(_overlayEntry!);
+    final overlay = Overlay.of(context);
+    final above = _aboveOverlayEntry;
+    // 若已有上层弹层，菜单必须插回其下方，避免盖住日期弹窗
+    if (above != null && above.mounted) {
+      overlay.insert(_overlayEntry!, below: above);
+    } else {
+      overlay.insert(_overlayEntry!);
+    }
   }
 
   OverlayEntry buildOverlay(menuIndex, {required link, required offset}) {
+    final filterMenu = _filterList[menuIndex];
     return OverlayEntry(
       builder: (context) {
-        return CompositedTransformFollower(
-          link: link,
-          offset: offset,
-          child: Stack(
-            children: [
+        return DropDownMenuScope(
+          controller: _dropDownMenuController,
+          anchorContext: this.context,
+          child: CompositedTransformFollower(
+            link: link,
+            offset: offset,
+            child: Stack(
+              children: [
               AnimatedBuilder(
                 animation: _animationController,
                 builder: (context, child) {
@@ -407,22 +621,27 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
                           begin: const Offset(0, -1), // 从顶部开始
                           end: Offset.zero,
                         ).animate(_animation),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.background,
-                            borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(8),
-                              bottomRight: Radius.circular(8),
+                        child: Material(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.background,
+                              borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(8),
+                                bottomRight: Radius.circular(8),
+                              ),
                             ),
-                          ),
-                          child: SizedBox(
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: _filterList[menuIndex].list.asMap().entries.map((e) {
-                                int itemIndex = e.key;
-                                CategoryModel item = e.value;
-                                return _menuItem(model: item, itemIndex: itemIndex, menuIndex: menuIndex);
-                              }).toList(),
+                            child: SizedBox(
+                              child: ListView(
+                                shrinkWrap: true,
+                                children: [
+                                  ...filterMenu.list.asMap().entries.map((e) {
+                                    int itemIndex = e.key;
+                                    CategoryModel item = e.value;
+                                    return _menuItem(model: item, itemIndex: itemIndex, menuIndex: menuIndex);
+                                  }),
+                                  if (filterMenu.bottomWidget != null) _filterList[menuIndex].bottomWidget!,
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -433,6 +652,7 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
               ),
             ],
           ),
+        ),
         );
       },
     );
@@ -447,12 +667,16 @@ class _DropDownMenuState extends State<DropDownMenu> with SingleTickerProviderSt
 
   /// 收缩菜单
   void closeMenu() {
+    _removeAboveOverlay();
     expandIndex.closeExpanded();
     hideOverlay();
   }
 
   void closeMenuNoAnimation() {
     expandIndex.closeExpanded();
+    _dismissAboveOverlay = null;
+    _aboveOverlayEntry?.remove();
+    _aboveOverlayEntry = null;
     if (_overlayEntry != null) {
       _overlayEntry!.remove();
       _overlayEntry = null;
