@@ -1169,6 +1169,295 @@ class SearchHistoryTableCompanion
   }
 }
 
+class $NovelReadingProgressTableTable extends NovelReadingProgressTable
+    with
+        TableInfo<$NovelReadingProgressTableTable,
+            NovelReadingProgressTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $NovelReadingProgressTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _novelIdMeta =
+      const VerificationMeta('novelId');
+  @override
+  late final GeneratedColumn<String> novelId = GeneratedColumn<String>(
+      'novel_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _paragraphIndexMeta =
+      const VerificationMeta('paragraphIndex');
+  @override
+  late final GeneratedColumn<int> paragraphIndex = GeneratedColumn<int>(
+      'paragraph_index', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _pageMeta = const VerificationMeta('page');
+  @override
+  late final GeneratedColumn<int> page = GeneratedColumn<int>(
+      'page', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(1));
+  static const VerificationMeta _lastTimeMeta =
+      const VerificationMeta('lastTime');
+  @override
+  late final GeneratedColumn<DateTime> lastTime = GeneratedColumn<DateTime>(
+      'last_time', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDate);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [novelId, paragraphIndex, page, lastTime];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'novel_reading_progress_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<NovelReadingProgressTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('novel_id')) {
+      context.handle(_novelIdMeta,
+          novelId.isAcceptableOrUnknown(data['novel_id']!, _novelIdMeta));
+    } else if (isInserting) {
+      context.missing(_novelIdMeta);
+    }
+    if (data.containsKey('paragraph_index')) {
+      context.handle(
+          _paragraphIndexMeta,
+          paragraphIndex.isAcceptableOrUnknown(
+              data['paragraph_index']!, _paragraphIndexMeta));
+    } else if (isInserting) {
+      context.missing(_paragraphIndexMeta);
+    }
+    if (data.containsKey('page')) {
+      context.handle(
+          _pageMeta, page.isAcceptableOrUnknown(data['page']!, _pageMeta));
+    }
+    if (data.containsKey('last_time')) {
+      context.handle(_lastTimeMeta,
+          lastTime.isAcceptableOrUnknown(data['last_time']!, _lastTimeMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {novelId};
+  @override
+  NovelReadingProgressTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return NovelReadingProgressTableData(
+      novelId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}novel_id'])!,
+      paragraphIndex: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}paragraph_index'])!,
+      page: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}page'])!,
+      lastTime: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}last_time'])!,
+    );
+  }
+
+  @override
+  $NovelReadingProgressTableTable createAlias(String alias) {
+    return $NovelReadingProgressTableTable(attachedDatabase, alias);
+  }
+}
+
+class NovelReadingProgressTableData extends DataClass
+    implements Insertable<NovelReadingProgressTableData> {
+  /// 小说 Id
+  final String novelId;
+
+  /// 当前段落序号（正文行 / 章节标题），从 0 起
+  final int paragraphIndex;
+
+  /// 当前页码，与书签一致，从 1 起
+  final int page;
+
+  /// 最后阅读时间
+  final DateTime lastTime;
+  const NovelReadingProgressTableData(
+      {required this.novelId,
+      required this.paragraphIndex,
+      required this.page,
+      required this.lastTime});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['novel_id'] = Variable<String>(novelId);
+    map['paragraph_index'] = Variable<int>(paragraphIndex);
+    map['page'] = Variable<int>(page);
+    map['last_time'] = Variable<DateTime>(lastTime);
+    return map;
+  }
+
+  NovelReadingProgressTableCompanion toCompanion(bool nullToAbsent) {
+    return NovelReadingProgressTableCompanion(
+      novelId: Value(novelId),
+      paragraphIndex: Value(paragraphIndex),
+      page: Value(page),
+      lastTime: Value(lastTime),
+    );
+  }
+
+  factory NovelReadingProgressTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return NovelReadingProgressTableData(
+      novelId: serializer.fromJson<String>(json['novelId']),
+      paragraphIndex: serializer.fromJson<int>(json['paragraphIndex']),
+      page: serializer.fromJson<int>(json['page']),
+      lastTime: serializer.fromJson<DateTime>(json['lastTime']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'novelId': serializer.toJson<String>(novelId),
+      'paragraphIndex': serializer.toJson<int>(paragraphIndex),
+      'page': serializer.toJson<int>(page),
+      'lastTime': serializer.toJson<DateTime>(lastTime),
+    };
+  }
+
+  NovelReadingProgressTableData copyWith(
+          {String? novelId,
+          int? paragraphIndex,
+          int? page,
+          DateTime? lastTime}) =>
+      NovelReadingProgressTableData(
+        novelId: novelId ?? this.novelId,
+        paragraphIndex: paragraphIndex ?? this.paragraphIndex,
+        page: page ?? this.page,
+        lastTime: lastTime ?? this.lastTime,
+      );
+  NovelReadingProgressTableData copyWithCompanion(
+      NovelReadingProgressTableCompanion data) {
+    return NovelReadingProgressTableData(
+      novelId: data.novelId.present ? data.novelId.value : this.novelId,
+      paragraphIndex: data.paragraphIndex.present
+          ? data.paragraphIndex.value
+          : this.paragraphIndex,
+      page: data.page.present ? data.page.value : this.page,
+      lastTime: data.lastTime.present ? data.lastTime.value : this.lastTime,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('NovelReadingProgressTableData(')
+          ..write('novelId: $novelId, ')
+          ..write('paragraphIndex: $paragraphIndex, ')
+          ..write('page: $page, ')
+          ..write('lastTime: $lastTime')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(novelId, paragraphIndex, page, lastTime);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is NovelReadingProgressTableData &&
+          other.novelId == this.novelId &&
+          other.paragraphIndex == this.paragraphIndex &&
+          other.page == this.page &&
+          other.lastTime == this.lastTime);
+}
+
+class NovelReadingProgressTableCompanion
+    extends UpdateCompanion<NovelReadingProgressTableData> {
+  final Value<String> novelId;
+  final Value<int> paragraphIndex;
+  final Value<int> page;
+  final Value<DateTime> lastTime;
+  final Value<int> rowid;
+  const NovelReadingProgressTableCompanion({
+    this.novelId = const Value.absent(),
+    this.paragraphIndex = const Value.absent(),
+    this.page = const Value.absent(),
+    this.lastTime = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  NovelReadingProgressTableCompanion.insert({
+    required String novelId,
+    required int paragraphIndex,
+    this.page = const Value.absent(),
+    this.lastTime = const Value.absent(),
+    this.rowid = const Value.absent(),
+  })  : novelId = Value(novelId),
+        paragraphIndex = Value(paragraphIndex);
+  static Insertable<NovelReadingProgressTableData> custom({
+    Expression<String>? novelId,
+    Expression<int>? paragraphIndex,
+    Expression<int>? page,
+    Expression<DateTime>? lastTime,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (novelId != null) 'novel_id': novelId,
+      if (paragraphIndex != null) 'paragraph_index': paragraphIndex,
+      if (page != null) 'page': page,
+      if (lastTime != null) 'last_time': lastTime,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  NovelReadingProgressTableCompanion copyWith(
+      {Value<String>? novelId,
+      Value<int>? paragraphIndex,
+      Value<int>? page,
+      Value<DateTime>? lastTime,
+      Value<int>? rowid}) {
+    return NovelReadingProgressTableCompanion(
+      novelId: novelId ?? this.novelId,
+      paragraphIndex: paragraphIndex ?? this.paragraphIndex,
+      page: page ?? this.page,
+      lastTime: lastTime ?? this.lastTime,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (novelId.present) {
+      map['novel_id'] = Variable<String>(novelId.value);
+    }
+    if (paragraphIndex.present) {
+      map['paragraph_index'] = Variable<int>(paragraphIndex.value);
+    }
+    if (page.present) {
+      map['page'] = Variable<int>(page.value);
+    }
+    if (lastTime.present) {
+      map['last_time'] = Variable<DateTime>(lastTime.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('NovelReadingProgressTableCompanion(')
+          ..write('novelId: $novelId, ')
+          ..write('paragraphIndex: $paragraphIndex, ')
+          ..write('page: $page, ')
+          ..write('lastTime: $lastTime, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1178,12 +1467,18 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $DownloadTaskTableTable(this);
   late final $SearchHistoryTableTable searchHistoryTable =
       $SearchHistoryTableTable(this);
+  late final $NovelReadingProgressTableTable novelReadingProgressTable =
+      $NovelReadingProgressTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [viewingHistoryTable, downloadTaskTable, searchHistoryTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        viewingHistoryTable,
+        downloadTaskTable,
+        searchHistoryTable,
+        novelReadingProgressTable
+      ];
 }
 
 typedef $$ViewingHistoryTableTableCreateCompanionBuilder
@@ -1785,6 +2080,173 @@ typedef $$SearchHistoryTableTableProcessedTableManager = ProcessedTableManager<
     ),
     SearchHistoryTableData,
     PrefetchHooks Function()>;
+typedef $$NovelReadingProgressTableTableCreateCompanionBuilder
+    = NovelReadingProgressTableCompanion Function({
+  required String novelId,
+  required int paragraphIndex,
+  Value<int> page,
+  Value<DateTime> lastTime,
+  Value<int> rowid,
+});
+typedef $$NovelReadingProgressTableTableUpdateCompanionBuilder
+    = NovelReadingProgressTableCompanion Function({
+  Value<String> novelId,
+  Value<int> paragraphIndex,
+  Value<int> page,
+  Value<DateTime> lastTime,
+  Value<int> rowid,
+});
+
+class $$NovelReadingProgressTableTableFilterComposer
+    extends Composer<_$AppDatabase, $NovelReadingProgressTableTable> {
+  $$NovelReadingProgressTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get novelId => $composableBuilder(
+      column: $table.novelId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get paragraphIndex => $composableBuilder(
+      column: $table.paragraphIndex,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get page => $composableBuilder(
+      column: $table.page, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get lastTime => $composableBuilder(
+      column: $table.lastTime, builder: (column) => ColumnFilters(column));
+}
+
+class $$NovelReadingProgressTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $NovelReadingProgressTableTable> {
+  $$NovelReadingProgressTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get novelId => $composableBuilder(
+      column: $table.novelId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get paragraphIndex => $composableBuilder(
+      column: $table.paragraphIndex,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get page => $composableBuilder(
+      column: $table.page, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get lastTime => $composableBuilder(
+      column: $table.lastTime, builder: (column) => ColumnOrderings(column));
+}
+
+class $$NovelReadingProgressTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $NovelReadingProgressTableTable> {
+  $$NovelReadingProgressTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get novelId =>
+      $composableBuilder(column: $table.novelId, builder: (column) => column);
+
+  GeneratedColumn<int> get paragraphIndex => $composableBuilder(
+      column: $table.paragraphIndex, builder: (column) => column);
+
+  GeneratedColumn<int> get page =>
+      $composableBuilder(column: $table.page, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastTime =>
+      $composableBuilder(column: $table.lastTime, builder: (column) => column);
+}
+
+class $$NovelReadingProgressTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $NovelReadingProgressTableTable,
+    NovelReadingProgressTableData,
+    $$NovelReadingProgressTableTableFilterComposer,
+    $$NovelReadingProgressTableTableOrderingComposer,
+    $$NovelReadingProgressTableTableAnnotationComposer,
+    $$NovelReadingProgressTableTableCreateCompanionBuilder,
+    $$NovelReadingProgressTableTableUpdateCompanionBuilder,
+    (
+      NovelReadingProgressTableData,
+      BaseReferences<_$AppDatabase, $NovelReadingProgressTableTable,
+          NovelReadingProgressTableData>
+    ),
+    NovelReadingProgressTableData,
+    PrefetchHooks Function()> {
+  $$NovelReadingProgressTableTableTableManager(
+      _$AppDatabase db, $NovelReadingProgressTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$NovelReadingProgressTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$NovelReadingProgressTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$NovelReadingProgressTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> novelId = const Value.absent(),
+            Value<int> paragraphIndex = const Value.absent(),
+            Value<int> page = const Value.absent(),
+            Value<DateTime> lastTime = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              NovelReadingProgressTableCompanion(
+            novelId: novelId,
+            paragraphIndex: paragraphIndex,
+            page: page,
+            lastTime: lastTime,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String novelId,
+            required int paragraphIndex,
+            Value<int> page = const Value.absent(),
+            Value<DateTime> lastTime = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              NovelReadingProgressTableCompanion.insert(
+            novelId: novelId,
+            paragraphIndex: paragraphIndex,
+            page: page,
+            lastTime: lastTime,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$NovelReadingProgressTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $NovelReadingProgressTableTable,
+        NovelReadingProgressTableData,
+        $$NovelReadingProgressTableTableFilterComposer,
+        $$NovelReadingProgressTableTableOrderingComposer,
+        $$NovelReadingProgressTableTableAnnotationComposer,
+        $$NovelReadingProgressTableTableCreateCompanionBuilder,
+        $$NovelReadingProgressTableTableUpdateCompanionBuilder,
+        (
+          NovelReadingProgressTableData,
+          BaseReferences<_$AppDatabase, $NovelReadingProgressTableTable,
+              NovelReadingProgressTableData>
+        ),
+        NovelReadingProgressTableData,
+        PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1795,4 +2257,7 @@ class $AppDatabaseManager {
       $$DownloadTaskTableTableTableManager(_db, _db.downloadTaskTable);
   $$SearchHistoryTableTableTableManager get searchHistoryTable =>
       $$SearchHistoryTableTableTableManager(_db, _db.searchHistoryTable);
+  $$NovelReadingProgressTableTableTableManager get novelReadingProgressTable =>
+      $$NovelReadingProgressTableTableTableManager(
+          _db, _db.novelReadingProgressTable);
 }

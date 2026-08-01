@@ -58,7 +58,7 @@ class NovelWebViewDetailNotifier extends BaseAutoDisposeFamilyAsyncNotifier<Nove
             novel: value.novel.copyWith(marker: next.page != null ? NovelWebViewNovelMarker(page: next.page!) : null)));
       }
     });
-    ref.onCancel(() {
+    ref.onDispose(() {
       if (!cancelToken.isCancelled) cancelToken.cancel();
     });
     return fetch();

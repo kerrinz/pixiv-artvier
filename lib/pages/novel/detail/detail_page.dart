@@ -17,6 +17,7 @@ import 'package:artvier/pages/novel/detail/provider/novel_detail_provider.dart';
 import 'package:artvier/pages/novel/detail/widgets/menu_bottom_sheet.dart';
 import 'package:artvier/pages/novel/detail/widgets/novel_elements.dart';
 import 'package:artvier/pages/novel/detail/widgets/novel_overlay_settings.dart';
+import 'package:artvier/database/database.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,7 @@ class NovelDetailPage extends ConsumerStatefulWidget {
 
 class NovelDetailState extends BasePageState<NovelDetailPage>
     with
+        WidgetsBindingObserver,
         SingleTickerProviderStateMixin,
         NovelDetailPageLogic,
         NovelDetailOverlaySettingsAnimation<NovelDetailPage> {
@@ -53,6 +55,16 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
   bool _hasMountedListener = false;
   bool _firstScrolled = false;
 
+  /// 待恢复的本地阅读进度（书签跳转优先时不使用）
+  NovelReadingProgressTableData? _pendingRestoreProgress;
+
+  /// 阅读进度是否已从数据库加载完毕
+  bool _progressLoadDone = false;
+
+  /// 缓存阅读器样式，供 dispose 时保存进度（避免使用已失效的 ref）
+  double _cachedTextSize = 12;
+  Color? _cachedForeground;
+
   @override
   get scrollController => _scrollController;
 
@@ -60,6 +72,12 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
 
   /// 渲染元素块
   List<NovelElementModel> elements = [];
+
+  /// 与 elements 对齐的段落区间 [start, end)；分页线为 null
+  List<({int start, int end})?> paragraphRanges = [];
+
+  /// 已解析过的正文，用于避免重复解析
+  String? _parsedNovelText;
 
   /// 容器 Key
   final GlobalKey _bodyKey = GlobalKey();
@@ -75,6 +93,89 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
   void initState() {
     super.initState();
     initOverlaySettingsState();
+    WidgetsBinding.instance.addObserver(this);
+    // 显式指定 toPage（如从书签进入）时不覆盖；否则恢复本地阅读进度
+    if (widget.args.toPage == null) {
+      _loadReadingProgress();
+    } else {
+      _progressLoadDone = true;
+    }
+  }
+
+  Future<void> _loadReadingProgress() async {
+    final progress = await appDatabase.getNovelReadingProgress(novelId);
+    if (!mounted) return;
+    setState(() {
+      _pendingRestoreProgress = progress;
+      _progressLoadDone = true;
+    });
+  }
+
+  @override
+  void dispose() {
+    readingProgressSaveTimer?.cancel();
+    if (_hasMountedListener) {
+      _scrollController.removeListener(_onScroll);
+    }
+    _persistReadingProgress();
+    _hasMountedListener = false;
+    elements.clear();
+    paragraphRanges.clear();
+    _parsedNovelText = null;
+    WidgetsBinding.instance.removeObserver(this);
+    overlayAnimationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      _persistReadingProgress();
+    }
+  }
+
+  ({double textSize, Color? foreground}) _viewerTextStyle() {
+    final settings = ref.read(novelViewerSettings);
+    final viewerThemes = CONSTANTS.viewerThemes(context);
+    final themeName = settings.themeName ?? 'default';
+    final theme = viewerThemes[themeName];
+    final isCustomTheme = themeName == 'custom' && settings.customTheme != null;
+    final foreground = isCustomTheme
+        ? Color(settings.customTheme!.foreground)
+        : theme?.theme != null
+            ? Color(theme!.theme!.foreground)
+            : null;
+    _cachedTextSize = settings.textSize;
+    _cachedForeground = foreground;
+    return (textSize: settings.textSize, foreground: foreground);
+  }
+
+  void _persistReadingProgress() {
+    if (!mounted || !_hasMountedListener) return;
+    // dispose 阶段不能使用 ref，只用缓存样式
+    saveReadingProgress(
+      context,
+      elements,
+      paragraphRanges,
+      _bodyKey,
+      textSize: _cachedTextSize,
+      foreground: _cachedForeground,
+    );
+  }
+
+  void _onScroll() {
+    if (!mounted) return;
+    overlayShow = false;
+    animateOverlay();
+    scheduleSaveReadingProgress(
+      context,
+      elements,
+      paragraphRanges,
+      _bodyKey,
+      textSize: _cachedTextSize,
+      foreground: _cachedForeground,
+    );
   }
 
   @override
@@ -82,10 +183,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
     super.didChangeDependencies();
     if (!_hasMountedListener) {
       _scrollController = PrimaryScrollController.of(context);
-      _scrollController.addListener(() {
-        overlayShow = false;
-        animateOverlay();
-      });
+      _scrollController.addListener(_onScroll);
       _hasMountedListener = true;
     }
   }
@@ -109,12 +207,25 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
       ),
     );
 
-    if (elements.isNotEmpty &&
-        !_firstScrolled &&
-        widget.args.toPage != null &&
-        widget.args.toPage! > -1) {
+    if (elements.isNotEmpty && !_firstScrolled && _progressLoadDone) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        scrollToPage(context, elements, _bodyKey, false, widget.args.toPage!);
+        if (!mounted) return;
+        if (widget.args.toPage != null && widget.args.toPage! > -1) {
+          scrollToPage(context, elements, _bodyKey, false, widget.args.toPage!);
+        } else if (_pendingRestoreProgress != null &&
+            (_pendingRestoreProgress!.paragraphIndex >= 0 ||
+                _pendingRestoreProgress!.page > 1)) {
+          final style = _viewerTextStyle();
+          restoreReadingProgress(
+            context,
+            elements,
+            paragraphRanges,
+            _bodyKey,
+            _pendingRestoreProgress!,
+            textSize: style.textSize,
+            foreground: style.foreground,
+          );
+        }
         _firstScrolled = true;
       });
     }
@@ -233,6 +344,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
         : theme?.theme != null
             ? Color(theme!.theme!.foreground)
             : null;
+    _cachedTextSize = settings.textSize;
+    _cachedForeground = foreground;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -399,11 +512,16 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
     );
   }
 
-  /// 小说内容
-  List<Widget> _buildContent(
-      NovelDetailWebView webViewData, Color? background, Color? foreground) {
-    final settings = ref.watch(novelViewerSettings);
+  /// 解析小说正文为渲染元素（正文变化时才重新解析，保持 GlobalKey 稳定）
+  void _ensureElementsParsed(NovelDetailWebView webViewData) {
+    if (_parsedNovelText == webViewData.novel.text && elements.isNotEmpty) {
+      return;
+    }
+    elements.clear();
+    paragraphRanges.clear();
+    _parsedNovelText = webViewData.novel.text;
     final lines = webViewData.novel.text.split('\n');
+    var nextParagraph = 0;
 
     for (final line in lines) {
       // 新页
@@ -412,6 +530,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
             type: NovelElementType.pageDivider,
             key: GlobalKey(),
             element: const NovelPageDivider()));
+        paragraphRanges.add(null);
         continue;
       }
       // 断章，章节标题
@@ -426,18 +545,34 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
             key: GlobalKey(),
             element: [textSpan],
           ));
+          paragraphRanges.add((start: nextParagraph, end: nextParagraph + 1));
+          nextParagraph++;
         }
         continue;
       }
-      // 其他内容
+      // 其他内容：合并连续文本块渲染，但按行累计段落序号
       final textSpan = TextSpan(text: '$line\n');
       if (elements.isNotEmpty && elements.last.type == NovelElementType.text) {
         (elements.last.element as NovelTextElement).add(textSpan);
+        final last = paragraphRanges.last!;
+        paragraphRanges[paragraphRanges.length - 1] =
+            (start: last.start, end: last.end + 1);
       } else {
         elements.add(NovelElementModel(
-            type: NovelElementType.text, element: [textSpan]));
+            type: NovelElementType.text,
+            key: GlobalKey(),
+            element: [textSpan]));
+        paragraphRanges.add((start: nextParagraph, end: nextParagraph + 1));
       }
+      nextParagraph++;
     }
+  }
+
+  /// 小说内容
+  List<Widget> _buildContent(
+      NovelDetailWebView webViewData, Color? background, Color? foreground) {
+    final settings = ref.watch(novelViewerSettings);
+    _ensureElementsParsed(webViewData);
 
     // TextPainter textPainter = TextPainter(text: TextSpan(children: spanList), textDirection: TextDirection.ltr);
     // textPainter.layout();

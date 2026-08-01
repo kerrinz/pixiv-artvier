@@ -1,5 +1,6 @@
 // database.dart
 import 'package:artvier/config/enums.dart';
+import 'package:artvier/database/tables/novel_reading_progress_table.dart';
 import 'package:artvier/database/tables/search_history_table.dart';
 import 'package:artvier/database/tables/viewing_history_table.dart';
 import 'package:artvier/database/tables/download_task_table.dart';
@@ -13,12 +14,24 @@ part 'database.g.dart';
 
 AppDatabase appDatabase = AppDatabase();
 
-@DriftDatabase(tables: [ViewingHistoryTable, DownloadTaskTable, SearchHistoryTable])
+/// 小说阅读进度最多保留条数（按 lastTime 淘汰最旧）
+const int kNovelReadingProgressLimit = 1000;
+
+@DriftDatabase(tables: [ViewingHistoryTable, DownloadTaskTable, SearchHistoryTable, NovelReadingProgressTable])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onUpgrade: (migrator, from, to) async {
+          if (from < 2) {
+            await migrator.createTable(novelReadingProgressTable);
+          }
+        },
+      );
 
   /// 添加浏览历史记录，重复时自动替换已有的记录
   Future<ViewingHistoryTableData> addRecordWithRemoveDuplicates(ViewingHistoryTableData data) async {
@@ -133,6 +146,46 @@ class AppDatabase extends _$AppDatabase {
   /// 清空搜索历史记录
   Future<List<SearchHistoryTableData>> clearAllSearchHistory() async {
     return delete(searchHistoryTable).goAndReturn();
+  }
+
+  /// 获取单本小说的阅读进度
+  Future<NovelReadingProgressTableData?> getNovelReadingProgress(String novelId) {
+    return (novelReadingProgressTable.select()..where((tbl) => tbl.novelId.equals(novelId))).getSingleOrNull();
+  }
+
+  /// 保存小说阅读进度；超出上限时淘汰最旧记录
+  Future<void> saveNovelReadingProgress({
+    required String novelId,
+    required int paragraphIndex,
+    required int page,
+  }) async {
+    await into(novelReadingProgressTable).insertOnConflictUpdate(
+      NovelReadingProgressTableCompanion.insert(
+        novelId: novelId,
+        paragraphIndex: paragraphIndex,
+        page: Value(page),
+        lastTime: Value(DateTime.now()),
+      ),
+    );
+
+    final count = await novelReadingProgressTable.count().getSingle();
+    if (count <= kNovelReadingProgressLimit) return;
+
+    final overflow = count - kNovelReadingProgressLimit;
+    final oldest = await (novelReadingProgressTable.select()
+          ..orderBy([(u) => OrderingTerm.asc(u.lastTime)])
+          ..limit(overflow))
+        .get();
+    if (oldest.isEmpty) return;
+
+    await (delete(novelReadingProgressTable)
+          ..where((tbl) => tbl.novelId.isIn(oldest.map((e) => e.novelId))))
+        .go();
+  }
+
+  /// 删除单本小说的阅读进度
+  Future<int> deleteNovelReadingProgress(String novelId) {
+    return (delete(novelReadingProgressTable)..where((tbl) => tbl.novelId.equals(novelId))).go();
   }
 }
 
