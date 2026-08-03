@@ -36,9 +36,15 @@ final novelViewerSettings = StateNotifierProvider<NovelViewerSettingsNotifier, N
   final textSize = storage.textSize() ?? 12.0;
   final pageTheme = storage.pageTheme;
   final pageCustomTheme = storage.pageCustomTheme;
+  final fontFamily = storage.fontFamily;
 
   return NovelViewerSettingsNotifier(
-    NovelViewerSettingsModel(textSize: textSize, themeName: pageTheme, customTheme: pageCustomTheme),
+    NovelViewerSettingsModel(
+      textSize: textSize,
+      themeName: pageTheme,
+      customTheme: pageCustomTheme,
+      fontFamily: fontFamily,
+    ),
     ref: ref,
   );
 });
@@ -113,6 +119,16 @@ class NovelViewerSettingsNotifier extends BaseStateNotifier<NovelViewerSettingsM
     final result = await storage.setPageTheme(themeName);
     if (result) {
       state = state.copyWith(themeName: themeName);
+    }
+    return result;
+  }
+
+  /// 切换阅读字体，空时为默认
+  Future<bool> changeFontFamily(String? fontFamily) async {
+    final storage = NovelViewerStorage(prefs);
+    final result = await storage.setFontFamily(fontFamily);
+    if (result) {
+      state = state.copyWith(fontFamily: fontFamily);
     }
     return result;
   }

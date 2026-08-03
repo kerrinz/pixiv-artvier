@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/util/novel_viewer_font_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,6 +27,7 @@ class NovelText extends BasePage {
     super.key,
     required this.textSpanList,
     required this.textSize,
+    this.fontFamily,
     this.foreground,
     this.onTap,
   });
@@ -33,6 +35,9 @@ class NovelText extends BasePage {
   final List<TextSpan> textSpanList;
 
   final double textSize;
+
+  /// Google Fonts 字体族名，空时为默认
+  final String? fontFamily;
 
   final Color? foreground;
 
@@ -42,7 +47,12 @@ class NovelText extends BasePage {
   Widget build(BuildContext context, WidgetRef ref) {
     return SelectableText.rich(
       TextSpan(children: textSpanList),
-      style: textTheme(context).bodyLarge?.copyWith(fontSize: textSize, color: foreground),
+      style: novelViewerFontTextStyle(
+        fontFamily: fontFamily,
+        textStyle: textTheme(context).bodyLarge,
+        fontSize: textSize,
+        color: foreground,
+      ),
       onTap: onTap,
     );
   }

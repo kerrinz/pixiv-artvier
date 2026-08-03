@@ -16,6 +16,9 @@ class NovelViewerSettingsModel with _$NovelViewerSettingsModel {
 
     /// 自定义主题
     NovelViewerTheme? customTheme,
+
+    /// 阅读字体（Google Fonts 族名），空时为 App 默认字体
+    String? fontFamily,
   }) = _NovelViewerSettingsModel;
 }
 

@@ -34,6 +34,10 @@ class CONSTANTS {
   static const String proxy_default_host = "127.0.0.1";
   static const String proxy_default_port = "1080";
 
+  /// Google Fonts 字体文件下载主机（官方：fonts.gstatic.com）
+  /// 可改为镜像主机；路径需保持 `/s/a/{hash}.ttf`
+  static const String google_fonts_download_host = "fonts.loli.net";
+
   static const String default_language_code = "en";
   static const String default_country_code = "US";
 

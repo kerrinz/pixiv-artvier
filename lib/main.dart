@@ -10,6 +10,7 @@ import 'package:artvier/pages/framework/booting/booting_page.dart';
 import 'package:artvier/pages/framework/booting/model.dart';
 import 'package:artvier/pages/main_navigation_tab_page/main_navigation.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
+import 'package:artvier/request/google_fonts_mirror_client.dart';
 import 'package:artvier/request/my_http_overrides.dart';
 import 'package:artvier/preferences/network_store.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ import 'package:artvier/global/themes.dart';
 import 'package:artvier/global/provider/shared_preferences_provider.dart';
 import 'package:artvier/l10n/localization_intl.dart';
 import 'package:artvier/routes.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -70,6 +72,12 @@ beforeRunApp() async {
   String host = proxyStorage.getProxyHost() ?? CONSTANTS.proxy_default_host;
   String port = proxyStorage.getProxyPort() ?? CONSTANTS.proxy_default_port;
   MyHttpOverrides.instance.setProxyAddress(proxyStorage.getProxyEnable() ? "$host:$port" : null);
+
+  // Google Fonts：允许运行时下载，并走可配置镜像主机
+  GoogleFonts.config.allowRuntimeFetching = true;
+  GoogleFonts.config.httpClient = GoogleFontsMirrorClient(
+    mirrorHost: CONSTANTS.google_fonts_download_host,
+  );
 }
 
 // 初始化一些APP全局设定，不加载内容

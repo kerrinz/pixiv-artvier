@@ -63,6 +63,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
 
   /// 缓存阅读器样式，供 dispose 时保存进度（避免使用已失效的 ref）
   double _cachedTextSize = 12;
+  String? _cachedFontFamily;
   Color? _cachedForeground;
 
   @override
@@ -135,7 +136,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
     }
   }
 
-  ({double textSize, Color? foreground}) _viewerTextStyle() {
+  ({double textSize, String? fontFamily, Color? foreground}) _viewerTextStyle() {
     final settings = ref.read(novelViewerSettings);
     final viewerThemes = CONSTANTS.viewerThemes(context);
     final themeName = settings.themeName ?? 'default';
@@ -147,8 +148,9 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
             ? Color(theme!.theme!.foreground)
             : null;
     _cachedTextSize = settings.textSize;
+    _cachedFontFamily = settings.fontFamily;
     _cachedForeground = foreground;
-    return (textSize: settings.textSize, foreground: foreground);
+    return (textSize: settings.textSize, fontFamily: settings.fontFamily, foreground: foreground);
   }
 
   void _persistReadingProgress() {
@@ -160,6 +162,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
       paragraphRanges,
       _bodyKey,
       textSize: _cachedTextSize,
+      fontFamily: _cachedFontFamily,
       foreground: _cachedForeground,
     );
   }
@@ -174,6 +177,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
       paragraphRanges,
       _bodyKey,
       textSize: _cachedTextSize,
+      fontFamily: _cachedFontFamily,
       foreground: _cachedForeground,
     );
   }
@@ -223,6 +227,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
             _bodyKey,
             _pendingRestoreProgress!,
             textSize: style.textSize,
+            fontFamily: style.fontFamily,
             foreground: style.foreground,
           );
         }
@@ -345,6 +350,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
             ? Color(theme!.theme!.foreground)
             : null;
     _cachedTextSize = settings.textSize;
+    _cachedFontFamily = settings.fontFamily;
     _cachedForeground = foreground;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -595,6 +601,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                 key: element.key,
                 textSpanList: element.element,
                 textSize: settings.textSize,
+                fontFamily: settings.fontFamily,
                 foreground: foreground,
                 onTap: () {
                   overlayShow = !overlayShow;
@@ -612,6 +619,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                 key: element.key,
                 textSpanList: element.element,
                 textSize: settings.textSize,
+                fontFamily: settings.fontFamily,
                 foreground: foreground,
                 onTap: () {
                   overlayShow = !overlayShow;

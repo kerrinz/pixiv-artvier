@@ -24,6 +24,9 @@ mixin _$NovelViewerSettingsModel {
   /// 自定义主题
   NovelViewerTheme? get customTheme => throw _privateConstructorUsedError;
 
+  /// 阅读字体，空时为系统/App 默认字体
+  String? get fontFamily => throw _privateConstructorUsedError;
+
   /// Create a copy of NovelViewerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -38,7 +41,10 @@ abstract class $NovelViewerSettingsModelCopyWith<$Res> {
       _$NovelViewerSettingsModelCopyWithImpl<$Res, NovelViewerSettingsModel>;
   @useResult
   $Res call(
-      {double textSize, String? themeName, NovelViewerTheme? customTheme});
+      {double textSize,
+      String? themeName,
+      NovelViewerTheme? customTheme,
+      String? fontFamily});
 
   $NovelViewerThemeCopyWith<$Res>? get customTheme;
 }
@@ -62,6 +68,7 @@ class _$NovelViewerSettingsModelCopyWithImpl<$Res,
     Object? textSize = null,
     Object? themeName = freezed,
     Object? customTheme = freezed,
+    Object? fontFamily = freezed,
   }) {
     return _then(_value.copyWith(
       textSize: null == textSize
@@ -76,6 +83,10 @@ class _$NovelViewerSettingsModelCopyWithImpl<$Res,
           ? _value.customTheme
           : customTheme // ignore: cast_nullable_to_non_nullable
               as NovelViewerTheme?,
+      fontFamily: freezed == fontFamily
+          ? _value.fontFamily
+          : fontFamily // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -104,7 +115,10 @@ abstract class _$$NovelViewerSettingsModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {double textSize, String? themeName, NovelViewerTheme? customTheme});
+      {double textSize,
+      String? themeName,
+      NovelViewerTheme? customTheme,
+      String? fontFamily});
 
   @override
   $NovelViewerThemeCopyWith<$Res>? get customTheme;
@@ -128,6 +142,7 @@ class __$$NovelViewerSettingsModelImplCopyWithImpl<$Res>
     Object? textSize = null,
     Object? themeName = freezed,
     Object? customTheme = freezed,
+    Object? fontFamily = freezed,
   }) {
     return _then(_$NovelViewerSettingsModelImpl(
       textSize: null == textSize
@@ -142,6 +157,10 @@ class __$$NovelViewerSettingsModelImplCopyWithImpl<$Res>
           ? _value.customTheme
           : customTheme // ignore: cast_nullable_to_non_nullable
               as NovelViewerTheme?,
+      fontFamily: freezed == fontFamily
+          ? _value.fontFamily
+          : fontFamily // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -150,7 +169,10 @@ class __$$NovelViewerSettingsModelImplCopyWithImpl<$Res>
 
 class _$NovelViewerSettingsModelImpl implements _NovelViewerSettingsModel {
   const _$NovelViewerSettingsModelImpl(
-      {required this.textSize, this.themeName, this.customTheme});
+      {required this.textSize,
+      this.themeName,
+      this.customTheme,
+      this.fontFamily});
 
   @override
   final double textSize;
@@ -163,9 +185,13 @@ class _$NovelViewerSettingsModelImpl implements _NovelViewerSettingsModel {
   @override
   final NovelViewerTheme? customTheme;
 
+  /// 阅读字体，空时为系统/App 默认字体
+  @override
+  final String? fontFamily;
+
   @override
   String toString() {
-    return 'NovelViewerSettingsModel(textSize: $textSize, themeName: $themeName, customTheme: $customTheme)';
+    return 'NovelViewerSettingsModel(textSize: $textSize, themeName: $themeName, customTheme: $customTheme, fontFamily: $fontFamily)';
   }
 
   @override
@@ -178,12 +204,14 @@ class _$NovelViewerSettingsModelImpl implements _NovelViewerSettingsModel {
             (identical(other.themeName, themeName) ||
                 other.themeName == themeName) &&
             (identical(other.customTheme, customTheme) ||
-                other.customTheme == customTheme));
+                other.customTheme == customTheme) &&
+            (identical(other.fontFamily, fontFamily) ||
+                other.fontFamily == fontFamily));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, textSize, themeName, customTheme);
+      Object.hash(runtimeType, textSize, themeName, customTheme, fontFamily);
 
   /// Create a copy of NovelViewerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -199,7 +227,8 @@ abstract class _NovelViewerSettingsModel implements NovelViewerSettingsModel {
   const factory _NovelViewerSettingsModel(
       {required final double textSize,
       final String? themeName,
-      final NovelViewerTheme? customTheme}) = _$NovelViewerSettingsModelImpl;
+      final NovelViewerTheme? customTheme,
+      final String? fontFamily}) = _$NovelViewerSettingsModelImpl;
 
   @override
   double get textSize;
@@ -211,6 +240,10 @@ abstract class _NovelViewerSettingsModel implements NovelViewerSettingsModel {
   /// 自定义主题
   @override
   NovelViewerTheme? get customTheme;
+
+  /// 阅读字体，空时为系统/App 默认字体
+  @override
+  String? get fontFamily;
 
   /// Create a copy of NovelViewerSettingsModel
   /// with the given fields replaced by the non-null parameter values.

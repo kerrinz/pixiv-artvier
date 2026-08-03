@@ -4,12 +4,14 @@ import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/slider/division_slider.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/config/enums.dart';
+import 'package:artvier/config/novel_viewer_fonts.dart';
 import 'package:artvier/global/model/marker_state_changed_arguments/marker_state_changed_arguments.dart';
 import 'package:artvier/global/model/novel_viewer/novel_viewer_settings_model.dart';
 import 'package:artvier/global/provider/novel_marker_provider.dart';
 import 'package:artvier/model_response/novels/novel_detail_webview.dart';
 import 'package:artvier/pages/novel/detail/provider/novel_detail_provider.dart';
 import 'package:artvier/pages/novel/detail/widgets/novel_pages_bottom_sheet.dart';
+import 'package:artvier/util/novel_viewer_font_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -120,6 +122,7 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                 )
               ],
             ),
+            // 小说浏览主题色块
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Consumer(builder: (context, ref, child) {
@@ -177,6 +180,40 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
                   ],
                 );
               }),
+            ),
+            // 小说浏览字体切换（Google Fonts 预设）
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Consumer(builder: (context, ref, child) {
+                  final currentFont = ref.watch(novelViewerSettings.select((state) => state.fontFamily));
+                  final fonts = novelViewerFontOptions();
+                  final hasCurrent = fonts.any((f) => f.fontFamily == currentFont);
+                  if (currentFont != null && !hasCurrent) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (!context.mounted) return;
+                      ref.read(novelViewerSettings.notifier).changeFontFamily(null);
+                    });
+                  }
+                  final selectedFont = hasCurrent ? currentFont : null;
+                  return Row(
+                    spacing: 8,
+                    children: [
+                      for (final font in fonts)
+                        _NovelViewerFontChip(
+                          name: font.name,
+                          fontFamily: font.fontFamily,
+                          checked: selectedFont == font.fontFamily,
+                          onTap: () {
+                            HapticFeedback.lightImpact();
+                            ref.read(novelViewerSettings.notifier).changeFontFamily(font.fontFamily);
+                          },
+                        ),
+                    ],
+                  );
+                }),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -251,5 +288,48 @@ class _NovelDetailOverlaySettingsState extends BasePageState<NovelDetailOverlayS
           .catchError((_) =>
               Fluttertoast.showToast(msg: l10n.addMarkerFailed, toastLength: Toast.LENGTH_SHORT, fontSize: 16.0));
     }
+  }
+}
+
+/// 小说阅读字体选项芯片
+class _NovelViewerFontChip extends StatelessWidget {
+  const _NovelViewerFontChip({
+    required this.name,
+    required this.fontFamily,
+    required this.checked,
+    required this.onTap,
+  });
+
+  final String name;
+  final String? fontFamily;
+  final bool checked;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final borderColor = checked ? colorScheme.primary : colorScheme.outline.withValues(alpha: 0.4);
+    final textColor = checked ? colorScheme.primary : colorScheme.onSurface;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        decoration: BoxDecoration(
+          color: checked ? colorScheme.primary.withValues(alpha: 0.12) : null,
+          border: Border.all(color: borderColor),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+        ),
+        child: Text(
+          name,
+          style: novelViewerFontTextStyle(
+            fontFamily: fontFamily,
+            fontSize: 12,
+            color: textColor,
+            fontWeight: checked ? FontWeight.w600 : FontWeight.w400,
+          ),
+        ),
+      ),
+    );
   }
 }

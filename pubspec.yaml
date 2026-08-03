@@ -51,7 +51,9 @@ dependencies:
   fluttertoast: ^8.2.12
   freezed_annotation: ^2.4.4 # 模板代码生成
   go_router: ^16.2.1 # 路由
+  google_fonts: ^8.1.0
   html: ^0.15.6 # 解析 HTML
+  http: ^1.6.0
   # image_gallery_saver: ^2.0.3 # 图片保存，太久没更新，弃用
   image_gallery_saver_plus: ^4.0.1 # 图片保存
   image: ^4.5.4

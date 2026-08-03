@@ -13,6 +13,7 @@ import 'package:artvier/l10n/localization_intl.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_element.dart';
 import 'package:artvier/pages/novel/detail/detail_page.dart';
 import 'package:artvier/pages/novel/detail/provider/novel_detail_provider.dart';
+import 'package:artvier/util/novel_viewer_font_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -200,6 +201,7 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
     required NovelElementModel element,
     required int lineInBlock,
     required double textSize,
+    String? fontFamily,
     Color? foreground,
   }) {
     if (lineInBlock <= 0 || element.type != NovelElementType.text) return 0;
@@ -216,7 +218,12 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
       charOffset += spans[j].text?.length ?? 0;
     }
 
-    final style = Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: textSize, color: foreground);
+    final style = novelViewerFontTextStyle(
+          fontFamily: fontFamily,
+          textStyle: Theme.of(context).textTheme.bodyLarge,
+          fontSize: textSize,
+          color: foreground,
+        );
     final painter = _paragraphTextPainter(spans: spans, style: style, maxWidth: box.size.width);
     return painter.getOffsetForCaret(TextPosition(offset: charOffset), Rect.zero).dy;
   }
@@ -262,6 +269,7 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
     List<({int start, int end})?> paragraphRanges,
     GlobalKey bodyKey, {
     required double textSize,
+    String? fontFamily,
     Color? foreground,
   }) {
     final readingY = _readingLineY(context);
@@ -293,7 +301,12 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
       }
 
       final spans = element.element as List<TextSpan>;
-      final style = Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: textSize, color: foreground);
+      final style = novelViewerFontTextStyle(
+            fontFamily: fontFamily,
+            textStyle: Theme.of(context).textTheme.bodyLarge,
+            fontSize: textSize,
+            color: foreground,
+          );
       final painter = _paragraphTextPainter(spans: spans, style: style, maxWidth: box.size.width);
       final localY = (readingY - top).clamp(0.0, box.size.height);
       final pos = painter.getPositionForOffset(Offset(0, localY));
@@ -312,6 +325,7 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
     GlobalKey bodyKey,
     int paragraphIndex, {
     required double textSize,
+    String? fontFamily,
     Color? foreground,
     bool animate = false,
   }) {
@@ -338,6 +352,7 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
         element: element,
         lineInBlock: lineInBlock,
         textSize: textSize,
+        fontFamily: fontFamily,
         foreground: foreground,
       );
       final target = (baseOffset + lineOffset).clamp(0.0, scrollController.position.maxScrollExtent);
@@ -365,6 +380,7 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
     List<({int start, int end})?> paragraphRanges,
     GlobalKey bodyKey, {
     required double textSize,
+    String? fontFamily,
     Color? foreground,
   }) {
     readingProgressSaveTimer?.cancel();
@@ -376,6 +392,7 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
         paragraphRanges,
         bodyKey,
         textSize: textSize,
+        fontFamily: fontFamily,
         foreground: foreground,
       );
     });
@@ -388,6 +405,7 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
     List<({int start, int end})?> paragraphRanges,
     GlobalKey bodyKey, {
     required double textSize,
+    String? fontFamily,
     Color? foreground,
   }) {
     if (!scrollController.hasClients || !context.mounted) return;
@@ -399,6 +417,7 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
             paragraphRanges,
             bodyKey,
             textSize: textSize,
+            fontFamily: fontFamily,
             foreground: foreground,
           );
     // 还在封面/信息区，保留上次正文进度
@@ -420,6 +439,7 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
     GlobalKey bodyKey,
     NovelReadingProgressTableData progress, {
     required double textSize,
+    String? fontFamily,
     Color? foreground,
     int retry = 0,
   }) {
@@ -437,6 +457,7 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
           bodyKey,
           progress,
           textSize: textSize,
+          fontFamily: fontFamily,
           foreground: foreground,
           retry: retry + 1,
         );
@@ -452,6 +473,7 @@ mixin NovelDetailPageLogic on BasePageState<NovelDetailPage> {
         bodyKey,
         progress.paragraphIndex,
         textSize: textSize,
+        fontFamily: fontFamily,
         foreground: foreground,
       );
       return;

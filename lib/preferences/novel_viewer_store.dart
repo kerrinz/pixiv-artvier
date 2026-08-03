@@ -15,6 +15,9 @@ class NovelViewerStorage extends BaseStorage {
   /// 自定义浏览界面的前景色
   static const _pageCustomTheme = "novel_viewer_page_custom_theme";
 
+  /// 小说阅读字体，空时为默认
+  static const _fontFamily = "novel_viewer_font_family";
+
   /// 设置字体大小
   Future<bool> setTextSize(double textSize) async {
     return await sharedPreferences.setDouble(_textSize, textSize);
@@ -24,6 +27,16 @@ class NovelViewerStorage extends BaseStorage {
   double? textSize() {
     return sharedPreferences.getDouble(_textSize);
   }
+
+  /// 设置阅读字体，空时为默认
+  Future<bool> setFontFamily(String? fontFamily) async {
+    return fontFamily == null
+        ? await sharedPreferences.remove(_fontFamily)
+        : await sharedPreferences.setString(_fontFamily, fontFamily);
+  }
+
+  /// 获取阅读字体，空时为默认
+  String? get fontFamily => sharedPreferences.getString(_fontFamily);
 
   /// 设置主题，空时为默认，'custom' 时为自定义
   Future<bool> setPageTheme(String? themeName) async {
