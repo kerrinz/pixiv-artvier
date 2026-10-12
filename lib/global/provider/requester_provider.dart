@@ -19,8 +19,9 @@ final httpRequesterProvider = StateProvider<HttpRequester>((ref) {
   if (directEnable) {
     return HttpRequester.withAuthorization(
       ref,
+      useQuicDirect: true,
       baseOptions: HttpRequester.defaultBaseOptions.copyWith(
-        baseUrl: "https://${HttpBaseOptions.appApiIp}",
+        baseUrl: "https://${HttpBaseOptions.appApiHost}",
         headers: headers,
       ),
     );
@@ -41,7 +42,8 @@ final oAuthHttpRequesterProvider = StateProvider.autoDispose<HttpRequester>((ref
   if (directEnable) {
     return HttpRequester(
       ref,
-      baseOptions: OAuth.baseOptions.copyWith(baseUrl: "https://${HttpBaseOptions.oauthIp}"),
+      useQuicDirect: true,
+      baseOptions: OAuth.baseOptions.copyWith(baseUrl: "https://${HttpBaseOptions.oauthHost}"),
     );
   } else {
     return HttpRequester(ref, baseOptions: OAuth.baseOptions);

@@ -77,15 +77,21 @@ class _DirectConnectionNotifier extends BaseStateNotifier<bool> {
   _DirectConnectionNotifier(super.state, {required super.ref});
 
   Future<bool> openDirect() async {
+    final storage = NetworkStorage(prefs);
+    final result = await storage.setDirectEnable(true);
+    if (!result) return false;
+    HttpHostOverrides().reload();
     state = true;
-    var storage = NetworkStorage(prefs);
-    return await storage.setDirectEnable(true);
+    return true;
   }
 
   Future<bool> closeDirect() async {
+    final storage = NetworkStorage(prefs);
+    final result = await storage.setDirectEnable(false);
+    if (!result) return false;
+    HttpHostOverrides().reload();
     state = false;
-    var storage = NetworkStorage(prefs);
-    return await storage.setDirectEnable(false);
+    return true;
   }
 
   Future<bool> toggleDirect() async {

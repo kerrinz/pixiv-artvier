@@ -27,13 +27,12 @@ class MyHttpOverrides extends HttpOverrides {
 
   @override
   HttpClient createHttpClient(SecurityContext? context) {
+    // 直连图片把主机改成 IP 字面量后再进入这里。
+    // Dart 对 IP 不发送 SNI，握手包里没有 i.pximg.net / s.pximg.net。
     return super.createHttpClient(context)
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
         return true;
       }
-      // ..findProxy = (url) {
-      //   return 'PROXY $proxy';
-      // };
       ..findProxy = _findProxy;
   }
 

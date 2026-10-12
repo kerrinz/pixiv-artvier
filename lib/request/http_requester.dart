@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:artvier/request/default_interceptor.dart';
+import 'package:artvier/request/direct_connect/pixiv_cronet_adapter.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,17 +15,19 @@ import 'package:artvier/request/authorization_interceptor.dart';
 /// HTTP request tool.
 class HttpRequester {
   /// 默认构造函数，只使用默认配置
-  HttpRequester(this.ref, {BaseOptions? baseOptions}) {
+  HttpRequester(this.ref, {BaseOptions? baseOptions, this.useQuicDirect = false}) {
     _dio = Dio(baseOptions ?? defaultBaseOptions);
     _dio.interceptors.clear();
     _dio.interceptors.add(DefaultInterceptor());
+    _attachDirectTransport();
   }
 
   /// 携带鉴权的构造函数
-  HttpRequester.withAuthorization(this.ref, {BaseOptions? baseOptions}) {
+  HttpRequester.withAuthorization(this.ref, {BaseOptions? baseOptions, this.useQuicDirect = false}) {
     _dio = Dio(baseOptions ?? defaultBaseOptions);
     _dio.interceptors.clear();
     _dio.interceptors.add(AuthorizationInterceptor(ref));
+    _attachDirectTransport();
     if (ref.read(globalCurrentAccountProvider) != null) {
       resetAuthorization(accessToken: ref.read(globalCurrentAccountProvider)!.accessToken);
     }
@@ -38,6 +43,14 @@ class HttpRequester {
   Dio get dio => _dio;
 
   final Ref ref;
+
+  /// 直连 API：Android 上改走 Cronet QUIC，URL 仍使用域名。
+  final bool useQuicDirect;
+
+  void _attachDirectTransport() {
+    if (!useQuicDirect || !Platform.isAndroid) return;
+    _dio.httpClientAdapter = PixivCronetAdapter();
+  }
 
   BaseOptions get baseOptions => _dio.options;
 

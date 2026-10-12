@@ -55,6 +55,10 @@ android {
             // 启用分包
             isMinifyEnabled = true
             isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
 
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
@@ -85,4 +89,9 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // Chromium 网络栈。直连 API 走 QUIC/HTTP3，避开 *.pixiv.net 的 TCP SNI RST。
+    implementation("org.chromium.net:cronet-embedded:119.6045.31")
 }
