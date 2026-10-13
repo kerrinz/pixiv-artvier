@@ -44,11 +44,11 @@ class HttpRequester {
 
   final Ref ref;
 
-  /// 直连 API：Android 上改走 Cronet QUIC，URL 仍使用域名。
+  /// 直连 API：Android Cronet / iOS 15+ Network.framework 走 QUIC，URL 仍使用域名。
   final bool useQuicDirect;
 
   void _attachDirectTransport() {
-    if (!useQuicDirect || !Platform.isAndroid) return;
+    if (!useQuicDirect || !(Platform.isAndroid || Platform.isIOS)) return;
     _dio.httpClientAdapter = PixivCronetAdapter();
   }
 

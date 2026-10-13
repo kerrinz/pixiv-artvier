@@ -10,7 +10,18 @@ import Flutter
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
 //     FlutterDownloaderPlugin.setPluginRegistrantCallback(registerPlugins)
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    let launched = super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    if let controller = window?.rootViewController as? FlutterViewController {
+      PixivQuicBridge.register(messenger: controller.binaryMessenger)
+    } else {
+      DispatchQueue.main.async { [weak self] in
+        guard let controller = self?.window?.rootViewController as? FlutterViewController else {
+          return
+        }
+        PixivQuicBridge.register(messenger: controller.binaryMessenger)
+      }
+    }
+    return launched
   }
 }
 

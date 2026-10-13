@@ -1,12 +1,13 @@
 import 'dart:typed_data';
 
+import 'package:artvier/config/http_base_options.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/services.dart';
 
-/// Android 直连 API：把 [app-api.pixiv.net] / [oauth.secure.pixiv.net] 交给 Cronet QUIC。
+/// 直连 API：Android 用 Cronet QUIC，iOS 15+ 用 Network.framework QUIC。
 ///
-/// 其它主机（图片、更新检查）仍走默认的 dart:io 客户端。
+/// 两边都走 [artvier/pixiv_cronet]。其它主机（图片、更新检查）仍走 dart:io。
 class PixivCronetAdapter implements HttpClientAdapter {
   PixivCronetAdapter({HttpClientAdapter? fallback}) : _fallback = fallback ?? IOHttpClientAdapter();
 
@@ -66,6 +67,7 @@ class PixivCronetAdapter implements HttpClientAdapter {
         'headers': _encodeHeaders(options.headers),
         'body': body,
         'timeoutMillis': 30000,
+        'directIp': HttpBaseOptions.cloudflareApiIp,
       });
       if (raw == null) {
         throw DioException.connectionError(requestOptions: options, reason: 'Empty Cronet response');

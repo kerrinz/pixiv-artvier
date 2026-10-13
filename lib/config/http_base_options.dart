@@ -5,8 +5,8 @@ class HttpBaseOptions {
   static const String appApiHost = "app-api.pixiv.net";
   static const String oauthHost = "oauth.secure.pixiv.net";
 
-  /// API / OAuth 在 Cloudflare 上。直连时 Cronet 用 HostResolverRules 钉到这里，
-  /// 请求 URL 仍用域名（Cloudflare 按 SNI 选站）。
+  /// API / OAuth 在 Cloudflare 上。直连时把域名钉到这里（Android HostResolverRules，
+  /// iOS 直接连这个 IP），请求 URL 仍用域名，TLS 带原主机名 SNI。
   static const String cloudflareApiIp = "104.18.42.239";
   static const String cloudflareApiIpSecondary = "172.64.145.17";
 

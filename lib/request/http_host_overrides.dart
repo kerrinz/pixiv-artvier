@@ -102,7 +102,7 @@ class HttpHostOverrides {
     return baseHeaders;
   }
 
-  /// API 直连不再改写成旧源站 IP。域名交给 Cronet，由 QUIC + HostResolverRules 到达 Cloudflare。
+  /// API 直连不再改写成旧源站 IP。域名交给原生 QUIC，再钉到 Cloudflare IP。
   String appApiUrl(String url) => url;
 
   /// 直连图片：把 i.pximg.net / s.pximg.net 换成源站 IP。
