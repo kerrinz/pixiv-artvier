@@ -58,8 +58,9 @@ class HistoryGridView extends ConsumerWidget with LazyloadLogic {
         crossAxisSpacing: crossAxisSpacing,
         collectGarbage: collectGarbage,
         viewportBuilder: viewportBuilder,
-        lastChildLayoutTypeBuilder: (index) =>
-            index == itemList.length ? LastChildLayoutType.fullCrossAxisExtent : LastChildLayoutType.none,
+        lastChildLayoutTypeBuilder: (index) => index == itemList.length
+            ? LastChildLayoutType.fullCrossAxisExtent
+            : LastChildLayoutType.none,
       ),
       itemBuilder: (BuildContext context, int index) => itemBuilder(ref, index),
     );
@@ -95,7 +96,8 @@ class HistoryGridView extends ConsumerWidget with LazyloadLogic {
       onTap: () {
         Navigator.of(ref.context).pushNamed(
           RouteNames.artworkDetail.name,
-          arguments: IllustDetailPageArguments(illustId: item.worksId, title: item.title),
+          arguments: IllustDetailPageArguments(
+              illustId: item.worksId, title: item.title),
         );
       },
     );
@@ -130,7 +132,12 @@ class HistoryGridView extends ConsumerWidget with LazyloadLogic {
               ),
             ),
           };
-          return SafeArea(left: true, top: false, right: true, bottom: true, child: map[lazyloadState]!);
+          return SafeArea(
+              left: true,
+              top: false,
+              right: true,
+              bottom: true,
+              child: map[lazyloadState]!);
         }),
       );
 }
@@ -158,8 +165,9 @@ class SliverHistoryGridView extends HistoryGridView {
           crossAxisSpacing: crossAxisSpacing,
           collectGarbage: collectGarbage,
           viewportBuilder: viewportBuilder,
-          lastChildLayoutTypeBuilder: (index) =>
-              index == itemList.length ? LastChildLayoutType.fullCrossAxisExtent : LastChildLayoutType.none,
+          lastChildLayoutTypeBuilder: (index) => index == itemList.length
+              ? LastChildLayoutType.fullCrossAxisExtent
+              : LastChildLayoutType.none,
         ),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) => itemBuilder(ref, index),
@@ -209,7 +217,7 @@ class HistoryIllustItem extends StatelessWidget {
                 child: EnhanceNetworkImage(
                   image: ExtendedNetworkImageProvider(
                     HttpHostOverrides().pxImgUrl(imageUrl),
-                    headers: HttpHostOverrides().pximgHeaders,
+                    headers: HttpHostOverrides().imageHeaders(imageUrl),
                   ),
                 ),
               );
@@ -238,9 +246,16 @@ class HistoryIllustItem extends StatelessWidget {
                   Text(
                     title,
                     maxLines: 1,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall
+                        ?.copyWith(color: Colors.white),
                   ),
-                  Text(author, style: Theme.of(context).textTheme.labelMedium?.copyWith(color: Colors.white)),
+                  Text(author,
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelMedium
+                          ?.copyWith(color: Colors.white)),
                 ],
               ),
             ),
@@ -296,7 +311,7 @@ class HistoryNovelItem extends StatelessWidget {
       child: EnhanceNetworkImage(
         image: ExtendedNetworkImageProvider(
           HttpHostOverrides().pxImgUrl(imageUrl),
-          headers: HttpHostOverrides().pximgHeaders,
+          headers: HttpHostOverrides().imageHeaders(imageUrl),
         ),
       ),
     );

@@ -136,7 +136,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
     }
   }
 
-  ({double textSize, String? fontFamily, Color? foreground}) _viewerTextStyle() {
+  ({double textSize, String? fontFamily, Color? foreground})
+      _viewerTextStyle() {
     final settings = ref.read(novelViewerSettings);
     final viewerThemes = CONSTANTS.viewerThemes(context);
     final themeName = settings.themeName ?? 'default';
@@ -150,7 +151,11 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
     _cachedTextSize = settings.textSize;
     _cachedFontFamily = settings.fontFamily;
     _cachedForeground = foreground;
-    return (textSize: settings.textSize, fontFamily: settings.fontFamily, foreground: foreground);
+    return (
+      textSize: settings.textSize,
+      fontFamily: settings.fontFamily,
+      foreground: foreground
+    );
   }
 
   void _persistReadingProgress() {
@@ -378,7 +383,8 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
                               image: ExtendedNetworkImageProvider(
                                 HttpHostOverrides()
                                     .pxImgUrl(webViewData.novel.coverUrl),
-                                headers: HttpHostOverrides().pximgHeaders,
+                                headers: HttpHostOverrides()
+                                    .imageHeaders(webViewData.novel.coverUrl),
                                 cache: true,
                               ),
                             ),

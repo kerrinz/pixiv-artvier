@@ -30,6 +30,12 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>需要相册写入权限用以保存图片</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>需要本地网络权限，以便开发时连接调试服务</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartVmService._tcp</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

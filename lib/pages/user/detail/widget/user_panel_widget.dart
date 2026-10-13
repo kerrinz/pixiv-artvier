@@ -56,9 +56,12 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
                       image: (avatarUrl != null)
                           ? ExtendedNetworkImageProvider(
                               HttpHostOverrides().pxImgUrl(avatarUrl!),
-                              headers: HttpHostOverrides().pximgHeaders,
+                              headers:
+                                  HttpHostOverrides().imageHeaders(avatarUrl!),
                             )
-                          : ExtendedAssetImageProvider('assets/image/default_avatar.png') as ImageProvider<Object>,
+                          : ExtendedAssetImageProvider(
+                                  'assets/image/default_avatar.png')
+                              as ImageProvider<Object>,
                     ),
                   ),
                 ),
@@ -69,7 +72,9 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2.0),
                     child: Consumer(
-                      builder: (_, ref, __) => ref.watch(userDetailProvider(userId)).when(
+                      builder: (_, ref, __) => ref
+                          .watch(userDetailProvider(userId))
+                          .when(
                             error: (_, __) => Container(),
                             loading: () => Container(),
                             data: (detail) => Column(
@@ -109,9 +114,13 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
             },
             child: Row(
               children: [
-                Text("UID: $userId", style: const TextStyle(fontSize: 12), overflow: TextOverflow.ellipsis),
+                Text("UID: $userId",
+                    style: const TextStyle(fontSize: 12),
+                    overflow: TextOverflow.ellipsis),
                 const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0), child: Icon(Icons.copy, size: 12)),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                    child: Icon(Icons.copy, size: 12)),
               ],
             ),
           ),
@@ -143,7 +152,8 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
   /// 用户名组件
   Widget _userNameWidget(String name) {
     return Padding(
-      padding: const EdgeInsets.only(left: 2.0, right: 2.0, top: 8.0, bottom: 2.0),
+      padding:
+          const EdgeInsets.only(left: 2.0, right: 2.0, top: 8.0, bottom: 2.0),
       child: SelectableText(
         name,
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -152,9 +162,11 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
   }
 
   /// 右侧的水平分栏信息
-  Widget _rightHorizontalColumnsWidget(BuildContext context, UserDetail detail) {
+  Widget _rightHorizontalColumnsWidget(
+      BuildContext context, UserDetail detail) {
     var l10n = LocalizationIntl.of(context);
-    const TextStyle numberTextStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+    const TextStyle numberTextStyle =
+        TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
     // 性别、关注、好P友的统计信息
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,9 +183,13 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
                   case "male":
                     return const Icon(Icons.male, color: Colors.blue, size: 22);
                   case "female":
-                    return Icon(Icons.female, color: Colors.pink.shade300.withValues(alpha: 0.75), size: 22);
+                    return Icon(Icons.female,
+                        color: Colors.pink.shade300.withValues(alpha: 0.75),
+                        size: 22);
                   case "unknown":
-                    return Icon(Icons.transgender_outlined, color: Colors.blueGrey.withValues(alpha: 0.75), size: 22);
+                    return Icon(Icons.transgender_outlined,
+                        color: Colors.blueGrey.withValues(alpha: 0.75),
+                        size: 22);
                   default:
                     return const Text("-", style: numberTextStyle);
                 }
@@ -185,11 +201,14 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
         Expanded(
           flex: 1,
           child: GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(RouteNames.userFollowing.name, arguments: userId),
+            onTap: () => Navigator.of(context)
+                .pushNamed(RouteNames.userFollowing.name, arguments: userId),
             child: Column(
               children: [
-                Text(l10n.following, style: Theme.of(context).textTheme.labelSmall),
-                Text(detail.profile.totalFollowUsers.toString(), style: numberTextStyle),
+                Text(l10n.following,
+                    style: Theme.of(context).textTheme.labelSmall),
+                Text(detail.profile.totalFollowUsers.toString(),
+                    style: numberTextStyle),
               ],
             ),
           ),
@@ -200,7 +219,8 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
           child: Column(
             children: [
               Text(l10n.friends, style: Theme.of(context).textTheme.labelSmall),
-              Text(detail.profile.totalMypixivUsers.toString(), style: numberTextStyle),
+              Text(detail.profile.totalMypixivUsers.toString(),
+                  style: numberTextStyle),
             ],
           ),
         ),

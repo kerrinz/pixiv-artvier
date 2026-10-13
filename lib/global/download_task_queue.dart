@@ -29,7 +29,10 @@ class DownloadTaskQueue {
 
   /// 当前下载中的任务数量
   int get countDownloading => _imageTaskQuene.fold<int>(
-      0, (previousValue, element) => previousValue + (element.downloadState == DownloadState.downloading ? 1 : 0));
+      0,
+      (previousValue, element) =>
+          previousValue +
+          (element.downloadState == DownloadState.downloading ? 1 : 0));
 
   /// 下载任务队列（实时更新数据）
   List<DownloadTask> get taskQuene => _imageTaskQuene;
@@ -39,41 +42,55 @@ class DownloadTaskQueue {
     bool canDownload = countDownloading < maxConcurrentDownloads;
     // 无任务 Id 则在数据库新建新任务
     if (taskData.taskId == null) {
-      insertedData = insertedData.copyWith(status: canDownload ? DownloadState.downloading : DownloadState.waiting);
-      insertedData = await appDatabase.addDownloadTask(insertedData.toCompanion(true));
+      insertedData = insertedData.copyWith(
+          status:
+              canDownload ? DownloadState.downloading : DownloadState.waiting);
+      insertedData =
+          await appDatabase.addDownloadTask(insertedData.toCompanion(true));
     } else {
       // 有任务 Id 则初始化下载状态
       insertedData = insertedData.copyWith(
-          receivedBytes: 0, totalBytes: 0, status: canDownload ? DownloadState.downloading : DownloadState.waiting);
+          receivedBytes: 0,
+          totalBytes: 0,
+          status:
+              canDownload ? DownloadState.downloading : DownloadState.waiting);
       await appDatabase.updateTask(insertedData);
     }
     DownloadTask downloadTask = DownloadTask(taskData: insertedData);
     downloadTask
       ..onSuccess = (data) async {
         _imageTaskQuene.remove(downloadTask);
-        var saveResult = await ImageGallerySaverPlus.saveImage(Uint8List.fromList(data), quality: 100);
+        var saveResult = await ImageGallerySaverPlus.saveImage(
+            Uint8List.fromList(data),
+            quality: 100);
         bool result = saveResult["isSuccess"];
         if (result) {
-          appDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.success);
+          appDatabase.updateTaskStatus(
+              insertedData.taskId!, DownloadState.success);
           Fluttertoast.showToast(msg: "下载成功");
         } else {
-          appDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.failed);
+          appDatabase.updateTaskStatus(
+              insertedData.taskId!, DownloadState.failed);
           Fluttertoast.showToast(msg: "下载失败");
         }
       }
       ..onProgress = (int receivedBytes, int totalBytes) {
-        appDatabase.updateTaskBytes(insertedData.taskId!, receivedBytes, totalBytes);
+        appDatabase.updateTaskBytes(
+            insertedData.taskId!, receivedBytes, totalBytes);
       }
       ..onFailed = (statusCode) {
-        appDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.failed);
+        appDatabase.updateTaskStatus(
+            insertedData.taskId!, DownloadState.failed);
       }
       ..onError = (e) {
-        appDatabase.updateTaskStatus(insertedData.taskId!, DownloadState.failed);
+        appDatabase.updateTaskStatus(
+            insertedData.taskId!, DownloadState.failed);
         logger.e(e);
       }
       ..onFinally = () {
         /// 下载下一个等待中的任务
-        int findIndex = _imageTaskQuene.indexWhere((element) => element.downloadState == DownloadState.waiting);
+        int findIndex = _imageTaskQuene.indexWhere(
+            (element) => element.downloadState == DownloadState.waiting);
         if (findIndex > -1) {
           _imageTaskQuene[findIndex].start();
         }
@@ -87,7 +104,8 @@ class DownloadTaskQueue {
   }
 
   void restartTask(DownloadTaskTableData taskData) {
-    int findIndex = _imageTaskQuene.indexWhere((element) => element.taskData.taskId == taskData.taskId);
+    int findIndex = _imageTaskQuene
+        .indexWhere((element) => element.taskData.taskId == taskData.taskId);
     if (findIndex > -1) {
       _imageTaskQuene[findIndex].restart();
     } else {
@@ -151,7 +169,7 @@ class DownloadTask {
         cancelToken: _cancelToken,
         options: Options(
           responseType: ResponseType.bytes,
-          headers: HttpHostOverrides().pximgHeaders,
+          headers: HttpHostOverrides().imageHeaders(taskData.downloadUrl),
         ), onReceiveProgress: (received, total) {
       if (total != -1) {
         ///当前下载的百分比

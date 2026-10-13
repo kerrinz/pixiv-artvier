@@ -46,7 +46,8 @@ class PixivisionIllustCard extends BasePage {
             child: InkWell(
               onTap: () => Navigator.of(context).pushNamed(
                 RouteNames.userDetail.name,
-                arguments: PreloadUserLeastInfo(authorId, authorName, authorAvatarUrl),
+                arguments:
+                    PreloadUserLeastInfo(authorId, authorName, authorAvatarUrl),
               ),
               child: Row(
                 children: [
@@ -56,7 +57,8 @@ class PixivisionIllustCard extends BasePage {
                       child: EnhanceNetworkImage(
                         image: ExtendedNetworkImageProvider(
                           HttpHostOverrides().pxImgUrl(authorAvatarUrl),
-                          headers: HttpHostOverrides().pximgHeaders,
+                          headers:
+                              HttpHostOverrides().imageHeaders(authorAvatarUrl),
                           cache: true,
                         ),
                         width: 50,
@@ -70,7 +72,8 @@ class PixivisionIllustCard extends BasePage {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(illustTitle),
-                        Text("By $authorName", style: textTheme(context).bodySmall),
+                        Text("By $authorName",
+                            style: textTheme(context).bodySmall),
                       ],
                     ),
                   ),
@@ -83,12 +86,13 @@ class PixivisionIllustCard extends BasePage {
             child: InkWell(
               onTap: () => Navigator.of(context).pushNamed(
                 RouteNames.artworkDetail.name,
-                arguments: IllustDetailPageArguments(illustId: illustId, title: illustTitle),
+                arguments: IllustDetailPageArguments(
+                    illustId: illustId, title: illustTitle),
               ),
               child: EnhanceNetworkImage(
                 image: ExtendedNetworkImageProvider(
                   HttpHostOverrides().pxImgUrl(illustUrl),
-                  headers: HttpHostOverrides().pximgHeaders,
+                  headers: HttpHostOverrides().imageHeaders(illustUrl),
                   cache: true,
                 ),
               ),

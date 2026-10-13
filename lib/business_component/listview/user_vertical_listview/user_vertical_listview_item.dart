@@ -28,7 +28,8 @@ class UserVerticalListViewItem extends ConsumerStatefulWidget {
   final VoidCallback onTap;
 
   /// 用户最近发布的作品的图片（小说封面也包含在内）
-  static List<String> recentPublishWorksImagesUrls(List<CommonIllust> illusts, List<CommonNovel> novels,
+  static List<String> recentPublishWorksImagesUrls(
+      List<CommonIllust> illusts, List<CommonNovel> novels,
       {int max = 3}) {
     List<String> urls = [];
     // 添加插画·漫画
@@ -51,10 +52,12 @@ class UserVerticalListViewItem extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _UserVerticalListViewItemState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _UserVerticalListViewItemState();
 }
 
-class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewItem>
+class _UserVerticalListViewItemState
+    extends ConsumerState<UserVerticalListViewItem>
     with UserVerticalListViewItemLogic {
   @override
   UserFollowState get followState => widget.followState;
@@ -91,7 +94,8 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.only(left: 80.0, top: 12, bottom: 12),
+                    padding:
+                        const EdgeInsets.only(left: 80.0, top: 12, bottom: 12),
                     alignment: Alignment.centerLeft,
                     child: Text(
                       userData.user.name,
@@ -119,13 +123,16 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
-                        borderRadius: const BorderRadius.all(Radius.circular(80)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(80)),
                       ),
                       child: ClipOval(
                         child: EnhanceNetworkImage(
                           image: ExtendedNetworkImageProvider(
-                            HttpHostOverrides().pxImgUrl(userData.user.profileImageUrls.medium),
-                            headers: HttpHostOverrides().pximgHeaders,
+                            HttpHostOverrides().pxImgUrl(
+                                userData.user.profileImageUrls.medium),
+                            headers: HttpHostOverrides().imageHeaders(
+                                userData.user.profileImageUrls.medium),
                             cache: true,
                           ),
                           width: 64,
@@ -145,9 +152,12 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
                     splashColor: Colors.black12.withValues(alpha: 0.15),
                     highlightColor: Colors.black12.withValues(alpha: 0.1),
                     onTap: () {
-                      Navigator.of(context).pushNamed(RouteNames.userDetail.name,
+                      Navigator.of(context).pushNamed(
+                          RouteNames.userDetail.name,
                           arguments: PreloadUserLeastInfo(
-                              userData.user.id.toString(), userData.user.name, userData.user.profileImageUrls.medium));
+                              userData.user.id.toString(),
+                              userData.user.name,
+                              userData.user.profileImageUrls.medium));
                     },
                   ),
                 ),
@@ -163,7 +173,8 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
   List<Widget> _imageWidgets(context) {
     List<Widget> widgets = [];
     widgets.addAll([
-      for (String url in UserVerticalListViewItem.recentPublishWorksImagesUrls(userData.illusts, userData.novels))
+      for (String url in UserVerticalListViewItem.recentPublishWorksImagesUrls(
+          userData.illusts, userData.novels))
         _imageWidget(url),
     ]);
     while (widgets.length < 3) {
@@ -179,7 +190,7 @@ class _UserVerticalListViewItemState extends ConsumerState<UserVerticalListViewI
     return EnhanceNetworkImage(
       image: ExtendedNetworkImageProvider(
         HttpHostOverrides().pxImgUrl(url),
-        headers: HttpHostOverrides().pximgHeaders,
+        headers: HttpHostOverrides().imageHeaders(url),
         cache: true,
       ),
     );

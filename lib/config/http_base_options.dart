@@ -22,6 +22,8 @@ class HttpBaseOptions {
   static const String pximg2Ip = "210.140.139.134";
 
   static const String pixivisionHost = "www.pixivision.net";
+
+  /// 旧源站。无 SNI 的 HTTP/1.1 会 403，直连改为和 API 一样钉到 Cloudflare。
   static const String pixivisionIp = "210.140.139.155";
 
   // 网络请求的各个时间

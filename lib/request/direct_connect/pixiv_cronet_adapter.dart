@@ -7,9 +7,10 @@ import 'package:flutter/services.dart';
 
 /// 直连 API：Android 用 Cronet QUIC，iOS 15+ 用 Network.framework QUIC。
 ///
-/// 两边都走 [artvier/pixiv_cronet]。其它主机（图片、更新检查）仍走 dart:io。
+/// 两边都走 [artvier/pixiv_cronet]。图片仍走 dart:io 的无 SNI 源站，更新检查也走 dart:io。
 class PixivCronetAdapter implements HttpClientAdapter {
-  PixivCronetAdapter({HttpClientAdapter? fallback}) : _fallback = fallback ?? IOHttpClientAdapter();
+  PixivCronetAdapter({HttpClientAdapter? fallback})
+      : _fallback = fallback ?? IOHttpClientAdapter();
 
   static const MethodChannel _channel = MethodChannel('artvier/pixiv_cronet');
 
@@ -17,13 +18,15 @@ class PixivCronetAdapter implements HttpClientAdapter {
     'app-api.pixiv.net',
     'oauth.secure.pixiv.net',
     'www.pixiv.net',
+    'www.pixivision.net',
   };
 
   final HttpClientAdapter _fallback;
   var _closed = false;
   var _requestSerial = 0;
 
-  static bool handlesHost(String host) => directHosts.contains(host.toLowerCase());
+  static bool handlesHost(String host) =>
+      directHosts.contains(host.toLowerCase());
 
   @override
   Future<ResponseBody> fetch(
@@ -32,7 +35,8 @@ class PixivCronetAdapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     if (_closed) {
-      throw DioException.connectionError(requestOptions: options, reason: 'Cronet adapter is closed');
+      throw DioException.connectionError(
+          requestOptions: options, reason: 'Cronet adapter is closed');
     }
     if (!handlesHost(options.uri.host)) {
       return _fallback.fetch(options, requestStream, cancelFuture);
@@ -56,11 +60,13 @@ class PixivCronetAdapter implements HttpClientAdapter {
       if (bytes.isNotEmpty) body = bytes;
     }
     if (cancelled) {
-      throw DioException.requestCancelled(requestOptions: options, reason: 'cancelled');
+      throw DioException.requestCancelled(
+          requestOptions: options, reason: 'cancelled');
     }
 
     try {
-      final raw = await _channel.invokeMethod<Map<Object?, Object?>>('request', {
+      final raw =
+          await _channel.invokeMethod<Map<Object?, Object?>>('request', {
         'id': id,
         'url': options.uri.toString(),
         'method': options.method,
@@ -70,12 +76,15 @@ class PixivCronetAdapter implements HttpClientAdapter {
         'directIp': HttpBaseOptions.cloudflareApiIp,
       });
       if (raw == null) {
-        throw DioException.connectionError(requestOptions: options, reason: 'Empty Cronet response');
+        throw DioException.connectionError(
+            requestOptions: options, reason: 'Empty Cronet response');
       }
       final statusCode = raw['statusCode'] as int? ?? 0;
       final headers = _decodeHeaders(raw['headers']);
       final bytes = raw['body'];
-      final data = bytes is Uint8List ? bytes : Uint8List.fromList((bytes as List?)?.cast<int>() ?? const []);
+      final data = bytes is Uint8List
+          ? bytes
+          : Uint8List.fromList((bytes as List?)?.cast<int>() ?? const []);
       return ResponseBody.fromBytes(
         data,
         statusCode,
@@ -84,7 +93,10 @@ class PixivCronetAdapter implements HttpClientAdapter {
       );
     } on PlatformException catch (e) {
       if (e.code == 'CANCELLED') {
-        throw DioException.requestCancelled(requestOptions: options, reason: e.message, stackTrace: StackTrace.current);
+        throw DioException.requestCancelled(
+            requestOptions: options,
+            reason: e.message,
+            stackTrace: StackTrace.current);
       }
       if (e.code == 'TIMEOUT') {
         throw DioException.receiveTimeout(
@@ -106,7 +118,10 @@ class PixivCronetAdapter implements HttpClientAdapter {
     headers.forEach((key, value) {
       if (value == null) return;
       final lower = key.toLowerCase();
-      if (lower == 'content-length' || lower == 'host' || lower == 'transfer-encoding' || lower == 'connection') {
+      if (lower == 'content-length' ||
+          lower == 'host' ||
+          lower == 'transfer-encoding' ||
+          lower == 'connection') {
         return;
       }
       encoded[key] = value is List ? value.join(',') : value.toString();

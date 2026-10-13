@@ -28,7 +28,8 @@ class HttpHostOverrides {
     // Update headers...
     // Update language
     final languageLocale = languageStore.getLanguageLocale();
-    final acceptLanguage = "${languageLocale.languageCode}_${languageLocale.countryCode}";
+    final acceptLanguage =
+        "${languageLocale.languageCode}_${languageLocale.countryCode}";
     globalBaseHttpHeaders[HttpHeaders.acceptLanguageHeader] = acceptLanguage;
     _appApiHeaders[HttpHeaders.acceptLanguageHeader] = acceptLanguage;
     _oauthHeaders[HttpHeaders.acceptLanguageHeader] = acceptLanguage;
@@ -87,11 +88,11 @@ class HttpHostOverrides {
     if (!isEnableDirect) {
       return baseHeaders;
     }
+    if (_isStaticPximg(url)) {
+      return pximg2Headers;
+    }
     if (url.contains(HttpBaseOptions.pximgHost)) {
       return pximgHeaders;
-    }
-    if (url.contains(HttpBaseOptions.pximg2Host)) {
-      return pximg2Headers;
     }
     if (url.contains(HttpBaseOptions.oauthHost)) {
       return oauthHeaders;
@@ -101,6 +102,16 @@ class HttpHostOverrides {
     }
     return baseHeaders;
   }
+
+  /// 图片请求头。直连时两个图床域名都改写到同一个 IP，Host 仍要按原站区分。
+  /// 默认头像和表情在 s.pximg.net 的 /common/ 下，用 i.pximg.net 会得到 404 网页。
+  Map<String, String> imageHeaders(String url) {
+    if (_isStaticPximg(url)) return pximg2Headers;
+    return pximgHeaders;
+  }
+
+  bool _isStaticPximg(String url) =>
+      url.contains(HttpBaseOptions.pximg2Host) || url.contains('/common/');
 
   /// API 直连不再改写成旧源站 IP。域名交给原生 QUIC，再钉到 Cloudflare IP。
   String appApiUrl(String url) => url;
@@ -115,14 +126,16 @@ class HttpHostOverrides {
     }
     if (!isEnableDirect) return url;
     if (url.contains(HttpBaseOptions.pximgHost)) {
-      return url.replaceFirst(HttpBaseOptions.pximgHost, HttpBaseOptions.pximgIp);
+      return url.replaceFirst(
+          HttpBaseOptions.pximgHost, HttpBaseOptions.pximgIp);
     }
     if (url.contains(HttpBaseOptions.pximg2Host)) {
-      return url.replaceFirst(HttpBaseOptions.pximg2Host, HttpBaseOptions.pximg2Ip);
+      return url.replaceFirst(
+          HttpBaseOptions.pximg2Host, HttpBaseOptions.pximg2Ip);
     }
     return url;
   }
 
-  pixivisionUrl(String url) =>
-      isEnableDirect ? url.replaceFirst(HttpBaseOptions.pixivisionHost, HttpBaseOptions.pixivisionIp) : url;
+  /// 直连不再改写到源站 IP。源站对无 SNI 的请求返回 403，页面和 API 一样走 QUIC 钉到 Cloudflare。
+  String pixivisionUrl(String url) => url;
 }

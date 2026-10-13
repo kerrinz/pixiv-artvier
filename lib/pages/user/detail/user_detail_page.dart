@@ -23,7 +23,8 @@ class UserDetailPage extends BaseStatefulPage {
   /// 用户信息（精简版）
   final PreloadUserLeastInfo leastInfo;
 
-  const UserDetailPage(Object arguments, {super.key}) : leastInfo = arguments as PreloadUserLeastInfo;
+  const UserDetailPage(Object arguments, {super.key})
+      : leastInfo = arguments as PreloadUserLeastInfo;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -31,7 +32,8 @@ class UserDetailPage extends BaseStatefulPage {
   }
 }
 
-class _UserDetailState extends BasePageState<UserDetailPage> with TickerProviderStateMixin, UserDetailPageLogic {
+class _UserDetailState extends BasePageState<UserDetailPage>
+    with TickerProviderStateMixin, UserDetailPageLogic {
   late TabController _tabController;
 
   late ScrollController _scrollController;
@@ -98,12 +100,15 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
     if (_bannerHeight > 200) _bannerHeight = 200;
 
     // AppBar背景色变化的终止和起始时，所处滚动位置
-    _endAppBarBackgroundOffset = _bannerHeight - kToolbarHeight - MediaQuery.of(context).padding.top;
+    _endAppBarBackgroundOffset =
+        _bannerHeight - kToolbarHeight - MediaQuery.of(context).padding.top;
     _deltaAppBarBackgroundOffset = 20;
-    _startAppBarBackgroundOffset = _endAppBarBackgroundOffset - _deltaAppBarBackgroundOffset;
+    _startAppBarBackgroundOffset =
+        _endAppBarBackgroundOffset - _deltaAppBarBackgroundOffset;
 
     // AppBar标题变化的起始和终止时，所处滚动位置
-    _startAppBarTitleOffset = _endAppBarBackgroundOffset + _avatarDiameter - _radius;
+    _startAppBarTitleOffset =
+        _endAppBarBackgroundOffset + _avatarDiameter - _radius;
     _deltaAppBarTitleOffset = 30;
     _endAppBarTitleOffset = _startAppBarTitleOffset + _deltaAppBarTitleOffset;
   }
@@ -125,7 +130,9 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
           onlyOneScrollInBody: true,
           controller: _scrollController,
           pinnedHeaderSliverHeightBuilder: () {
-            return MediaQuery.of(context).padding.top + kToolbarHeight + kTabBarHeight;
+            return MediaQuery.of(context).padding.top +
+                kToolbarHeight +
+                kTabBarHeight;
           },
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
@@ -136,16 +143,20 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: colorScheme.surface,
-                      borderRadius:
-                          const BorderRadius.only(topRight: Radius.circular(12.0), topLeft: Radius.circular(12.0)),
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(12.0),
+                          topLeft: Radius.circular(12.0)),
                     ),
                     // 用户面板（简要的资料信息）
                     child: Builder(builder: (context) {
                       final user = ref.watch(userDetailProvider(userId));
                       return UserDetailPageUserPanelWidget(
                         userId: userId,
-                        userName: widget.leastInfo.name ?? user.valueOrNull?.user.name ?? '...',
-                        avatarUrl: widget.leastInfo.avatar ?? user.valueOrNull?.user.profileImageUrls.medium,
+                        userName: widget.leastInfo.name ??
+                            user.valueOrNull?.user.name ??
+                            '...',
+                        avatarUrl: widget.leastInfo.avatar ??
+                            user.valueOrNull?.user.profileImageUrls.medium,
                         avatarDiameter: _avatarDiameter,
                       );
                     }),
@@ -157,7 +168,8 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
                 pinned: true,
                 delegate: SliverTabBarPersistentHeaderDelegate(
                   backgroundColor: colorScheme.surface,
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
                   child: TabBar(
                     labelPadding: const EdgeInsets.symmetric(horizontal: 12.0),
                     controller: _tabController,
@@ -204,7 +216,9 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
                         children: [
                           Center(
                             child: RequestLoadingFailed(
-                              onRetry: () => ref.read(userDetailProvider(userId).notifier).reload(),
+                              onRetry: () => ref
+                                  .read(userDetailProvider(userId).notifier)
+                                  .reload(),
                             ),
                           ),
                         ],
@@ -235,7 +249,11 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
                     user?.profile.backgroundImageUrl ??
                     user?.user.profileImageUrls.medium ??
                     ''),
-                headers: HttpHostOverrides().pximgHeaders,
+                headers: HttpHostOverrides().imageHeaders(
+                    widget.leastInfo.avatar ??
+                        user?.profile.backgroundImageUrl ??
+                        user?.user.profileImageUrls.medium ??
+                        ''),
               ),
               width: double.infinity,
               fit: BoxFit.cover,
@@ -249,7 +267,7 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
         return EnhanceNetworkImage(
           image: ExtendedNetworkImageProvider(
             HttpHostOverrides().pxImgUrl(bg),
-            headers: HttpHostOverrides().pximgHeaders,
+            headers: HttpHostOverrides().imageHeaders(bg),
           ),
           width: double.infinity,
           fit: BoxFit.cover,
@@ -268,13 +286,15 @@ class _UserDetailState extends BasePageState<UserDetailPage> with TickerProvider
     if (offset == 0) {
       bgOpacity = 0;
     } else if (offset <= _endAppBarBackgroundOffset) {
-      bgOpacity = (offset - _startAppBarBackgroundOffset) / _deltaAppBarBackgroundOffset;
+      bgOpacity = (offset - _startAppBarBackgroundOffset) /
+          _deltaAppBarBackgroundOffset;
     } else {
       bgOpacity = 1;
     }
 
     if (offset >= _startAppBarTitleOffset) {
-      titleOpacity = (offset - _startAppBarTitleOffset) / _deltaAppBarTitleOffset;
+      titleOpacity =
+          (offset - _startAppBarTitleOffset) / _deltaAppBarTitleOffset;
     } else {
       titleOpacity = 0;
     }

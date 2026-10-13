@@ -18,13 +18,16 @@ import 'package:html/parser.dart';
 class IllustPixivisionPage extends BaseStatefulPage {
   final PixivisionWebViewPageArguments arguments;
 
-  const IllustPixivisionPage(Object arg, {super.key}) : arguments = arg as PixivisionWebViewPageArguments;
+  const IllustPixivisionPage(Object arg, {super.key})
+      : arguments = arg as PixivisionWebViewPageArguments;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => __IllustPixivisionPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      __IllustPixivisionPageState();
 }
 
-class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> with IllustPixivisionPageLogic {
+class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage>
+    with IllustPixivisionPageLogic {
   /// 主体内容的R角
   final double _radius = 12;
 
@@ -61,7 +64,9 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
           body: DecoratedBox(
             decoration: BoxDecoration(
               color: colorScheme.surface,
-              borderRadius: const BorderRadius.only(topRight: Radius.circular(12.0), topLeft: Radius.circular(12.0)),
+              borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(12.0),
+                  topLeft: Radius.circular(12.0)),
             ),
             child: Builder(builder: (context) {
               return ref
@@ -79,20 +84,32 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
                     data: (data) => Builder(
                       builder: (context) {
                         var document = parse(data);
-                        var items = document.querySelector("._feature-article-body")?.children ?? [];
+                        var items = document
+                                .querySelector("._feature-article-body")
+                                ?.children ??
+                            [];
                         List<Widget> widgets = [];
                         for (var item in items) {
-                          if (item.className == "_feature-article-body__paragraph") {
+                          if (item.className ==
+                              "_feature-article-body__paragraph") {
                             widgets.add(Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: HtmlWidget(
                                 item.text,
                               ),
                             ));
-                          } else if (item.className == "_feature-article-body__pixiv_illust") {
+                          } else if (item.className ==
+                              "_feature-article-body__pixiv_illust") {
                             var illust = PixivisionBodyIllustItem(
-                              illustUrl: item.querySelector("div.aiwsp__main img")?.attributes["src"].toString() ?? "",
-                              illustTitle: item.querySelector(".aiwsp__title a")?.text ?? "",
+                              illustUrl: item
+                                      .querySelector("div.aiwsp__main img")
+                                      ?.attributes["src"]
+                                      .toString() ??
+                                  "",
+                              illustTitle:
+                                  item.querySelector(".aiwsp__title a")?.text ??
+                                      "",
                               illustId: item
                                       .querySelector("div.aiwsp__main a")
                                       ?.attributes["href"]
@@ -101,7 +118,11 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
                                       .split('/')
                                       .last ??
                                   "",
-                              authorName: item.querySelector(".aiwsp__user-name a")?.text.toString() ?? "",
+                              authorName: item
+                                      .querySelector(".aiwsp__user-name a")
+                                      ?.text
+                                      .toString() ??
+                                  "",
                               authorId: item
                                       .querySelector(".aiwsp__info a")
                                       ?.attributes["href"]
@@ -110,10 +131,14 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
                                       .split('/')
                                       .last ??
                                   "",
-                              authorAvatar:
-                                  item.querySelector(".aiwsp__uesr-icon img")?.attributes["src"].toString() ?? "",
+                              authorAvatar: item
+                                      .querySelector(".aiwsp__uesr-icon img")
+                                      ?.attributes["src"]
+                                      .toString() ??
+                                  "",
                               description: item
-                                  .querySelectorAll("._article-illust-work>p:not(:empty)")
+                                  .querySelectorAll(
+                                      "._article-illust-work>p:not(:empty)")
                                   .map((e) => e.text)
                                   .toList(),
                             );
@@ -138,15 +163,22 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
                                 sliver: SliverToBoxAdapter(
                                   child: Text(
                                     widget.arguments.title,
-                                    style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                                    style: textTheme.titleMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
                               // Content
-                              for (final widget in widgets) SliverToBoxAdapter(child: widget),
+                              for (final widget in widgets)
+                                SliverToBoxAdapter(child: widget),
                               // SafeArea
                               const SliverToBoxAdapter(
-                                child: SafeArea(top: false, left: false, right: false, bottom: true, child: SizedBox()),
+                                child: SafeArea(
+                                    top: false,
+                                    left: false,
+                                    right: false,
+                                    bottom: true,
+                                    child: SizedBox()),
                               ),
                             ],
                           ),
@@ -168,7 +200,7 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
     return EnhanceNetworkImage(
       image: ExtendedNetworkImageProvider(
         HttpHostOverrides().pxImgUrl(widget.arguments.coverUrl),
-        headers: HttpHostOverrides().pximgHeaders,
+        headers: HttpHostOverrides().imageHeaders(widget.arguments.coverUrl),
         cache: true,
       ),
       color: const Color(0x33000000),
@@ -187,12 +219,16 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
     }
     titleOpacity = bgOpacity;
     double reverseOpacity = 1 - bgOpacity; // AppBar背景色透明度的反向透明度
-    Color buttonBackground = const Color(0x55000000).withAlpha((85 * reverseOpacity).toInt()); // back和action按钮的背景色
-    int c = Theme.of(context).brightness == Brightness.light ? (255 * reverseOpacity).toInt() : 240;
+    Color buttonBackground = const Color(0x55000000)
+        .withAlpha((85 * reverseOpacity).toInt()); // back和action按钮的背景色
+    int c = Theme.of(context).brightness == Brightness.light
+        ? (255 * reverseOpacity).toInt()
+        : 240;
     Color buttonForeground = Color.fromARGB(255, c, c, c);
     return AppBar(
       toolbarHeight: kToolbarHeight,
-      backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: bgOpacity),
+      backgroundColor:
+          Theme.of(context).colorScheme.surface.withValues(alpha: bgOpacity),
       leading: BlurButton(
         onPressed: () {
           Navigator.of(context).pop(-1);
@@ -200,7 +236,8 @@ class __IllustPixivisionPageState extends BasePageState<IllustPixivisionPage> wi
         borderRadius: const BorderRadius.all(Radius.circular(18.0)),
         padding: const EdgeInsets.all(6.0),
         background: buttonBackground,
-        child: Icon(Icons.arrow_back_ios_rounded, size: 20, color: buttonForeground),
+        child: Icon(Icons.arrow_back_ios_rounded,
+            size: 20, color: buttonForeground),
       ),
       titleSpacing: 0,
       titleTextStyle: TextStyle(

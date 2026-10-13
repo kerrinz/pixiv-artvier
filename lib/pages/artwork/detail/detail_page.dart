@@ -352,7 +352,7 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
                   key: imgKey,
                   image: ExtendedNetworkImageProvider(
                     HttpHostOverrides().pxImgUrl(url),
-                    headers: HttpHostOverrides().pximgHeaders,
+                    headers: HttpHostOverrides().imageHeaders(url),
                     cache: true,
                   ),
                   // key: _imgKey,

@@ -87,6 +87,7 @@ private final class PixivH3Call {
     "app-api.pixiv.net",
     "oauth.secure.pixiv.net",
     "www.pixiv.net",
+    "www.pixivision.net",
   ]
   static let methodIndexes = [
     "CONNECT": 15, "DELETE": 16, "GET": 17, "HEAD": 18,
@@ -120,6 +121,9 @@ private final class PixivH3Call {
   private var stopped = false
   private var group: NWConnectionGroup?
   private var connections: [NWConnection] = []
+  /// iOS 26+ 的 NetworkConnection。类型在旧系统上不存在，所以用 Any 持有。
+  private var retainedModern: Any?
+  private var closeModern: (() -> Void)?
   private var requestStream: NWConnection?
   private var streamsOpened = false
   private var prefaces = 0
@@ -197,14 +201,28 @@ private final class PixivH3Call {
       return
     }
 
+    if #available(iOS 26.0, *) {
+      connectUsingOpenStream(gen: gen, serverName: host)
+      return
+    }
+
     let options = NWProtocolQUIC.Options(alpn: ["h3"])
-    options.direction = .bidirectional
+    // direction 是单条流的属性。写在连接上时，extract 出来的流会立刻失败，
+    // 错误是 POSIX 50（ENETDOWN），看起来像网络断开。
+    options.initialMaxStreamsBidirectional = 100
+    options.initialMaxStreamsUnidirectional = 100
+    options.initialMaxData = 16 * 1024 * 1024
+    options.initialMaxStreamDataBidirectionalLocal = 6 * 1024 * 1024
+    options.initialMaxStreamDataBidirectionalRemote = 6 * 1024 * 1024
+    options.initialMaxStreamDataUnidirectional = 6 * 1024 * 1024
     let serverName = host
     serverName.withCString { name in
       sec_protocol_options_set_tls_server_name(options.securityProtocolOptions, name)
     }
+    // 验证回调不要跑在连接队列上，同步 complete 会把握手卡死。
+    let verifyQueue = DispatchQueue(label: "org.augenblick.artvier.pixiv-quic.tls")
     sec_protocol_options_set_verify_block(options.securityProtocolOptions, { _, trust, complete in
-      let secTrust = sec_trust_copy_ref(trust)
+      let secTrust = sec_trust_copy_ref(trust).takeRetainedValue()
       let policy = SecPolicyCreateSSL(true, serverName as CFString)
       SecTrustSetPolicies(secTrust, policy)
       var error: CFError?
@@ -214,11 +232,15 @@ private final class PixivH3Call {
           "TLS verify failed \(serverName, privacy: .public) \(String(describing: error), privacy: .public)")
       }
       complete(ok)
-    }, queue)
+    }, verifyQueue)
 
     let parameters = NWParameters(quic: options)
     parameters.preferNoProxies = true
-    let endpoint = NWEndpoint.hostPort(host: NWEndpoint.Host(directIP), port: 443)
+    guard let address = IPv4Address(directIP) else {
+      complete(outcome: .failed("Invalid direct connect IP: \(directIP)"), payload: nil)
+      return
+    }
+    let endpoint = NWEndpoint.hostPort(host: .ipv4(address), port: 443)
     let connectionGroup = NWConnectionGroup(with: NWMultiplexGroup(to: endpoint), using: parameters)
     group = connectionGroup
     connectionGroup.stateUpdateHandler = { [weak self] state in
@@ -227,7 +249,12 @@ private final class PixivH3Call {
       case .ready:
         if self.streamsOpened { return }
         self.streamsOpened = true
+        PixivQuicClient.log.info(
+          "QUIC ready \(self.directIP, privacy: .public) sni \(serverName, privacy: .public)")
         self.openStreams(gen: gen)
+      case .waiting(let error):
+        PixivQuicClient.log.error(
+          "QUIC waiting \(String(describing: error), privacy: .public)")
       case .failed(let error):
         self.complete(outcome: .failed("QUIC connection failed: \(error)"), payload: nil)
       case .cancelled:
@@ -244,6 +271,152 @@ private final class PixivH3Call {
       self.drain(connection, gen: gen)
     }
     connectionGroup.start(queue: queue)
+  }
+
+  /// iOS 26 上 NWConnectionGroup.extract 无法加入已建立的 QUIC 栈，流会立刻以 POSIX 50 失败。
+  /// NetworkConnection.openStream 可以在同一条连接上打开 HTTP/3 流。
+  @available(iOS 26.0, *)
+  private func connectUsingOpenStream(gen: Int, serverName: String) {
+    guard let address = IPv4Address(directIP) else {
+      complete(outcome: .failed("Invalid direct connect IP: \(directIP)"), payload: nil)
+      return
+    }
+    let endpoint = NWEndpoint.hostPort(host: .ipv4(address), port: 443)
+    let connection = NetworkConnection<QUIC>(to: endpoint) {
+      QUIC(alpn: ["h3"])
+        .initialMaxBidirectionalStreams(100)
+        .initialMaxUnidirectionalStreams(100)
+        .initialMaxData(16 * 1024 * 1024)
+        .initialMaxStreamDataBidirectionalLocal(6 * 1024 * 1024)
+        .initialMaxStreamDataBidirectionalRemote(6 * 1024 * 1024)
+        .initialMaxStreamDataUnidirectional(6 * 1024 * 1024)
+    }
+    if let quic = connection.parameters.defaultProtocolStack.transportProtocol as? NWProtocolQUIC.Options {
+      serverName.withCString { name in
+        sec_protocol_options_set_tls_server_name(quic.securityProtocolOptions, name)
+      }
+      let verifyQueue = DispatchQueue(label: "org.augenblick.artvier.pixiv-quic.tls")
+      sec_protocol_options_set_verify_block(quic.securityProtocolOptions, { _, trust, complete in
+        let secTrust = sec_trust_copy_ref(trust).takeRetainedValue()
+        let policy = SecPolicyCreateSSL(true, serverName as CFString)
+        SecTrustSetPolicies(secTrust, policy)
+        var error: CFError?
+        let ok = SecTrustEvaluateWithError(secTrust, &error)
+        if !ok {
+          PixivQuicClient.log.error(
+            "TLS verify failed \(serverName, privacy: .public) \(String(describing: error), privacy: .public)")
+        }
+        complete(ok)
+      }, verifyQueue)
+    }
+    connection.parameters.preferNoProxies = true
+    retainedModern = connection
+    closeModern = { [weak connection] in
+      // reason 不能是 nil，系统会把空指针交给 strlen，直接 SIGSEGV。
+      connection?.applicationError = NWProtocolQUIC.ApplicationError(code: 0, reason: "closed")
+    }
+
+    connection.onStateUpdate { [weak self] _, state in
+      guard let self else { return }
+      self.queue.async {
+        guard self.generation == gen, !self.stopped else { return }
+        switch state {
+        case .ready:
+          if self.streamsOpened { return }
+          self.streamsOpened = true
+          PixivQuicClient.log.info(
+            "QUIC ready \(self.directIP, privacy: .public) sni \(serverName, privacy: .public)")
+          self.openModernStreams(connection, gen: gen)
+        case .waiting(let error):
+          // 连接已经 ready 之后，系统仍可能报一次 POSIX 50。请求本身可以成功，不把它当成失败。
+          PixivQuicClient.log.debug(
+            "QUIC waiting \(String(describing: error), privacy: .public)")
+        case .failed(let error):
+          self.complete(outcome: .failed("QUIC connection failed: \(error)"), payload: nil)
+        case .cancelled:
+          self.complete(outcome: .cancelled, payload: nil)
+        default:
+          break
+        }
+      }
+    }
+    _ = connection.start()
+    Task {
+      do {
+        try await connection.inboundStreams { stream in
+          do {
+            while true {
+              let message = try await stream.receive(atLeast: 1, atMost: 64 * 1024)
+              if message.metadata.endOfStream { return }
+            }
+          } catch {
+            return
+          }
+        }
+      } catch {
+        return
+      }
+    }
+  }
+
+  @available(iOS 26.0, *)
+  private func openModernStreams(_ connection: NetworkConnection<QUIC>, gen: Int) {
+    let payload: Data
+    do {
+      payload = try encodeRequest()
+    } catch {
+      complete(outcome: .failed((error as? H3Failure)?.message ?? error.localizedDescription), payload: nil)
+      return
+    }
+    Task {
+      do {
+        let control = try await connection.openStream(directionality: .unidirectional)
+        let encoder = try await connection.openStream(directionality: .unidirectional)
+        let decoder = try await connection.openStream(directionality: .unidirectional)
+        try await control.send(Data([0x00, 0x04, 0x00]))
+        try await encoder.send(Data([0x02]))
+        try await decoder.send(Data([0x03]))
+        let request = try await connection.openStream(directionality: .bidirectional)
+        try await request.send(payload, endOfStream: true)
+        try await self.receiveModern(request, gen: gen)
+      } catch {
+        self.queue.async {
+          guard self.generation == gen, !self.stopped else { return }
+          self.complete(outcome: .failed("QUIC stream failed: \(error)"), payload: nil)
+        }
+      }
+    }
+  }
+
+  @available(iOS 26.0, *)
+  private func receiveModern(_ request: QUIC.Stream<QUICStream>, gen: Int) async throws {
+    while true {
+      let message = try await request.receive(atLeast: 1, atMost: 64 * 1024)
+      let data = message.content
+      let ended = message.metadata.endOfStream
+      try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+        self.queue.async {
+          guard self.generation == gen, !self.stopped else {
+            continuation.resume()
+            return
+          }
+          if !data.isEmpty {
+            self.inbound.append(data)
+            do {
+              try self.consumeFrames()
+            } catch {
+              continuation.resume(throwing: error)
+              return
+            }
+          }
+          if ended {
+            self.finishStream()
+          }
+          continuation.resume()
+        }
+      }
+      if ended { return }
+    }
   }
 
   private func openStreams(gen: Int) {
@@ -272,15 +445,11 @@ private final class PixivH3Call {
     guard let group else {
       throw H3Failure(message: "QUIC connection is gone")
     }
-    let connection: NWConnection?
-    if unidirectional {
-      let options = NWProtocolQUIC.Options(alpn: ["h3"])
-      options.direction = .unidirectional
-      connection = group.extract(connectionTo: nil, using: options)
-    } else {
-      connection = group.extract()
-    }
-    guard let connection else {
+    // 必须带上和连接相同的 ALPN。空的 Options 无法加入已建立的 QUIC 协议栈，
+    // 系统会报 could not find protocol to join，对外就是 POSIX 50。
+    let options = NWProtocolQUIC.Options(alpn: ["h3"])
+    options.direction = unidirectional ? .unidirectional : .bidirectional
+    guard let connection = group.extract(connectionTo: nil, using: options) else {
       throw H3Failure(message: "Failed to open a QUIC stream")
     }
     return connection
@@ -511,6 +680,9 @@ private final class PixivH3Call {
       connection.cancel()
     }
     oldGroup?.cancel()
+    closeModern?()
+    closeModern = nil
+    retainedModern = nil
     resetParser()
   }
 

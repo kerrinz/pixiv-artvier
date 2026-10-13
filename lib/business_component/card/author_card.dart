@@ -34,7 +34,8 @@ class AuthorCardWidget extends StatelessWidget {
           child: InkWell(
             onTap: () {
               Navigator.of(context).pushNamed(RouteNames.userDetail.name,
-                  arguments: PreloadUserLeastInfo(user.id.toString(), user.name, user.profileImageUrls.medium));
+                  arguments: PreloadUserLeastInfo(user.id.toString(), user.name,
+                      user.profileImageUrls.medium));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -47,8 +48,10 @@ class AuthorCardWidget extends StatelessWidget {
                     child: ClipOval(
                       child: EnhanceNetworkImage(
                         image: ExtendedNetworkImageProvider(
-                          HttpHostOverrides().pxImgUrl(user.profileImageUrls.medium),
-                          headers: HttpHostOverrides().pximgHeaders,
+                          HttpHostOverrides()
+                              .pxImgUrl(user.profileImageUrls.medium),
+                          headers: HttpHostOverrides()
+                              .imageHeaders(user.profileImageUrls.medium),
                         ),
                         fit: BoxFit.cover,
                         width: 46,
@@ -67,7 +70,10 @@ class AuthorCardWidget extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 6),
                           child: Text(
                             user.name,
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: colorScheme.primary),
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.primary),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -75,8 +81,21 @@ class AuthorCardWidget extends StatelessWidget {
                         if (createDate != null)
                           // 发布时间
                           Text(
-                            formatDate(createDate!, [yyyy, '-', mm, '-', dd, ' ', HH, ':', mm, ':', ss]),
-                            style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
+                            formatDate(createDate!, [
+                              yyyy,
+                              '-',
+                              mm,
+                              '-',
+                              dd,
+                              ' ',
+                              HH,
+                              ':',
+                              mm,
+                              ':',
+                              ss
+                            ]),
+                            style: TextStyle(
+                                color: Colors.grey.shade500, fontSize: 13),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -86,7 +105,9 @@ class AuthorCardWidget extends StatelessWidget {
                   // 关注或已关注的按钮
                   UserFollowButton(
                     userId: user.id.toString(),
-                    followState: user.isFollowed ?? false ? UserFollowState.followed : UserFollowState.notFollow,
+                    followState: user.isFollowed ?? false
+                        ? UserFollowState.followed
+                        : UserFollowState.notFollow,
                   ),
                 ],
               ),

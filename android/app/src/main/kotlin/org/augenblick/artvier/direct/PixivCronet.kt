@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
 
 /**
- * Pixiv API / OAuth 直连：Cronet QUIC（HTTP/3）。
+ * Pixiv API / OAuth / Pixivision 直连：Cronet QUIC（HTTP/3）。
  *
  * TCP+TLS 握手里只要出现 *.pixiv.net SNI 就会被 RST。Cronet 按 QUIC hint
  * 直接走 UDP，并用 HostResolverRules 把域名钉到 Cloudflare IP，绕开被污染的 DNS。
@@ -40,6 +40,7 @@ object PixivCronet {
         "app-api.pixiv.net",
         "oauth.secure.pixiv.net",
         "www.pixiv.net",
+        "www.pixivision.net",
     )
 
     private val skippedRequestHeaders = setOf(
@@ -99,7 +100,8 @@ object PixivCronet {
             val cacheDir = java.io.File(context.cacheDir, "cronet").apply { mkdirs() }
             val rules = "MAP app-api.pixiv.net $CF_IP_PRIMARY," +
                 " MAP oauth.secure.pixiv.net $CF_IP_PRIMARY," +
-                " MAP www.pixiv.net $CF_IP_PRIMARY"
+                " MAP www.pixiv.net $CF_IP_PRIMARY," +
+                " MAP www.pixivision.net $CF_IP_PRIMARY"
             val experimental = JSONObject()
                 .put("HostResolverRules", JSONObject().put("host_resolver_rules", rules))
                 .toString()
@@ -110,6 +112,7 @@ object PixivCronet {
                 .addQuicHint("app-api.pixiv.net", 443, 443)
                 .addQuicHint("oauth.secure.pixiv.net", 443, 443)
                 .addQuicHint("www.pixiv.net", 443, 443)
+                .addQuicHint("www.pixivision.net", 443, 443)
                 .setExperimentalOptions(experimental)
                 .build()
             engine = built
