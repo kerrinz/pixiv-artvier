@@ -19,18 +19,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class NovelSeriesDetailPage extends BaseStatefulPage {
   final NovelSeriesDetailPagePageArguments arguments;
 
-  const NovelSeriesDetailPage(Object arg, {super.key}) : arguments = arg as NovelSeriesDetailPagePageArguments;
+  const NovelSeriesDetailPage(Object arg, {super.key})
+      : arguments = arg as NovelSeriesDetailPagePageArguments;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => __NovelSeriesDetailPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      __NovelSeriesDetailPageState();
 }
 
-class __NovelSeriesDetailPageState extends BasePageState<NovelSeriesDetailPage> {
+class __NovelSeriesDetailPageState
+    extends BasePageState<NovelSeriesDetailPage> {
   static const double _bannerHeight = 200;
 
-  double get _endAppBarBackgroundOffset => _bannerHeight - kToolbarHeight - MediaQuery.of(context).padding.top;
+  double get _endAppBarBackgroundOffset =>
+      _bannerHeight - kToolbarHeight - MediaQuery.of(context).padding.top;
 
-  double get _startAppBarBackgroundOffset => _endAppBarBackgroundOffset - _deltaAppBarBackgroundOffset;
+  double get _startAppBarBackgroundOffset =>
+      _endAppBarBackgroundOffset - _deltaAppBarBackgroundOffset;
 
   static const double _deltaAppBarBackgroundOffset = 30;
 
@@ -60,7 +65,9 @@ class __NovelSeriesDetailPageState extends BasePageState<NovelSeriesDetailPage> 
         body: ExtendedNestedScrollView(
           onlyOneScrollInBody: true,
           pinnedHeaderSliverHeightBuilder: () {
-            return MediaQuery.of(context).padding.top + kToolbarHeight - _radius;
+            return MediaQuery.of(context).padding.top +
+                kToolbarHeight -
+                _radius;
           },
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
@@ -74,37 +81,49 @@ class __NovelSeriesDetailPageState extends BasePageState<NovelSeriesDetailPage> 
           body: DecoratedBox(
             decoration: BoxDecoration(
               color: colorScheme.surface,
-              borderRadius: const BorderRadius.only(topRight: Radius.circular(12.0), topLeft: Radius.circular(12.0)),
+              borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(12.0),
+                  topLeft: Radius.circular(12.0)),
             ),
             child: Consumer(builder: (context, ref, child) {
-              return ref.watch(novelSeriesDetailProvider(widget.arguments.id.toString())).when(
+              return ref
+                  .watch(
+                      novelSeriesDetailProvider(widget.arguments.id.toString()))
+                  .when(
                     data: (data) => CustomScrollView(
                       slivers: [
                         // 系列信息
                         SliverPadding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 10),
                           sliver: SliverToBoxAdapter(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   data.novelSeriesDetail.title,
-                                  style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                                  style: textTheme.titleMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4.0),
                                   child: MyBadge(
                                     color: const Color(0xfffeaf0f),
-                                    borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(4)),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 4),
                                     child: Text(l10n.series,
-                                        style: textTheme.labelSmall?.copyWith(color: Colors.white, height: 1)),
+                                        style: textTheme.labelSmall?.copyWith(
+                                            color: Colors.white, height: 1)),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: Text(data.novelSeriesDetail.caption,
-                                      style: textTheme.bodySmall?.copyWith(height: 1.4)),
+                                      style: textTheme.bodySmall
+                                          ?.copyWith(height: 1.4)),
                                 ),
                               ],
                             ),
@@ -120,10 +139,12 @@ class __NovelSeriesDetailPageState extends BasePageState<NovelSeriesDetailPage> 
                           ),
                         ),
                         SliverPadding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 4),
                           sliver: SliverToBoxAdapter(
                             child: SeriesWatchButton(
-                              seriesIsWatched: data.novelSeriesDetail.watchlistAdded,
+                              seriesIsWatched:
+                                  data.novelSeriesDetail.watchlistAdded,
                               seriesId: data.novelSeriesDetail.id.toString(),
                               worksType: WorksType.novel,
                             ),
@@ -131,29 +152,39 @@ class __NovelSeriesDetailPageState extends BasePageState<NovelSeriesDetailPage> 
                         ),
                         SliverToBoxAdapter(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            child: Divider(color: colorScheme.outline.withAlpha(100)),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: Divider(
+                                color: colorScheme.outline.withAlpha(100)),
                           ),
                         ),
                         SliverPadding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 4),
                           sliver: SliverToBoxAdapter(
-                            child: Text(l10n.seriesTotals(data.novelSeriesDetail.contentCount)),
+                            child: Text(l10n.seriesTotals(
+                                data.novelSeriesDetail.contentCount)),
                           ),
                         ),
                         SliverPadding(
                           padding: const EdgeInsets.only(top: 0),
                           sliver: SliverNovelListView(
                             novelList: data.novels,
-                            onLazyload: () async =>
-                                ref.read(novelSeriesDetailProvider(widget.arguments.id.toString()).notifier).next(),
+                            onLazyload: () async => ref
+                                .read(novelSeriesDetailProvider(
+                                        widget.arguments.id.toString())
+                                    .notifier)
+                                .next(),
                           ),
                         ),
                       ],
                     ),
                     error: (obj, e) => RequestLoadingFailed(
-                      onRetry: () =>
-                          ref.read(novelSeriesDetailProvider(widget.arguments.id.toString()).notifier).reload(),
+                      onRetry: () => ref
+                          .read(novelSeriesDetailProvider(
+                                  widget.arguments.id.toString())
+                              .notifier)
+                          .reload(),
                     ),
                     loading: () => const RequestLoading(),
                   );
@@ -166,23 +197,30 @@ class __NovelSeriesDetailPageState extends BasePageState<NovelSeriesDetailPage> 
 
   // Banner
   Widget _bannerWidget() {
-    final data = ref.watch(novelSeriesDetailProvider(widget.arguments.id.toString())).valueOrNull;
+    final data = ref
+        .watch(novelSeriesDetailProvider(widget.arguments.id.toString()))
+        .valueOrNull;
     return Stack(
       children: [
-        if (widget.arguments.url != null || data?.novelSeriesFirstNovel.imageUrls.medium != null)
+        if (widget.arguments.url != null ||
+            data?.novelSeriesFirstNovel.imageUrls.medium != null)
           EnhanceNetworkImage(
             width: double.infinity,
             height: double.infinity,
             fit: BoxFit.cover,
             image: ExtendedNetworkImageProvider(
-              HttpHostOverrides().pxImgUrl(widget.arguments.url ?? data!.novelSeriesFirstNovel.imageUrls.medium),
-              headers: HttpHostOverrides().pximgHeaders,
+              HttpHostOverrides().pxImgUrl(widget.arguments.url ??
+                  data!.novelSeriesFirstNovel.imageUrls.medium),
+              headers: HttpHostOverrides().imageHeaders(widget.arguments.url ??
+                  data!.novelSeriesFirstNovel.imageUrls.medium),
               cache: true,
             ),
           )
         else
           DecoratedBox(decoration: BoxDecoration(color: colorScheme.surface)),
-        const Positioned.fill(child: DecoratedBox(decoration: BoxDecoration(color: Colors.black12))),
+        const Positioned.fill(
+            child:
+                DecoratedBox(decoration: BoxDecoration(color: Colors.black12))),
       ],
     );
   }
@@ -195,23 +233,29 @@ class __NovelSeriesDetailPageState extends BasePageState<NovelSeriesDetailPage> 
     if (offset == 0) {
       bgOpacity = 0;
     } else if (offset <= _endAppBarBackgroundOffset) {
-      bgOpacity = (offset - _startAppBarBackgroundOffset) / _deltaAppBarBackgroundOffset;
+      bgOpacity = (offset - _startAppBarBackgroundOffset) /
+          _deltaAppBarBackgroundOffset;
     } else {
       bgOpacity = 1;
     }
     if (offset >= _startAppBarTitleOffset) {
-      titleOpacity = (offset - _startAppBarTitleOffset) / _deltaAppBarTitleOffset;
+      titleOpacity =
+          (offset - _startAppBarTitleOffset) / _deltaAppBarTitleOffset;
       if (titleOpacity > 1) titleOpacity = 1;
     } else {
       titleOpacity = 0;
     }
     double reverseOpacity = 1 - bgOpacity; // AppBar背景色透明度的反向透明度
-    Color buttonBackground = const Color(0x55000000).withAlpha((85 * reverseOpacity).toInt()); // back和action按钮的背景色
-    int c = Theme.of(context).brightness == Brightness.light ? (255 * reverseOpacity).toInt() : 240;
+    Color buttonBackground = const Color(0x55000000)
+        .withAlpha((85 * reverseOpacity).toInt()); // back和action按钮的背景色
+    int c = Theme.of(context).brightness == Brightness.light
+        ? (255 * reverseOpacity).toInt()
+        : 240;
     Color buttonForeground = Color.fromARGB(255, c, c, c);
     return AppBar(
       toolbarHeight: kToolbarHeight,
-      backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: bgOpacity),
+      backgroundColor:
+          Theme.of(context).colorScheme.surface.withValues(alpha: bgOpacity),
       leading: BlurButton(
         onPressed: () {
           Navigator.of(context).pop(-1);
@@ -219,7 +263,8 @@ class __NovelSeriesDetailPageState extends BasePageState<NovelSeriesDetailPage> 
         borderRadius: const BorderRadius.all(Radius.circular(18.0)),
         padding: const EdgeInsets.all(6.0),
         background: buttonBackground,
-        child: Icon(Icons.arrow_back_ios_rounded, size: 20, color: buttonForeground),
+        child: Icon(Icons.arrow_back_ios_rounded,
+            size: 20, color: buttonForeground),
       ),
       titleSpacing: 0,
       titleTextStyle: TextStyle(

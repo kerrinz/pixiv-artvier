@@ -23,7 +23,8 @@ class HomeIllustTabPage extends BaseStatefulPage {
   const HomeIllustTabPage({super.key, this.scrollController});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => HomeIllustTabPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      HomeIllustTabPageState();
 }
 
 class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
@@ -34,29 +35,37 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
   bool get wantKeepAlive => true;
 
   /// 首页的加载状态
-  final homeIllustStateProvider = StateNotifierProvider<HomeIllustStateNotifier, PageState>((ref) {
+  final homeIllustStateProvider =
+      StateNotifierProvider<HomeIllustStateNotifier, PageState>((ref) {
     // // 监听全局收藏状态的变化，更新列表
-    ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
+    ref.listen<CollectStateChangedArguments?>(
+        globalArtworkCollectionStateChangedProvider, (previous, next) {
       if (next != null) {
         // Recommended
         var list = ref.read(homeIllustRecommendedProvider);
-        int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
+        int index = list
+            .lastIndexWhere((element) => element.id.toString() == next.worksId);
         if (index >= 0 && index < list.length) {
           var newItem = list[index]
             ..isBookmarked = next.state == CollectState.collected
             ..collectState = next.state;
-          ref.read(homeIllustRecommendedProvider.notifier).update(list..[index] = newItem);
+          ref
+              .read(homeIllustRecommendedProvider.notifier)
+              .update(list..[index] = newItem);
         }
       }
       if (next != null) {
         // Ranking
         final list = ref.read(homeIllustRankingProvider);
-        int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
+        int index = list
+            .lastIndexWhere((element) => element.id.toString() == next.worksId);
         if (index >= 0 && index < list.length) {
           var newItem = list[index]
             ..isBookmarked = next.state == CollectState.collected
             ..collectState = next.state;
-          ref.read(homeIllustRankingProvider.notifier).update((state) => list..[index] = newItem);
+          ref
+              .read(homeIllustRankingProvider.notifier)
+              .update((state) => list..[index] = newItem);
         }
       }
     });
@@ -67,10 +76,13 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
   Widget build(BuildContext context) {
     super.build(context);
     return RefreshIndicator(
-      onRefresh: () async => ref.read(homeIllustStateProvider.notifier).refresh(),
+      onRefresh: () async =>
+          ref.read(homeIllustStateProvider.notifier).refresh(),
       child: Consumer(builder: (_, ref, __) {
         PageState pageState = ref.watch(homeIllustStateProvider);
-        if (pageState != PageState.complete && pageState != PageState.refreshing && pageState != PageState.empty) {
+        if (pageState != PageState.complete &&
+            pageState != PageState.refreshing &&
+            pageState != PageState.empty) {
           return Center(
             child: SingleChildScrollView(
               controller: widget.scrollController,
@@ -81,7 +93,9 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
                       return const RequestLoading();
                     default:
                       return RequestLoadingFailed(
-                          onRetry: () async => ref.read(homeIllustStateProvider.notifier).init());
+                          onRetry: () async => ref
+                              .read(homeIllustStateProvider.notifier)
+                              .init());
                   }
                 },
               ),
@@ -122,14 +136,16 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
                           ),
                           Text(
                             " ${l10n.illustRankings}",
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(RouteNames.ranking.name, arguments: WorksType.illust);
+                        Navigator.of(context).pushNamed(RouteNames.ranking.name,
+                            arguments: WorksType.illust);
                       },
                       // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
                       child: Row(
@@ -170,7 +186,8 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
                           ),
                           Text(
                             " ${l10n.recommended}",
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
@@ -185,7 +202,8 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
                 var data = ref.watch(homeIllustRecommendedProvider);
                 return SliverIllustWaterfallGridView(
                   artworkList: data,
-                  onLazyload: ref.read(homeIllustRecommendedProvider.notifier).next,
+                  onLazyload:
+                      ref.read(homeIllustRecommendedProvider.notifier).next,
                 );
               },
             ),
@@ -196,8 +214,11 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
   }
 
   // 构建排行榜卡片列表（横向
-  Widget buildRankingCardList(BuildContext context, List<CommonIllust> rankingList) {
-    double height = min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height) / 2.5;
+  Widget buildRankingCardList(
+      BuildContext context, List<CommonIllust> rankingList) {
+    double height = min(MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height) /
+        2.5;
     return SliverToBoxAdapter(
       child: SizedBox(
         height: height,
@@ -222,8 +243,10 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
                   children: [
                     EnhanceNetworkImage(
                       image: ExtendedNetworkImageProvider(
-                        HttpHostOverrides().pxImgUrl(rankingList[index].imageUrls.squareMedium),
-                        headers: HttpHostOverrides().pximgHeaders,
+                        HttpHostOverrides().pxImgUrl(
+                            rankingList[index].imageUrls.squareMedium),
+                        headers: HttpHostOverrides().imageHeaders(
+                            rankingList[index].imageUrls.squareMedium),
                       ),
                     ),
                     // 阴影
@@ -234,11 +257,14 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
                       child: Container(
                         height: 60,
                         decoration: const BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                            Color(0x00000000),
-                            Color(0x33000000),
-                            Color(0x6C000000),
-                          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                          gradient: LinearGradient(
+                              colors: [
+                                Color(0x00000000),
+                                Color(0x33000000),
+                                Color(0x6C000000),
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter),
                         ),
                       ),
                     ),
@@ -255,7 +281,10 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
                               padding: const EdgeInsets.only(bottom: 4),
                               child: Text(
                                 rankingList[index].title,
-                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
                               ),
                             ),
                             Row(
@@ -265,8 +294,16 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
                                 ClipOval(
                                   child: EnhanceNetworkImage(
                                     image: ExtendedNetworkImageProvider(
-                                      HttpHostOverrides().pxImgUrl(rankingList[index].user.profileImageUrls.medium),
-                                      headers: HttpHostOverrides().pximgHeaders,
+                                      HttpHostOverrides().pxImgUrl(
+                                          rankingList[index]
+                                              .user
+                                              .profileImageUrls
+                                              .medium),
+                                      headers: HttpHostOverrides().imageHeaders(
+                                          rankingList[index]
+                                              .user
+                                              .profileImageUrls
+                                              .medium),
                                     ),
                                     fit: BoxFit.cover,
                                     width: 20,
@@ -277,8 +314,10 @@ class HomeIllustTabPageState extends BasePageState<HomeIllustTabPage>
                                   padding: const EdgeInsets.only(left: 4),
                                   child: Text(
                                     rankingList[index].user.name,
-                                    style:
-                                        const TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.white),
+                                    style: const TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white),
                                   ),
                                 ),
                               ],

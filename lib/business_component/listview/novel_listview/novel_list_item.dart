@@ -42,10 +42,12 @@ class NovelWaterfallItem extends ConsumerStatefulWidget {
   final void Function()? onLongPressCollect;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _NovelWaterfallItemState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _NovelWaterfallItemState();
 }
 
-class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _NovelListViewItemLogic {
+class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem>
+    with _NovelListViewItemLogic {
   @override
   CollectState get collectState => widget.collectState;
 
@@ -92,36 +94,48 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 4.0),
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                    if (widget.novel.series.title != null)
-                                      // 小说系列的信息栏
-                                      _seriesInfo(),
-                                    // 小说标题
-                                    Text(
-                                      widget.novel.title,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                    ),
-                                    if (widget.novel.series.title == null)
-                                      // 作者
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 2),
-                                        child: Row(
-                                          children: [
-                                            const Icon(Icons.person_2_rounded, size: 16),
-                                            Padding(
-                                              padding: const EdgeInsets.only(bottom: 2.0),
-                                              child: Text(
-                                                widget.novel.user.name,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(fontSize: 12),
-                                              ),
-                                            ),
-                                          ],
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        if (widget.novel.series.title != null)
+                                          // 小说系列的信息栏
+                                          _seriesInfo(),
+                                        // 小说标题
+                                        Text(
+                                          widget.novel.title,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15),
                                         ),
-                                      ),
-                                  ]),
+                                        if (widget.novel.series.title == null)
+                                          // 作者
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 2),
+                                            child: Row(
+                                              children: [
+                                                const Icon(
+                                                    Icons.person_2_rounded,
+                                                    size: 16),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 2.0),
+                                                  child: Text(
+                                                    widget.novel.user.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontSize: 12),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                      ]),
                                 ),
                               ),
                               _collectButton(),
@@ -163,14 +177,15 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
   Widget _novelCover(double width, double height) {
     // 根据画质设置，选用合适的图片
     final quality = GlobalSettings.instance.listPreviewQuality;
-    final imageUrl =
-        quality == ListPreviewQuality.medium ? widget.novel.imageUrls.medium : widget.novel.imageUrls.large;
+    final imageUrl = quality == ListPreviewQuality.medium
+        ? widget.novel.imageUrls.medium
+        : widget.novel.imageUrls.large;
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(4)),
       child: EnhanceNetworkImage(
         image: ExtendedNetworkImageProvider(
           HttpHostOverrides().pxImgUrl(imageUrl),
-          headers: HttpHostOverrides().pximgHeaders,
+          headers: HttpHostOverrides().imageHeaders(imageUrl),
           cache: true,
         ),
         fit: BoxFit.cover,
@@ -186,7 +201,8 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
       children: [
         Text(
           LocalizationIntl.of(context).series,
-          style: const TextStyle(color: Colors.amber, fontSize: 12, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              color: Colors.amber, fontSize: 12, fontWeight: FontWeight.bold),
         ),
         Expanded(
           flex: 1,
@@ -225,7 +241,10 @@ class _NovelWaterfallItemState extends ConsumerState<NovelWaterfallItem> with _N
             children: [
               TextSpan(
                 text: sb.toString(),
-                style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface.withAlpha(200)),
+                style: TextStyle(
+                    fontSize: 12,
+                    color:
+                        Theme.of(context).colorScheme.onSurface.withAlpha(200)),
               ),
             ],
           ),
@@ -299,15 +318,18 @@ mixin _NovelListViewItemLogic on ConsumerState<NovelWaterfallItem> {
   @override
   WidgetRef get ref;
 
-  late final collectStateProvider = StateNotifierProvider.autoDispose<CollectNotifier, CollectState>((ref) {
+  late final collectStateProvider =
+      StateNotifierProvider.autoDispose<CollectNotifier, CollectState>((ref) {
     // 监听全局小说收藏状态通知器的变化
-    ref.listen<CollectStateChangedArguments?>(globalNovelCollectionStateChangedProvider, (previous, next) {
+    ref.listen<CollectStateChangedArguments?>(
+        globalNovelCollectionStateChangedProvider, (previous, next) {
       if (next != null && next.worksId == novelId) {
         ref.notifier.setCollectState(next.state);
       }
     });
 
-    return CollectNotifier(collectState, ref: ref, worksId: novelId, worksType: WorksType.novel);
+    return CollectNotifier(collectState,
+        ref: ref, worksId: novelId, worksType: WorksType.novel);
   });
 
   void handleTapCollect() {
@@ -320,9 +342,11 @@ mixin _NovelListViewItemLogic on ConsumerState<NovelWaterfallItem> {
           .read(collectStateProvider.notifier)
           .collect()
           .then((result) => Fluttertoast.showToast(
-              msg: result ? l10n.addCollectSucceed : l10n.addCollectFailed, toastLength: Toast.LENGTH_LONG))
+              msg: result ? l10n.addCollectSucceed : l10n.addCollectFailed,
+              toastLength: Toast.LENGTH_LONG))
           .catchError((_) => Fluttertoast.showToast(
-              msg: "${l10n.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG));
+              msg: "${l10n.addCollectFailed}, (Maybe already collected)",
+              toastLength: Toast.LENGTH_LONG));
     }
     if (state == CollectState.collected) {
       // 当前已收藏，移除收藏
@@ -330,9 +354,14 @@ mixin _NovelListViewItemLogic on ConsumerState<NovelWaterfallItem> {
           .read(collectStateProvider.notifier)
           .uncollect()
           .then((result) => Fluttertoast.showToast(
-              msg: result ? l10n.removeCollectionSucceed : l10n.removeCollectionFailed, toastLength: Toast.LENGTH_LONG))
+              msg: result
+                  ? l10n.removeCollectionSucceed
+                  : l10n.removeCollectionFailed,
+              toastLength: Toast.LENGTH_LONG))
           .catchError((_) => Fluttertoast.showToast(
-              msg: "${l10n.removeCollectionFailed}, (Maybe already un-collected)", toastLength: Toast.LENGTH_LONG));
+              msg:
+                  "${l10n.removeCollectionFailed}, (Maybe already un-collected)",
+              toastLength: Toast.LENGTH_LONG));
     }
   }
 
@@ -360,9 +389,11 @@ mixin _NovelListViewItemLogic on ConsumerState<NovelWaterfallItem> {
             .read(collectStateProvider.notifier)
             .collect(args: value)
             .then((result) => Fluttertoast.showToast(
-                msg: result ? l10n.addCollectSucceed : l10n.addCollectFailed, toastLength: Toast.LENGTH_LONG))
+                msg: result ? l10n.addCollectSucceed : l10n.addCollectFailed,
+                toastLength: Toast.LENGTH_LONG))
             .catchError((_) => Fluttertoast.showToast(
-                msg: "${l10n.addCollectFailed}, (Maybe already collected)", toastLength: Toast.LENGTH_LONG));
+                msg: "${l10n.addCollectFailed}, (Maybe already collected)",
+                toastLength: Toast.LENGTH_LONG));
       }
     });
   }

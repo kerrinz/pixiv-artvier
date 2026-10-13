@@ -71,10 +71,12 @@ class IllustWaterfallItem extends ConsumerStatefulWidget {
   final void Function()? onLongPressCollect;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _IllustWaterfallItemState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _IllustWaterfallItemState();
 }
 
-class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with IllustWaterfallItemLogic {
+class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem>
+    with IllustWaterfallItemLogic {
   @override
   CollectState get collectState => widget.collectState;
 
@@ -100,19 +102,24 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
   Widget build(BuildContext context) {
     final rightTopBadges = [
       if (widget.isAI) const WorksBadgeArgument(text: "AI"),
-      if (widget.pageCount > 1) WorksBadgeArgument(text: widget.pageCount.toString()),
+      if (widget.pageCount > 1)
+        WorksBadgeArgument(text: widget.pageCount.toString()),
       if (widget.type == "ugoira") const WorksBadgeArgument(text: "Ugoira"),
       if (widget.rightTopBadges != null) ...widget.rightTopBadges!
     ];
     final leftTopBadges = [
       if (widget.xAgeRestrict == 1)
-        const WorksBadgeArgument(text: "R18", backgroundColor: Color(0xFFFF3855), textColor: Colors.white),
+        const WorksBadgeArgument(
+            text: "R18",
+            backgroundColor: Color(0xFFFF3855),
+            textColor: Colors.white),
       if (widget.leftTopBadges != null) ...widget.leftTopBadges!
     ];
     // LayoutBuilder能获取到父组件的最大支撑宽度
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        double height = (widget.imageHeight.toDouble() * constraints.maxWidth) / widget.imageWidth;
+        double height = (widget.imageHeight.toDouble() * constraints.maxWidth) /
+            widget.imageWidth;
         // 最高高度（太高了就阉割掉）
         double maxConstraintHeight = constraints.maxWidth * 3;
         return Stack(
@@ -126,12 +133,16 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                   children: [
                     Container(
                       width: double.infinity,
-                      height: height < maxConstraintHeight ? height : maxConstraintHeight,
+                      height: height < maxConstraintHeight
+                          ? height
+                          : maxConstraintHeight,
                       decoration: BoxDecoration(
                         color: colorScheme.surface,
-                        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8.0)),
                         border: Border.all(
-                            strokeAlign: BorderSide.strokeAlignOutside, color: colorScheme.outline.withAlpha(50)),
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                            color: colorScheme.outline.withAlpha(50)),
                       ),
                       clipBehavior: Clip.antiAlias,
                       child: EnhanceNetworkImage(
@@ -141,7 +152,8 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                         image: ExtendedNetworkImageProvider(
                           HttpHostOverrides().pxImgUrl(widget.imageUrl),
                           cache: true,
-                          headers: HttpHostOverrides().pximgHeaders,
+                          headers:
+                              HttpHostOverrides().imageHeaders(widget.imageUrl),
                         ),
                       ),
                     ),
@@ -167,7 +179,8 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                     widget.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                 ),
                 // 作者
@@ -178,7 +191,8 @@ class _IllustWaterfallItemState extends ConsumerState<IllustWaterfallItem> with 
                         StringUtil.breakChars(widget.author),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                     ),
                     const SizedBox(width: 48, height: 30)

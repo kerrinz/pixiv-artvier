@@ -58,7 +58,7 @@ class MuteUserItem extends BasePage {
                       child: EnhanceNetworkImage(
                         image: ExtendedNetworkImageProvider(
                           HttpHostOverrides().pxImgUrl(avatar),
-                          headers: HttpHostOverrides().pximgHeaders,
+                          headers: HttpHostOverrides().imageHeaders(avatar),
                           cache: true,
                         ),
                         width: 40,
@@ -83,22 +83,36 @@ class MuteUserItem extends BasePage {
                           pressedOpacity: 1,
                           alignment: Alignment.center,
                           padding: EdgeInsets.zero,
-                          color: isBlocked ? colorScheme(context).primary : colorScheme(context).surfaceBright,
+                          color: isBlocked
+                              ? colorScheme(context).primary
+                              : colorScheme(context).surfaceBright,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
                             decoration: BoxDecoration(
-                              border: !isBlocked ? Border.all(color: colorScheme(context).primary, width: 1) : null,
-                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                              border: !isBlocked
+                                  ? Border.all(
+                                      color: colorScheme(context).primary,
+                                      width: 1)
+                                  : null,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8.0)),
                             ),
                             child: SizedBox(
                               height: 16,
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 2.0),
                                 child: Text(
-                                  isBlocked ? l10n(context).unmute : l10n(context).mute,
-                                  style: textTheme(context).labelLarge?.copyWith(
-                                      height: 1,
-                                      color: isBlocked ? colorScheme(context).onPrimary : colorScheme(context).primary),
+                                  isBlocked
+                                      ? l10n(context).unmute
+                                      : l10n(context).mute,
+                                  style: textTheme(context)
+                                      .labelLarge
+                                      ?.copyWith(
+                                          height: 1,
+                                          color: isBlocked
+                                              ? colorScheme(context).onPrimary
+                                              : colorScheme(context).primary),
                                 ),
                               ),
                             ),

@@ -25,7 +25,8 @@ class HomeNovelTabPage extends BaseStatefulPage {
   const HomeNovelTabPage({super.key, this.scrollController});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => HomeNovelTabPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      HomeNovelTabPageState();
 }
 
 class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
@@ -38,29 +39,37 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
   bool get wantKeepAlive => keepAlive;
 
   /// 首页漫画的加载状态
-  final homeNovelStateProvider = StateNotifierProvider<HomeNovelStateNotifier, PageState>((ref) {
+  final homeNovelStateProvider =
+      StateNotifierProvider<HomeNovelStateNotifier, PageState>((ref) {
     // // 监听全局收藏状态的变化，更新列表
-    ref.listen<CollectStateChangedArguments?>(globalNovelCollectionStateChangedProvider, (previous, next) {
+    ref.listen<CollectStateChangedArguments?>(
+        globalNovelCollectionStateChangedProvider, (previous, next) {
       if (next != null) {
         // Recommended
         var list = ref.read(homeNovelRecommendedProvider);
-        int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
+        int index = list
+            .lastIndexWhere((element) => element.id.toString() == next.worksId);
         if (index >= 0 && index < list.length) {
           var newItem = list[index]
             ..isBookmarked = next.state == CollectState.collected
             ..collectState = next.state;
-          ref.read(homeNovelRecommendedProvider.notifier).update(list..[index] = newItem);
+          ref
+              .read(homeNovelRecommendedProvider.notifier)
+              .update(list..[index] = newItem);
         }
       }
       if (next != null) {
         // Ranking
         final list = ref.read(homeNovelRankingProvider);
-        int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
+        int index = list
+            .lastIndexWhere((element) => element.id.toString() == next.worksId);
         if (index >= 0 && index < list.length) {
           var newItem = list[index]
             ..isBookmarked = next.state == CollectState.collected
             ..collectState = next.state;
-          ref.read(homeNovelRankingProvider.notifier).update((state) => list..[index] = newItem);
+          ref
+              .read(homeNovelRankingProvider.notifier)
+              .update((state) => list..[index] = newItem);
         }
       }
     });
@@ -75,10 +84,13 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
       updateKeepAlive();
     });
     return RefreshIndicator(
-      onRefresh: () async => ref.read(homeNovelStateProvider.notifier).refresh(),
+      onRefresh: () async =>
+          ref.read(homeNovelStateProvider.notifier).refresh(),
       child: Consumer(builder: (_, ref, __) {
         PageState pageState = ref.watch(homeNovelStateProvider);
-        if (pageState != PageState.complete && pageState != PageState.refreshing && pageState != PageState.empty) {
+        if (pageState != PageState.complete &&
+            pageState != PageState.refreshing &&
+            pageState != PageState.empty) {
           return Center(
             child: SingleChildScrollView(
               controller: widget.scrollController,
@@ -89,7 +101,8 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                       return const RequestLoading();
                     default:
                       return RequestLoadingFailed(
-                          onRetry: () async => ref.read(homeNovelStateProvider.notifier).init());
+                          onRetry: () async =>
+                              ref.read(homeNovelStateProvider.notifier).init());
                   }
                 },
               ),
@@ -103,7 +116,9 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
             // 排行榜头部
             SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.only(left: 12, top: MediaQuery.of(context).padding.top + kToolbarHeight),
+                padding: EdgeInsets.only(
+                    left: 12,
+                    top: MediaQuery.of(context).padding.top + kToolbarHeight),
                 child: Flex(
                   direction: Axis.horizontal,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,14 +135,16 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                           ),
                           Text(
                             " ${l10n.novelRankings}",
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(RouteNames.ranking.name, arguments: WorksType.novel);
+                        Navigator.of(context).pushNamed(RouteNames.ranking.name,
+                            arguments: WorksType.novel);
                       },
                       // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
                       child: Row(
@@ -168,7 +185,8 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                           ),
                           Text(
                             " ${l10n.recommended}",
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
@@ -183,7 +201,8 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                 var data = ref.watch(homeNovelRecommendedProvider);
                 return SliverNovelListView(
                   novelList: data,
-                  onLazyload: ref.read(homeIllustRecommendedProvider.notifier).next,
+                  onLazyload:
+                      ref.read(homeIllustRecommendedProvider.notifier).next,
                 );
               },
             ),
@@ -194,8 +213,11 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
   }
 
   // 构建排行榜卡片列表（横向
-  Widget buildRankingCardList(BuildContext context, List<CommonNovel> rankingList) {
-    double width = min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height) / 2.5;
+  Widget buildRankingCardList(
+      BuildContext context, List<CommonNovel> rankingList) {
+    double width = min(MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height) /
+        2.5;
     return SliverToBoxAdapter(
       child: SizedBox(
         height: width * 1.3,
@@ -222,8 +244,10 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                       width: double.infinity,
                       height: double.infinity,
                       image: ExtendedNetworkImageProvider(
-                        HttpHostOverrides().pxImgUrl(rankingList[index].imageUrls.medium),
-                        headers: HttpHostOverrides().pximgHeaders,
+                        HttpHostOverrides()
+                            .pxImgUrl(rankingList[index].imageUrls.medium),
+                        headers: HttpHostOverrides()
+                            .imageHeaders(rankingList[index].imageUrls.medium),
                       ),
                     ),
                     // 阴影
@@ -234,11 +258,14 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                       child: Container(
                         height: width / 1.5,
                         decoration: const BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                            Color(0x00000000),
-                            Color.fromARGB(75, 0, 0, 0),
-                            Color.fromARGB(200, 0, 0, 0),
-                          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                          gradient: LinearGradient(
+                              colors: [
+                                Color(0x00000000),
+                                Color.fromARGB(75, 0, 0, 0),
+                                Color.fromARGB(200, 0, 0, 0),
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter),
                         ),
                       ),
                     ),
@@ -255,7 +282,10 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                               padding: const EdgeInsets.only(bottom: 4),
                               child: Text(
                                 rankingList[index].title,
-                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
                               ),
                             ),
                             Row(
@@ -265,8 +295,16 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                                 ClipOval(
                                   child: EnhanceNetworkImage(
                                     image: ExtendedNetworkImageProvider(
-                                      HttpHostOverrides().pxImgUrl(rankingList[index].user.profileImageUrls.medium),
-                                      headers: HttpHostOverrides().pximgHeaders,
+                                      HttpHostOverrides().pxImgUrl(
+                                          rankingList[index]
+                                              .user
+                                              .profileImageUrls
+                                              .medium),
+                                      headers: HttpHostOverrides().imageHeaders(
+                                          rankingList[index]
+                                              .user
+                                              .profileImageUrls
+                                              .medium),
                                     ),
                                     fit: BoxFit.cover,
                                     width: 20,
@@ -277,8 +315,10 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                                   padding: const EdgeInsets.only(left: 4),
                                   child: Text(
                                     rankingList[index].user.name,
-                                    style:
-                                        const TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.white),
+                                    style: const TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white),
                                   ),
                                 ),
                               ],

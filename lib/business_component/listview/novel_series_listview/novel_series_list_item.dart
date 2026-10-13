@@ -23,7 +23,8 @@ class ManagaSeriesListItem extends ConsumerStatefulWidget {
   final VoidCallback? onTap;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ManagaSeriesListItemState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ManagaSeriesListItemState();
 }
 
 class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
@@ -58,7 +59,8 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
               child: EnhanceNetworkImage(
                 image: ExtendedNetworkImageProvider(
                   HttpHostOverrides().pxImgUrl(widget.novelSeries.url),
-                  headers: HttpHostOverrides().pximgHeaders,
+                  headers:
+                      HttpHostOverrides().imageHeaders(widget.novelSeries.url),
                   cache: true,
                 ),
                 fit: BoxFit.cover,
@@ -84,23 +86,32 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
                           widget.novelSeries.title,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                          style: textTheme.titleSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
-                        Text(widget.novelSeries.user.name, style: textTheme.bodySmall?.copyWith(height: 2)),
+                        Text(widget.novelSeries.user.name,
+                            style: textTheme.bodySmall?.copyWith(height: 2)),
                       ]),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(l10n.seriesUpdateTo(widget.novelSeries.publishedContentCount),
-                            style: textTheme.bodySmall
-                                ?.copyWith(color: textTheme.bodySmall?.color?.withValues(alpha: 0.5), height: 1.5)),
+                        Text(
+                            l10n.seriesUpdateTo(
+                                widget.novelSeries.publishedContentCount),
+                            style: textTheme.bodySmall?.copyWith(
+                                color: textTheme.bodySmall?.color
+                                    ?.withValues(alpha: 0.5),
+                                height: 1.5)),
                         Text(
                           formatDate(
-                            widget.novelSeries.lastPublishedContentDatetime.toLocal(),
+                            widget.novelSeries.lastPublishedContentDatetime
+                                .toLocal(),
                             [yyyy, '-', mm, '-', dd, ' '],
                           ),
-                          style: textTheme.bodyMedium?.copyWith(color: textTheme.bodyMedium?.color?.withValues(alpha: 0.5)),
+                          style: textTheme.bodyMedium?.copyWith(
+                              color: textTheme.bodyMedium?.color
+                                  ?.withValues(alpha: 0.5)),
                         ),
                       ]),
                 ],
@@ -114,12 +125,14 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
             onPressed: () => Navigator.of(ref.context).pushNamed(
               RouteNames.novelDetail.name,
               arguments: NovelDetailPageArguments(
-                  novelId: widget.novelSeries.latestContentId.toString(), title: widget.novelSeries.title),
+                  novelId: widget.novelSeries.latestContentId.toString(),
+                  title: widget.novelSeries.title),
             ),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                border: Border.all(color: colorScheme.primary.withValues(alpha: 0.5)),
+                border: Border.all(
+                    color: colorScheme.primary.withValues(alpha: 0.5)),
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
                 // color: colorScheme.primary.withValues(alpha: 0.1),
               ),
@@ -136,8 +149,10 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
                   ),
                   Text(
                     l10n.seriesLatestChapter,
-                    style: textTheme.labelMedium
-                        ?.copyWith(color: colorScheme.primary, height: 1, fontWeight: FontWeight.w600),
+                    style: textTheme.labelMedium?.copyWith(
+                        color: colorScheme.primary,
+                        height: 1,
+                        fontWeight: FontWeight.w600),
                   ),
                 ],
               ),

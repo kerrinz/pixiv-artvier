@@ -22,7 +22,8 @@ class TrendingTagsGrid extends StatelessWidget {
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
       ),
-      itemBuilder: (BuildContext context, int index) => _buildItem(context, index),
+      itemBuilder: (BuildContext context, int index) =>
+          _buildItem(context, index),
     );
   }
 
@@ -38,7 +39,8 @@ class TrendingTagsGrid extends StatelessWidget {
           child: EnhanceNetworkImage(
             image: ExtendedNetworkImageProvider(
               HttpHostOverrides().pxImgUrl(item.illust.imageUrls.squareMedium),
-              headers: HttpHostOverrides().pximgHeaders,
+              headers: HttpHostOverrides()
+                  .imageHeaders(item.illust.imageUrls.squareMedium),
               cache: true,
             ),
             fit: BoxFit.cover,
@@ -68,7 +70,8 @@ class TrendingTagsGrid extends StatelessWidget {
               children: [
                 Text(
                   "#${item.tag}",
-                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
                 if (item.translatedName != null && item.translatedName != "")
@@ -88,7 +91,8 @@ class TrendingTagsGrid extends StatelessWidget {
                 splashFactory: NoSplash.splashFactory,
                 enableFeedback: false,
                 onTap: () {
-                  Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: item.tag);
+                  Navigator.of(context).pushNamed(RouteNames.searchResult.name,
+                      arguments: item.tag);
                 },
                 onLongPress: () {
                   HapticFeedback.mediumImpact();

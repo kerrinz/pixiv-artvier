@@ -52,7 +52,8 @@ class MangaGridItem extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MangaGridItemState();
 }
 
-class _MangaGridItemState extends ConsumerState<MangaGridItem> with MangaGridItemLogic {
+class _MangaGridItemState extends ConsumerState<MangaGridItem>
+    with MangaGridItemLogic {
   @override
   CollectState get collectState => widget.collectState;
 
@@ -79,7 +80,8 @@ class _MangaGridItemState extends ConsumerState<MangaGridItem> with MangaGridIte
     // LayoutBuilder能获取到父组件的最大支撑宽度
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        double height = (widget.imageHeight.toDouble() * constraints.maxWidth) / widget.imageWidth;
+        double height = (widget.imageHeight.toDouble() * constraints.maxWidth) /
+            widget.imageWidth;
         // 最高高度（太高了就阉割掉）
         double maxConstraintHeight = constraints.maxWidth * 3;
         return Stack(
@@ -93,12 +95,16 @@ class _MangaGridItemState extends ConsumerState<MangaGridItem> with MangaGridIte
                   children: [
                     Container(
                       width: double.infinity,
-                      height: height < maxConstraintHeight ? height : maxConstraintHeight,
+                      height: height < maxConstraintHeight
+                          ? height
+                          : maxConstraintHeight,
                       decoration: BoxDecoration(
                         color: colorScheme.surface,
-                        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8.0)),
                         border: Border.all(
-                            strokeAlign: BorderSide.strokeAlignOutside, color: colorScheme.outline.withAlpha(50)),
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                            color: colorScheme.outline.withAlpha(50)),
                       ),
                       clipBehavior: Clip.antiAlias,
                       child: EnhanceNetworkImage(
@@ -108,7 +114,8 @@ class _MangaGridItemState extends ConsumerState<MangaGridItem> with MangaGridIte
                         image: ExtendedNetworkImageProvider(
                           HttpHostOverrides().pxImgUrl(widget.imageUrl),
                           cache: true,
-                          headers: HttpHostOverrides().pximgHeaders,
+                          headers:
+                              HttpHostOverrides().imageHeaders(widget.imageUrl),
                         ),
                       ),
                     ),
@@ -118,14 +125,16 @@ class _MangaGridItemState extends ConsumerState<MangaGridItem> with MangaGridIte
                         right: 4,
                         bottom: 4,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 1),
                           decoration: const BoxDecoration(
                             color: Colors.black26,
                             borderRadius: BorderRadius.all(Radius.circular(4)),
                           ),
                           child: Text(
                             widget.badges!.join(','),
-                            style: textTheme.labelLarge?.copyWith(color: Colors.white),
+                            style: textTheme.labelLarge
+                                ?.copyWith(color: Colors.white),
                           ),
                         ),
                       )
@@ -138,7 +147,8 @@ class _MangaGridItemState extends ConsumerState<MangaGridItem> with MangaGridIte
                     widget.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                 ),
                 // 作者
@@ -149,7 +159,8 @@ class _MangaGridItemState extends ConsumerState<MangaGridItem> with MangaGridIte
                         StringUtil.breakChars(widget.author),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                     ),
                     const SizedBox(width: 48, height: 30)

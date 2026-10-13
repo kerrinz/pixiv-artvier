@@ -16,8 +16,8 @@ import 'package:artvier/api_app/api_illusts.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-final ugoiraIllustProvider =
-    StateNotifierProvider.autoDispose.family<UgoiraIllustNotifier, UgoiraImageState, String>((ref, illustId) {
+final ugoiraIllustProvider = StateNotifierProvider.autoDispose
+    .family<UgoiraIllustNotifier, UgoiraImageState, String>((ref, illustId) {
   var notifier = UgoiraIllustNotifier(
       UgoiraImageState(
         illustId: illustId,
@@ -37,7 +37,8 @@ class UgoiraIllustNotifier extends BaseStateNotifier<UgoiraImageState> {
 
   CancelToken cancelToken = CancelToken();
 
-  UgoiraIllustNotifier(super.state, {required super.ref, required this.illustId});
+  UgoiraIllustNotifier(super.state,
+      {required super.ref, required this.illustId});
 
   @override
   void dispose() {
@@ -67,10 +68,12 @@ class UgoiraIllustNotifier extends BaseStateNotifier<UgoiraImageState> {
     // 下载压缩包
     state = state.copyWith(loadingState: UgoiraImageLoadingState.downloading);
     if (ugoiraMetadata == null) {
-      var result = await ApiIllusts(requester).ugoiraMetadata(illustId, cancelToken: cancelToken);
+      var result = await ApiIllusts(requester)
+          .ugoiraMetadata(illustId, cancelToken: cancelToken);
       ugoiraMetadata = result.ugoiraMetadata;
     }
-    File zip = await downloadZip(HttpHostOverrides().pxImgUrl(ugoiraMetadata!.zipUrls.medium));
+    File zip = await downloadZip(
+        HttpHostOverrides().pxImgUrl(ugoiraMetadata!.zipUrls.medium));
     state = state.copyWith(progress: 0.98);
     // 解压
     state = state.copyWith(loadingState: UgoiraImageLoadingState.unziping);
@@ -83,8 +86,11 @@ class UgoiraIllustNotifier extends BaseStateNotifier<UgoiraImageState> {
       File file = item as File;
       String filename = basename(file.path);
       // 根据文件名匹配帧时间
-      int delay = ugoiraMetadata!.frames.firstWhere((element) => element.file == filename).delay;
-      images.add(GifImageMeta(image: await fileToImage(file), delay: delay > 0 ? delay : 50));
+      int delay = ugoiraMetadata!.frames
+          .firstWhere((element) => element.file == filename)
+          .delay;
+      images.add(GifImageMeta(
+          image: await fileToImage(file), delay: delay > 0 ? delay : 50));
     }
     if (mounted) {
       state = state.copyWith(
@@ -107,7 +113,7 @@ class UgoiraIllustNotifier extends BaseStateNotifier<UgoiraImageState> {
         url,
         zipPath,
         options: Options(
-          headers: HttpHostOverrides().pximgHeaders,
+          headers: HttpHostOverrides().imageHeaders(url),
         ),
         cancelToken: cancelToken,
         onReceiveProgress: (count, total) {

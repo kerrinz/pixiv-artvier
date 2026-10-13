@@ -33,10 +33,12 @@ class MarkedNovelWaterfallItem extends ConsumerStatefulWidget {
   final VoidCallback onTap;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MarkedNovelWaterfallItemState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _MarkedNovelWaterfallItemState();
 }
 
-class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallItem>
+class _MarkedNovelWaterfallItemState
+    extends BasePageState<MarkedNovelWaterfallItem>
     with _MarkedNovelListViewItemLogic {
   @override
   MarkedNovel get marked => widget.marked;
@@ -70,7 +72,8 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
                 children: [
                   // 封面
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                     child: _novelCover(constraints.maxWidth * 0.26, height),
                   ),
                   Expanded(
@@ -90,9 +93,12 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          if (widget.marked.novel.series.title != null)
+                                          if (widget
+                                                  .marked.novel.series.title !=
+                                              null)
                                             // 小说系列的信息栏
                                             _seriesInfo(),
                                           // 小说标题
@@ -100,7 +106,10 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
                                             widget.marked.novel.title,
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
-                                            style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                                            style: textTheme.titleSmall
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                           ),
                                         ],
                                       ),
@@ -111,7 +120,8 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
                                     Color? color = Colors.red;
                                     switch (widget.marked.markerState) {
                                       case null:
-                                        if (widget.marked.novelMarker?.page != null) {
+                                        if (widget.marked.novelMarker?.page !=
+                                            null) {
                                           icon = Icons.bookmark;
                                           color = Colors.red;
                                         } else {
@@ -125,7 +135,8 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
                                         break;
                                       case MarkerState.removingMarker:
                                         icon = Icons.bookmark;
-                                        color = Colors.red.withValues(alpha: 0.5);
+                                        color =
+                                            Colors.red.withValues(alpha: 0.5);
                                         break;
                                       case MarkerState.marked:
                                         icon = Icons.bookmark;
@@ -146,12 +157,15 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
                               ),
                               // 作者
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 2),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 2),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.person_2_rounded, size: 16),
+                                    const Icon(Icons.person_2_rounded,
+                                        size: 16),
                                     Padding(
-                                      padding: const EdgeInsets.only(bottom: 2.0),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 2.0),
                                       child: Text(
                                         widget.marked.novel.user.name,
                                         overflow: TextOverflow.ellipsis,
@@ -190,7 +204,7 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
       child: EnhanceNetworkImage(
         image: ExtendedNetworkImageProvider(
           HttpHostOverrides().pxImgUrl(imageUrl),
-          headers: HttpHostOverrides().pximgHeaders,
+          headers: HttpHostOverrides().imageHeaders(imageUrl),
           cache: true,
         ),
         fit: BoxFit.cover,
@@ -206,7 +220,8 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
       children: [
         Text(
           LocalizationIntl.of(context).series,
-          style: const TextStyle(color: Colors.amber, fontSize: 12, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              color: Colors.amber, fontSize: 12, fontWeight: FontWeight.bold),
         ),
         Expanded(
           flex: 1,
@@ -226,7 +241,8 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
 
   /// 小说标签
   Widget _tagItems() {
-    StringBuffer sb = StringBuffer("${widget.marked.novel.textLength.toString()}字 ");
+    StringBuffer sb =
+        StringBuffer("${widget.marked.novel.textLength.toString()}字 ");
     for (Tags tag in widget.marked.novel.tags) {
       sb.write("#");
       sb.write(tag.translatedName ?? tag.name);
@@ -245,7 +261,9 @@ class _MarkedNovelWaterfallItemState extends BasePageState<MarkedNovelWaterfallI
             children: [
               TextSpan(
                 text: sb.toString(),
-                style: textTheme.labelSmall?.copyWith(color: Theme.of(context).colorScheme.onSurface.withAlpha(200)),
+                style: textTheme.labelSmall?.copyWith(
+                    color:
+                        Theme.of(context).colorScheme.onSurface.withAlpha(200)),
               ),
             ],
           ),
@@ -266,9 +284,10 @@ mixin _MarkedNovelListViewItemLogic {
 
   WidgetRef get ref;
 
-  late final markerStateProvider =
-      StateNotifierProvider.autoDispose<MarkerStateNotifier, MarkerStateChangedArguments>((ref) {
-    ref.listen<MarkerStateChangedArguments?>(globalNovelMarkerStateChangedProvider, (previous, next) {
+  late final markerStateProvider = StateNotifierProvider.autoDispose<
+      MarkerStateNotifier, MarkerStateChangedArguments>((ref) {
+    ref.listen<MarkerStateChangedArguments?>(
+        globalNovelMarkerStateChangedProvider, (previous, next) {
       if (next != null && next.worksId == novelId) {
         ref.notifier.setMarkerState(next);
       }
@@ -278,7 +297,9 @@ mixin _MarkedNovelListViewItemLogic {
         MarkerStateChangedArguments(
             worksId: novelId,
             page: novelMarker?.page,
-            state: novelMarker?.page != null ? MarkerState.marked : MarkerState.unmarked),
+            state: novelMarker?.page != null
+                ? MarkerState.marked
+                : MarkerState.unmarked),
         ref: ref,
         novelId: novelId);
   });
@@ -303,15 +324,19 @@ mixin _MarkedNovelListViewItemLogic {
           .read(markerStateProvider.notifier)
           .marker(page: novelMarker!.page)
           .then((result) => Fluttertoast.showToast(
-              msg: result ? l10n.addMarkerSucceed : l10n.addMarkerFailed, toastLength: Toast.LENGTH_LONG))
-          .catchError((_) => Fluttertoast.showToast(msg: l10n.addMarkerFailed, toastLength: Toast.LENGTH_LONG));
+              msg: result ? l10n.addMarkerSucceed : l10n.addMarkerFailed,
+              toastLength: Toast.LENGTH_LONG))
+          .catchError((_) => Fluttertoast.showToast(
+              msg: l10n.addMarkerFailed, toastLength: Toast.LENGTH_LONG));
     } else if (state == MarkerState.marked) {
       ref
           .read(markerStateProvider.notifier)
           .unmarker()
           .then((result) => Fluttertoast.showToast(
-              msg: result ? l10n.removeMarkerSucceed : l10n.removeMarkerFailed, toastLength: Toast.LENGTH_LONG))
-          .catchError((_) => Fluttertoast.showToast(msg: l10n.removeMarkerFailed, toastLength: Toast.LENGTH_LONG));
+              msg: result ? l10n.removeMarkerSucceed : l10n.removeMarkerFailed,
+              toastLength: Toast.LENGTH_LONG))
+          .catchError((_) => Fluttertoast.showToast(
+              msg: l10n.removeMarkerFailed, toastLength: Toast.LENGTH_LONG));
     }
   }
 }

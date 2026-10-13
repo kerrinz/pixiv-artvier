@@ -23,18 +23,23 @@ class PredictiveSearchUserItem extends ConsumerStatefulWidget {
   final VoidCallback onTap;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _PredictiveSearchUserItemState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _PredictiveSearchUserItemState();
 }
 
-class _PredictiveSearchUserItemState extends ConsumerState<PredictiveSearchUserItem> {
+class _PredictiveSearchUserItemState
+    extends ConsumerState<PredictiveSearchUserItem> {
   String get userId => userData.user.id.toString();
 
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
 
   CommonUserPreviews get userData => widget.user;
 
-  late final userFollowProvider = StateNotifierProvider<FollowNotifier, UserFollowState>((ref) {
-    final followState = (widget.user.user.isFollowed ?? false) ? UserFollowState.followed : UserFollowState.notFollow;
+  late final userFollowProvider =
+      StateNotifierProvider<FollowNotifier, UserFollowState>((ref) {
+    final followState = (widget.user.user.isFollowed ?? false)
+        ? UserFollowState.followed
+        : UserFollowState.notFollow;
     return FollowNotifier(followState, ref: ref, userId: userId);
   });
 
@@ -46,7 +51,8 @@ class _PredictiveSearchUserItemState extends ConsumerState<PredictiveSearchUserI
   @override
   Widget build(BuildContext context) {
     // 监听全局变化
-    ref.listen<FollowingStateChangedArguments?>(globalFollowingStateChangedProvider, (previous, next) {
+    ref.listen<FollowingStateChangedArguments?>(
+        globalFollowingStateChangedProvider, (previous, next) {
       if (next != null && next.userId == widget.user.user.id.toString()) {
         ref.read(userFollowProvider.notifier).update(next.state);
       }
@@ -74,8 +80,10 @@ class _PredictiveSearchUserItemState extends ConsumerState<PredictiveSearchUserI
                     child: ClipOval(
                       child: EnhanceNetworkImage(
                         image: ExtendedNetworkImageProvider(
-                          HttpHostOverrides().pxImgUrl(userData.user.profileImageUrls.medium),
-                          headers: HttpHostOverrides().pximgHeaders,
+                          HttpHostOverrides()
+                              .pxImgUrl(userData.user.profileImageUrls.medium),
+                          headers: HttpHostOverrides().imageHeaders(
+                              userData.user.profileImageUrls.medium),
                           cache: true,
                         ),
                         width: 40,
@@ -94,7 +102,8 @@ class _PredictiveSearchUserItemState extends ConsumerState<PredictiveSearchUserI
                     followState: ref.watch(userFollowProvider),
                     userId: userId,
                     requestFollow: ref.read(userFollowProvider.notifier).follow,
-                    requestUnfollow: ref.read(userFollowProvider.notifier).unfollow,
+                    requestUnfollow:
+                        ref.read(userFollowProvider.notifier).unfollow,
                   ),
                 ],
               ),

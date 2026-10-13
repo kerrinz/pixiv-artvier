@@ -83,6 +83,9 @@ flutter config --jdk-dir=你的JDK安装路径
 sh intl.sh
 ```
 
+## 参考资料
+[Pixiv-Shaft direct-connect.md](https://github.com/CeuiLiSA/Pixiv-Shaft/blob/classic/docs/direct-connect.md)
+
 ## 免责声明
 
 1. 本软件不收取任何费用，且仅供学习和交流使用，不得用于其他任何用途（尤其是不得用于商业用途），如作它用所承受的法律责任一概与本人无关。

@@ -47,13 +47,18 @@ class RecommendUsersWidget extends BasePage {
                       width: avatarSize,
                       height: avatarSize,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.withValues(alpha: 0.25), width: 1),
-                        borderRadius: const BorderRadius.all(Radius.circular(50)),
+                        border: Border.all(
+                            color: Colors.grey.withValues(alpha: 0.25),
+                            width: 1),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50)),
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: ExtendedNetworkImageProvider(
-                            HttpHostOverrides().pxImgUrl(item.user.profileImageUrls.medium),
-                            headers: HttpHostOverrides().pximgHeaders,
+                            HttpHostOverrides()
+                                .pxImgUrl(item.user.profileImageUrls.medium),
+                            headers: HttpHostOverrides().imageHeaders(
+                                item.user.profileImageUrls.medium),
                           ),
                         ),
                       ),
@@ -61,7 +66,8 @@ class RecommendUsersWidget extends BasePage {
                   },
                 ),
               ),
-              Icon(Icons.keyboard_arrow_right_outlined, color: colorScheme(context).secondary),
+              Icon(Icons.keyboard_arrow_right_outlined,
+                  color: colorScheme(context).secondary),
             ],
           ),
         ),

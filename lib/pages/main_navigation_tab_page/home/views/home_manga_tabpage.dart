@@ -23,7 +23,8 @@ class HomeMangaTabPage extends BaseStatefulPage {
   const HomeMangaTabPage({super.key, this.scrollController});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => HomeMangaTabPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      HomeMangaTabPageState();
 }
 
 class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
@@ -34,29 +35,37 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
   bool get wantKeepAlive => true;
 
   /// 首页漫画的加载状态
-  final homeMangaStateProvider = StateNotifierProvider<HomeMangaStateNotifier, PageState>((ref) {
+  final homeMangaStateProvider =
+      StateNotifierProvider<HomeMangaStateNotifier, PageState>((ref) {
     // // 监听全局收藏状态的变化，更新列表
-    ref.listen<CollectStateChangedArguments?>(globalArtworkCollectionStateChangedProvider, (previous, next) {
+    ref.listen<CollectStateChangedArguments?>(
+        globalArtworkCollectionStateChangedProvider, (previous, next) {
       if (next != null) {
         // Recommended
         var list = ref.read(homeMangaRecommendedProvider);
-        int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
+        int index = list
+            .lastIndexWhere((element) => element.id.toString() == next.worksId);
         if (index >= 0 && index < list.length) {
           var newItem = list[index]
             ..isBookmarked = next.state == CollectState.collected
             ..collectState = next.state;
-          ref.read(homeMangaRecommendedProvider.notifier).update(list..[index] = newItem);
+          ref
+              .read(homeMangaRecommendedProvider.notifier)
+              .update(list..[index] = newItem);
         }
       }
       if (next != null) {
         // Ranking
         final list = ref.read(homeMangaRankingProvider);
-        int index = list.lastIndexWhere((element) => element.id.toString() == next.worksId);
+        int index = list
+            .lastIndexWhere((element) => element.id.toString() == next.worksId);
         if (index >= 0 && index < list.length) {
           var newItem = list[index]
             ..isBookmarked = next.state == CollectState.collected
             ..collectState = next.state;
-          ref.read(homeMangaRankingProvider.notifier).update((state) => list..[index] = newItem);
+          ref
+              .read(homeMangaRankingProvider.notifier)
+              .update((state) => list..[index] = newItem);
         }
       }
     });
@@ -66,10 +75,13 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
   Widget build(BuildContext context) {
     super.build(context);
     return RefreshIndicator(
-      onRefresh: () async => ref.read(homeMangaStateProvider.notifier).refresh(),
+      onRefresh: () async =>
+          ref.read(homeMangaStateProvider.notifier).refresh(),
       child: Consumer(builder: (_, ref, __) {
         PageState pageState = ref.watch(homeMangaStateProvider);
-        if (pageState != PageState.complete && pageState != PageState.refreshing && pageState != PageState.empty) {
+        if (pageState != PageState.complete &&
+            pageState != PageState.refreshing &&
+            pageState != PageState.empty) {
           return Center(
             child: SingleChildScrollView(
               controller: widget.scrollController,
@@ -80,7 +92,8 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
                       return const RequestLoading();
                     default:
                       return RequestLoadingFailed(
-                          onRetry: () async => ref.read(homeMangaStateProvider.notifier).init());
+                          onRetry: () async =>
+                              ref.read(homeMangaStateProvider.notifier).init());
                   }
                 },
               ),
@@ -121,14 +134,16 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
                           ),
                           Text(
                             " ${l10n.mangaRankings}",
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(RouteNames.ranking.name, arguments: WorksType.manga);
+                        Navigator.of(context).pushNamed(RouteNames.ranking.name,
+                            arguments: WorksType.manga);
                       },
                       // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
                       child: Row(
@@ -169,7 +184,8 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
                           ),
                           Text(
                             " ${l10n.recommended}",
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
@@ -184,7 +200,8 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
                 var data = ref.watch(homeMangaRecommendedProvider);
                 return SliverIllustWaterfallGridView(
                   artworkList: data,
-                  onLazyload: ref.read(homeMangaRecommendedProvider.notifier).next,
+                  onLazyload:
+                      ref.read(homeMangaRecommendedProvider.notifier).next,
                 );
               },
             ),
@@ -195,8 +212,11 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
   }
 
   // 构建排行榜卡片列表（横向
-  Widget buildRankingCardList(BuildContext context, List<CommonIllust> rankingList) {
-    double height = min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height) / 2.5;
+  Widget buildRankingCardList(
+      BuildContext context, List<CommonIllust> rankingList) {
+    double height = min(MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height) /
+        2.5;
     return SliverToBoxAdapter(
       child: SizedBox(
         height: height,
@@ -221,8 +241,10 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
                   children: [
                     EnhanceNetworkImage(
                       image: ExtendedNetworkImageProvider(
-                        HttpHostOverrides().pxImgUrl(rankingList[index].imageUrls.squareMedium),
-                        headers: HttpHostOverrides().pximgHeaders,
+                        HttpHostOverrides().pxImgUrl(
+                            rankingList[index].imageUrls.squareMedium),
+                        headers: HttpHostOverrides().imageHeaders(
+                            rankingList[index].imageUrls.squareMedium),
                       ),
                     ),
                     // 阴影
@@ -233,11 +255,14 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
                       child: Container(
                         height: 60,
                         decoration: const BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                            Color(0x00000000),
-                            Color(0x33000000),
-                            Color(0x6C000000),
-                          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                          gradient: LinearGradient(
+                              colors: [
+                                Color(0x00000000),
+                                Color(0x33000000),
+                                Color(0x6C000000),
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter),
                         ),
                       ),
                     ),
@@ -254,7 +279,10 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
                               padding: const EdgeInsets.only(bottom: 4),
                               child: Text(
                                 rankingList[index].title,
-                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
                               ),
                             ),
                             Row(
@@ -264,8 +292,16 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
                                 ClipOval(
                                   child: EnhanceNetworkImage(
                                     image: ExtendedNetworkImageProvider(
-                                      HttpHostOverrides().pxImgUrl(rankingList[index].user.profileImageUrls.medium),
-                                      headers: HttpHostOverrides().pximgHeaders,
+                                      HttpHostOverrides().pxImgUrl(
+                                          rankingList[index]
+                                              .user
+                                              .profileImageUrls
+                                              .medium),
+                                      headers: HttpHostOverrides().imageHeaders(
+                                          rankingList[index]
+                                              .user
+                                              .profileImageUrls
+                                              .medium),
                                     ),
                                     fit: BoxFit.cover,
                                     width: 20,
@@ -276,8 +312,10 @@ class HomeMangaTabPageState extends BasePageState<HomeMangaTabPage>
                                   padding: const EdgeInsets.only(left: 4),
                                   child: Text(
                                     rankingList[index].user.name,
-                                    style:
-                                        const TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.white),
+                                    style: const TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white),
                                   ),
                                 ),
                               ],

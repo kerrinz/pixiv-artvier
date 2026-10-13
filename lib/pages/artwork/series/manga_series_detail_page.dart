@@ -17,18 +17,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class MangaSeriesDetailPage extends BaseStatefulPage {
   final MangaSeriesDetailPagePageArguments arguments;
 
-  const MangaSeriesDetailPage(Object arg, {super.key}) : arguments = arg as MangaSeriesDetailPagePageArguments;
+  const MangaSeriesDetailPage(Object arg, {super.key})
+      : arguments = arg as MangaSeriesDetailPagePageArguments;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => __MangaSeriesDetailPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      __MangaSeriesDetailPageState();
 }
 
-class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> {
+class __MangaSeriesDetailPageState
+    extends BasePageState<MangaSeriesDetailPage> {
   static const double _bannerHeight = 200;
 
-  double get _endAppBarBackgroundOffset => _bannerHeight - kToolbarHeight - MediaQuery.of(context).padding.top;
+  double get _endAppBarBackgroundOffset =>
+      _bannerHeight - kToolbarHeight - MediaQuery.of(context).padding.top;
 
-  double get _startAppBarBackgroundOffset => _endAppBarBackgroundOffset - _deltaAppBarBackgroundOffset;
+  double get _startAppBarBackgroundOffset =>
+      _endAppBarBackgroundOffset - _deltaAppBarBackgroundOffset;
 
   static const double _deltaAppBarBackgroundOffset = 30;
 
@@ -58,7 +63,9 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
         body: ExtendedNestedScrollView(
           onlyOneScrollInBody: true,
           pinnedHeaderSliverHeightBuilder: () {
-            return MediaQuery.of(context).padding.top + kToolbarHeight - _radius;
+            return MediaQuery.of(context).padding.top +
+                kToolbarHeight -
+                _radius;
           },
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
@@ -72,37 +79,49 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
           body: DecoratedBox(
             decoration: BoxDecoration(
               color: colorScheme.surface,
-              borderRadius: const BorderRadius.only(topRight: Radius.circular(12.0), topLeft: Radius.circular(12.0)),
+              borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(12.0),
+                  topLeft: Radius.circular(12.0)),
             ),
             child: Consumer(builder: (context, ref, child) {
-              return ref.watch(mangaSeriesDetailProvider(widget.arguments.id.toString())).when(
+              return ref
+                  .watch(
+                      mangaSeriesDetailProvider(widget.arguments.id.toString()))
+                  .when(
                     data: (data) => CustomScrollView(
                       slivers: [
                         // 系列信息
                         SliverPadding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 10),
                           sliver: SliverToBoxAdapter(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   data.illustSeriesDetail.title,
-                                  style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                                  style: textTheme.titleMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4.0),
                                   child: MyBadge(
                                     color: const Color(0xfffeaf0f),
-                                    borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(4)),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 4),
                                     child: Text(l10n.series,
-                                        style: textTheme.labelSmall?.copyWith(color: Colors.white, height: 1)),
+                                        style: textTheme.labelSmall?.copyWith(
+                                            color: Colors.white, height: 1)),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: Text(data.illustSeriesDetail.caption,
-                                      style: textTheme.bodySmall?.copyWith(height: 1.4)),
+                                      style: textTheme.bodySmall
+                                          ?.copyWith(height: 1.4)),
                                 ),
                               ],
                             ),
@@ -118,24 +137,32 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
                           ),
                         ),
                         SliverPadding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 4),
                           sliver: SliverToBoxAdapter(
-                            child: Text(l10n.seriesTotals(data.illustSeriesDetail.seriesWorkCount)),
+                            child: Text(l10n.seriesTotals(
+                                data.illustSeriesDetail.seriesWorkCount)),
                           ),
                         ),
                         SliverPadding(
                           padding: const EdgeInsets.only(top: 0),
                           sliver: SliverMangaGridView(
                             artworkList: data.illusts,
-                            onLazyload: () async =>
-                                ref.read(mangaSeriesDetailProvider(widget.arguments.id.toString()).notifier).next(),
+                            onLazyload: () async => ref
+                                .read(mangaSeriesDetailProvider(
+                                        widget.arguments.id.toString())
+                                    .notifier)
+                                .next(),
                           ),
                         ),
                       ],
                     ),
                     error: (obj, e) => RequestLoadingFailed(
-                      onRetry: () =>
-                          ref.read(mangaSeriesDetailProvider(widget.arguments.id.toString()).notifier).reload(),
+                      onRetry: () => ref
+                          .read(mangaSeriesDetailProvider(
+                                  widget.arguments.id.toString())
+                              .notifier)
+                          .reload(),
                     ),
                     loading: () => const RequestLoading(),
                   );
@@ -156,11 +183,13 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
           fit: BoxFit.cover,
           image: ExtendedNetworkImageProvider(
             HttpHostOverrides().pxImgUrl(widget.arguments.url),
-            headers: HttpHostOverrides().pximgHeaders,
+            headers: HttpHostOverrides().imageHeaders(widget.arguments.url),
             cache: true,
           ),
         ),
-        const Positioned.fill(child: DecoratedBox(decoration: BoxDecoration(color: Colors.black12))),
+        const Positioned.fill(
+            child:
+                DecoratedBox(decoration: BoxDecoration(color: Colors.black12))),
       ],
     );
   }
@@ -173,23 +202,29 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
     if (offset == 0) {
       bgOpacity = 0;
     } else if (offset <= _endAppBarBackgroundOffset) {
-      bgOpacity = (offset - _startAppBarBackgroundOffset) / _deltaAppBarBackgroundOffset;
+      bgOpacity = (offset - _startAppBarBackgroundOffset) /
+          _deltaAppBarBackgroundOffset;
     } else {
       bgOpacity = 1;
     }
     if (offset >= _startAppBarTitleOffset) {
-      titleOpacity = (offset - _startAppBarTitleOffset) / _deltaAppBarTitleOffset;
+      titleOpacity =
+          (offset - _startAppBarTitleOffset) / _deltaAppBarTitleOffset;
       if (titleOpacity > 1) titleOpacity = 1;
     } else {
       titleOpacity = 0;
     }
     double reverseOpacity = 1 - bgOpacity; // AppBar背景色透明度的反向透明度
-    Color buttonBackground = const Color(0x55000000).withAlpha((85 * reverseOpacity).toInt()); // back和action按钮的背景色
-    int c = Theme.of(context).brightness == Brightness.light ? (255 * reverseOpacity).toInt() : 240;
+    Color buttonBackground = const Color(0x55000000)
+        .withAlpha((85 * reverseOpacity).toInt()); // back和action按钮的背景色
+    int c = Theme.of(context).brightness == Brightness.light
+        ? (255 * reverseOpacity).toInt()
+        : 240;
     Color buttonForeground = Color.fromARGB(255, c, c, c);
     return AppBar(
       toolbarHeight: kToolbarHeight,
-      backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: bgOpacity),
+      backgroundColor:
+          Theme.of(context).colorScheme.surface.withValues(alpha: bgOpacity),
       leading: BlurButton(
         onPressed: () {
           Navigator.of(context).pop(-1);
@@ -197,7 +232,8 @@ class __MangaSeriesDetailPageState extends BasePageState<MangaSeriesDetailPage> 
         borderRadius: const BorderRadius.all(Radius.circular(18.0)),
         padding: const EdgeInsets.all(6.0),
         background: buttonBackground,
-        child: Icon(Icons.arrow_back_ios_rounded, size: 20, color: buttonForeground),
+        child: Icon(Icons.arrow_back_ios_rounded,
+            size: 20, color: buttonForeground),
       ),
       titleSpacing: 0,
       titleTextStyle: TextStyle(

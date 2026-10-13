@@ -28,13 +28,16 @@ class PixivsionCarousel extends BasePage {
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: EdgeInsets.only(
-              top: (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight) + MediaQuery.paddingOf(context).top),
+              top: (Theme.of(context).appBarTheme.toolbarHeight ??
+                      kToolbarHeight) +
+                  MediaQuery.paddingOf(context).top),
           child: Column(
             children: [
               Container(
                 width: double.infinity,
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8))),
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
                 clipBehavior: Clip.antiAlias,
                 child: Material(
                   color: Colors.transparent,
@@ -44,7 +47,10 @@ class PixivsionCarousel extends BasePage {
                       Navigator.of(ref.context).pushNamed(
                         RouteNames.artworkPixivition.name,
                         arguments: PixivisionWebViewPageArguments(
-                            language: ref.read(globalLanguageProvider).finalLocale.languageCode,
+                            language: ref
+                                .read(globalLanguageProvider)
+                                .finalLocale
+                                .languageCode,
                             id: list[index].id,
                             title: list[index].title,
                             coverUrl: list[index].thumbnail),
@@ -57,28 +63,35 @@ class PixivsionCarousel extends BasePage {
                           width: double.infinity,
                           image: ExtendedNetworkImageProvider(
                             HttpHostOverrides().pxImgUrl(list[index].thumbnail),
-                            headers: HttpHostOverrides().pximgHeaders,
+                            headers: HttpHostOverrides()
+                                .imageHeaders(list[index].thumbnail),
                           ),
                           fit: BoxFit.cover,
-                          loadingWidget: (context, url, progress) =>
-                              Container(color: const Color.fromARGB(30, 112, 112, 112)),
+                          loadingWidget: (context, url, progress) => Container(
+                              color: const Color.fromARGB(30, 112, 112, 112)),
                           fadeInCurve: Curves.decelerate,
                         ),
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.brightness == Brightness.light
+                            color: Theme.of(context).colorScheme.brightness ==
+                                    Brightness.light
                                 ? const Color.fromARGB(50, 0, 0, 0)
                                 : const Color.fromARGB(100, 0, 0, 0),
                             borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
+                                bottomLeft: Radius.circular(8),
+                                bottomRight: Radius.circular(8)),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
                           child: Text(
                             list[index].title,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.white),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall!
+                                .copyWith(color: Colors.white),
                           ),
                         ),
                       ],
@@ -96,7 +109,8 @@ class PixivsionCarousel extends BasePage {
             EnhanceNetworkImage(
               image: ExtendedNetworkImageProvider(
                 HttpHostOverrides().pxImgUrl(list[index].thumbnail),
-                headers: HttpHostOverrides().pximgHeaders,
+                headers:
+                    HttpHostOverrides().imageHeaders(list[index].thumbnail),
               ),
               width: double.infinity,
               fit: BoxFit.cover,

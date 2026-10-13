@@ -17,7 +17,8 @@ class AuthorCardWidget extends StatelessWidget {
 
   final TabController tabController;
 
-  const AuthorCardWidget({super.key, required this.detail, required this.tabController});
+  const AuthorCardWidget(
+      {super.key, required this.detail, required this.tabController});
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +37,8 @@ class AuthorCardWidget extends StatelessWidget {
           child: InkWell(
             onTap: () {
               Navigator.of(context).pushNamed(RouteNames.userDetail.name,
-                  arguments: PreloadUserLeastInfo(
-                      detail.user.id.toString(), detail.user.name, detail.user.profileImageUrls.medium));
+                  arguments: PreloadUserLeastInfo(detail.user.id.toString(),
+                      detail.user.name, detail.user.profileImageUrls.medium));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -50,8 +51,10 @@ class AuthorCardWidget extends StatelessWidget {
                     child: ClipOval(
                       child: EnhanceNetworkImage(
                         image: ExtendedNetworkImageProvider(
-                          HttpHostOverrides().pxImgUrl(detail.user.profileImageUrls.medium),
-                          headers: HttpHostOverrides().pximgHeaders,
+                          HttpHostOverrides()
+                              .pxImgUrl(detail.user.profileImageUrls.medium),
+                          headers: HttpHostOverrides().imageHeaders(
+                              detail.user.profileImageUrls.medium),
                         ),
                         fit: BoxFit.cover,
                         width: 46,
@@ -70,15 +73,31 @@ class AuthorCardWidget extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 6),
                           child: Text(
                             detail.user.name,
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: colorScheme.primary),
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.primary),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         // 发布时间
                         Text(
-                          formatDate(detail.createDate, [yyyy, '-', mm, '-', dd, ' ', HH, ':', mm, ':', ss]),
-                          style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
+                          formatDate(detail.createDate, [
+                            yyyy,
+                            '-',
+                            mm,
+                            '-',
+                            dd,
+                            ' ',
+                            HH,
+                            ':',
+                            mm,
+                            ':',
+                            ss
+                          ]),
+                          style: TextStyle(
+                              color: Colors.grey.shade500, fontSize: 13),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -88,7 +107,9 @@ class AuthorCardWidget extends StatelessWidget {
                   // 关注或已关注的按钮
                   UserFollowButton(
                     userId: detail.user.id.toString(),
-                    followState: detail.user.isFollowed ?? false ? UserFollowState.followed : UserFollowState.notFollow,
+                    followState: detail.user.isFollowed ?? false
+                        ? UserFollowState.followed
+                        : UserFollowState.notFollow,
                   ),
                 ],
               ),

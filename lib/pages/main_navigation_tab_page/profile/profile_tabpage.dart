@@ -34,31 +34,36 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
   List<IconButtonModelBuilder> get _functionItemBuilders => [
         (context) => IconButtonModel(
               LocalizationIntl.of(context).history,
-              Icon(Icons.history_rounded, color: Theme.of(context).primaryColor, size: 26),
+              Icon(Icons.history_rounded,
+                  color: Theme.of(context).primaryColor, size: 26),
               RouteNames.history.name,
               null,
             ),
         (context) => IconButtonModel(
               LocalizationIntl.of(context).downloads,
-              Icon(Icons.file_download_outlined, color: Theme.of(context).primaryColor, size: 26),
+              Icon(Icons.file_download_outlined,
+                  color: Theme.of(context).primaryColor, size: 26),
               RouteNames.downloadManage.name,
               null,
             ),
         (context) => IconButtonModel(
               LocalizationIntl.of(context).works,
-              Icon(Icons.inventory_2_outlined, color: Theme.of(context).primaryColor, size: 26),
+              Icon(Icons.inventory_2_outlined,
+                  color: Theme.of(context).primaryColor, size: 26),
               RouteNames.myWorks.name,
               ref.watch(globalCurrentAccountProvider)?.user.id,
             ),
         (context) => IconButtonModel(
               LocalizationIntl.of(context).collections,
-              Icon(Icons.favorite_outline_rounded, color: Theme.of(context).primaryColor, size: 26),
+              Icon(Icons.favorite_outline_rounded,
+                  color: Theme.of(context).primaryColor, size: 26),
               RouteNames.myBookmarks.name,
               ref.watch(globalCurrentAccountProvider)?.user.id,
             ),
         (context) => IconButtonModel(
               LocalizationIntl.of(context).markers,
-              Icon(Icons.bookmark_border_rounded, color: Theme.of(context).primaryColor, size: 26),
+              Icon(Icons.bookmark_border_rounded,
+                  color: Theme.of(context).primaryColor, size: 26),
               RouteNames.userMarked.name,
               ref.watch(globalCurrentAccountProvider)?.user.id,
             ),
@@ -68,7 +73,8 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
   List<PerferenceBottomSheetBuilder> get _perferenceItemBuilders => [
         (context) => PerferenceBottomSheetModel(
               LocalizationIntl.of(context).themeSettings,
-              Icon(Icons.color_lens_outlined, color: Theme.of(context).primaryColor),
+              Icon(Icons.color_lens_outlined,
+                  color: Theme.of(context).primaryColor),
               const ThemeSettingsBottomSheet(),
               null,
             ),
@@ -80,15 +86,20 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
             ),
       ];
 
-  bool get _isLightMode => Theme.of(context).colorScheme.brightness == Brightness.light;
+  bool get _isLightMode =>
+      Theme.of(context).colorScheme.brightness == Brightness.light;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     // 顶部区域背景色
     Color topBackgroundColor = _isLightMode
-        ? HSLColor.fromColor(Theme.of(context).colorScheme.primary).withLightness(0.60).toColor()
-        : HSVColor.fromColor(Theme.of(context).colorScheme.primary).withValue(0.25).toColor();
+        ? HSLColor.fromColor(Theme.of(context).colorScheme.primary)
+            .withLightness(0.60)
+            .toColor()
+        : HSVColor.fromColor(Theme.of(context).colorScheme.primary)
+            .withValue(0.25)
+            .toColor();
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
@@ -105,7 +116,8 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                   color: topBackgroundColor,
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).padding.top +
-                          (Theme.of(context).appBarTheme.toolbarHeight ?? kToolbarHeight)),
+                          (Theme.of(context).appBarTheme.toolbarHeight ??
+                              kToolbarHeight)),
                   child: _buildUserInfoContainer(context),
                 ),
                 // 功能卡片
@@ -139,13 +151,15 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
             child: AppBar(
               automaticallyImplyLeading: true,
               backgroundColor: Colors.transparent,
-              actionsIconTheme: const IconThemeData(size: 20, color: Colors.white),
+              actionsIconTheme:
+                  const IconThemeData(size: 20, color: Colors.white),
               actions: [
                 Center(
                   child: IconButton(
                     padding: const EdgeInsets.all(8.0),
                     onPressed: () {
-                      Navigator.of(context).pushNamed(RouteNames.accountManage.name);
+                      Navigator.of(context)
+                          .pushNamed(RouteNames.accountManage.name);
                     },
                     color: Colors.white,
                     icon: const Icon(Icons.switch_account_outlined),
@@ -156,13 +170,18 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                   child: Builder(
                     builder: (BuildContext context) {
                       // 当前所处的主题模式
-                      bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
+                      bool isDarkMode =
+                          Theme.of(context).colorScheme.brightness ==
+                              Brightness.dark;
                       return IconButton(
                         padding: const EdgeInsets.all(8.0),
                         onPressed: () => handleTapThemeMode(isDarkMode),
                         color: Colors.white,
-                        icon: Icon(isDarkMode ? Icons.mode_night : Icons.light_mode),
-                        tooltip: isDarkMode ? l10n.lightBrightness : l10n.dartBrightness,
+                        icon: Icon(
+                            isDarkMode ? Icons.mode_night : Icons.light_mode),
+                        tooltip: isDarkMode
+                            ? l10n.lightBrightness
+                            : l10n.dartBrightness,
                       );
                     },
                   ),
@@ -177,7 +196,9 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
 
   // 用户信息
   Widget _buildUserInfoContainer(BuildContext context) {
-    Color textColor = _isLightMode ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurface;
+    Color textColor = _isLightMode
+        ? Theme.of(context).colorScheme.onPrimary
+        : Theme.of(context).colorScheme.onSurface;
     Color secondTextColor = _isLightMode
         ? Theme.of(context).colorScheme.onPrimary.withAlpha(200)
         : Theme.of(context).colorScheme.onSurface.withAlpha(150);
@@ -202,20 +223,26 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                           child: Consumer(
                             builder: (_, ref, __) {
                               // 先从登录帐号的鉴权信息里获取
-                              var account = ref.watch(globalCurrentAccountProvider);
+                              var account =
+                                  ref.watch(globalCurrentAccountProvider);
                               // 最终值以网络请求的详细信息为准
-                              var detail = ref.watch(globalCurrentUserDetailProvider);
+                              var detail =
+                                  ref.watch(globalCurrentUserDetailProvider);
 
                               String? avatar =
-                                  detail?.user.profileImageUrls.medium ?? account?.user.profileImageUrls?.px170x170;
+                                  detail?.user.profileImageUrls.medium ??
+                                      account?.user.profileImageUrls?.px170x170;
                               return avatar == null
                                   // 未登录或者原本就无头像用户
-                                  ? const Image(image: AssetImage("assets/image/default_avatar.png"))
+                                  ? const Image(
+                                      image: AssetImage(
+                                          "assets/image/default_avatar.png"))
                                   // 正常头像
                                   : EnhanceNetworkImage(
                                       image: ExtendedNetworkImageProvider(
                                       HttpHostOverrides().pxImgUrl(avatar),
-                                      headers: HttpHostOverrides().pximgHeaders,
+                                      headers: HttpHostOverrides()
+                                          .imageHeaders(avatar),
                                     ));
                             },
                           ),
@@ -228,12 +255,15 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                           // 先从登录帐号的鉴权信息里获取
                           var account = ref.watch(globalCurrentAccountProvider);
                           // 最终值以网络请求的详细信息为准
-                          var detail = ref.watch(globalCurrentUserDetailProvider);
+                          var detail =
+                              ref.watch(globalCurrentUserDetailProvider);
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                (detail?.user.name) ?? (account?.user.name) ?? "...",
+                                (detail?.user.name) ??
+                                    (account?.user.name) ??
+                                    "...",
                                 style: TextStyle(
                                   fontSize: 20,
                                   height: 1.4,
@@ -255,18 +285,23 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                     ],
                   ),
                 ),
-                Text(LocalizationIntl.of(context).space, style: TextStyle(color: secondTextColor)),
-                Icon(Icons.keyboard_arrow_right, size: 16, color: secondTextColor),
+                Text(LocalizationIntl.of(context).space,
+                    style: TextStyle(color: secondTextColor)),
+                Icon(Icons.keyboard_arrow_right,
+                    size: 16, color: secondTextColor),
               ],
             ),
           ),
         ),
         // 关注、好P友的统计
         Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 4, bottom: 8),
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, top: 4, bottom: 8),
           child: Consumer(builder: ((context, ref, child) {
-            TextStyle numTextStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: textColor);
-            TextStyle secondTextStyle = TextStyle(fontSize: 12, height: 1.6, color: secondTextColor);
+            TextStyle numTextStyle = TextStyle(
+                fontSize: 14, fontWeight: FontWeight.w500, color: textColor);
+            TextStyle secondTextStyle =
+                TextStyle(fontSize: 12, height: 1.6, color: secondTextColor);
             var detail = ref.watch(globalCurrentUserDetailProvider);
             return Row(
               children: [
@@ -274,16 +309,22 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, RouteNames.userFriends.name,
-                        arguments: ref.read(globalCurrentAccountProvider)!.user.id),
+                    onTap: () => Navigator.pushNamed(
+                        context, RouteNames.userFriends.name,
+                        arguments:
+                            ref.read(globalCurrentAccountProvider)!.user.id),
                     child: Container(
                       color: Colors.transparent,
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Column(
                         children: [
-                          Text(detail?.profile.totalMypixivUsers.toString() ?? "...",
-                              style: numTextStyle.copyWith(fontWeight: FontWeight.normal)),
-                          Text(LocalizationIntl.of(context).friends, style: secondTextStyle),
+                          Text(
+                              detail?.profile.totalMypixivUsers.toString() ??
+                                  "...",
+                              style: numTextStyle.copyWith(
+                                  fontWeight: FontWeight.normal)),
+                          Text(LocalizationIntl.of(context).friends,
+                              style: secondTextStyle),
                         ],
                       ),
                     ),
@@ -293,15 +334,21 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, RouteNames.userFollowing.name,
-                        arguments: ref.read(globalCurrentAccountProvider)!.user.id),
+                    onTap: () => Navigator.pushNamed(
+                        context, RouteNames.userFollowing.name,
+                        arguments:
+                            ref.read(globalCurrentAccountProvider)!.user.id),
                     child: Container(
                       color: Colors.transparent,
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Column(
                         children: [
-                          Text(detail?.profile.totalFollowUsers.toString() ?? "...", style: numTextStyle),
-                          Text(LocalizationIntl.of(context).following, style: secondTextStyle),
+                          Text(
+                              detail?.profile.totalFollowUsers.toString() ??
+                                  "...",
+                              style: numTextStyle),
+                          Text(LocalizationIntl.of(context).following,
+                              style: secondTextStyle),
                         ],
                       ),
                     ),
@@ -352,7 +399,8 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
               if (builder(context).routeName == "") {
                 Fluttertoast.showToast(msg: "暂未支持，等待后续更新");
               } else {
-                Navigator.pushNamed(context, builder(context).routeName, arguments: builder(context).argument);
+                Navigator.pushNamed(context, builder(context).routeName,
+                    arguments: builder(context).argument);
               }
             },
             child: Container(
@@ -366,7 +414,9 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Text(
                       builder(context).text,
-                      style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary),
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                 ],
@@ -426,7 +476,8 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                 );
                 // builder(context).routeName,
               },
-              padding: const EdgeInsets.only(left: 20, right: 12, top: 14, bottom: 14),
+              padding: const EdgeInsets.only(
+                  left: 20, right: 12, top: 14, bottom: 14),
             ),
         ],
       ),
@@ -438,7 +489,8 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
       margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
       child: PerferenceGroup(items: [
         PerferenceItem(
-          onTap: () => Navigator.of(context).pushNamed(RouteNames.mutedSettings.name),
+          onTap: () =>
+              Navigator.of(context).pushNamed(RouteNames.mutedSettings.name),
           icon: Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Icon(Icons.block_rounded, color: colorScheme.primary),
@@ -452,7 +504,8 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
           ),
         ),
         PerferenceItem(
-          onTap: () => Navigator.of(context).pushNamed(RouteNames.allSettings.name),
+          onTap: () =>
+              Navigator.of(context).pushNamed(RouteNames.allSettings.name),
           icon: Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Icon(Icons.settings, color: colorScheme.primary),
@@ -468,16 +521,24 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Consumer(builder: (context, ref, child) {
-                final currentVersion =
-                    ref.watch(packageInfoProvider).whenOrNull(data: (data) => data.version.split('-').first);
-                final release = ref.watch(globalLastVersionProvider).whenOrNull(data: (data) => data);
-                if (currentVersion != null && release != null && release.tagName != currentVersion) {
+                final currentVersion = ref
+                    .watch(packageInfoProvider)
+                    .whenOrNull(data: (data) => data.version.split('-').first);
+                final release = ref
+                    .watch(globalLastVersionProvider)
+                    .whenOrNull(data: (data) => data);
+                if (currentVersion != null &&
+                    release != null &&
+                    release.tagName != currentVersion) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: MyBadge(
                       color: Colors.redAccent,
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      child: Text("NEW", style: textTheme.labelSmall?.copyWith(color: Colors.white)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 2),
+                      child: Text("NEW",
+                          style: textTheme.labelSmall
+                              ?.copyWith(color: Colors.white)),
                     ),
                   );
                 }
