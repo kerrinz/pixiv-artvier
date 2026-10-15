@@ -47,7 +47,7 @@ class CommentListViewItem extends BasePage {
             child: EnhanceNetworkImage(
               image: ExtendedNetworkImageProvider(
                 HttpHostOverrides().pxImgUrl(comment.user.profileImageUrls.medium),
-                headers: HttpHostOverrides().dynamicHeaders(comment.user.profileImageUrls.medium),
+                headers: HttpHostOverrides().imageHeaders(comment.user.profileImageUrls.medium),
               ),
               fit: BoxFit.cover,
               width: 48,
@@ -83,7 +83,7 @@ class CommentListViewItem extends BasePage {
                     return EnhanceNetworkImage(
                       image: ExtendedNetworkImageProvider(
                         HttpHostOverrides().pxImgUrl(comment.stamp!.stampUrl),
-                        headers: HttpHostOverrides().dynamicHeaders(comment.stamp!.stampUrl),
+                        headers: HttpHostOverrides().imageHeaders(comment.stamp!.stampUrl),
                       ),
                       width: 64,
                     );
@@ -174,7 +174,7 @@ class CommentListViewItem extends BasePage {
                                       EnhanceNetworkImage(
                                         image: ExtendedNetworkImageProvider(
                                           HttpHostOverrides().pxImgUrl(reply.stamp!.stampUrl),
-                                          headers: HttpHostOverrides().dynamicHeaders(reply.stamp!.stampUrl),
+                                          headers: HttpHostOverrides().imageHeaders(reply.stamp!.stampUrl),
                                         ),
                                         width: 32,
                                       ),
