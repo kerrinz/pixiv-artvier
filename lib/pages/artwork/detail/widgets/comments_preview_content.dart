@@ -100,7 +100,7 @@ class _CommentItem extends ConsumerWidget {
                   child: EnhanceNetworkImage(
                     image: ExtendedNetworkImageProvider(
                       HttpHostOverrides().pxImgUrl(comment.user.profileImageUrls.medium),
-                      headers: HttpHostOverrides().dynamicHeaders(comment.user.profileImageUrls.medium),
+                      headers: HttpHostOverrides().imageHeaders(comment.user.profileImageUrls.medium),
                     ),
                     fit: BoxFit.cover,
                     width: 20,
@@ -133,7 +133,7 @@ class _CommentItem extends ConsumerWidget {
                 return EnhanceNetworkImage(
                   image: ExtendedNetworkImageProvider(
                     HttpHostOverrides().pxImgUrl(comment.stamp!.stampUrl),
-                    headers: HttpHostOverrides().dynamicHeaders(comment.stamp!.stampUrl),
+                    headers: HttpHostOverrides().imageHeaders(comment.stamp!.stampUrl),
                   ),
                   height: 50,
                 );
