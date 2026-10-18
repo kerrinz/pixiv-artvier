@@ -1,4 +1,5 @@
 import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/model_response/novels/novel_series_list.dart';
 import 'package:artvier/pages/novel/detail/arguments/novel_detail_page_args.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -122,7 +123,7 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
           CupertinoButton(
             padding: EdgeInsets.zero,
             color: Colors.transparent,
-            onPressed: () => Navigator.of(ref.context).pushNamed(
+            onPressed: () => AppNavigator.pushNamed(ref.context, 
               RouteNames.novelDetail.name,
               arguments: NovelDetailPageArguments(
                   novelId: widget.novelSeries.latestContentId.toString(),

@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/pages/main_navigation_tab_page/search/provider/search_input_provider.dart';
 import 'package:artvier/routes.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class SearchInput extends BasePage {
               ),
               onSubmitted: (value) {
                 // 跳转搜索结果页面
-                Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: value);
+                AppNavigator.pushNamed(context, RouteNames.searchResult.name, arguments: value);
               },
               onChanged: (value) => ref.read(searchInputProvider.notifier).update((state) => value),
             ),

@@ -1,4 +1,5 @@
 import 'package:artvier/pages/user/detail/provider/user_follow_provider.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -201,8 +202,7 @@ class UserDetailPageUserPanelWidget extends ConsumerWidget {
         Expanded(
           flex: 1,
           child: GestureDetector(
-            onTap: () => Navigator.of(context)
-                .pushNamed(RouteNames.userFollowing.name, arguments: userId),
+            onTap: () => AppNavigator.pushNamed(context, RouteNames.userFollowing.name, arguments: userId),
             child: Column(
               children: [
                 Text(l10n.following,

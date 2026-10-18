@@ -1,4 +1,5 @@
 import 'package:artvier/business_component/input/search_box.dart';
+import 'package:artvier/component/layout/adaptive.dart';
 import 'package:artvier/component/tab_view/tab_indicator.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/views/home_illust_tabpage.dart';
 import 'package:artvier/pages/main_navigation_tab_page/home/views/home_manga_tabpage.dart';
@@ -94,11 +95,15 @@ class HomePageState extends BasePageState with TickerProviderStateMixin, Automat
       return 1;
     }
     final offset = _scrollControllerList[_tabController.index].offset;
+    final size = MediaQuery.sizeOf(context);
+    final portraitTablet = isTabletWindow(context) && size.height > size.width;
+    final fadeEnd = portraitTablet ? 260.0 : 200.0;
+    final fadeStart = portraitTablet ? 130.0 : 100.0;
     double opacity = 0.0;
-    if (offset >= 200) {
+    if (offset >= fadeEnd) {
       opacity = 1;
-    } else if (offset >= 100) {
-      opacity = (offset - 100) / 100;
+    } else if (offset >= fadeStart) {
+      opacity = (offset - fadeStart) / (fadeEnd - fadeStart);
     }
     return opacity;
   }

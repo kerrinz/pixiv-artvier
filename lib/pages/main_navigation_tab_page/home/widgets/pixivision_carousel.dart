@@ -1,4 +1,6 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/adaptive.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/component/carousel/blur_carousel.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/global/provider/language_provider.dart';
@@ -22,7 +24,10 @@ class PixivsionCarousel extends BasePage {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var list = articleList;
+    final carousel = homeCarouselLayout(context);
     return BlurCarousel(
+      key: ValueKey(carousel.viewportFraction),
+      viewportFraction: carousel.viewportFraction,
       itemCount: list.length,
       loop: true,
       itemBuilder: (BuildContext context, int index) {
@@ -44,7 +49,7 @@ class PixivsionCarousel extends BasePage {
                   child: InkWell(
                     splashFactory: InkSparkle.splashFactory,
                     onTap: () {
-                      Navigator.of(ref.context).pushNamed(
+                      AppNavigator.pushNamed(ref.context, 
                         RouteNames.artworkPixivition.name,
                         arguments: PixivisionWebViewPageArguments(
                             language: ref
@@ -59,7 +64,7 @@ class PixivsionCarousel extends BasePage {
                     child: Column(
                       children: [
                         EnhanceNetworkImage(
-                          height: 100,
+                          height: carousel.imageHeight,
                           width: double.infinity,
                           image: ExtendedNetworkImageProvider(
                             HttpHostOverrides().pxImgUrl(list[index].thumbnail),

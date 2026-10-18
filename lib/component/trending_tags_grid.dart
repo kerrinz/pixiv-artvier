@@ -1,3 +1,5 @@
+import 'package:artvier/component/layout/adaptive.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
@@ -17,8 +19,8 @@ class TrendingTagsGrid extends StatelessWidget {
     return GridView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: tags.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: tagColumnCount(MediaQuery.sizeOf(context).width),
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
       ),
@@ -91,12 +93,12 @@ class TrendingTagsGrid extends StatelessWidget {
                 splashFactory: NoSplash.splashFactory,
                 enableFeedback: false,
                 onTap: () {
-                  Navigator.of(context).pushNamed(RouteNames.searchResult.name,
+                  AppNavigator.pushNamed(context, RouteNames.searchResult.name,
                       arguments: item.tag);
                 },
                 onLongPress: () {
                   HapticFeedback.mediumImpact();
-                  Navigator.of(context).pushNamed(
+                  AppNavigator.pushNamed(context, 
                     RouteNames.artworkDetail.name,
                     arguments: IllustDetailPageArguments(
                       illustId: item.illust.id.toString(),
@@ -118,8 +120,8 @@ class SliverTrendingTagsGrid extends TrendingTagsGrid {
   @override
   Widget build(BuildContext context) {
     return SliverGrid.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: tagColumnCount(MediaQuery.sizeOf(context).width),
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
       ),

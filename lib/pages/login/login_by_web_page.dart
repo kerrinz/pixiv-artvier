@@ -30,7 +30,7 @@ class _LoginWebState extends BasePageState<LoginWebPage> {
             // OAuth登录
             ref.read(globalCurrentAccountProvider.notifier).oAuthLogin(code).then((value) {
               // ignore: use_build_context_synchronously
-              if (context.mounted) Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+              if (context.mounted) Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(RouteNames.mainNavigation.name, (route) => false);
             }).catchError((onError) {
               // TODO: 待处理登录失败的逻辑
             });

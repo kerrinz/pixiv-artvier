@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:artvier/component/layout/app_navigator.dart';
 
 import 'package:artvier/component/loading/lazyloading.dart';
 import 'package:artvier/config/enums.dart';
@@ -53,7 +54,7 @@ class DownloadManagePageState extends BasePageState<DownloadManagePage> with Tic
                 IconButton(
                   icon: const Icon(Icons.settings),
                   onPressed: () {
-                    Navigator.pushNamed(context, RouteNames.downloadSettings.name);
+                    AppNavigator.pushNamed(context, RouteNames.downloadSettings.name);
                   },
                   tooltip: "下载设置",
                 ),
@@ -103,7 +104,7 @@ class DownloadManagePageState extends BasePageState<DownloadManagePage> with Tic
                         splashColor: Colors.black12.withValues(alpha: 0.15),
                         highlightColor: Colors.black12.withValues(alpha: 0.1),
                         onTap: () {
-                          Navigator.of(context).pushNamed(RouteNames.artworkDetail.name,
+                          AppNavigator.pushNamed(context, RouteNames.artworkDetail.name,
                               arguments: IllustDetailPageArguments(illustId: item.worksId, title: item.title));
                         },
                       ),

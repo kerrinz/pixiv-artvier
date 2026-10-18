@@ -1,3 +1,4 @@
+import 'package:artvier/component/layout/adaptive.dart';
 import 'package:artvier/business_component/listview/marked_novel_listview/logic.dart';
 import 'package:artvier/business_component/listview/marked_novel_listview/marked_novel_list_item.dart';
 import 'package:artvier/global/settings.dart';
@@ -57,7 +58,7 @@ class MarkedNovelListView extends ConsumerWidget with LazyloadLogic, MarkedNovel
       physics: physics,
       itemCount: novelList.length + 1,
       gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
+        crossAxisCount: wideListColumnCount(MediaQuery.sizeOf(context).width, compact: crossAxisCount),
         mainAxisSpacing: mainAxisSpacing,
         crossAxisSpacing: crossAxisSpacing,
         collectGarbage: collectGarbage,
@@ -153,7 +154,7 @@ class SliverMarkedNovelListView extends MarkedNovelListView {
       padding: padding ?? EdgeInsets.zero,
       sliver: SliverWaterfallFlow(
         gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
+          crossAxisCount: wideListColumnCount(MediaQuery.sizeOf(context).width, compact: crossAxisCount),
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
           collectGarbage: collectGarbage,

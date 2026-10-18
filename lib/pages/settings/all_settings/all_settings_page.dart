@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
 import 'package:artvier/component/perference/perference_group.dart';
@@ -38,7 +39,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   items: [
                     PerferenceItem(
-                        onTap: () => Navigator.of(context).pushNamed(RouteNames.accountManage.name),
+                        onTap: () => AppNavigator.pushNamed(context, RouteNames.accountManage.name),
                         icon: Icon(Icons.switch_account, color: colorScheme.primary),
                         text: Text(
                           l10n.switchAccount,
@@ -51,7 +52,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                   items: [
                     // 资源加载
                     PerferenceItem(
-                        onTap: () => Navigator.of(context).pushNamed(RouteNames.resourceLoadSettings.name),
+                        onTap: () => AppNavigator.pushNamed(context, RouteNames.resourceLoadSettings.name),
                         icon: Icon(Icons.photo_outlined, color: colorScheme.primary),
                         text: Text(
                           l10n.resourceLoadSettings,
@@ -72,7 +73,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                         )),
                     // 屏蔽设定
                     PerferenceItem(
-                        onTap: () => Navigator.of(context).pushNamed(RouteNames.mutedSettings.name),
+                        onTap: () => AppNavigator.pushNamed(context, RouteNames.mutedSettings.name),
                         icon: Icon(Icons.block_rounded, color: colorScheme.primary),
                         text: Text(
                           l10n.muteSettings,
@@ -85,7 +86,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                   items: [
                     // 语言
                     PerferenceItem(
-                        onTap: () => Navigator.of(context).pushNamed(RouteNames.languageSettings.name),
+                        onTap: () => AppNavigator.pushNamed(context, RouteNames.languageSettings.name),
                         icon: Icon(Icons.language_outlined, color: colorScheme.primary),
                         text: Text(
                           l10n.languageSettings,
@@ -93,7 +94,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                         )),
                     // 开发者
                     PerferenceItem(
-                        onTap: () => Navigator.of(context).pushNamed(RouteNames.developerSettings.name),
+                        onTap: () => AppNavigator.pushNamed(context, RouteNames.developerSettings.name),
                         icon: Icon(Icons.code, color: colorScheme.primary),
                         text: Text(
                           "Developer",
@@ -101,7 +102,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                         )),
                     // 软件更新
                     PerferenceItem(
-                      onTap: () => Navigator.of(context).pushNamed(RouteNames.checkUpdate.name),
+                      onTap: () => AppNavigator.pushNamed(context, RouteNames.checkUpdate.name),
                       icon: Icon(Icons.update_rounded, color: colorScheme.primary),
                       text: Text(
                         l10n.softwareUpdate,
@@ -132,7 +133,7 @@ class _AllSettingsPageState extends BasePageState<AllSettingsPage> {
                     ),
                     // 关于APP
                     PerferenceItem(
-                        onTap: () => Navigator.of(context).pushNamed(RouteNames.aboutApp.name),
+                        onTap: () => AppNavigator.pushNamed(context, RouteNames.aboutApp.name),
                         icon: Icon(Icons.info, color: colorScheme.primary),
                         text: Text(
                           l10n.aboutApp,

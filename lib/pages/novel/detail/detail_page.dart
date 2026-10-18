@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/business_component/series/series_navigation.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
@@ -730,8 +731,7 @@ class NovelDetailState extends BasePageState<NovelDetailPage>
           color: colorScheme.primary.withAlpha(32),
           padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
           onTap: () {
-            Navigator.of(context)
-                .pushNamed(RouteNames.searchResult.name, arguments: text);
+            AppNavigator.pushNamed(context, RouteNames.searchResult.name, arguments: text);
           },
           child: FittedBox(
             fit: BoxFit.scaleDown,

@@ -1,3 +1,4 @@
+import 'package:artvier/component/layout/adaptive.dart';
 import 'package:artvier/global/settings.dart';
 import 'package:artvier/global/provider/muted_state_provider.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -66,7 +67,7 @@ class IllustWaterfallGridView extends ConsumerWidget
       physics: physics,
       itemCount: visibleArtworkList.length + 1,
       gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
+        crossAxisCount: illustColumnCount(MediaQuery.sizeOf(context).width, compact: crossAxisCount),
         mainAxisSpacing: mainAxisSpacing,
         crossAxisSpacing: crossAxisSpacing,
         collectGarbage: (garbages) =>
@@ -199,7 +200,7 @@ class SliverIllustWaterfallGridView extends IllustWaterfallGridView {
       padding: padding ?? EdgeInsets.zero,
       sliver: SliverWaterfallFlow(
         gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
+          crossAxisCount: illustColumnCount(MediaQuery.sizeOf(context).width, compact: crossAxisCount),
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
           collectGarbage: (garbages) =>

@@ -1,4 +1,5 @@
 import 'package:artvier/business_component/listview/muted_listview/muted_users_listview.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/component/loading/request_loading.dart';
 import 'package:artvier/model_response/muted/muted_list.dart';
@@ -278,7 +279,7 @@ mixin _MutedPageLogic on BasePageState<MutedPage> {
   }
 
   onTapItem(CommonUser user) {
-    Navigator.of(context).pushNamed(
+    AppNavigator.pushNamed(context, 
       RouteNames.userDetail.name,
       arguments: PreloadUserLeastInfo(
           user.id.toString(), user.name, user.profileImageUrls.medium),

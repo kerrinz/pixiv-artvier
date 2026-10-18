@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/business_component/search/search_history/provider.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/expanded/expandable_wrap.dart';
@@ -79,7 +80,7 @@ class _SearchHistoryState extends BasePageState {
                 //           if (isEditModeValue) {
                 //             ref.read(searchHistoryProvider.notifier).removeOneSearchHistory(v.searchText);
                 //           } else {
-                //             Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: v.searchText);
+                //             AppNavigator.pushNamed(context, RouteNames.searchResult.name, arguments: v.searchText);
                 //           }
                 //         },
                 //         onLongPress: () => isEditMode.value = !isEditMode.value,
@@ -109,7 +110,7 @@ class _SearchHistoryState extends BasePageState {
                             if (isEditModeValue) {
                               ref.read(searchHistoryProvider.notifier).removeOneSearchHistory(v.searchText);
                             } else {
-                              Navigator.of(context).pushNamed(RouteNames.searchResult.name, arguments: v.searchText);
+                              AppNavigator.pushNamed(context, RouteNames.searchResult.name, arguments: v.searchText);
                             }
                           },
                           onLongPress: () {

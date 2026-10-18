@@ -40,6 +40,8 @@ class LocalizationIntl {
   String get navDiscover => Intl.message('Discover', name: 'navDiscover', desc: 'BottomNavigationBar');
   String get navDynamic => Intl.message('Dynamic', name: 'navDynamic', desc: 'BottomNavigationBar');
   String get navProfile => Intl.message('Profile', name: 'navProfile', desc: 'BottomNavigationBar');
+  String get tabletDetailPlaceholder => Intl.message('Select an item to view details',
+      name: 'tabletDetailPlaceholder', desc: 'Empty state of the tablet detail pane');
   // 通用
   String get account => Intl.message('Account', name: 'account', desc: 'Title of user account');
   String get current => Intl.message('Current', name: 'current', desc: '');

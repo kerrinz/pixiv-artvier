@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/global/provider/current_account_provider.dart';
@@ -47,11 +48,11 @@ mixin ProfileTabPageLogic on ConsumerState<ProfileTabPage> {
   void handleTapUser() {
     var account = ref.read(globalCurrentAccountProvider);
     account != null
-        ? Navigator.of(ref.context).pushNamed(
+        ? AppNavigator.pushNamed(ref.context, 
             RouteNames.userDetail.name,
             arguments: PreloadUserLeastInfo(
                 account.user.id.toString(), account.user.name, account.user.profileImageUrls!.px170x170),
           )
-        : Navigator.of(ref.context).pushNamed(RouteNames.wizard.name);
+        : AppNavigator.pushNamed(ref.context, RouteNames.wizard.name);
   }
 }

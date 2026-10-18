@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/business_component/search/search_history/search_history.dart';
 import 'package:artvier/component/filter/stateless_flow_filter.dart';
 import 'package:artvier/config/enums.dart';
@@ -162,7 +163,7 @@ class _ExpandSearchPageState extends BasePageState<ExpandSearchPage> {
                                         child: PredictiveSearchUserItem(
                                           user: item,
                                           onTap: () {
-                                            Navigator.of(ref.context).pushNamed(
+                                            AppNavigator.pushNamed(ref.context, 
                                               RouteNames.userDetail.name,
                                               arguments: PreloadUserLeastInfo(
                                                 item.user.id.toString(),
@@ -197,8 +198,7 @@ class _ExpandSearchPageState extends BasePageState<ExpandSearchPage> {
                                               splashFactory: InkSparkle.splashFactory,
                                               onTap: () {
                                                 // 跳转搜索结果页面
-                                                Navigator.of(context)
-                                                    .pushNamed(RouteNames.searchResult.name, arguments: item.name);
+                                                AppNavigator.pushNamed(context, RouteNames.searchResult.name, arguments: item.name);
                                               },
                                               child: Padding(
                                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),

@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/perference/perference_group.dart';
 import 'package:artvier/component/perference/perference_item.dart';
@@ -158,8 +159,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                   child: IconButton(
                     padding: const EdgeInsets.all(8.0),
                     onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(RouteNames.accountManage.name);
+                      AppNavigator.pushNamed(context, RouteNames.accountManage.name);
                     },
                     color: Colors.white,
                     icon: const Icon(Icons.switch_account_outlined),
@@ -309,7 +309,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: () => Navigator.pushNamed(
+                    onTap: () => AppNavigator.pushNamed(
                         context, RouteNames.userFriends.name,
                         arguments:
                             ref.read(globalCurrentAccountProvider)!.user.id),
@@ -334,7 +334,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: () => Navigator.pushNamed(
+                    onTap: () => AppNavigator.pushNamed(
                         context, RouteNames.userFollowing.name,
                         arguments:
                             ref.read(globalCurrentAccountProvider)!.user.id),
@@ -399,7 +399,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
               if (builder(context).routeName == "") {
                 Fluttertoast.showToast(msg: "暂未支持，等待后续更新");
               } else {
-                Navigator.pushNamed(context, builder(context).routeName,
+                AppNavigator.pushNamed(context, builder(context).routeName,
                     arguments: builder(context).argument);
               }
             },
@@ -490,7 +490,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
       child: PerferenceGroup(items: [
         PerferenceItem(
           onTap: () =>
-              Navigator.of(context).pushNamed(RouteNames.mutedSettings.name),
+              AppNavigator.pushNamed(context, RouteNames.mutedSettings.name),
           icon: Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Icon(Icons.block_rounded, color: colorScheme.primary),
@@ -505,7 +505,7 @@ class ProfileTabPageState extends BasePageState<ProfileTabPage>
         ),
         PerferenceItem(
           onTap: () =>
-              Navigator.of(context).pushNamed(RouteNames.allSettings.name),
+              AppNavigator.pushNamed(context, RouteNames.allSettings.name),
           icon: Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Icon(Icons.settings, color: colorScheme.primary),

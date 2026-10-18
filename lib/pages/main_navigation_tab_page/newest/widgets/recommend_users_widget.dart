@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/component/image/stack_avatar_list.dart';
 import 'package:artvier/model_response/user/common_user_previews.dart';
 import 'package:artvier/request/http_host_overrides.dart';
@@ -22,7 +23,7 @@ class RecommendUsersWidget extends BasePage {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () {
-          Navigator.of(ref.context).pushNamed(RouteNames.recommendUsers.name);
+          AppNavigator.pushNamed(ref.context, RouteNames.recommendUsers.name);
         },
         splashFactory: InkSparkle.splashFactory,
         child: Container(

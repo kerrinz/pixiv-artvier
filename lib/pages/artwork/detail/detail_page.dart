@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/business_component/card/author_card.dart';
 import 'package:artvier/business_component/ugoira_image/ugoira_image.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
@@ -341,7 +342,6 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
             parent: BouncingScrollPhysics()),
         itemBuilder: ((context, index) {
           String url = imageUrls[index];
-          Key? imgKey = Key(DateTime.now().millisecondsSinceEpoch.toString());
           return Stack(
             fit: StackFit.passthrough,
             children: [
@@ -349,7 +349,7 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
               GestureDetector(
                 onTap: () => handleTapImage(detail, imageUrls.indexOf(url)),
                 child: EnhanceNetworkImage(
-                  key: imgKey,
+                  key: ValueKey(url),
                   image: ExtendedNetworkImageProvider(
                     HttpHostOverrides().pxImgUrl(url),
                     headers: HttpHostOverrides().imageHeaders(url),
@@ -594,8 +594,7 @@ class _ArtWorksDetailSubPageState extends BasePageState<ArtWorksDetailSubPage>
           color: colorScheme.primary.withAlpha(32),
           padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
           onTap: () {
-            Navigator.of(context)
-                .pushNamed(RouteNames.searchResult.name, arguments: text);
+            AppNavigator.pushNamed(context, RouteNames.searchResult.name, arguments: text);
           },
           child: FittedBox(
             fit: BoxFit.scaleDown,

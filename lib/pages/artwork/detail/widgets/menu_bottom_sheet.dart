@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/component/bottom_sheet/close_bar.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/model_response/illusts/common_illust.dart';
@@ -52,7 +53,7 @@ class ArtworkDetailMenu extends BasePage {
                   context: context,
                   text: l10n(context).mutedSettings,
                   icon: const Icon(Icons.block),
-                  onTap: () => Navigator.of(context).pushNamed(RouteNames.mutedSettings.name,
+                  onTap: () => AppNavigator.pushNamed(context, RouteNames.mutedSettings.name,
                       arguments: MutedPageArguments(users: [detail.user], tags: detail.tags)),
                 ),
               ],

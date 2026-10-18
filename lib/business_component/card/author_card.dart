@@ -1,4 +1,5 @@
 import 'package:artvier/model_response/user/common_user.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/pages/artwork/detail/widgets/user_follow_button.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:date_format/date_format.dart';
@@ -33,7 +34,7 @@ class AuthorCardWidget extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(RouteNames.userDetail.name,
+              AppNavigator.pushNamed(context, RouteNames.userDetail.name,
                   arguments: PreloadUserLeastInfo(user.id.toString(), user.name,
                       user.profileImageUrls.medium));
             },

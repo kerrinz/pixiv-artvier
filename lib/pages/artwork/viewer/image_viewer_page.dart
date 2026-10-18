@@ -1,7 +1,7 @@
+import 'package:artvier/component/layout/adaptive.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -36,21 +36,13 @@ class _ImageViewerPageState extends BasePageState<ImageViewerPage>
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
+    DeviceOrientationPolicy.allowAll();
     _pageController = PageController(initialPage: widget.arguments.index);
   }
 
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    DeviceOrientationPolicy.restore();
     _pageController.dispose();
     for (final entry in _originalImageStreams.entries) {
       final listener = _originalImageListeners[entry.key];

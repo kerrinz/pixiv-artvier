@@ -1,4 +1,5 @@
 import 'package:artvier/model_response/user/common_user.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class NovelSeriesAuthorCardWidget extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(RouteNames.userDetail.name,
+              AppNavigator.pushNamed(context, RouteNames.userDetail.name,
                   arguments: PreloadUserLeastInfo(user.id.toString(), user.name,
                       user.profileImageUrls.medium));
             },

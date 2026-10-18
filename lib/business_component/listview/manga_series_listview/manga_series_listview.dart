@@ -1,3 +1,4 @@
+import 'package:artvier/component/layout/adaptive.dart';
 import 'package:artvier/business_component/listview/manga_series_listview/logic.dart';
 import 'package:artvier/business_component/listview/manga_series_listview/manga_series_list_item.dart';
 import 'package:artvier/model_response/manga/manga_series_list.dart';
@@ -54,7 +55,7 @@ class MangaSeriesListView extends ConsumerWidget with LazyloadLogic, ManagaSerie
       physics: physics,
       itemCount: seriesList.length + 1,
       gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
+        crossAxisCount: wideListColumnCount(MediaQuery.sizeOf(context).width, compact: crossAxisCount),
         mainAxisSpacing: mainAxisSpacing,
         crossAxisSpacing: crossAxisSpacing,
         collectGarbage: collectGarbage,
@@ -146,7 +147,7 @@ class SliverMangaSeriesListView extends MangaSeriesListView {
       padding: padding ?? EdgeInsets.zero,
       sliver: SliverWaterfallFlow(
         gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
+          crossAxisCount: wideListColumnCount(MediaQuery.sizeOf(context).width, compact: crossAxisCount),
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
           collectGarbage: collectGarbage,

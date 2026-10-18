@@ -1,4 +1,5 @@
-import 'dart:math';
+import 'package:artvier/component/layout/adaptive.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 
 import 'package:artvier/business_component/listview/novel_listview/novel_list.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
@@ -143,7 +144,7 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(RouteNames.ranking.name,
+                        AppNavigator.pushNamed(context, RouteNames.ranking.name,
                             arguments: WorksType.novel);
                       },
                       // style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
@@ -215,9 +216,7 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
   // 构建排行榜卡片列表（横向
   Widget buildRankingCardList(
       BuildContext context, List<CommonNovel> rankingList) {
-    double width = min(MediaQuery.of(context).size.width,
-            MediaQuery.of(context).size.height) /
-        2.5;
+    double width = rankingCardExtent(context);
     return SliverToBoxAdapter(
       child: SizedBox(
         height: width * 1.3,
@@ -334,7 +333,7 @@ class HomeNovelTabPageState extends BasePageState<HomeNovelTabPage>
                           splashColor: Colors.black12.withValues(alpha: 0.15),
                           highlightColor: Colors.black12.withValues(alpha: 0.1),
                           onTap: () {
-                            Navigator.of(context).pushNamed(
+                            AppNavigator.pushNamed(context, 
                               RouteNames.novelDetail.name,
                               arguments: NovelDetailPageArguments(
                                 novelId: rankingList[index].id.toString(),

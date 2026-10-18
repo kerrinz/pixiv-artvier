@@ -1,4 +1,5 @@
 import 'package:artvier/request/http_host_overrides.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -152,7 +153,7 @@ class _UserVerticalListViewItemState
                     splashColor: Colors.black12.withValues(alpha: 0.15),
                     highlightColor: Colors.black12.withValues(alpha: 0.1),
                     onTap: () {
-                      Navigator.of(context).pushNamed(
+                      AppNavigator.pushNamed(context, 
                           RouteNames.userDetail.name,
                           arguments: PreloadUserLeastInfo(
                               userData.user.id.toString(),

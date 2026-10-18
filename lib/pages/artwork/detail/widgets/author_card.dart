@@ -1,4 +1,5 @@
 import 'package:artvier/request/http_host_overrides.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class AuthorCardWidget extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(RouteNames.userDetail.name,
+              AppNavigator.pushNamed(context, RouteNames.userDetail.name,
                   arguments: PreloadUserLeastInfo(detail.user.id.toString(),
                       detail.user.name, detail.user.profileImageUrls.medium));
             },

@@ -14,11 +14,15 @@ class BlurCarousel extends StatefulWidget {
     this.indicatorBuilder,
     this.itemCount,
     this.loop = true,
+    this.viewportFraction = 0.86,
   });
 
   final int? itemCount;
 
   final bool loop;
+
+  /// 每一页占视口宽度的比例。越小，单张轮播越窄，两侧露出越多。
+  final double viewportFraction;
 
   // Carousel items
   final ItemBuilder itemBuilder;
@@ -57,7 +61,7 @@ class _BlurCarouselState extends State<BlurCarousel> with SingleTickerProviderSt
     _frontIndexNotifier = ValueNotifier<int>(onesideTempSize);
     _backindexNotifier = ValueNotifier<int>(onesideTempSize);
     _pageController = PageController(
-      viewportFraction: 0.86, // 缩放比例，用于预加载并显示前后一页部分内容
+      viewportFraction: widget.viewportFraction,
       initialPage: widget.loop ? onesideTempSize : 0,
     );
     _animationController = AnimationController(
@@ -96,6 +100,15 @@ class _BlurCarouselState extends State<BlurCarousel> with SingleTickerProviderSt
       }
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _animationController.dispose();
+    _frontIndexNotifier.dispose();
+    _backindexNotifier.dispose();
+    super.dispose();
   }
 
   @override

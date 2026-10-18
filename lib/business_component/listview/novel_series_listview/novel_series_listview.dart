@@ -1,3 +1,4 @@
+import 'package:artvier/component/layout/adaptive.dart';
 import 'package:artvier/business_component/listview/novel_series_listview/logic.dart';
 import 'package:artvier/business_component/listview/novel_series_listview/novel_series_list_item.dart';
 import 'package:artvier/model_response/novels/novel_series_list.dart';
@@ -54,7 +55,7 @@ class NovelSeriesListView extends ConsumerWidget with LazyloadLogic, ManagaSerie
       physics: physics,
       itemCount: seriesList.length + 1,
       gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
+        crossAxisCount: wideListColumnCount(MediaQuery.sizeOf(context).width, compact: crossAxisCount),
         mainAxisSpacing: mainAxisSpacing,
         crossAxisSpacing: crossAxisSpacing,
         collectGarbage: collectGarbage,
@@ -146,7 +147,7 @@ class SliverNovelSeriesListView extends NovelSeriesListView {
       padding: padding ?? EdgeInsets.zero,
       sliver: SliverWaterfallFlow(
         gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
+          crossAxisCount: wideListColumnCount(MediaQuery.sizeOf(context).width, compact: crossAxisCount),
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
           collectGarbage: collectGarbage,

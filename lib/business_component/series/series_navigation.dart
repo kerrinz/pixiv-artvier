@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/business_component/series/series_watch_button.dart';
 import 'package:artvier/component/badge.dart';
 import 'package:artvier/component/buttons/label_button.dart';
@@ -106,7 +107,7 @@ class NovelSeriesNavigationStateless extends BasePage {
           // 系列标题
           GestureDetector(
             onTap: () {
-              Navigator.of(ref.context).pushNamed(
+              AppNavigator.pushNamed(ref.context, 
                 RouteNames.novelSeriesDetail.name,
                 arguments: NovelSeriesDetailPagePageArguments(
                   id: int.parse(novel.seriesId!),
@@ -158,7 +159,7 @@ class NovelSeriesNavigationStateless extends BasePage {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.of(ref.context).pushNamed(
+                          AppNavigator.pushNamed(ref.context, 
                             RouteNames.novelDetail.name,
                             arguments: NovelDetailPageArguments(
                                 novelId: novel.seriesNavigation!.prevNovel!.id.toString(),
@@ -194,7 +195,7 @@ class NovelSeriesNavigationStateless extends BasePage {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.of(ref.context).pushNamed(
+                          AppNavigator.pushNamed(ref.context, 
                             RouteNames.novelDetail.name,
                             arguments: NovelDetailPageArguments(
                                 novelId: novel.seriesNavigation!.nextNovel!.id.toString(),

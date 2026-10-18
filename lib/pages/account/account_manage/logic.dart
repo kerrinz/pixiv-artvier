@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/pages/account/account_manage/account_manage_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,12 +49,12 @@ mixin AccountManagePageStateLogic on BasePageState<AccountManagePage> {
                 final accountList = ref.read(accountManageProvider);
                 if (accountList.isEmpty) {
                   if (context.mounted) {
-                    Navigator.pushNamedAndRemoveUntil(context, RouteNames.wizard.name, (route) => false);
+                    Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(RouteNames.wizard.name, (route) => false);
                   }
                 } else {
                   await notifier.switchAccount(accountList.entries.first.key);
                   if (context.mounted) {
-                    Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+                    Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(RouteNames.mainNavigation.name, (route) => false);
                   }
                 }
               },
@@ -71,7 +72,7 @@ mixin AccountManagePageStateLogic on BasePageState<AccountManagePage> {
     ref.read(accountManageProvider.notifier).switchAccount(profile.user.id).then((value) {
       if (context.mounted) {
         // ignore: use_build_context_synchronously
-        Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+        Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(RouteNames.mainNavigation.name, (route) => false);
       }
     }).catchError((e) {
       Fluttertoast.showToast(msg: "Error to Switch account!");
@@ -81,6 +82,6 @@ mixin AccountManagePageStateLogic on BasePageState<AccountManagePage> {
 
   void handleTapLoginOtherAccount() {
     HapticFeedback.lightImpact();
-    Navigator.of(ref.context).pushNamed(RouteNames.wizard.name);
+    AppNavigator.pushNamed(ref.context, RouteNames.wizard.name);
   }
 }

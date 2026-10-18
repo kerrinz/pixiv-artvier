@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:artvier/config/enums.dart';
 import 'package:artvier/global/model/following_state_changed_arguments%20copy/following_state_changed_arguments.dart';
@@ -11,7 +11,7 @@ mixin UserVerticalListViewLogic {
   WidgetRef get ref;
 
   void handleTapItem(CommonUserPreviews user) {
-    Navigator.of(ref.context).pushNamed(
+    AppNavigator.pushNamed(ref.context, 
       RouteNames.userDetail.name,
       arguments: PreloadUserLeastInfo(user.user.id.toString(), user.user.name, user.user.profileImageUrls.medium),
     );

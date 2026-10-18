@@ -272,6 +272,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'tabToSwitchAccount': MessageLookupByLibrary.simpleMessage('轻点卡片以切换账号'),
     'table': MessageLookupByLibrary.simpleMessage('桌子'),
     'tablet': MessageLookupByLibrary.simpleMessage('数位板'),
+    'tabletDetailPlaceholder': MessageLookupByLibrary.simpleMessage('选择一项以查看详情'),
     'tagAlreadyExists': MessageLookupByLibrary.simpleMessage('该标签已存在！'),
     'tagPartialMatch': MessageLookupByLibrary.simpleMessage('标签部分一致'),
     'tagPerfectMatch': MessageLookupByLibrary.simpleMessage('标签完全一致'),

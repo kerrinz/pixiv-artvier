@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,7 +39,7 @@ class SearchBox extends BasePage {
             child: GestureDetector(
               onTap: () {
                 // 展开搜索框
-                Navigator.of(context).push(BasePage.createFadeRoute(RouteNames.expandSearch.name));
+                AppNavigator.push(context, BasePage.createFadeRoute(RouteNames.expandSearch.name));
               },
               child: Text(
                 "${l10n(context).search}...",

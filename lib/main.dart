@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:artvier/component/layout/adaptive.dart';
 import 'package:artvier/config/constants.dart';
 import 'package:artvier/global/provider/language_provider.dart';
 import 'package:artvier/global/provider/version_and_update_provider.dart';
@@ -61,10 +62,15 @@ beforeRunApp() async {
     "App-OS-Version": "17.7",
     "App-Version": "7.20.18",
   };
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp, // 除特定页面外，仅允许竖屏
-    DeviceOrientation.portraitDown,
-  ]);
+  final views = WidgetsBinding.instance.platformDispatcher.views;
+  if (views.isEmpty) {
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  } else {
+    DeviceOrientationPolicy.applyForView(views.first);
+  }
 
   // Apply HttpOverrides with proxy
   HttpOverrides.global = MyHttpOverrides();
@@ -120,6 +126,12 @@ class MyAppState extends ConsumerState<MyApp> {
       }
     }
     return null;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    DeviceOrientationPolicy.applyForView(View.of(context));
   }
 
   @override

@@ -274,6 +274,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'tabToSwitchAccount': MessageLookupByLibrary.simpleMessage('Tap card to switch account'),
     'table': MessageLookupByLibrary.simpleMessage('Table'),
     'tablet': MessageLookupByLibrary.simpleMessage('Graphic tablet'),
+    'tabletDetailPlaceholder': MessageLookupByLibrary.simpleMessage('Select an item to view details'),
     'tagAlreadyExists': MessageLookupByLibrary.simpleMessage('Tag already exists!'),
     'tagPartialMatch': MessageLookupByLibrary.simpleMessage('Tag Partial Match'),
     'tagPerfectMatch': MessageLookupByLibrary.simpleMessage('Tag Perfect Match'),

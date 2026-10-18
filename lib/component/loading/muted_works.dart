@@ -1,4 +1,5 @@
 import 'package:artvier/l10n/localization_intl.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,7 +30,7 @@ class MutedWorks extends StatelessWidget {
             child: Text(LocalizationIntl.of(context).workWasMuted, style: textTheme.titleMedium),
           ),
           TextButton(
-              onPressed: () => Navigator.of(context).pushNamed(
+              onPressed: () => AppNavigator.pushNamed(context, 
                     RouteNames.mutedSettings.name,
                   ),
               child: Text(LocalizationIntl.of(context).mutedSettings)),

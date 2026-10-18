@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/model_response/user/preload_user_least_info.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
@@ -44,7 +45,7 @@ class PixivisionIllustCard extends BasePage {
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: InkWell(
-              onTap: () => Navigator.of(context).pushNamed(
+              onTap: () => AppNavigator.pushNamed(context, 
                 RouteNames.userDetail.name,
                 arguments:
                     PreloadUserLeastInfo(authorId, authorName, authorAvatarUrl),
@@ -84,7 +85,7 @@ class PixivisionIllustCard extends BasePage {
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(16)),
             child: InkWell(
-              onTap: () => Navigator.of(context).pushNamed(
+              onTap: () => AppNavigator.pushNamed(context, 
                 RouteNames.artworkDetail.name,
                 arguments: IllustDetailPageArguments(
                     illustId: illustId, title: illustTitle),

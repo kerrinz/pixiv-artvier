@@ -33,7 +33,7 @@ class NotFoundPage extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainNavigation.name, (route) => false);
+                    Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(RouteNames.mainNavigation.name, (route) => false);
                   },
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,

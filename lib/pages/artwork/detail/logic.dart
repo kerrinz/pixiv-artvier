@@ -1,7 +1,7 @@
 import 'package:artvier/global/settings.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/pages/artwork/detail/provider/illust_detail_provider.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:artvier/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
@@ -83,7 +83,7 @@ mixin ArtworkDetailPageLogic {
         ));
       }
     }
-    Navigator.of(ref.context).pushNamed(
+    AppNavigator.pushNamed(ref.context, 
       RouteNames.artworkImagesPreview.name,
       arguments: ImageViewerPageArguments(
           urlList: urls,

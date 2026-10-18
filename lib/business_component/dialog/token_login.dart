@@ -67,7 +67,7 @@ class _TokenLoginDialogState extends BasePageState<TokenLoginDialog> {
                 .then((value) {
               if (value && context.mounted) {
                 Fluttertoast.showToast(msg: l10n.loginSuccess);
-                Navigator.of(context).pushNamedAndRemoveUntil(RouteNames.mainNavigation.name, (route) => false);
+                Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(RouteNames.mainNavigation.name, (route) => false);
               }
               if (!value) {
                 Fluttertoast.showToast(msg: l10n.loginFailed);

@@ -15,6 +15,7 @@ abstract class BasePage extends ConsumerWidget {
   // 淡入过渡跳转页面
   static Route createFadeRoute(String routeName, {Object? arguments}) {
     return PageRouteBuilder(
+      settings: RouteSettings(name: routeName, arguments: arguments),
       pageBuilder: (context, animation, secondaryAnimation) {
         RouteWidgetBuilder builder = Routes.match(context, routeName);
         return builder(context, arguments);
@@ -31,6 +32,7 @@ abstract class BasePage extends ConsumerWidget {
   // 模态框路由动画
   static Route createModalRoute(String routeName, {Object? arguments}) {
     return MaterialWithModalsPageRoute(
+      settings: RouteSettings(name: routeName, arguments: arguments),
       builder: (context) {
         RouteWidgetBuilder builder = Routes.match(context, routeName);
         return builder(context, arguments);

@@ -275,13 +275,18 @@ class DragContainerState extends State<DragVerticalContainer> with SingleTickerP
 
   @override
   void didUpdateWidget(covariant DragVerticalContainer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final geometryChanged = oldWidget.height != widget.height ||
+        oldWidget.defaultPosition != widget.defaultPosition ||
+        oldWidget.maximumPosition != widget.maximumPosition;
+    if (!geometryChanged) return;
+    // 只有可用高度变了才归位，避免页面重建时把已经拉开的详情弹回顶部。
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // 重新归位，以避免分辨率变化导致错位
+      if (!mounted) return;
       positionY = defaultY;
       lastPositionY = defaultY;
       setState(() {});
     });
-    super.didUpdateWidget(oldWidget);
   }
 
   @override

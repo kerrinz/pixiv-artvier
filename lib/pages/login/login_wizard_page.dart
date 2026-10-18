@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/business_component/dialog/token_login.dart';
 import 'package:artvier/component/buttons/blur_button.dart';
 import 'package:artvier/global/provider/version_and_update_provider.dart';
@@ -71,7 +72,7 @@ class _LoginWizardPageState extends BasePageState<LoginWizardPage> {
                           minimumSize: Size(0, 0),
                           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
                           borderRadius: const BorderRadius.all(Radius.circular(10)),
-                          onPressed: () => Navigator.pushNamed(context, RouteNames.loginWeb.name),
+                          onPressed: () => AppNavigator.pushNamed(context, RouteNames.loginWeb.name),
                           child: SizedBox(
                             width: double.infinity,
                             child: Text(

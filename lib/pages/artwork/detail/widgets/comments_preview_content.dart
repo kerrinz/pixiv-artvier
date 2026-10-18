@@ -1,4 +1,5 @@
 import 'package:artvier/base/base_page.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/request/http_host_overrides.dart';
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
@@ -66,7 +67,7 @@ class CommentsPreviewContentWidget extends BasePage {
             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
             child: Text(l10n(context).viewMore, style: textTheme.labelLarge?.copyWith(color: colorScheme.primary)),
             onPressed: () =>
-                Navigator.of(context).push(BasePage.createModalRoute(RouteNames.comments.name, arguments: artworkId)),
+                AppNavigator.push(context, BasePage.createModalRoute(RouteNames.comments.name, arguments: artworkId)),
           ),
         ),
       ],

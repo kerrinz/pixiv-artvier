@@ -1,3 +1,5 @@
+import 'package:artvier/component/layout/adaptive.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/component/image/enhance_network_image.dart';
 import 'package:artvier/database/database.dart';
 import 'package:artvier/pages/artwork/detail/arguments/illust_detail_page_args.dart';
@@ -53,7 +55,7 @@ class HistoryGridView extends ConsumerWidget with LazyloadLogic {
       physics: physics,
       itemCount: itemList.length + 1,
       gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
+        crossAxisCount: illustColumnCount(MediaQuery.sizeOf(context).width, compact: crossAxisCount),
         mainAxisSpacing: mainAxisSpacing,
         crossAxisSpacing: crossAxisSpacing,
         collectGarbage: collectGarbage,
@@ -94,7 +96,7 @@ class HistoryGridView extends ConsumerWidget with LazyloadLogic {
       title: item.title,
       author: item.authorName ?? "",
       onTap: () {
-        Navigator.of(ref.context).pushNamed(
+        AppNavigator.pushNamed(ref.context, 
           RouteNames.artworkDetail.name,
           arguments: IllustDetailPageArguments(
               illustId: item.worksId, title: item.title),
@@ -160,7 +162,7 @@ class SliverHistoryGridView extends HistoryGridView {
       padding: padding ?? EdgeInsets.zero,
       sliver: SliverWaterfallFlow(
         gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
+          crossAxisCount: illustColumnCount(MediaQuery.sizeOf(context).width, compact: crossAxisCount),
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
           collectGarbage: collectGarbage,

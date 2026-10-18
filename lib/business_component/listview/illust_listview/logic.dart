@@ -1,7 +1,7 @@
 import 'package:artvier/business_component/advanced_collecting_bottom_sheet/advanced_collecting_bottom_sheet.dart';
+import 'package:artvier/component/layout/app_navigator.dart';
 import 'package:artvier/business_component/advanced_collecting_bottom_sheet/model/advanced_collecting_data.dart';
 import 'package:artvier/component/bottom_sheet/bottom_sheets.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,7 +21,7 @@ mixin IllustWaterfallGridViewLogic {
     if (illust.restrict == 2) {
       Fluttertoast.showToast(msg: "该图片已被删除或不公开", toastLength: Toast.LENGTH_SHORT, fontSize: 16.0);
     } else {
-      Navigator.of(ref.context).pushNamed(
+      AppNavigator.pushNamed(ref.context, 
         RouteNames.artworkDetail.name,
         arguments: IllustDetailPageArguments(currentIllustListIndex: index, illustList: illustList),
       );
