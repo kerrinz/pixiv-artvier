@@ -52,9 +52,9 @@
 | 操作系统 | 支持情况 |
 |---|---|
 | Android 手机 | ✓ |
-| Android 平板 | × 适配中 |
+| Android 平板 | ✓ |
 | IOS | ✓ |
-| iPadOS | × 适配中 |
+| iPadOS | ✓ |
 | macOS | × |
 | Windows | × |
 | Web | × |
