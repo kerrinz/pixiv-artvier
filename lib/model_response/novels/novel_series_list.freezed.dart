@@ -216,21 +216,27 @@ NovelSeries _$NovelSeriesFromJson(Map<String, dynamic> json) {
 mixin _$NovelSeries {
   @JsonKey(name: "id")
   int get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "title")
+  @JsonKey(name: "title", fromJson: _stringOrEmpty)
   String get title => throw _privateConstructorUsedError;
+
+  /// 系列封面。屏蔽或下架时为 null。
   @JsonKey(name: "url")
-  String get url => throw _privateConstructorUsedError;
+  String? get url => throw _privateConstructorUsedError;
   @JsonKey(name: "mask_text")
-  dynamic get maskText => throw _privateConstructorUsedError;
-  @JsonKey(name: "published_content_count")
+  String? get maskText => throw _privateConstructorUsedError;
+  @JsonKey(name: "published_content_count", fromJson: _intOrZero)
   int get publishedContentCount => throw _privateConstructorUsedError;
-  @JsonKey(name: "last_published_content_datetime")
-  DateTime get lastPublishedContentDatetime =>
+
+  /// 最近更新时间。没有更新记录时为 null。
+  @JsonKey(name: "last_published_content_datetime", fromJson: _dateTimeOrNull)
+  DateTime? get lastPublishedContentDatetime =>
       throw _privateConstructorUsedError;
-  @JsonKey(name: "latest_content_id")
-  int get latestContentId => throw _privateConstructorUsedError;
+
+  /// 最新一话的作品 id。没有可打开的话数时为 null。
+  @JsonKey(name: "latest_content_id", fromJson: _intOrNull)
+  int? get latestContentId => throw _privateConstructorUsedError;
   @JsonKey(name: "user")
-  User get user => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
 
   /// Serializes this NovelSeries to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -250,16 +256,19 @@ abstract class $NovelSeriesCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "id") int id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "url") String url,
-      @JsonKey(name: "mask_text") dynamic maskText,
-      @JsonKey(name: "published_content_count") int publishedContentCount,
-      @JsonKey(name: "last_published_content_datetime")
-      DateTime lastPublishedContentDatetime,
-      @JsonKey(name: "latest_content_id") int latestContentId,
-      @JsonKey(name: "user") User user});
+      @JsonKey(name: "title", fromJson: _stringOrEmpty) String title,
+      @JsonKey(name: "url") String? url,
+      @JsonKey(name: "mask_text") String? maskText,
+      @JsonKey(name: "published_content_count", fromJson: _intOrZero)
+      int publishedContentCount,
+      @JsonKey(
+          name: "last_published_content_datetime", fromJson: _dateTimeOrNull)
+      DateTime? lastPublishedContentDatetime,
+      @JsonKey(name: "latest_content_id", fromJson: _intOrNull)
+      int? latestContentId,
+      @JsonKey(name: "user") User? user});
 
-  $UserCopyWith<$Res> get user;
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -279,12 +288,12 @@ class _$NovelSeriesCopyWithImpl<$Res, $Val extends NovelSeries>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? url = null,
+    Object? url = freezed,
     Object? maskText = freezed,
     Object? publishedContentCount = null,
-    Object? lastPublishedContentDatetime = null,
-    Object? latestContentId = null,
-    Object? user = null,
+    Object? lastPublishedContentDatetime = freezed,
+    Object? latestContentId = freezed,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -295,30 +304,30 @@ class _$NovelSeriesCopyWithImpl<$Res, $Val extends NovelSeries>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      url: null == url
+      url: freezed == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       maskText: freezed == maskText
           ? _value.maskText
           : maskText // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       publishedContentCount: null == publishedContentCount
           ? _value.publishedContentCount
           : publishedContentCount // ignore: cast_nullable_to_non_nullable
               as int,
-      lastPublishedContentDatetime: null == lastPublishedContentDatetime
+      lastPublishedContentDatetime: freezed == lastPublishedContentDatetime
           ? _value.lastPublishedContentDatetime
           : lastPublishedContentDatetime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      latestContentId: null == latestContentId
+              as DateTime?,
+      latestContentId: freezed == latestContentId
           ? _value.latestContentId
           : latestContentId // ignore: cast_nullable_to_non_nullable
-              as int,
-      user: null == user
+              as int?,
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
     ) as $Val);
   }
 
@@ -326,8 +335,12 @@ class _$NovelSeriesCopyWithImpl<$Res, $Val extends NovelSeries>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get user {
-    return $UserCopyWith<$Res>(_value.user, (value) {
+  $UserCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -343,17 +356,20 @@ abstract class _$$NovelSeriesImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "id") int id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "url") String url,
-      @JsonKey(name: "mask_text") dynamic maskText,
-      @JsonKey(name: "published_content_count") int publishedContentCount,
-      @JsonKey(name: "last_published_content_datetime")
-      DateTime lastPublishedContentDatetime,
-      @JsonKey(name: "latest_content_id") int latestContentId,
-      @JsonKey(name: "user") User user});
+      @JsonKey(name: "title", fromJson: _stringOrEmpty) String title,
+      @JsonKey(name: "url") String? url,
+      @JsonKey(name: "mask_text") String? maskText,
+      @JsonKey(name: "published_content_count", fromJson: _intOrZero)
+      int publishedContentCount,
+      @JsonKey(
+          name: "last_published_content_datetime", fromJson: _dateTimeOrNull)
+      DateTime? lastPublishedContentDatetime,
+      @JsonKey(name: "latest_content_id", fromJson: _intOrNull)
+      int? latestContentId,
+      @JsonKey(name: "user") User? user});
 
   @override
-  $UserCopyWith<$Res> get user;
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -371,12 +387,12 @@ class __$$NovelSeriesImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? url = null,
+    Object? url = freezed,
     Object? maskText = freezed,
     Object? publishedContentCount = null,
-    Object? lastPublishedContentDatetime = null,
-    Object? latestContentId = null,
-    Object? user = null,
+    Object? lastPublishedContentDatetime = freezed,
+    Object? latestContentId = freezed,
+    Object? user = freezed,
   }) {
     return _then(_$NovelSeriesImpl(
       id: null == id
@@ -387,48 +403,51 @@ class __$$NovelSeriesImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      url: null == url
+      url: freezed == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       maskText: freezed == maskText
           ? _value.maskText
           : maskText // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       publishedContentCount: null == publishedContentCount
           ? _value.publishedContentCount
           : publishedContentCount // ignore: cast_nullable_to_non_nullable
               as int,
-      lastPublishedContentDatetime: null == lastPublishedContentDatetime
+      lastPublishedContentDatetime: freezed == lastPublishedContentDatetime
           ? _value.lastPublishedContentDatetime
           : lastPublishedContentDatetime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      latestContentId: null == latestContentId
+              as DateTime?,
+      latestContentId: freezed == latestContentId
           ? _value.latestContentId
           : latestContentId // ignore: cast_nullable_to_non_nullable
-              as int,
-      user: null == user
+              as int?,
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$NovelSeriesImpl implements _NovelSeries {
+class _$NovelSeriesImpl extends _NovelSeries {
   const _$NovelSeriesImpl(
       {@JsonKey(name: "id") required this.id,
-      @JsonKey(name: "title") required this.title,
-      @JsonKey(name: "url") required this.url,
-      @JsonKey(name: "mask_text") required this.maskText,
-      @JsonKey(name: "published_content_count")
-      required this.publishedContentCount,
-      @JsonKey(name: "last_published_content_datetime")
-      required this.lastPublishedContentDatetime,
-      @JsonKey(name: "latest_content_id") required this.latestContentId,
-      @JsonKey(name: "user") required this.user});
+      @JsonKey(name: "title", fromJson: _stringOrEmpty) this.title = '',
+      @JsonKey(name: "url") this.url,
+      @JsonKey(name: "mask_text") this.maskText,
+      @JsonKey(name: "published_content_count", fromJson: _intOrZero)
+      this.publishedContentCount = 0,
+      @JsonKey(
+          name: "last_published_content_datetime", fromJson: _dateTimeOrNull)
+      this.lastPublishedContentDatetime,
+      @JsonKey(name: "latest_content_id", fromJson: _intOrNull)
+      this.latestContentId,
+      @JsonKey(name: "user") this.user})
+      : super._();
 
   factory _$NovelSeriesImpl.fromJson(Map<String, dynamic> json) =>
       _$$NovelSeriesImplFromJson(json);
@@ -437,26 +456,32 @@ class _$NovelSeriesImpl implements _NovelSeries {
   @JsonKey(name: "id")
   final int id;
   @override
-  @JsonKey(name: "title")
+  @JsonKey(name: "title", fromJson: _stringOrEmpty)
   final String title;
+
+  /// 系列封面。屏蔽或下架时为 null。
   @override
   @JsonKey(name: "url")
-  final String url;
+  final String? url;
   @override
   @JsonKey(name: "mask_text")
-  final dynamic maskText;
+  final String? maskText;
   @override
-  @JsonKey(name: "published_content_count")
+  @JsonKey(name: "published_content_count", fromJson: _intOrZero)
   final int publishedContentCount;
+
+  /// 最近更新时间。没有更新记录时为 null。
   @override
-  @JsonKey(name: "last_published_content_datetime")
-  final DateTime lastPublishedContentDatetime;
+  @JsonKey(name: "last_published_content_datetime", fromJson: _dateTimeOrNull)
+  final DateTime? lastPublishedContentDatetime;
+
+  /// 最新一话的作品 id。没有可打开的话数时为 null。
   @override
-  @JsonKey(name: "latest_content_id")
-  final int latestContentId;
+  @JsonKey(name: "latest_content_id", fromJson: _intOrNull)
+  final int? latestContentId;
   @override
   @JsonKey(name: "user")
-  final User user;
+  final User? user;
 
   @override
   String toString() {
@@ -471,7 +496,8 @@ class _$NovelSeriesImpl implements _NovelSeries {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.url, url) || other.url == url) &&
-            const DeepCollectionEquality().equals(other.maskText, maskText) &&
+            (identical(other.maskText, maskText) ||
+                other.maskText == maskText) &&
             (identical(other.publishedContentCount, publishedContentCount) ||
                 other.publishedContentCount == publishedContentCount) &&
             (identical(other.lastPublishedContentDatetime,
@@ -490,7 +516,7 @@ class _$NovelSeriesImpl implements _NovelSeries {
       id,
       title,
       url,
-      const DeepCollectionEquality().hash(maskText),
+      maskText,
       publishedContentCount,
       lastPublishedContentDatetime,
       latestContentId,
@@ -512,18 +538,21 @@ class _$NovelSeriesImpl implements _NovelSeries {
   }
 }
 
-abstract class _NovelSeries implements NovelSeries {
+abstract class _NovelSeries extends NovelSeries {
   const factory _NovelSeries(
       {@JsonKey(name: "id") required final int id,
-      @JsonKey(name: "title") required final String title,
-      @JsonKey(name: "url") required final String url,
-      @JsonKey(name: "mask_text") required final dynamic maskText,
-      @JsonKey(name: "published_content_count")
-      required final int publishedContentCount,
-      @JsonKey(name: "last_published_content_datetime")
-      required final DateTime lastPublishedContentDatetime,
-      @JsonKey(name: "latest_content_id") required final int latestContentId,
-      @JsonKey(name: "user") required final User user}) = _$NovelSeriesImpl;
+      @JsonKey(name: "title", fromJson: _stringOrEmpty) final String title,
+      @JsonKey(name: "url") final String? url,
+      @JsonKey(name: "mask_text") final String? maskText,
+      @JsonKey(name: "published_content_count", fromJson: _intOrZero)
+      final int publishedContentCount,
+      @JsonKey(
+          name: "last_published_content_datetime", fromJson: _dateTimeOrNull)
+      final DateTime? lastPublishedContentDatetime,
+      @JsonKey(name: "latest_content_id", fromJson: _intOrNull)
+      final int? latestContentId,
+      @JsonKey(name: "user") final User? user}) = _$NovelSeriesImpl;
+  const _NovelSeries._() : super._();
 
   factory _NovelSeries.fromJson(Map<String, dynamic> json) =
       _$NovelSeriesImpl.fromJson;
@@ -532,26 +561,32 @@ abstract class _NovelSeries implements NovelSeries {
   @JsonKey(name: "id")
   int get id;
   @override
-  @JsonKey(name: "title")
+  @JsonKey(name: "title", fromJson: _stringOrEmpty)
   String get title;
+
+  /// 系列封面。屏蔽或下架时为 null。
   @override
   @JsonKey(name: "url")
-  String get url;
+  String? get url;
   @override
   @JsonKey(name: "mask_text")
-  dynamic get maskText;
+  String? get maskText;
   @override
-  @JsonKey(name: "published_content_count")
+  @JsonKey(name: "published_content_count", fromJson: _intOrZero)
   int get publishedContentCount;
+
+  /// 最近更新时间。没有更新记录时为 null。
   @override
-  @JsonKey(name: "last_published_content_datetime")
-  DateTime get lastPublishedContentDatetime;
+  @JsonKey(name: "last_published_content_datetime", fromJson: _dateTimeOrNull)
+  DateTime? get lastPublishedContentDatetime;
+
+  /// 最新一话的作品 id。没有可打开的话数时为 null。
   @override
-  @JsonKey(name: "latest_content_id")
-  int get latestContentId;
+  @JsonKey(name: "latest_content_id", fromJson: _intOrNull)
+  int? get latestContentId;
   @override
   @JsonKey(name: "user")
-  User get user;
+  User? get user;
 
   /// Create a copy of NovelSeries
   /// with the given fields replaced by the non-null parameter values.
@@ -569,12 +604,12 @@ User _$UserFromJson(Map<String, dynamic> json) {
 mixin _$User {
   @JsonKey(name: "id")
   int get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "name")
+  @JsonKey(name: "name", fromJson: _stringOrEmpty)
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: "account")
-  String get account => throw _privateConstructorUsedError;
+  String? get account => throw _privateConstructorUsedError;
   @JsonKey(name: "profile_image_urls")
-  ProfileImageUrls get profileImageUrls => throw _privateConstructorUsedError;
+  ProfileImageUrls? get profileImageUrls => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -592,11 +627,11 @@ abstract class $UserCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "id") int id,
-      @JsonKey(name: "name") String name,
-      @JsonKey(name: "account") String account,
-      @JsonKey(name: "profile_image_urls") ProfileImageUrls profileImageUrls});
+      @JsonKey(name: "name", fromJson: _stringOrEmpty) String name,
+      @JsonKey(name: "account") String? account,
+      @JsonKey(name: "profile_image_urls") ProfileImageUrls? profileImageUrls});
 
-  $ProfileImageUrlsCopyWith<$Res> get profileImageUrls;
+  $ProfileImageUrlsCopyWith<$Res>? get profileImageUrls;
 }
 
 /// @nodoc
@@ -616,8 +651,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? account = null,
-    Object? profileImageUrls = null,
+    Object? account = freezed,
+    Object? profileImageUrls = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -628,14 +663,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      account: null == account
+      account: freezed == account
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImageUrls: null == profileImageUrls
+              as String?,
+      profileImageUrls: freezed == profileImageUrls
           ? _value.profileImageUrls
           : profileImageUrls // ignore: cast_nullable_to_non_nullable
-              as ProfileImageUrls,
+              as ProfileImageUrls?,
     ) as $Val);
   }
 
@@ -643,8 +678,12 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ProfileImageUrlsCopyWith<$Res> get profileImageUrls {
-    return $ProfileImageUrlsCopyWith<$Res>(_value.profileImageUrls, (value) {
+  $ProfileImageUrlsCopyWith<$Res>? get profileImageUrls {
+    if (_value.profileImageUrls == null) {
+      return null;
+    }
+
+    return $ProfileImageUrlsCopyWith<$Res>(_value.profileImageUrls!, (value) {
       return _then(_value.copyWith(profileImageUrls: value) as $Val);
     });
   }
@@ -659,12 +698,12 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "id") int id,
-      @JsonKey(name: "name") String name,
-      @JsonKey(name: "account") String account,
-      @JsonKey(name: "profile_image_urls") ProfileImageUrls profileImageUrls});
+      @JsonKey(name: "name", fromJson: _stringOrEmpty) String name,
+      @JsonKey(name: "account") String? account,
+      @JsonKey(name: "profile_image_urls") ProfileImageUrls? profileImageUrls});
 
   @override
-  $ProfileImageUrlsCopyWith<$Res> get profileImageUrls;
+  $ProfileImageUrlsCopyWith<$Res>? get profileImageUrls;
 }
 
 /// @nodoc
@@ -681,8 +720,8 @@ class __$$UserImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? account = null,
-    Object? profileImageUrls = null,
+    Object? account = freezed,
+    Object? profileImageUrls = freezed,
   }) {
     return _then(_$UserImpl(
       id: null == id
@@ -693,14 +732,14 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      account: null == account
+      account: freezed == account
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImageUrls: null == profileImageUrls
+              as String?,
+      profileImageUrls: freezed == profileImageUrls
           ? _value.profileImageUrls
           : profileImageUrls // ignore: cast_nullable_to_non_nullable
-              as ProfileImageUrls,
+              as ProfileImageUrls?,
     ));
   }
 }
@@ -710,9 +749,9 @@ class __$$UserImplCopyWithImpl<$Res>
 class _$UserImpl implements _User {
   const _$UserImpl(
       {@JsonKey(name: "id") required this.id,
-      @JsonKey(name: "name") required this.name,
-      @JsonKey(name: "account") required this.account,
-      @JsonKey(name: "profile_image_urls") required this.profileImageUrls});
+      @JsonKey(name: "name", fromJson: _stringOrEmpty) this.name = '',
+      @JsonKey(name: "account") this.account,
+      @JsonKey(name: "profile_image_urls") this.profileImageUrls});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -721,14 +760,14 @@ class _$UserImpl implements _User {
   @JsonKey(name: "id")
   final int id;
   @override
-  @JsonKey(name: "name")
+  @JsonKey(name: "name", fromJson: _stringOrEmpty)
   final String name;
   @override
   @JsonKey(name: "account")
-  final String account;
+  final String? account;
   @override
   @JsonKey(name: "profile_image_urls")
-  final ProfileImageUrls profileImageUrls;
+  final ProfileImageUrls? profileImageUrls;
 
   @override
   String toString() {
@@ -771,10 +810,10 @@ class _$UserImpl implements _User {
 abstract class _User implements User {
   const factory _User(
       {@JsonKey(name: "id") required final int id,
-      @JsonKey(name: "name") required final String name,
-      @JsonKey(name: "account") required final String account,
+      @JsonKey(name: "name", fromJson: _stringOrEmpty) final String name,
+      @JsonKey(name: "account") final String? account,
       @JsonKey(name: "profile_image_urls")
-      required final ProfileImageUrls profileImageUrls}) = _$UserImpl;
+      final ProfileImageUrls? profileImageUrls}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -782,14 +821,14 @@ abstract class _User implements User {
   @JsonKey(name: "id")
   int get id;
   @override
-  @JsonKey(name: "name")
+  @JsonKey(name: "name", fromJson: _stringOrEmpty)
   String get name;
   @override
   @JsonKey(name: "account")
-  String get account;
+  String? get account;
   @override
   @JsonKey(name: "profile_image_urls")
-  ProfileImageUrls get profileImageUrls;
+  ProfileImageUrls? get profileImageUrls;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -806,7 +845,7 @@ ProfileImageUrls _$ProfileImageUrlsFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ProfileImageUrls {
   @JsonKey(name: "medium")
-  String get medium => throw _privateConstructorUsedError;
+  String? get medium => throw _privateConstructorUsedError;
 
   /// Serializes this ProfileImageUrls to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -824,7 +863,7 @@ abstract class $ProfileImageUrlsCopyWith<$Res> {
           ProfileImageUrls value, $Res Function(ProfileImageUrls) then) =
       _$ProfileImageUrlsCopyWithImpl<$Res, ProfileImageUrls>;
   @useResult
-  $Res call({@JsonKey(name: "medium") String medium});
+  $Res call({@JsonKey(name: "medium") String? medium});
 }
 
 /// @nodoc
@@ -842,13 +881,13 @@ class _$ProfileImageUrlsCopyWithImpl<$Res, $Val extends ProfileImageUrls>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? medium = null,
+    Object? medium = freezed,
   }) {
     return _then(_value.copyWith(
-      medium: null == medium
+      medium: freezed == medium
           ? _value.medium
           : medium // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -861,7 +900,7 @@ abstract class _$$ProfileImageUrlsImplCopyWith<$Res>
       __$$ProfileImageUrlsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: "medium") String medium});
+  $Res call({@JsonKey(name: "medium") String? medium});
 }
 
 /// @nodoc
@@ -877,13 +916,13 @@ class __$$ProfileImageUrlsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? medium = null,
+    Object? medium = freezed,
   }) {
     return _then(_$ProfileImageUrlsImpl(
-      medium: null == medium
+      medium: freezed == medium
           ? _value.medium
           : medium // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -891,14 +930,14 @@ class __$$ProfileImageUrlsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ProfileImageUrlsImpl implements _ProfileImageUrls {
-  const _$ProfileImageUrlsImpl({@JsonKey(name: "medium") required this.medium});
+  const _$ProfileImageUrlsImpl({@JsonKey(name: "medium") this.medium});
 
   factory _$ProfileImageUrlsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProfileImageUrlsImplFromJson(json);
 
   @override
   @JsonKey(name: "medium")
-  final String medium;
+  final String? medium;
 
   @override
   String toString() {
@@ -936,15 +975,14 @@ class _$ProfileImageUrlsImpl implements _ProfileImageUrls {
 
 abstract class _ProfileImageUrls implements ProfileImageUrls {
   const factory _ProfileImageUrls(
-          {@JsonKey(name: "medium") required final String medium}) =
-      _$ProfileImageUrlsImpl;
+      {@JsonKey(name: "medium") final String? medium}) = _$ProfileImageUrlsImpl;
 
   factory _ProfileImageUrls.fromJson(Map<String, dynamic> json) =
       _$ProfileImageUrlsImpl.fromJson;
 
   @override
   @JsonKey(name: "medium")
-  String get medium;
+  String? get medium;
 
   /// Create a copy of ProfileImageUrls
   /// with the given fields replaced by the non-null parameter values.

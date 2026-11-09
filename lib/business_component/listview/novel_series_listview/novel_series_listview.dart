@@ -68,10 +68,12 @@ class NovelSeriesListView extends ConsumerWidget with LazyloadLogic, ManagaSerie
   }
 
   void collectGarbage(List<int> garbages) {
-    // print('collect garbage : $garbages');
-    for (var index in garbages) {
+    for (final index in garbages) {
+      if (index < 0 || index >= seriesList.length) continue;
+      final url = seriesList[index].url;
+      if (url == null || url.isEmpty) continue;
       final provider = ExtendedNetworkImageProvider(
-        HttpHostOverrides().pxImgUrl(seriesList[index].url),
+        HttpHostOverrides().pxImgUrl(url),
       );
       provider.evict();
     }

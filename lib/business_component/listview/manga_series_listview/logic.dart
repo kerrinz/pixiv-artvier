@@ -8,13 +8,15 @@ mixin ManagaSeriesListViewLogic {
   WidgetRef get ref;
 
   void handleTapItem(MangaSeries mangaSeries) {
+    final user = mangaSeries.user;
+    if (mangaSeries.isMasked || user == null) return;
     AppNavigator.pushNamed(ref.context, 
       RouteNames.mangaSeriesDetail.name,
       arguments: MangaSeriesDetailPagePageArguments(
         id: mangaSeries.id,
         title: mangaSeries.title,
-        url: mangaSeries.url,
-        user: mangaSeries.user,
+        url: mangaSeries.url ?? '',
+        user: user,
       ),
     );
   }

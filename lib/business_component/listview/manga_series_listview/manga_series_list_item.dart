@@ -47,8 +47,13 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
 
   @override
   Widget build(BuildContext context) {
+    final series = widget.mangaSeries;
+    final masked = series.isMasked;
+    final publishedAt = series.lastPublishedContentDatetime;
+    final latestContentId = series.latestContentId;
+    final authorName = series.user?.name;
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: masked ? null : widget.onTap,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -57,17 +62,7 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
             padding: const EdgeInsets.only(right: 12.0),
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(8)),
-              child: EnhanceNetworkImage(
-                image: ExtendedNetworkImageProvider(
-                  HttpHostOverrides().pxImgUrl(widget.mangaSeries.url),
-                  headers:
-                      HttpHostOverrides().imageHeaders(widget.mangaSeries.url),
-                  cache: true,
-                ),
-                fit: BoxFit.cover,
-                width: 82,
-                height: 110,
-              ),
+              child: _cover(series.url),
             ),
           ),
           Expanded(
@@ -84,83 +79,102 @@ class _ManagaSeriesListItemState extends ConsumerState<ManagaSeriesListItem> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.mangaSeries.title,
+                          masked ? (series.maskText ?? '') : series.title,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: textTheme.titleSmall
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
-                        Text(widget.mangaSeries.user.name,
-                            style: textTheme.bodySmall?.copyWith(height: 2)),
+                        if (!masked && authorName != null && authorName.isNotEmpty)
+                          Text(authorName,
+                              style: textTheme.bodySmall?.copyWith(height: 2)),
                       ]),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                            l10n.seriesUpdateTo(
-                                widget.mangaSeries.publishedContentCount),
-                            style: textTheme.bodySmall?.copyWith(
-                                color: textTheme.bodySmall?.color
-                                    ?.withValues(alpha: 0.5),
-                                height: 1.5)),
-                        Text(
-                          formatDate(
-                            widget.mangaSeries.lastPublishedContentDatetime
-                                .toLocal(),
-                            [yyyy, '-', mm, '-', dd, ' '],
-                          ),
-                          style: textTheme.bodyMedium?.copyWith(
-                              color: textTheme.bodyMedium?.color
-                                  ?.withValues(alpha: 0.5)),
-                        ),
-                      ]),
+                  if (!masked)
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              l10n.seriesUpdateTo(series.publishedContentCount),
+                              style: textTheme.bodySmall?.copyWith(
+                                  color: textTheme.bodySmall?.color
+                                      ?.withValues(alpha: 0.5),
+                                  height: 1.5)),
+                          if (publishedAt != null)
+                            Text(
+                              formatDate(
+                                publishedAt.toLocal(),
+                                [yyyy, '-', mm, '-', dd, ' '],
+                              ),
+                              style: textTheme.bodyMedium?.copyWith(
+                                  color: textTheme.bodyMedium?.color
+                                      ?.withValues(alpha: 0.5)),
+                            ),
+                        ]),
                 ],
               ),
             ),
           ),
-          // 最新话
-          CupertinoButton(
-            padding: EdgeInsets.zero,
-            color: Colors.transparent,
-            onPressed: () => AppNavigator.pushNamed(ref.context, 
-              RouteNames.artworkDetail.name,
-              arguments: IllustDetailPageArguments(
-                  illustId: widget.mangaSeries.latestContentId.toString(),
-                  title: widget.mangaSeries.title),
-            ),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: colorScheme.primary.withValues(alpha: 0.5)),
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                // color: colorScheme.primary.withValues(alpha: 0.1),
+          if (!masked && latestContentId != null)
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              color: Colors.transparent,
+              onPressed: () => AppNavigator.pushNamed(ref.context, 
+                RouteNames.artworkDetail.name,
+                arguments: IllustDetailPageArguments(
+                    illustId: latestContentId.toString(),
+                    title: series.title),
               ),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 2.0),
-                    child: Icon(
-                      Icons.bookmark_outline_rounded,
-                      color: colorScheme.primary,
-                      size: 16,
-                      fill: 1,
-                    ),
-                  ),
-                  Text(
-                    l10n.seriesLatestChapter,
-                    style: textTheme.labelMedium?.copyWith(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: colorScheme.primary.withValues(alpha: 0.5)),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 2.0),
+                      child: Icon(
+                        Icons.bookmark_outline_rounded,
                         color: colorScheme.primary,
-                        height: 1,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ],
+                        size: 16,
+                        fill: 1,
+                      ),
+                    ),
+                    Text(
+                      l10n.seriesLatestChapter,
+                      style: textTheme.labelMedium?.copyWith(
+                          color: colorScheme.primary,
+                          height: 1,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
+    );
+  }
+
+  Widget _cover(String? url) {
+    if (url == null || url.isEmpty) {
+      return ColoredBox(
+        color: colorScheme.surfaceContainerHighest,
+        child: const SizedBox(width: 82, height: 110),
+      );
+    }
+    return EnhanceNetworkImage(
+      image: ExtendedNetworkImageProvider(
+        HttpHostOverrides().pxImgUrl(url),
+        headers: HttpHostOverrides().imageHeaders(url),
+        cache: true,
+      ),
+      fit: BoxFit.cover,
+      width: 82,
+      height: 110,
     );
   }
 

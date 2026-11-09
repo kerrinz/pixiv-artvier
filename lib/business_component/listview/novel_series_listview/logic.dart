@@ -8,6 +8,7 @@ mixin ManagaSeriesListViewLogic {
   WidgetRef get ref;
 
   void handleTapItem(NovelSeries novelSeries) {
+    if (novelSeries.isMasked) return;
     AppNavigator.pushNamed(ref.context, 
       RouteNames.novelSeriesDetail.name,
       arguments: NovelSeriesDetailPagePageArguments(

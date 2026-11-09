@@ -27,14 +27,18 @@ Map<String, dynamic> _$$NovelSeriesListResponseImplToJson(
 _$NovelSeriesImpl _$$NovelSeriesImplFromJson(Map<String, dynamic> json) =>
     _$NovelSeriesImpl(
       id: (json['id'] as num).toInt(),
-      title: json['title'] as String,
-      url: json['url'] as String,
-      maskText: json['mask_text'],
-      publishedContentCount: (json['published_content_count'] as num).toInt(),
+      title: json['title'] == null ? '' : _stringOrEmpty(json['title']),
+      url: json['url'] as String?,
+      maskText: json['mask_text'] as String?,
+      publishedContentCount: json['published_content_count'] == null
+          ? 0
+          : _intOrZero(json['published_content_count']),
       lastPublishedContentDatetime:
-          DateTime.parse(json['last_published_content_datetime'] as String),
-      latestContentId: (json['latest_content_id'] as num).toInt(),
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+          _dateTimeOrNull(json['last_published_content_datetime']),
+      latestContentId: _intOrNull(json['latest_content_id']),
+      user: json['user'] == null
+          ? null
+          : User.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$NovelSeriesImplToJson(_$NovelSeriesImpl instance) =>
@@ -45,17 +49,19 @@ Map<String, dynamic> _$$NovelSeriesImplToJson(_$NovelSeriesImpl instance) =>
       'mask_text': instance.maskText,
       'published_content_count': instance.publishedContentCount,
       'last_published_content_datetime':
-          instance.lastPublishedContentDatetime.toIso8601String(),
+          instance.lastPublishedContentDatetime?.toIso8601String(),
       'latest_content_id': instance.latestContentId,
       'user': instance.user,
     };
 
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       id: (json['id'] as num).toInt(),
-      name: json['name'] as String,
-      account: json['account'] as String,
-      profileImageUrls: ProfileImageUrls.fromJson(
-          json['profile_image_urls'] as Map<String, dynamic>),
+      name: json['name'] == null ? '' : _stringOrEmpty(json['name']),
+      account: json['account'] as String?,
+      profileImageUrls: json['profile_image_urls'] == null
+          ? null
+          : ProfileImageUrls.fromJson(
+              json['profile_image_urls'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
@@ -69,7 +75,7 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
 _$ProfileImageUrlsImpl _$$ProfileImageUrlsImplFromJson(
         Map<String, dynamic> json) =>
     _$ProfileImageUrlsImpl(
-      medium: json['medium'] as String,
+      medium: json['medium'] as String?,
     );
 
 Map<String, dynamic> _$$ProfileImageUrlsImplToJson(
